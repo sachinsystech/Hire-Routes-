@@ -8,10 +8,12 @@ class UsersController extends AppController {
 					'UserRoles',
 					'Networkers',
 					'Jobseekers',
-					'FacebookUsers',								
+					'FacebookUsers',
+					'NetworkerSettings'
 					);
 	var $components = array('Email');						
 	var $helpers = array('Form');
+
 
 	function index(){
 		$this->render("user_selection");
@@ -148,8 +150,9 @@ class UsersController extends AppController {
 		
 		if(isset($user['Users']['confirm_code']) && isset($user['Users']['id'])){
 			$user['Users']['is_active'] = '1';
+			$roleName = $user['UserRoles'][0]['role_name'];
 			$this->Users->save($user['Users']);
-			$this->redirect("firstTime");				
+			$this->redirect("firstTime/".$roleName);				
 		} 
 		else{
 			echo "Something Wrong...";
@@ -158,7 +161,8 @@ class UsersController extends AppController {
 	}
 	
 	function firstTime() {
-
+		$roleName = $this->params['role'];
+		$this->set('roleName', $roleName);
 	}
 
 	function facebookUser() {
@@ -188,10 +192,11 @@ class UsersController extends AppController {
 			$this->set('faceBookUserData',$faceBookUserData['FacebookUsers']);
 		}
 		else{ 
+			$this->redirect("/users");
 			$this->set('FBloginlogoutUrl',$facebook->getLoginUrl());		
 			$this->set('fbButtonClass','facebook');			
 			$this->set('faceBookUserData',null);		
-		}
+		}		
 	}	
 	
 	function saveFacebookUser($facebookUser){
@@ -213,5 +218,28 @@ class UsersController extends AppController {
 		return $FB_USER;
 	}
 	
+	
+	function networkerSetting() {
+		$companies= $this->Companies->find('all');
+		$company_names = array();
+		foreach($companies as $company){
+			$company_names[$company['Companies']['id']] = $company['Companies']['contact_name'];
+		}
+		$this->set('company_names',$company_names);
+		
+		$userId = 9;
+		$networkers_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.networker_id'=>$userId)));
+		
+		$networkers_setting_info= array();
+		foreach($networkers_settings as $NS){
+			$networkers_setting_info[] = $NS['NetworkerSettings'];
+		}
+		$this->set('networkers_setting_info',$networkers_setting_info);
+	}
+
+	function jobseekerSetting() {
+
+	}
+
 }
 ?>
