@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 <?php require_once(APP_DIR.'/vendors/facebook/facebook.php'); ?>
-
 <?php
 class UsersController extends AppController {
     var $uses = array(
@@ -9,12 +7,10 @@ class UsersController extends AppController {
 					'UserRoles',
 					'Networkers',
 					'Jobseekers',
-					'FacebookUsers',
-					'NetworkerSettings'
+					'FacebookUsers',								
 					);
 	var $components = array('Email');						
 	var $helpers = array('Form');
-
 
 	function index(){
 		$this->render("user_selection");
@@ -145,15 +141,20 @@ class UsersController extends AppController {
 	}
 	
 	function account() {
+		
 		$userId = $this->params['id'];
+		
 		$confirmCode = $this->params['code'];
+		
 		$user = $this->Users->find('first',array('conditions'=>array('Users.id'=>$userId,'Users.confirm_code'=>$confirmCode)));
 		
 		if(isset($user['Users']['confirm_code']) && isset($user['Users']['id'])){
 			$user['Users']['is_active'] = '1';
-			$roleName = $user['UserRoles'][0]['role_name'];
+			
+			echo "<pre>"; print_r($user['Users']);
 			$this->Users->save($user['Users']);
-			$this->redirect("firstTime/".$roleName);				
+			echo "true";
+			$this->redirect("firstTime");				
 		} 
 		else{
 			echo "Something Wrong...";
@@ -162,8 +163,7 @@ class UsersController extends AppController {
 	}
 	
 	function firstTime() {
-		$roleName = $this->params['role'];
-		$this->set('roleName', $roleName);
+
 	}
 
 	function facebookUser() {
@@ -193,11 +193,11 @@ class UsersController extends AppController {
 			$this->set('faceBookUserData',$faceBookUserData['FacebookUsers']);
 		}
 		else{ 
-			$this->redirect("/users");
 			$this->set('FBloginlogoutUrl',$facebook->getLoginUrl());		
 			$this->set('fbButtonClass','facebook');			
 			$this->set('faceBookUserData',null);		
-		}		
+		}
+
 	}	
 	
 	function saveFacebookUser($facebookUser){
@@ -207,7 +207,7 @@ class UsersController extends AppController {
 			return $FB_USER;	
 		}
 		else{
-			echo "error in saving db.."; exit;
+			echo "error in saving db..";$this->render(""); exit;
 			return;
 		}		
 	}		
@@ -217,54 +217,7 @@ class UsersController extends AppController {
 		FacebookUsers->
 		find('first',array('conditions'=>array('FacebookUsers.facebook_id'=>$facebookUser)));
 		return $FB_USER;
-	}
+	}		
 	
-	
-	function networkerSetting() {
-		$companies= $this->Companies->find('all');
-		$company_names = array();
-		foreach($companies as $company){
-			$company_names[$company['Companies']['id']] = $company['Companies']['contact_name'];
-		}
-		$this->set('company_names',$company_names);
-		
-		$userId = 9;
-		$networkers_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.networker_id'=>$userId)));
-		
-		$networkers_setting_info= array();
-		foreach($networkers_settings as $NS){
-			$networkers_setting_info[] = $NS['NetworkerSettings'];
-		}
-		$this->set('networkers_setting_info',$networkers_setting_info);
-	}
-
-	function jobseekerSetting() {
-
-=======
-<?
-class UsersController extends AppController {
-	var $name = 'Users';
-	var $helpers = array('Html', 'Form');
-	var $components = array('Auth');
-
-
-	function register() {
-		if (!empty($this->data)) {
-			if ($this->data['User']['password'] == $this->Auth->password($this->data['User']['password_confirm'])) {
-				$this->User->create();
-				$this->User->save($this->data);
-				$this->redirect(array('action' => 'index'));
-			}
-		}
-	}
-	
-	function logout() {
-		$this->Session->setFlash("You've successfully logged out.");
-		$this->redirect($this->Auth->logout());
-	}
-	function login() {
->>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
-	}
-
 }
 ?>

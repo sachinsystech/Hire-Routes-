@@ -14,6 +14,7 @@
 </center>
 </div>
 
+<<<<<<< HEAD
 <?php
 switch($roleName) {
 	case 'jobseeker':
@@ -33,5 +34,11 @@ switch($roleName) {
 <div class="selection-button">
 <center>
 <a href="<?php echo $setting_page_url?>"><button><?php echo $setting_page_title; ?></button></a>
+=======
+
+<div class="selection-button">
+<center>
+<button> MY SETTINGS </button>
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
 </center>
 </div>

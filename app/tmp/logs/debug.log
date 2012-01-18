@@ -166,4 +166,7 @@
 2012-01-12 13:59:01 Notice: Notice (8): Undefined index: first_name in [/opt/lampp/htdocs/hireroutes/app/views/users/facebook_user.ctp, line 14]
 2012-01-12 13:59:01 Notice: Notice (8): Undefined index: last_name in [/opt/lampp/htdocs/hireroutes/app/views/users/facebook_user.ctp, line 14]
 2012-01-12 13:59:01 Notice: Notice (8): Undefined index: facebook_id in [/opt/lampp/htdocs/hireroutes/app/views/users/facebook_user.ctp, line 15]
+<<<<<<< HEAD
 2012-01-12 15:09:13 Notice: Notice (8): Undefined variable: facebook in [/opt/lampp/htdocs/Hire-Routes/hireroutes/app/views/users/networker_signup.ctp, line 1]
+=======
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67

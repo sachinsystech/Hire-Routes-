@@ -256,8 +256,14 @@ fieldset fieldset div {
 	margin: 0 20px;
 }
 form div {
+<<<<<<< HEAD
 /*	margin-bottom: 1em;*/
 	padding: .3em;
+=======
+	clear: both;
+/*	margin-bottom: 1em;*/
+	padding: .5em;
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
 	vertical-align: text-top;
 }
 form .input {
@@ -290,14 +296,22 @@ input, textarea {
 }
 select {
 	clear: both;
+<<<<<<< HEAD
 	font-size: 90%;
+=======
+	font-size: 120%;
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
 	vertical-align: text-bottom;
 }
 select[multiple=multiple] {
 	width: 100%;
 }
 option {
+<<<<<<< HEAD
 	font-size: 100%;
+=======
+	font-size: 120%;
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
 	padding: 0 3px;
 }
 input[type=checkbox] {
@@ -316,8 +330,11 @@ input[type=radio] {
 }
 div.radio label {
     margin: 0 13px 6px 5px;
+<<<<<<< HEAD
     position: absolute;
     font-weight: normal;
+=======
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
 }
 input[type=submit] {
 	display: inline;
@@ -382,10 +399,17 @@ p.error em {
 	margin: 1em 0;
 }
 .success {
+<<<<<<< HEAD
     background: none repeat scroll 0 0 #EFF5EA;
     border: 1px solid #446423;
     clear: both;
     color: #3D6611;
+=======
+	color: #fff;
+    background: none repeat scroll 0 0 #3ADF00;
+    clear: both;
+    color: #FFFFFF;
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
     font-weight: bold;
     height: 20px;
     margin-top: 5px;
@@ -704,11 +728,20 @@ button.fb-logout {
 }
 .sigup_form{
 	width:480px;
+<<<<<<< HEAD
 	margin-left:60px;	
+=======
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
 }
 .signup_agree_condition{
 	 margin-top:15px;
 }
+<<<<<<< HEAD
+=======
+.form_content{
+	margin-left:80px;
+}
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
 .signup-error-message{
     background: none repeat scroll 0 0 #FA5858;
     clear: both;
@@ -722,6 +755,7 @@ label.error{
 	display: block;
 	float: none; 
 	color: red; 
+<<<<<<< HEAD
 	padding-left: 1.5em; 
 	vertical-align: top;
 	clear:both; 
@@ -788,3 +822,9 @@ label.error{
 .form_content{
 	width:664px;
 }
+=======
+	padding-left: .5em; 
+	vertical-align: top;
+	clear:both; 
+}
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67

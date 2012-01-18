@@ -32,7 +32,7 @@
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 	
-	Router::connect('/users/:action', array('controller' => 'users'));
+	//Router::connect('/users/:action', array('controller' => 'users'));
 	Router::connect('/users/userSelection', array('controller' => 'users','action' => 'userSelection'));
 	Router::connect('/users/confirmation/:id', array('controller' => 'users','action' => 'confirmation'),
 												array('id' => '[0-9]+'));
@@ -40,5 +40,10 @@
 	Router::connect('/users/networkerSignup', array('controller' => 'users','action' => 'networkerSignup'));
 	Router::connect('/users/jobseekerSignup', array('controller' => 'users','action' => 'jobseekerSignup'));	
 	Router::connect('/users/account/:id/:code', array('controller' => 'users','action' => 'account'));		
-	
-	
+	Router::connect('/users/firstTime/:role', array('controller' => 'users','action' => 'firstTime'));	
+
+	Router::connect('/networkers/delete/:id', array('controller' => 'networkers','action' => 'delete'));	
+	Router::connect('/networkers/sendNotifyEmal/:notifyId', array('controller' => 'networkers','action' => 'sendNotifyEmal'));	
+
+	Router::connect('/jobseekers/delete/:id', array('controller' => 'jobseekers','action' => 'delete'));	
+	Router::connect('/jobseekers/sendNotifyEmal/:notifyId', array('controller' => 'jobseekers','action' => 'sendNotifyEmal'));	

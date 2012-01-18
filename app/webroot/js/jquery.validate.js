@@ -16,6 +16,10 @@
 $.extend($.fn, {
 	// http://docs.jquery.com/Plugins/Validation/validate
 	validate: function( options ) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
 		// if nothing is selected, return nothing; can't chain anyway
 		if (!this.length) {
 			options && options.debug && window.console && console.warn( "nothing selected, can't validate, returning nothing" );
