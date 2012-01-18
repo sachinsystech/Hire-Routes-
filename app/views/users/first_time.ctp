@@ -14,9 +14,24 @@
 </center>
 </div>
 
+<?php
+switch($roleName) {
+	case 'jobseeker':
+		$setting_page_title = 'MY JOBSEEKER SETTINGS';
+		$setting_page_url = '/users/jobseekerSetting';
+		break;
+	case 'networker':
+		$setting_page_title = 'MY NETWORKER SETTINGS';
+		$setting_page_url = '/users/networkerSetting';
+		break;
+	default:
+		$setting_page_title = 'MY SETTINGS';
+		$setting_page_url = '';		
+}
+?>
 
 <div class="selection-button">
 <center>
-<button> MY SETTINGS </button>
+<a href="<?php echo $setting_page_url?>"><button><?php echo $setting_page_title; ?></button></a>
 </center>
 </div>

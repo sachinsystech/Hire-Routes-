@@ -256,9 +256,8 @@ fieldset fieldset div {
 	margin: 0 20px;
 }
 form div {
-	clear: both;
 /*	margin-bottom: 1em;*/
-	padding: .5em;
+	padding: .3em;
 	vertical-align: text-top;
 }
 form .input {
@@ -291,14 +290,14 @@ input, textarea {
 }
 select {
 	clear: both;
-	font-size: 120%;
+	font-size: 90%;
 	vertical-align: text-bottom;
 }
 select[multiple=multiple] {
 	width: 100%;
 }
 option {
-	font-size: 120%;
+	font-size: 100%;
 	padding: 0 3px;
 }
 input[type=checkbox] {
@@ -317,6 +316,8 @@ input[type=radio] {
 }
 div.radio label {
     margin: 0 13px 6px 5px;
+    position: absolute;
+    font-weight: normal;
 }
 input[type=submit] {
 	display: inline;
@@ -381,10 +382,10 @@ p.error em {
 	margin: 1em 0;
 }
 .success {
-	color: #fff;
-    background: none repeat scroll 0 0 #3ADF00;
+    background: none repeat scroll 0 0 #EFF5EA;
+    border: 1px solid #446423;
     clear: both;
-    color: #FFFFFF;
+    color: #3D6611;
     font-weight: bold;
     height: 20px;
     margin-top: 5px;
@@ -703,12 +704,10 @@ button.fb-logout {
 }
 .sigup_form{
 	width:480px;
+	margin-left:60px;	
 }
 .signup_agree_condition{
 	 margin-top:15px;
-}
-.form_content{
-	margin-left:80px;
 }
 .signup-error-message{
     background: none repeat scroll 0 0 #FA5858;
@@ -723,7 +722,69 @@ label.error{
 	display: block;
 	float: none; 
 	color: red; 
-	padding-left: .5em; 
+	padding-left: 1.5em; 
 	vertical-align: top;
 	clear:both; 
+}
+.terms-condition-error{
+	clear: both;
+    color: red;
+    display: block;
+    float: none;
+    padding-left: 0.5em;
+    vertical-align: top;
+	font-size: 110%;
+}
+.networker_select_bg{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    width: 186px;
+	margin-left: 20px;
+}
+.networker_select_city{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    width: 130px;
+	margin-left: 20px;
+}
+.networker_select_state{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    width: 130px;
+	margin-right: 40px;
+}
+.networker_select_job_notify{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    width: 140px;
+}
+.jobseeker_select{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    width: 200px;
+	margin-left: 27px;
+}
+.jobseeker_select__i_s{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    width: 200px;
+	margin-left: 27px;
+}
+.jobseekers_text{
+  height:6px;
+  width:184px;
+  margin-left:20px;
+}
+.jobseekers_text_location{
+  height:13px;
+  width:188px;
+  margin-left:27px;
+}
+.form_content{
+	width:664px;
 }

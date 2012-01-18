@@ -48,7 +48,7 @@
 			<?php include("site_header.ctp");?>
 		</div>
 		<div id="content">
-
+<?php /*<div id="bcpMainMenuContainer"><?php echo $databaseMenus->makeMenu($mainMenu); ?></div> */ ?>
 			<?php echo $this->Session->flash(); ?>
 
 			<?php echo $content_for_layout; ?>

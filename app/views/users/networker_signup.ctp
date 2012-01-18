@@ -1,32 +1,13 @@
 <?php require_once(APP_DIR.'/vendors/facebook/hr_facebook.php'); ?>
-
-<div style="font-weight:bold;font-size: 20px; ">Register</div>
+<div class="sigup_heading">Register</div>
 <div>You will be able to apply for jobs and share job posts with your network.</div>
 <div>Please submit the form below and you will receive an email confirmation to complete you registration.</div>
 
 <div class="facebook-login">
-	<div><a href="<?php echo $facebook->getLoginUrl(); ?>"><button class="facebook"></button></a></div>
-	<?php /*	if($facebookUser): ?>
-		<div><a href="<?php echo $FBlogoutUrl; ?>">Logout</a></div>
-	<?php else: ?>
-		<div><a href="<?php echo $FBloginUrl; ?>"><button class="facebook"></button></a></div>
-	<?php endif */?>
+	<a href="<?php echo $facebook->getLoginUrl(); ?>"><button class="facebook"></button></a>
 <div>
 
-<script>
-	$(document).ready(function(){
-		$("#UsersNetworkerSignupForm").validate({
-			  rules: {
-				'data[Users][password]': "required",
-				'data[Users][repeat_password]': {
-				  equalTo: "#UsersPassword"
-				}
-			  }
-			});
-	});
-</script>
-
-<div style="width:480px; margin-top:20px;">
+<div class="sigup_form" >
 <?php echo $form->create('Users', array('action' => 'networkerSignup','onsubmit'=>'return checkUserForm()')); ?>
 
 	<?php	echo $form->input('role', array('type' => 'hidden','value'=>'networker'));    ?>
@@ -54,39 +35,32 @@
                                            			)
                                  );
     ?>
-<div style="margin-top:15px;">
+	<div class="signup_agree_condition">
 	
-	<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
+		<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
 		                                       			'type'  => 'checkbox',
 														'name'  => "data[Users][agree_condition]",
 														'class' =>'required',
                               			)
                                  );
-    ?>
-    
-<div>
- <?php if(isset($errors)): ?>
-    <div class="error-message"><?php echo $errors;?></div>
- <?php endif; ?>
+    	?>
+    	<?php if(isset($errors)): ?>
+		<div class="error-message"><?php echo $errors;?></div>
+	 	<?php endif; ?>
+			<?php 	echo $form->submit('Register',array('div'=>false,));?>
+		<?php echo $form->end(); ?>
+	</div>
 </div>
-    
-<div>
-<div>
-	<?php 	echo $form->submit('Register',array('div'=>false,));
-	?>
-</div>
-<?php echo $form->end(); ?>
-</div>
-
 <script>
-    function checkUserForm(){
-		/*if(document.getElementById('UsersAgreeCondition').checked==""){
-			alert("Select Terms and Conditions ");
-	        return false;
-		}*/
-	}
-
-	function loginViaFacebook(){
-		window.location.href = "https://www.facebook.com/dialog/oauth?client_id=290012484379367&redirect_uri=http://localhost:80/hireroutes";
-	} 
+	$(document).ready(function(){
+		$("#UsersNetworkerSignupForm").validate({
+			  rules: {
+				'data[Users][password]': "required",
+				'data[Users][repeat_password]': {
+				  equalTo: "#UsersPassword"
+				}
+			  }
+			});
+	});
 </script>
+
