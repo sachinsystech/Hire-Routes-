@@ -21,23 +21,7 @@ if (Configure::read() == 0):
 endif;
 ?>
 
-<p>
-	<?php
-		$filePresent = null;
-		if (file_exists(CONFIGS.'database.php')):
-			echo '<span class="notice success">';
 
-				$filePresent = true;
-			echo '</span>';
-		else:
-			echo '<span class="notice">';
-				__('Your database configuration file is NOT present.');
-				echo '<br/>';
-				__('Rename config/database.php.default to config/database.php');
-			echo '</span>';
-		endif;
-	?>
-</p>
 <!-- start content-->
 <center>
 <ul class="home-image">
