@@ -33,7 +33,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 2);
+	Configure::write('debug', 3);
 
 /**
  * CakePHP Log Level:
@@ -126,13 +126,9 @@
  */
 	Configure::write('Session.save', 'php');
  
-<<<<<<< HEAD
+
     Configure::write('rootURL','192.168.1.28/');
     Configure::write('httpRootURL','http://192.168.1.28/');	
-=======
-    Configure::write('rootURL','192.168.1.28/hireroutes/');
-    Configure::write('httpRootURL','http://192.168.1.28/hireroutes/');	
->>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
 
 /**
  * The model name to be used for the session model.
@@ -310,13 +306,10 @@
  *
  */
 	Cache::config('default', array('engine' => 'File'));
-<<<<<<< HEAD
+
     define("FB_API_KEY","169752649798619");
     define("FB_SECRET_KEY","7254bec29aa59710c004a97a2716374c");
-=======
-    define("FB_API_KEY","290012484379367");
-    define("FB_SECRET_KEY","60ef48fadcb20a162d5425b7a581bc5f");
->>>>>>> f936c6bf0cbec9e05bd8755a5f0b45115c750d67
+
     define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
     define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
   
