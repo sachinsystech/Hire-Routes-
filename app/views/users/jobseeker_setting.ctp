@@ -87,39 +87,17 @@
     <?php echo $form -> input('salary',array(
                                                       'type'=>'select',
                                                       'label'=>'Annual Salary Range',
-                                                      'options'=>array('test1','test2'),
-                                                      'empty' =>' -- Select Industry-- ',
-                                                      'class'=>'jobseeker_select'
+                                                      'options'=>array('20K-30K','30K-40K','40K-50K','50K-60K'),
+                                                      'class'=>'jobseeker_select_salary'
                                               )
                                   );
           ?>
-    <?php echo $form->end(); ?>
-    </div>
-</div>
-
-<div style="clear:both">
-	<b>Current Subscriptions:</b>
-	<table width="100%">
-		<tr>
-			<th>Industry Name</th>
-			<th style="width:15%;">Delete</th>
-		</tr>
-		<?php foreach($networkers_setting_info as $NSI): ?>
-		<tr>
-			<td><?php echo $company_names[$NSI['industry']]; ?></td>
-			<td>
-				<button style="background-color:#00FF00;" onclick="return deleteItem(<?php echo $NSI['id']?>);">Delete</button>
-			</td>
-		</tr>
-		<?php endforeach;?>
-	</table>	
-</div>
 <div>
 	<b>Subscription Frequency:</b><p>
-	<div style="float:left">
+	<div style="float:left;margin-top: 8px;">
 		<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email based on my network settings:<span>
 	</div>
-	<div style="float:right">
+	<div>
       <?php echo $form -> input('job_notification_email',array(
                                                   'type'=>'select',
                                                   'label'=>'',
@@ -129,25 +107,17 @@
                               );
       ?>
 	</div>
-	<center><button style="background-color:#00FF00;" onclick="return saveSubFrequency();">Save</button></center>
-</div>
 
+</div>
+	<?php echo $form ->submit('Save');?>
+
+    <?php echo $form->end(); ?>
+    </div>
+</div>
 
 <script>
 $(document).ready(function(){
-	$("#NetworkersAddForm").validate();
+	$("#JobseekersAddForm").validate();
 }); 
- 
-function deleteItem($id){
-	if (confirm("Are you sure to delete this?")){
-		window.location.href="/jobseekers/delete/"+$id;
-	}
-	return false;
-}
 
-function saveSubFrequency(){
-	var notifyId = $("#job_notification_email").val();
-	window.location.href="/jobseekers/sendNotifyEmail/"+notifyId;
-	return false;
-}
 </script>
