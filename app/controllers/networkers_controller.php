@@ -2,7 +2,7 @@
 class NetworkersController extends AppController {
 	var $name = 'Networkers';
 	var $uses = array('NetworkerSettings');
-	var $components = array('Email');
+	var $components = array('Email','Session');	
 	function add() {
 		$this->data['Networkers']['networker_id'] = 9;
 		$this->NetworkerSettings->save($this->data['Networkers']);

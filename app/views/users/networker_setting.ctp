@@ -5,60 +5,61 @@
 <div class="form_content"  style="margin-left:150px;">
 	<div><b>Add Subscriptions:</b></div>
 	<?php echo $form->create('Networkers', array('action' => 'add')); ?>
-<div>
-	<div style="float:left">
-	<?php echo $form -> input('industry',array(
-                                                'type'=>'select',
-												'label'=>'',
-                                                'options'=>$company_names,
-												'empty' =>' -- Select Industry-- ',
-												'class'=>'networker_select_bg required'
-										)
-							);
-    ?>
-	</div>
-	<div style="float:right">
-	<?php echo $form -> input('specification',array(
-                                                'type'=>'select',
-												'label'=>'',
-                                                'options'=>array('test1','test2'),
-												'empty' =>' -- Select Specification-- ',
-												'class'=>'networker_select_bg'
-										)
-							);
-    ?>
-	</div>
-</div>
-<div>
-	<div style="float:left;margin-left: 43px;clear: both;">
-		<?php echo $form -> input('city',array(
+	<div>
+		<div style="float:left">
+		<?php echo $form -> input('industry',array(
 													'type'=>'select',
-													'label'=>'Location:',
-													'options'=>array('test1','test2'),
-													'empty' =>' -- All Cities-- ',
-													'class'=>'networker_select_city'
+													'label'=>'',
+													'options'=>$company_names,
+													'empty' =>' -- Select Industry-- ',
+													'class'=>'networker_select_bg required'
 											)
 								);
 		?>
-	</div>
-	<div style="float:left;">
-		<?php echo $form -> input('state',array(
+		</div>
+		<div style="float:right">
+		<?php echo $form -> input('specification',array(
 													'type'=>'select',
 													'label'=>'',
 													'options'=>array('test1','test2'),
-													'empty' =>' -- All States-- ',
-													'class'=>'networker_select_state'
+													'empty' =>' -- Select Specification-- ',
+													'class'=>'networker_select_bg'
 											)
 								);
 		?>
+		</div>
 	</div>
-	<div style="float:right;margin-top: -15px;">
-	<?php echo $form ->submit('Subscribe');?>
-	</div>
-	<?php echo $form->end(); ?>
+	<div>
+		<div style="float:left;margin-left: 43px;clear: both;">
+			<?php echo $form -> input('city',array(
+														'type'=>'select',
+														'label'=>'Location:',
+														'options'=>array('test1','test2'),
+														'empty' =>' -- All Cities-- ',
+														'class'=>'networker_select_city'
+												)
+									);
+			?>
+		</div>
+		<div style="float:left;">
+			<?php echo $form -> input('state',array(
+														'type'=>'select',
+														'label'=>'',
+														'options'=>array('test1','test2'),
+														'empty' =>' -- All States-- ',
+														'class'=>'networker_select_state'
+												)
+									);
+			?>
+		</div>
+		<div style="float:right;margin-top: -15px;">
+			<?php echo $form ->submit('Subscribe');?>
+		</div>
+	</div>	
+		<?php echo $form->end(); ?>
 </div>
 
-<div style="clear:both">
+<div <div style="clear: both; margin-left: 150px;" class="form_content">
 	<b>Current Subscriptions:</b>
 	<table width="100%">
 		<tr>
@@ -75,7 +76,7 @@
 		<?php endforeach;?>
 	</table>	
 </div>
-<div>
+<div class="form_content" style="clear: both; margin-left: 150px;">
 	<b>Subscription Frequency:</b><p>
 	<div style="float:left">
 		<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email based on my network settings:<span>
@@ -90,7 +91,35 @@
 							);
     ?>
 	</div>
-	<center><button style="background-color:#00FF00;" onclick="return saveSubFrequency();">Save</button></center>
+	<br/><center><button style="background-color:#00FF00;" onclick="return saveSubFrequency();">Save</button></center>
+</div>
+<div id="accordion" style="width:500px">
+	<h3><a href="#">Section 1</a></h3>
+	<div>
+		<p>
+		odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+		</p>
+	</div>
+	<h3><a href="#">Section 2</a></h3>
+	<div>
+		<p>
+		velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+		suscipit faucibus urna.
+		</p>
+	</div>
+	<h3><a href="#">Section 3</a></h3>
+	<div>
+		<p>
+		Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+		lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+		</p>
+	</div>
+	<h3><a href="#">Section 4</a></h3>
+	<div>
+		<p>
+		inceptos himenaeos.
+		</p>
+	</div>
 </div>
 
 

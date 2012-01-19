@@ -2,7 +2,7 @@
 class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
 	var $uses = array('JobseekerSettings');
-	var $components = array('Email');
+	var $components = array('Email','Session');	
 	function add() {
 		$this->data['Jobseekers']['jobseeker_id'] = 10;
 		$this->JobseekerSettings->save($this->data['Jobseekers']);

@@ -46,6 +46,7 @@
 	<?php echo $form->submit('Register',array('div'=>false,)); ?>
 	<?php echo $form->end(); ?>
 </div>
+
 <script>
 	$(document).ready(function(){
 		$("#UsersNetworkerSignupForm").validate({
@@ -56,5 +57,8 @@
 				}
 			  }
 			});
+	});
+	$(document).ready(function() {
+		$("#accordion").accordion();
 	});
 </script>

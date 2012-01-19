@@ -11,7 +11,8 @@ class UsersController extends AppController {
 					'FacebookUsers',
 					'NetworkerSettings'
 					);
-	var $components = array('Email');						
+	var $components = array('Email','Session');	
+					
 	var $helpers = array('Form');
 
 
