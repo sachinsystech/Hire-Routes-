@@ -4,9 +4,9 @@ class JobseekersController extends AppController {
 	var $uses = array('JobseekerSettings');
 	var $components = array('Email');
 	function add() {
-		$this->data['Jobseekers']['Jobseeker_id'] = 10;
+		$this->data['Jobseekers']['jobseeker_id'] = 10;
 		$this->JobseekerSettings->save($this->data['Jobseekers']);
-		$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
+		$this->Session->setFlash('Your Setting has been saved successfuly.', 'success');				
 		$this->redirect('/users/jobseekerSetting');
 	}
 	function delete(){
