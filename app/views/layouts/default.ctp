@@ -29,16 +29,18 @@
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
-
-		echo $this->Html->css('hrStyle');
 		echo $this->Html->css('jquery_accordion');
+		echo $this->Html->css('hrStyle');
+		
 
 		echo $html->script('hr.js');
 
+		echo $html->script('jquery_min.js');	
+		echo $html->script('jquery-ui.min.js');
+		
 		echo $html->script('jquery-latest.js');	
 		echo $html->script('jquery.validate.js');
-		echo $html->script('jquery_min.js');	
-		echo $html->script('jquery-ui.min.js');		
+	
 		echo $scripts_for_layout;
 	?>
 </head>
