@@ -1,8 +1,8 @@
 <?php echo $this->Session->flash(); ?>
-<div>Welcome back, USER!</div>
+
 <div class="sigup_heading"><center><u>My Networker Settings</u></center></div>
 
-<div class="form_content"  style="margin-left:150px;">
+<div class="form_content"  style="margin:auto;">
 	<div><b>Add Subscriptions:</b></div>
 	<?php echo $form->create('Networkers', array('action' => 'add')); ?>
 	<div>
@@ -10,7 +10,7 @@
 		<?php echo $form -> input('industry',array(
 													'type'=>'select',
 													'label'=>'',
-													'options'=>$company_names,
+													'options'=>$industries,
 													'empty' =>' -- Select Industry-- ',
 													'class'=>'networker_select_bg required'
 											)
@@ -21,9 +21,9 @@
 		<?php echo $form -> input('specification',array(
 													'type'=>'select',
 													'label'=>'',
-													'options'=>array('test1','test2'),
+													'options'=>$specifications,
 													'empty' =>' -- Select Specification-- ',
-													'class'=>'networker_select_bg'
+													'class'=>'networker_select_bg required'
 											)
 								);
 		?>
@@ -34,9 +34,9 @@
 			<?php echo $form -> input('city',array(
 														'type'=>'select',
 														'label'=>'Location:',
-														'options'=>array('test1','test2'),
+														'options'=>$cities,
 														'empty' =>' -- All Cities-- ',
-														'class'=>'networker_select_city'
+														'class'=>'networker_select_city required'
 												)
 									);
 			?>
@@ -45,9 +45,9 @@
 			<?php echo $form -> input('state',array(
 														'type'=>'select',
 														'label'=>'',
-														'options'=>array('test1','test2'),
+														'options'=>$states,
 														'empty' =>' -- All States-- ',
-														'class'=>'networker_select_state'
+														'class'=>'networker_select_state required'
 												)
 									);
 			?>
@@ -59,24 +59,26 @@
 		<?php echo $form->end(); ?>
 </div>
 
-<div style="clear: both; margin-left: 150px;" class="form_content">
+<div style="clear: both; margin:auto;" class="form_content">
 	<b>Current Subscriptions:</b>
-	<table width="100%">
-		<tr>
-			<th>Industry Name</th>
-			<th style="width:15%;">Delete</th>
-		</tr>
-		<?php foreach($networkers_setting_info as $NSI): ?>
-		<tr>
-			<td><?php echo $company_names[$NSI['industry']]; ?></td>
-			<td>
-				<button style="background-color:#00FF00;" onclick="return deleteItem(<?php echo $NSI['id']?>);">Delete</button>
-			</td>
-		</tr>
+	
+	
+	<div id="accordion" style="width:620px">
+	    
+		<?php foreach($NetworkerData as $NSI): ?>
+			<div>
+				<span><?php echo $industries[$NSI['NetworkerSettings']['industry']]; ?></span>
+				<button style="text-align: right; position: absolute; right: 1px; top: 0px;background-color:#00FF00;" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</button>
+			</div>
+			<div>
+				Specification : <?php echo $specifications[$NSI['NetworkerSettings']['specification']]?>,State : <?php echo $NSI['NetworkerSettings']['state']?>,City : <?php echo $NSI['NetworkerSettings']['city']?>
+			</div>
 		<?php endforeach;?>
-	</table>	
-</div>
+	</div>
+	
 
+</div>
+<?php /* 
 <div class="form_content" style="clear: both; margin-left: 150px;">
 	<b>Subscription Frequency:</b><p>
 	<div style="float:left;">		
@@ -95,19 +97,19 @@
 													'class'=>'networker_select_job_notify'
 											)
 								);
-		?>
+		*/ ?>
 	</div>
 </div>
 <br>
-<button style="background-color:#00FF00;" onclick="return saveSubFrequency();">Save</button>
 
-
+<!-- <button style="background-color:#00FF00;" onclick="return saveSubFrequency();">Save</button>-->
 
 <script>
 $(document).ready(function(){
 	$("#NetworkersAddForm").validate();
-	//$("#accordion").accordion();
+	$("#accordion").accordion();
 }); 
+
  
 function deleteItem($id){
 	if (confirm("Are you sure to delete this?")){

@@ -1,17 +1,18 @@
+<div style="width:550px;margin:auto;">
 <script>
 	$(document).ready(function(){
-		$("#UsersCompanyRecruiterSignupForm").validate({
+		$("#UserCompanyRecruiterSignupForm").validate({
 			  rules: {
-				'data[Users][password]': "required",
-				'data[Users][repeat_password]': {
-				  equalTo: "#UsersPassword"
+				'data[User][password]': "required",
+				'data[User][repeat_password]': {
+				  equalTo: "#UserPassword"
 				}
 			  }
 			});
 	});
     
   function checkform() {
-    var isAgreeCondition = $('input:checkbox[id=UsersAgreeCondition]:checked').val();
+    var isAgreeCondition = $('input:checkbox[id=UserAgreeCondition]:checked').val();
     if(!isAgreeCondition){
       $("#agree_condition_error").removeClass().addClass("terms-condition-error").html("This is required field.");
       return false;
@@ -22,12 +23,12 @@
   }
       
 </script>
-<div class="sigup_heading">Companies/Recruiters  Registration Request</div>
+<div class="sigup_heading"><u>Companies/Recruiters  Registration Request</u></div>
 
 <div class="sigup_head_description">Please fill the registration request below, we will analyze your data and get back with in next 24 hours.</div>
 <div class="sigup_form" >
-<?php echo $form->create('Users', array('action' => 'companyRecruiterSignup','onsubmit'=>'return checkform();')); ?>
-	<?php  echo $form -> input('role',array(
+<?php echo $form->create('User', array('action' => 'companyRecruiterSignup','onsubmit'=>'return checkform();')); ?>
+	<?php  echo $form -> input('Companies.role',array(
                                                  'before' => '<strong style="font-weight:bold">',
                                                  'after' => '</strong>',
                                                  'legend' => false,
@@ -39,7 +40,7 @@
 										array('checked'=>0)
 							);
     ?>
-
+    <div></div>
 	<?php	echo $form->input('Companies.company_name', array('label' => 'Company / Recruiter Name',
                                            			'type'  => 'text',
 													'class' => 'text_field_bg'
@@ -73,7 +74,7 @@
 
 	<?php	echo $form->input('password', array('label' => 'Password',
                                            			'type'  => 'password',
-													'name'  => "data[Users][password]",
+													'name'  => "data[User][password]",
 													'class' => 'text_field_bg password',
 													'minlength' => '6',
                                            			)
@@ -82,7 +83,7 @@
 
 	<?php	echo $form->input('repeat_password', array('label' => 'Repeat Password',
                                            			'type'  => 'password',
-													'name'  => "data[Users][repeat_password]",
+													'name'  => "data[User][repeat_password]",
 													'class' => 'text_field_bg'
                                            			)
                                  );
@@ -90,7 +91,7 @@
 
 	<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
                                            			'type'  => 'checkbox',
-													'name'  => "data[Users][agree_condition]",
+													'name'  => "data[User][agree_condition]",
                                            			)
                                  );
     ?>
@@ -100,4 +101,5 @@
     <?php endif; ?>
     <?php echo $form->submit('Send A Request',array('div'=>false,)); ?>
     <?php echo $form->end(); ?>
+</div>
 </div>

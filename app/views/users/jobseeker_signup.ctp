@@ -1,6 +1,6 @@
+<div style="width:550px;margin:auto;">
 <?php require_once(APP_DIR.'/vendors/facebook/hr_facebook.php'); ?>
-
-<div style="font-weight:bold;font-size: 20px; ">Register</div>
+<div style="font-weight:bold;font-size: 20px; "><u>Register</u></div>
 <div>You will be able to apply for jobs and share job posts with your network.</div>
 <div>Please submit the form below and you will receive an email confirmation to complete your registration.</div>
 
@@ -14,18 +14,18 @@
 <div>
 <script>
 	$(document).ready(function(){
-		$("#UsersJobseekerSignupForm").validate({
+		$("#UserJobseekerSignupForm").validate({
 			  rules: {
-				'data[Users][password]': "required",
-				'data[Users][repeat_password]': {
-				  equalTo: "#UsersPassword"
+				'data[User][password]': "required",
+				'data[User][repeat_password]': {
+				  equalTo: "#UserPassword"
 				}
 			  }
 			});
 	});
 </script>
 <div style="width:480px; margin-top:20px;">
-<?php echo $form->create('Users', array('action' => 'jobseekerSignup','onsubmit'=>'return checkUserForm()')); ?>
+<?php echo $form->create('User', array('action' => 'jobseekerSignup','onsubmit'=>'return checkUserForm()')); ?>
 
 	<?php	echo $form->input('role', array('type' => 'hidden','value'=>'jobseeker'));    ?>
 
@@ -38,7 +38,7 @@
 
 	<?php	echo $form->input('password', array('label' => 'Password',
                                            			'type'  => 'password',
-													'name'  => "data[Users][password]",
+													'name'  => "data[User][password]",
 													'class' => 'text_field_bg password',
 													'minlength' => '6',
                                            			)
@@ -47,7 +47,7 @@
 
 	<?php	echo $form->input('repeat_password', array('label' => 'Repeat Password',
                                            			'type'  => 'password',
-													'name'  => "data[Users][repeat_password]",
+													'name'  => "data[User][repeat_password]",
 													'class' => 'text_field_bg'
                                            			)
                                  );
@@ -56,7 +56,7 @@
 	
 	<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
                                            			'type'  => 'checkbox',
-													'name'  => "data[Users][agree_condition]",
+													'name'  => "data[User][agree_condition]",
 													'class' => 'required',
                                            			)
                                  );
@@ -72,4 +72,4 @@
 	</div>
 	<?php echo $form->end(); ?>
 </div>
-
+</div>

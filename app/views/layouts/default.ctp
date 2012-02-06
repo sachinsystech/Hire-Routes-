@@ -29,8 +29,8 @@
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
-		echo $this->Html->css('jquery_accordion');
 		echo $this->Html->css('hrStyle');
+		echo $this->Html->css('jquery_accordion');
 		
 
 		echo $html->script('hr.js');
@@ -38,7 +38,7 @@
 		echo $html->script('jquery_min.js');	
 		echo $html->script('jquery-ui.min.js');
 		
-		echo $html->script('jquery-latest.js');	
+		//echo $html->script('jquery-latest.js');	
 		echo $html->script('jquery.validate.js');
 	
 		echo $scripts_for_layout;
@@ -49,7 +49,7 @@
 		<div id="header">
 			<h1><?php //echo $this->Html->link(__('Hire Routes', true), '/'); ?></h1>
 			<?php include("site_header.ctp");?>
-			<div><?php echo $databaseMenus->auth_links(); ?></div>
+
 		</div>
 		<div id="content">
 			<?php echo $this->Session->flash(); ?>
