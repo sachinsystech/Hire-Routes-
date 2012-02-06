@@ -39,7 +39,7 @@
 
 	  <ul style="float:right;">
 		<?php  if($current_user['id']==2 || !isset($current_user)):?>
-		<li><a style="background: none; margin: -4px 3px;" href="<?php echo $fb_url; ?>"><button class="facebook"></button></a></li>
+		<!-- li><a style="background: none; margin: -4px 3px;" href="<?php echo $fb_url; ?>"><button class="facebook"></button></a></li -->
 		<li><a href="/users/login"><span>LOG IN</span></a></li>
 		<li><a href="/users"><span>SIGN UP</span></a></li>
    	    <?php endif; ?>
