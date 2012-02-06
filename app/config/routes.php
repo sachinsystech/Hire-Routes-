@@ -26,11 +26,26 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+ 
+ /** Admin URL **/
+  Router::connect('/admin/acceptCompanyRequest/:id', array('controller' => 'admin','action' => 'acceptCompanyRequest'),array('id' => '[0-9]+'));
+  Router::connect('/admin/declineCompanyRequest/:id', array('controller' => 'admin','action' => 'declineCompanyRequest'),array('id' => '[0-9]+'));
+ /** end Admin URL **/
+ 
+	Router::connect('/', array('controller' => 'home', 'action' => 'index', 'home'));
+	Router::connect('/companyInformation', array('controller' => 'home', 'action' => 'companyInformation'));	
+	Router::connect('/networkerInformation', array('controller' => 'home', 'action' => 'networkerInformation'));		
+	Router::connect('/jobseekerInformation', array('controller' => 'home', 'action' => 'jobseekerInformation'));		
+
+	Router::connect('/users/saveFacebookUser/:userType', array('controller' => 'users', 'action' => 'saveFacebookUser'));
+	Router::connect('/coupons', array('controller' => 'coupons', 'action' => 'view'));				
+	
 /**
+
  * ...and connect the rest of 'Pages' controller's urls.
  */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+	Router::connect('/pages', array('controller' => 'home', 'action' => 'index', 'home'));
+
 	
 	//Router::connect('/users/:action', array('controller' => 'users'));
 	Router::connect('/users/userSelection', array('controller' => 'users','action' => 'userSelection'));
@@ -40,7 +55,8 @@
 	Router::connect('/users/networkerSignup', array('controller' => 'users','action' => 'networkerSignup'));
 	Router::connect('/users/jobseekerSignup', array('controller' => 'users','action' => 'jobseekerSignup'));	
 	Router::connect('/users/account/:id/:code', array('controller' => 'users','action' => 'account'));		
-	Router::connect('/users/firstTime/:role', array('controller' => 'users','action' => 'firstTime'));	
+	Router::connect('/users/firstTime/', array('controller' => 'users','action' => 'firstTime'));	
+	Router::connect('/users/accountConfirmation/:id/:code', array('controller' => 'users','action' => 'accountConfirmation'));		
 
 	Router::connect('/networkers/delete/:id', array('controller' => 'networkers','action' => 'delete'));	
 	Router::connect('/networkers/sendNotifyEmal/:notifyId', array('controller' => 'networkers','action' => 'sendNotifyEmal'));	

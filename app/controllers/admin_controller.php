@@ -46,6 +46,7 @@ class AdminController extends AppController {
 			$arosAcosData['_delete'] = 1;	
 			
 			if($this->ArosAcos->save($arosAcosData) && $this->User->save($user['User'])){
+				$this->sendAcceptCompanyRequestEmail($id);			
 				$this->Session->setFlash('Successfully activated user.', 'success');
 			}else{
 				$this->Session->setFlash('Internal error.', 'error');
@@ -66,6 +67,7 @@ class AdminController extends AppController {
 			$user['User']['is_active'] = '2';
 			if($this->User->save($user['User'])){
 				$this->Session->setFlash('Successfully declined user.', 'success');
+				$this->sendDeclineCompanyRequestEmail($id);
 			}else{
 				$this->Session->setFlash('Internal error.', 'error');
 			}
@@ -76,6 +78,36 @@ class AdminController extends AppController {
 		$this->redirect("/admin/CompaniesList");
 	}
 
+	function sendAcceptCompanyRequestEmail($id){
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
+		try{
+			$this->Email->to = $user['User']['account_email'];
+			$this->Email->subject = 'Hire Routes : Accept Account Request';
+			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
+			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
+			$this->Email->template = 'company_account_accept';
+			$this->Email->sendAs = 'html';
+			$this->set('user', $user['User']);
+			$this->Email->send();
+		}catch(Exception $e){
+			echo 'Message: ' .$e->getMessage();
+		}
+	}
+	function sendDeclineCompanyRequestEmail($id){
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
+		try{
+			$this->Email->to = $user['User']['account_email'];
+			$this->Email->subject = 'Hire Routes : Decline Account Request';
+			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
+			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
+			$this->Email->template = 'company_account_decline';
+			$this->Email->sendAs = 'html';
+			$this->set('user', $user['User']);
+			$this->Email->send();
+		}catch(Exception $e){
+			echo 'Message: ' .$e->getMessage();
+		}
+	}
 
 }
 ?>

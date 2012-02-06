@@ -108,7 +108,7 @@ class UsersController extends AppController {
 				$company['user_id'] = $userId;
 				$company['act_as'] = $this->data['Companies']['role'];
 				if( $this->Companies->save($company) ){			
-					//$this->sendConfirmationEmail($userId);
+					$this->sendCompanyAccountEmail($userId);
 					$this->redirect("confirmation/".$userId);
 				}
 			}
@@ -217,6 +217,21 @@ class UsersController extends AppController {
 		}		
 	}
 	
+	private function sendCompanyAccountEmail($id){		
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
+		try{
+			$this->Email->to = $user['User']['account_email'];
+			$this->Email->subject = 'Hire Routes : Account Registration';
+			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
+			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
+			$this->Email->template = 'company_user_registration';
+			$this->Email->sendAs = 'html';
+			$this->set('user', $user['User']);
+			$this->Email->send();
+		}catch(Exception $e){
+			echo 'Message: ' .$e->getMessage();
+		}		
+	}	
 	
 	function accountConfirmation(){
 		$userId = $this->params['id'];
