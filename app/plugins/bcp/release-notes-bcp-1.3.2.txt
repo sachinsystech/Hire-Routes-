@@ -1,0 +1,14 @@
+* Licence change from Lesser GPL to MIT.
+* Manual query rewritten so that the plugin could be used in different databases (`query()` replaced by `find()`).
+* A new component implemented to cache ACL queries.
+* Compare passwords validation rule bug was fixed.
+* The code made more readable, several comments were added.
+* General code optimization in several places.
+* Breadcurmbs implementation.
+* Double underscores replaced by single one in method names.
+* Added visibility to method names.
+* Filter component modifications of surchable field types (date, int and float types).
+* Cache clearing after save and after delete entries related to AROs and ACOs was improved.
+* Options to choose any cake layouts from cake libs folder was added.
+* Styles and images from menu helper moved to stylesheet.
+

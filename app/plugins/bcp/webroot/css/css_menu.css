@@ -1,0 +1,214 @@
+/* SVN FILE: $Id$ */
+/**
+ * Styles for menus.
+ *
+ * PHP version 5
+ * 
+ * (C) Copyright 2009, Valerij Bancer (http://bancer.sourceforge.net)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author        Valerij Bancer
+ * @link          http://www.bancer.net
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ */
+
+ul.css_menu a{
+	padding: 2px;
+	white-space:nowrap;
+}
+ul.css_menu {
+	position: relative;
+	float: left;
+	z-index: 100;
+}
+ul.css_menu,
+ul.css_menu ul,
+ul.css_menu li{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+ul.css_menu ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+}
+ul.css_menu li {
+	float: left;
+	line-height: 1.3em;
+	vertical-align: middle;
+}
+ul.css_menu ul li {
+	float: none;
+}
+ul.css_menu li:hover {
+	position: relative;
+}
+ul.css_menu ul ul {
+	top: 1px;
+	left: 99%;
+}
+/* show hovered submenus */
+ul.css_menu li:hover > ul {
+	display: block;
+}
+
+/* Menu colors for default cakephp layout. They are overwritten in permarinus_blue.css file. */
+ul.css_menu a:link, .css_menu a:visited {
+	color: #FFFFFF;
+	display: block;
+	padding: 2px 20px;
+	background-color: transparent;
+}
+ul.css_menu a:hover{
+	text-decoration: none;
+}
+ul.menu_children li.parent:hover {
+	background-color: #6495ED;
+}
+ul.menu_children li {
+	background-color: #2c6877;
+}
+ul.menu_children a:link, .menu_children a:visited {
+	color: #f1f1d4;
+	text-decoration: none;
+}
+ul.menu_children a:hover {
+	color: #e6e49f;
+	background-color: #2f6f80;
+}
+
+/* RIGHT type menus */
+ul.cm_right ul {
+	top: 1px;
+	left: 99%;
+}
+ul.cm_right li {
+	float: none;
+}
+
+/* LEFT type menus */
+ul.cm_left {
+	position: relative;
+	float: right;
+}
+ul.cm_left li {
+	float: none;
+}
+ul.cm_left ul {
+	top: 1px;
+	left: -99%;
+}
+ul.cm_left ul ul {
+	top: 1px;
+	left: -99%;
+}
+
+/* DOWN type menus */
+
+/* UP type menus */
+ul.cm_up ul {
+	top: auto !important;
+	bottom: 100%;
+}
+ul.cm_up ul ul {
+	bottom: 1px;
+}
+
+/* Actions menus */
+div.bcp_act{
+}
+.bcp_actions{
+	margin:0;
+	padding:0;
+}
+.bcp_actions li {
+	display: inline-block;
+	list-style-type: none;
+	line-height: 2em;
+	margin: 0 0.5em 0 0.5em;
+	white-space: nowrap;
+	width: 22px;
+	height: 22px;
+}
+ul.bcp_actions a, a.bcp_actions {
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+	border: 0px;
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+	display: block;
+	float: left;
+}
+.bcp_actions a:hover, a:hover.bcp_actions {
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+
+/* Extra menus */
+.bcp_extra {
+	float: right;
+	margin-top: 0px;
+}
+.bcp_extra li {
+	background-repeat: no-repeat;
+	display: block;
+	float: left;
+	margin:0;
+}
+.bcp_extra a{
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+	border: 2px outset transparent;
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+	display: block;
+	padding:10px;
+}
+.bcp_extra a:hover{
+	border: 2px outset grey;
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+
+/* Auth links */
+#mast{
+	position: absolute;
+	top:15px;
+	right:15px;
+	color: grey;
+}
+#mast a{
+	background-color: transparent;
+}
+/* Breadcrumbs */
+#breadcrumbs {
+	padding: 0;
+	margin-bottom: 15px;
+	font-size: smaller;
+	clear:both;
+}
+#breadcrumbs ul {
+	margin: 0;
+	padding: 0;
+	display: inline;
+}
+#breadcrumbs ul li {
+	margin: 0;
+	padding-left: 2px;
+	border: none;
+	list-style: none;
+	display: inline;
+}
+#breadcrumbs ul li a {
+	text-decoration: none;
+}
+#breadcrumbs ul li a:hover {
+	text-decoration: underline;
+}

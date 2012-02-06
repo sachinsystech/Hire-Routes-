@@ -1,0 +1,107 @@
+/* SVN FILE: $Id$ */
+/**
+ * Styles for the plugin.
+ *
+ * PHP version 5
+ * 
+ * (C) Copyright 2009, Valerij Bancer (http://bancer.sourceforge.net)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author        Valerij Bancer
+ * @link          http://www.bancer.net
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ */
+
+@CHARSET "UTF-8";
+
+/* Multiple flash messages */
+.multi-message, .multi-info, .multi-success, .multi-warning, .multi-error, div.message {
+	border-top: 3px solid;
+	border-bottom: 3px solid;
+	margin: 10px 0px 0px 53px;
+	padding:15px 10px 15px 65px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	font: normal normal bold 1em courier;
+	text-align: left;
+	clear: both;
+}
+.multi-info, div.message {
+	color: #00529B;
+	border-color: #00529B;
+	background-color: #BDE5F8;
+	background-image: url('../img/info.png');
+}
+.multi-success {
+	color: #315B26;
+	border-color: #529940;
+	background-color: #6AB957;
+	background-image:url('../img/success.png');
+}
+.multi-warning {
+	color: #9F6000;
+	border-color: #9F6000;
+	background-color: #FFFABF;
+	background-image: url('../img/warning.png');
+}
+.multi-error {
+	color: #990000;
+	border-color: #DE7A7B;
+	background-color: #E6C0C0;
+	background-image: url('../img/error.png');
+}
+
+/* Filter */
+form.filter {
+	width:auto;
+}
+form.filter img {
+	width: 22px;
+	height: 22px;
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+	cursor:pointer;
+	padding: 1px;
+	margin-right: 0.5em;
+}
+form.filter img:hover {
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+td input {
+	width: 90%;
+}
+
+/* Trees */
+td.tree{
+	text-align: left;
+}
+
+/* Control Panel Home */
+ul.bcp_home {
+	text-align: center;
+	list-style-type:none;
+	width: 90%;
+	height: 50%;
+	margin: auto;
+}
+ul.bcp_home li {
+	float:left;
+}
+ul.bcp_home li a {
+	display:block;
+	padding:1em;
+	border:2px solid white;
+}
+ul.bcp_home li a:hover {
+	border:2px outset grey;
+}
+
+/* Widths adjustments */
+div.settings.index,
+div.menus.index
+{
+	width: 100%
+}

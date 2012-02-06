@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp
+END
+release-notes-bcp-1.3.2.txt
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/release-notes-bcp-1.3.2.txt
+END
+bcp_app_model.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/bcp_app_model.php
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/readme.txt
+END
+bcp_app_controller.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/bcp_app_controller.php
+END

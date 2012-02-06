@@ -1,0 +1,669 @@
+/* SVN FILE: $Id$ */
+/**
+ * Permarinus blue stylesheet
+ *
+ * PHP version 5
+ *
+ * CakePHP(tm) :  Rapid Development Framework (http://www.cakephp.org)
+ * Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @filesource
+ * @copyright     Copyright 2005-2008, Cake Software Foundation, Inc. (http://www.cakefoundation.org)
+ * @link          http://www.cakefoundation.org/projects/info/cakephp CakePHP(tm) Project
+ * @package       cake
+ * @subpackage    cake.cake.libs.view.templates.layouts
+ * @since         CakePHP(tm) v 0.10.0.1076
+ * @version       $Revision$
+ * @modifiedby    $LastChangedBy$
+ * @lastmodified  $Date$
+ * @license       http://www.opensource.org/licenses/mit-license.php The MIT License
+ */
+
+@CHARSET "UTF-8";
+
+/* General Style Info */
+body {
+	background-color: #333333;
+	background-image: url(../img/permarinus_blue/bg.gif);
+	background-attachment: fixed;
+}
+div, p {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	line-height: 1.2em;
+	font-size: 0.95em;
+	color: #111;
+	text-align: justify;
+}
+a:link, a:visited {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	line-height: 1.2em;
+	font-size: 0.95em;
+	text-decoration: none;
+	font-weight: bold;
+	color: #000066;
+}
+a:hover {
+	font-weight: bold;
+	color: #AAA;
+}
+a img {
+	border:none;
+}
+h1, h2, h3, h4 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #444;
+	padding-left: 15px;
+	background: url(../img/permarinus_blue/arrow_blue.png) no-repeat scroll left;
+}
+
+/* Layout */
+#container {
+	position: relative;
+	width: 880px;
+	margin: 0 auto;
+	padding-top: 90px;
+}
+#inner_container {
+	width: 790px;
+	text-align: left;
+	margin-left: 90px;
+}
+#header {
+	width: 790px;
+	height: 100px;
+	background-image: url(../img/permarinus_blue/header_blue.png);
+}
+#logo {
+	position: absolute;
+	width: 216px;
+	height: 196px;
+	top: 40px;
+	left: 20px;
+	background-image: url(../img/permarinus_blue/logo_blue.jpg);
+}
+#bcpMainMenuContainer {
+	position: absolute;
+	width: auto;
+	top: 171px;
+	left: 380px;
+	white-space: nowrap;
+	/*float: left;*/
+}
+#content_container {
+	width: 790px;
+	padding-top: 0px;
+	float: left;
+	background-color: #FFFFFF;
+}
+#left {
+	width: 1px;
+	float: left;
+	margin: 5px;
+	padding-top: 50px;
+}
+#content {
+	width: 590px;
+	float: left;
+	padding-top: 0px;
+	margin: 5px;
+}
+#footer {
+	width: 880px;
+	height: 189px;
+	background-image: url(../img/permarinus_blue/footer_blue.png);
+	clear: both;
+}
+#sitename, #sitename a {
+	position: relative;
+	top: 5px;
+	left: 30px;
+	color: #FFF;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 1.3em;
+	font-weight: bold;
+}
+#footerbox {
+	position: relative;
+	width: 260px;
+	height: 150px;
+	left: 610px;
+	top: 15px;
+	overflow: auto;
+}
+#page_exec_time {
+	position: relative;
+	bottom: 20px;
+	left: 610px;
+	right: 0px;
+	color: #AAA;
+	font-size: 0.72em;
+}
+/* Tables */
+table {
+	background: #fff;
+	border:1px solid #ccc;
+	border-right:0;
+	clear: both;
+	color: #333;
+	margin-bottom: 10px;
+	width: 100%;
+}
+th {
+	background: #f2f2f2;
+	border:1px solid #bbb;
+	border-top: 1px solid #fff;
+	border-left: 1px solid #fff;
+	text-align: center;
+}
+th a {
+	background:#f2f2f2;
+	display: block;
+	padding: 2px 4px;
+	text-decoration: none;
+}
+th a:hover {
+	background: #ccc;
+	color: #333;
+	text-decoration: none;
+}
+table tr td {
+	background: #fff;
+	border-right: 1px solid #ccc;
+	padding: 4px;
+	text-align: center;
+	vertical-align: top;
+}
+table tr.altrow td {
+	background: #E4E8EF;
+}
+td.actions {
+	text-align: center;
+	white-space: nowrap;
+}
+td.actions a {
+	/*margin: 0px 6px;*/
+}
+.cake-sql-log table {
+	background: #f4f4f4;
+}
+.cake-sql-log td {
+	padding: 4px 8px;
+	text-align: left;
+}
+/* Paging */
+div.paging {
+	background:#fff;
+	color: #ccc;
+	margin-bottom: 2em;
+	text-align: center;
+}
+div.paging div.disabled {
+	color: #ddd;
+	display: inline;
+}
+div.paging span {
+}
+div.paging span.current {
+	color: #000;
+}
+div.paging span a {
+}
+/* Scaffold View */
+div.view {
+	clear:right;
+	margin: auto;
+	padding: auto;
+	width: 60%;
+}
+dl {
+	line-height: 2em;
+	margin: 0em 0em;
+}
+dt.altrow {
+	background: #E4E8EF;
+}
+dt {
+	font-weight: bold;
+	padding-left: 4px;
+	vertical-align: top;
+}
+dd {
+	margin-left: 10em;
+	margin-top: -2em;
+	vertical-align: top;
+}
+/* Forms */
+form {
+	clear: both;
+	margin-right: 20px;
+	margin: auto;
+	padding: auto;
+	width: 80%;
+}
+fieldset {
+	border: 1px solid #ccc;
+	margin-top: 30px;
+	padding: 16px 20px;
+}
+fieldset legend {
+	background:#fff;
+	color: #AC1A30;
+	font: normal small-caps normal 120% verdana;
+}
+fieldset fieldset {
+	margin-top: 0px;
+	margin-bottom: 20px;
+	padding: 16px 10px;
+}
+fieldset fieldset legend {
+	font-size: 100%;
+	font-weight: normal;
+}
+fieldset fieldset div {
+	clear: left;
+	margin: 0 20px;
+}
+form div {
+	clear: both;
+	margin-bottom: 1em;
+	padding: .5em;
+	vertical-align: text-top;
+}
+form div.input {
+	color: #444;
+	border-bottom:1px solid #DAEBD3;
+	margin:0px;
+}
+form div.required {
+	background-color:#EDFFE5;
+}
+form div.submit {
+	border: 0;
+	clear: both;
+	margin-top: 10px;
+	text-align: center;
+}
+label {
+	display: block;
+	font-size: 110%;
+	float: left;
+	width: 150px;
+	padding-right: 3px;
+}
+input, textarea {
+	clear: both;
+	padding: 2px;
+	background-color: #CCCCFF;
+	font: normal normal normal 120% monospace;
+	border: 1px solid #9BA3A9;
+}
+select {
+	clear: both;
+	vertical-align: text-bottom;
+	background-color: #CCCCFF;
+	font: italic normal normal 120% monospace;
+	border: 1px solid #9BA3A9;
+}
+select[multiple=multiple] {
+	width: 100%;
+}
+option {
+	font-size: 120%;
+	padding: 0 3px;
+}
+input[type=checkbox] {
+	clear: left;
+	float: left;
+	margin: 0px 6px 7px 2px;
+	width: auto;
+}
+input[type=radio] {
+	float:left;
+	width:auto;
+	margin: 0 3px 7px 0;
+}
+div.radio label, tr label {
+	margin: 0 0 6px 20px;
+}
+tr label{
+	margin: auto;
+	width: auto;
+}
+input[type=submit] {
+	display: inline;
+	font-size: 110%;
+	padding: 2px 5px;
+	width: auto;
+	vertical-align: bottom;
+	cursor: pointer;
+}
+input[type=image]{
+	background-color: transparent;
+	border: 0;
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+}
+input[type=image]:hover{
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+input[readonly=readonly], textarea[readonly=readonly] {
+	border: 0px;
+	background-color: inherit;
+	font: inherit;
+	padding-left: 10px;
+}
+/* A special style for displaying forms http://developer.co.ua/posts/view/validatsija_form_v_cakephp_1_2 */
+/* tips for field */
+div.input .tip-message {
+	padding-left:153px;/* should be equal to label width */
+	padding-bottom:2px;
+	font-size:90%;
+	color:#999;
+	margin:0px;
+}
+/*error messages */
+div.input div.error-message {
+	padding-left:150px;/* should be equal to label width */
+	padding-top:2px;
+	padding-bottom:0px;
+	font-size:90%;
+	color:#990000;
+	margin-bottom:0em;
+}
+td div.input div.error-message {
+	padding-left:0px;
+}
+div.input_checkbox div.error-message {
+	padding-left:5px;
+	padding-top:2px;
+	font-size:90%;
+	color:#990000;
+}
+/* error highlighting */
+div.input input.form-error, div.input textarea.form-error, div.input select.form-error {
+	background-color:#F7BFBE;
+}
+/* End of special style for displaying forms*/
+
+/* Notices and Errors */
+div.message {
+	clear: both;
+	color: #900;
+	font-size: 140%;
+	font-weight: bold;
+	margin: auto;
+	width:400px
+}
+div.error-message {
+	clear: both;
+	color: #900;
+	font-weight: bold;
+}
+p.error {
+	background-color: #e32;
+	color: #fff;
+	font-family: Courier, monospace;
+	font-size: 120%;
+	line-height: 140%;
+	padding: 0.8em;
+	margin: 1em 0;
+}
+p.error em {
+	color: #000;
+	font-weight: normal;
+	line-height: 140%;
+}
+.notice {
+	background: #ffcc00;
+	color: #000;
+	display: block;
+	font-family: Courier, monospace;
+	font-size: 120%;
+	line-height: 140%;
+	padding: 0.8em;
+	margin: 1em 0;
+}
+.success {
+	background: green;
+	color: #fff;
+}
+
+/*  Actions  */
+div.actions ul {
+	margin: 0px 0;
+	padding: 0;
+}
+div.actions li {
+	display: inline;
+	list-style-type: none;
+	line-height: 2em;
+	margin: 0 2em 0 0;
+	white-space: nowrap;
+}
+div.actions ul li a {
+	background:#fff;
+	color: #003d4c;
+	text-decoration: none;
+}
+div.actions ul li a:hover {
+	color: #333;
+	text-decoration: underline;
+}
+/* Make action links as images */
+.bcp_actions li a, .bcp_extra li a {
+	text-indent: -300px;
+	overflow: hidden;
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+}
+.bcp_actions li a {
+	height: 22px;
+	width: 22px;
+}
+.bcp_extra li a {
+	height: 32px;
+	width: 32px;
+}
+a.view {background: url(../img/view.png) no-repeat scroll center;}
+a.edit {background: url(../img/edit.png) no-repeat scroll center;}
+a.delete {background: url(../img/delete.png) no-repeat scroll center;}
+a.permissions {background: url(../img/permissions.png) no-repeat scroll center;}
+a.view_extra {background: url(../img/view32.png) no-repeat scroll center;}
+a.edit_extra {background: url(../img/edit32.png) no-repeat scroll center;}
+a.delete_extra {background: url(../img/delete32.png) no-repeat scroll center;}
+a.permissions_extra {background: url(../img/permissions32.png) no-repeat scroll center;}
+a.index_extra {background: url(../img/index32.png) no-repeat scroll center;}
+a.add_extra {background: url(../img/add32.png) no-repeat scroll center;}
+a.tree_extra {background: url(../img/tree32.png) no-repeat scroll center;}
+a.verifyTree_extra {background: url(../img/verifyTree32.png) no-repeat scroll center;}
+a.redundant_extra {background: url(../img/redundant32.png) no-repeat scroll center;}
+
+/* Related */
+div.related {
+	clear: both;
+	display: block;
+}
+
+/* Debugging */
+pre {
+	color: #000;
+	background: #f0f0f0;
+	padding: 1em;
+}
+pre.cake-debug {
+	background: #ffcc00;
+	font-size: 120%;
+	line-height: 140%;
+	margin-top: 1em;
+	overflow: auto;
+	position: relative;
+}
+div.cake-stack-trace {
+	background: #fff;
+	border: 4px dotted #ffcc00;
+	color: #333;
+	margin: 0px;
+	padding: 6px;
+	font-size: 120%;
+	line-height: 140%;
+	overflow: auto;
+	position: relative;
+}
+div.cake-code-dump pre {
+	position: relative;
+	overflow: auto;
+}
+div.cake-stack-trace pre, div.cake-code-dump pre {
+	color: #000;
+	background-color: #F0F0F0;
+	margin: 0px;
+	padding: 1em;
+	overflow: auto;
+}
+div.cake-code-dump pre, div.cake-code-dump pre code {
+	clear: both;
+	font-size: 12px;
+	line-height: 15px;
+	margin: 4px 2px;
+	padding: 4px;
+	overflow: auto;
+}
+div.cake-code-dump span.code-highlight {
+	background-color: #ff0;
+	padding: 4px;
+}
+div.code-coverage-results div.code-line {
+	padding-left:5px;
+	display:block;
+	margin-left:10px;
+}
+div.code-coverage-results div.uncovered span.content {
+	background:#ecc;
+}
+div.code-coverage-results div.covered span.content {
+	background:#cec;
+}
+div.code-coverage-results div.ignored span.content {
+	color:#aaa;
+}
+div.code-coverage-results span.line-num {
+	color:#666;
+	display:block;
+	float:left;
+	width:20px;
+	text-align:right;
+	margin-right:5px;
+}
+div.code-coverage-results span.line-num strong {
+	color:#666;
+}
+div.code-coverage-results div.start {
+	border:1px solid #aaa;
+	border-width:1px 1px 0px 1px;
+	margin-top:30px;
+	padding-top:5px;
+}
+div.code-coverage-results div.end {
+	border:1px solid #aaa;
+	border-width:0px 1px 1px 1px;
+	margin-bottom:30px;
+	padding-bottom:5px;
+}
+div.code-coverage-results div.realstart {
+	margin-top:0px;
+}
+div.code-coverage-results p.note {
+	color:#bbb;
+	padding:5px;
+	margin:5px 0 10px;
+	font-size:10px;
+}
+div.code-coverage-results span.result-bad {
+	color: #a00;
+}
+div.code-coverage-results span.result-ok {
+	color: #fa0;
+}
+div.code-coverage-results span.result-good {
+	color: #0a0;
+}
+
+/* Index page */
+div.index {
+	clear: both;
+	margin: auto;
+	padding: auto;
+	width: 80%;
+}
+
+/* Menus */
+ul.css_menu a:link, .css_menu a:visited {
+	text-transform: none;
+	color: #FFFFFF;
+	display: block;
+	padding: 2px 20px;
+	background-color:transparent;
+}
+ul.cm_right a:link,
+ul.cm_right a:visited,
+ul.cm_left a:link,
+ul.cm_left a:visited {
+	color: #000080;
+}
+ul.css_menu a:hover{
+	text-decoration: underline;
+	color: #AAA;
+}
+ul.css_menu li{
+	background: url(../img/permarinus_blue/pxarrow.png) no-repeat scroll left;
+}
+ul.menu_children li.parent:hover,
+ul.cm_right li.parent:hover,
+ul.cm_left li.parent:hover {
+	background-color: #6495ED;
+}
+ul.css_menu ul {
+	filter: alpha(opacity=60);
+	opacity: 0.6;
+}
+ul.css_menu ul ul {
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+ul.menu_children li {
+	border: 0px;
+	border-bottom: 1px solid #000066;
+	background-color: #B0C4DE;
+	background-image: none;
+}
+ul.menu_children li.parent {
+	background: #B0C4DE url(../img/permarinus_blue/dot_blue_right.png) no-repeat scroll right;
+}
+ul.cm_left ul.menu_children li.parent {
+	background-image: url(../img/permarinus_blue/dot_blue_left.png);
+	background-position: left;
+}
+ul.menu_children a:link, .menu_children a:visited {
+	color: #000080;
+	text-decoration: underline;
+}
+ul.menu_children a:hover {
+	color: #8B0000;
+	background-color: inherit;
+}
+ul.cm_up {
+	bottom: 51px;
+	left: 30px;
+}
+/* Breadcrumbs */
+#breadcrumbs {
+	margin-left: 150px;
+}
+#breadcrumbs span.disabled {
+	font-size: smaller;
+	color: #AAA;
+}

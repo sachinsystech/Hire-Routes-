@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/views/groups
+END
+view.ctp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/views/groups/view.ctp
+END
+permissions.ctp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/views/groups/permissions.ctp
+END
+edit.ctp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/views/groups/edit.ctp
+END
+index.ctp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/views/groups/index.ctp
+END
+add.ctp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/views/groups/add.ctp
+END

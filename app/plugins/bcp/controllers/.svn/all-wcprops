@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/controllers
+END
+menus_controller.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/controllers/menus_controller.php
+END
+groups_controller.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/controllers/groups_controller.php
+END
+settings_controller.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/controllers/settings_controller.php
+END
+users_controller.php
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/controllers/users_controller.php
+END
+bcp_controller.php
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/nebraskalife/!svn/ver/2/trunk/app/plugins/bcp/controllers/bcp_controller.php
+END
