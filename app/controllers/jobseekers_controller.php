@@ -4,20 +4,18 @@ class JobseekersController extends AppController {
 	var $uses = array('JobseekerSettings');
 	var $components = array('Email','Session');	
 	function add() {
-		$this->data['Jobseekers']['jobseeker_id'] = 10;
+		$this->data['Jobseekers']['user_id'] = $this->Session->read('Auth.User.id');
+		//echo "<pre>"; print_r(implode(',',$this->data['Jobseekers']['industry_specification_1']));exit;
+		$this->data['Jobseekers']['specification_1'] = implode(',',$this->data['Jobseekers']['industry_specification_1']);
+		$this->data['Jobseekers']['specification_2'] = implode(',',$this->data['Jobseekers']['industry_specification_2']);
 		$this->JobseekerSettings->save($this->data['Jobseekers']);
 		$this->Session->setFlash('Your Setting has been saved successfuly.', 'success');				
-		$this->redirect('/users/jobseekerSetting');
-	}
-	function delete(){
-		$id = $this->params['id'];
-		$this->JobseekerSettings->delete($id);
 		$this->redirect('/users/jobseekerSetting');
 	}
 	
 	function sendNotifyEmail(){
 		$notifyId = $this->params['id'];
-		$this->Session->setFlash('Your E-mail  Notification has been saved successfuly.', 'success');				
+		//$this->Session->setFlash('Your E-mail  Notification has been saved successfuly.', 'success');				
 		$this->redirect('/users/jobseekerSetting');
 	}
 }

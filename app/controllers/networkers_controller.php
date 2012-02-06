@@ -4,7 +4,7 @@ class NetworkersController extends AppController {
 	var $uses = array('NetworkerSettings');
 	var $components = array('Email','Session');	
 	function add() {
-		$this->data['Networkers']['networker_id'] = 9;
+		$this->data['Networkers']['user_id'] = $this->Session->read('Auth.User.id');
 		$this->NetworkerSettings->save($this->data['Networkers']);
 		$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
 		$this->redirect('/users/networkerSetting');
