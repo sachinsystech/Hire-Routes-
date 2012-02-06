@@ -973,6 +973,7 @@ abstract class BaseFacebook
       $protocol = 'http://';
     }
     $currentUrl = $protocol . $_SERVER['HTTP_HOST'] . "/users/facebookUser";
+   // $currentUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     $parts = parse_url($currentUrl);
 
     $query = '';
