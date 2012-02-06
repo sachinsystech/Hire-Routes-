@@ -24,7 +24,7 @@
 /** General Style Info **/
 body {
 /*	background: #003d4c;*/
-	color: #fff;
+	color: #000000;
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 	font-size:90%;
 	margin: 0;
@@ -100,6 +100,7 @@ ul, li {
 	color: #333;
 	padding: 10px 20px 40px 20px;
 	overflow: auto;
+	border-top: 1px solid;
 }
 #footer {
 	clear: both;
@@ -340,19 +341,17 @@ form .submit input[type=submit]:hover {
 
 /** Notices and Errors **/
 div.message {
-	clear: both;
-	color: #fff;
-	font-size: 140%;
-	font-weight: bold;
-	margin: 0 0 1em 0;
-	background: #c73e14;
-	padding: 5px;
-}
+    background: none repeat scroll 0 0 #FAEBE7;
+    border: 1px solid red;
+    clear: both;
+    color: #FF0000;
+    font-size: 110%;
+    margin: 0 0 1em;
+    padding: 5px;}
 div.error-message {
 	clear: both;
-	color: #fff;
-	font-weight: bold;
-	background: #FA5858;
+	color: #FF0000;
+	font-size: 107%;
 	height: 14px;
     width: 425px;
 	margin-top: 5px;
@@ -629,13 +628,8 @@ button.fb-logout {
 
 /* 		header menu ..	*/
 #tabs {
-	float:left;
-	width:100%;
 	font-size:93%;
 	line-height:normal;
-	border-bottom:1px solid #666;
-	margin-bottom:1em; /*margin between menu and rest of page*/
-	overflow:hidden;
 	}
 
 #tabs ul {
@@ -663,7 +657,7 @@ button.fb-logout {
 	float:left;
 	display:block;
 	background:url("../img/media/right.png") no-repeat right top;
-	padding:6px 15px 4px 6px;
+	padding:3px 15px 4px 6px;
 	margin-right:2px;
 	color:#FFF;
 	}
@@ -797,4 +791,25 @@ label.error{
 }
 .form_content{
 	width:664px;
+}
+
+
+.left-button{
+    background: url("../img/left.png") no-repeat scroll center center transparent;
+    border: medium none;
+    cursor: pointer;
+    height: 54px;
+    width: 87px;
+}
+
+.right-button{
+    background: url("../img/right.png") no-repeat scroll center center transparent;
+    border: medium none;
+    cursor: pointer;
+    height: 54px;
+    width: 87px;
+}
+
+.error{
+	color:red;
 }
