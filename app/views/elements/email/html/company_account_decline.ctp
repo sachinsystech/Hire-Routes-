@@ -1,4 +1,5 @@
 <b>Hire Routes</b>
+<br/>
 Hello,
 <p>
 Your account Request is declined for e-mail: <?php echo $user['account_email'];?>.
