@@ -59,7 +59,6 @@ class AdminController extends AppController {
 	}
 
 
-
 	function declineCompanyRequest() {
 		$id = $this->params['id'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
