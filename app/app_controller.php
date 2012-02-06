@@ -19,7 +19,7 @@ class AppController extends Controller {
 		   'timeout'=>'30',
 		   'auth' => true,
 		   'host' => 'ssl://smtp.gmail.com',
-		   'username'=>'hireroutes@gmail.com',
+		   'username'=>'hireroutes',
 		   'password'=>'hire100100',
 	  	);
 
