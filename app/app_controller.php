@@ -9,9 +9,23 @@
 // +----------------------------------------------------------------------+
 
 class AppController extends Controller {
-	public $components = array('Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus');
+	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus');
 	public $helpers = array('Session','Html', 'Form', 'Javascript','Bcp.DatabaseMenus');
 	function beforeFilter(){
+	
+		/* SMTP Options for GMAIL */
+	  	$this->Email->smtpOptions = array(
+		   'port'=>'465',
+		   'timeout'=>'30',
+		   'auth' => true,
+		   'host' => 'ssl://smtp.gmail.com',
+		   'username'=>'atulasati@gmail.com',
+		   'password'=>'hire100100',
+	  	);
+
+	   	/* Set delivery method */
+	   	$this->Email->delivery = 'smtp';
+	
 		$this->Auth->fields = array(
 			'username' => 'account_email',
 			'password' => 'password'
