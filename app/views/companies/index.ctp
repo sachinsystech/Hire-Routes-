@@ -35,9 +35,9 @@
 					<th style="width:15%">Title</th>
 					<th style="width:10%">Reward$</th>
 					<th  style="width:15%">Description</th>
-					<th style="width:30%">Category</th>
+					<th style="width:27%">Category</th>
 					<th style="width:20%">Location</th>
-					<th style="width:10%">Job Type</th>
+					<th style="width:13%">Job Type</th>
 				</tr>
 				<?php foreach($jobs as $job):?>	
 				<tr>
