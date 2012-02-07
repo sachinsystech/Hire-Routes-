@@ -293,7 +293,9 @@ class UsersController extends AppController {
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));		
 		$role = $this->getCurrentUserRole();
 		switch($role['role_id']){
-
+			case 1:
+					$this->redirect("/companies");
+					break;	
 			case 2:
 					$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$id)));
 					if($jobseekerData){

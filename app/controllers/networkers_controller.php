@@ -20,5 +20,8 @@ class NetworkersController extends AppController {
 		$this->Session->setFlash('Your E-mail  Notification has been saved successfuly.', 'success');				
 		$this->redirect('/users/networkerSetting');
 	}
+
+	function index(){
+	}
 }
 ?>

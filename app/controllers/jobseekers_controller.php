@@ -18,5 +18,8 @@ class JobseekersController extends AppController {
 		//$this->Session->setFlash('Your E-mail  Notification has been saved successfuly.', 'success');				
 		$this->redirect('/users/jobseekerSetting');
 	}
+
+	function index(){
+	}
 }
 ?>
