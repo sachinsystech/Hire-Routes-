@@ -156,7 +156,7 @@
     ?>
       <div style="clear: both;"></div>
 
-	<?php echo $form->submit('Post Now',array('div'=>false,)); ?>
+	<?php echo $form->submit('Save',array('div'=>false,)); ?>
  <?php echo $form->end(); ?>
  </div>
  </div>
