@@ -72,7 +72,14 @@ class UsersController extends AppController {
 		if($user){
 			if(!$user['User']['is_active']){
 				$this->set('confirmation_email', $user['User']['account_email']);
-				$this->Session->setFlash('Account confirmation is required. Please, check your email for the confirmation link.', 'success');		
+				$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$id)));
+				if($userRole['UserRoles']['role_id']==1){
+					$this->set('roleId',1);
+					$this->Session->setFlash('Your Account created successfully.', 'success');		
+				}
+				else{
+					$this->Session->setFlash('Account confirmation is required. Please, check your email for the confirmation link.', 'success');		
+				}
 			}
 			else{
 				$this->redirect("/users/firstTime");				
