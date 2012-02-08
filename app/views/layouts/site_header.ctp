@@ -33,7 +33,7 @@
 	  <ul style="float:left;">
 		<li></li>
 		<li><a href="/"><span> HOME </span></a></li>
-		<li><a href="#"><span> JOBS </span></a></li>
+		<li><a href="/jobs"><span> JOBS </span></a></li>
 		<li><a href="#"><span>ABOUT</span></a></li>	
 	  </ul>
 

@@ -962,4 +962,40 @@ label.error{
     padding: 24px;
     width: 160px;
 }
-
+/*  JOB-LIST Page */
+.joblist_rightBox{
+    border: 1px solid;
+    float: left;
+    height: 550px;
+    text-align: center;
+    width: 175px;
+}
+.joblist_middleBox{
+    margin-left: 40px;
+    width: 730px;
+}
+.text_heading{
+	font-weight:bold;
+	font-size:22px;
+}
+.job_select_shortby{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    width: 130px;
+	margin-left: 15px;
+}
+.job_select_diplay{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    width: 60px;
+	margin-left: 15px;
+}
+.jobs_topMenu {
+    border-style: solid solid solid none;
+    border-width: 1px 1px 1px medium;
+    height: 40px;
+    padding: 10px;
+    width: 745px;
+}
