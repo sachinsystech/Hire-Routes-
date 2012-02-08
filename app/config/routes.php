@@ -48,6 +48,9 @@
 
 	Router::connect('/companies/editJob/:userId/:jobId', array('controller' => 'companies', 'action' => 'editJob'));
 
+	Router::connect('/jobs/', array('controller' => 'jobs', 'action' => 'index'));
+	Router::connect('/jobs/:id', array('controller' => 'jobs','action' => 'index'),
+												array('id' => '[0-9]+'));
 	
 	//Router::connect('/users/:action', array('controller' => 'users'));
 	Router::connect('/users/userSelection', array('controller' => 'users','action' => 'userSelection'));
