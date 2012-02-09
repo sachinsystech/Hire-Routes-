@@ -45,7 +45,8 @@
    	    <?php endif; ?>
 
 		<?php  if($current_user['id']>2):?>
-	    <li><a href="/users/logout"><span>LOG OUT</span></a></li>
+		<li><a href="/users/firstTime"><span>MY ACCOUNT</span></a></li>
+		<li><a href="/users/logout"><span>LOG OUT</span></a></li>
 	    <?php endif; ?>
 	  </ul>
 	</div>

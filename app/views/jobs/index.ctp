@@ -1,11 +1,38 @@
-<?php 
 
-	if(isset($job)){
-		//echo "<pre>";print_r($job); exit;
+<script>
+	$(document).ready(function(){
+	    $("#switch_display").change(onSelectChange);
+		$("#short_by").change(onSelectShortByChange);
+	});
+	function onSelectChange(){
+	    var selected = $("#switch_display option:selected");    
+	    if(selected.val() != 0){
+			window.location.href="/jobs/index/display:"+selected.text();
+	    }
 	}
+	function onSelectShortByChange(){
+	    var selected = $("#short_by option:selected");    
+	    if(selected.val() != 0){
+			window.location.href="/jobs/index/shortby:"+selected.val();
+	    }
+	}
+</script>
 
-?>
+
 <div class="page">
+	<div style="width:890px;height:10px;padding: 22px;">
+		<div style="float:left;width: 268px;margin-left: 65px;">
+			WHAT <input class="text_field_bg"> 
+		</div>
+		<div style="float:left;width: 268px;margin-left: 160px;">
+			WHERE <input class="text_field_bg"> 
+		</div>
+		<div style="float:right;width: 100px;">
+			<button style="float: right; width: 100px; background:rgb(0, 255, 0);"> Find Job</button>
+		</div>
+
+	</div>
+
 	<!-- left section start -->
 	<?php if(!isset($job)):?>
 		<div class="joblist_rightBox">
@@ -30,22 +57,23 @@
 					<?php echo $form -> input('short_by',array(
 												'type'=>'select',
 												'label'=>'SORT BY ',
-												'options'=>array('1' => 'Date Added', '2' => 'Company Name', '3' => 'Industry', '4' => 'Salary'),
+												'options'=>array('date-added' => 'Date Added', 'company-name' => 'Company Name', 'industry' => 'Industry', 'salary' => 'Salary'),
 												'class'=>'job_select_shortby',
-												'selected'=>'1'
+												'selected'=>isset($shortBy)?$shortBy:'date-added',
 										)
 							);
 					?>
 				</div>
 				
 				<div style="float:right">
-					<?php echo $form -> input('short_by',array(
+					<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
+					<?php echo $form -> input('switch_display',array(
 												'type'=>'select',
-												'label'=>'DISPLAYING ',
-												'options'=>array('10' => '10', '20' => '20', '30' => '30', '50' => '50'),
+												'label'=>"< < <".$this->Paginator->numbers()."> > > DISPLAYING </span>",
+												'options'=>$display_page_no,
 												'class'=>'job_select_diplay',
-												'selected'=>'1'
-										)
+												'selected'=>isset($displayPageNo)?$displayPageNo:5,
+												)
 							);
 					?>
 				</div>

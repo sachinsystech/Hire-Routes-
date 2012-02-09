@@ -4,7 +4,7 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-    var $uses = array('Company','Job','Industry','State','Specification','UserRoles');
+    var $uses = array('Company','Companies','Job','Industry','State','Specification','UserRoles');
 
 	function postJob(){
 	
@@ -97,8 +97,12 @@ class CompaniesController extends AppController {
 	}
 
 	function save(){
-		$this->data['Job']['user_id'] = $this->Session->read('Auth.User.id');
-		//echo "<pre>"; print_r($this->data); exit;
+		$userId =  $this->Session->read('Auth.User.id');
+		$company = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
+		$this->data['Job']['user_id']= $userId;
+		$this->data['Job']['company_id']= $company['Companies']['id'];
+		$this->data['Job']['company_name']= $company['Companies']['company_name'];
+		//echo "<pre>"; print_r($this->data['Job']); exit;
 		$this->Job->save($this->data['Job']);
 		$this->Session->setFlash('Job has been posted successfuly.', 'success');				
 		$this->redirect('/companies/');

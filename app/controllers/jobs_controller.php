@@ -1,9 +1,43 @@
 <?php
 class JobsController extends AppController {
     var $uses = array('Company','Job','Industry','State','Specification','UserRoles','Companies');
-	var $helpers = array('Form');
+	var $helpers = array('Form','Paginator');
+
 	function index(){
-		$jobs = $this->Job->find('all');
+		//echo	$this->params['named']['shortby']; 
+		$shortByItem = 'id';
+        if(isset($this->params['named']['display'])){
+	        $displayPageNo = $this->params['named']['display'];
+	        $this->set('displayPageNo',$displayPageNo);
+		}
+		if(isset($this->params['named']['shortby'])){
+	        $shortBy = $this->params['named']['shortby'];
+	        $this->set('shortBy',$shortBy);
+	        switch($shortBy){
+	        	case 'date-added':
+	        				$shortByItem = 'created'; 
+	        				break;	
+	        	case 'company-name':
+	        				$shortByItem = 'company_name'; 
+	        				break;
+	        	case 'industry':
+	        				$shortByItem = 'industry'; 
+	        				break;
+	        	case 'salary':
+	        				$shortByItem = 'salary_from'; 
+	        				break;
+	        	default:
+	        			$this->redirect("/jobs");	        		        	
+	        }
+		}
+		$this->paginate = array(
+            'limit' => isset($displayPageNo)?$displayPageNo:5,
+            'order' => array(
+                             "Job.$shortByItem" => 'asc'
+                            )
+        );
+              
+		$jobs = $this->paginate('Job');
 		$jobs_array = array();
 		foreach($jobs as $job){
 			$jobs_array[$job['Job']['id']] =  $job['Job'];
