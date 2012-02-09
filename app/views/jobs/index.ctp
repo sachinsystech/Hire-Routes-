@@ -18,6 +18,9 @@
 	}
 </script>
 
+<!-- ------------------------ ALL JOBS LISTING -------------------------->
+
+<?php if(!isset($job)): ?>
 
 <div class="page">
 	<div style="width:890px;height:10px;padding: 22px;">
@@ -34,7 +37,6 @@
 	</div>
 
 	<!-- left section start -->
-	<?php if(!isset($job)):?>
 		<div class="joblist_rightBox">
 			<div class="sideMenu">
 			Industries
@@ -44,13 +46,11 @@
 			<div>Job Type</div>
 			<div>Company</div>			
 		</div>
-	<?php endif;?>
 	
 	<!-- left section end -->
 	<!-- middle section start -->
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
-		<?php if(!isset($job)):?>
 		<div class="jobs_topMenu">
 			<div style="margin-top:10px">
 				<div style="float:left">
@@ -79,36 +79,13 @@
 				</div>
 			</div>	
 		</div>
-		<?php endif;?>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
 			<div class="joblist_middleBox">
 			<table style="width:100%">
 
-			<?php if(isset($job)){?>
-
-				<tr>
-					<td>
-						<div>
-							<div style="float:left" class="text_heading"> <?php	echo $job['title']; ?></div>
-							<div style="float:right"> <?php	echo $job['reward'];?>$</div>
-						</div>
-						<div style="clear:both">		
-						<div>
-							<?php	echo $companies[$job['user_id']]." - ".$job['city'].",".$states[$job['state']]."<br>";
-									echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
-									echo $job_array[$job['job_type']]."<br>";
-									echo $job['short_description']."<br>";
-									echo $job['description']."<br>";
-							?>
-						</div>			
-					</td>
-				</tr>
-			<?php	
-			}
-			else{
-					foreach($jobs as $job):?>	
+				<?php foreach($jobs as $job):?>	
 					<tr>
 						<td>
 							<div>
@@ -117,7 +94,7 @@
 							</div>
 							<div style="clear:both">		
 							<div>
-								<?php	echo $companies[$job['user_id']]."- ".$job['city'].",".$states[$job['state']]."<br>";
+								<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['state']]."<br>";
 										echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
 										echo $job_array[$job['job_type']]."<br>";
 										echo $job['short_description']."<br>";
@@ -125,8 +102,7 @@
 							</div>			
 						</td>
 					</tr>
-				<?php endforeach; 
-			}?>
+				<?php endforeach; ?>
 			</table>
 			</div>
 
@@ -136,9 +112,51 @@
 	<!-- middle section end -->
 
 </div>
+<?php  else:?>	
+	
+	
+<!-- ------------------------ PARTICULAR JOB DETAIL ---------------------->	
+	
+<?php if(isset($job)): ?>	
+<div class="page">
 
-<script>
-function goTo(){
-	window.location.href="/companies/postJob";			
-}
-</script>
+
+	<!-- left section start -->
+	
+	<!-- left section end -->
+	<!-- middle section start -->
+	<div class="rightBox" >
+		<!-- middle conent top menu start -->
+		<!-- middle conyent top menu end -->
+		<!-- middle conyent list -->
+		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
+			<div class="joblist_middleBox">
+				<table style="width:100%">
+					<tr>
+						<td>
+							<div>
+								<div style="float:left" class="text_heading"> <?php	echo $job['title']; ?></div>
+								<div style="float:right"> <?php	echo $job['reward'];?>$</div>
+							</div>
+							<div style="clear:both">		
+							<div>
+								<?php	echo $job['company_name']." - ".$job['city'].",".$states[$job['state']]."<br>";
+										echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
+										echo $job_array[$job['job_type']]."<br>";
+										echo $job['short_description']."<br>";
+										echo $job['description']."<br>";
+								?>
+							</div>			
+						</td>
+					</tr>
+				</table>
+			</div>
+
+		<!-- middle conyent list -->
+
+	</div>
+	<!-- middle section end -->
+</div>
+<?php  endif; ?>	
+<?php  endif; ?>	
+	
