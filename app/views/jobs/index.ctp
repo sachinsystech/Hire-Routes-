@@ -1,22 +1,4 @@
 
-<script>
-	$(document).ready(function(){
-	    $("#switch_display").change(onSelectChange);
-		$("#short_by").change(onSelectShortByChange);
-	});
-	function onSelectChange(){
-	    var selected = $("#switch_display option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobs/index/display:"+selected.text();
-	    }
-	}
-	function onSelectShortByChange(){
-	    var selected = $("#short_by option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobs/index/shortby:"+selected.val();
-	    }
-	}
-</script>
 
 <!-- ------------------------ ALL JOBS LISTING -------------------------->
 
@@ -39,7 +21,19 @@
 	<!-- left section start -->
 		<div class="joblist_rightBox">
 			<div class="sideMenu">
-			Industries
+				<span>Industries</span>
+				<div>
+					<?php /* foreach($industries as $industry):?>
+						<div>
+							<?php	echo $form->input('', array('label' => "<span>$industry</span>",
+														'type'  => 'checkbox',
+														'name'  => "data[User][agree_condition]",
+														)
+									 );
+							?>
+						</div>
+					<?php endforeach; */ ?>
+				</div>				
 			</div>
 			<div>Salary Range</div>
 			<div>Location</div>
@@ -116,6 +110,24 @@
 	
 	
 <!-- ------------------------ PARTICULAR JOB DETAIL ---------------------->	
+<script>
+	$(document).ready(function(){
+	    $("#switch_display").change(onSelectChange);
+		$("#short_by").change(onSelectShortByChange);
+	});
+	function onSelectChange(){
+	    var selected = $("#switch_display option:selected");    
+	    if(selected.val() != 0){
+			window.location.href="/jobs/index/display:"+selected.text();
+	    }
+	}
+	function onSelectShortByChange(){
+	    var selected = $("#short_by option:selected");    
+	    if(selected.val() != 0){
+			window.location.href="/jobs/index/shortby:"+selected.val();
+	    }
+	}
+</script>
 	
 <?php if(isset($job)): ?>	
 <div class="page">
