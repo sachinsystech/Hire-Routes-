@@ -274,6 +274,8 @@
                                                      <?php	echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br><br>
                                                   <div id="short_description" style="font-size:13px;">
                                                        <?php $desc = $job['description'];
+                                                             if($desc!='')
+                                                              {
                                                              $explode = explode(' ',$desc);
     $string  = '';
 
@@ -287,7 +289,7 @@
     if ($dots) {
         $string = substr($string, 0, strlen($string));
     }
-    echo $string.$dots;?></div>
+    echo $string.$dots;}?></div>
                                                   <div id="full_description" style="display:none;font-size:13px;"><?php echo $job['description'];?></div>
                                                    
                                                 </div>
