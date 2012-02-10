@@ -1,4 +1,6 @@
 
+
+<!-- ------------------------ ALL JOBS LISTING -------------------------->
 <script>
 	$(document).ready(function(){
 	    $("#switch_display").change(onSelectChange);
@@ -22,9 +24,6 @@
             $('#more_info').hide();
 	}
 </script>
-
-<!-- ------------------------ ALL JOBS LISTING -------------------------->
-
 <?php if(!isset($job)): ?>
 
 <div class="page">
@@ -43,13 +42,26 @@
 
 	<!-- left section start -->
 		<div class="joblist_rightBox">
-			<div class="sideMenu">
-			Industries
+			<div class="joblist_sideMenu">
+				<span><b>Industries</b></span>
+				<div class="narrowby_industry">
+					<?php  foreach($industries as $industry):?>
+						<div>
+							<?php	echo $form->input('', array('label' => "<span>$industry</span>",
+														'type'  => 'checkbox',
+														'name'  => "data[User][agree_condition]",
+														)
+									 );
+							?>
+						</div>
+						<div style="clear:both"></div>
+					<?php endforeach; ?>
+				</div>				
 			</div>
-			<div>Salary Range</div>
-			<div>Location</div>
-			<div>Job Type</div>
-			<div>Company</div>			
+			<div><span><b>Salary Range</b></span></div>
+			<div><span><b>Location</b></span></div>
+			<div><span><b>Job Type</b></span></div>
+			<div><span><b>Company</b></span></div>			
 		</div>
 	
 	<!-- left section end -->
@@ -119,9 +131,9 @@
 
 </div>
 <?php  else:?>	
-	
-	
+		
 <!-- ------------------------ PARTICULAR JOB DETAIL ---------------------->	
+
 	
 <?php if(isset($job)): ?>	
 <div class="page">
