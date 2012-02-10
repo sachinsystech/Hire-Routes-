@@ -71,6 +71,13 @@ class JobsController extends AppController {
 			$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
 		}
 		$this->set('specifications',$specification_array);
+
+                $urls = $this->Companies->find('all');
+		$url_array = array();
+		foreach($urls as $url){
+			$url_array[$url['Companies']['id']] =  $url['Companies']['company_url'];
+		}
+		$this->set('urls',$url_array);
 		
 		$companies = $this->Companies->find('all');
 		$companies_array = array();
