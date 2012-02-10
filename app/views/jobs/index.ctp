@@ -1,7 +1,24 @@
 
 
 <!-- ------------------------ ALL JOBS LISTING -------------------------->
-
+<script>
+	$(document).ready(function(){
+	    $("#switch_display").change(onSelectChange);
+		$("#short_by").change(onSelectShortByChange);
+	});
+	function onSelectChange(){
+	    var selected = $("#switch_display option:selected");    
+	    if(selected.val() != 0){
+			window.location.href="/jobs/index/display:"+selected.text();
+	    }
+	}
+	function onSelectShortByChange(){
+	    var selected = $("#short_by option:selected");    
+	    if(selected.val() != 0){
+			window.location.href="/jobs/index/shortby:"+selected.val();
+	    }
+	}
+</script>
 <?php if(!isset($job)): ?>
 
 <div class="page">
@@ -107,27 +124,9 @@
 
 </div>
 <?php  else:?>	
-	
-	
+		
 <!-- ------------------------ PARTICULAR JOB DETAIL ---------------------->	
-<script>
-	$(document).ready(function(){
-	    $("#switch_display").change(onSelectChange);
-		$("#short_by").change(onSelectShortByChange);
-	});
-	function onSelectChange(){
-	    var selected = $("#switch_display option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobs/index/display:"+selected.text();
-	    }
-	}
-	function onSelectShortByChange(){
-	    var selected = $("#short_by option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobs/index/shortby:"+selected.val();
-	    }
-	}
-</script>
+
 	
 <?php if(isset($job)): ?>	
 <div class="page">
