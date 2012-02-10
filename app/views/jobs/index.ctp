@@ -283,8 +283,11 @@
     if(count($explode) <= 20){
         $dots = '';
     }
+    if(count($explode)>0)
+    {
     for($i=0;$i<20;$i++){
         $string .= $explode[$i]." ";
+    }
     }
     if ($dots) {
         $string = substr($string, 0, strlen($string));
