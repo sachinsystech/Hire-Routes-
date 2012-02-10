@@ -16,6 +16,11 @@
 			window.location.href="/jobs/index/shortby:"+selected.val();
 	    }
 	}
+        function showDescription(){
+	    $('#full_description').show();
+            $('#short_description').hide();
+            $('#more_info').hide();
+	}
 </script>
 
 <!-- ------------------------ ALL JOBS LISTING -------------------------->
@@ -99,6 +104,7 @@
 										echo $job_array[$job['job_type']]."<br>";
 										echo $job['short_description']."<br>";
 								?>
+                                                            
 							</div>			
 						</td>
 					</tr>
@@ -134,7 +140,7 @@
 				<table style="width:100%">
 					<tr>
 						<td>
-							<div>
+							<!-- <div>
 								<div style="float:left" class="text_heading"> <?php	echo $job['title']; ?></div>
 								<div style="float:right"> <?php	echo $job['reward'];?>$</div>
 							</div>
@@ -146,7 +152,141 @@
 										echo $job['short_description']."<br>";
 										echo $job['description']."<br>";
 								?>
-							</div>			
+							</div>	
+                                                        <div> -->
+
+                                             <div>
+                                               <div style="float:left;width:150px;height:90px;">
+                                                  <img src="" alt="Company Logo" title="company logo" />
+                                               </div>
+                                               <div>
+                                                  <div style="font-size:20px;"><strong><?php echo ucfirst($job['title']); ?>
+                                                   </strong>
+                                                  </div>
+                                                  <div style="font-size:13px;line-height:22px;">
+                                                      <strong>By Company :</strong> <?php echo $job['company_name']."<br>"; ?>
+                                                      <strong>Website : </strong><?php	echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br>
+                                                      <strong>Published in :</strong> <?php echo $industries[$job['industry']]." - ".$specifications[$job['specification']].", "; ?>
+                                                      <?php  $start  = strtotime($job['created']);
+                                                             $end    = strtotime(date('Y-m-d H:i:s'));
+
+                                                             if(!$end) { $end = time(); }
+                                                             if(!is_numeric($start) || !is_numeric($end)) { return false; }
+                                                              // Convert $start and $end into EN format (ISO 8601)
+                                                             $start  = date('Y-m-d H:i:s',$start);
+                                                             $end    = date('Y-m-d H:i:s',$end);
+                                                             $d_start    = new DateTime($start);
+                                                             $d_end      = new DateTime($end);
+                                                             $diff = $d_start->diff($d_end);
+                                                                // return all data
+                                                             $year=""; $month=""; $day=""; $hour=""; $min=""; $sec="";
+                                                             
+                                                             $y    = $diff->format('%y');
+                                                             if($y>0)
+                                                              {
+                                                                 if($y==1)
+                                                                  {
+                                                                    $year = $y." year ";
+                                                                  }else{
+                                                                    $year = $y." years ";
+                                                                  }
+                                                              }
+                                                              $m = $diff->format('%m');
+                                                              if($m>0)
+                                                              {
+                                                                 if($m==1)
+                                                                  {
+                                                                    $month = $m." month ";
+                                                                  }else{
+                                                                    $month = $m." months ";
+                                                                  }
+                                                              }
+                                                              $d = $diff->format('%d');
+                                                              if($d>0)
+                                                              {
+                                                                 if($d==1)
+                                                                  {
+                                                                    $day = $d." day ";
+                                                                  }else{
+                                                                    $day = $d." days ";
+                                                                  }
+                                                              }
+                                                              $h = $diff->format('%h');
+                                                              if($h>0)
+                                                              {
+                                                                 if($h==1)
+                                                                  {
+                                                                    $hour = $h." hour ";
+                                                                  }else{
+                                                                    $hour = $h." hours ";
+                                                                  }
+                                                              }
+                                                              $i = $diff->format('%i');
+                                                              if($i>0)
+                                                              {
+                                                                 if($i==1)
+                                                                  {
+                                                                    $min = $i." minute ";
+                                                                  }else{
+                                                                    $min = $i." minutes ";
+                                                                  }
+                                                              }
+                                                              $s = $diff->format('%s');
+                                                              if($s>0)
+                                                              {
+                                                                 if($s==1)
+                                                                  {
+                                                                    $sec = $s." second ";
+                                                                  }else{
+                                                                    $sec = $s." seconds ";
+                                                                  }
+                                                              }
+                                                             $diff = $year.$month.$day.$hour;
+                                                             echo $diff."ago<br><br>";?>
+                                                  </div>
+                                               </div>
+                                               
+                                               <div>
+                                                    <div style="font-size:15px;padding-left:15px;"><strong>About the Job</strong></div>
+                                                    <div style="font-size:13px;padding-left:15px;line-height:22px;">
+                                                       <strong>Location :</strong> <?php echo $job['city'].", ".$states[$job['state']]."<br>"; ?>
+                                                       <strong>Annual Salary Range :</strong> <?php echo $job['salary_from']." - ".$job['salary_to']."<br>"; ?>
+                                                       <strong>Type :</strong> <?php echo $job_array[$job['job_type']]."<br>"; ?>                                                       
+                                                    </div>
+                                                    <div style="font-size:13px;padding:10px 15px 25px 15px;"><?php echo $job['short_description']."<br>";?></div>
+                                               </div>
+                                               <div style="padding-left:15px;">
+                                                  <span style="font-size:15px;"><strong>
+                                                     <?php echo $job['company_name']; ?></strong>
+                                                  </span> - <?php echo $job['city'].", ".$states[$job['state']]."<br>"; ?>
+                                                     <?php	echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br><br>
+                                                  <div id="short_description" style="font-size:13px;">
+                                                       <?php $desc = $job['description'];
+                                                             $explode = explode(' ',$desc);
+    $string  = '';
+
+    $dots = '...';
+    if(count($explode) <= 20){
+        $dots = '';
+    }
+    for($i=0;$i<20;$i++){
+        $string .= $explode[$i]." ";
+    }
+    if ($dots) {
+        $string = substr($string, 0, strlen($string));
+    }
+    echo $string.$dots;?></div>
+                                                  <div id="full_description" style="display:none;font-size:13px;"><?php echo $job['description'];?></div>
+                                                   
+                                                </div>
+                                                <?php if(str_word_count($desc)>20){?>
+                                                <div id="more_info" align="center" style="font-size:13px;font-weight:normal;">
+                                                    <a onclick="showDescription();" style="cursor:pointer">More Info</a>
+                                                </div>
+                                                <?php }?>
+                                            </div>
+                                            <div>
+                                            </div>				
 						</td>
 					</tr>
 				</table>
