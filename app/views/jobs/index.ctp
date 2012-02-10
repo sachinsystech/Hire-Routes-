@@ -5,6 +5,7 @@
 	$(document).ready(function(){
 	    $("#switch_display").change(onSelectChange);
 		$("#short_by").change(onSelectShortByChange);
+		$("#slider").slider();
 	});
 	function onSelectChange(){
 	    var selected = $("#switch_display option:selected");    
@@ -18,6 +19,77 @@
 			window.location.href="/jobs/index/shortby:"+selected.val();
 	    }
 	}
+	
+	$(function() {
+		$( "#slider-range" ).slider({
+			range: true,
+			min: 10,
+			max: 200,
+			values: [ 20, 100 ],
+			slide: function( event, ui ) {
+				$( "#amount" ).val( ui.values[ 0 ] +"K"+ " - " + ui.values[ 1 ]+"K" );
+			}
+		});
+		$( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +"K"+
+			" - " + $( "#slider-range" ).slider( "values", 1 )+"K" );
+	});
+
+</script>
+<script type="text/javascript"> 
+	$(document).ready(function(){
+		$(".flip_industry").click(function(){
+			$(".panel_industry").slideToggle("slow");
+			$a = $(".flip_industry").text();
+			if($a=="+"){
+			   $(".flip_industry").text("-");
+			}
+			if($a=="-"){
+			   $(".flip_industry").text("+");
+			}
+	  });
+	});
+</script>
+<script type="text/javascript"> 
+	$(document).ready(function(){
+		$(".flip_location").click(function(){
+			$(".panel_location").slideToggle("slow");
+			$a = $(".flip_location").text();
+			if($a=="+"){
+			   $(".flip_location").text("-");
+			}
+			if($a=="-"){
+			   $(".flip_location").text("+");
+			}
+	  });
+	});
+</script>
+<script type="text/javascript"> 
+	$(document).ready(function(){
+		$(".flip_jobtype").click(function(){
+			$(".panel_jobtype").slideToggle("slow");
+			$a = $(".flip_jobtype").text();
+			if($a=="+"){
+			   $(".flip_jobtype").text("-");
+			}
+			if($a=="-"){
+			   $(".flip_jobtype").text("+");
+			}
+	  });
+	});
+</script>
+<script type="text/javascript"> 
+	$(document).ready(function(){
+		$(".flip_company").click(function(){
+			$(".panel_company").slideToggle("slow");
+			$a = $(".flip_company").text();
+			if($a=="+"){
+			   $(".flip_company").text("-");
+			}
+			if($a=="-"){
+			   $(".flip_company").text("+");
+			}
+	  });
+	});
 </script>
 <?php if(!isset($job)): ?>
 
@@ -38,8 +110,10 @@
 	<!-- left section start -->
 		<div class="joblist_rightBox">
 			<div class="joblist_sideMenu">
-				<span><b>Industries</b></span>
-				<div class="narrowby_industry">
+				<div><div style="float:left;padding:5px;margin:5px"><b>Industries</b></div><div class="flip_industry"  style="float:right;padding:5px;cursor: pointer;">-</div></div>
+				<div style="clear:both"></div>
+				
+				<div class="narrowby_industry panel_industry" >
 					<?php  foreach($industries as $industry):?>
 						<div>
 							<?php	echo $form->input('', array('label' => "<span>$industry</span>",
@@ -53,10 +127,76 @@
 					<?php endforeach; ?>
 				</div>				
 			</div>
-			<div><span><b>Salary Range</b></span></div>
-			<div><span><b>Location</b></span></div>
-			<div><span><b>Job Type</b></span></div>
-			<div><span><b>Company</b></span></div>			
+			<div style="margin:5px;">
+				<div><span style="float:left;margin:5px"><b>Salary Range</b></span></div>
+				<div style="clear:both"></div>
+				<div class="demo" style="padding:0px;">
+					<p>
+						<label for="amount"></label>
+						<input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" />
+					</p>
+					<div id="slider-range"></div>
+				</div>
+			</div>
+			<div>
+				<div><div style="float:left;padding:5px"><b>Location</b></div><div class="flip_location" style="float:right;padding:5px;cursor: pointer;">+</div></div>
+				<div style="clear:both"></div>
+		
+				<div class="narrowby_city panel_location" style="display:none;">
+					<?php  foreach($cities as $city):?>
+						<div>
+							<?php	echo $form->input('', array('label' => "<span>$city</span>",
+														'type'  => 'checkbox',
+														)
+									 );
+							?>
+						</div>
+						<div style="clear:both"></div>
+					<?php endforeach; ?>
+				</div>				
+			</div>
+			<div>
+				<div><div style="float:left;padding:5px"><b>Job Type</b></div><div class="flip_jobtype" style="float:right;padding:5px;cursor: pointer;">+</div></div>
+				<div style="clear:both"></div>
+		
+				<div class="narrowby_jobtype panel_jobtype" style="display:none;">
+					<?php $jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
+					<?php  foreach($jobtypes as $jobtype):?>
+						<div>
+							<?php	echo $form->input('', array('label' => "<span>$jobtype</span>",
+														'type'  => 'checkbox',
+														)
+									 );
+							?>
+						</div>
+						<div style="clear:both"></div>
+					<?php endforeach; ?>
+				</div>				
+			</div>
+		
+			<div>
+				<div><div style="float:left;padding:5px"><b>Company</b></div><div class="flip_company" style="float:right;padding:5px;cursor: pointer;">+</div></div>
+				<div style="clear:both"></div>
+		
+				<div class="narrowby_company panel_company" style="display:none;">
+					<?php  foreach($companies as $company):?>
+						<div>
+							<?php	echo $form->input('', array('label' => "<span>$company</span>",
+														'type'  => 'checkbox',
+														)
+									 );
+							?>
+						</div>
+						<div style="clear:both"></div>
+					<?php endforeach; ?>
+				</div>				
+			</div>
+			
+			<div>
+				<div><div class="go_button" style="float:right;"> Go </div></div>
+				<div style="clear:both"></div>
+			</div>			
+			
 		</div>
 	
 	<!-- left section end -->

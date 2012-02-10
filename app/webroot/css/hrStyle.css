@@ -1006,11 +1006,49 @@ label.error{
     border-bottom: 1px solid;
     border-top: 1px solid;
     font-size: 84%;
-    height: 260px;
+    height: 150px;
+    overflow: auto;
+    text-align: left;
+    width: 268px;
+}
+.narrowby_city{
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    font-size: 84%;
+    height: 150px;
+    overflow: auto;
+    text-align: left;
+    width: 268px;
+}
+.narrowby_jobtype{
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    font-size: 84%;
+    height: 131px;
+    overflow: auto;
+    text-align: left;
+    width: 268px;
+}
+.narrowby_company{
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    font-size: 84%;
+    height: 150px;
     overflow: auto;
     text-align: left;
     width: 268px;
 }
 .joblist_sideMenu {
     margin-left: 0px;
+}
+.go_button{
+    -moz-border-radius: 15px 15px 15px 15px;
+    background-color: #3DB517;
+    border: 1px solid #000000;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 3px;
+    text-align: center;
+    width: 63px;
 }

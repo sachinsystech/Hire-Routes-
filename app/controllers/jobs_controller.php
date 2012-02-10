@@ -1,6 +1,6 @@
 <?php
 class JobsController extends AppController {
-    var $uses = array('Company','Job','Industry','State','Specification','UserRoles','Companies');
+    var $uses = array('Company','Job','Industry','State','Specification','UserRoles','Companies','City');
 	var $helpers = array('Form','Paginator');
 
 	function index(){
@@ -50,6 +50,13 @@ class JobsController extends AppController {
 			$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
 		}
 		$this->set('industries',$industries_array);
+
+		$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'AK')));
+		$cities_array = array();
+		foreach($cities as $city){
+			$cities_array[$city['City']['city']] =  $city['City']['city'];
+		}
+		$this->set('cities',$cities_array);
 		
 		$states = $this->State->find('all');
 		$state_array = array();
