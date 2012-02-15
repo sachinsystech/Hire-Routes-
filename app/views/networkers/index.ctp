@@ -20,27 +20,21 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li class="active">New Jobs - 5</li>
-				<li>Shared Jobs - 20</li>
-				<li>Old Jobs - 2</li>
-				<li>Job Data</li>
+                                <li><a href="http://hireroutes/users/networkerSetting">Settings/Subscription</a></li>	
+                                <li class="active"><a href="http://hireroutes/networkers">Profile</a></li>			
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 			<div class="middleBox">
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-							
+                            <div style="padding:20px;">
+					Email : <?php echo $user['account_email'];?><br><br>
+					Address : <?php echo $networker['address'];?><br><br>
+					City : <?php echo $networker['city'];?><br><br>
+					State : <?php echo $networker['state'];?><br><br>
+					Phone : <?php echo $networker['contact_phone'];?><br><br>
+                            </div>
+					
 			</div>
 		<!-- middle conyent list -->
 
