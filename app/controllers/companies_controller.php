@@ -105,7 +105,7 @@ class CompaniesController extends AppController {
 		//echo "<pre>"; print_r($this->data['Job']); exit;
 		$this->Job->save($this->data['Job']);
 		$this->Session->setFlash('Job has been posted successfuly.', 'success');				
-		$this->redirect('/companies/');
+		$this->redirect('/companies/newJob');
 	}
 	
 	function editJob(){
@@ -140,18 +140,18 @@ class CompaniesController extends AppController {
 			}	
 			else{
 				$this->Session->setFlash('You may be clicked on old link.', 'error');				
-				$this->redirect('/companies/');
+				$this->redirect('/companies/newJob');
 			}
 		}
 		if(isset($this->data['Job'])){
 			$this->data['Job']['user_id'] = $this->Session->read('Auth.User.id');
 			$this->Job->save($this->data['Job']);
 			$this->Session->setFlash('Job has been updated successfuly.', 'success');				
-			$this->redirect('/companies/');
+			$this->redirect('/companies/newJob');
 		}
 		if(!isset($userId) || !isset($jobId)){
 			$this->Session->setFlash('You may be clicked on old link.', 'error');				
-			$this->redirect('/companies/');
+			$this->redirect('/companies/newJob');
 		}
 	}
 	function accountProfile() {
