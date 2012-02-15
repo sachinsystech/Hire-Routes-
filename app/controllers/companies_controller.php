@@ -164,6 +164,29 @@ class CompaniesController extends AppController {
 		$this->set('user',$user['User']);
 		$this->set('company',$user['Companies'][0]);
 	}
+
+	function editProfile() {
+		$userId = $this->Session->read('Auth.User.id');
+		$roleInfo = $this->getCurrentUserRole();
+		if($roleInfo['role_id']!=1){
+			$this->redirect("/users/firstTime");
+		}
+		//echo "<pre>"; print_r($this->data['User']);
+		//echo "<pre>"; print_r($this->data['Company']); exit;		
+		if(isset($this->data['User'])){
+			$this->data['User']['group_id'] = 0;
+			$this->User->save($this->data['User']);
+			$this->Companies->save($this->data['Company']);		
+			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+			$this->redirect('/companies');						
+		}
+		
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+		$this->set('user',$user['User']);
+		$this->set('company',$user['Companies'][0]);
+	}
+	
+	
 	
 }
 ?>

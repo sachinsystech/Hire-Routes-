@@ -1069,3 +1069,21 @@ label.error{
 #NarrowJobIndexForm div{
 	padding: 0.0em;
 }
+#UserEditProfileForm div{
+	padding: 0.2em;
+}
+.company_profile_field_row{
+    margin: 6px;
+    width: 350px
+}
+.company_edit_form{
+    margin: auto;
+    padding: 15px;
+    width: 358px;
+}
+.company_text_field_bg{
+    border: 1px solid;
+    float: right;
+    height: 17px;
+    width: 200px;
+}

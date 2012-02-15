@@ -19,10 +19,13 @@
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
-			<ul>
+			<ul style="float:left">
 				<li class="active">Profile</li>
 				<li>Payment Info.</li>
 				<li>Payment History</li>
+			</ul>
+			<ul style="float:right">
+				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editProfile"><span>Edit</span></a></li>
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->
