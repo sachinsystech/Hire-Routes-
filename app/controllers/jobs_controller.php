@@ -118,7 +118,10 @@ class JobsController extends AppController {
 			}	
 		}		
 	}
-	
+
+     
+      
+
 	function narrowByItems($filterParams){
 		$params_array = array();
 		$flag = false;

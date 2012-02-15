@@ -4,9 +4,9 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li class="active">My Jobs</li>
+				<li>My Jobs</li>
 				<li>My Network</li>
-				<li>My Account</li>
+				<li class="active">My Account</li>
 
 			</ul>
 		</div>
@@ -20,27 +20,22 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li class="active">New Jobs - 5</li>
-				<li>Shared Jobs - 20</li>
-				<li>Old Jobs - 2</li>
-				<li>Job Data</li>
+                                <li><a href="http://hireroutes/users/networkerSetting">Settings/Subscription</a></li>	
+                                <li class="active"><a href="http://hireroutes/networkers">Profile</a></li>			
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 			<div class="middleBox">
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-					test<br>
-							
+                            
+                            <table>
+					<tr><td>Email:</td><td><?php echo $user['account_email'];?></td></tr>
+					<tr><td>Address:</td><td><?php echo $networker['address'];?></td></tr>
+					<tr><td>City:</td><td><?php echo $networker['city'];?></td></tr>
+					<tr><td>State:</td><td><?php echo $networker['state'];?></td></tr>
+                    <tr><td>Phone:</td><td><?php echo $networker['contact_phone'];?></td></tr>
+				</table>
+					
 			</div>
 		<!-- middle conyent list -->
 
