@@ -1009,7 +1009,7 @@ label.error{
     height: 150px;
     overflow: auto;
     text-align: left;
-    width: 268px;
+    width: 270px;
 }
 .narrowby_city{
     border-bottom: 1px solid;
@@ -1018,7 +1018,7 @@ label.error{
     height: 150px;
     overflow: auto;
     text-align: left;
-    width: 268px;
+    width: 270px;
 }
 .narrowby_jobtype{
     border-bottom: 1px solid;
@@ -1027,7 +1027,7 @@ label.error{
     height: 131px;
     overflow: auto;
     text-align: left;
-    width: 268px;
+    width: 270px;
 }
 .narrowby_company{
     border-bottom: 1px solid;
@@ -1036,7 +1036,7 @@ label.error{
     height: 150px;
     overflow: auto;
     text-align: left;
-    width: 268px;
+    width: 270px;
 }
 .joblist_sideMenu {
     margin-left: 0px;
@@ -1051,4 +1051,21 @@ label.error{
     margin: 3px;
     text-align: center;
     width: 63px;
+}
+.salary_range_slider{
+    border: medium none;
+    color: #F6931F;
+    font-weight: bold;
+    width: 40px;
+    margin-bottom: 5px;
+}
+.salary_range_seperator{
+    color: #F6931F;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 7px;
+}
+#NarrowJobIndexForm div{
+	padding: 0.0em;
 }

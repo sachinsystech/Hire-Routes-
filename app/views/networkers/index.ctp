@@ -4,9 +4,9 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li class="active">My Jobs</li>
+				<li>My Jobs</li>
 				<li>My Network</li>
-				<li>My Account</li>
+				<li class="active">My Account</li>
 
 			</ul>
 		</div>
@@ -27,13 +27,14 @@
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 			<div class="middleBox">
-                            <div style="padding:20px;">
-					Email : <?php echo $user['account_email'];?><br><br>
-					Address : <?php echo $networker['address'];?><br><br>
-					City : <?php echo $networker['city'];?><br><br>
-					State : <?php echo $networker['state'];?><br><br>
-					Phone : <?php echo $networker['contact_phone'];?><br><br>
-                            </div>
+                            
+                            <table>
+					<tr><td>Email:</td><td><?php echo $user['account_email'];?></td></tr>
+					<tr><td>Address:</td><td><?php echo $networker['address'];?></td></tr>
+					<tr><td>City:</td><td><?php echo $networker['city'];?></td></tr>
+					<tr><td>State:</td><td><?php echo $networker['state'];?></td></tr>
+                    <tr><td>Phone:</td><td><?php echo $networker['contact_phone'];?></td></tr>
+				</table>
 					
 			</div>
 		<!-- middle conyent list -->

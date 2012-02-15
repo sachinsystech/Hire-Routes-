@@ -23,15 +23,17 @@
 	$(function() {
 		$( "#slider-range" ).slider({
 			range: true,
-			min: 10,
+			min: 1,
 			max: 200,
-			values: [ 20, 100 ],
+			values: [ "<?php echo $salaryFrom; ?>","<?php echo $salaryTo; ?>"],
 			slide: function( event, ui ) {
-				$( "#amount" ).val( ui.values[ 0 ] +"K"+ " - " + ui.values[ 1 ]+"K" );
+				$( "#from_amount" ).val( ui.values[ 0 ] +"K");
+				$( "#to_amount" ).val( ui.values[ 1 ]+"K" );
 			}
 		});
-		$( "#amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +"K"+
-			" - " + $( "#slider-range" ).slider( "values", 1 )+"K" );
+		$( "#from_amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +"K");
+		$( "#to_amount" ).val( $( "#slider-range" ).slider( "values", 1 )+"K" );
+		
 	});
 
 </script>
@@ -118,14 +120,15 @@
 			<div class="joblist_sideMenu">
 				<div><div style="float:left;padding:5px;margin:5px"><b>Industries</b></div><div class="flip_industry"  style="float:right;padding:5px;cursor: pointer;">-</div></div>
 				<div style="clear:both"></div>
-				
+				<?php echo $this->Form->create('NarrowJob', array('url' => array('controller' => 'Jobs', 'action' => 'index'))); ?>
 				<div class="narrowby_industry panel_industry" >
+					<?php $i=0; ?>
 					<?php  foreach($industries as $industry):?>
 						<div>
-							<?php	echo $form->input('', array('label' => "<span>$industry</span>",
+							<?php $i++; ?>	
+							<?php	echo $form->input("Industry.$i", array('label' => "<span>$industry</span>",
 														'type'  => 'checkbox',
-														'name'  => "data[User][agree_condition]",
-														)
+													)
 									 );
 							?>
 						</div>
@@ -139,8 +142,31 @@
 				<div class="demo" style="padding:0px;">
 					<p>
 						<label for="amount"></label>
-						<input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" />
+						<!--input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" / -->
+						<div>
+							<div style="float:left">
+								<?php	echo $form->input('salary_from.amount', array('label' => '',
+															'type'  => 'text',
+															'id' => 'from_amount',
+															'class'=> 'salary_range_slider'
+															)
+										 );
+								?>
+							</div>
+							<div class="salary_range_seperator"> - </div>
+							<div style="float:left;">		
+								<?php	echo $form->input('salary_to.amount', array('label' => '',
+															'type'  => 'text',
+															'id' => 'to_amount',
+															'class'=> 'salary_range_slider',
+															)
+										 );
+								?>
+							</div>
+						</div>
 					</p>
+					<div style="clear:both"></div>
+						
 					<div id="slider-range"></div>
 				</div>
 			</div>
@@ -151,7 +177,7 @@
 				<div class="narrowby_city panel_location" style="display:none;">
 					<?php  foreach($cities as $city):?>
 						<div>
-							<?php	echo $form->input('', array('label' => "<span>$city</span>",
+							<?php	echo $form->input("City.$city", array('label' => "<span>$city</span>",
 														'type'  => 'checkbox',
 														)
 									 );
@@ -167,9 +193,11 @@
 		
 				<div class="narrowby_jobtype panel_jobtype" style="display:none;">
 					<?php $jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
+					<?php $i=0; ?>
 					<?php  foreach($jobtypes as $jobtype):?>
 						<div>
-							<?php	echo $form->input('', array('label' => "<span>$jobtype</span>",
+							<?php $i++; ?>
+							<?php	echo $form->input("job_type.$i", array('label' => "<span>$jobtype</span>",
 														'type'  => 'checkbox',
 														)
 									 );
@@ -187,7 +215,7 @@
 				<div class="narrowby_company panel_company" style="display:none;">
 					<?php  foreach($companies as $company):?>
 						<div>
-							<?php	echo $form->input('', array('label' => "<span>$company</span>",
+							<?php	echo $form->input("company_name.$company", array('label' => "<span>$company</span>",
 														'type'  => 'checkbox',
 														)
 									 );
@@ -199,7 +227,8 @@
 			</div>
 			
 			<div>
-				<div><div class="go_button" style="float:right;"> Go </div></div>
+				<?php echo $form->submit('Go',array('div'=>false,)); ?>
+				<?php echo $form->end(); ?>
 				<div style="clear:both"></div>
 			</div>			
 			
@@ -241,28 +270,30 @@
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
 			<div class="joblist_middleBox">
-			<table style="width:100%">
-
-				<?php foreach($jobs as $job):?>	
-					<tr>
-						<td>
-							<div>
-								<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/'.$job['id']); ?></div>
-								<div style="float:right"> <?php	echo $job['reward'];?>$</div>
-							</div>
-							<div style="clear:both">		
-							<div>
-								<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['state']]."<br>";
-										echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
-										echo $job_array[$job['job_type']]."<br>";
-										echo $job['short_description']."<br>";
-								?>
-                                                            
-							</div>			
-						</td>
-					</tr>
-				<?php endforeach; ?>
-			</table>
+				<table style="width:100%">
+					<?php foreach($jobs as $job):?>	
+						<tr>
+							<td>
+								<div>
+									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/'.$job['id']); ?></div>
+									<div style="float:right"> <?php	echo $job['reward'];?>$</div>
+								</div>
+								<div style="clear:both">		
+								<div>
+									<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['state']]."<br>";
+											echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
+											echo $job_array[$job['job_type']]."<br>";
+											echo $job['short_description']."<br>";
+									?>
+																
+								</div>			
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+				<?php if(!$jobs):?>
+					<div><h4>There is no job found for this search.</h4></div>
+				<?php endif;?>
 			</div>
 
 		<!-- middle conyent list -->
