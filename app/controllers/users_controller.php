@@ -442,7 +442,7 @@ class UsersController extends AppController {
 			}
 			$this->set('industries',$industries_array);
 			
-			$cities = $this->City->find('all');
+			$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'PA')));
 			$city_array = array();
 			foreach($cities as $city){
 				$city_array[$city['City']['city']] =  $city['City']['city'];

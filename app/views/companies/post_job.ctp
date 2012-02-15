@@ -3,7 +3,7 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies"><span>My Jobs</span></a></li>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob"><span>My Jobs</span></a></li>
 				<li>My Network</li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
 				<li>My Employees</li>
@@ -35,6 +35,7 @@
 	<?php	echo $form->input('reward', array('label' => 'Reward$:',
 													'type'  => 'text',
 													'class' => 'text_field_bg required number',
+													'min' =>2000,
 													)
 								 );
 	?>

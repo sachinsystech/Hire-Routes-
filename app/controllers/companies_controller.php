@@ -4,7 +4,7 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-    var $uses = array('Company','Companies','Job','Industry','State','Specification','UserRoles');
+    var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles');
 
 	function postJob(){
 	
@@ -57,7 +57,7 @@ class CompaniesController extends AppController {
 		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
 		return $currentUserRole;
 	}
-	function index(){
+	function newJob(){
 		$userId = $this->Session->read('Auth.User.id');		
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
@@ -153,7 +153,17 @@ class CompaniesController extends AppController {
 			$this->Session->setFlash('You may be clicked on old link.', 'error');				
 			$this->redirect('/companies/');
 		}
-
 	}
+	function accountProfile() {
+		$userId = $this->Session->read('Auth.User.id');
+		$roleInfo = $this->getCurrentUserRole();
+		if($roleInfo['role_id']!=1){
+			$this->redirect("/users/firstTime");
+		}
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+		$this->set('user',$user['User']);
+		$this->set('company',$user['Companies'][0]);
+	}
+	
 }
 ?>

@@ -2,10 +2,18 @@
 class JobsController extends AppController {
     var $uses = array('Company','Job','Industry','State','Specification','UserRoles','Companies','City');
 	var $helpers = array('Form','Paginator');
-
+	
+	public function beforeFilter(){
+		parent::beforeFilter();
+		$this->Auth->authorize = 'actions';
+		$this->Auth->allow('index');
+	}
+	
 	function index(){
-		//echo	$this->params['named']['shortby']; 
+		//echo "<pre>"; print_r($this->data);
 		$shortByItem = 'id';
+        $salaryFrom = null;
+        $salaryTo = null;
         if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
 	        $this->set('displayPageNo',$displayPageNo);
@@ -30,13 +38,25 @@ class JobsController extends AppController {
 	        			$this->redirect("/jobs");	        		        	
 	        }
 		}
+		$narrowByItems = $this->narrowByItems($this->data); 
 		$this->paginate = array(
             'limit' => isset($displayPageNo)?$displayPageNo:5,
             'order' => array(
-                             "Job.$shortByItem" => 'asc'
-                            )
+                             "Job.$shortByItem" => 'asc',
+                            ),
+			'conditions'=>$narrowByItems
+
         );
-              
+        foreach($narrowByItems as $key=>$value){
+	        if(strstr($key,"salary_from")){
+		       $salaryFrom = $value/1000;
+		    }
+   	        if(strstr($key,"salary_to")){
+		       $salaryTo = $value/1000;
+		    }
+        }
+        $this->set('salaryFrom',isset($salaryFrom)?$salaryFrom:1);      
+        $this->set('salaryTo',isset($salaryTo)?$salaryTo:150);      
 		$jobs = $this->paginate('Job');
 		$jobs_array = array();
 		foreach($jobs as $job){
@@ -72,7 +92,7 @@ class JobsController extends AppController {
 		}
 		$this->set('specifications',$specification_array);
 
-                $urls = $this->Companies->find('all');
+        $urls = $this->Companies->find('all');
 		$url_array = array();
 		foreach($urls as $url){
 			$url_array[$url['Companies']['id']] =  $url['Companies']['company_url'];
@@ -85,7 +105,6 @@ class JobsController extends AppController {
 			$companies_array[$company['Companies']['user_id']] =  $company['Companies']['company_name'];
 		}
 		$this->set('companies',$companies_array);
-		//echo "<pre>";print_r($jobs_array); exit;
 		
 		if(isset($this->params['id'])){
 			$id = $this->params['id'];
@@ -98,6 +117,46 @@ class JobsController extends AppController {
 				$this->redirect('/jobs/');
 			}	
 		}		
+	}
+	
+	function narrowByItems($filterParams){
+		$params_array = array();
+		$flag = false;
+		foreach($filterParams as $FPKey=>$FPValue){
+			if($FPKey == '_Token'){
+				continue;
+			}
+			$temp_array = array();
+			foreach($FPValue as $key=>$value){
+				if($value){
+					if($key=='amount'){
+					
+						$temp_array = intval($value)*1000;
+					}
+					else{
+						$temp_array[]= $key;
+					}
+					$flag = true;
+				}
+			}
+			if(!$flag){
+				continue;
+			}
+			if($FPKey == "salary_from")
+			{
+				$params_array[$FPKey." >= "] = $temp_array;
+			}elseif($FPKey == "salary_to")
+			{
+				$params_array[$FPKey." <= "] = $temp_array;
+			}  else {
+			$params_array[$FPKey] = $temp_array;
+			}
+			$temp_array = null;
+			$flag = false;
+		}
+	
+	//echo "<pre>"; print_r($params_array); exit;
+		return $params_array;
 	}
 }
 ?>

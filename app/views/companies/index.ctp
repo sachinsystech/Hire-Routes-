@@ -6,7 +6,7 @@
 			<ul>
 				<li class="active">My Jobs</li>
 				<li>My Network</li>
-				<li>My Account</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
 				<li>My Employees</li>
 			</ul>
 		</div>
