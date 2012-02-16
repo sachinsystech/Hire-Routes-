@@ -1,7 +1,7 @@
 <?php
 class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
-	var $uses = array('JobseekerSettings','Jobseeker','User');
+	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles','FacebookUsers');
 	var $components = array('Email','Session');	
 	function add() {
 		$this->data['Jobseekers']['user_id'] = $this->Session->read('Auth.User.id');
@@ -19,6 +19,25 @@ class JobseekersController extends AppController {
 		$this->redirect('/users/jobseekerSetting');
 	}
 
+    function getCurrentUserRole(){
+		$userId = $this->Session->read('Auth.User.id');			
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
+		$roleName  = null;
+		switch($userRole['UserRoles']['role_id']){
+			case 1:
+					$roleName = 'company';
+					break;
+			case 2:
+					$roleName = 'jobseeker';	
+					break;			
+			case 3:
+					$roleName = 'networker';		
+					break;			
+		}
+		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
+		return $currentUserRole;
+	}
+
 	function index(){
             $userId = $this->Session->read('Auth.User.id');
           if($userId){
@@ -31,6 +50,8 @@ class JobseekersController extends AppController {
 		}
 		$this->set('jobseekers',$jobseekers_array);
 
+        
+
         $users = $this->User->find('all',array('conditions'=>array('id'=>$userId)));
 		$users_array = array();
 		foreach($users as $user){
@@ -40,12 +61,44 @@ class JobseekersController extends AppController {
         if($user['User']){
              $this->set('user',$user['User']);
           }
+       
+       
+        $fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
+        if(isset($fbinfos[0])){
+		$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
+         }
 
-
-        if($jobseeker['Jobseeker']){
+        if(isset($jobseeker) && $jobseeker['Jobseeker']){
 				$this->set('jobseeker',$jobseeker['Jobseeker']);
 			}
 		}
+	}
+    
+     function editProfile() {
+		$userId = $this->Session->read('Auth.User.id');
+		$roleInfo = $this->getCurrentUserRole();
+		
+		
+		if(isset($this->data['User'])){
+			$this->data['User']['group_id'] = 0;
+			$this->User->save($this->data['User']);
+			$this->Jobseeker->save($this->data['Jobseeker']);		
+			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+			$this->redirect('/jobseekers');						
+		}
+		
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+		$this->set('user',$user['User']);
+
+        if(isset($user['Jobseekers'][0])){
+        $this->set('jobseeker',$user['Jobseekers'][0]);
+        }
+
+        $fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
+        if(isset($fbinfos[0])){
+		$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
+        }
+
 	}
 }
 ?>
