@@ -70,7 +70,7 @@ class NetworkersController extends AppController {
          }
 
 
-        if($networker['Networkers']){
+        if(isset($networker) && $networker['Networkers']){
 				$this->set('networker',$networker['Networkers']);
 			}
 		}
