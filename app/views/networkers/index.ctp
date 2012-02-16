@@ -20,22 +20,35 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-                                <li><a href="http://hireroutes/users/networkerSetting">Settings/Subscription</a></li>	
-                                <li class="active"><a href="http://hireroutes/networkers">Profile</a></li>			
+				<li><a href="/networkers/setting">Settings/Subscription</a></li>	
+				<li class="active"><a href="/networkers">Profile</a></li>			
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 			<div class="middleBox">
-                            
-                            <table>
-					<tr><td>Email:</td><td><?php echo $user['account_email'];?></td></tr>
-					<tr><td>Address:</td><td><?php echo $networker['address'];?></td></tr>
-					<tr><td>City:</td><td><?php echo $networker['city'];?></td></tr>
-					<tr><td>State:</td><td><?php echo $networker['state'];?></td></tr>
-                    <tr><td>Phone:</td><td><?php echo $networker['contact_phone'];?></td></tr>
-				</table>
-					
+				<div class="networker_setting_profile">
+					<div class="networker_setting_profile_row">
+						<div class="networker_setting_profile_field">Email:</div>
+						<div class="networker_setting_profile_value"><?php echo $user['account_email'];?></div>
+					</div>
+					<div class="networker_setting_profile_row">
+						<div class="networker_setting_profile_field">Address:</div>
+						<div class="networker_setting_profile_value"><?php echo $networker['address'];?></div>
+					</div>
+					<div class="networker_setting_profile_row">
+						<div class="networker_setting_profile_field">City:</div>
+						<div class="networker_setting_profile_value"><?php echo $networker['city'];?></div>
+					</div>
+					<div class="networker_setting_profile_row">
+						<div class="networker_setting_profile_field">State:</div>
+						<div class="networker_setting_profile_value"><?php echo $networker['state'];?></div>
+					</div>
+					<div class="networker_setting_profile_row">
+						<div class="networker_setting_profile_field">Phone:</div>
+						<div class="networker_setting_profile_value"><?php echo $networker['contact_phone'];?></div>
+					</div>
+				</div>
 			</div>
 		<!-- middle conyent list -->
 

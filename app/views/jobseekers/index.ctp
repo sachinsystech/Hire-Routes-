@@ -19,9 +19,9 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-                                <li><a href="#">Job Profile</a></li>	
-				<li><a href="#">Settings/Subscription</a></li>	
-                                <li class="active"><a href="http://hireroutes/jobseekers">Profile</a></li>
+                <li><a href="#">Job Profile</a></li>	
+				<li><a href="/jobseekers/setting">Settings/Subscription</a></li>	
+                <li class="active"><a href="/jobseekers">Profile</a></li>
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->

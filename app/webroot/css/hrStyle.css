@@ -1087,3 +1087,39 @@ label.error{
     height: 17px;
     width: 200px;
 }
+.jobseeker_setting_middleBox{
+    border: 1px solid #000000;
+    margin-left: 40px;
+    padding: 12px;
+}
+.networker_setting_middleBox{
+    border: 1px solid #000000;
+    margin-left: 40px;
+    padding: 20px;
+}
+.delete_button{
+    -moz-border-radius: 15px 15px 15px 15px;
+    background-color: #00FF00;
+    padding: 1px;
+    position: absolute;
+    right: 1px;
+    text-align: center;
+    top: 0;
+    width: 72px;
+}
+.networker_setting_profile{
+	width: 300px; 
+	padding: 11px; 
+	margin: auto;"
+}
+.networker_setting_profile_row{
+	margin-top: 5px; 
+	height: 24px;
+}
+.networker_setting_profile_field{
+	float: left; 
+	width: 85px;	
+}
+.networker_setting_profile_value{
+	float: left;
+}
