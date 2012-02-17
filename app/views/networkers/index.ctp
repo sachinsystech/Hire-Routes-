@@ -22,6 +22,9 @@
 			<ul>
 				<li><a href="/networkers/setting">Settings/Subscription</a></li>	
 				<li class="active"><a href="/networkers">Profile</a></li>			
+            </ul>
+			<ul style="float:right">
+				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->
@@ -49,6 +52,26 @@
 						<div class="networker_setting_profile_value"><?php echo $networker['contact_phone'];?></div>
 					</div>
 				</div>
+
+			<div>                            
+                  <table>
+					<?php if(isset($fbinfo['first_name'])){?>
+                    <tr><td>First Name:</td><td><?php  echo $fbinfo['first_name'];  ?></td></tr>
+                    <?php }if(isset($fbinfo['last_name'])){?>
+                    <tr><td>Last Name:</td><td><?php  echo $fbinfo['last_name']; ?></td></tr>
+                    <?php }?>   
+                    <tr><td>Email:</td><td><?php echo $user['account_email'];?></td></tr>
+                    <?php if(isset($networker['address'])){ ?>
+                    <tr><td>Address:</td><td><?php echo $networker['address'];?></td></tr>
+                    <?php }if(isset($networker['city'])){ ?>
+                    <tr><td>City:</td><td><?php echo $networker['city'];?></td></tr>
+                    <?php }if(isset($networker['state'])){ ?>
+                    <tr><td>State:</td><td><?php echo $networker['state'];?></td></tr>
+                    <?php }if(isset($networker['contact_phone'])){?>
+                    <tr><td>Phone:</td><td><?php  echo $networker['contact_phone'];?></td></tr>
+                    <?php }?>
+				</table>
+					
 			</div>
 		<!-- middle conyent list -->
 
