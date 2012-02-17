@@ -324,21 +324,7 @@
 				<table style="width:100%">
 					<tr>
 						<td>
-							<!-- <div>
-								<div style="float:left" class="text_heading"> <?php	echo $job['title']; ?></div>
-								<div style="float:right"> <?php	echo $job['reward'];?>$</div>
-							</div>
-							<div style="clear:both">		
-							<div>
-								<?php	echo $job['company_name']." - ".$job['city'].",".$states[$job['state']]."<br>";
-										echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
-										echo $job_array[$job['job_type']]."<br>";
-										echo $job['short_description']."<br>";
-										echo $job['description']."<br>";
-								?>
-							</div>	
-                                                        <div> -->
-
+							
                                              <div>
                                                <div style="float:left;width:150px;height:90px;">
                                                   <img src="" alt="Company Logo" title="company logo" />
@@ -472,13 +458,41 @@
                                                 </div>
                                                 <?php }?>
                                             </div>
+                                            
                                             <div>
-                                            </div>				
-						</td>
+                                            </div>	
+                                     <?php if(isset($userrole) && $userrole['role_id']){ ?>
+                                     <div style="padding:20px;">
+                                       <div style="font-size:15px;padding-bottom:20px"><strong>Apply for this job</strong></div>
+                                       <div>
+                                       <div id="message"></div> 
+                                        
+<?php  echo $form->create('Jobs', array('action' => 'apply', 'type' => 'file'));?>
+ 
+ <div style="padding-bottom:20px"><strong>Upload Resume (pdf, txt, doc)</strong>
+                      <?php	echo $form->input('resume', array('label' => '',
+							  'type'  => 'file',));?></div>
+ <div style="padding-bottom:20px"><strong>Upload Cover Letter (pdf, txt, doc)</strong>
+                      <?php	echo $form->input('cover_letter', array('label' => '',
+							  'type'  => 'file',));?></div>
+ <div><?php	echo $form->input('job_id', array('label' => '',
+							  'type'  => 'hidden',
+							  'value' => $job['id']));?>
+     <?php	echo $form->input('user_id', array('label' => '',
+							  'type'  => 'hidden',
+							  'value' => $this->Session->read('Auth.User.id')));?>
+     <?php  echo $form->submit('Apply',array('div'=>false,)); ?></div>
+
+     <?php echo $form->end();?>
+   </div>
+	    </div>
+          </div>
+            <?php }?>
+                     </td>
 					</tr>
 				</table>
 			</div>
-
+              			
 		<!-- middle conyent list -->
 
 	</div>
