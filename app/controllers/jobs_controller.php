@@ -192,7 +192,7 @@ class JobsController extends AppController {
 	}
 
        function apply(){
-           print_r($this->data['Jobs']);
+           
            if (isset($this->data['Jobs'])) {
             if(is_uploaded_file($this->data['Jobs']['resume']['tmp_name'])){
                     $resume = $this->data['Jobs']['resume'];                 
@@ -236,7 +236,8 @@ class JobsController extends AppController {
             $jobsData['JobseekerApply']['user_id'] = $this->data['Jobs']['user_id'];
             
             $this->JobseekerApply->save($jobsData);
-            $this->Session->setFlash('Successfully uploaded Resume', 'success');            
+            $this->Session->setFlash('Successfully uploaded Resume', 'success');   
+            $this->redirect('/jobseekers/appliedJob');         
             
         }
         $this->redirect('/jobs');

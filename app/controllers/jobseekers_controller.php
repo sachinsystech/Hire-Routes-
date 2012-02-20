@@ -1,9 +1,11 @@
 <?php
 class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
-	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles','FacebookUsers');
+	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles',
+'FacebookUsers','Company','Job','Industry','State','Specification','Companies','City','JobseekerApply');
 	var $components = array('Email','Session');	
-	function add() {
+	
+function add() {
 		$this->data['Jobseekers']['user_id'] = $this->Session->read('Auth.User.id');
 		//echo "<pre>"; print_r(implode(',',$this->data['Jobseekers']['industry_specification_1']));exit;
 		$this->data['Jobseekers']['specification_1'] = implode(',',$this->data['Jobseekers']['industry_specification_1']);
@@ -39,7 +41,7 @@ class JobseekersController extends AppController {
 	}
 
 	function index(){
-            $userId = $this->Session->read('Auth.User.id');
+          $userId = $this->Session->read('Auth.User.id');
           if($userId){
 			
 	    $jobseekers = $this->Jobseeker->find('all',array('conditions'=>array('user_id'=>$userId)));
@@ -100,5 +102,149 @@ class JobseekersController extends AppController {
         }
 
 	}
+    
+    function appliedJob() {
+
+        $userId = $this->Session->read('Auth.User.id');
+		$roleInfo = $this->getCurrentUserRole();
+        $user_jobs = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId)));
+
+        
+        $n = 0; $job_ids = "";
+        foreach($user_jobs as $ujob)
+          {
+             $job_ids[$n] = $ujob['JobseekerApply']['job_id'];
+             $n++;
+          }
+         
+
+        
+        $shortByItem = 'id';
+        
+        if(isset($this->params['named']['display'])){
+	        $displayPageNo = $this->params['named']['display'];
+	        $this->set('displayPageNo',$displayPageNo);
+		}
+		if(isset($this->params['named']['shortby'])){
+	        $shortBy = $this->params['named']['shortby'];
+	        $this->set('shortBy',$shortBy);
+	        switch($shortBy){
+	        	case 'date-added':
+	        				$shortByItem = 'created'; 
+	        				break;	
+	        	case 'company-name':
+	        				$shortByItem = 'company_name'; 
+	        				break;
+	        	case 'industry':
+	        				$shortByItem = 'industry'; 
+	        				break;
+	        	case 'salary':
+	        				$shortByItem = 'salary_from'; 
+	        				break;
+	        	default:
+	        			$this->redirect("/jobs");	        		        	
+	        }
+		}
+		
+		$this->paginate = array(
+            'conditions'=>array('id'=>$job_ids),
+            'limit' => isset($displayPageNo)?$displayPageNo:5,
+            'order' => array(
+                             "Job.$shortByItem" => 'asc',
+                            ));
+        
+           
+		$jobs = $this->paginate('Job');
+		$jobs_array = array();
+		foreach($jobs as $job){
+			$jobs_array[$job['Job']['id']] =  $job['Job'];
+		}
+		$this->set('jobs',$jobs_array);
+		
+		$industries = $this->Industry->find('all');
+		$industries_array = array();
+		foreach($industries as $industry){
+			$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
+		}
+		$this->set('industries',$industries_array);
+
+		$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'AK')));
+		$cities_array = array();
+		foreach($cities as $city){
+			$cities_array[$city['City']['city']] =  $city['City']['city'];
+		}
+		$this->set('cities',$cities_array);
+		
+		$states = $this->State->find('all');
+		$state_array = array();
+		foreach($states as $state){
+			$state_array[$state['State']['state']] =  $state['State']['state'];
+		}
+		$this->set('states',$state_array);
+
+		$specifications = $this->Specification->find('all');
+		$specification_array = array();
+		foreach($specifications as $specification){
+			$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
+		}
+		$this->set('specifications',$specification_array);
+
+                $urls = $this->Companies->find('all');
+		$url_array = array();
+		foreach($urls as $url){
+			$url_array[$url['Companies']['id']] =  $url['Companies']['company_url'];
+		}
+                
+		$this->set('urls',$url_array);
+		
+		$companies = $this->Companies->find('all');
+		$companies_array = array();
+		foreach($companies as $company){
+			$companies_array[$company['Companies']['user_id']] =  $company['Companies']['company_name'];
+		}
+		$this->set('companies',$companies_array);
+		
+		if(isset($this->params['id'])){
+			$id = $this->params['id'];
+			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
+			if($job['Job']){
+				$this->set('job',$job['Job']);
+			}
+			else{
+				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->redirect('/jobs/');
+			}	
+		}
+            
+            // job role
+            $userId = $this->Session->read('Auth.User.id');
+            $roleInfo = $this->getCurrentUserRole();
+            $this->set('userrole',$roleInfo);
+     }
+    
+   function delete(){
+        
+        $deleteID = $this->params['id'];
+        $userId = $this->Session->read('Auth.User.id');
+
+       if($this->params['id']){
+            $jobseekerapply = $this->JobseekerApply->find('all',array('conditions' => array('job_id' =>$deleteID,'user_id'=>$userId))); 
+            
+
+            foreach($jobseekerapply as $deljob)
+              {
+                 $oldresume = $deljob['JobseekerApply']['resume'];
+                 $oldcoverletter = $deljob['JobseekerApply']['cover_letter'];
+                 $this->JobseekerApply->delete($deljob['JobseekerApply']['id']);
+                 @unlink(BASEPATH."webroot/files/resume/".$oldresume);
+                 @unlink(BASEPATH."webroot/files/cover_letter/".$oldcoverletter);
+              }
+                $this->Session->setFlash('Job successfully deleted.', 'success'); 
+           }
+            else{
+                $this->Session->setFlash('May be you click on old link or manually enter URL.', 'error'); 
+        }	
+        $this->redirect('/jobseekers/appliedJob');	  
+   }
 }
 ?>

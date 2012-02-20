@@ -98,6 +98,16 @@
             $('#short_description').hide();
             $('#more_info').hide();
 	}
+    
+    function checkValidForm() {
+       
+       if(document.getElementById("resume").value=="")
+        {
+           document.getElementById("error").innerHTML = "<font color='red'>Please Select File to upload</font>";
+           return false;
+        }
+       
+    }
 </script>
 <?php if(!isset($job)): ?>
 
@@ -467,14 +477,16 @@
                                        <div>
                                        <div id="message"></div> 
                                         
-<?php  echo $form->create('Jobs', array('action' => 'apply', 'type' => 'file'));?>
+<?php  echo $form->create('Jobs', array('action' => 'apply', 'type' => 'file', 'onsubmit'=>'return checkValidForm()'));?>
  
- <div style="padding-bottom:20px"><strong>Upload Resume (pdf, txt, doc)</strong>
+ <div style="padding-bottom:20px"><strong>Upload Resume * (pdf, txt, doc)</strong>
                       <?php	echo $form->input('resume', array('label' => '',
-							  'type'  => 'file',));?></div>
+							  'type'  => 'file',
+                              'id'    => 'resume'));?><span id="error"></span></div>
  <div style="padding-bottom:20px"><strong>Upload Cover Letter (pdf, txt, doc)</strong>
                       <?php	echo $form->input('cover_letter', array('label' => '',
-							  'type'  => 'file',));?></div>
+							  'type'  => 'file',
+                              'id'    => 'cover_letter'));?></div>
  <div><?php	echo $form->input('job_id', array('label' => '',
 							  'type'  => 'hidden',
 							  'value' => $job['id']));?>
