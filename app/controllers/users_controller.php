@@ -19,7 +19,7 @@ class UsersController extends AppController {
 					'City',
 					'Industry'
 					);
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl');
+	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
 					
 	var $helpers = array('Form');
 
@@ -483,14 +483,7 @@ class UsersController extends AppController {
 				$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
 			}
 			$this->set('industries',$industries_array);
-			
-			/*$cities = $this->City->find('all');
-			$city_array = array();
-			foreach($cities as $city){
-				$city_array[$city['City']['city']] =  $city['City']['city'];
-			}
-			$this->set('cities',$city_array);
-			*/
+
 			$states = $this->State->find('all');
 			$state_array = array();
 			foreach($states as $state){
@@ -531,9 +524,6 @@ class UsersController extends AppController {
 		$this->redirect("/home/index");		
 	}
 	
-	function isLoggedIn(){
-			
-	}
 
 	function facebookUserSelection(){
 		
