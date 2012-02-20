@@ -33,7 +33,7 @@
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
 			<div class="middleBox">
-				<div class="company_edit_form">
+				<div class="jobseeker_edit_form">
 					<?php echo $this->Form->create('', array('url' => array('controller' => 'jobseekers', 'action' => 'editProfile'))); ?>
 						<div>
 							<?php	echo $form->input('User.id', array('label' => '',
@@ -141,7 +141,6 @@
 				
 			</div>
 			
-			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
 		<!-- middle conyent list -->
 
 	</div>

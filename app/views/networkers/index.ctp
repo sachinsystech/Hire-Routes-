@@ -30,51 +30,52 @@
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 			<div class="middleBox">
-				<div class="networker_setting_profile">
-					<div class="networker_setting_profile_row">
-						<div class="networker_setting_profile_field">Email:</div>
-						<div class="networker_setting_profile_value"><?php echo $user['account_email'];?></div>
+				<div class="setting_profile">
+
+					<?php if(isset($fbinfo['first_name']) && isset($fbinfo['last_name'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">Name:</div>
+						<div class="setting_profile_value"><?php  echo ucfirst($fbinfo['first_name'])." ".ucfirst($fbinfo['last_name']);  ?></div>
 					</div>
-					<div class="networker_setting_profile_row">
-						<div class="networker_setting_profile_field">Address:</div>
-						<div class="networker_setting_profile_value"><?php echo $networker['address'];?></div>
+					<?php endif;?>
+
+					<?php if(isset($user['account_email'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">Email:</div>
+						<div class="setting_profile_value"><?php echo $user['account_email'];?></div>
 					</div>
-					<div class="networker_setting_profile_row">
-						<div class="networker_setting_profile_field">City:</div>
-						<div class="networker_setting_profile_value"><?php echo $networker['city'];?></div>
+					<?php endif;?>
+
+					<?php if(isset($networker['address'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">Address:</div>
+						<div class="setting_profile_value"><?php echo $networker['address'];?></div>
 					</div>
-					<div class="networker_setting_profile_row">
-						<div class="networker_setting_profile_field">State:</div>
-						<div class="networker_setting_profile_value"><?php echo $networker['state'];?></div>
+					<?php endif;?>
+
+					<?php if(isset($networker['city'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">City:</div>
+						<div class="setting_profile_value"><?php echo $networker['city'];?></div>
 					</div>
-					<div class="networker_setting_profile_row">
-						<div class="networker_setting_profile_field">Phone:</div>
-						<div class="networker_setting_profile_value"><?php echo $networker['contact_phone'];?></div>
+					<?php endif;?>
+
+					<?php if(isset($networker['state'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">State:</div>
+						<div class="setting_profile_value"><?php echo $networker['state'];?></div>
 					</div>
+					<?php endif;?>
+
+					<?php if(isset($networker['contact_phone'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">Phone:</div>
+						<div class="setting_profile_value"><?php echo $networker['contact_phone'];?></div>
+					</div>
+					<?php endif;?>
 				</div>
-
-			<div>                            
-                  <table>
-					<?php if(isset($fbinfo['first_name'])){?>
-                    <tr><td>First Name:</td><td><?php  echo $fbinfo['first_name'];  ?></td></tr>
-                    <?php }if(isset($fbinfo['last_name'])){?>
-                    <tr><td>Last Name:</td><td><?php  echo $fbinfo['last_name']; ?></td></tr>
-                    <?php }?>   
-                    <tr><td>Email:</td><td><?php echo $user['account_email'];?></td></tr>
-                    <?php if(isset($networker['address'])){ ?>
-                    <tr><td>Address:</td><td><?php echo $networker['address'];?></td></tr>
-                    <?php }if(isset($networker['city'])){ ?>
-                    <tr><td>City:</td><td><?php echo $networker['city'];?></td></tr>
-                    <?php }if(isset($networker['state'])){ ?>
-                    <tr><td>State:</td><td><?php echo $networker['state'];?></td></tr>
-                    <?php }if(isset($networker['contact_phone'])){?>
-                    <tr><td>Phone:</td><td><?php  echo $networker['contact_phone'];?></td></tr>
-                    <?php }?>
-				</table>
-					
-			</div>
+			</div>	
 		<!-- middle conyent list -->
-
 	</div>
 	<!-- middle section end -->
 

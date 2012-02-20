@@ -1,13 +1,20 @@
 <?php
 class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
+	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles','Industry','State','Specification','FacebookUsers','City');
+	var $components = array('Email','Session','TrackUser','Utility');	
 
-	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles','Industry','State','Specification','FacebookUsers');
-	var $components = array('Email','Session','TrackUser');	
-
+	public function beforeFilter(){
+		$userId = $this->TrackUser->getCurrentUserId();		
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
+		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
+		if($roleInfo['role_id']!=2){
+			$this->redirect("/users/firstTime");
+		}
+	}
+	
 	function add() {
 		$this->data['Jobseekers']['user_id'] = $this->Session->read('Auth.User.id');
-		//echo "<pre>"; print_r(implode(',',$this->data['Jobseekers']['industry_specification_1']));exit;
 		$this->data['Jobseekers']['specification_1'] = implode(',',$this->data['Jobseekers']['industry_specification_1']);
 		$this->data['Jobseekers']['specification_2'] = implode(',',$this->data['Jobseekers']['industry_specification_2']);
 		$this->JobseekerSettings->save($this->data['Jobseekers']);
@@ -21,117 +28,53 @@ class JobseekersController extends AppController {
 		$this->redirect('/users/jobseekerSetting');
 	}
 
-    function getCurrentUserRole(){
-		$userId = $this->Session->read('Auth.User.id');			
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleName  = null;
-		switch($userRole['UserRoles']['role_id']){
-			case 1:
-					$roleName = 'company';
-					break;
-			case 2:
-					$roleName = 'jobseeker';	
-					break;			
-			case 3:
-					$roleName = 'networker';		
-					break;			
-		}
-		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
-		return $currentUserRole;
-	}
-
+	/* 	Jobseeker's Account-Profile page*/
 	function index(){
-        $userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();		
         if($userId){
-			$jobseekers = $this->Jobseeker->find('all',array('conditions'=>array('user_id'=>$userId)));
-			$jobseekers_array = array();
-			foreach($jobseekers as $jobseeker){
-				$jobseekers_array[$jobseeker['Jobseeker']['id']] =  $jobseeker['Jobseeker'];
-			}
-			$this->set('jobseekers',$jobseekers_array);
-    		$users = $this->User->find('all',array('conditions'=>array('id'=>$userId)));
-			$users_array = array();
-			foreach($users as $user){
-				$users_array[$user['User']['id']] =  $user['User'];
-			}
-			$this->set('users',$users_array);
-		    if($user['User']){
-            	$this->set('user',$user['User']);
-          	}
-
-	        if($jobseeker['Jobseeker']){
-				$jobseekers_array = array();
-				foreach($jobseekers as $jobseeker){
-					$jobseekers_array[$jobseeker['Jobseeker']['id']] =  $jobseeker['Jobseeker'];
-				}
-				$this->set('jobseekers',$jobseekers_array);
-				$users = $this->User->find('all',array('conditions'=>array('id'=>$userId)));
-				$users_array = array();
-				foreach($users as $user){
-					$users_array[$user['User']['id']] =  $user['User'];
-				}
-				$this->set('users',$users_array);
-				if($user['User']){
-	            	$this->set('user',$user['User']);
-           		}
-            	$fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
-    	    	if(isset($fbinfos[0])){
-					$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
-    	    	}
-		 		if(isset($jobseeker) && $jobseeker['Jobseeker']){
-					$this->set('jobseeker',$jobseeker['Jobseeker']);
-				}		
-			}
+			/* User Info*/			
+			$user = $this->User->find('all',array('conditions'=>array('id'=>$userId)));
+			$this->set('user',$user[0]['User']);
+			
+			/* Jobseeker Info*/
+			$jobseeker = $this->Jobseeker->find('all',array('conditions'=>array('user_id'=>$userId)));
+			$this->set('jobseeker',$jobseeker[0]['Jobseeker']);
+			
+			/* FB-User Info*/       		
+        	$fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
+	    	if(isset($fbinfos[0])){
+				$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
+	    	}
 		}
 	}	
 
+	/* 	Setting and Subscriptoin page*/
 	function setting() {
-		$userId = $this->Session->read('Auth.User.id');
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
-		//print_r($roleInfo); exit;
-		if($roleInfo['role_id']!=2){
-			$this->redirect("/users/firstTime");
-		}
-		if($userId){
-			$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$userId)));
-			$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);
-			
-			$industries = $this->Industry->find('all');
-			$industries_array = array();
-			foreach($industries as $industry){
-				$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
-			}
-			$this->set('industries',$industries_array);
-			
-			/*$cities = $this->City->find('all');
-			$city_array = array();
-			foreach($cities as $city){
-				$city_array[$city['City']['city']] =  $city['City']['city'];
-			}
-			$this->set('cities',$city_array);
-			*/
-			$states = $this->State->find('all');
-			$state_array = array();
-			foreach($states as $state){
-				$state_array[$state['State']['state']] =  $state['State']['state'];
-			}
-			$this->set('states',$state_array);
+		$userId = $this->TrackUser->getCurrentUserId();		
 
-			$specifications = $this->Specification->find('all');
-			$specification_array = array();
-			foreach($specifications as $specification){
-				$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
-			}
-			$this->set('specifications',$specification_array);
+		$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$userId)));
+		$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);
+		
+		$industries = $this->Industry->find('all');
+		$industry = $this->Utility->objectToKeyValueArray($industries, 'id', 'name', 'Industry');
+		$this->set('industries',$industry);
+	
+		$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'PA')));
+		$city = $this->Utility->objectToKeyValueArray($cities, 'city', 'city', 'City');
+		$this->set('cities',$city);
+	
+		$states = $this->State->find('all');
+		$state = $this->Utility->objectToKeyValueArray($states, 'state', 'state', 'State');
+		$this->set('states',$state);
 
-		}	
+		$specifications = $this->Specification->find('all');			
+		$specification = $this->Utility->objectToKeyValueArray($specifications, 'id', 'name', 'Specification');
+		$this->set('specifications',$specification);
 	}
 
-     function editProfile() {
-		$userId = $this->Session->read('Auth.User.id');
-		$roleInfo = $this->getCurrentUserRole();
-		
+	/* 	Edit JObseeker's Account-Profile*/   
+    function editProfile() {
+		$userId = $this->TrackUser->getCurrentUserId();
 		
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
@@ -145,12 +88,12 @@ class JobseekersController extends AppController {
 		$this->set('user',$user['User']);
 
         if(isset($user['Jobseekers'][0])){
-        $this->set('jobseeker',$user['Jobseekers'][0]);
+        	$this->set('jobseeker',$user['Jobseekers'][0]);
         }
 
         $fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
         if(isset($fbinfos[0])){
-		$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
+			$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
         }
 
 	}

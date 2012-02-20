@@ -26,7 +26,7 @@
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
-			<div class="networker_setting_middleBox">
+			<div class="setting_sub_middleBox">
 				<div class="form_content"  style="margin:auto;">
 					<div><b>Add Subscriptions:</b></div>
 					<?php echo $form->create('Networkers', array('action' => 'add')); ?>

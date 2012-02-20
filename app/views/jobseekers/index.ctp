@@ -30,23 +30,50 @@
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 			<div class="middleBox">                                 
-                    <table>
-                    <?php if(isset($fbinfo['first_name'])){?>
-                    <tr><td>First Name:</td><td><?php  echo $fbinfo['first_name'];  ?></td></tr>
-                    <?php }if(isset($fbinfo['last_name'])){?>
-                    <tr><td>Last Name:</td><td><?php  echo $fbinfo['last_name']; ?></td></tr>
-                    <?php }?>                    
-                    <tr><td>Email:</td><td><?php echo $user['account_email'];?></td></tr>
-                    <?php if(isset($jobseeker['address'])){ ?>
-                    <tr><td>Address:</td><td><?php echo $jobseeker['address'];?></td></tr>
-                    <?php }if(isset($jobseeker['city'])){?>
-                    <tr><td>City:</td><td><?php  echo $jobseeker['city'];?></td></tr>
-                    <?php }if(isset($jobseeker['state'])){?>
-                    <tr><td>State:</td><td><?php  echo $jobseeker['state'];?></td></tr>
-                    <?php }if(isset($jobseeker['contact_phone'])){?>
-                    <tr><td>Phone:</td><td><?php  echo $jobseeker['contact_phone'];?></td></tr>
-                    <?php }?>
-				</table>
+                <div class="setting_profile">
+
+					<?php if(isset($fbinfo['first_name']) && isset($fbinfo['last_name'])): ?>
+					<div class="etting_profile_row">
+						<div class="setting_profile_field">Name:</div>
+						<div class="setting_profile_value"><?php  echo ucfirst($fbinfo['first_name'])." ".ucfirst($fbinfo['last_name']);  ?></div>
+					</div>
+					<?php endif;?>
+
+					<?php if(isset($user['account_email'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">Email:</div>
+						<div class="setting_profile_value"><?php echo $user['account_email'];?></div>
+					</div>
+					<?php endif;?>
+
+					<?php if(isset($jobseeker['address'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">Address:</div>
+						<div class="setting_profile_value"><?php echo $jobseeker['address'];?></div>
+					</div>
+					<?php endif;?>
+
+					<?php if(isset($jobseeker['city'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">City:</div>
+						<div class="setting_profile_value"><?php echo $jobseeker['city'];?></div>
+					</div>
+					<?php endif;?>
+
+					<?php if(isset($jobseeker['state'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">State:</div>
+						<div class="setting_profile_value"><?php echo $jobseeker['state'];?></div>
+					</div>
+					<?php endif;?>
+
+					<?php if(isset($jobseeker['contact_phone'])): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">Phone:</div>
+						<div class="setting_profile_value"><?php echo $jobseeker['contact_phone'];?></div>
+					</div>
+					<?php endif;?>
+				</div>
 			</div>
 			
 		<!-- middle conyent list -->
