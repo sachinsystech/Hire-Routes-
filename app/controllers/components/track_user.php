@@ -17,6 +17,14 @@ class TrackUserComponent extends Object
 		return $userId;
 	}
 	
+	function isHRUserLoggedIn(){
+		if($this->Session->read('Auth.User.id')>2){
+			return true;
+		}
+		else{
+			return false;		
+		}
+	}
 	function getCurrentUserRole($userRole){
 		$userId = $this->Session->read('Auth.User.id');			
 		$roleName  = null;
