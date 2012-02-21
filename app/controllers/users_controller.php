@@ -19,7 +19,7 @@ class UsersController extends AppController {
 					'City',
 					'Industry'
 					);
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl');
+	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
 					
 	var $helpers = array('Form');
 
@@ -51,17 +51,18 @@ class UsersController extends AppController {
 	}
 	
 	function index(){
-		if($this->Session->read('Auth.User.id')==2 || !$this->Session->read('Auth.User.id')){
-			$this->redirect("/users/userSelection");
+		if($this->TrackUser->isHRUserLoggedIn()){
+			$this->redirect("/users/firstTime");				
+			
 		}
 		else{
-			$this->redirect("/users/firstTime");				
+			$this->redirect("/users/userSelection");
 		}
 
     }
 
 	function userSelection(){
-		if($this->Session->read('Auth.User.id')>2 ){
+		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
 		}
 	}
@@ -91,7 +92,9 @@ class UsersController extends AppController {
 	}
 
 	function companyRecruiterSignup(){
-
+		if($this->TrackUser->isHRUserLoggedIn()){
+			$this->redirect("/users/firstTime");	
+		}
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
 				unset($this->data["User"]["password"]);
@@ -123,8 +126,8 @@ class UsersController extends AppController {
 	}
 
 	function networkerSignup() {	
-		if($this->Session->read('Auth.User.id') > 2){
-			$this->redirect("/users/firstTime");							
+		if($this->TrackUser->isHRUserLoggedIn()){
+			$this->redirect("/users/firstTime");	
 		}
 
 		if(isset($this->data['User'])){
@@ -157,9 +160,10 @@ class UsersController extends AppController {
 	}
 
 	function jobseekerSignup(){
-		if($this->Session->read('Auth.User.id') > 2){
-			$this->redirect("/users/firstTime");							
+		if($this->TrackUser->isHRUserLoggedIn()){
+			$this->redirect("/users/firstTime");	
 		}
+		
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
                 unset($this->data["User"]["password"]);
@@ -253,11 +257,6 @@ class UsersController extends AppController {
 		$confirmCode = $this->params['code'];
 		$this->set('userId', $userId);
 		$this->set('confirmCode', $confirmCode);
-		/*		
-		$this->confirmAccount($userId,$confirmCode);
-		$this->redirect("firstTime");	
-		*/			
-
 	}
 
 	function confirmAccount($userId,$confirmCode){
@@ -296,9 +295,9 @@ class UsersController extends AppController {
 	}	
 	
 	function firstTime() {
-		$id = $this->Session->read('Auth.User.id');
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));		
-		$role = $this->getCurrentUserRole();
+		$id = $this->TrackUser->getCurrentUserId();
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$id)));
+		$role = $this->TrackUser->getCurrentUserRole($userRole);
 		switch($role['role_id']){
 			case 1:
 					$this->redirect("/companies");
@@ -337,28 +336,25 @@ class UsersController extends AppController {
 		$user = $facebook->getUser();
 		if($user){
 			try {
-					if(!$faceBookUserData = $this->isExistFBUser($user)){
-						$this->redirect("/users/facebookUserSelection");
-					}
-				    // Write a code for login current facebook user.
-				    
-				    
-					$user_account = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$user)));
-					$this->setUserAsLoggedIn($user_account['User']);
-					if($user_account['UserRoles']['0']['role_id']== 2){
-						$this->redirect("/users/jobseekerSetting");				
-						return;
-					}
-					if($user_account['UserRoles']['0']['role_id']== 3){
-						$this->redirect("/users/networkerSetting");				
-						return;
-					}
-				    
-				    
-					$this->redirect("/users/firstTime");				
-					$this->set('FBloginlogoutUrl',$facebook->getLogoutUrl());
-					$this->set('fbButtonClass','fb-logout');
-					$this->set('faceBookUserData',$faceBookUserData['FacebookUsers']);
+				if(!$faceBookUserData = $this->isExistFBUser($user)){
+					$this->redirect("/users/facebookUserSelection");
+				}
+			    // Write a code for login current facebook user.
+			    
+				$user_account = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$user)));
+				$this->setUserAsLoggedIn($user_account['User']);
+				if($user_account['UserRoles']['0']['role_id']== 2){
+					$this->redirect("/users/jobseekerSetting");				
+					return;
+				}
+				if($user_account['UserRoles']['0']['role_id']== 3){
+					$this->redirect("/users/networkerSetting");				
+					return;
+				}				    
+				$this->redirect("/users/firstTime");				
+				$this->set('FBloginlogoutUrl',$facebook->getLogoutUrl());
+				$this->set('fbButtonClass','fb-logout');
+				$this->set('faceBookUserData',$faceBookUserData['FacebookUsers']);
 			} catch (FacebookApiException $e) {
 				error_log($e);
 				$user = null;
@@ -408,106 +404,6 @@ class UsersController extends AppController {
 		return $FB_USER;
 	}
 	
-	function getCurrentUserRole(){
-		$userId = $this->Session->read('Auth.User.id');			
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleName  = null;
-		switch($userRole['UserRoles']['role_id']){
-			case 1:
-					$roleName = 'company';
-					break;
-			case 2:
-					$roleName = 'jobseeker';	
-					break;			
-			case 3:
-					$roleName = 'networker';		
-					break;			
-		}
-		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
-		return $currentUserRole;
-	}
-		
-	function networkerSetting() {
-		$userId = $this->Session->read('Auth.User.id');		
-		$roleInfo = $this->getCurrentUserRole();
-		if($roleInfo['role_id']!=3){
-			$this->redirect("/users/firstTime");
-		}
-		if($userId){
-			$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId)));
-			$this->set('NetworkerData',$networkerData);
-			
-			$industries = $this->Industry->find('all');
-			$industries_array = array();
-			foreach($industries as $industry){
-				$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
-			}
-			$this->set('industries',$industries_array);
-			
-			$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'PA')));
-			$city_array = array();
-			foreach($cities as $city){
-				$city_array[$city['City']['city']] =  $city['City']['city'];
-			}
-			$this->set('cities',$city_array);
-			
-			$states = $this->State->find('all');
-			$state_array = array();
-			foreach($states as $state){
-				$state_array[$state['State']['state']] =  $state['State']['state'];
-			}
-			$this->set('states',$state_array);
-
-			$specifications = $this->Specification->find('all');
-			$specification_array = array();
-			foreach($specifications as $specification){
-				$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
-			}
-			$this->set('specifications',$specification_array);			
-		}
-	}
-
-	function jobseekerSetting() {
-		$userId = $this->Session->read('Auth.User.id');
-		$roleInfo = $this->getCurrentUserRole();
-		if($roleInfo['role_id']!=2){
-			$this->redirect("/users/firstTime");
-		}
-		if($userId){
-			$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$userId)));
-			$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);
-			
-			$industries = $this->Industry->find('all');
-			$industries_array = array();
-			foreach($industries as $industry){
-				$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
-			}
-			$this->set('industries',$industries_array);
-			
-			/*$cities = $this->City->find('all');
-			$city_array = array();
-			foreach($cities as $city){
-				$city_array[$city['City']['city']] =  $city['City']['city'];
-			}
-			$this->set('cities',$city_array);
-			*/
-			$states = $this->State->find('all');
-			$state_array = array();
-			foreach($states as $state){
-				$state_array[$state['State']['state']] =  $state['State']['state'];
-			}
-			$this->set('states',$state_array);
-
-			$specifications = $this->Specification->find('all');
-			$specification_array = array();
-			foreach($specifications as $specification){
-				$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
-			}
-			$this->set('specifications',$specification_array);
-
-		}	
-	}
-	
 	function login() {
 		if(isset($this->data['User'])){
 			$data = array('User' => array('account_email' => $this->data['User']['username'],
@@ -531,9 +427,6 @@ class UsersController extends AppController {
 		$this->redirect("/home/index");		
 	}
 	
-	function isLoggedIn(){
-			
-	}
 
 	function facebookUserSelection(){
 		

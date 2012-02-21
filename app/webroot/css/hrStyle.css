@@ -387,8 +387,9 @@ p.error em {
     color: #4AA02C;
     font-weight: bold;
     height: 20px;
-    margin-top: 5px;
+    margin: 3px;
     padding: 5px;
+    text-align: center;
 }
 
 /**  Actions  **/
@@ -1069,8 +1070,13 @@ label.error{
 #NarrowJobIndexForm div{
 	padding: 0.0em;
 }
+
 #UserEditProfileForm div{
 	padding: 0.2em;
+}
+
+#NetworkersEditProfileForm div{
+	padding: 0.12em;
 }
 .company_profile_field_row{
     margin: 6px;
@@ -1086,4 +1092,58 @@ label.error{
     float: right;
     height: 17px;
     width: 200px;
+}
+.jobseeker_setting_middleBox{
+    border: 1px solid #000000;
+    margin-left: 40px;
+    padding: 12px;
+}
+.delete_button{
+    -moz-border-radius: 15px 15px 15px 15px;
+    background-color: #00FF00;
+    padding: 1px;
+    position: absolute;
+    right: 1px;
+    text-align: center;
+    top: 0;
+    width: 72px;
+}
+.setting_middleBox{
+    border: 1px solid #000000;
+    margin-left: 40px;
+    padding: 0px;
+}
+.setting_sub_middleBox{
+    border: 1px solid #000000;
+    margin-left: 40px;
+    padding: 20px;
+}
+.setting_profile{
+	width: 300px; 
+	padding: 11px; 
+	margin: auto;"
+}
+.setting_profile_row{
+	margin-top: 5px; 
+	height: 24px;
+}
+.setting_profile_field{
+	float: left; 
+	width: 85px;	
+}
+.setting_profile_value{
+	float: left;
+}
+.networker_edit_form{
+    margin: auto;
+    padding: 15px;
+    width: 358px;
+}
+.jobseeker_edit_form{
+    margin: auto;
+    padding: 15px;
+    width: 358px;
+}
+#JobseekerSettingsEditProfileForm div{
+		padding: 0.12em;
 }
