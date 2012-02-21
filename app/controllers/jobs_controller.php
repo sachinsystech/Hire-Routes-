@@ -234,7 +234,9 @@ class JobsController extends AppController {
                         $this->Session->setFlash('Uploaded File is corrupted.', 'error');    
                         return ;            
                     }
-                    if($resume['type']!= 'pdf' && $resume['type']!= 'txt' && $resume['type']!= 'doc'){
+                    $type_arr = explode("/",$resume['type']);
+                    $type = $type_arr[1];
+                    if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
                            $this->Session->setFlash('File type not supported.', 'error');        
                            return ;
                     }
@@ -253,7 +255,9 @@ class JobsController extends AppController {
                         $this->Session->setFlash('Uploaded File is corrupted.', 'error');    
                         return ;            
                     }
-                    if($cover_letter['type']!= 'pdf' && $cover_letter['type']!= 'txt' && $cover_letter['type']!= 'doc'){
+                    $type_arr1 = explode("/",$cover_letter['type']);
+                    $type1 = $type_arr1[1];
+                    if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
                            $this->Session->setFlash('File type not supported.', 'error');        
                            return ;
                     }

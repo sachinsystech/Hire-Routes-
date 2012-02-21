@@ -215,7 +215,7 @@ class JobseekersController extends AppController {
             // job role
             $userId = $this->Session->read('Auth.User.id');
 
-            $this->set('userrole',$roleInfo);
+            //$this->set('userrole',$roleInfo);
      }
     
    function delete(){
