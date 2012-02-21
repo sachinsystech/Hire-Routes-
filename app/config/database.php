@@ -79,7 +79,7 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'login' => 'root',
 		'password' => '',
-		'database' => 'hireroutes',
+		'database' => 'staging_hireroutes',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
