@@ -112,17 +112,25 @@
 <?php if(!isset($job)): ?>
 
 <div class="page">
-	<div style="width:890px;height:10px;padding: 22px;">
-		<div style="float:left;width: 268px;margin-left: 65px;">
-			WHAT <input class="text_field_bg"> 
-		</div>
-		<div style="float:left;width: 268px;margin-left: 160px;">
-			WHERE <input class="text_field_bg"> 
-		</div>
-		<div style="float:right;width: 100px;">
-			<button style="float: right; width: 100px; background:rgb(0, 255, 0);"> Find Job</button>
-		</div>
+	<div style="height:10px;">		
+       <?php  echo $this->Form->create('FilterJob', array('url' => array('controller' => 'Jobs', 'action' => 'index')));?>
+ 
+            <div style="float:left;width: 268px;margin-left: 65px;">
+               <?php echo $form->input('what', array('label' => 'What',
+							                         'type'  => 'text',
+                                                     'id'    => 'what',
+                                                     'class' => 'text_field_bg'));?></div>
+                     
+           <div style="float:left;width: 268px;margin-left: 160px;">
+               <?php echo $form->input('where', array('label' => 'Where',
+							                          'type'  => 'text',
+                                                      'id'    => 'where',
+                                                      'class' => 'text_field_bg'));?></div>
+           <div style="float:right;width: 100px;">
+			   <button style="float: right; width: 100px; background:rgb(0, 255, 0);" type="submit"> Find Job</button>
+		   </div>
 
+     <?php echo $form->end();?>
 	</div>
 
 	<!-- left section start -->
@@ -137,10 +145,7 @@
 						<div>
 							<?php $i++; ?>	
 							<?php	echo $form->input("Industry.$i", array('label' => "<span>$industry</span>",
-														'type'  => 'checkbox',
-													)
-									 );
-							?>
+														'type'  => 'checkbox',));?>
 						</div>
 						<div style="clear:both"></div>
 					<?php endforeach; ?>
@@ -188,9 +193,7 @@
 					<?php  foreach($cities as $city):?>
 						<div>
 							<?php	echo $form->input("City.$city", array('label' => "<span>$city</span>",
-														'type'  => 'checkbox',
-														)
-									 );
+														'type'  => 'checkbox',));
 							?>
 						</div>
 						<div style="clear:both"></div>
@@ -198,7 +201,7 @@
 				</div>				
 			</div>
 			<div>
-				<div><div style="float:left;padding:5px"><b>Job Type</b></div><div class="flip_jobtype" style="float:right;padding:5px;cursor: pointer;">+</div></div>
+				<div><div style="float:left;padding:5px"><b>Job Type</b></div><div class="flip_jobtype" style="float:right;padding:5px;cursor: pointer;"></div></div>
 				<div style="clear:both"></div>
 		
 				<div class="narrowby_jobtype panel_jobtype" style="display:none;">
@@ -208,10 +211,7 @@
 						<div>
 							<?php $i++; ?>
 							<?php	echo $form->input("job_type.$i", array('label' => "<span>$jobtype</span>",
-														'type'  => 'checkbox',
-														)
-									 );
-							?>
+														'type'  => 'checkbox',));?>
 						</div>
 						<div style="clear:both"></div>
 					<?php endforeach; ?>
@@ -226,10 +226,7 @@
 					<?php  foreach($companies as $company):?>
 						<div>
 							<?php	echo $form->input("company_name.$company", array('label' => "<span>$company</span>",
-														'type'  => 'checkbox',
-														)
-									 );
-							?>
+														'type'  => 'checkbox',));?>
 						</div>
 						<div style="clear:both"></div>
 					<?php endforeach; ?>
@@ -256,10 +253,7 @@
 												'label'=>'SORT BY ',
 												'options'=>array('date-added' => 'Date Added', 'company-name' => 'Company Name', 'industry' => 'Industry', 'salary' => 'Salary'),
 												'class'=>'job_select_shortby',
-												'selected'=>isset($shortBy)?$shortBy:'date-added',
-										)
-							);
-					?>
+												'selected'=>isset($shortBy)?$shortBy:'date-added',));?>
 				</div>
 				
 				<div style="float:right">
@@ -293,8 +287,7 @@
 									<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['state']]."<br>";
 											echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
 											echo $job_array[$job['job_type']]."<br>";
-											echo $job['short_description']."<br>";
-									?>
+											echo $job['short_description']."<br>";?>
 																
 								</div>			
 							</td>

@@ -9,11 +9,13 @@ class JobsController extends AppController {
 		$this->Auth->authorize = 'actions';
 		$this->Auth->allow('index');
 		$this->Auth->allow('apply');
-	}
+     }
 	
 	function index(){
 
 		//echo "<pre>"; print_r($this->data);
+       
+
 		$shortByItem = 'id';
         $salaryFrom = null;
         $salaryTo = null;
@@ -59,8 +61,40 @@ class JobsController extends AppController {
 		    }
         }
         $this->set('salaryFrom',isset($salaryFrom)?$salaryFrom:1);      
-        $this->set('salaryTo',isset($salaryTo)?$salaryTo:150);      
-		$jobs = $this->paginate('Job');
+        $this->set('salaryTo',isset($salaryTo)?$salaryTo:150);  
+
+         // find section
+        $what=""; $whr=""; 
+        if(isset($this->data['FilterJob'])){
+            
+        $what = $this->data['FilterJob']['what'];
+        $whr  = $this->data['FilterJob']['where'];
+          
+        $ind_find = $this->Industry->find('all',array('conditions'=>array('name'=>$what)));
+        $n = 0; $ind_ids = "";
+        foreach($ind_find as $ind){
+             $ind_ids[$n] = $ind['Industry']['id'];
+             $n++;
+        }
+		  
+        $spec_find = $this->Specification->find('all',array('conditions'=>array('name'=>$what)));
+        $t = 0; $spec_ids = "";
+        foreach($spec_find as $spec){
+             $spec_ids[$t] = $spec['Specification']['id'];
+             $t++;
+        }         
+          
+        $cond = array('OR' => array(array('industry' => $ind_ids),
+                                    array('specification' => $spec_ids),
+                                    array('city ' => $whr),
+                                    array('state' => $whr)));
+           
+        $this->paginate = array('conditions'=>$cond,
+                                'limit' => isset($displayPageNo)?$displayPageNo:5,
+                                'order' => array("Job.$shortByItem" => 'asc',));             
+        } // find ends here   
+        
+        $jobs = $this->paginate('Job');
 		$jobs_array = array();
 		foreach($jobs as $job){
 			$jobs_array[$job['Job']['id']] =  $job['Job'];
@@ -242,5 +276,8 @@ class JobsController extends AppController {
         }
         $this->redirect('/jobs');
       } 
+     
+     
+    
 }
 ?>
