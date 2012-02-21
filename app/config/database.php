@@ -78,7 +78,7 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => '',
+		'password' => '12345678',
 		'database' => 'staging_hireroutes',
 		'prefix' => '',
 		//'encoding' => 'utf8',
