@@ -4,8 +4,8 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-    var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles');
-
+    var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','CompanyContact');
+	var $components = array('Email','Session','TrackUser','Utility');
 	function postJob(){
 	
 		$userId = $this->Session->read('Auth.User.id');
@@ -186,7 +186,16 @@ class CompaniesController extends AppController {
 		$this->set('company',$user['Companies'][0]);
 	}
 	
-	
-	
+	function addContacts() {
+		if(isset($this->data['Contact'])){
+			$userId = $this->TrackUser->getCurrentUserId();
+			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+			$this->data['Contact']['user_id'] = $userId;
+			$this->data['Contact']['company_id'] = $user['Companies'][0]['id'];
+			$this->CompanyContact->save($this->data['Contact']);
+			$this->Session->setFlash('Contact has been added successfully.', 'success');	
+		}
+	}
+
 }
 ?>

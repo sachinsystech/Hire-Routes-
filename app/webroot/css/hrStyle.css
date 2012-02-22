@@ -1145,5 +1145,11 @@ label.error{
     width: 358px;
 }
 #JobseekerSettingsEditProfileForm div{
-		padding: 0.12em;
+	padding: 0.12em;
+}
+.company_contact_text {
+	border: 1px solid;
+    float: right;
+    height: 17px;
+    width: 146px;	
 }
