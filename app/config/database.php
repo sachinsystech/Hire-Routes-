@@ -76,7 +76,7 @@ class DATABASE_CONFIG {
 	var $default = array(
 		'driver' => 'mysql',
 		'persistent' => false,
-		'host' => 'localhost',
+		'host' => '192.168.1.28',
 		'login' => 'root',
 		'password' => '12345678',
 		'database' => 'staging_hireroutes',

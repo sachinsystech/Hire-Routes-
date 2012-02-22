@@ -102,7 +102,7 @@ class JobseekersController extends AppController {
     function appliedJob() {
 
         $userId = $this->Session->read('Auth.User.id');
-		$roleInfo = $this->getCurrentUserRole();
+
         $user_jobs = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId)));
 
         
@@ -214,8 +214,8 @@ class JobseekersController extends AppController {
             
             // job role
             $userId = $this->Session->read('Auth.User.id');
-            $roleInfo = $this->getCurrentUserRole();
-            $this->set('userrole',$roleInfo);
+
+            //$this->set('userrole',$roleInfo);
      }
     
    function delete(){
