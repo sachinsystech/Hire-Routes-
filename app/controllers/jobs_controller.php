@@ -274,7 +274,7 @@ class JobsController extends AppController {
             $jobsData['JobseekerApply']['user_id'] = $this->data['Jobs']['user_id'];
             
             $this->JobseekerApply->save($jobsData);
-            $this->Session->setFlash('Successfully uploaded Resume', 'success');   
+            $this->Session->setFlash('Successfully Uploaded Resume', 'success');   
             $this->redirect('/jobseekers/appliedJob');         
             
         }

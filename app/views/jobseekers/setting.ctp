@@ -1,12 +1,12 @@
-
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li >My Jobs</li>
-				<li>My Network</li>
-				<li class="active">My Account</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/newJob"><span>New Jobs</span></a></li>
+                <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/appliedJob"><span>Applied Jobs</span></a></li>
+				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href=""><span>My Network</span></li>
+				<li class="active"><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
 			</ul>
 		</div>
 		<div>Feed Back</div>
@@ -20,8 +20,11 @@
 		<div class="topMenu">
 			<ul>
 	            <li><a href="#">Job Profile</a></li>	
-				<li class="active"><a href="#">Settings/Subscription</a></li>	
+				<li class="active"><a href="/jobseekers/setting">Settings/Subscription</a></li>	
                 <li><a href="/jobseekers">Profile</a></li>
+			</ul>
+			<ul style="float:right">
+				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/editProfile"><span>Edit</span></a></li>
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->
