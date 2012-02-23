@@ -3,7 +3,8 @@ class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
 	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles',
 'FacebookUsers','Company','Job','Industry','State','Specification','Companies','City','JobseekerApply');
-	var $components = array('Email','Session','TrackUser','Utility');	
+	var $components = array('Email','Session','TrackUser','Utility');
+	var $helpers = array('Time');	
 
 	public function beforeFilter(){
 		$userId = $this->TrackUser->getCurrentUserId();		

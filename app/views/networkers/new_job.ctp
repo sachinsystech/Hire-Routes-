@@ -7,13 +7,13 @@
 	function onSelectChange(){
 	    var selected = $("#switch_display option:selected");    
 	    if(selected.val() != 0){
-			window.location.href="/jobseekers/appliedJob/display:"+selected.text();
+			window.location.href="/jobseekers/newJob/display:"+selected.text();
 	    }
 	}
 	function onSelectShortByChange(){
 	    var selected = $("#short_by option:selected");    
 	    if(selected.val() != 0){
-			window.location.href="/jobseekers/appliedJob/shortby:"+selected.val();
+			window.location.href="/jobseekers/newJob/shortby:"+selected.val();
 	    }
 	}
 	
@@ -24,10 +24,9 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/newJob"><span>New Jobs</span></a></li>
-                <li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/appliedJob"><span>Applied Jobs</span></a></li>
-				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href=""><span>My Network</span></li>
-				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
+                                <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Shared Jobs</a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers">My Account</a></li>
 			</ul>
 		</div>
 		<div>Feed Back</div>
@@ -39,15 +38,15 @@
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
-			<ul style="float:left">
-				<li><a href="#">Job Profile</a></li>	
-				<li><a href="/jobseekers/setting">Settings/Subscription</a></li>	
-                <li class="active"><a href="/jobseekers">Profile</a></li>
-			</ul>
+			<ul>
+				<li><a href="/networkers/setting">Settings/Subscription</a></li>	
+				<li class="active"><a href="/networkers">Profile</a></li>			
+                        </ul>
 			<ul style="float:right">
-				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/editProfile"><span>Edit</span></a></li>
+				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
 			</ul>
 		</div>
+
         <div class="jobs_topMenu">
 			<div style="margin-top:10px;">
 				<div style="float:left;">
@@ -85,11 +84,12 @@
 						<tr>
 							<td>
 								<div>
-									<div> <?php	echo $this->Html->link($job['title'], '/jobs/'.$job['id']); ?></div>									
+									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/'.$job['id']); ?></div>
+									<div style="float:right"><?php echo $job['reward'];?>$
+</div>									
 								</div>
 								<div style="clear:both">
-                                <div style="float:right"> Job Status <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['id']); ?></div>		
-								<div>
+                                <div>
 									<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['state']]."<br>";
 											echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
 											echo $job_array[$job['job_type']]."<br>";
@@ -99,7 +99,7 @@
                                  
                                  <div style="float:left">
 									Posted 
-                                   <?php  echo $time->timeAgoInWords($job['created'])." <br><br>";?>							
+                                    <?php  echo $time->timeAgoInWords($job['created'])." <br><br>";?>							
 								</div>	
                                 <div style="padding-left:550px;">
                                     <?php	echo $this->Html->link('Read More', '/jobs/'.$job['id']); ?>
@@ -121,11 +121,3 @@
 
 </div>
 
-<script>
-	function goTo(){
-		window.location.href="/companies/postJob";			
-	}
-	$(document).ready(function(){
-		$("#UserEditProfileForm").validate();
-	});     
-</script>

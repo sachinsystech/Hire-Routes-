@@ -1,7 +1,7 @@
 <?php
 class JobsController extends AppController {
     var $uses = array('Company','Job','Industry','State','Specification','UserRoles','Companies','City','JobseekerApply');
-	var $helpers = array('Form','Paginator');
+	var $helpers = array('Form','Paginator','Time');
         
 	
 	public function beforeFilter(){
@@ -70,14 +70,14 @@ class JobsController extends AppController {
         $what = $this->data['FilterJob']['what'];
         $whr  = $this->data['FilterJob']['where'];
           
-        $ind_find = $this->Industry->find('all',array('conditions'=>array('name'=>$what)));
+        $ind_find = $this->Industry->find('all',array('conditions'=>array('name LIKE'=>"%$what%")));
         $n = 0; $ind_ids = "";
         foreach($ind_find as $ind){
              $ind_ids[$n] = $ind['Industry']['id'];
              $n++;
         }
 		  
-        $spec_find = $this->Specification->find('all',array('conditions'=>array('name'=>$what)));
+        $spec_find = $this->Specification->find('all',array('conditions'=>array('name LIKE'=>"%$what%")));
         $t = 0; $spec_ids = "";
         foreach($spec_find as $spec){
              $spec_ids[$t] = $spec['Specification']['id'];
@@ -228,17 +228,18 @@ class JobsController extends AppController {
        function apply(){
            
            if (isset($this->data['Jobs'])) {
+			$job_id = $this->data['Jobs']['job_id'];
             if(is_uploaded_file($this->data['Jobs']['resume']['tmp_name'])){
                     $resume = $this->data['Jobs']['resume'];                 
                     if($resume['error']!=0 ){
                         $this->Session->setFlash('Uploaded File is corrupted.', 'error');    
-                        return ;            
+                        $this->redirect('/jobs/'.$job_id);          
                     }
                     $type_arr = explode("/",$resume['type']);
                     $type = $type_arr[1];
                     if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
                            $this->Session->setFlash('File type not supported.', 'error');        
-                           return ;
+                           $this->redirect('/jobs/'.$job_id);
                     }
                 $randomNumber = rand(1,100000000000);            
                 $uploadedFileName=$randomNumber.$resume['name'];
@@ -253,13 +254,13 @@ class JobsController extends AppController {
                     $cover_letter = $this->data['Jobs']['cover_letter'];                 
                     if($cover_letter['error']!=0 ){
                         $this->Session->setFlash('Uploaded File is corrupted.', 'error');    
-                        return ;            
+                        $this->redirect('/jobs/'.$job_id);          
                     }
                     $type_arr1 = explode("/",$cover_letter['type']);
                     $type1 = $type_arr1[1];
                     if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
                            $this->Session->setFlash('File type not supported.', 'error');        
-                           return ;
+                           $this->redirect('/jobs/'.$job_id);
                     }
                 $randomNumber2 = rand(1,100000000000);            
                 $uploadedFileName2=$randomNumber2.$cover_letter['name'];
@@ -270,7 +271,7 @@ class JobsController extends AppController {
                 }
             }
                        
-            $jobsData['JobseekerApply']['job_id'] = $this->data['Jobs']['job_id'];
+            $jobsData['JobseekerApply']['job_id']  = $this->data['Jobs']['job_id'];
             $jobsData['JobseekerApply']['user_id'] = $this->data['Jobs']['user_id'];
             
             $this->JobseekerApply->save($jobsData);

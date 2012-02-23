@@ -48,6 +48,7 @@
 				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/editProfile"><span>Edit</span></a></li>
 			</ul>
 		</div>
+
         <div class="jobs_topMenu">
 			<div style="margin-top:10px;">
 				<div style="float:left;">
@@ -98,82 +99,7 @@
                                  
                                  <div style="float:left">
 									Posted 
-                                   <?php  $start  = strtotime($job['created']);
-                                                             $end    = strtotime(date('Y-m-d H:i:s'));
-
-                                                             if(!$end) { $end = time(); }
-                                                             if(!is_numeric($start) || !is_numeric($end)) { return false; }
-                                                              // Convert $start and $end into EN format (ISO 8601)
-                                                             $start  = date('Y-m-d H:i:s',$start);
-                                                             $end    = date('Y-m-d H:i:s',$end);
-                                                             $d_start    = new DateTime($start);
-                                                             $d_end      = new DateTime($end);
-                                                             $diff = $d_start->diff($d_end);
-                                                                // return all data
-                                                             $year=""; $month=""; $day=""; $hour=""; $min=""; $sec="";
-                                                             
-                                                             $y    = $diff->format('%y');
-                                                             if($y>0)
-                                                              {
-                                                                 if($y==1)
-                                                                  {
-                                                                    $year = $y." year ";
-                                                                  }else{
-                                                                    $year = $y." years ";
-                                                                  }
-                                                              }
-                                                              $m = $diff->format('%m');
-                                                              if($m>0)
-                                                              {
-                                                                 if($m==1)
-                                                                  {
-                                                                    $month = $m." month ";
-                                                                  }else{
-                                                                    $month = $m." months ";
-                                                                  }
-                                                              }
-                                                              $d = $diff->format('%d');
-                                                              if($d>0)
-                                                              {
-                                                                 if($d==1)
-                                                                  {
-                                                                    $day = $d." day ";
-                                                                  }else{
-                                                                    $day = $d." days ";
-                                                                  }
-                                                              }
-                                                              $h = $diff->format('%h');
-                                                              if($h>0)
-                                                              {
-                                                                 if($h==1)
-                                                                  {
-                                                                    $hour = $h." hour ";
-                                                                  }else{
-                                                                    $hour = $h." hours ";
-                                                                  }
-                                                              }
-                                                              $i = $diff->format('%i');
-                                                              if($i>0)
-                                                              {
-                                                                 if($i==1)
-                                                                  {
-                                                                    $min = $i." minute ";
-                                                                  }else{
-                                                                    $min = $i." minutes ";
-                                                                  }
-                                                              }
-                                                              $s = $diff->format('%s');
-                                                              if($s>0)
-                                                              {
-                                                                 if($s==1)
-                                                                  {
-                                                                    $sec = $s." second ";
-                                                                  }else{
-                                                                    $sec = $s." seconds ";
-                                                                  }
-                                                              }
-                                                             $diff = $year.$month.$day.$hour;
-                                                             echo $diff."ago<br><br>";?>							
+                <?php  echo $time->timeAgoInWords($job['created'])." <br><br>";?>									
 								</div>	
                                 <div style="padding-left:550px;">
                                     <?php	echo $this->Html->link('Read More', '/jobs/'.$job['id']); ?>
@@ -195,11 +121,3 @@
 
 </div>
 
-<script>
-	function goTo(){
-		window.location.href="/companies/postJob";			
-	}
-	$(document).ready(function(){
-		$("#UserEditProfileForm").validate();
-	});     
-</script>
