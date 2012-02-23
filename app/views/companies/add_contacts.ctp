@@ -42,11 +42,21 @@
 					</div>
 				</div>
 				<div style="margin-left:20px">
+					<?php  echo $form->create('companies', array('controller'=>'companies','action' => 'importCsv', 'type' => 'file'));?>
+
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">3. CSV File</div>
-						<div class="setting_profile_value"><input type="file" style="width:71%"><button>Import CSV file</button></div>
+						<div class="setting_profile_value">
+						
+						<?php echo $form->file('CSVFILE');
+						?>					
+							
+						<div style="float:right"><?php echo $form->submit('Import CSV file',array('div'=>false));?></div>
+						</div>
 					</div>
+					<?php echo $form->end(); ?>
 				</div>
+				<div style="clear:both"></div>
 				<div style="margin-left:14px">
 					<div>
 						<?php echo $this->Form->create('Contact', array('url' => array('controller' => 'companies', 'action' => 'addContacts'))); ?>

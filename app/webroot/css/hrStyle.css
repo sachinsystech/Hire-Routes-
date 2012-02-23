@@ -1153,3 +1153,14 @@ label.error{
     height: 17px;
     width: 146px;	
 }
+.contacts tr td{
+	border-bottom: 1px solid #DDDDDD;
+	padding:0px;
+}
+.network_contact_middleBox{
+    border: 1px solid #000000;
+    height: auto;
+    margin-left: 40px;
+    overflow: auto;
+    padding: 10px;
+}
