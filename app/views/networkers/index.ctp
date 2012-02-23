@@ -1,12 +1,11 @@
-
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li>My Jobs</li>
-				<li>My Network</li>
-				<li class="active">My Account</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Shared Jobs</a></li>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers">My Account</a></li>
 
 			</ul>
 		</div>
@@ -22,7 +21,7 @@
 			<ul>
 				<li><a href="/networkers/setting">Settings/Subscription</a></li>	
 				<li class="active"><a href="/networkers">Profile</a></li>			
-            </ul>
+                        </ul>
 			<ul style="float:right">
 				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
 			</ul>

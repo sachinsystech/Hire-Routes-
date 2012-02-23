@@ -1,10 +1,9 @@
 <?php
-
-
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-    var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles');
+    var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','PaymentInfo');
+	var $components = array('TrackUser','Utility');
 
 	function postJob(){
 	
@@ -185,8 +184,22 @@ class CompaniesController extends AppController {
 		$this->set('user',$user['User']);
 		$this->set('company',$user['Companies'][0]);
 	}
-	
-	
+
+	function paymentInfo() {
+		$userId = $this->TrackUser->getCurrentUserId();		
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
+		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
+		if(isset($this->data['Payment'])){
+            $this->PaymentInfo->save($this->data['Payment']);
+			$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
+			$this->redirect('/companies/paymentInfo');						
+		}
+		
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+		$this->set('user',$user['User']);
+		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$this->set('payment',$payment['PaymentInfo']);
+	}
 	
 }
 ?>
