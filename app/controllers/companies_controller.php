@@ -1,10 +1,9 @@
 <?php
-
-
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-    var $uses = array('Company','Companies','Job','Industry','State','Specification','UserRoles');
+    var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','PaymentInfo');
+	var $components = array('TrackUser','Utility');
 
 	function postJob(){
 	
@@ -57,7 +56,7 @@ class CompaniesController extends AppController {
 		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
 		return $currentUserRole;
 	}
-	function index(){
+	function newJob(){
 		$userId = $this->Session->read('Auth.User.id');		
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
@@ -105,7 +104,7 @@ class CompaniesController extends AppController {
 		//echo "<pre>"; print_r($this->data['Job']); exit;
 		$this->Job->save($this->data['Job']);
 		$this->Session->setFlash('Job has been posted successfuly.', 'success');				
-		$this->redirect('/companies/');
+		$this->redirect('/companies/newJob');
 	}
 	
 	function editJob(){
@@ -160,20 +159,67 @@ class CompaniesController extends AppController {
 			}	
 			else{
 				$this->Session->setFlash('You may be clicked on old link.', 'error');				
-				$this->redirect('/companies/');
+				$this->redirect('/companies/newJob');
 			}
 		}
 		if(isset($this->data['Job'])){
 			$this->data['Job']['user_id'] = $this->Session->read('Auth.User.id');
 			$this->Job->save($this->data['Job']);
 			$this->Session->setFlash('Job has been updated successfuly.', 'success');				
-			$this->redirect('/companies/');
+			$this->redirect('/companies/newJob');
 		}
 		if(!isset($userId) || !isset($jobId)){
 			$this->Session->setFlash('You may be clicked on old link.', 'error');				
-			$this->redirect('/companies/');
+			$this->redirect('/companies/newJob');
 		}
-
 	}
+	function accountProfile() {
+		$userId = $this->Session->read('Auth.User.id');
+		$roleInfo = $this->getCurrentUserRole();
+		if($roleInfo['role_id']!=1){
+			$this->redirect("/users/firstTime");
+		}
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+		$this->set('user',$user['User']);
+		$this->set('company',$user['Companies'][0]);
+	}
+
+	function editProfile() {
+		$userId = $this->Session->read('Auth.User.id');
+		$roleInfo = $this->getCurrentUserRole();
+		if($roleInfo['role_id']!=1){
+			$this->redirect("/users/firstTime");
+		}
+		//echo "<pre>"; print_r($this->data['User']);
+		//echo "<pre>"; print_r($this->data['Company']); exit;		
+		if(isset($this->data['User'])){
+			$this->data['User']['group_id'] = 0;
+			$this->User->save($this->data['User']);
+			$this->Companies->save($this->data['Company']);		
+			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+			$this->redirect('/companies');						
+		}
+		
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+		$this->set('user',$user['User']);
+		$this->set('company',$user['Companies'][0]);
+	}
+
+	function paymentInfo() {
+		$userId = $this->TrackUser->getCurrentUserId();		
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
+		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
+		if(isset($this->data['Payment'])){
+            $this->PaymentInfo->save($this->data['Payment']);
+			$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
+			$this->redirect('/companies/paymentInfo');						
+		}
+		
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+		$this->set('user',$user['User']);
+		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$this->set('payment',$payment['PaymentInfo']);
+	}
+	
 }
 ?>

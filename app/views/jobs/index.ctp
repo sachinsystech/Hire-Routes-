@@ -5,6 +5,7 @@
 	$(document).ready(function(){
 	    $("#switch_display").change(onSelectChange);
 		$("#short_by").change(onSelectShortByChange);
+		$("#slider").slider();
 	});
 	function onSelectChange(){
 	    var selected = $("#switch_display option:selected");    
@@ -18,50 +19,226 @@
 			window.location.href="/jobs/index/shortby:"+selected.val();
 	    }
 	}
-        function showDescription(){
+	
+	$(function() {
+		$( "#slider-range" ).slider({
+			range: true,
+			min: 1,
+			max: 200,
+			values: [ "<?php echo $salaryFrom; ?>","<?php echo $salaryTo; ?>"],
+			slide: function( event, ui ) {
+				$( "#from_amount" ).val( ui.values[ 0 ] +"K");
+				$( "#to_amount" ).val( ui.values[ 1 ]+"K" );
+			}
+		});
+		$( "#from_amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +"K");
+		$( "#to_amount" ).val( $( "#slider-range" ).slider( "values", 1 )+"K" );
+		
+	});
+
+</script>
+<script type="text/javascript"> 
+	$(document).ready(function(){
+		$(".flip_industry").click(function(){
+			$(".panel_industry").slideToggle("slow");
+			$a = $(".flip_industry").text();
+			if($a=="+"){
+			   $(".flip_industry").text("-");
+			}
+			if($a=="-"){
+			   $(".flip_industry").text("+");
+			}
+	  });
+	});
+</script>
+<script type="text/javascript"> 
+	$(document).ready(function(){
+		$(".flip_location").click(function(){
+			$(".panel_location").slideToggle("slow");
+			$a = $(".flip_location").text();
+			if($a=="+"){
+			   $(".flip_location").text("-");
+			}
+			if($a=="-"){
+			   $(".flip_location").text("+");
+			}
+	  });
+	});
+</script>
+<script type="text/javascript"> 
+	$(document).ready(function(){
+		$(".flip_jobtype").click(function(){
+			$(".panel_jobtype").slideToggle("slow");
+			$a = $(".flip_jobtype").text();
+			if($a=="+"){
+			   $(".flip_jobtype").text("-");
+			}
+			if($a=="-"){
+			   $(".flip_jobtype").text("+");
+			}
+	  });
+	});
+</script>
+<script type="text/javascript"> 
+	$(document).ready(function(){
+		$(".flip_company").click(function(){
+			$(".panel_company").slideToggle("slow");
+			$a = $(".flip_company").text();
+			if($a=="+"){
+			   $(".flip_company").text("-");
+			}
+			if($a=="-"){
+			   $(".flip_company").text("+");
+			}
+	  });
+	});
+
+    function showDescription(){
 	    $('#full_description').show();
             $('#short_description').hide();
             $('#more_info').hide();
 	}
+    
+    function checkValidForm() {
+       
+       if(document.getElementById("resume").value=="")
+        {
+           document.getElementById("error").innerHTML = "<font color='red'>Please Select File to upload</font>";
+           return false;
+        }
+       
+    }
 </script>
 <?php if(!isset($job)): ?>
 
 <div class="page">
-	<div style="width:890px;height:10px;padding: 22px;">
-		<div style="float:left;width: 268px;margin-left: 65px;">
-			WHAT <input class="text_field_bg"> 
-		</div>
-		<div style="float:left;width: 268px;margin-left: 160px;">
-			WHERE <input class="text_field_bg"> 
-		</div>
-		<div style="float:right;width: 100px;">
-			<button style="float: right; width: 100px; background:rgb(0, 255, 0);"> Find Job</button>
-		</div>
+	<div style="height:10px;">		
+       <?php  echo $this->Form->create('FilterJob', array('url' => array('controller' => 'Jobs', 'action' => 'index')));?>
+ 
+            <div style="float:left;width: 268px;margin-left: 65px;">
+               <?php echo $form->input('what', array('label' => 'What',
+							                         'type'  => 'text',
+                                                     'id'    => 'what',
+                                                     'class' => 'text_field_bg'));?></div>
+                     
+           <div style="float:left;width: 268px;margin-left: 160px;">
+               <?php echo $form->input('where', array('label' => 'Where',
+							                          'type'  => 'text',
+                                                      'id'    => 'where',
+                                                      'class' => 'text_field_bg'));?></div>
+           <div style="float:right;width: 100px;">
+			   <button style="float: right; width: 100px; background:rgb(0, 255, 0);" type="submit"> Find Job</button>
+		   </div>
 
+     <?php echo $form->end();?>
 	</div>
 
 	<!-- left section start -->
 		<div class="joblist_rightBox">
 			<div class="joblist_sideMenu">
-				<span><b>Industries</b></span>
-				<div class="narrowby_industry">
+				<div><div style="float:left;padding:5px;margin:5px"><b>Industries</b></div><div class="flip_industry"  style="float:right;padding:5px;cursor: pointer;">-</div></div>
+				<div style="clear:both"></div>
+				<?php echo $this->Form->create('NarrowJob', array('url' => array('controller' => 'Jobs', 'action' => 'index'))); ?>
+				<div class="narrowby_industry panel_industry" >
+					<?php $i=0; ?>
 					<?php  foreach($industries as $industry):?>
 						<div>
-							<?php	echo $form->input('', array('label' => "<span>$industry</span>",
-														'type'  => 'checkbox',
-														'name'  => "data[User][agree_condition]",
-														)
-									 );
+							<?php $i++; ?>	
+							<?php	echo $form->input("Industry.$i", array('label' => "<span>$industry</span>",
+														'type'  => 'checkbox',));?>
+						</div>
+						<div style="clear:both"></div>
+					<?php endforeach; ?>
+				</div>				
+			</div>
+			<div style="margin:5px;">
+				<div><span style="float:left;margin:5px"><b>Salary Range</b></span></div>
+				<div style="clear:both"></div>
+				<div class="demo" style="padding:0px;">
+					<p>
+						<label for="amount"></label>
+						<!--input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" / -->
+						<div>
+							<div style="float:left">
+								<?php	echo $form->input('salary_from.amount', array('label' => '',
+															'type'  => 'text',
+															'id' => 'from_amount',
+															'class'=> 'salary_range_slider'
+															)
+										 );
+								?>
+							</div>
+							<div class="salary_range_seperator"> - </div>
+							<div style="float:left;">		
+								<?php	echo $form->input('salary_to.amount', array('label' => '',
+															'type'  => 'text',
+															'id' => 'to_amount',
+															'class'=> 'salary_range_slider',
+															)
+										 );
+								?>
+							</div>
+						</div>
+					</p>
+					<div style="clear:both"></div>
+						
+					<div id="slider-range"></div>
+				</div>
+			</div>
+			<div>
+				<div><div style="float:left;padding:5px"><b>Location</b></div><div class="flip_location" style="float:right;padding:5px;cursor: pointer;">+</div></div>
+				<div style="clear:both"></div>
+		
+				<div class="narrowby_city panel_location" style="display:none;">
+					<?php  foreach($cities as $city):?>
+						<div>
+							<?php	echo $form->input("City.$city", array('label' => "<span>$city</span>",
+														'type'  => 'checkbox',));
 							?>
 						</div>
 						<div style="clear:both"></div>
 					<?php endforeach; ?>
 				</div>				
 			</div>
-			<div><span><b>Salary Range</b></span></div>
-			<div><span><b>Location</b></span></div>
-			<div><span><b>Job Type</b></span></div>
-			<div><span><b>Company</b></span></div>			
+			<div>
+				<div><div style="float:left;padding:5px"><b>Job Type</b></div><div class="flip_jobtype" style="float:right;padding:5px;cursor: pointer;"></div></div>
+				<div style="clear:both"></div>
+		
+				<div class="narrowby_jobtype panel_jobtype" style="display:none;">
+					<?php $jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
+					<?php $i=0; ?>
+					<?php  foreach($jobtypes as $jobtype):?>
+						<div>
+							<?php $i++; ?>
+							<?php	echo $form->input("job_type.$i", array('label' => "<span>$jobtype</span>",
+														'type'  => 'checkbox',));?>
+						</div>
+						<div style="clear:both"></div>
+					<?php endforeach; ?>
+				</div>				
+			</div>
+		
+			<div>
+				<div><div style="float:left;padding:5px"><b>Company</b></div><div class="flip_company" style="float:right;padding:5px;cursor: pointer;">+</div></div>
+				<div style="clear:both"></div>
+		
+				<div class="narrowby_company panel_company" style="display:none;">
+					<?php  foreach($companies as $company):?>
+						<div>
+							<?php	echo $form->input("company_name.$company", array('label' => "<span>$company</span>",
+														'type'  => 'checkbox',));?>
+						</div>
+						<div style="clear:both"></div>
+					<?php endforeach; ?>
+				</div>				
+			</div>
+			
+			<div>
+				<?php echo $form->submit('Go',array('div'=>false,)); ?>
+				<?php echo $form->end(); ?>
+				<div style="clear:both"></div>
+			</div>			
+			
 		</div>
 	
 	<!-- left section end -->
@@ -76,10 +253,7 @@
 												'label'=>'SORT BY ',
 												'options'=>array('date-added' => 'Date Added', 'company-name' => 'Company Name', 'industry' => 'Industry', 'salary' => 'Salary'),
 												'class'=>'job_select_shortby',
-												'selected'=>isset($shortBy)?$shortBy:'date-added',
-										)
-							);
-					?>
+												'selected'=>isset($shortBy)?$shortBy:'date-added',));?>
 				</div>
 				
 				<div style="float:right">
@@ -100,28 +274,30 @@
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
 			<div class="joblist_middleBox">
-			<table style="width:100%">
-
-				<?php foreach($jobs as $job):?>	
-					<tr>
-						<td>
-							<div>
-								<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/'.$job['id']); ?></div>
-								<div style="float:right"> <?php	echo $job['reward'];?>$</div>
-							</div>
-							<div style="clear:both">		
-							<div>
-								<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['state']]."<br>";
-										echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
-										echo $job_array[$job['job_type']]."<br>";
-										echo $job['short_description']."<br>";
-								?>
-                                                            
-							</div>			
-						</td>
-					</tr>
-				<?php endforeach; ?>
-			</table>
+				<table style="width:100%">
+					<?php foreach($jobs as $job):?>	
+						<tr>
+							<td>
+								<div>
+									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/'.$job['id']); ?></div>
+									<div style="float:right"> <?php	echo $job['reward'];?>$</div>
+								</div>
+								<div style="clear:both">		
+								<div>
+									<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['state']]."<br>";
+											echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
+											echo $job_array[$job['job_type']]."<br>";
+											echo $job['short_description']."<br>";
+                                            echo "Posted : ".$time->timeAgoInWords($job['created']);?>
+																
+								</div>			
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</table>
+				<?php if(!$jobs):?>
+					<div><h4>There is no job found for this search.</h4></div>
+				<?php endif;?>
 			</div>
 
 		<!-- middle conyent list -->
@@ -152,21 +328,7 @@
 				<table style="width:100%">
 					<tr>
 						<td>
-							<!-- <div>
-								<div style="float:left" class="text_heading"> <?php	echo $job['title']; ?></div>
-								<div style="float:right"> <?php	echo $job['reward'];?>$</div>
-							</div>
-							<div style="clear:both">		
-							<div>
-								<?php	echo $job['company_name']." - ".$job['city'].",".$states[$job['state']]."<br>";
-										echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
-										echo $job_array[$job['job_type']]."<br>";
-										echo $job['short_description']."<br>";
-										echo $job['description']."<br>";
-								?>
-							</div>	
-                                                        <div> -->
-
+							
                                              <div>
                                                <div style="float:left;width:150px;height:90px;">
                                                   <img src="" alt="Company Logo" title="company logo" />
@@ -179,82 +341,7 @@
                                                       <strong>By Company :</strong> <?php echo $job['company_name']."<br>"; ?>
                                                       <strong>Website : </strong><?php	echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br>
                                                       <strong>Published in :</strong> <?php echo $industries[$job['industry']]." - ".$specifications[$job['specification']].", "; ?>
-                                                      <?php  $start  = strtotime($job['created']);
-                                                             $end    = strtotime(date('Y-m-d H:i:s'));
-
-                                                             if(!$end) { $end = time(); }
-                                                             if(!is_numeric($start) || !is_numeric($end)) { return false; }
-                                                              // Convert $start and $end into EN format (ISO 8601)
-                                                             $start  = date('Y-m-d H:i:s',$start);
-                                                             $end    = date('Y-m-d H:i:s',$end);
-                                                             $d_start    = new DateTime($start);
-                                                             $d_end      = new DateTime($end);
-                                                             $diff = $d_start->diff($d_end);
-                                                                // return all data
-                                                             $year=""; $month=""; $day=""; $hour=""; $min=""; $sec="";
-                                                             
-                                                             $y    = $diff->format('%y');
-                                                             if($y>0)
-                                                              {
-                                                                 if($y==1)
-                                                                  {
-                                                                    $year = $y." year ";
-                                                                  }else{
-                                                                    $year = $y." years ";
-                                                                  }
-                                                              }
-                                                              $m = $diff->format('%m');
-                                                              if($m>0)
-                                                              {
-                                                                 if($m==1)
-                                                                  {
-                                                                    $month = $m." month ";
-                                                                  }else{
-                                                                    $month = $m." months ";
-                                                                  }
-                                                              }
-                                                              $d = $diff->format('%d');
-                                                              if($d>0)
-                                                              {
-                                                                 if($d==1)
-                                                                  {
-                                                                    $day = $d." day ";
-                                                                  }else{
-                                                                    $day = $d." days ";
-                                                                  }
-                                                              }
-                                                              $h = $diff->format('%h');
-                                                              if($h>0)
-                                                              {
-                                                                 if($h==1)
-                                                                  {
-                                                                    $hour = $h." hour ";
-                                                                  }else{
-                                                                    $hour = $h." hours ";
-                                                                  }
-                                                              }
-                                                              $i = $diff->format('%i');
-                                                              if($i>0)
-                                                              {
-                                                                 if($i==1)
-                                                                  {
-                                                                    $min = $i." minute ";
-                                                                  }else{
-                                                                    $min = $i." minutes ";
-                                                                  }
-                                                              }
-                                                              $s = $diff->format('%s');
-                                                              if($s>0)
-                                                              {
-                                                                 if($s==1)
-                                                                  {
-                                                                    $sec = $s." second ";
-                                                                  }else{
-                                                                    $sec = $s." seconds ";
-                                                                  }
-                                                              }
-                                                             $diff = $year.$month.$day.$hour;
-                                                             echo $diff."ago<br><br>";?>
+                                                      <?php  echo $time->timeAgoInWords($job['created'])."<br><br>";?>
                                                   </div>
                                                </div>
                                                
@@ -300,13 +387,43 @@
                                                 </div>
                                                 <?php }?>
                                             </div>
+                                            
                                             <div>
-                                            </div>				
-						</td>
+                                            </div>	
+                                     <?php if(isset($userrole) && $userrole['role_id']){ ?>
+                                     <div style="padding:20px;">
+                                       <div style="font-size:15px;padding-bottom:20px"><strong>Apply for this job</strong></div>
+                                       <div>
+                                       <div id="message"></div> 
+                                        
+<?php  echo $form->create('Jobs', array('action' => 'apply', 'type' => 'file', 'onsubmit'=>'return checkValidForm()'));?>
+ 
+ <div style="padding-bottom:20px"><strong>Upload Resume * (pdf, txt, doc)</strong>
+                      <?php	echo $form->input('resume', array('label' => '',
+							  'type'  => 'file',
+                              'id'    => 'resume'));?><span id="error"></span></div>
+ <div style="padding-bottom:20px"><strong>Upload Cover Letter (pdf, txt, doc)</strong>
+                      <?php	echo $form->input('cover_letter', array('label' => '',
+							  'type'  => 'file',
+                              'id'    => 'cover_letter'));?></div>
+ <div><?php	echo $form->input('job_id', array('label' => '',
+							  'type'  => 'hidden',
+							  'value' => $job['id']));?>
+     <?php	echo $form->input('user_id', array('label' => '',
+							  'type'  => 'hidden',
+							  'value' => $this->Session->read('Auth.User.id')));?>
+     <?php  echo $form->submit('Apply',array('div'=>false,)); ?></div>
+
+     <?php echo $form->end();?>
+   </div>
+	    </div>
+          </div>
+            <?php }?>
+                     </td>
 					</tr>
 				</table>
 			</div>
-
+              			
 		<!-- middle conyent list -->
 
 	</div>
