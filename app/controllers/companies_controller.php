@@ -136,7 +136,27 @@ class CompaniesController extends AppController {
 				foreach($specifications as $specification){
 					$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
 				}
-				$this->set('specifications',$specification_array);		
+				$this->set('specifications',$specification_array);
+				/****************  genrate code for traking user ****************/
+					$str = "11:12";
+					$temp = base64_encode($str);
+					//echo $temp;
+					$str = base64_decode("MTE6MTI6Njk=");
+					//echo $str;exit;
+					$code="";
+					if($str != ""){
+						$ids = split(":",$str);
+						if($ids!=false && count($ids)>0){
+							$ids[] = $userId;
+							$str = implode(":",$ids);
+							$code = base64_encode($str);
+						}
+					}else{
+						$code = base64_encode($userId);				
+					}
+					$this->set('code',$code);
+				/************************** end *********************************/
+		
 			}	
 			else{
 				$this->Session->setFlash('You may be clicked on old link.', 'error');				

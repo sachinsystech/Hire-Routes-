@@ -30,7 +30,7 @@
 </script>
 
 <div style="width:600px;margin: auto;">
-<div style="width:300px; margin: 4px 0;">Job URL <input type="text" class='text_field_bg' ></div>
+<div style="width:300px; margin: 4px 0;">Job URL <input type="text" class='text_field_bg' value="<?php echo Configure::read('httpRootURL')."job/".$job['id']."/".$code; ?>"></div>
 <div style="clear:both"></div>
 <div class="sigup_heading">Edit Posted Job </div>
 <?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'editJob'))); ?>
