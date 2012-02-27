@@ -4,7 +4,7 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-    var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','CompanyContact');
+    var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles');
 	var $components = array('Email','Session','TrackUser','Utility');
 	function postJob(){
 	
@@ -185,69 +185,6 @@ class CompaniesController extends AppController {
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
 		$this->set('company',$user['Companies'][0]);
-	}
-	
-	function addContacts() {
-		if(isset($this->data['Contact'])){
-			$userId = $this->TrackUser->getCurrentUserId();
-			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-			$this->data['Contact']['user_id'] = $userId;
-			$this->data['Contact']['company_id'] = $user['Companies'][0]['id'];
-			$this->CompanyContact->save($this->data['Contact']);
-			$this->Session->setFlash('Contact has been added successfully.', 'success');	
-		}
-	}
-
-	function mynetwork() {
-		$userId = $this->TrackUser->getCurrentUserId();
-		//$contacts = $this->CompanyContact->find('all',array('conditions'=>array('CompanyContact.user_id'=>$userId)));	
-		//$this->set('contacts',$contacts);
-		
-		$this->paginate = array('conditions'=>array('CompanyContact.user_id'=>$userId),
-                                'limit' => 10,
-                                'order' => array("CompanyContact.id" => 'asc',));             
-        $contacts = $this->paginate('CompanyContact');
-        $this->set('contacts',$contacts);
-        
-	}
-	
-	function importCsv() {
-		$userId = $this->TrackUser->getCurrentUserId();
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-		$file = fopen($this->data['companies']['CSVFILE']['tmp_name'],'r');
-		$values = array();
-		$contacts = array();
-		while(! feof($file))
-	  	{
-			$csvArray = fgetcsv($file);
-			$values[] = $csvArray;
-	  	}
-		foreach($values as $key=>$val){
-			if(isset($val[3])){
-				$contacts[$key]['user_id'] = $userId;
-				$contacts[$key]['company_id'] = $user['Companies'][0]['id'];
-				$contacts[$key]['contact_name'] = $val[0]." ".$val[1]." ".$val[2];
-				$contacts[$key]['contact_email'] = $val[3];
-			}	
-		}	
-		unset($contacts[0]);
-		foreach($contacts as $contact){
-			$this->massAdd($contact);
-		}
-		$this->Session->setFlash('You CSV contacts have been imported successfully.', 'success');	
-		$this->redirect('/companies/addContacts');
-	}
-	
-	function massAdd($contact){
-		$this->CompanyContact->create();
-		$this->CompanyContact->save($contact);
-	}
-
-	function deleteContacts() {
-		$id = $this->params['id'];
-		$this->CompanyContact->delete($id);
-		$this->Session->setFlash('contact has been deleted successfuly.', 'success');				
-		$this->redirect('/companies/mynetwork');
 	}
 
 }

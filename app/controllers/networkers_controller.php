@@ -1,8 +1,9 @@
 <?php
 class NetworkersController extends AppController {
 	var $name = 'Networkers';
-	var $uses = array('Networkers','NetworkerSettings','User','UserRoles','Industry','State','City','Specification','FacebookUsers');
+	var $uses = array('Networkers','NetworkerSettings','User','UserRoles','Industry','State','City','Specification','FacebookUsers','NetworkerContact');
 	var $components = array('Email','Session','TrackUser', 'Utility');	
+    var $helpers = array('Form'); 
 	
 	public function beforeFilter(){
 		$userId = $this->TrackUser->getCurrentUserId();		
@@ -21,6 +22,7 @@ class NetworkersController extends AppController {
 		$this->redirect('/networkers/setting');
 	}
 	
+	/* Delete Subscription */
 	function delete(){
 		$id = $this->params['id'];
 		$this->NetworkerSettings->delete($id);
@@ -112,6 +114,126 @@ class NetworkersController extends AppController {
         if(isset($fbinfos[0])){
         	$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
         }
+	}
+	
+	/*	Add contact by single entry	*/
+	function addContacts() {
+		if(isset($this->data['Contact'])){
+			$userId = $this->TrackUser->getCurrentUserId();
+			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+			$this->data['Contact']['user_id'] = $userId;
+			$this->data['Contact']['networker_id'] = $user['Networkers'][0]['id'];
+			
+			if($this->data['Contact']['contact_name']=='Enter Name'){
+				$this->data['Contact']['contact_name'] = "";			
+			}
+			if($this->data['Contact']['contact_email']=='Enter E-mail'){
+				$this->data['Contact']['contact_email'] = "";			
+			}
+			if ($this->NetworkerContact->create($this->data['Contact']) && $this->NetworkerContact->validates()) {
+		        $this->NetworkerContact->save($this->data['Contact']);
+				$this->Session->setFlash('Contact has been added successfully.', 'success');	
+			}
+			$this->set('validationErrors',$this->NetworkerContact->validationErrors);
+			$this->set('NetworkerContact',$this->NetworkerContact->data['NetworkerContact']);
+		}
+	}
+
+	/*	Edit single contact	*/
+	function EditContact() {
+		if(isset($this->data['editContact'])){
+			$userId = $this->TrackUser->getCurrentUserId();
+			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+			$this->NetworkerContact->save($this->data['editContact']);
+			$this->Session->setFlash('Contact has been updated successfully.', 'success');	
+			$this->redirect('/networkers/personal');
+		}
+	}
+
+	/*	displaying all personal contacts	*/
+	function personal() {
+		$userId = $this->TrackUser->getCurrentUserId();
+		
+		if(isset($this->params['id']) && isset($this->params['uid'])){
+			$id =$this->params['id'];
+			$uid = $this->params['uid'];		
+			if($uid != $userId){
+				$this->Session->setFlash('You clicked on old link or entered manually.', 'error');	
+				$this->redirect('/networkers/personal');
+			}
+			$contact = $this->NetworkerContact->find('first',array('conditions'=>array('NetworkerContact.id'=>$id,
+																			'NetworkerContact.user_id'=>$uid,
+																			)
+													)
+										);
+			if(!isset($contact['NetworkerContact'])){
+				$this->Session->setFlash('You clicked on old link or entered manually.', 'error');	
+				$this->redirect('/networkers/personal');
+			}							
+			$this->set('editContact',$contact['NetworkerContact']);
+		}
+		
+		$this->paginate = array('conditions'=>array('NetworkerContact.user_id'=>$userId),
+                                'limit' => 10,
+                                'order' => array("NetworkerContact.id" => 'asc',));             
+        $contacts = $this->paginate('NetworkerContact');
+        $this->set('contacts',$contacts);
+        $this->set('contact',null);
+        
+	}
+	
+	/*	Add contact by Importing CSV	*/
+	function importCsv() {
+		$userId = $this->TrackUser->getCurrentUserId();
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+		$file = fopen($this->data['networkers']['CSVFILE']['tmp_name'],'r');
+		$values = array();
+		$contacts = array();
+		while(! feof($file))
+	  	{
+			$csvArray = fgetcsv($file);
+			$values[] = $csvArray;
+	  	}
+
+		if(!eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $values[1][3])){
+			$this->Session->setFlash('Your CSV is not in proper format.', 'error');	
+			$this->redirect('/networkers/addContacts');
+		}
+
+		foreach($values as $key=>$val){
+			if(isset($val[3])){
+				$contacts[$key]['user_id'] = $userId;
+				$contacts[$key]['networker_id'] = $user['Networkers'][0]['id'];
+				$contacts[$key]['contact_name'] = $val[0]." ".$val[1]." ".$val[2];
+				$contacts[$key]['contact_email'] = $val[3];
+			}	
+		}	
+		unset($contacts[0]);
+		foreach($contacts as $contact){
+			$this->massAdd($contact);
+		}
+		$this->Session->setFlash('You CSV contacts have been imported successfully.', 'success');	
+		$this->redirect('/networkers/addContacts');
+	}
+	
+	function massAdd($contact){
+		$this->NetworkerContact->create();
+		$this->NetworkerContact->save($contact);
+	}
+	
+	function deleteContacts() {
+		$ids = array();
+		if(isset($this->params['id'])){
+			$ids[] = $this->params['id'];
+		}
+		foreach($this->data['deleteContacts'] as $key=>$value){
+			if($value){
+				$ids[] = $value;
+			}	
+		}
+		$this->NetworkerContact->delete($ids);
+		$this->Session->setFlash('contact has been deleted successfuly.', 'success');				
+		$this->redirect('/networkers/personal');
 	}
 }
 ?>
