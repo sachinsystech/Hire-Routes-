@@ -36,6 +36,9 @@
 	Router::connect('/companyInformation', array('controller' => 'home', 'action' => 'companyInformation'));	
 	Router::connect('/networkerInformation', array('controller' => 'home', 'action' => 'networkerInformation'));		
 	Router::connect('/jobseekerInformation', array('controller' => 'home', 'action' => 'jobseekerInformation'));		
+	Router::connect('/companies/archiveJob/:id', array('controller' => 'Companies','action' => 'archiveJob'),array('id' => '[0-9]+')); 
+	Router::connect('/companies/showApplicant/:id', array('controller' => 'Companies','action' => 'showApplicant'),array('id' => '[0-9]+')); 
+
 
 	Router::connect('/users/saveFacebookUser/:userType', array('controller' => 'users', 'action' => 'saveFacebookUser'));
 	Router::connect('/coupons', array('controller' => 'coupons', 'action' => 'view'));				
