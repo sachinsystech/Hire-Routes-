@@ -49,6 +49,7 @@
 	Router::connect('/companies/editJob/:userId/:jobId', array('controller' => 'companies', 'action' => 'editJob'));
 	Router::connect('/companies', array('controller' => 'companies', 'action' => 'accountProfile'));
 	Router::connect('/companies/editProfile', array('controller' => 'companies', 'action' => 'editProfile'));
+
 	
 	Router::connect('/jobs/', array('controller' => 'jobs', 'action' => 'index'));
 	Router::connect('/jobs/:id', array('controller' => 'jobs','action' => 'index'),
@@ -67,6 +68,9 @@
 
 	Router::connect('/networkers/delete/:id', array('controller' => 'networkers','action' => 'delete'));	
 	Router::connect('/networkers/sendNotifyEmal/:notifyId', array('controller' => 'networkers','action' => 'sendNotifyEmal'));	
+	Router::connect('/networkers/deleteContacts/:id', array('controller' => 'networkers','action' => 'deleteContacts'));
+	Router::connect('/networkers/personal/:uid/:id', array('controller' => 'networkers','action' => 'personal'));
+
 
 	Router::connect('/jobseekers/delete/:id', array('controller' => 'jobseekers','action' => 'delete'));	
 	Router::connect('/jobseekers/sendNotifyEmal/:notifyId', array('controller' => 'jobseekers','action' => 'sendNotifyEmal'));	
