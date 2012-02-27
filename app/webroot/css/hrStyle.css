@@ -1246,3 +1246,7 @@ label.error{
 .add_contact_button{
 	margin-top:-4px
 }
+
+.disableText{
+	display:none;
+}

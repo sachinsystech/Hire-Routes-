@@ -1,4 +1,3 @@
-
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -7,7 +6,6 @@
 				<li>My Jobs</li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
 				<li class="active">My Account</li>
-
 			</ul>
 		</div>
 		<div>Feed Back</div>

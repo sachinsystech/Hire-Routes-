@@ -1,4 +1,3 @@
-
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -7,7 +6,6 @@
 				<li>My Jobs</li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
 				<li class="active">My Account</li>
-
 			</ul>
 		</div>
 		<div>Feed Back</div>
@@ -22,7 +20,7 @@
 			<ul>
 				<li><a href="/networkers/setting">Settings/Subscription</a></li>	
 				<li class="active"><a href="/networkers">Profile</a></li>			
-            </ul>
+                        </ul>
 			<ul style="float:right">
 				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
 			</ul>
