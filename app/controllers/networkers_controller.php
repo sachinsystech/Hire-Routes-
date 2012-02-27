@@ -2,7 +2,7 @@
 class NetworkersController extends AppController {
 	var $name = 'Networkers';
 
-	var $uses = array('Networkers','NetworkerSettings','User','UserRoles','Industry','State','City','Specification',
+	var $uses = array('Networkers','NetworkerContact','NetworkerSettings','User','UserRoles','Industry','State','City','Specification',
 'FacebookUsers','Companies','Job');
 	var $components = array('Email','Session','TrackUser', 'Utility');	
 	var $helpers = array('Time','Form');

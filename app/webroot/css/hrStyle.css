@@ -1163,7 +1163,6 @@ label.error{
     height: 18px;
     width: 146px;	
     color: #000000;
-    font-style: italic;
 }
 
 .contacts tr td{
@@ -1238,7 +1237,6 @@ label.error{
     border: 1px solid #000000;
     color: #000000;
     float: right;
-    font-style: italic;
     height: 17px;
     margin-left: 10px;
     width: 166px;
