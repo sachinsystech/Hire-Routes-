@@ -14,19 +14,27 @@ class PaymentInfo extends AppModel {
 		'card_no' => array(
 			'notEmpty'=> array(
 				'rule' => 'notEmpty',
-				'message' => 'Card No can not be blank.'
+				'message' => 'Card No. can not be left blank.'
+			),
+		     'cc'=> array(
+				'rule' => 'cc',
+				'message' => 'Please provide valid Card No.'
 			),			
 		),
-       'expiration_date' => array(
+         'expiration_date' => array(
 			'notEmpty'=> array(
 				'rule' => 'notEmpty',
-				'message' => 'Expiration Date can not be blank.'
+				'message' => 'Card No. can not be left blank.'
+			),
+			'date'=> array(
+				'rule' => 'date',
+				'message' => 'Please provide valid Expiration Date.'
 			),			
 		),
 		'cardholder_name' => array(
 			'notEmpty'=> array(
 				'rule' => 'notEmpty',
-				'message' => "Card Holder's can not be blank."
+				'message' => "Card Holder's name can not be blank."
 			),			
 		),
 		'address' => array(
@@ -60,9 +68,9 @@ class PaymentInfo extends AppModel {
 			),			
 		),
 		'email' => array(
-            'email' => array(
-                'rule' => 'email',
-                'message' => 'Please provide a valid email address.'
+                    'email' => array(
+                	'rule' => 'email',
+                	'message' => 'Please provide a valid email address.'
             ),            
         ),
 	);
