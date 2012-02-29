@@ -190,7 +190,7 @@ class CompaniesController extends AppController {
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
 		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
 		if(isset($this->data['Payment'])){
-            $this->PaymentInfo->save($this->data['Payment']);
+                        $this->PaymentInfo->save($this->data['Payment']);
 			$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
 			$this->redirect('/companies/paymentInfo');						
 		}
