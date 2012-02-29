@@ -1,4 +1,7 @@
-
+<?php
+//$options['url'] = "/test/abc:1,2,3,4";
+//$this->Paginator->options($options);
+?>
 
 <!-- ------------------------ ALL JOBS LISTING -------------------------->
 <script>
@@ -138,7 +141,7 @@
 			<div class="joblist_sideMenu">
 				<div><div style="float:left;padding:5px;margin:5px"><b>Industries</b></div><div class="flip_industry"  style="float:right;padding:5px;cursor: pointer;">-</div></div>
 				<div style="clear:both"></div>
-				<?php echo $this->Form->create('NarrowJob', array('url' => array('controller' => 'Jobs', 'action' => 'index'))); ?>
+				<?php echo $this->Form->create('NarrowJob', array('type'=>'get','url' => array('controller' => 'Jobs', 'action' => 'index'))); ?>
 				<div class="narrowby_industry panel_industry" >
 					<?php $i=0; ?>
 					<?php  foreach($industries as $industry):?>

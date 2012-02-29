@@ -13,10 +13,7 @@ class JobsController extends AppController {
 	
 	function index(){
 
-		//echo "<pre>"; print_r($this->data);
-       
-
-		$shortByItem = 'id';
+    	$shortByItem = 'id';
         $salaryFrom = null;
         $salaryTo = null;
         if(isset($this->params['named']['display'])){

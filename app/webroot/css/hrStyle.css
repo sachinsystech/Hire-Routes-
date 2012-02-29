@@ -1147,3 +1147,7 @@ label.error{
 #JobseekerSettingsEditProfileForm div{
 		padding: 0.12em;
 }
+
+.disableText{
+	display:none;
+}
