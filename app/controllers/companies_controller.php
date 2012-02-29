@@ -235,7 +235,6 @@ class CompaniesController extends AppController {
             
 			if( !$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
 				// echo '<pre>';print_r($this->PaymentInfo); exit;	
-				$this->set('errors', $this->PaymentInfo->validationErrors);
 				$this->render("payment_info");
 				return;				
 			}else{
