@@ -2,9 +2,9 @@
 class NetworkersController extends AppController {
 	var $name = 'Networkers';
 
-	var $uses = array('Networkers','NetworkerContact','NetworkerSettings','User','UserRoles','Industry','State','City','Specification',
+	var $uses = array('Networkers','NetworkerContact','NetworkerCsvcontact','NetworkerSettings','User','UserRoles','Industry','State','City','Specification',
 'FacebookUsers','Companies','Job');
-	var $components = array('Email','Session','TrackUser', 'Utility');	
+	var $components = array('Email','Session','TrackUser','Utility');	
 	var $helpers = array('Time','Form');
 	
 	public function beforeFilter(){
@@ -18,7 +18,8 @@ class NetworkersController extends AppController {
 	
 	/* Save New Networking-Setting */
 	function add() {
-		$this->data['Networkers']['user_id'] = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$this->data['Networkers']['user_id'] = $userId;
 		$this->NetworkerSettings->save($this->data['Networkers']);
 		$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
 		$this->redirect('/networkers/setting');
@@ -76,21 +77,10 @@ class NetworkersController extends AppController {
 			$this->set('networker',$networker['Networkers']);
 		}
 		
-		$industries = $this->Industry->find('all');
-		$industry = $this->Utility->objectToKeyValueArray($industries, 'id', 'name', 'Industry');
-		$this->set('industries',$industry);
-		
-		$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'PA')));
-		$city = $this->Utility->objectToKeyValueArray($cities, 'city', 'city', 'City');
-		$this->set('cities',$city);
-		
-		$states = $this->State->find('all');
-		$state = $this->Utility->objectToKeyValueArray($states, 'state', 'state', 'State');
-		$this->set('states',$state);
-
-		$specifications = $this->Specification->find('all');			
-		$specification = $this->Utility->objectToKeyValueArray($specifications, 'id', 'name', 'Specification');
-		$this->set('specifications',$specification);
+		$this->set('specifications',$this->Utility->getSpecification());
+		$this->set('industries',$this->Utility->getIndustry());		
+		$this->set('cities',$this->Utility->getCity());
+		$this->set('states',$this->Utility->getState());
 	}
    
 	/* 	Edit Networker's Account-Profile*/   
@@ -155,16 +145,38 @@ class NetworkersController extends AppController {
 	/*	displaying all personal contacts	*/
 	function personal() {
 		$userId = $this->TrackUser->getCurrentUserId();
+		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
 		
-		if(isset($this->params['id']) && isset($this->params['uid'])){
-			$id =$this->params['id'];
-			$uid = $this->params['uid'];		
-			if($uid != $userId){
-				$this->Session->setFlash('You clicked on old link or entered manually.', 'error');	
-				$this->redirect('/networkers/personal');
-			}
-			$contact = $this->NetworkerContact->find('first',array('conditions'=>array('NetworkerContact.id'=>$id,
-																			'NetworkerContact.user_id'=>$uid,
+		$paginateCondition = array(
+									'AND' => array(
+												array('NetworkerContact.user_id'=>$userId),
+												array('NetworkerContact.contact_email LIKE' => "$startWith%")
+											)
+								);
+		
+		$this->paginate = array('conditions'=>$paginateCondition,
+                                'limit' => 10,
+                                'order' => array("NetworkerContact.id" => 'asc',));             
+        $contacts = $this->paginate('NetworkerContact');
+        $alphabets = array();
+        foreach(range('A','Z') AS $alphabet){
+        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.contact_email LIKE' => "$alphabet%")));
+            $alphabets[$alphabet] = $contacts_count; 
+        }
+
+        $this->set('alphabets',$alphabets);
+        $this->set('contacts',$contacts);
+        $this->set('contact',null);
+        $this->set('startWith',$startWith);
+	}
+	
+	/*	Edit single personal contact	*/
+	function editPersonalContact(){
+		$userId = $this->TrackUser->getCurrentUserId();
+		if(isset($this->params['id'])){
+			$contactId =$this->params['id'];
+			$contact = $this->NetworkerContact->find('first',array('conditions'=>array('NetworkerContact.id'=>$contactId,
+																			'NetworkerContact.user_id'=>$userId,
 																			)
 													)
 										);
@@ -173,15 +185,7 @@ class NetworkersController extends AppController {
 				$this->redirect('/networkers/personal');
 			}							
 			$this->set('editContact',$contact['NetworkerContact']);
-		}
-		
-		$this->paginate = array('conditions'=>array('NetworkerContact.user_id'=>$userId),
-                                'limit' => 10,
-                                'order' => array("NetworkerContact.id" => 'asc',));             
-        $contacts = $this->paginate('NetworkerContact');
-        $this->set('contacts',$contacts);
-        $this->set('contact',null);
-        
+		}       
 	}
 	
 	/*	Add contact by Importing CSV	*/
@@ -191,36 +195,60 @@ class NetworkersController extends AppController {
 		$file = fopen($this->data['networkers']['CSVFILE']['tmp_name'],'r');
 		$values = array();
 		$contacts = array();
-		while(! feof($file))
-	  	{
-			$csvArray = fgetcsv($file);
-			$values[] = $csvArray;
-	  	}
-
-		if(!eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $values[1][3])){
+		try{
+			while(! feof($file))
+		  	{
+				$csvArray = fgetcsv($file);
+				$values[] = $csvArray;
+		  	}
+			if(isset($values[1][3])){
+				
+				if(!eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $values[1][3])){
+					$this->Session->setFlash('Your CSV is not in proper format.', 'error');	
+					$this->redirect('/networkers/addContacts');
+				}
+			
+				foreach($values as $key=>$val){
+					if(isset($val[3])){
+						$contacts[$key]['user_id'] = $userId;
+						$contacts[$key]['networker_id'] = $user['Networkers'][0]['id'];
+						$contacts[$key]['contact_name'] = $val[0]." ".$val[1]." ".$val[2];
+						$contacts[$key]['contact_email'] = $val[3];
+					}	
+				}	
+				unset($contacts[0]);
+				$duplicate_emails = array();
+				$added_count = 0;
+				$duplicate_count = 0;
+				foreach($contacts as $contact){
+					if ($this->NetworkerCsvcontact->create($contact) && $this->NetworkerCsvcontact->validates()) {
+						$this->NetworkerCsvcontact->save($contact);
+						++$added_count;
+					}
+					else{
+						$duplicate_emails[] = $this->NetworkerCsvcontact->data['NetworkerCsvcontact']['contact_email'];	
+						++$duplicate_count;
+					}
+				}
+			}
+			else{
+				$this->Session->setFlash('Your CSV is not in proper format.', 'error');	
+				$this->redirect('/networkers/addContacts');
+			}
+		}catch(Exception $e){
 			$this->Session->setFlash('Your CSV is not in proper format.', 'error');	
 			$this->redirect('/networkers/addContacts');
 		}
-
-		foreach($values as $key=>$val){
-			if(isset($val[3])){
-				$contacts[$key]['user_id'] = $userId;
-				$contacts[$key]['networker_id'] = $user['Networkers'][0]['id'];
-				$contacts[$key]['contact_name'] = $val[0]." ".$val[1]." ".$val[2];
-				$contacts[$key]['contact_email'] = $val[3];
-			}	
-		}	
-		unset($contacts[0]);
-		foreach($contacts as $contact){
-			$this->massAdd($contact);
+		$added_count_msg = "";
+		$duplicate_count_msg = "";
+		if(count($added_count)>0){
+			$added_count_msg = "You CSV have been imported successfully, $added_count contacts added.";	
 		}
-		$this->Session->setFlash('You CSV contacts have been imported successfully.', 'success');	
+		if(count($duplicate_count)>0){
+			$duplicate_count_msg = "$duplicate_count duplicate contacts found.";
+		}
+		$this->Session->setFlash($added_count_msg." ".$duplicate_count_msg, 'success');	
 		$this->redirect('/networkers/addContacts');
-	}
-	
-	function massAdd($contact){
-		$this->NetworkerContact->create();
-		$this->NetworkerContact->save($contact);
 	}
 	
 	function deleteContacts() {
@@ -246,7 +274,7 @@ class NetworkersController extends AppController {
     	$networker_settings = $this->NetworkerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
         
         $industry		= $networker_settings['NetworkerSettings']['industry'];
-		$specification = explode(",",$networker_settings['NetworkerSettings']['specification']);
+		$specification  = explode(",",$networker_settings['NetworkerSettings']['specification']);
 	    $city 			= $networker_settings['NetworkerSettings']['city'];
 		$state 			= $networker_settings['NetworkerSettings']['state'];
 	   
@@ -294,41 +322,15 @@ class NetworkersController extends AppController {
 		}
 		$this->set('jobs',$jobs_array);
 		
-		$industries = $this->Industry->find('all');
-		$industries_array = array();
-		foreach($industries as $industry){
-			$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
-		}
-		$this->set('industries',$industries_array);
+		$this->set('industries',$this->Utility->getIndustry());	
 
-		$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'AK')));
-		$cities_array = array();
-		foreach($cities as $city){
-			$cities_array[$city['City']['city']] =  $city['City']['city'];
-		}
-		$this->set('cities',$cities_array);
+		$this->set('cities',$this->Utility->getCity());
 		
-		$states = $this->State->find('all');
-		$state_array = array();
-		foreach($states as $state){
-			$state_array[$state['State']['state']] =  $state['State']['state'];
-		}
-		$this->set('states',$state_array);
+		$this->set('states',$this->Utility->getState());
 
-		$specifications = $this->Specification->find('all');
-		$specification_array = array();
-		foreach($specifications as $specification){
-			$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
-		}
-		$this->set('specifications',$specification_array);
+		$this->set('specifications',$this->Utility->getSpecification());
 
-                $urls = $this->Companies->find('all');
-		$url_array = array();
-		foreach($urls as $url){
-			$url_array[$url['Companies']['id']] =  $url['Companies']['company_url'];
-		}
-                
-		$this->set('urls',$url_array);
+        $this->set('urls',$this->Utility->getCompany('url'));
 		
 		$companies = $this->Companies->find('all');
 		$companies_array = array();

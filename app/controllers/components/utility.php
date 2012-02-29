@@ -4,7 +4,7 @@ class UtilityComponent extends Object
 {
 	var $controller = true;
 	var $components = array('Session','Auth');
-	var $uses = array('Industry','State','City','Specification','FacebookUsers');
+	var $uses = array('Industry','State','City','Specification','FacebookUsers','Companies');
 	
 	function initialize(&$controller) {
 		if ($this->uses !== false) {
@@ -40,6 +40,16 @@ class UtilityComponent extends Object
 		return $this->Specification->find('list', array('fields' => array('Specification.name')));
 	}
 
+	function getCompany($by = null){
+		if($by){
+			$by = 'company_url';
+			return $this->Companies->find('list', array('fields' => array("Companies.$by")));
+		}
+		else{
+			return $this->Companies->find('list', array('fields' => array("Companies.id","Companies.company_name")));
+		}
+	}
+	
 	function objectToKeyValueArray($objectArray, $key, $value, $modelName){
 		$object_to_key_value_array = array();
 		foreach($objectArray as $ob){

@@ -1,3 +1,4 @@
+<?php //echo "<pre>"; print_r($this->Paginator); exit;?>
 
 <div class="page">
 	<!-- left section start -->	
@@ -26,7 +27,6 @@
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
-			<?php if(isset($contacts) && !isset($editContact)): ?>
 			<div class="network_contact_middleBox">
 				<?php echo $this->Form->create('deleteContacts', array('onsubmit'=>'return checkMultipleDelete();',
 																	   'url' => array('controller' => 'networkers',
@@ -37,6 +37,27 @@
 																	   )
 											   );
 				?>
+				<div style="margin: auto; font-weight: bold; width: 560px; font-size: 88%;">
+					<a class="button" href="/networkers/personal">All</a>
+					<?php
+						
+						foreach($alphabets AS $alphabet=>$count){
+							$class = 'button';
+							$url = "/networkers/personal/alpha:$alphabet";
+							$urlLink = "<a href=".$url.">". $alphabet ."</a>";
+							if($startWith ==$alphabet || $count<1){
+								$class = 'current';
+								$urlLink = $alphabet;
+							}
+							?>
+							<span class="<?php echo $class; ?>" > <?php echo $urlLink; ?></a> </span>
+							<?php
+							if($alphabet !="Z"){
+								echo " | ";
+							}	
+						}
+					?>
+				</div>
 				<table style="width:85%;margin: auto;" class="contacts">
 					<tr>
 						<th style="width:8%;text-align:center"><input type="checkbox" onclick="toggleChecked(this.checked)"></th>
@@ -71,44 +92,15 @@
 				<?php echo $form->submit('Delete Selected',array('div'=>false,)); ?>
 				<?php echo $form->end(); ?>
 				<div style="clear:both;"></div>
-				<div style="float:right;font-size: 93%;margin-right:50px"> < < < <?php echo $this->Paginator->numbers(); ?> > > ></div>
-			</div>
-			<?php endif;?>
-			<?php if(isset($editContact)): ?>
-			<div class="network_contact_edit_middleBox">
-				<div class="edit_contact_form">
-					<?php echo $this->Form->create('editContact', array('url' => array('controller' => 'networkers', 'action' => 'editContact'))); ?>
-					<?php echo $form->input('id', array('label' => '',
-											'type'  => 'hidden',
-											'value' => isset($editContact['id'])?$editContact['id']:""
-											));
-					?>
-					<div>
-						<div style="float:left">
-							<?php echo $form->input('contact_name', array('label' => '',
-												'type'  => 'text',
-												'class' => 'networker_contact_text_blk required',
-												'value' => isset($editContact['contact_name'])?$editContact['contact_name']:""
-												));
-							?>					
-						</div>
-						<div style="float:left">
-							<?php echo $form->input('contact_email', array('label' => '',
-												'type'  => 'text',
-												'class' => 'networker_contact_text_email required',
-												'value' => isset($editContact['contact_email'])?$editContact['contact_email']:""
-												));
-							?>					
-						</div>
-					</div>
-					<div style="clear:both"></div>
-					<div style="float:right">
-						<?php echo $form->submit('Update',array('div'=>false,)); ?>
-					</div>
-					<?php echo $form->end(); ?>
+				<div style="float:right;font-size: 93%;margin-right:50px">
+					
+				 <?php echo $paginator->first('First '); ?>	
+				 <?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
+				 < <  <?php echo $this->Paginator->numbers(); ?>  > >
+				 <?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
+				 <?php echo $paginator->last(' Last'); ?>
 				</div>
 			</div>
-			<?php endif;?>
 		<!-- middle conyent list -->
 
 	</div>
@@ -116,17 +108,11 @@
 
 </div>
 
-<?php
-	$emailArray = array();
-	foreach($contacts AS $value):
-		$emailArray[$value['NetworkerContact']['id']] = $value['NetworkerContact']['contact_email'];
-	endforeach;
-?>
 
 <script>
 
 function edit(id){
-	window.location.href="/networkers/personal/"+<?php echo $this->Session->read('Auth.User.id');?>+"/"+id;
+	window.location.href="/networkers/editPersonalContact/"+id;
 }
 function drop(ids){
 	var r=confirm("Do you really want to delete this?");
