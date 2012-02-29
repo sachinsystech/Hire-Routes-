@@ -2,7 +2,7 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-    	var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','PaymentInfo','JobseekerApply');
+   	var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','PaymentInfo','JobseekerApply');
 	var $components = array('TrackUser','Utility');
 	var $helpers = array('Form','Paginator','Time');
 	
@@ -191,6 +191,7 @@ class CompaniesController extends AppController {
 			$this->redirect('/companies/newJob');
 		}
 	}
+	
 	function accountProfile() {
 		$userId = $this->Session->read('Auth.User.id');
 		$roleInfo = $this->getCurrentUserRole();
@@ -303,7 +304,6 @@ class CompaniesController extends AppController {
 		
 
 	}
-
 
 }
 ?>

@@ -64,7 +64,7 @@ class User extends AppModel {
 			),
 			'maxLength'=> array(
 				'rule' => array('maxLength', 255),
-				'message' => 'Name can not be longer that 255 characters.'
+				'message' => 'Password can not be longer that 255 characters.'
 			)
 		),
 		'repeat_password' => array(

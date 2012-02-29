@@ -160,7 +160,7 @@ class JobsController extends AppController {
              
 	}
 
-       function getCurrentUserRole(){
+    function getCurrentUserRole(){
 		$userId = $this->Session->read('Auth.User.id');			
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
 		$roleName  = null;
@@ -222,8 +222,7 @@ class JobsController extends AppController {
 		return $params_array;
 	}
 
-       function apply(){
-           
+    function apply(){
            if (isset($this->data['Jobs'])) {
 			$job_id = $this->data['Jobs']['job_id'];
             if(is_uploaded_file($this->data['Jobs']['resume']['tmp_name'])){
