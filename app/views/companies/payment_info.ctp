@@ -1,3 +1,8 @@
+<script> 	
+    $(document).ready(function(){
+  		$("#PaymentPaymentInfoForm").validate();
+    });	
+</script>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -33,9 +38,10 @@
 		
 			<div class="middleBox">
 				<div class="company_edit_form">
-					<?php echo $this->Form->create('Payment', array('url' => array('controller' => 'companies', 'action' => 'paymentInfo'))); ?>
+                    
+					<?php echo $this->Form->create('PaymentInfo', array('url' => array('controller' => 'companies', 'action' => 'paymentInfo'))); ?>
 						<div>
-                            <?php echo $form->input('id', array('label' => 'Your Name',
+                            <?php echo $form->input('id', array('label' => 'Your Name ',
 																	'type'  => 'hidden',
 																	'value' => isset($payment['id'])?$payment['id']:""
 																	)
@@ -52,20 +58,20 @@
 						
 						<div>
 							<?php	echo $form->input('card_type', array('label' => 'Card Type',
-												'type'  => 'text',
-												'class' => 'text_field_bg required',
+												'type'  => 'select',
+												'class' => '',
 												'value' => $payment['card_type'],
-
+												'options' => array('Visa' => 'Visa', 'MC' => 'Mastercard', 'Disc' => 'Discover', 'AmEx' => 'American Express')
 												)
 								 );
 							?>
-						</div>		
+						</div>
 						<div style="clear:both"></div>
 												
 						<div>
 							<?php	echo $form->input('card_no', array('label' => 'Card Number',
 												'type'  => 'text',
-												'class' => 'text_field_bg required',
+												'class' => 'text_field_bg creditcard',
 												'value' => $payment['card_no'],
 												)
 								 );
@@ -76,7 +82,7 @@
 						<div>
 							<?php	echo $form->input('expiration_date', array('label' => 'Expiration Date',
 												'type'  => 'text',
-												'class' => 'text_field_bg required number',
+												'class' => 'text_field_bg required date',
 												'minlength' => '10',
 												'value' => $payment['expiration_date'],
 
@@ -89,8 +95,7 @@
 						<div>
 							<?php	echo $form->input('cardholder_name', array('label' => "Card Holder's Name",
 												'type'  => 'text',
-												'class' => 'text_field_bg required number',
-												'minlength' => '10',
+												'class' => 'text_field_bg required alphabets',
 												'value' => $payment['cardholder_name'],
 
 												)
@@ -102,8 +107,7 @@
 						<div>
 							<?php	echo $form->input('address', array('label' => "Address",
 												'type'  => 'text',
-												'class' => 'text_field_bg required number',
-												'minlength' => '10',
+												'class' => 'text_field_bg required',
 												'value' => $payment['address'],
 
 												)
@@ -115,8 +119,7 @@
 						<div>
 							<?php	echo $form->input('city', array('label' => "City",
 												'type'  => 'text',
-												'class' => 'text_field_bg required number',
-												'minlength' => '10',
+												'class' => 'text_field_bg required',
 												'value' => $payment['city'],
 
 												)
@@ -128,8 +131,7 @@
 						<div>
 							<?php	echo $form->input('state', array('label' => "State",
 												'type'  => 'text',
-												'class' => 'text_field_bg required number',
-												'minlength' => '10',
+												'class' => 'text_field_bg required',
 												'value' => $payment['state'],
 
 												)
@@ -141,8 +143,7 @@
 						<div>
 							<?php	echo $form->input('zip', array('label' => "Zip",
 												'type'  => 'text',
-												'class' => 'text_field_bg required number',
-												'minlength' => '10',
+												'class' => 'text_field_bg required',
 												'value' => $payment['zip'],
 
 												)
@@ -154,8 +155,7 @@
 						<div>
 							<?php	echo $form->input('country', array('label' => "Country",
 												'type'  => 'text',
-												'class' => 'text_field_bg required number',
-												'minlength' => '10',
+												'class' => 'text_field_bg required',
 												'value' => $payment['country'],
 
 												)
@@ -184,8 +184,7 @@
 						<div style="clear:both"></div>						
 
 					<?php echo $form->end(); ?>	
-				</div>
-				
+				</div>				
 			</div>
 			
 			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
@@ -195,12 +194,3 @@
 	<!-- middle section end -->
 
 </div>
-
-<script>
-	function goTo(){
-		window.location.href="/companies/postJob";			
-	}
-	$(document).ready(function(){
-		$("#UserEditProfileForm").validate();
-	});     
-</script>
