@@ -33,6 +33,7 @@ class NetworkersController extends AppController {
 		$this->redirect('/networkers/setting');
 	}
 	
+	/*	Send subscripiton Email	*/
 	function sendNotifyEmail(){
 		$notifyId = $this->params['id'];
 		$this->Session->setFlash('Your E-mail  Notification has been saved successfuly.', 'success');				

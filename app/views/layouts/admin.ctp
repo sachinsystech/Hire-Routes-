@@ -77,7 +77,7 @@ echo $html->script('validation.js');
 		
 		<div class="nav-divider">&nbsp;</div>
 		
-		<ul class="<?php echo  $this->params['action']=='config'?'current':'select'; ?>"><li><a href="#"><b>Code</b><!--[if IE 7]><!--></a><!--<![endif]-->
+		<ul class="<?php echo  $this->params['action']=='config'?'current':'select'; ?>"><li><a href="/admin/codes"><b>Code</b><!--[if IE 7]><!--></a><!--<![endif]-->
 	
 		</li>
 		</ul>
@@ -91,27 +91,9 @@ echo $html->script('validation.js');
 		</ul>
 		<div class="nav-divider">&nbsp;</div>
 		
-		<ul class="<?php echo $this->params['controller']=='Test' ?'current':'select'; ?>"><li><a href="#"><b>HR</b><!--[if IE 7]><!--></a><!--<![endif]-->
-
-		</li>
-		</ul>
-		<div class="nav-divider">&nbsp;</div>
 		
-		<ul class="<?php echo $this->params['controller']=='orders' ?'current':'select'; ?>"><li><a href="/orders"><b>Order</b><!--[if IE 7]><!--></a><!--<![endif]-->
-
-		</li>
-		</ul>
-		<div class="nav-divider">&nbsp;</div>
-		
-		<ul class="<?php echo $this->params['controller']=='coupon' ?'current':'select'; ?>"><li><a href="/coupons/add"><b>Coupon</b><!--[if IE 7]><!--></a><!--<![endif]-->
-
-		</li>
-		</ul>
-		<div class="nav-divider">&nbsp;</div>
-		
-		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>"><li><a href="/howto/listChangeAddress"><b>Changed Addresses</b><!--[if IE 7]><!--></a><!--<![endif]-->
-
-		</li>
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+			<li><a href="#"><b>Forms</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
 		
 		<div class="clear"></div>
@@ -119,21 +101,18 @@ echo $html->script('validation.js');
 		<div class="clear"></div>
 		</div>
 		<!--  start nav -->
-</div><div class="clear"></div><!--  start nav-outer -->
-</div><!--  start nav-outer-repeat................................................... END -->
-<!-- start content-outer --><div id="content-outer">
-<!-- start content -->
-<div id="content">
-<?php echo $content_for_layout; ?>
-</div>
-<!--  end content -->
-<div class="clear">&nbsp;</div>
-</div>
-<!--  end content-outer -->
-
- 
-
-<div class="clear">&nbsp;</div>
+		</div><div class="clear"></div><!--  start nav-outer -->
+		</div><!--  start nav-outer-repeat................................................... END -->
+		<!-- start content-outer --><div id="content-outer">
+		<!-- start content -->
+		<div id="content">
+		<?php echo $content_for_layout; ?>
+		</div>
+		<!--  end content -->
+		<div class="clear">&nbsp;</div>
+		</div>
+		<!--  end content-outer -->
+ <div class="clear">&nbsp;</div>
     
 <!-- start footer -->         
 
