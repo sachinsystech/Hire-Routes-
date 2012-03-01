@@ -71,7 +71,7 @@
 						<div>
 							<?php	echo $form->input('card_no', array('label' => 'Card Number',
 												'type'  => 'text',
-												'class' => 'text_field_bg creditcard',
+												'class' => 'text_field_bg required creditcard',
 												'value' => $payment['card_no'],
 												)
 								 );
