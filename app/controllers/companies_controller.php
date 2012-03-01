@@ -2,9 +2,10 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-    	var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','PaymentInfo','JobseekerApply');
+   	var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','PaymentInfo','JobseekerApply');
 	var $components = array('TrackUser','Utility');
 	var $helpers = array('Form','Paginator','Time');
+	
 
 	function postJob(){
 
@@ -202,6 +203,7 @@ class CompaniesController extends AppController {
 			$this->redirect('/companies/newJob');
 		}
 	}
+	
 	function accountProfile() {
 		$userId = $this->Session->read('Auth.User.id');
 		$roleInfo = $this->getCurrentUserRole();
@@ -238,16 +240,21 @@ class CompaniesController extends AppController {
 		$userId = $this->TrackUser->getCurrentUserId();		
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
 		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
-		if(isset($this->data['Payment'])){
-            $this->PaymentInfo->save($this->data['Payment']);
-			$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
-			$this->redirect('/companies/paymentInfo');						
-		}
-		
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+        $user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
 		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('payment',$payment['PaymentInfo']);
+		if(isset($this->data['PaymentInfo'])){
+            
+			if( !$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
+				// echo '<pre>';print_r($this->PaymentInfo); exit;	
+				$this->render("payment_info");
+				return;				
+			}else{
+				$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
+				$this->redirect('/companies/paymentInfo');
+			}		
+		}		
 	}
 
 
@@ -310,11 +317,9 @@ class CompaniesController extends AppController {
 
 	}
 
-
     /***** shareJob *********/
     function shareJob(){
         
     }
-
 }
 ?>

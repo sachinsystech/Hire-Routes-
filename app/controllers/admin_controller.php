@@ -9,7 +9,7 @@ class AdminController extends AppController {
 		//$this->Auth->allow('index');
 		//$this->Auth->allow('CompaniesList');
 		//$this->Auth->allow('acceptCompanyRequest');
-		//$this->Auth->allow('declineCompanyRequest');
+		$this->Auth->allow('Code');
 		$this->layout = "admin";
 	}
 	function index(){
@@ -107,6 +107,10 @@ class AdminController extends AppController {
 			echo 'Message: ' .$e->getMessage();
 		}
 	}
+	function Code() {
+
+	}
+
 
 }
 ?>

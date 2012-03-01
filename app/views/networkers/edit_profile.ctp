@@ -3,9 +3,12 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
+
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Shared Jobs</a></li>
 				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers">My Account</a></li>
+
 			</ul>
 		</div>
 		<div>Feed Back</div>
@@ -145,9 +148,7 @@
 </div>
 
 <script>
-	function goTo(){
-		window.location.href="/companies/postJob";			
-	}
+
 	$(document).ready(function(){
 		$("#UserEditProfileForm").validate();
 	});     
