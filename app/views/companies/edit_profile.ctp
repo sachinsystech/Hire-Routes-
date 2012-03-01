@@ -1,4 +1,3 @@
-
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -22,7 +21,7 @@
 		<div class="topMenu">
 			<ul style="float:left">
 				<li class="active">Profile</li>
-				<li>Payment Info.</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentInfo">Payment Info</a></li>
 				<li>Payment History</li>
 			</ul>
 			<ul style="float:right">

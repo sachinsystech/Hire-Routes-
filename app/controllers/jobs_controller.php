@@ -1,6 +1,7 @@
 <?php
 class JobsController extends AppController {
-    var $uses = array('Company','Job','Industry','State','Specification','UserRoles','Companies','City','JobseekerApply');
+    var $uses = array('Company','Job','Industry','State','Specification',
+'UserRoles','Companies','City','JobseekerApply','JobseekerProfile');
 	var $helpers = array('Form','Paginator','Time');
         
 	
@@ -9,14 +10,12 @@ class JobsController extends AppController {
 		$this->Auth->authorize = 'actions';
 		$this->Auth->allow('index');
 		$this->Auth->allow('apply');
+		$this->Auth->allow('applyJob');
      }
 	
 	function index(){
 
-		//echo "<pre>"; print_r($this->data);
-       
-
-		$shortByItem = 'id';
+    	$shortByItem = 'id';
         $salaryFrom = null;
         $salaryTo = null;
         if(isset($this->params['named']['display'])){
@@ -160,10 +159,13 @@ class JobsController extends AppController {
             $userId = $this->Session->read('Auth.User.id');
             $roleInfo = $this->getCurrentUserRole();
             $this->set('userrole',$roleInfo);
-             
+			$jobapply = $this->JobseekerApply->find('first',array('conditions'=>array('user_id'=>$userId)));
+			if($jobapply){
+    			$this->set('jobapply',$jobapply);
+			}			            
 	}
 
-       function getCurrentUserRole(){
+    function getCurrentUserRole(){
 		$userId = $this->Session->read('Auth.User.id');			
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
 		$roleName  = null;
@@ -180,11 +182,8 @@ class JobsController extends AppController {
 		}
 		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
 		return $currentUserRole;
-	}
-
-     
+	}   
       
-
 	function narrowByItems($filterParams){
 		$params_array = array();
 		$flag = false;
@@ -225,64 +224,86 @@ class JobsController extends AppController {
 		return $params_array;
 	}
 
-       function apply(){
-           
-           if (isset($this->data['Jobs'])) {
-			$job_id = $this->data['Jobs']['job_id'];
-            if(is_uploaded_file($this->data['Jobs']['resume']['tmp_name'])){
-                    $resume = $this->data['Jobs']['resume'];                 
-                    if($resume['error']!=0 ){
-                        $this->Session->setFlash('Uploaded File is corrupted.', 'error');    
-                        $this->redirect('/jobs/'.$job_id);          
-                    }
-                    $type_arr = explode("/",$resume['type']);
-                    $type = $type_arr[1];
-                    if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
-                           $this->Session->setFlash('File type not supported.', 'error');        
-                           $this->redirect('/jobs/'.$job_id);
-                    }
+    function applyJob(){	
+
+		// Jobseeker's profile information
+		$userId = $this->Session->read('Auth.User.id');
+        $roleInfo = $this->getCurrentUserRole();
+        $this->set('userrole',$roleInfo);
+		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
+
+		// Job information
+		if(isset($this->params['pass'][0])){
+			$id = $this->params['pass'][0];
+			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
+			if($job['Job']){
+				$this->set('job',$job['Job']);
+			}
+			else{
+				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->redirect('/jobs/');
+			}
+		}
+
+		//  Apply for this job		
+		if (isset($this->data['JobseekerApply'])) {
+	    	$job_id = $this->data['JobseekerApply']['job_id'];
+            
+			if(is_uploaded_file($this->data['JobseekerApply']['resume']['tmp_name'])){
+        		$resume = $this->data['JobseekerApply']['resume'];                 
+            	if($resume['error']!=0 ){
+                	$this->Session->setFlash('Uploaded File is corrupted.', 'error');    
+                    $this->redirect('/jobs/applyJob/'.$job_id);          
+                }
+                $type_arr = explode("/",$resume['type']);
+                $type = $type_arr[1];
+                if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
+                	$this->Session->setFlash('File type not supported.', 'error');        
+                    $this->redirect('/jobs/applyJob/'.$job_id);
+                }
                 $randomNumber = rand(1,100000000000);            
                 $uploadedFileName=$randomNumber.$resume['name'];
                 
-                if(move_uploaded_file($resume['tmp_name'],BASEPATH."webroot/files/resume/".$uploadedFileName))
-                {
-                    $jobsData['JobseekerApply']['resume'] = $uploadedFileName;
+                if(move_uploaded_file($resume['tmp_name'],BASEPATH."webroot/files/resume/".$uploadedFileName)){
+                	$this->data['JobseekerApply']['resume'] = $uploadedFileName;
                 }
-            }
+			}else{
+				$this->data['JobseekerApply']['resume'] = $jobprofile['JobseekerProfile']['resume'];
+			}
 
-           if(is_uploaded_file($this->data['Jobs']['cover_letter']['tmp_name'])){
-                    $cover_letter = $this->data['Jobs']['cover_letter'];                 
-                    if($cover_letter['error']!=0 ){
-                        $this->Session->setFlash('Uploaded File is corrupted.', 'error');    
-                        $this->redirect('/jobs/'.$job_id);          
-                    }
-                    $type_arr1 = explode("/",$cover_letter['type']);
-                    $type1 = $type_arr1[1];
-                    if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
-                           $this->Session->setFlash('File type not supported.', 'error');        
-                           $this->redirect('/jobs/'.$job_id);
-                    }
+			if(is_uploaded_file($this->data['JobseekerApply']['cover_letter']['tmp_name'])){
+				$cover_letter = $this->data['JobseekerApply']['cover_letter'];                 
+            	if($cover_letter['error']!=0 ){
+                	$this->Session->setFlash('Uploaded File is corrupted.', 'error');    
+                    $this->redirect('/jobs/applyJob/'.$job_id);          
+                }
+                $type_arr1 = explode("/",$cover_letter['type']);
+                $type1 = $type_arr1[1];
+                if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
+                	$this->Session->setFlash('File type not supported.', 'error');        
+                    $this->redirect('/jobs/applyJob/'.$job_id);
+                }
                 $randomNumber2 = rand(1,100000000000);            
                 $uploadedFileName2=$randomNumber2.$cover_letter['name'];
                 
-                if(move_uploaded_file($cover_letter['tmp_name'],BASEPATH."webroot/files/cover_letter/".$uploadedFileName2))
-                {
-                    $jobsData['JobseekerApply']['cover_letter'] = $uploadedFileName2;
+                if(move_uploaded_file($cover_letter['tmp_name'],BASEPATH."webroot/files/cover_letter/".$uploadedFileName2)){
+                	$this->data['JobseekerApply']['cover_letter'] = $uploadedFileName2;
                 }
-            }
-                       
-            $jobsData['JobseekerApply']['job_id']  = $this->data['Jobs']['job_id'];
-            $jobsData['JobseekerApply']['user_id'] = $this->data['Jobs']['user_id'];
-            
-            $this->JobseekerApply->save($jobsData);
-            $this->Session->setFlash('Successfully Uploaded Resume', 'success');   
-            $this->redirect('/jobseekers/appliedJob');         
-            
+			}else{
+				$this->data['JobseekerApply']['cover_letter'] = $jobprofile['JobseekerProfile']['cover_letter'];
+			}                       
+		
+		$this->JobseekerApply->save($this->data['JobseekerApply']);
+		
+		// If user doesnt have a job profile 
+		if(!$jobprofile){
+			$this->JobseekerProfile->save($this->data['JobseekerApply']);
+		}           
+        $this->Session->setFlash('Successfully Uploaded Resume', 'success');   
+        $this->redirect('/jobseekers/appliedJob');     
         }
-        $this->redirect('/jobs');
-      } 
-     
-     
-    
+	} 
+
 }
 ?>

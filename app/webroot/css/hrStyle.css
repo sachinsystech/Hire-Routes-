@@ -200,6 +200,11 @@ div.paging span.disabled {
 }
 div.paging span.current {
 	color: #c73e14;
+	font-weight:normal;
+}
+span.current {
+	color: #CCCCCC;
+	font-weight:normal;
 }
 div.paging span a {
 }
@@ -347,7 +352,9 @@ div.message {
     color: #FF0000;
     font-size: 110%;
     margin: 0 0 1em;
-    padding: 5px;}
+    padding: 5px;
+    text-align: center;
+}
 div.error-message {
 	clear: both;
 	color: #FF0000;
@@ -563,6 +570,7 @@ div.code-coverage-results span.result-good {
   height:12px;
   width:200px;
   float:right;
+  font-size: 95%;
 }
 .agree_condition{
   font-size: 13px;
@@ -758,6 +766,10 @@ label.error{
     height: 23px;
     width: 115px;
 }
+#NetworkersEditProfileForm label{
+	font-size:5;
+	font-size: 95%;
+}
 .jobseeker_select{
     background-color: #FDFDFD;
     border: 1px solid #000000;
@@ -947,7 +959,7 @@ label.error{
 
 .middleBox{
     border: 1px solid #000000;
-    height: 300px;
+    height: auto;
     margin-left: 40px;
     overflow: auto;
 }
@@ -1076,7 +1088,7 @@ label.error{
 }
 
 #NetworkersEditProfileForm div{
-	padding: 0.12em;
+	padding: 0.15em;
 }
 .company_profile_field_row{
     margin: 6px;
@@ -1101,6 +1113,7 @@ label.error{
 .delete_button{
     -moz-border-radius: 15px 15px 15px 15px;
     background-color: #00FF00;
+    cursor: pointer;
     padding: 1px;
     position: absolute;
     right: 1px;
@@ -1119,9 +1132,9 @@ label.error{
     padding: 20px;
 }
 .setting_profile{
-	width: 300px; 
-	padding: 11px; 
-	margin: auto;"
+    margin: 15px 40px;
+    padding: 11px;
+    width: 400px;
 }
 .setting_profile_row{
 	margin-top: 5px; 
@@ -1135,8 +1148,7 @@ label.error{
 	float: left;
 }
 .networker_edit_form{
-    margin: auto;
-    padding: 15px;
+    margin: 15px 50px;
     width: 358px;
 }
 .jobseeker_edit_form{
@@ -1145,5 +1157,106 @@ label.error{
     width: 358px;
 }
 #JobseekerSettingsEditProfileForm div{
-		padding: 0.12em;
+	padding: 0.12em;
 }
+.networker_contact_text {
+	border: 1px solid #000000;
+    float: right;
+    height: 18px;
+    width: 146px;	
+    color: rgb(153, 153, 153);
+    font-style: italic;
+}
+.networker_contact_text_blk {
+	border: 1px solid #000000;
+    float: right;
+    height: 18px;
+    width: 146px;	
+    color: #000000;
+}
+
+.contacts tr td{
+	border-bottom: 1px solid #DDDDDD;
+	padding:0px;
+}
+.network_contact_middleBox{
+    border: 1px solid #000000;
+    height: auto;
+    margin-left: 40px;
+    overflow: auto;
+    padding: 10px;
+}
+
+#deleteContactsPersonalForm{
+	width:100%;
+}
+
+#deleteContactsPersonalForm div{
+	width:100%;
+	padding:0.0em;
+}
+.networker_contact_text_email {
+    border: 1px solid;
+    float: right;
+    height: 17px;
+    width: 240px;
+}
+.network_contact_edit_middleBox{
+    border: 1px solid #000000;
+    height: 280px;
+    margin-left: 40px;
+    overflow: auto;
+    padding: 10px;
+}
+.edit_contact_form{
+    margin: auto;
+    width: 490px;
+}
+#networkersImportCsvForm div{
+	padding: 0.0em;
+}
+.add_contact_field_row{
+	margin: 25px 0 0 20px;
+}
+.csv_file_bg{
+    height: 28px;
+    margin-top: -4px;
+    width: 274px;
+}
+.csv_file_button{
+	margin-top:-5px;
+}
+.add_contact_label{
+    float: left;
+    margin-top: 2px;
+    width: 115px;
+}
+#ContactAddContactsForm div{
+	padding: 0.0em;
+}
+.net_cont_email_txt_bg {
+    border: 1px solid #000000;
+    color: #999999;
+    float: right;
+    font-style: italic;
+    height: 17px;
+    margin-left: 10px;
+    width: 166px;
+}
+.net_cont_email_txt_bg_blk{
+    border: 1px solid #000000;
+    color: #000000;
+    float: right;
+    height: 17px;
+    margin-left: 10px;
+    width: 166px;
+}
+.add_contact_button{
+	margin-top:-4px
+}
+
+.disableText{
+	display:none;
+}
+
+

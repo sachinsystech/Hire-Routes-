@@ -28,17 +28,23 @@
  */
  
  /** Admin URL **/
-  Router::connect('/admin/acceptCompanyRequest/:id', array('controller' => 'admin','action' => 'acceptCompanyRequest'),array('id' => '[0-9]+'));
-  Router::connect('/admin/declineCompanyRequest/:id', array('controller' => 'admin','action' => 'declineCompanyRequest'),array('id' => '[0-9]+'));
+  	Router::connect('/admin/acceptCompanyRequest/:id', array('controller' => 'admin','action' => 'acceptCompanyRequest'),array('id' => '[0-9]+'));
+  	Router::connect('/admin/declineCompanyRequest/:id', array('controller' => 'admin','action' => 'declineCompanyRequest'),array('id' => '[0-9]+'));
  /** end Admin URL **/
  
+	Router::connect('/admin/codes', array('controller' => 'codes','action' => 'add'));
+	Router::connect('/codes/delete/:id', array('controller' => 'codes','action' => 'delete'));	
+	
 	Router::connect('/', array('controller' => 'home', 'action' => 'index', 'home'));
 	Router::connect('/companyInformation', array('controller' => 'home', 'action' => 'companyInformation'));	
 	Router::connect('/networkerInformation', array('controller' => 'home', 'action' => 'networkerInformation'));		
 	Router::connect('/jobseekerInformation', array('controller' => 'home', 'action' => 'jobseekerInformation'));		
+	Router::connect('/companies/archiveJob/:id', array('controller' => 'Companies','action' => 'archiveJob'),array('id' => '[0-9]+')); 
+	Router::connect('/companies/showApplicant/:id', array('controller' => 'Companies','action' => 'showApplicant'),array('id' => '[0-9]+')); 
+
 
 	Router::connect('/users/saveFacebookUser/:userType', array('controller' => 'users', 'action' => 'saveFacebookUser'));
-	Router::connect('/coupons', array('controller' => 'coupons', 'action' => 'view'));				
+
 	
 /**
 
@@ -46,12 +52,13 @@
  */
 	Router::connect('/pages', array('controller' => 'home', 'action' => 'index', 'home'));
 
-	Router::connect('/companies/editJob/:userId/:jobId', array('controller' => 'companies', 'action' => 'editJob'));
+	Router::connect('/companies/editJob/:jobId', array('controller' => 'companies', 'action' => 'editJob'));
 	Router::connect('/companies', array('controller' => 'companies', 'action' => 'accountProfile'));
 	Router::connect('/companies/editProfile', array('controller' => 'companies', 'action' => 'editProfile'));
+
 	
 	Router::connect('/jobs/', array('controller' => 'jobs', 'action' => 'index'));
-	Router::connect('/jobs/:id', array('controller' => 'jobs','action' => 'index'),
+	Router::connect('/jobs/:id/*', array('controller' => 'jobs','action' => 'index'),
 												array('id' => '[0-9]+'));
 	
 	//Router::connect('/users/:action', array('controller' => 'users'));
@@ -65,8 +72,14 @@
 	Router::connect('/users/firstTime/', array('controller' => 'users','action' => 'firstTime'));	
 	Router::connect('/users/accountConfirmation/:id/:code', array('controller' => 'users','action' => 'accountConfirmation'));		
 
+
+
 	Router::connect('/networkers/delete/:id', array('controller' => 'networkers','action' => 'delete'));	
 	Router::connect('/networkers/sendNotifyEmal/:notifyId', array('controller' => 'networkers','action' => 'sendNotifyEmal'));	
-
+	Router::connect('/networkers/deleteContacts/:id', array('controller' => 'networkers','action' => 'deleteContacts'));
+	Router::connect('/networkers/personal/', array('controller' => 'networkers','action' => 'personal'));
+	Router::connect('/networkers/editPersonalContact/:id', array('controller' => 'networkers','action' => 'editPersonalContact'));
+	
+	
 	Router::connect('/jobseekers/delete/:id', array('controller' => 'jobseekers','action' => 'delete'));	
 	Router::connect('/jobseekers/sendNotifyEmal/:notifyId', array('controller' => 'jobseekers','action' => 'sendNotifyEmal'));	
