@@ -7,7 +7,7 @@ class CompaniesController extends AppController {
 	var $helpers = array('Form','Paginator','Time');
 
 	function postJob(){
-	
+
 		$userId = $this->Session->read('Auth.User.id');
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
@@ -59,7 +59,6 @@ class CompaniesController extends AppController {
 	}
 	function newJob(){
 		
-
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
 	    $this->set('displayPageNo',$displayPageNo);
 
@@ -113,19 +112,32 @@ class CompaniesController extends AppController {
 	}
 
 	function save(){
-		$userId =  $this->Session->read('Auth.User.id');
+        $userId =  $this->Session->read('Auth.User.id');
 		$company = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
 		$this->data['Job']['user_id']= $userId;
 		$this->data['Job']['company_id']= $company['Companies']['id'];
 		$this->data['Job']['company_name']= $company['Companies']['company_name'];
-		//echo "<pre>"; print_r($this->data['Job']); exit;
-		$this->Job->save($this->data['Job']);
-		$this->Session->setFlash('Job has been posted successfuly.', 'success');				
-		$this->redirect('/companies/newJob');
+		if($this->Job->save($this->data['Job'])){
+            switch($this->params['form']['save']){
+                case 'Post and Share Job with Network':
+                    $this->Session->setFlash('Job has been saved successfuly.', 'success');
+                    $this->redirect('/companies/shareJob/'.$this->Job->id);
+                    break;
+                case 'Save for Later':
+                default:
+                    $this->Session->setFlash('Job has been saved successfuly.', 'success');	
+                    $this->redirect('/companies/editJob/'.$this->Job->id);
+                    break;
+        
+            }
+        }else{
+            $this->Session->setFlash('Internal error while save job.', 'error');	
+            $this->redirect('/companies/newJob/');
+        }		
 	}
 	
 	function editJob(){
-		$userId = $this->params['userId'];
+		$userId = $this->Session->read('Auth.User.id');	
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
 	
@@ -298,6 +310,11 @@ class CompaniesController extends AppController {
 
 	}
 
+
+    /***** shareJob *********/
+    function shareJob(){
+        
+    }
 
 }
 ?>
