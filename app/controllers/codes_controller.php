@@ -1,7 +1,7 @@
 <?php
 /*
 Codes Controller ::
-	1). Resposnible to restrict registration of 'Jobseeker' and 'Networker' users.
+	1). Resposnible to restrict registration of users.
 	2). Generating code that will be asked to enter when user signup.
 */
 
