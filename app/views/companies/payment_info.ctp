@@ -9,9 +9,7 @@
 		<div class="sideMenu">
 			<ul>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob"><span>My Jobs</span></a></li>
-				<li>My Network</li>
 				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
-
 				<li>My Employees</li>
 			</ul>
 		</div>
