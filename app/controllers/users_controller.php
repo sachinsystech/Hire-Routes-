@@ -140,6 +140,7 @@ class UsersController extends AppController {
 			}
 			
 			/*	Validating Restricaiotn_Code	*/
+			/*
 			if(empty($this->data['Code']['code'])){
 				unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
@@ -163,7 +164,7 @@ class UsersController extends AppController {
 				$this->render("networker_signup");
 				return;
 			}
-			
+			*/
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
@@ -179,11 +180,11 @@ class UsersController extends AppController {
 				$networker['user_id'] = $userId;
 				if( $this->Networkers->save($networker) ){			
 					$this->sendConfirmationEmail($userId);
-					$code['Code']['remianing_signups']--;
+					/*$code['Code']['remianing_signups']--;
 					$this->Code->save($code['Code']);
 					if($code['Code']['remianing_signups']<1){
 						$this->Code->delete($code['Code']);
-					}
+					}*/
 					$this->redirect("confirmation/".$userId);
 				}
 			}
