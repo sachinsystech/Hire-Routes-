@@ -1,3 +1,8 @@
+<script> 	
+    $(document).ready(function(){
+  		$("#JobseekerProfileJobProfileForm").validate();
+    });	
+</script>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -41,61 +46,71 @@
 								<div style="padding-bottom:20px"><strong>Qualification : </strong>
                       				<?php echo $form->input('answer1', array('label' => '',
 																			 'type'  => 'text',
-                                                                             'id'    => 'answer1',
+																			 'id'    => 'answer1',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer1']));?>
 								</div>
 								<div style="padding-bottom:20px"><strong>Work Experience : </strong>
                       				<?php echo $form->input('answer2', array('label' => '',
 																			 'type'  => 'text',
-                                                                             'id'    => 'answer2',
+																			 'id'    => 'answer2',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer2']));?>
 								</div>
 								<div style="padding-bottom:20px"><strong>Current CTC : </strong>
                       				<?php echo $form->input('answer3', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer3',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer3']));?>
 								</div>
 								<div style="padding-bottom:20px"><strong>Expected CTC : </strong>
                       				<?php echo $form->input('answer4', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer4',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer4']));?>
 								</div>
 								<div style="padding-bottom:20px"><strong>Why are you applying for this job : </strong>
                       				<?php echo $form->input('answer5', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer5',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer5']));?>
 								</div>
 								<div style="padding-bottom:20px"><strong>Ready to relocate : </strong>
                       				<?php echo $form->input('answer6', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer6',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer6']));?>
 								</div>
 								<div style="padding-bottom:20px"><strong>Ready to work on shifts : </strong>
                       				<?php echo $form->input('answer7', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer7',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer7']));?>
 								</div>
 								<div style="padding-bottom:20px"><strong>Do you have passport : </strong>
                       				<?php echo $form->input('answer8', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer8',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer8']));?>
 								</div>
 								<div style="padding-bottom:20px"><strong>Do You Have Any Restrictions On Your Ability To Travel? : </strong>
                       				<?php echo $form->input('answer9', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer9',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer9']));?>
 								</div>
 								<div style="padding-bottom:20px"><strong>Do You Need Additional Training? : </strong>
                       				<?php echo $form->input('answer10', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer10',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer10']));?>
 								</div>
 								<?php if($jobprofile['resume']!=''){?>
@@ -103,11 +118,20 @@
 									<?php echo $html->link('Your Resume',array('action' => '/viewResume/resume/'.$jobprofile['id']));?>							        
 								</div>
 								<?php }?>
+								<?php if($jobprofile['resume']!=''){?>
  								<div style="padding-bottom:20px"><strong>Upload Resume (pdf, txt, doc) : </strong>
                       				<?php echo $form->input('resume', array('label' => '',
 																			 'type'  => 'file',
-                                                                             'id'    => 'resume'));?>
+                                                                             'id'    => 'resume',));?>
 								</div>
+								<?php }else{ ?>
+								<div style="padding-bottom:20px"><strong>Upload Resume (pdf, txt, doc) : </strong>
+                      				<?php echo $form->input('resume', array('label' => '',
+																			 'type'  => 'file',
+                                                                             'id'    => 'resume',
+																			 'class' => 'required',));?>
+								</div>
+								<?php }?>
 								<?php if($jobprofile['cover_letter']!=''){?>
 								<div>
 									<?php echo $html->link('Your Cover Letter',array('action' => '/viewResume/cover_letter/'.$jobprofile['id']));?>		

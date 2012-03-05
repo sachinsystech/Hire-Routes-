@@ -38,16 +38,7 @@
 	<!-- middle section start -->
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<ul style="float:left">
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/jobProfile">Job Profile</a></li>	
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/setting">Settings/Subscription</a></li>	
-                <li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">Profile</a></li>
-			</ul>
-			<ul style="float:right">
-				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/editProfile"><span>Edit</span></a></li>
-			</ul>
-		</div>
+		
         <div class="jobs_topMenu">
 			<div style="margin-top:10px;">
 				<div style="float:left;">
