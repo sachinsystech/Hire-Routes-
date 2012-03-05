@@ -1,3 +1,4 @@
+<?php ?>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -132,8 +133,10 @@
 								 );
 	?>
 	  <div style="clear: both;"></div>
-
-	<?php echo $form->submit('Post Now',array('div'=>false,)); ?>
+<div style="text-align:center">
+	<?php echo $form->submit('Save for Later',array('div'=>false,'name'=>'save','value'=>'later')); ?>
+	<?php echo $form->submit('Post and Share Job with Network',array('div'=>false,'name'=>'save','value'=>'share')); ?>
+</div>
  <?php echo $form->end(); ?>
  </div>
 												
