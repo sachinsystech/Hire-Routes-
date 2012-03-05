@@ -137,6 +137,7 @@
 	</div>
 
 	<!-- left section start -->
+		<div style="clear:both"></div>
 		<div class="joblist_rightBox">
 			<div class="joblist_sideMenu">
 				<div><div style="float:left;padding:5px;margin:5px"><b>Industries</b></div><div class="flip_industry"  style="float:right;padding:5px;cursor: pointer;">-</div></div>
