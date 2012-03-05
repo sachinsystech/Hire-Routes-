@@ -341,11 +341,11 @@ class UsersController extends AppController {
 					}
 					break;			
 			case 3:
-					$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$id)));
-					$this->redirect("/networkers");						
-					if($networkerData){
-						$this->redirect("/networkers");						
+					$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$id)));
+					if(!isset($networkerData['Networkers']['contact_name'])){
+						$this->redirect("/networkers/editProfile");						
 					}
+					$this->redirect("/networkers");						
 					break;		
 			case 5:
 					$this->redirect("/admin");

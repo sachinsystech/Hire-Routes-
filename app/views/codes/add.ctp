@@ -17,7 +17,8 @@
 		<tr>
 			<td id="tbl-border-left"></td>
 			<td>
-			<div class="content-table-inner">
+			<div style="text-align: center;cursor:pointer" class="flip">Add New Code</div>	
+			<div class="content-table-inner panel" style="display:none">
 				<div class="clearBoth">&nbsp;</div>
 					<table width ="100%" cellspacing='0'>
 						<tr>			
@@ -195,5 +196,10 @@ function drop(){
 		return false;
 	}
 }
-	
+$(document).ready(function(){
+	$(".flip").click(function(){
+		$(".panel").slideToggle("slow");
+	});
+});	
+
 </script>

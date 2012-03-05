@@ -42,9 +42,15 @@ class NetworkersController extends AppController {
 	
 	/* 	Networker's Account-Profile page*/
 	function index(){
-		$userId = $this->TrackUser->getCurrentUserId();		
-        if($userId){
+		$userId = $this->TrackUser->getCurrentUserId();
+		
+		if($userId){
 
+			$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$userId)));
+			//echo "<pre>"; print_r($networkerData); exit;
+			if(!isset($networkerData['Networkers']['contact_name'])){
+				$this->redirect("/networkers/editProfile");						
+			}
 			/* User Info*/						
 		    $user = $this->User->find('all',array('conditions'=>array('id'=>$userId)));
 			$this->set('user',$user[0]['User']);
@@ -159,12 +165,17 @@ class NetworkersController extends AppController {
                                 'limit' => 10,
                                 'order' => array("NetworkerContact.id" => 'asc',));             
         $contacts = $this->paginate('NetworkerContact');
+
         $alphabets = array();
         foreach(range('A','Z') AS $alphabet){
-        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.contact_email LIKE' => "$alphabet%")));
+        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.user_id'=>$userId,
+        																					  'NetworkerContact.contact_email LIKE' => "$alphabet%"
+        																					  )
+        																  )
+        													);
             $alphabets[$alphabet] = $contacts_count; 
         }
-
+		
         $this->set('alphabets',$alphabets);
         $this->set('contacts',$contacts);
         $this->set('contact',null);

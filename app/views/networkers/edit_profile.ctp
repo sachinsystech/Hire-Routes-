@@ -30,7 +30,6 @@
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
-		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
 			<div class="setting_middleBox">
 				<div class="networker_edit_form">
 					<?php echo $this->Form->create('', array('url' => array('controller' => 'networkers', 'action' => 'editProfile'))); ?>
@@ -55,7 +54,7 @@
 							<?php	$name = "";
                                     if(isset($fbinfo)){ $name = $fbinfo['first_name']." ".$fbinfo['last_name']; }
                                     if(isset($networker) && $networker['contact_name']!=""){ $name = $networker['contact_name']; } 
-                                    echo $form->input('Networkers.contact_name', array('label' => 'Contact Name',
+                                    echo $form->input('Networkers.contact_name', array('label' => 'Contact Name:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $name,
@@ -68,7 +67,7 @@
 						
 						<div>
 							<?php	if(isset($networker)){ $address = $networker['address']; } else { $address = "";}
-                                    echo $form->input('Networkers.address', array('label' => 'Address',
+                                    echo $form->input('Networkers.address', array('label' => 'Address:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $address,
@@ -93,7 +92,7 @@
 
                         <div>
 							<?php	if(isset($networker)){ $state = $networker['state']; } else { $state = "";}
-                                    echo $form->input('Networkers.state', array('label' => 'State',
+                                    echo $form->input('Networkers.state', array('label' => 'State:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $state,
@@ -105,23 +104,11 @@
 
 						<div>
 							<?php	if(isset($networker)){ $phone = $networker['contact_phone']; } else { $phone = "";}
-                                    echo $form->input('Networkers.contact_phone', array('label' => 'Contact Phone',
+                                    echo $form->input('Networkers.contact_phone', array('label' => 'Contact Phone:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required number',
 												'minlength' => '10',
 												'value' => $phone,
-
-												)
-								 );
-							?>
-						</div>
-						<div style="clear:both"></div>
-
-						<div>
-							<?php	echo $form->input('User.account_email', array('label' => 'Account Email',
-												'type'  => 'text',
-												'class' => 'text_field_bg required email',
-												'value' => $user['account_email'],
 
 												)
 								 );
@@ -150,6 +137,6 @@
 <script>
 
 	$(document).ready(function(){
-		$("#UserEditProfileForm").validate();
+		$("#NetworkersEditProfileForm").validate();
 	});     
 </script>
