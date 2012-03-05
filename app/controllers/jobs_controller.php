@@ -159,7 +159,7 @@ class JobsController extends AppController {
             $userId = $this->Session->read('Auth.User.id');
             $roleInfo = $this->getCurrentUserRole();
             $this->set('userrole',$roleInfo);
-			$jobapply = $this->JobseekerApply->find('first',array('conditions'=>array('user_id'=>$userId)));
+			$jobapply = $this->JobseekerApply->find('first',array('conditions'=>array('user_id'=>$userId,'job_id'=>$this->params['id'])));
 			if($jobapply){
     			$this->set('jobapply',$jobapply);
 			}			            
