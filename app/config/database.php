@@ -78,8 +78,8 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => '192.168.1.28',
 		'login' => 'root',
-		'password' => '',
-		'database' => 'hireroutes',
+		'password' => '12345678',
+		'database' => 'staging_hireroutes',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);
