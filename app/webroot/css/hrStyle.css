@@ -769,6 +769,7 @@ label.error{
 #NetworkersEditProfileForm label{
 	font-size:5;
 	font-size: 95%;
+	font-weight: bold;
 }
 .jobseeker_select{
     background-color: #FDFDFD;
@@ -1143,6 +1144,7 @@ label.error{
 .setting_profile_field{
 	float: left; 
 	width: 85px;	
+	font-weight: bold;
 }
 .setting_profile_value{
 	float: left;
@@ -1259,4 +1261,29 @@ label.error{
 	display:none;
 }
 
-
+.cr_setting_profile_field{
+	float: left; 
+	width: 135px;	
+	font-weight: bold;
+}
+#UserEditProfileForm label{
+	font-size: 95%;
+	font-weight: bold;
+	width: 150px;	
+}
+.empty_concats_msg{
+    background: none repeat scroll 0 0 #FAF8CC;
+    border: 1px solid #446423;
+    clear: both;
+    color: #4AA02C;
+    font-weight: bold;
+    height: 20px;
+    margin: 3px;
+    padding: 5px;
+    text-align: center;
+}
+#JobseekerSettingsEditProfileForm label{
+	font-size: 95%;
+	font-weight: bold;
+	width: 150px;	
+}

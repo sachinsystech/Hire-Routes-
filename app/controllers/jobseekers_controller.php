@@ -42,6 +42,8 @@ class JobseekersController extends AppController {
 			/* Jobseeker Info*/
 			$jobseeker = $this->Jobseeker->find('all',array('conditions'=>array('user_id'=>$userId)));
 			$this->set('jobseeker',$jobseeker[0]['Jobseeker']);
+			$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$userId)));
+			$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);
 			
 			/* FB-User Info*/       		
         	$fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));

@@ -17,7 +17,8 @@ class UsersController extends AppController {
 					'Specification',
 					'State',
 					'City',
-					'Industry'
+					'Industry',
+					'Code'
 					);
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
 					
@@ -138,13 +139,38 @@ class UsersController extends AppController {
 				return;
 			}
 			
+			/*	Validating Restricaiotn_Code	*/
+			if(empty($this->data['Code']['code'])){
+				unset($this->data["User"]["password"]);
+                unset($this->data["User"]["repeat_password"]);
+                $this->set('codeErrors', "This field is required.");
+				$this->render("networker_signup");
+				return;
+			}
+			
+			$code = $this->Code->find('first',array('conditions'=>array(
+																	'Code.code'=>$this->data['Code']['code'],
+																	'Code.user_type'=>'Networker',
+																	'Code.remianing_signups >='=>0
+																	)
+													)
+									);
+			if(!isset($code['Code']))
+			{				
+				unset($this->data["User"]["password"]);
+                unset($this->data["User"]["repeat_password"]);
+				$this->set('codeErrors', "This Code is Expired or invalid...");
+				$this->render("networker_signup");
+				return;
+			}
+			
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
 			    $this->set('errors', "You must agree to the Terms and Conditions");
 				$this->render("networker_signup");
 				return;
-			}
+			}			
 
 			if( $userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = 3;
@@ -153,6 +179,11 @@ class UsersController extends AppController {
 				$networker['user_id'] = $userId;
 				if( $this->Networkers->save($networker) ){			
 					$this->sendConfirmationEmail($userId);
+					$code['Code']['remianing_signups']--;
+					$this->Code->save($code['Code']);
+					if($code['Code']['remianing_signups']<1){
+						$this->Code->delete($code['Code']);
+					}
 					$this->redirect("confirmation/".$userId);
 				}
 			}
@@ -310,11 +341,11 @@ class UsersController extends AppController {
 					}
 					break;			
 			case 3:
-					$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$id)));
-					$this->redirect("/networkers");						
-					if($networkerData){
-						$this->redirect("/networkers");						
+					$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$id)));
+					if(!isset($networkerData['Networkers']['contact_name'])){
+						$this->redirect("/networkers/editProfile");						
 					}
+					$this->redirect("/networkers");						
 					break;		
 			case 5:
 					$this->redirect("/admin");

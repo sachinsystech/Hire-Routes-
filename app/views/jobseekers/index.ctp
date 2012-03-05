@@ -5,7 +5,6 @@
 			<ul>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/newJob"><span>New Jobs</span></a></li>
                 <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/appliedJob"><span>Applied Jobs</span></a></li>
-				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href=""><span>My Network</span></li>
 				<li class="active"><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
 			</ul>
 		</div>
@@ -38,11 +37,11 @@
 						<div class="setting_profile_value"><?php  echo ucfirst($fbinfo['first_name'])." ".ucfirst($fbinfo['last_name']);  ?></div>
 					</div>
 					<?php endif;?>
-
-					<?php if(isset($user['account_email'])): ?>
+					
+					<?php if(isset($jobseekerData['name'])): ?>
 					<div class="setting_profile_row">
-						<div class="setting_profile_field">Email:</div>
-						<div class="setting_profile_value"><?php echo $user['account_email'];?></div>
+						<div class="setting_profile_field">Name:</div>
+						<div class="setting_profile_value"><?php echo $jobseekerData['name'];?></div>
 					</div>
 					<?php endif;?>
 

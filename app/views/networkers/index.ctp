@@ -38,12 +38,13 @@
 					</div>
 					<?php endif;?>
 
-					<?php if(isset($user['account_email'])): ?>
+					<?php if(isset($networker['contact_name'])): ?>
 					<div class="setting_profile_row">
-						<div class="setting_profile_field">Email:</div>
-						<div class="setting_profile_value"><?php echo $user['account_email'];?></div>
+						<div class="setting_profile_field">Name:</div>
+						<div class="setting_profile_value"><?php echo $networker['contact_name'];?></div>
 					</div>
 					<?php endif;?>
+
 
 					<?php if(isset($networker['address'])): ?>
 					<div class="setting_profile_row">

@@ -28,7 +28,9 @@
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
+		
 			<div class="network_contact_middleBox">
+			  <?php if(count($contacts)):?>
 				<?php echo $this->Form->create('deleteContacts', array('onsubmit'=>'return checkMultipleDelete();',
 																	   'url' => array('controller' => 'networkers',
 																					  'action' => 'deleteContacts',
@@ -38,7 +40,7 @@
 																	   )
 											   );
 				?>
-				<div style="margin: auto; font-weight: bold; width: 560px; font-size: 88%;">
+				<div style="margin: auto; font-weight: bold; width: 570px; font-size: 88%;">
 					<a class="button" href="/networkers/personal">All</a>
 					<?php
 						
@@ -97,10 +99,13 @@
 					
 				 <?php echo $paginator->first('First '); ?>	
 				 <?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
-				 < <  <?php echo $this->Paginator->numbers(); ?>  > >
+				 < <  <?php echo $this->Paginator->numbers(array('class'=>'numbers')); ?>  > >
 				 <?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
 				 <?php echo $paginator->last(' Last'); ?>
 				</div>
+			  <?php else:?>
+				<div class="empty_concats_msg"> No Contacts added..</div>
+			  <?php endif;?>
 			</div>
 		<!-- middle conyent list -->
 

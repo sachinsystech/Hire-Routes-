@@ -1740,4 +1740,14 @@ a:hover.back-login	{
     padding: 10px;
     text-align: center;
 }
-
+.flip{
+    -moz-border-radius: 10px 10px 10px 10px;
+    background: none repeat scroll 0 0 #1E90FF;
+    border: -1px solid;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-weight: bold;
+    height: 23px;
+    text-align: center;
+    width: 112px;
+}

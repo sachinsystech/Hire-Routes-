@@ -29,15 +29,34 @@
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
-		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
+
 			<div class="middleBox">
-				<table>
-					<tr><td>Company:</td><td><?php echo $company['company_name']?></td></tr>
-					<tr><td>Company Name:</td><td><?php echo $company['contact_name']?></td></tr>
-					<tr><td>Contact Phone:</td><td><?php echo $company['contact_phone']?></td></tr>
-					<tr><td>Account Email:</td><td><?php echo $user['account_email']?></td></tr>
-				</table>				
-			</div>
+				<div class="setting_profile">
+
+					<?php if(isset($company['company_name'])): ?>
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Company:</div>
+						<div class="setting_profile_value"><?php echo $company['company_name'];?></div>
+					</div>
+					<?php endif;?>
+
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Company Name:</div>
+						<div class="setting_profile_value"><?php echo $company['contact_name'];?></div>
+					</div>
+			
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Contact Phone:</div>
+						<div class="setting_profile_value"><?php echo $company['contact_phone'];?></div>
+					</div>
+				
+				</div>
+			</div>	
+		
+		
+		
+		
+		
 			
 			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
 		<!-- middle conyent list -->
