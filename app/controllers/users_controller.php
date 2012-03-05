@@ -334,11 +334,11 @@ class UsersController extends AppController {
 					$this->redirect("/companies");
 					break;	
 			case 2:
-					$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$id)));
-					$this->redirect("/jobseekers");						
-					if($jobseekerData){
-						$this->redirect("/jobseekers");						
+					$jobseekerData = $this->Jobseekers->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$id)));
+					if(!isset($jobseekerData['Jobseekers']['contact_name'])){
+						$this->redirect("/jobseekers/editProfile");						
 					}
+					$this->redirect("/jobseekers");						
 					break;			
 			case 3:
 					$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$id)));

@@ -35,6 +35,12 @@ class JobseekersController extends AppController {
 	function index(){
 		$userId = $this->TrackUser->getCurrentUserId();		
         if($userId){
+        
+        	$jobSeekerData = $this->Jobseeker->find('first',array('conditions'=>array('Jobseeker.user_id'=>$userId)));
+			//echo "<pre>"; print_r($jobSeekerData); exit;
+			if(!isset($jobSeekerData['Jobseeker']['contact_name'])){
+				$this->redirect("/jobseekers/editProfile");						
+			}
 			/* User Info*/			
 			$user = $this->User->find('all',array('conditions'=>array('id'=>$userId)));
 			$this->set('user',$user[0]['User']);
