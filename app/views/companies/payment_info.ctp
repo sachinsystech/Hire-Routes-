@@ -1,6 +1,6 @@
 <script> 	
     $(document).ready(function(){
-  		$("#PaymentPaymentInfoForm").validate();
+  		$("#PaymentInfoPaymentInfoForm").validate();
     });	
 </script>
 <div class="page">
