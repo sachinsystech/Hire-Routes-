@@ -25,7 +25,7 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul style="float:left">
-				<li>Profile</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">Profile</a></li>
 				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentInfo">Payment Info</a></li>
 				<li>Payment History</li>
 			</ul>
