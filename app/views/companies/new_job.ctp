@@ -75,32 +75,38 @@
 				<?php } ?>
 				<?php foreach($jobs as $job):?>	
 				<tr>
-					<td><?php echo $this->Html->link($job['Job']['title'], '/companies/editJob/'.$job['Job']['user_id'].'/'.$job['Job']['id']); echo "<br>Posted ". $time->timeAgoInWords($job['Job']['created']) ?></td>
+					<td><?php echo $this->Html->link($job['Job']['title'], '/companies/editJob/'.$job['Job']['id']); echo "<br>Posted ". $time->timeAgoInWords($job['Job']['created']) ?></td>
 					<td><?php echo $job[0]['submissions']; ?> submissions</td>
 					<td><?php echo $this->Html->image("/img/icon/detail.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' =>  '/jobs/'.$job['Job']['id']
+						'url' =>  '/jobs/'.$job['Job']['id'],
+                        'title'=> 'Detail'
 						));
 						echo $this->Html->image("/img/icon/edit.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' =>  '/companies/editJob/'.$job['Job']['user_id'].'/'.$job['Job']['id']
+						'url' =>  '/companies/editJob/'.$job['Job']['id'],
+                        'title'=> 'Edit'
 						));
 
 						echo $this->Html->image("/img/icon/ok.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/archiveJob/".$job['Job']['id']
+						'url' => "/companies/archiveJob/".$job['Job']['id'],
+                        'title'=>'Archive'
 						));
 						echo $this->Html->image("/img/icon/person.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/showApplicant/".$job['Job']['id']
+						'url' => "/companies/showApplicant/".$job['Job']['id'],
+                        'title'=>'Applicant'
 						));
 						echo $this->Html->image("/img/icon/static.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "#"
+						'url' => "#",
+                        'title'=>'Static'
 						));
 						echo $this->Html->image("/img/icon/delete.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "#"
+						'url' => "#",
+                        'title'=>'Delete'
 						));
  ?>
 					</td>
