@@ -100,7 +100,7 @@
 								</div>
 								<?php if($jobprofile['resume']!=''){?>
 								<div>
-									<a href="<?php echo BASEPATH;?>webroot/files/resume/<?php echo $jobprofile['resume'];?>" target="_blank">Your Resume</a>
+									<?php echo $html->link('Your Resume',array('action' => '/viewResume/resume/'.$jobprofile['id']));?>							        
 								</div>
 								<?php }?>
  								<div style="padding-bottom:20px"><strong>Upload Resume (pdf, txt, doc) : </strong>
@@ -110,7 +110,7 @@
 								</div>
 								<?php if($jobprofile['cover_letter']!=''){?>
 								<div>
-									<a href="<?php echo BASEPATH;?>webroot/files/cover_letter/<?php echo $jobprofile['cover_letter'];?>">Your Cover Letter</a>
+									<?php echo $html->link('Your Cover Letter',array('action' => '/viewResume/cover_letter/'.$jobprofile['id']));?>		
 								</div>
 								<?php }?>
 								<div style="padding-bottom:20px"><strong>Upload Cover Letter (pdf, txt, doc) : </strong>

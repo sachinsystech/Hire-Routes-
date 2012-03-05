@@ -7,26 +7,25 @@
 	function onSelectChange(){
 	    var selected = $("#switch_display option:selected");    
 	    if(selected.val() != 0){
-			window.location.href="/jobseekers/newJob/display:"+selected.text();
+			window.location.href="/networkers/newJob/display:"+selected.text();
 	    }
 	}
 	function onSelectShortByChange(){
 	    var selected = $("#short_by option:selected");    
 	    if(selected.val() != 0){
-			window.location.href="/jobseekers/newJob/shortby:"+selected.val();
+			window.location.href="/networkers/newJob/shortby:"+selected.val();
 	    }
-	}
-	
-	
+	}	
 </script>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
-                                <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Shared Jobs</a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers">My Account</a></li>
+				<li>My Jobs</li>
+				<li class='active'><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
 			</ul>
 		</div>
 		<div>Feed Back</div>
@@ -35,6 +34,7 @@
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
+    
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
@@ -46,9 +46,9 @@
 				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
 			</ul>
 		</div>
-
+<div class="middleBox">
         <div class="jobs_topMenu">
-			<div style="margin-top:10px;">
+			<div>
 				<div style="float:left;">
 					<?php echo $form -> input('short_by',array(
 												'type'=>'select',
@@ -61,7 +61,7 @@
 					?>
 				</div>
 				
-				<div style="float:right">
+				<div style="padding-left:350px;">
 					<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
 					<?php echo $form -> input('switch_display',array(
 												'type'=>'select',
@@ -69,17 +69,15 @@
 												'options'=>$display_page_no,
 												'class'=>'job_select_diplay',
 												'selected'=>isset($displayPageNo)?$displayPageNo:5,
-												)
-							);
-					?>
+												));?>
 				</div>
 			</div>	
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
-			<div class="joblist_middleBox">
-				<table style="width:100%">
+			<div>
+				<table>
 					<?php foreach($jobs as $job):?>	
 						<tr>
 							<td>
@@ -88,7 +86,7 @@
 									<div style="float:right"><?php echo $job['reward'];?>$
 </div>									
 								</div>
-								<div style="clear:both">
+								<div style="clear:both"></div>
                                 <div>
 									<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['id']]."<br>";
 											echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
@@ -98,13 +96,11 @@
                                  </div>
                                  
                                  <div style="float:left">
-									Posted 
-                                    <?php  echo $time->timeAgoInWords($job['created'])." <br><br>";?>							
+				                 	Posted <?php  echo $time->timeAgoInWords($job['created'])." <br><br>";?>							
 								</div>	
-                                <div style="padding-left:550px;">
+                                <div style="padding-left:480px;">
                                     <?php	echo $this->Html->link('Read More', '/jobs/'.$job['id']); ?>
-                                </div>
-                                	
+                                </div>                                	
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -112,10 +108,9 @@
 				<?php if(!$jobs):?>
 					<div><h4>There is no job found for this search.</h4></div>
 				<?php endif;?>
-			</div>
-			
+			</div>			
 		<!-- middle conyent list -->
-
+</div>
 	</div>
 	<!-- middle section end -->
 

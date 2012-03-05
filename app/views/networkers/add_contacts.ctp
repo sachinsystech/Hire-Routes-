@@ -5,6 +5,7 @@
 		<div class="sideMenu">
 			<ul>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#"><span>My Jobs</span></a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
 				<li class="active">My Network</li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
 			</ul>

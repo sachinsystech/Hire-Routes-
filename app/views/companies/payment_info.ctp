@@ -1,6 +1,6 @@
 <script> 	
     $(document).ready(function(){
-  		$("#PaymentPaymentInfoForm").validate();
+  		$("#PaymentInfoPaymentInfoForm").validate();
     });	
 </script>
 <div class="page">
@@ -80,14 +80,46 @@
 						<div style="clear:both"></div>
 
 						<div>
-							<?php	echo $form->input('expiration_date', array('label' => 'Expiration Date',
-												'type'  => 'text',
-												'class' => 'text_field_bg required date',
-												'minlength' => '10',
-												'value' => $payment['expiration_date'],
+							<?php	$year = array();
+									$curr_year = date('Y');
+									$last_year = $curr_year+10;
+                         			for($i=$curr_year;$i<=$last_year;$i++){
+											$year[$i] = $i;
+									}
 
+									for($x=0; $x<12; $x++){
+										$month = mktime(0, 0, 0, date("01")+$x, date("d"),  date("Y"));
+										
+    									$key = date('m', $month);
+   										$monthname = date('F', $month);
+										$months[$key] = $monthname;
+									}
+
+
+									echo $form->input('expiration_month', array('label' => 'Expiration Month',
+												'type'  => 'select',
+												'class' => '',
+												'value' => $payment['expiration_month'],
+												'options' => $months
 												)
 								 );
+							?>
+							<?php	echo $form->input('expiration_year', array('label' => 'Expiration Year',
+												'type'  => 'select',
+												'class' => '',
+												'value' => $payment['expiration_year'],
+												'options' => $year
+												)
+								 );
+							?>
+							<?php	// echo $form->input('expiration_date', array('label' => 'Expiration Date',
+									//			'type'  => 'text',
+									//			'class' => 'text_field_bg required date',
+									//			'minlength' => '10',
+									//			'value' => $payment['expiration_date'],
+
+									//			)
+								// );
 							?>
 						</div>
 						<div style="clear:both"></div>

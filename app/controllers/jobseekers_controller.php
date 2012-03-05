@@ -5,7 +5,7 @@ class JobseekersController extends AppController {
 'FacebookUsers','Company','Job','Industry','State','Specification','Companies','City','JobseekerApply',
 'JobseekerProfile');
 	var $components = array('Email','Session','TrackUser','Utility');
-	var $helpers = array('Time');	
+	var $helpers = array('Time','Html','Javascript');	
 
 	public function beforeFilter(){
 		$userId = $this->TrackUser->getCurrentUserId();		
@@ -425,6 +425,51 @@ class JobseekersController extends AppController {
 			$this->Session->setFlash('Profile Infomation has been updated successfuly.', 'success');	
 			$this->redirect('jobProfile');					
 		}
+	}
+
+	function viewResume(){
+		$userId = $this->Session->read('Auth.User.id');
+        		
+		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
+
+		
+		if(isset($this->params['pass'][1])){
+			$id = $this->params['pass'][1];
+			$file_type = $this->params['pass'][0];
+			$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('id'=>$id)));
+			if($jobprofile['JobseekerProfile']){
+
+				if($file_type=='resume'){
+					$file = $jobprofile['JobseekerProfile']['resume'];
+					$fl = BASEPATH."webroot/files/resume/".$file;
+				}
+				if($file_type=='cover_letter'){
+					$file = $jobprofile['JobseekerProfile']['cover_letter'];
+					$fl = BASEPATH."webroot/files/cover_letter/".$file;
+				}				
+				
+				if (file_exists($fl)){
+					header('Content-Description: File Transfer');
+					header('Content-Disposition: attachment; filename='.basename($fl));
+					header('Content-Transfer-Encoding: binary');
+					header('Expires: 0');
+					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+					header('Pragma: public');
+					header('Content-Length: ' . filesize($fl));
+					ob_clean();
+					flush();
+					readfile($fl);
+					exit;
+				}else{
+					$this->Session->setFlash('File does not exist.', 'error');				
+					$this->redirect('/jobs/jobProfile');
+				}				
+			}else{
+				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->redirect('/jobs/jobProfile');
+			}
+		}		
 	}
 }
 ?>

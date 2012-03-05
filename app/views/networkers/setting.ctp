@@ -4,6 +4,7 @@
 		<div class="sideMenu">
 			<ul>
 				<li>My Jobs</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
 				<li class="active">My Account</li>
 			</ul>
@@ -20,6 +21,9 @@
 			<ul>
 				<li class="active"><a href="/networkers/setting">Settings/Subscription</a></li>	
 				<li><a href="/networkers">Profile</a></li>			
+			</ul>
+			<ul style="float:right">
+				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->
