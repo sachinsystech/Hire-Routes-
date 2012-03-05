@@ -7,13 +7,13 @@
 	function onSelectChange(){
 	    var selected = $("#switch_display option:selected");    
 	    if(selected.val() != 0){
-			window.location.href="/jobseekers/newJob/display:"+selected.text();
+			window.location.href="/networkers/newJob/display:"+selected.text();
 	    }
 	}
 	function onSelectShortByChange(){
 	    var selected = $("#short_by option:selected");    
 	    if(selected.val() != 0){
-			window.location.href="/jobseekers/newJob/shortby:"+selected.val();
+			window.location.href="/networkers/newJob/shortby:"+selected.val();
 	    }
 	}	
 </script>
