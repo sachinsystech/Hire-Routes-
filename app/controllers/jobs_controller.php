@@ -303,6 +303,52 @@ class JobsController extends AppController {
         $this->Session->setFlash('Successfully Uploaded Resume', 'success');   
         $this->redirect('/jobseekers/appliedJob');     
         }
+	}
+
+	function viewResume(){
+		$userId = $this->Session->read('Auth.User.id');
+        		
+		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
+
+		
+		if(isset($this->params['pass'][1])){
+			$job_id = $this->params['pass'][2];
+			$id = $this->params['pass'][1];
+			$file_type = $this->params['pass'][0];
+			$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('id'=>$id)));
+			if($jobprofile['JobseekerProfile']){
+
+				if($file_type=='resume'){
+					$file = $jobprofile['JobseekerProfile']['resume'];
+					$fl = BASEPATH."webroot/files/resume/".$file;
+				}
+				if($file_type=='cover_letter'){
+					$file = $jobprofile['JobseekerProfile']['cover_letter'];
+					$fl = BASEPATH."webroot/files/cover_letter/".$file;
+				}				
+				
+				if (file_exists($fl)){
+					header('Content-Description: File Transfer');
+					header('Content-Disposition: attachment; filename='.basename($fl));
+					header('Content-Transfer-Encoding: binary');
+					header('Expires: 0');
+					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+					header('Pragma: public');
+					header('Content-Length: ' . filesize($fl));
+					ob_clean();
+					flush();
+					readfile($fl);
+					exit;
+				}else{
+					$this->Session->setFlash('File does not exist.', 'error');				
+					$this->redirect('/jobs/applyJob/'.$job_id); 
+				}				
+			}else{
+				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->redirect('/jobs/applyJob/'.$job_id); 
+			}
+		}		
 	} 
 
 }
