@@ -1,9 +1,13 @@
+<script> 	
+    $(document).ready(function(){
+  		$("#NetworkersEditProfileForm").validate();
+    });	
+</script>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" ><span>My Jobs</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
@@ -54,7 +58,7 @@
 							<?php	$name = "";
                                     if(isset($fbinfo)){ $name = $fbinfo['first_name']." ".$fbinfo['last_name']; }
                                     if(isset($networker) && $networker['contact_name']!=""){ $name = $networker['contact_name']; } 
-                                    echo $form->input('Networkers.contact_name', array('label' => 'Contact Name:',
+                                    echo $form->input('Networkers.contact_name', array('label' => 'Contact Name *:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $name,
@@ -67,7 +71,7 @@
 						
 						<div>
 							<?php	if(isset($networker)){ $address = $networker['address']; } else { $address = "";}
-                                    echo $form->input('Networkers.address', array('label' => 'Address:',
+                                    echo $form->input('Networkers.address', array('label' => 'Address *:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $address,
@@ -80,7 +84,7 @@
 												
 						<div>
 							<?php	if(isset($networker)){ $city = $networker['city']; } else { $city = "";}
-                                    echo $form->input('Networkers.city', array('label' => 'City',
+                                    echo $form->input('Networkers.city', array('label' => 'City *',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $city,
@@ -92,7 +96,7 @@
 
                         <div>
 							<?php	if(isset($networker)){ $state = $networker['state']; } else { $state = "";}
-                                    echo $form->input('Networkers.state', array('label' => 'State:',
+                                    echo $form->input('Networkers.state', array('label' => 'State *:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $state,
@@ -104,7 +108,7 @@
 
 						<div>
 							<?php	if(isset($networker)){ $phone = $networker['contact_phone']; } else { $phone = "";}
-                                    echo $form->input('Networkers.contact_phone', array('label' => 'Contact Phone:',
+                                    echo $form->input('Networkers.contact_phone', array('label' => 'Contact Phone *:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required number',
 												'minlength' => '10',

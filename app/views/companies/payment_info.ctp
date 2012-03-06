@@ -1,7 +1,22 @@
 <script> 	
-    $(document).ready(function(){
-  		$("#PaymentInfoPaymentInfoForm").validate();
+    $(document).ready(function(){               
+		$("#PaymentInfoPaymentInfoForm").validate();
     });	
+
+function check_expdate() {
+    var currentTime = new Date();
+
+	var month = currentTime.getMonth();	
+	var month = parseInt(month)+1;
+	var year  = currentTime.getFullYear();
+	var selmonth = $("#PaymentInfoExpirationMonth").val();
+	var selyear  = $("#PaymentInfoExpirationYear").val();
+	
+    if ( selyear==year && selmonth <= month){     
+      $("#exp_date_error").removeClass().addClass("terms-condition-error").html("Expiry Date should be greater than current date.*");
+      return false;
+    }
+  }
 </script>
 <div class="page">
 	<!-- left section start -->	
@@ -37,7 +52,7 @@
 			<div class="middleBox">
 				<div class="company_edit_form">
                     
-					<?php echo $this->Form->create('PaymentInfo', array('url' => array('controller' => 'companies', 'action' => 'paymentInfo'))); ?>
+					<?php echo $this->Form->create('PaymentInfo', array('url' => array('controller' => 'companies', 'action' => 'paymentInfo'),'onsubmit'=>'return check_expdate();')); ?>
 						<div>
                             <?php echo $form->input('id', array('label' => 'Your Name ',
 																	'type'  => 'hidden',
@@ -88,7 +103,7 @@
 									for($x=0; $x<12; $x++){
 										$month = mktime(0, 0, 0, date("01")+$x, date("d"),  date("Y"));
 										
-    									$key = date('m', $month);
+    									$key = date('n', $month);
    										$monthname = date('F', $month);
 										$months[$key] = $monthname;
 									}
@@ -104,21 +119,13 @@
 							?>
 							<?php	echo $form->input('expiration_year', array('label' => 'Expiration Year',
 												'type'  => 'select',
-												'class' => '',
+												'class' => 'expiry',
 												'value' => $payment['expiration_year'],
 												'options' => $year
 												)
 								 );
 							?>
-							<?php	// echo $form->input('expiration_date', array('label' => 'Expiration Date',
-									//			'type'  => 'text',
-									//			'class' => 'text_field_bg required date',
-									//			'minlength' => '10',
-									//			'value' => $payment['expiration_date'],
-
-									//			)
-								// );
-							?>
+							<div id="exp_date_error"></div>
 						</div>
 						<div style="clear:both"></div>
 

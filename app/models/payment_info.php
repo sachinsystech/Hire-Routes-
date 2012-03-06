@@ -21,15 +21,19 @@ class PaymentInfo extends AppModel {
 				'message' => 'Please provide valid Card No.'
 			),			
 		),
-         'expiration_date' => array(
+        'expiration_month' => array(
+			'notEmpty'=> array(
+				'rule' => 'notEmpty',
+				'message' => 'Card No. can not be left blank.'
+			),						
+		),
+		'expiration_year' => array(
 			'notEmpty'=> array(
 				'rule' => 'notEmpty',
 				'message' => 'Card No. can not be left blank.'
 			),
-			'date'=> array(
-				'rule' => 'date',
-				'message' => 'Please provide valid Expiration Date.'
-			),			
+			'rule' => array('datevalid', 'expiration_month' ), 
+			'message' => 'Expiry date should be greater than current date.'						
 		),
 		'cardholder_name' => array(
 			'notEmpty'=> array(
@@ -74,6 +78,23 @@ class PaymentInfo extends AppModel {
             ),            
         ),
 	);
+
+	function datevalid( $field=array(), $month_field=null ) {
+        foreach( $field as $key => $value ){
+            $v1 = $value;
+            $v2 = $this->data[$this->name][ $month_field ];   
+            $todate  = date('Y-m-d');
+		    $day     = date('d'); 
+		    $expdate = date('Y-m-d',strtotime($v1."-0".$v2."-".$day));
+
+            if($todate>=$expdate){                
+                return FALSE;
+            } else {
+                continue;
+            }
+        }
+        return TRUE;
+    } 
 
 
 }
