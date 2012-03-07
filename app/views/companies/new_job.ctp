@@ -100,8 +100,8 @@
 						));
 						echo $this->Html->image("/img/icon/static.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "#",
-                        'title'=>'Static'
+						'url' => "/companies/jobData/".$job['Job']['id'],
+                        'title'=>'Statistics'
 						));
 						echo $this->Html->image("/img/icon/delete.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
