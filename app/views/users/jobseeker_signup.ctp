@@ -48,12 +48,20 @@
 	<?php	echo $form->input('repeat_password', array('label' => 'Repeat Password',
                                            			'type'  => 'password',
 													'name'  => "data[User][repeat_password]",
-													'class' => 'text_field_bg'
+													'class' => 'text_field_bg required'
                                            			)
                                  );
     ?>
-<div style="margin-top:15px;">
 	
+	<?php	echo $form->input('Code.code', array('label' => 'Code',
+                                           			'type'  => 'text',
+													'name'  => "data[Code][code]",
+													'class' => 'text_field_bg required'
+                                           			)
+                                 );
+    ?>
+	<?php if(isset($codeErrors)): ?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
+	<div style="margin-top:15px;">
 	<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
                                            			'type'  => 'checkbox',
 													'name'  => "data[User][agree_condition]",

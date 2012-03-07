@@ -53,6 +53,7 @@
 												));
 							?>					
 						</div>
+						<div><?php echo isset($validationErrors)?$validationErrors:""; ?> </div>
 					</div>
 					<div style="clear:both"></div>
 					<div style="float:right">

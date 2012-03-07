@@ -9,10 +9,10 @@ class NetworkerContact extends AppModel {
                 'rule' => 'email',
                 'message' => 'Please provide a valid email address.'
             ),
-            'isUnique' => array(
+            /*'isUnique' => array(
                 'rule' => 'isUnique',
                 'message' => 'This E-mail already exist.'
-            )
+            )*/
         ),
 		'contact_name' => array(
 			'notEmpty'=> array(

@@ -152,7 +152,7 @@ class UsersController extends AppController {
 			$code = $this->Code->find('first',array('conditions'=>array(
 																	'Code.code'=>$this->data['Code']['code'],
 																	'Code.user_type'=>'Networker',
-																	'Code.remianing_signups >='=>0
+																	'Code.remianing_signups >'=>0
 																	)
 													)
 									);
@@ -204,6 +204,32 @@ class UsersController extends AppController {
 				return;
 			}
 			
+			/*	Validating Restricaiotn_Code	*/
+			
+			if(empty($this->data['Code']['code'])){
+				unset($this->data["User"]["password"]);
+                unset($this->data["User"]["repeat_password"]);
+                $this->set('codeErrors', "This field is required.");
+				$this->render("jobseeker_signup");
+				return;
+			}
+			
+			$code = $this->Code->find('first',array('conditions'=>array(
+																	'Code.code'=>$this->data['Code']['code'],
+																	'Code.user_type'=>'Jobseeker',
+																	'Code.remianing_signups >'=>0
+																	)
+													)
+									);
+			if(!isset($code['Code']))
+			{				
+				unset($this->data["User"]["password"]);
+                unset($this->data["User"]["repeat_password"]);
+				$this->set('codeErrors', "This Code is Expired or invalid...");
+				$this->render("jobseeker_signup");
+				return;
+			}
+			
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
@@ -219,6 +245,11 @@ class UsersController extends AppController {
 				$jobseeker['user_id'] = $userId;
 				if( $this->Jobseekers->save($jobseeker) ){			
 					$this->sendConfirmationEmail($userId);
+					$code['Code']['remianing_signups']--;
+					$this->Code->save($code['Code']);
+					if($code['Code']['remianing_signups']<1){
+						$this->Code->delete($code['Code']);
+					}
 					$this->redirect("confirmation/".$userId);
 				}
 			}

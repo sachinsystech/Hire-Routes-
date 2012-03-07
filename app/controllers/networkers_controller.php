@@ -20,8 +20,9 @@ class NetworkersController extends AppController {
 	function add() {
 		$userId = $this->TrackUser->getCurrentUserId();	
 		$this->data['Networkers']['user_id'] = $userId;
-		$this->NetworkerSettings->save($this->data['Networkers']);
-		$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
+		if($this->NetworkerSettings->save($this->data['Networkers'])){
+			$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
+		}
 		$this->redirect('/networkers/setting');
 	}
 	
@@ -47,7 +48,6 @@ class NetworkersController extends AppController {
 		if($userId){
 
 			$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$userId)));
-			//echo "<pre>"; print_r($networkerData); exit;
 			if(!isset($networkerData['Networkers']['contact_name'])){
 				$this->redirect("/networkers/editProfile");						
 			}
@@ -96,9 +96,11 @@ class NetworkersController extends AppController {
 		
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
-			$this->User->save($this->data['User']);
-			$this->Networkers->save($this->data['Networkers']);		
-			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+			if($this->User->save($this->data['User'])){
+				if($this->Networkers->save($this->data['Networkers'])){			
+					$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+				}	
+			}
 			$this->redirect('/networkers');						
 		}
 		
@@ -130,8 +132,21 @@ class NetworkersController extends AppController {
 				$this->data['Contact']['contact_email'] = "";			
 			}
 			if ($this->NetworkerContact->create($this->data['Contact']) && $this->NetworkerContact->validates()) {
-		        $this->NetworkerContact->save($this->data['Contact']);
-				$this->Session->setFlash('Contact has been added successfully.', 'success');	
+				
+				$matchEmail = $this->NetworkerContact->find('first',array('conditions'=>array(
+																				'NetworkerContact.user_id'=>$userId,
+																				'NetworkerContact.contact_email'=>$this->data['Contact']['contact_email']
+																				)
+													));
+				if(isset($matchEmail['NetworkerContact'])){
+					$this->NetworkerContact->validationErrors['contact_email'] = "You have already added contact for this email.";
+					$this->set('validationErrors',$this->NetworkerContact->validationErrors);
+					$this->set('NetworkerContact',$this->NetworkerContact->data['NetworkerContact']);
+					return;
+				}									
+		        if($this->NetworkerContact->save($this->data['Contact'])){
+					$this->Session->setFlash('Contact has been added successfully.', 'success');	
+				}	
 			}
 			$this->set('validationErrors',$this->NetworkerContact->validationErrors);
 			$this->set('NetworkerContact',$this->NetworkerContact->data['NetworkerContact']);
@@ -142,9 +157,29 @@ class NetworkersController extends AppController {
 	function EditContact() {
 		if(isset($this->data['editContact'])){
 			$userId = $this->TrackUser->getCurrentUserId();
-			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-			$this->NetworkerContact->save($this->data['editContact']);
-			$this->Session->setFlash('Contact has been updated successfully.', 'success');	
+			$contactId = $this->data['editContact']['id'];
+			$contactEmail = $this->NetworkerContact->find('list', array(
+																	 'fields' => array('NetworkerContact.id', 'NetworkerContact.contact_email'),
+																	 'conditions' => array('NetworkerContact.id' => $contactId)
+																	 ));
+			
+			$matchEmail = $this->NetworkerContact->find('first',array('conditions'=>
+																  array(
+																	"NOT"=>array('NetworkerContact.contact_email'=>$contactEmail),
+																	"AND"=>array(
+																					'NetworkerContact.user_id'=>$userId,
+																					'NetworkerContact.contact_email'=>$this->data['editContact']['contact_email'],
+																				)									
+																	))
+													);
+			if(isset($matchEmail['NetworkerContact'])){
+				$this->Session->setFlash("You have already added contact for the email(<i>".$this->data['editContact']['contact_email']."</i>)",'error');
+				$this->redirect('/networkers/editPersonalContact/'.$contactId);
+				return;
+			}									
+		    if($this->NetworkerContact->save($this->data['editContact'])){
+				$this->Session->setFlash('Contact has been updated successfully.', 'success');	
+			}
 			$this->redirect('/networkers/personal');
 		}
 	}
@@ -182,7 +217,7 @@ class NetworkersController extends AppController {
         $this->set('startWith',$startWith);
 	}
 	
-	/*	Edit single personal contact	*/
+	/*	show personal contact to Edit..	*/
 	function editPersonalContact(){
 		$userId = $this->TrackUser->getCurrentUserId();
 		if(isset($this->params['id'])){
@@ -200,7 +235,7 @@ class NetworkersController extends AppController {
 		}       
 	}
 	
-	/*	Add contact by Importing CSV	*/
+	/*	Adding contacts by Importing CSV	*/
 	function importCsv() {
 		$userId = $this->TrackUser->getCurrentUserId();
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
@@ -224,7 +259,7 @@ class NetworkersController extends AppController {
 					if(isset($val[3])){
 						$contacts[$key]['user_id'] = $userId;
 						$contacts[$key]['networker_id'] = $user['Networkers'][0]['id'];
-						$contacts[$key]['contact_name'] = $val[0]." ".$val[1]." ".$val[2];
+						$contacts[$key]['contact_name'] = ucfirst($val[0]).ucfirst($val[1]).ucfirst($val[2]);
 						$contacts[$key]['contact_email'] = $val[3];
 					}	
 				}	
@@ -232,14 +267,25 @@ class NetworkersController extends AppController {
 				$duplicate_emails = array();
 				$added_count = 0;
 				$duplicate_count = 0;
+				//echo "<pre>"; print_r($contacts); exit;
 				foreach($contacts as $contact){
-					if ($this->NetworkerCsvcontact->create($contact) && $this->NetworkerCsvcontact->validates()) {
-						$this->NetworkerCsvcontact->save($contact);
+					if ($this->NetworkerCsvcontact->create($contact)) {
+						$matchEmail = $this->NetworkerCsvcontact->find('first',array('conditions'=>array(
+																				'NetworkerCsvcontact.user_id'=>$userId,
+																				'NetworkerCsvcontact.contact_email'=>$contact['contact_email']
+																				)
+													));
+						if(isset($matchEmail['NetworkerCsvcontact'])){
+							$duplicate_emails[] = $this->NetworkerCsvcontact->data['NetworkerCsvcontact']['contact_email'];	
+							++$duplicate_count;
+							continue;
+						}
+						if(!$this->NetworkerCsvcontact->save($contact)){
+							$this->Session->setFlash('Your CSV is not in proper format.', 'error');	
+							$this->redirect('/networkers/addContacts');
+							return;
+						}
 						++$added_count;
-					}
-					else{
-						$duplicate_emails[] = $this->NetworkerCsvcontact->data['NetworkerCsvcontact']['contact_email'];	
-						++$duplicate_count;
 					}
 				}
 			}
@@ -263,6 +309,7 @@ class NetworkersController extends AppController {
 		$this->redirect('/networkers/addContacts');
 	}
 	
+	/*	delete multiple contacts.....*/
 	function deleteContacts() {
 		$ids = array();
 		if(isset($this->params['id'])){
@@ -273,8 +320,9 @@ class NetworkersController extends AppController {
 				$ids[] = $value;
 			}	
 		}
-		$this->NetworkerContact->delete($ids);
-		$this->Session->setFlash('contact has been deleted successfuly.', 'success');				
+		if($this->NetworkerContact->delete($ids)){
+			$this->Session->setFlash('contact has been deleted successfuly.', 'success');				
+		}	
 		$this->redirect('/networkers/personal');
 	}
 		  
