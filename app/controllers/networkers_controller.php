@@ -331,12 +331,15 @@ class NetworkersController extends AppController {
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
 		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
         
-    	$networker_settings = $this->NetworkerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
+    	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
         
-        $industry		= $networker_settings['NetworkerSettings']['industry'];
-		$specification  = explode(",",$networker_settings['NetworkerSettings']['specification']);
-	    $city 			= $networker_settings['NetworkerSettings']['city'];
-		$state 			= $networker_settings['NetworkerSettings']['state'];
+		for($n=0;$n<count($networker_settings);$n++){
+			$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
+			$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
+			$city[$n]			    = $networker_settings[$n]['NetworkerSettings']['city'];
+			$state[$n] 				= $networker_settings[$n]['NetworkerSettings']['state'];
+		}
+		
 	   
 		$shortByItem = 'id';
         

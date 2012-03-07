@@ -1287,3 +1287,31 @@ label.error{
 	font-weight: bold;
 	width: 150px;	
 }
+
+#PaymentInfoPaymentInfoForm label{
+	font-size: 95%;
+	font-weight: bold;
+	width: 50px;
+	margin-left:-70px;
+}
+
+#PaymentInfoPaymentInfoForm #PaymentInfoCardType{
+	clear: both;
+    font-size: 90%;
+    vertical-align: text-bottom;
+	margin-left: 110px;
+}
+
+#PaymentInfoPaymentInfoForm #PaymentInfoExpirationMonth{
+	clear: both;
+    font-size: 90%;
+    vertical-align: text-bottom;
+	margin-left: 65px;
+}
+
+#PaymentInfoPaymentInfoForm #PaymentInfoExpirationYear{
+	clear: both;
+    font-size: 90%;
+    vertical-align: text-bottom;
+	margin-left: 80px;
+}
