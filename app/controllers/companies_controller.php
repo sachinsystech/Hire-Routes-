@@ -317,34 +317,34 @@ class CompaniesController extends AppController {
 		$userId = $this->Session->read('Auth.User.id');
 		$jobId  = $this->params['pass'][0];
 
-		$applicationalltime = $this->JobseekerApply->find('all',array('conditions'=>array('job_id'=>$jobId)));
+		$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId)));
 
 		
-		$jobprofilelastmonth = $this->JobseekerApply->find('all',array('conditions'=>array('job_id'=>$jobId,
+		$jobprofilelastmonth = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
-
-		$jobprofilelastweek = $this->JobseekerApply->find('all',array('conditions'=>array('job_id'=>$jobId,
+		
+		$jobprofilelastweek = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
 
-		$viewalltime = $this->JobViews->find('all',array('conditions'=>array('job_id'=>$jobId)));
+		$viewalltime = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId)));
 	
-		$viewlastmonth = $this->JobViews->find('all',array('conditions'=>array('job_id'=>$jobId,
+		$viewlastmonth = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
 
-		$viewlastweek = $this->JobViews->find('all',array('conditions'=>array('job_id'=>$jobId,
+		$viewlastweek = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
 		
 		$this->set('jobId',$jobId);
-		$this->set('application_alltime',count($applicationalltime));
-		$this->set('application_last_month',count($jobprofilelastmonth));
-		$this->set('application_last_week',count($jobprofilelastweek));
-		$this->set('view_alltime',count($viewalltime));
-		$this->set('view_last_month',count($viewlastmonth));
-		$this->set('view_last_week',count($viewlastweek));
+		$this->set('application_alltime',$applicationalltime);
+		$this->set('application_last_month',$jobprofilelastmonth);
+		$this->set('application_last_week',$jobprofilelastweek);
+		$this->set('view_alltime',$viewalltime);
+		$this->set('view_last_month',$viewlastmonth);
+		$this->set('view_last_week',$viewlastweek);
 	}
 	
 	/****** Delete Job *******/
