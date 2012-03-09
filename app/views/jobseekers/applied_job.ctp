@@ -73,7 +73,7 @@
 							<td>
 								<div>
 									<div>
-										<?php	echo $this->Html->link($job['title'], '/jobs/'.$job['id']); ?>
+										<?php	echo $this->Html->link($job['title'], '/jobs/jobDetail/'.$job['id']); ?>
 									</div>									
 								</div>
 								<div style="clear:both"></div>
