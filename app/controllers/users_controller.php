@@ -69,7 +69,12 @@ class UsersController extends AppController {
 	}
     
 	function confirmation(){
-		$id = $this->params['id'];
+		$id = isset($this->params['id'])?$this->params['id']:"";
+		if(!isset($id)){
+			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
+			$this->redirect("/");
+			return;
+		}
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 		if($user){
 			if(!$user['User']['is_active']){
@@ -88,7 +93,9 @@ class UsersController extends AppController {
 			}
 		}
 		else{
-			echo "Sorry User not exist.."; exit;
+			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
+			$this->redirect("/");
+			return;
 		}
 	}
 
@@ -121,6 +128,12 @@ class UsersController extends AppController {
 				if( $this->Companies->save($company) ){			
 					$this->sendCompanyAccountEmail($userId);
 					$this->redirect("confirmation/".$userId);
+					return;
+				}
+				else{
+					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					$this->redirect("/");
+					return;
 				}
 			}
 		}
@@ -205,7 +218,7 @@ class UsersController extends AppController {
 			}
 			
 			/*	Validating Restricaiotn_Code	*/
-			
+			/*
 			if(empty($this->data['Code']['code'])){
 				unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
@@ -229,7 +242,7 @@ class UsersController extends AppController {
 				$this->render("jobseeker_signup");
 				return;
 			}
-			
+			*/
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
@@ -245,11 +258,11 @@ class UsersController extends AppController {
 				$jobseeker['user_id'] = $userId;
 				if( $this->Jobseekers->save($jobseeker) ){			
 					$this->sendConfirmationEmail($userId);
-					$code['Code']['remianing_signups']--;
+					/*$code['Code']['remianing_signups']--;
 					$this->Code->save($code['Code']);
 					if($code['Code']['remianing_signups']<1){
 						$this->Code->delete($code['Code']);
-					}
+					}*/
 					$this->redirect("confirmation/".$userId);
 				}
 			}
@@ -259,10 +272,10 @@ class UsersController extends AppController {
 	private function saveUser($userData){
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
-		if($this->User->save($userData)){
-		}
-		else{    
-			die('Error: in saving DB....' . mysql_error()); exit;					
+		if(!$this->User->save($userData)){
+			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			$this->redirect("/");
+			return;
 		}
 	    return $this->User->id;
 	}
@@ -272,7 +285,11 @@ class UsersController extends AppController {
 		$roles['user_id'] = $userId;			
 		$roles['role_id'] = $userRoleId;
 		$roles['permission'] = "allow";
-		$this->UserRoles->save($roles);
+		if(!$this->UserRoles->save($roles)){
+			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			$this->redirect("/");
+			return;
+		}
 	}
 	
 	private function sendConfirmationEmail($id){		
@@ -340,6 +357,11 @@ class UsersController extends AppController {
 				if($this->User->save($user['User'])){
 					$this->setUserAsLoggedIn($user['User']);
 				}
+			}
+			else{
+				$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+				$this->redirect("/");
+				return;
 			}	
 		} 
 	}		
@@ -391,7 +413,8 @@ class UsersController extends AppController {
 		));
 		return $facebook;
 	}
-
+	
+	/*	Tracking facebook users, whether he/she is first-time or existing user.... */
 	function facebookUser() {
 		$facebook = $this->facebookObject();
 		$user = $facebook->getUser();
@@ -400,7 +423,7 @@ class UsersController extends AppController {
 				if(!$faceBookUserData = $this->isExistFBUser($user)){
 					$this->redirect("/users/facebookUserSelection");
 				}
-			    // Write a code for login current facebook user.
+			    // for login current facebook user.
 			    
 				$user_account = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$user)));
 				$this->setUserAsLoggedIn($user_account['User']);
@@ -419,6 +442,8 @@ class UsersController extends AppController {
 			} catch (FacebookApiException $e) {
 				error_log($e);
 				$user = null;
+				$this->redirect("/");
+				return;
 			}
 			
 		}
@@ -427,6 +452,7 @@ class UsersController extends AppController {
 		}		
 	}	
 	
+	/*	save FB-User if not exist.....*/
 	function saveFacebookUser(){
 		$facebook = $this->facebookObject();
 		$fb_user_profile = $facebook->api('/me');
@@ -443,18 +469,20 @@ class UsersController extends AppController {
 			if($this->FacebookUsers->save($fb_user_profile)){
 				$user_account = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 				$confirmCode = $user_account['User']['confirm_code'];
-				$this->confirmAccount($userId,$confirmCode); //this will confirm account and set user as logged-in.
-				if($userRoleId== 2){
-					$this->redirect("/users/jobseekerSetting");				
-					return;
-				}
-				if($userRoleId== 3){
-					$this->redirect("/users/networkerSetting");				
-					return;
-				}	
+				if($this->confirmAccount($userId,$confirmCode)){ //this will confirm account and set user as logged-in.
+					if($userRoleId== 2){						//ask to become Networker or Jobseeker.
+						$this->redirect("/users/jobseekerSetting");					
+						return;
+					}
+					if($userRoleId== 3){
+						$this->redirect("/users/networkerSetting");				
+						return;
+					}
+				}		
 			}
 			else{
-				echo "error in saving db.."; exit;
+				$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+				$this->redirect("/");
 				return;
 			}	
 		}		

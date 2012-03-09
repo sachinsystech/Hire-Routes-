@@ -29,8 +29,8 @@ class UtilityComponent extends Object
 	
 	function getCity(){
 		$params = array(
-					   'conditions' => array('City.state_code'=>'PA'), //array of conditions
-					   'fields' => array('City.city','City.city') //array of field names
+					   'conditions' => array('City.state_code'=>'PA'), 
+					   'fields' => array('City.city','City.city') 
 					   );
  
 		return $this->City->find('list',$params);
@@ -41,7 +41,7 @@ class UtilityComponent extends Object
 	}
 
 	function getCompany($by = null){
-		if($by){
+		if($by=='url'){
 			$by = 'company_url';
 			return $this->Companies->find('list', array('fields' => array("Companies.$by")));
 		}
