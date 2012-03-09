@@ -11,6 +11,7 @@ class JobsController extends AppController {
 		$this->Auth->allow('index');
 		$this->Auth->allow('apply');
 		$this->Auth->allow('applyJob');
+		$this->Auth->allow('jobDetail');
      }
 	
 	function index(){
@@ -145,39 +146,7 @@ class JobsController extends AppController {
 			$companies_array[$company['Companies']['user_id']] =  $company['Companies']['company_name'];
 		}
 		$this->set('companies',$companies_array);		
-		
-		
-		if(isset($this->params['id'])){
-			$id = $this->params['id'];			
-			
-			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
-			if($job['Job']){
-	
-				if($roleInfo['role_id']!=1){
-					$this->data['JobViews']['job_id'] = $id;
-					if(isset($userId)){
-						$this->data['JobViews']['user_id'] = $userId;
-					}else{
-						$this->data['JobViews']['user_id'] = 0;
-					}
-			   
-				    $this->JobViews->save($this->data['JobViews']);
-			    }
-				$this->set('job',$job['Job']);
-			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
-				$this->redirect('/jobs/');
-			}	
-             // job role
-            
-            
-            $this->set('userrole',$roleInfo);
-			$jobapply = $this->JobseekerApply->find('first',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
-			if($jobapply){
-    			$this->set('jobapply',$jobapply);
-			}			
-		}        
-                       
+		        
 	}
 
     function getCurrentUserRole(){
@@ -365,6 +334,89 @@ class JobsController extends AppController {
 			}
 		}		
 	} 
+
+function jobDetail(){
+
+		$userId = $this->Session->read('Auth.User.id');
+		$roleInfo = $this->getCurrentUserRole();    	
+		
+		$industries = $this->Industry->find('all');
+		$industries_array = array();
+		foreach($industries as $industry){
+			$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
+		}
+		$this->set('industries',$industries_array);
+
+		$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'AK')));
+		$cities_array = array();
+		foreach($cities as $city){
+			$cities_array[$city['City']['city']] =  $city['City']['city'];
+		}
+		$this->set('cities',$cities_array);
+		
+		$states = $this->State->find('all');
+		$state_array = array();
+		foreach($states as $state){
+			$state_array[$state['State']['state']] =  $state['State']['state'];
+		}
+		$this->set('states',$state_array);
+
+		$specifications = $this->Specification->find('all');
+		$specification_array = array();
+		foreach($specifications as $specification){
+			$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
+		}
+		$this->set('specifications',$specification_array);
+
+        $urls = $this->Companies->find('all');
+		$url_array = array();
+		foreach($urls as $url){
+			$url_array[$url['Companies']['id']] =  $url['Companies']['company_url'];
+		}
+                
+		$this->set('urls',$url_array);
+		
+		$companies = $this->Companies->find('all');
+		$companies_array = array();
+		foreach($companies as $company){
+			$companies_array[$company['Companies']['user_id']] =  $company['Companies']['company_name'];
+		}
+		$this->set('companies',$companies_array);		
+		
+		
+		if(isset($this->params['pass'][0])){
+
+			$id = $this->params['pass'][0];		
+			
+			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
+			if($job['Job']){
+	
+				if($roleInfo['role_id']!=1){
+					$this->data['JobViews']['job_id'] = $id;
+					if(isset($userId)){
+						$this->data['JobViews']['user_id'] = $userId;
+					}else{
+						$this->data['JobViews']['user_id'] = 0;
+					}
+			   
+				    $this->JobViews->save($this->data['JobViews']);
+			    }
+				$this->set('job',$job['Job']);
+			}else{
+				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->redirect('/jobs/');
+			}	
+
+             // job role            
+            
+            $this->set('userrole',$roleInfo);
+			$jobapply = $this->JobseekerApply->find('first',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
+			if($jobapply){
+    			$this->set('jobapply',$jobapply);
+			}			
+		}        
+                       
+	}
 
 }
 ?>
