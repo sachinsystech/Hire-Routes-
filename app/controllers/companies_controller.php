@@ -7,7 +7,7 @@ class CompaniesController extends AppController {
 	var $components = array('TrackUser','Utility');
 	var $helpers = array('Form','Paginator','Time');
 	
-
+	/*	display a form to post new Job by company		*/
 	function postJob(){
 
 		$userId = $this->Session->read('Auth.User.id');

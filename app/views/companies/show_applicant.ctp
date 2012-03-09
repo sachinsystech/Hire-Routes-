@@ -72,7 +72,22 @@
 					</td>
 					<td>--</td>
 					<td>--</td>
-					<td align="center" width="10%"><?php echo $html->link("Accept", array('action' => 'acceptCompanyRequest'), array('escape' => false)); ?>/<?php echo $html->link("Decline", array('action' => 'declineCompanyRequest'), array('escape' => false)); ?></td>
+					<td align="center" width="10%">
+						<?php
+							
+							echo $this->Html->image("/img/icon/ok.png", array(
+								"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:22px;",
+								'url' => "#",
+								'title'=>'Accept'
+							));
+							
+							echo $this->Html->image("/img/icon/delete.png", array(
+							"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
+							'url' => "#",
+							'title'=>'Reject'
+							));
+						?>
+					</td>
 				</tr>
 				
 				<?php endforeach; ?>			
