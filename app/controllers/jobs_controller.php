@@ -1,7 +1,7 @@
 <?php
 class JobsController extends AppController {
     var $uses = array('Company','Job','Industry','State','Specification',
-'UserRoles','Companies','City','JobseekerApply','JobseekerProfile');
+'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews');
 	var $helpers = array('Form','Paginator','Time');
         
 	
@@ -14,6 +14,9 @@ class JobsController extends AppController {
      }
 	
 	function index(){
+
+		$userId = $this->Session->read('Auth.User.id');
+		$roleInfo = $this->getCurrentUserRole();
 
     	$shortByItem = 'id';
         $salaryFrom = null;
@@ -141,28 +144,39 @@ class JobsController extends AppController {
 		foreach($companies as $company){
 			$companies_array[$company['Companies']['user_id']] =  $company['Companies']['company_name'];
 		}
-		$this->set('companies',$companies_array);
+		$this->set('companies',$companies_array);		
+		
 		
 		if(isset($this->params['id'])){
-			$id = $this->params['id'];
+			$id = $this->params['id'];			
+			
 			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
 			if($job['Job']){
+	
+				if($roleInfo['role_id']!=1){
+					$this->data['JobViews']['job_id'] = $id;
+					if(isset($userId)){
+						$this->data['JobViews']['user_id'] = $userId;
+					}else{
+						$this->data['JobViews']['user_id'] = 0;
+					}
+			   
+				    $this->JobViews->save($this->data['JobViews']);
+			    }
 				$this->set('job',$job['Job']);
-			}
-			else{
+			}else{
 				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
 				$this->redirect('/jobs/');
 			}	
              // job role
-            $userId = $this->Session->read('Auth.User.id');
-            $roleInfo = $this->getCurrentUserRole();
+            
+            
             $this->set('userrole',$roleInfo);
 			$jobapply = $this->JobseekerApply->find('first',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
 			if($jobapply){
     			$this->set('jobapply',$jobapply);
 			}			
-		}
-           
+		}        
                        
 	}
 
