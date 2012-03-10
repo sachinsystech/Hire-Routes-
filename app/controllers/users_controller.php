@@ -1,6 +1,19 @@
-<?php require_once(APP_DIR.'/vendors/facebook/facebook.php'); ?>
+<?php 
+/**
+ * Include files
+ */
+require_once(APP_DIR.'/vendors/facebook/facebook.php'); 
 
-<?php
+
+/**
+ * UserController
+ *
+ * User Application controller class for organization of registration, login, facebook login, redirection etc.
+ * Provides basic functionality, such as rendering signup views, account confirmation, approval
+ * use Session and Auth component.
+ * Bcp plugin for users managing modules as resources
+
+ */
 class UsersController extends AppController {
     var $uses = array(
 					'User',
@@ -24,6 +37,9 @@ class UsersController extends AppController {
 					
 	var $helpers = array('Form');
 
+/**
+ * Called before the UserController action.
+**/
 	public function beforeFilter(){
 		parent::beforeFilter();
 		//Configure AuthComponent
@@ -50,6 +66,10 @@ class UsersController extends AppController {
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
+
+/**
+ * Called as default action for UserController.
+**/
 	
 	function index(){
 		if($this->TrackUser->isHRUserLoggedIn()){
@@ -61,7 +81,10 @@ class UsersController extends AppController {
 		}
 
     }
-
+/**
+ * Displays a view to choose which type of user you want to register if user is not logged-in, 
+ * Redirecting respactive my-account page otherwise(If user logged-in). 
+**/
 	function userSelection(){
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");	

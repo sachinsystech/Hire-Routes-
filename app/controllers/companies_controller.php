@@ -265,8 +265,6 @@ class CompaniesController extends AppController {
 		}		
 	}
 
-
-
 	/** move active job to archive(Disable) **/
 	function archiveJob(){
 		$userId = $this->Session->read('Auth.User.id');
@@ -369,6 +367,64 @@ class CompaniesController extends AppController {
     /***** shareJob *********/
     function shareJob(){
         
+    }
+    
+    function paypalProPayment() {
+        $userId = $this->Session->read('Auth.User.id');
+        
+        $cardInfo = $this->PaymentInfo->find('first',array('conditions'=>array('PaymentInfo.user_id'=>$userId)));
+        $companyInfo = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
+        $jobInfo = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId)));
+        echo "<pre>"; print_r($jobInfo); exit;
+        
+        require_once(APP.'vendors'.DS."paypalpro/paypal_pro.inc.php");
+        
+        $firstName =urlencode($companyInfo['Companies']['contact_name']);
+        $lastName =urlencode($companyInfo['Companies']['company_name']);
+        
+        $creditCardType =urlencode($cardInfo['PaymentInfo']['card_type']);
+        $creditCardNumber = urlencode($cardInfo['PaymentInfo']['card_no']);
+        $expDateMonth =urlencode($cardInfo['PaymentInfo']['expiration_month']);
+        $padDateMonth = str_pad($expDateMonth, 2, '0', STR_PAD_LEFT);
+        $expDateYear =urlencode($cardInfo['PaymentInfo']['expiration_year']);
+        $cvv2Number = urlencode($cardInfo['PaymentInfo']['ccv']);
+        
+        $address = urlencode($cardInfo['PaymentInfo']['address']);
+        $city = urlencode($cardInfo['PaymentInfo']['city']);
+        $state =urlencode($cardInfo['PaymentInfo']['state']);
+        $zip = urlencode($cardInfo['PaymentInfo']['zip']);
+        /*$amount = urlencode($jobInfo[]);
+        $currencyCode="USD";
+        $paymentAction = urlencode("Sale");
+	
+        $nvpRecurring = '';
+		$methodToCall = 'doDirectPayment';
+        
+        $nvpstr='&PAYMENTACTION='.$paymentAction.'&AMT='.$amount.'&CREDITCARDTYPE='.$creditCardType.'&ACCT='.$creditCardNumber.'&EXPDATE='.$padDateMonth.$expDateYear.'&CVV2='.$cvv2Number.'&FIRSTNAME='.$firstName.'&LASTNAME='.$lastName.'&STREET='.$address1.'&CITY='.$city.'&STATE='.$state.'&ZIP='.$zip.'&COUNTRYCODE=US&CURRENCYCODE='.$currencyCode.$nvpRecurring;
+
+        $paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE, '', '', FALSE, FALSE );
+        $resArray = $paypalPro->hash_call($methodToCall,$nvpstr);
+        $ack = strtoupper($resArray["ACK"]);
+        /*
+        if($ack == "SUCCESS") {
+            if(isset($resArray['TRANSACTIONID'])) {
+                $this->redirect("/checkout/order/".$resArray['TRANSACTIONID']);
+            }else {
+                $this->Session->setFlash("Due To Unknown Paypal Response, We Cannot Procced.", 'error');
+                $this->redirect("/checkout/cart/");
+            }
+            
+        } else {
+            $error_msg = "Invalid Data";
+            if(isset($resArray['L_LONGMESSAGE0'])) {
+                $error_msg = $resArray['L_LONGMESSAGE0'];
+            }elseif(isset($resArray['L_SHORTMESSAGE0'])) {
+                $error_msg = $resArray['L_SHORTMESSAGE0'];
+            }
+            $this->Session->setFlash($error_msg, 'error');
+            $this->redirect("/checkout/billingAndPayment");
+        }
+  		*/      
     }
 }
 ?>
