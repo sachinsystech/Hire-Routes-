@@ -265,6 +265,11 @@ class UsersController extends AppController {
 					}*/
 					$this->redirect("confirmation/".$userId);
 				}
+				else{
+					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					$this->redirect("/");
+					return;
+				}
 			}
 		}	
 	}
@@ -381,8 +386,7 @@ class UsersController extends AppController {
 	
 	function firstTime() {
 		$id = $this->TrackUser->getCurrentUserId();
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$id)));
-		$role = $this->TrackUser->getCurrentUserRole($userRole);
+		$role = $this->TrackUser->getCurrentUserRole();
 		switch($role['role_id']){
 			case 1:
 					$this->redirect("/companies");
@@ -514,8 +518,7 @@ class UsersController extends AppController {
 	function logout() {
 		$this->Auth->logout();
 		$this->redirect("/home/index");		
-	}
-	
+	}	
 
 	function facebookUserSelection(){
 		
