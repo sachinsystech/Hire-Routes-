@@ -3,6 +3,7 @@ class JobsController extends AppController {
     var $uses = array('Company','Job','Industry','State','Specification',
 'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews');
 	var $helpers = array('Form','Paginator','Time');
+	var $components = array('Session','TrackUser','Utility');
         
 	
 	public function beforeFilter(){
@@ -104,41 +105,15 @@ class JobsController extends AppController {
 		}
 		$this->set('jobs',$jobs_array);
 		
-		$industries = $this->Industry->find('all');
-		$industries_array = array();
-		foreach($industries as $industry){
-			$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
-		}
-		$this->set('industries',$industries_array);
+		$this->set('industries',$this->Utility->getIndustry());	
 
-		$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'AK')));
-		$cities_array = array();
-		foreach($cities as $city){
-			$cities_array[$city['City']['city']] =  $city['City']['city'];
-		}
-		$this->set('cities',$cities_array);
+		$this->set('cities',$this->Utility->getCity());
 		
-		$states = $this->State->find('all');
-		$state_array = array();
-		foreach($states as $state){
-			$state_array[$state['State']['state']] =  $state['State']['state'];
-		}
-		$this->set('states',$state_array);
+		$this->set('states',$this->Utility->getState());
 
-		$specifications = $this->Specification->find('all');
-		$specification_array = array();
-		foreach($specifications as $specification){
-			$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
-		}
-		$this->set('specifications',$specification_array);
+		$this->set('specifications',$this->Utility->getSpecification());
 
-                $urls = $this->Companies->find('all');
-		$url_array = array();
-		foreach($urls as $url){
-			$url_array[$url['Companies']['id']] =  $url['Companies']['company_url'];
-		}
-                
-		$this->set('urls',$url_array);
+        $this->set('urls',$this->Utility->getCompany('url'));
 		
 		$companies = $this->Companies->find('all');
 		$companies_array = array();
@@ -340,41 +315,15 @@ function jobDetail(){
 		$userId = $this->Session->read('Auth.User.id');
 		$roleInfo = $this->getCurrentUserRole();    	
 		
-		$industries = $this->Industry->find('all');
-		$industries_array = array();
-		foreach($industries as $industry){
-			$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
-		}
-		$this->set('industries',$industries_array);
+		$this->set('industries',$this->Utility->getIndustry());	
 
-		$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'AK')));
-		$cities_array = array();
-		foreach($cities as $city){
-			$cities_array[$city['City']['city']] =  $city['City']['city'];
-		}
-		$this->set('cities',$cities_array);
+		$this->set('cities',$this->Utility->getCity());
 		
-		$states = $this->State->find('all');
-		$state_array = array();
-		foreach($states as $state){
-			$state_array[$state['State']['state']] =  $state['State']['state'];
-		}
-		$this->set('states',$state_array);
+		$this->set('states',$this->Utility->getState());
 
-		$specifications = $this->Specification->find('all');
-		$specification_array = array();
-		foreach($specifications as $specification){
-			$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
-		}
-		$this->set('specifications',$specification_array);
+		$this->set('specifications',$this->Utility->getSpecification());
 
-        $urls = $this->Companies->find('all');
-		$url_array = array();
-		foreach($urls as $url){
-			$url_array[$url['Companies']['id']] =  $url['Companies']['company_url'];
-		}
-                
-		$this->set('urls',$url_array);
+        $this->set('urls',$this->Utility->getCompany('url'));
 		
 		$companies = $this->Companies->find('all');
 		$companies_array = array();
