@@ -82,7 +82,7 @@
 						<tr>
 							<td>
 								<div>
-									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/'.$job['id']); ?></div>
+									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/jobDetail/'.$job['id']); ?></div>
 									<div style="float:right"><?php echo $job['reward'];?>$
 </div>									
 								</div>
@@ -99,7 +99,7 @@
 				                 	Posted <?php  echo $time->timeAgoInWords($job['created'])." <br><br>";?>							
 								</div>	
                                 <div style="padding-left:480px;">
-                                    <?php	echo $this->Html->link('Read More', '/jobs/'.$job['id']); ?>
+                                    <?php	echo $this->Html->link('Read More', '/jobsDetail/'.$job['id']); ?>
                                 </div>                                	
 							</td>
 						</tr>
@@ -110,9 +110,8 @@
 				<?php endif;?>
 			</div>			
 		<!-- middle conyent list -->
-</div>
+		</div>
 	</div>
 	<!-- middle section end -->
-
 </div>
 
