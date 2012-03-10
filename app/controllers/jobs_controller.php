@@ -17,7 +17,7 @@ class JobsController extends AppController {
 	
 	function index(){
 
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 
     	$shortByItem = 'id';
@@ -105,15 +105,11 @@ class JobsController extends AppController {
 		}
 		$this->set('jobs',$jobs_array);
 		
-		$this->set('industries',$this->Utility->getIndustry());	
-
-		$this->set('cities',$this->Utility->getCity());
-		
+		$this->set('industries',$this->Utility->getIndustry());
+		$this->set('cities',$this->Utility->getCity());		
 		$this->set('states',$this->Utility->getState());
-
 		$this->set('specifications',$this->Utility->getSpecification());
-
-        $this->set('urls',$this->Utility->getCompany('url'));
+        	$this->set('urls',$this->Utility->getCompany('url'));
 		
 		$companies = $this->Companies->find('all');
 		$companies_array = array();
@@ -125,7 +121,7 @@ class JobsController extends AppController {
 	}
 
     function getCurrentUserRole(){
-		$userId = $this->Session->read('Auth.User.id');			
+		$userId = $this->TrackUser->getCurrentUserId();		
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
 		$roleName  = null;
 		switch($userRole['UserRoles']['role_id']){
@@ -186,7 +182,7 @@ class JobsController extends AppController {
     function applyJob(){	
 
 		// Jobseeker's profile information
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
         $roleInfo = $this->getCurrentUserRole();
         $this->set('userrole',$roleInfo);
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
@@ -265,7 +261,7 @@ class JobsController extends AppController {
 	}
 
 	function viewResume(){
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
         		
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
@@ -312,17 +308,13 @@ class JobsController extends AppController {
 
 function jobDetail(){
 
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();    	
 		
 		$this->set('industries',$this->Utility->getIndustry());	
-
-		$this->set('cities',$this->Utility->getCity());
-		
+		$this->set('cities',$this->Utility->getCity());		
 		$this->set('states',$this->Utility->getState());
-
 		$this->set('specifications',$this->Utility->getSpecification());
-
         $this->set('urls',$this->Utility->getCompany('url'));
 		
 		$companies = $this->Companies->find('all');

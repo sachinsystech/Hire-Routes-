@@ -4,7 +4,7 @@
 		<div class="sideMenu">
 			<ul>
 				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob"><span>My Jobs</span></a></li>
-				<li>My Account</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies"><span>My Account</span></a></li>
 				<li>My Employees</li>
 			</ul>
 		</div>
@@ -20,7 +20,7 @@
 			<ul style="float:left">
 				<li ><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editJob/<?php echo $jobId;?>">Edit Job</a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showApplicant/<?php echo $jobId;?>">Applicants</a></li>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/jobData/<?php echo $jobId;?>">Statistics</a></li>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/jobStats/<?php echo $jobId;?>">Statistics</a></li>
 			</ul>
 			
 		</div>

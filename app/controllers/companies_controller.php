@@ -10,7 +10,7 @@ class CompaniesController extends AppController {
 	/*	display a form to post new Job by company		*/
 	function postJob(){
 
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
@@ -59,6 +59,7 @@ class CompaniesController extends AppController {
 		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
 		return $currentUserRole;
 	}
+
 	function newJob(){
 		
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
@@ -85,7 +86,8 @@ class CompaniesController extends AppController {
 			$this->set('shortBy',"date-added");
 			$shortByItem = 'created'; 
 		}
-		$userId = $this->Session->read('Auth.User.id');		
+
+		$userId = $this->TrackUser->getCurrentUserId();	
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
@@ -115,7 +117,7 @@ class CompaniesController extends AppController {
 	}
 
 	function save(){
-        $userId =  $this->Session->read('Auth.User.id');
+        $userId = $this->TrackUser->getCurrentUserId();
 		$company = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
 		$this->data['Job']['user_id']= $userId;
 		$this->data['Job']['company_id']= $company['Companies']['id'];
@@ -140,7 +142,7 @@ class CompaniesController extends AppController {
 	}
 	
 	function editJob(){
-		$userId = $this->Session->read('Auth.User.id');	
+		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
 	
@@ -195,7 +197,7 @@ class CompaniesController extends AppController {
 			}
 		}
 		if(isset($this->data['Job'])){
-			$this->data['Job']['user_id'] = $this->Session->read('Auth.User.id');
+			$this->data['Job']['user_id'] = $userId;
 			$this->Job->save($this->data['Job']);
 			$this->Session->setFlash('Job has been updated successfuly.', 'success');				
 			$this->redirect('/companies/newJob');
@@ -207,7 +209,7 @@ class CompaniesController extends AppController {
 	}
 	
 	function accountProfile() {
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
@@ -218,7 +220,7 @@ class CompaniesController extends AppController {
 	}
 
 	function editProfile() {
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
@@ -265,9 +267,13 @@ class CompaniesController extends AppController {
 		}		
 	}
 
+	function paymentHistory() {
+		$userId = $this->TrackUser->getCurrentUserId();	
+	}
+
 	/** move active job to archive(Disable) **/
 	function archiveJob(){
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fileds"=>"id"));
@@ -286,7 +292,7 @@ class CompaniesController extends AppController {
 
 	/** list of Applicant for given job **/
 	function showApplicant(){
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fileds"=>"id"));
@@ -324,8 +330,8 @@ class CompaniesController extends AppController {
 	}
 
 	/** Job Statistics **/
-	function jobData(){
-		$userId = $this->Session->read('Auth.User.id');
+	function jobStats(){
+		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId  = $this->params['pass'][0];
 
 		$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId)));

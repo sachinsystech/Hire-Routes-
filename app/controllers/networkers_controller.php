@@ -385,14 +385,10 @@ class NetworkersController extends AppController {
 		}
 		$this->set('jobs',$jobs_array);
 		
-		$this->set('industries',$this->Utility->getIndustry());	
-
-		$this->set('cities',$this->Utility->getCity());
-		
+		$this->set('industries',$this->Utility->getIndustry());
+		$this->set('cities',$this->Utility->getCity());		
 		$this->set('states',$this->Utility->getState());
-
 		$this->set('specifications',$this->Utility->getSpecification());
-
         $this->set('urls',$this->Utility->getCompany('url'));
 		
 		$companies = $this->Companies->find('all');

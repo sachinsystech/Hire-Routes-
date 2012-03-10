@@ -19,9 +19,9 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul style="float:left">
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/">Profile</a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">Profile</a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentInfo">Payment Info</a></li>
-				<li>Payment History</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentHistory">Payment History</span></a></li>
 			</ul>
 			<ul style="float:right">
 				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editProfile"><span>Edit</span></a></li>
