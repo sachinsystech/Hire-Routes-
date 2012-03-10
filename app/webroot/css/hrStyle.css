@@ -1291,30 +1291,9 @@ label.error{
 #PaymentInfoPaymentInfoForm label{
 	font-size: 95%;
 	font-weight: bold;
-	width: 50px;
-	margin-left:-70px;
+	width: 150px;
 }
 
-#PaymentInfoPaymentInfoForm #PaymentInfoCardType{
-	clear: both;
-    font-size: 90%;
-    vertical-align: text-bottom;
-	margin-left: 110px;
-}
-
-#PaymentInfoPaymentInfoForm #PaymentInfoExpirationMonth{
-	clear: both;
-    font-size: 90%;
-    vertical-align: text-bottom;
-	margin-left: 65px;
-}
-
-#PaymentInfoPaymentInfoForm #PaymentInfoExpirationYear{
-	clear: both;
-    font-size: 90%;
-    vertical-align: text-bottom;
-	margin-left: 80px;
-}
 .salary_range label.error{
 	position: absolute;
 	padding-left: 0.0em;
@@ -1322,4 +1301,48 @@ label.error{
 }
 .error_page_contant{
 	margin:auto;
+}
+#PaymentInfoPaymentInfoForm div{
+	padding: 0.2em;
+}
+.payment_form{
+	margin: auto;
+    padding: 15px;
+    width: 375px;
+
+}
+.payment_ctype {
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 20px;
+    margin-left: 79px;
+    width: 193px;
+}
+.payment_text_field {
+    border: 1px solid;
+    float: right;
+    font-size: 95%;
+    height: 12px;
+    width: 185px;
+}
+.payment_textarea_field{
+    border: 1px solid;
+    float: right;
+    font-size: 12px;
+    height: 50px;
+    margin-right: 0;
+    width: 185px;
+}
+.payment_month {
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 20px;
+    margin-left: 66px;
+    width: 86px;
+}
+.payment_year {
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 20px;
+    width: 87px;
 }
