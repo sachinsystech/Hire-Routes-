@@ -7,7 +7,7 @@ class CompaniesController extends AppController {
 	var $components = array('TrackUser','Utility');
 	var $helpers = array('Form','Paginator','Time');
 	
-
+	/*	display a form to post new Job by company		*/
 	function postJob(){
 
 		$userId = $this->TrackUser->getCurrentUserId();
@@ -72,7 +72,7 @@ class CompaniesController extends AppController {
 			    	case 'date-added':
 			    				$shortByItem = 'created'; 
 			    				break;	
-	        	case 'industry':
+	        		case 'industry':
 	        				$shortByItem = 'industry'; 
 	        				break;
 			    				break;
@@ -113,6 +113,7 @@ class CompaniesController extends AppController {
 				    );
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
+		//echo "<pre>"; print_r($jobs);  exit;
 	}
 
 	function save(){
@@ -224,8 +225,6 @@ class CompaniesController extends AppController {
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
 		}
-		//echo "<pre>"; print_r($this->data['User']);
-		//echo "<pre>"; print_r($this->data['Company']); exit;		
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
@@ -237,6 +236,14 @@ class CompaniesController extends AppController {
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
 		$this->set('company',$user['Companies'][0]);
+	}
+
+	function checkout() {
+		$jobId = $this->params['jobId'];
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1)));
+		$this->set('job',$job['Job']);		
+		
 	}
 
 	function paymentInfo() {
@@ -291,11 +298,12 @@ class CompaniesController extends AppController {
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fileds"=>"id"));
+			//echo "<pre>"; print_r($jobs); exit;
 			if($jobs['Job']){
 				$conditions = array('JobseekerApply.job_id'=>$jobs['Job']['id'],"JobseekerApply.is_active"=>0);
 				$this->paginate = array(
-								    'conditions' => $conditions,
-						'joins'=>array(
+						    'conditions' => $conditions,
+							'joins'=>array(
 											array('table' => 'jobseekers',
 												'alias' => 'jobseekers',
 												'type' => 'LEFT',
@@ -303,7 +311,7 @@ class CompaniesController extends AppController {
 															'JobseekerApply.user_id = jobseekers.user_id ',
 												)
 											)
-									),'limit' => 12, // put display fillter here
+									),'limit' => 10, // put display fillter here
 							'order' => array('JobseekerApply.id' => 'desc'), // put sort fillter here
 							'recursive'=>0,
 							'fields'=>array('JobseekerApply.*,jobseekers.contact_name'),
@@ -312,10 +320,15 @@ class CompaniesController extends AppController {
 				$applicants = $this->paginate("JobseekerApply");
 				$this->set('applicants',$applicants);
 			}
+			else{
+				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
+				$this->redirect("/companies/newJob");
+			}
 		}else{
 			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
 			$this->redirect("/companies/newJob");
 		}
+				//echo "<pre>"; print_r($applicants);  exit;
 	}
 
 	/** Job Statistics **/

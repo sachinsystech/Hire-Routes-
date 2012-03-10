@@ -1,6 +1,7 @@
 <?php echo $this->Session->flash();?>
 <div id="page-heading"><h1>Code For User Sign-Up Request</h1></div>
-
+<?php $isError = count($codeValue->validationErrors);  ?>
+<div style="clear:both"></div>
 
 <!--		Start Code-Generat-Form		-->
 
@@ -17,8 +18,14 @@
 		<tr>
 			<td id="tbl-border-left"></td>
 			<td>
-			<div style="text-align: center;cursor:pointer" class="flip">Add New Code</div>	
-			<div class="content-table-inner panel" style="display:none">
+			<div style="text-align: center;cursor:pointer" class="flip">Add New Code</div>
+			<?php
+				$display = "";
+				if(!$isError){
+					$display="display:none";
+				}	
+			?>
+			<div class="content-table-inner panel" style="<?php echo $display; ?>" >
 				<div class="clearBoth">&nbsp;</div>
 					<table width ="100%" cellspacing='0'>
 						<tr>			

@@ -3,9 +3,19 @@ class TrackUserComponent extends Object
 {
 	var $someVar = null;
 	var $controller = true;
+	var $uses = array('UserRoles');
 	
 	var $components = array('Session','Auth');
 	
+	function initialize(&$controller) {
+		if ($this->uses !== false) {
+			foreach($this->uses as $modelClass) {
+				$controller->loadModel($modelClass);
+				$this->$modelClass = $controller->$modelClass;
+			}
+		}		
+	}
+
 	function startup(&$controller)
 	{
 		// This method takes a reference to the controller which is loading it.
@@ -25,8 +35,11 @@ class TrackUserComponent extends Object
 			return false;		
 		}
 	}
-	function getCurrentUserRole($userRole){
-		$userId = $this->Session->read('Auth.User.id');			
+	
+	
+	function getCurrentUserRole(){
+		$userId = $this->Session->read('Auth.User.id');	
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));		
 		$roleName  = null;
 		switch($userRole['UserRoles']['role_id']){
 			case 1:

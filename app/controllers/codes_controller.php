@@ -12,7 +12,7 @@ class CodesController extends AppController {
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->authorize = 'actions';
-		//$this->Auth->allow('add');
+		$this->Auth->allow('add');
 		$this->Auth->allow('delete');
 		$this->layout = "admin";
 	}
@@ -34,6 +34,7 @@ class CodesController extends AppController {
 						);
 		$code = $this->paginate("Code");
 		$codes = $this->set('codes',$code);
+		$codeValue = $this->set('codeValue',$this->Code);
 	}
 	
 	/*	Delete selected code	*/

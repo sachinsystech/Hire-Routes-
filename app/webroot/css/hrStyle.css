@@ -728,7 +728,8 @@ label.error{
 	color: red; 
 	padding-left: 1.5em; 
 	vertical-align: top;
-	clear:both; 
+	clear:both;
+	font-size: 13px; 
 }
 .terms-condition-error{
 	clear: both;
@@ -1285,7 +1286,6 @@ label.error{
 #JobseekerSettingsEditProfileForm label{
 	font-size: 95%;
 	font-weight: bold;
-	width: 150px;	
 }
 
 #PaymentInfoPaymentInfoForm label{
@@ -1314,4 +1314,12 @@ label.error{
     font-size: 90%;
     vertical-align: text-bottom;
 	margin-left: 80px;
+}
+.salary_range label.error{
+	position: absolute;
+	padding-left: 0.0em;
+	font-size: 13px;
+}
+.error_page_contant{
+	margin:auto;
 }
