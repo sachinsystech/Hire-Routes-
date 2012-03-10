@@ -71,7 +71,7 @@ class CompaniesController extends AppController {
 			    	case 'date-added':
 			    				$shortByItem = 'created'; 
 			    				break;	
-	        	case 'industry':
+	        		case 'industry':
 	        				$shortByItem = 'industry'; 
 	        				break;
 			    				break;
@@ -111,6 +111,7 @@ class CompaniesController extends AppController {
 				    );
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
+		//echo "<pre>"; print_r($jobs);  exit;
 	}
 
 	function save(){
@@ -235,6 +236,14 @@ class CompaniesController extends AppController {
 		$this->set('company',$user['Companies'][0]);
 	}
 
+	function checkout() {
+		$jobId = $this->params['jobId'];
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1)));
+		$this->set('job',$job['Job']);		
+		
+	}
+
 	function paymentInfo() {
 		$userId = $this->TrackUser->getCurrentUserId();		
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
@@ -313,6 +322,7 @@ class CompaniesController extends AppController {
 			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
 			$this->redirect("/companies/newJob");
 		}
+				//echo "<pre>"; print_r($applicants);  exit;
 	}
 
 	/** Job Statistics **/

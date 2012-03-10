@@ -27,7 +27,7 @@
 		$( "#slider-range" ).slider({
 			range: true,
 			min: 1,
-			max: 200,
+			max: 500,
 			values: [ "<?php echo $salaryFrom; ?>","<?php echo $salaryTo; ?>"],
 			slide: function( event, ui ) {
 				$( "#from_amount" ).val( ui.values[ 0 ] +"K");
@@ -205,7 +205,7 @@
 				</div>				
 			</div>
 			<div>
-				<div><div style="float:left;padding:5px"><b>Job Type</b></div><div class="flip_jobtype" style="float:right;padding:5px;cursor: pointer;"></div></div>
+				<div><div style="float:left;padding:5px"><b>Job Type</b></div><div class="flip_jobtype" style="float:right;padding:5px;cursor: pointer;">+</div></div>
 				<div style="clear:both"></div>
 		
 				<div class="narrowby_jobtype panel_jobtype" style="display:none;">
