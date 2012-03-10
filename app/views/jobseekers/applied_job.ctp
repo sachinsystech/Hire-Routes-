@@ -79,7 +79,7 @@
 								<div style="clear:both"></div>
                                 <div style="float:right"> <?php echo $job_status[$job['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['id']); ?></div>		
 								<div>
-									<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['state']]."<br>";
+									<?php	echo $job['company_name']."- ".$job['city'].",".$job['state']."<br>";
 											echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
 											echo $job_array[$job['job_type']]."<br>";
 											echo $job['short_description']."<br>";?>

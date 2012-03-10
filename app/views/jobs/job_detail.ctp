@@ -43,7 +43,7 @@
 									<div style="font-size:15px;padding-left:15px;"><strong>About the Job</strong></div>
                                     <div style="font-size:13px;padding-left:15px;line-height:22px;">
                                     	<strong>Location :</strong> 
-											<?php echo $job['city'].", ".$states[$job['id']]."<br>"; ?>
+											<?php echo $job['city'].", ".$job['state']."<br>"; ?>
 										<strong>Annual Salary Range :</strong> 
 											<?php echo $job['salary_from']." - ".$job['salary_to']."<br>"; ?>
 										<strong>Type :</strong> 
@@ -56,7 +56,7 @@
 								<div style="padding-left:15px;">
 									<span style="font-size:15px;">
 										<strong><?php echo $job['company_name']; ?></strong></span> - 
-												<?php echo $job['city'].", ".$states[$job['id']]."<br>"; ?>
+												<?php echo $job['city'].", ".$job['state']."<br>"; ?>
                                                 <?php echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br><br>
 											<div id="short_description" style="font-size:13px;">
 											<?php $desc = $job['description'];
