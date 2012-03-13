@@ -69,8 +69,7 @@ class UsersController extends AppController {
 
 /**
  * Called as default action for UserController.
-**/
-	
+**/	
 	function index(){
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");				
@@ -79,7 +78,6 @@ class UsersController extends AppController {
 		else{
 			$this->redirect("/users/userSelection");
 		}
-
     }
 /**
  * Displays a view to choose which type of user you want to register if user is not logged-in, 
@@ -90,7 +88,10 @@ class UsersController extends AppController {
 			$this->redirect("/users/firstTime");	
 		}
 	}
-    
+
+/**
+ * Display account confirmaiton message after sigining-up.
+**/    
 	function confirmation(){
 		$id = isset($this->params['id'])?$this->params['id']:"";
 		if(!isset($id)){
@@ -121,7 +122,9 @@ class UsersController extends AppController {
 			return;
 		}
 	}
-
+/**
+ * Display Company/Recruiter registration view.
+**/ 
 	function companyRecruiterSignup(){
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
@@ -161,7 +164,9 @@ class UsersController extends AppController {
 			}
 		}
 	}
-
+/**
+ * Display Networker registration view also validate by asking restrict code for signup process.
+**/ 
 	function networkerSignup() {	
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
@@ -226,7 +231,10 @@ class UsersController extends AppController {
 			}
 		}	
 	}
-
+/**
+ * Display Jobseeker registration view also validate by asking restrict code for signup process.
+ * Save Jobseeker info.
+**/ 
 	function jobseekerSignup(){
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
@@ -296,8 +304,12 @@ class UsersController extends AppController {
 			}
 		}	
 	}
-	
-	private function saveUser($userData){
+/**
+ * save User with generating md5 password.
+ * @return user's id
+ * @access private
+ */
+ 	private function saveUser($userData){
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
 		if(!$this->User->save($userData)){
@@ -307,7 +319,11 @@ class UsersController extends AppController {
 		}
 	    return $this->User->id;
 	}
-
+/**
+ * save User's Role like company/recruiter, jobseeker OR nerworker.
+ * @return user's id
+ * @access private
+ */
 	private function saveUserRoles($userId,$userRoleId){
 		$roles = array();
 		$roles['user_id'] = $userId;			
@@ -319,7 +335,11 @@ class UsersController extends AppController {
 			return;
 		}
 	}
-	
+/**
+ * send comfirmation email for jobseeker and networker, if signed-up successfully.
+ * e-mail contains account confirmation link.
+ * @access private
+ */
 	private function sendConfirmationEmail($id){		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 		try{
@@ -332,10 +352,16 @@ class UsersController extends AppController {
 			$this->set('user', $user['User']);
 			$this->Email->send();
 		}catch(Exception $e){
-			echo 'Message: ' .$e->getMessage();
+			//echo 'Message: ' .$e->getMessage();
+			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			$this->redirect("/");
+			return;
 		}		
 	}
-	
+/**
+ * send comfirmation email for company/recruiter, if signed-up successfully.
+ * @access private
+ */	
 	private function sendCompanyAccountEmail($id){		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 		try{
@@ -348,25 +374,33 @@ class UsersController extends AppController {
 			$this->set('user', $user['User']);
 			$this->Email->send();
 		}catch(Exception $e){
-			echo 'Message: ' .$e->getMessage();
+			//echo 'Message: ' .$e->getMessage();
+			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			$this->redirect("/");
+			return;
 		}		
 	}	
-	
+/**
+ * after account confirmation redirect user to "first-time" page.
+ */
 	function accountConfirmation(){
 		$userId = $this->params['id'];
 		$confirmCode = $this->params['code'];
 		$this->confirmAccount($userId,$confirmCode);
-		$this->redirect("firstTime");				
-
+		$this->redirect("firstTime");
 	}
-	
+/**
+ * after click on confirmation link display intermediate view performing some account handling after account confirmation.
+ */
 	function account() {
 		$userId = $this->params['id'];
 		$confirmCode = $this->params['code'];
 		$this->set('userId', $userId);
 		$this->set('confirmCode', $confirmCode);
 	}
-
+/**
+ * after click on confirmation link match confirm code and activate user.
+ */
 	function confirmAccount($userId,$confirmCode){
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId,'User.confirm_code'=>$confirmCode)));
 		if(isset($user['User']['confirm_code']) && isset($user['User']['id'])){
@@ -393,7 +427,9 @@ class UsersController extends AppController {
 			}	
 		} 
 	}		
-
+/**
+ * after click on confirmation link  authenticate user and set as logged-in.
+ */
 	function setUserAsLoggedIn($user){
 		if(isset($user)){
 			$data = array('User' => array('account_email' => $user['account_email'],
@@ -406,7 +442,10 @@ class UsersController extends AppController {
 			$this->Auth->login($data);
 		}	
 	}	
-	
+/**
+ * display first time page when user click on confirmation link.
+ * redirect users to respective setting pages if they setting up their account.
+ */
 	function firstTime() {
 		$id = $this->TrackUser->getCurrentUserId();
 		$role = $this->TrackUser->getCurrentUserRole();
@@ -432,7 +471,10 @@ class UsersController extends AppController {
 		}
 		$this->set('roleName', $role['role_id']);
 	}
-	
+/**
+ * create facebook object.
+ * @return an array of facebook object 
+ */	
 	function facebookObject() {
 		$facebook = new Facebook(array(
 		  'appId'  => FB_API_KEY,
@@ -440,8 +482,9 @@ class UsersController extends AppController {
 		));
 		return $facebook;
 	}
-	
-	/*	Tracking facebook users, whether he/she is first-time or existing user.... */
+/**	
+ * Tracking facebook users, whether he/she is first-time or existing user.... 
+ */
 	function facebookUser() {
 		$facebook = $this->facebookObject();
 		$user = $facebook->getUser();
@@ -479,7 +522,10 @@ class UsersController extends AppController {
 		}		
 	}	
 	
-	/*	save FB-User if not exist.....*/
+/**	
+ * save FB-User if not exist.....
+ * first ask to become Networker or Jobseeker.
+ */
 	function saveFacebookUser(){
 		$facebook = $this->facebookObject();
 		$fb_user_profile = $facebook->api('/me');
@@ -514,12 +560,21 @@ class UsersController extends AppController {
 			}	
 		}		
 	}		
-
+/**	
+ * check FB-User exist or not
+ * @return FB-User info OR Null otherwisw
+ */
 	function isExistFBUser($facebookUser){
 		$FB_USER = $this->FacebookUsers->find('first',array('conditions'=>array('FacebookUsers.facebook_id'=>$facebookUser)));
 		return $FB_USER;
 	}
-	
+/**
+ * Log-in a user with the given parameter account_email and password
+ * use AuthComponent to authenticate...
+ * @param mixed $data User object
+ * @return boolean True on login success, false on failure
+ * @access public
+ */
 	function login() {
 		if(isset($this->data['User'])){
 			$data = array('User' => array('account_email' => $this->data['User']['username'],
@@ -537,12 +592,18 @@ class UsersController extends AppController {
 			}
 		}	
 	}
-	
+/**
+ * Logs a user out, and returns the home page to redirect to.
+ * @access public
+ */	
 	function logout() {
 		$this->Auth->logout();
 		$this->redirect("/home/index");		
 	}	
-
+/**
+ * Ask facebook user to become Jobseeker OR Networker
+ * @access public
+ */	
 	function facebookUserSelection(){
 		
 	}

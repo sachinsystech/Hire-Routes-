@@ -723,22 +723,24 @@ button.fb-logout {
     width: 425px;
 }
 label.error{ 
-	display: block;
-	float: none; 
-	color: red; 
-	padding-left: 1.5em; 
-	vertical-align: top;
-	clear:both;
-	font-size: 13px; 
-}
-.terms-condition-error{
-	clear: both;
+    clear: both;
     color: red;
     display: block;
     float: none;
+    font-size: 13px;
+    font-weight: normal !important;
+    padding-left: 1.5em;
+    vertical-align: top; 
+}
+.terms-condition-error{
+    clear: both;
+    color: red;
+    display: block;
+    float: none;
+    font-size: 13.5px;
+    margin-left: 21px;
     padding-left: 0.5em;
     vertical-align: top;
-	font-size: 110%;
 }
 .networker_select_bg{
     background-color: #FDFDFD;
@@ -1291,7 +1293,7 @@ label.error{
 #PaymentInfoPaymentInfoForm label{
 	font-size: 95%;
 	font-weight: bold;
-	width: 150px;
+	width: 270px;
 }
 
 .salary_range label.error{
