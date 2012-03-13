@@ -79,7 +79,7 @@
 					<td><?php echo $job[0]['submissions']; ?> submissions</td>
 					<td><?php echo $this->Html->image("/img/icon/detail.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' =>  '/jobs/'.$job['Job']['id'],
+						'url' =>  '/jobs/jobDetail/'.$job['Job']['id'],
                         'title'=> 'Detail'
 						));
 						echo $this->Html->image("/img/icon/edit.png", array(
@@ -100,8 +100,8 @@
 						));
 						echo $this->Html->image("/img/icon/static.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "#",
-                        'title'=>'Static'
+						'url' => "/companies/jobStats/".$job['Job']['id'],
+                        'title'=>'Statistics'
 						));
 						echo $this->Html->image("/img/icon/delete.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",

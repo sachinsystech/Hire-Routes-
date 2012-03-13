@@ -7,12 +7,13 @@ class CompaniesController extends AppController {
 	var $name = 'Companies';
    	var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','PaymentInfo','JobseekerApply');
 	var $components = array('TrackUser','Utility','RequestHandler');
+
 	var $helpers = array('Form','Paginator','Time');
 	
-
+	/*	display a form to post new Job by company		*/
 	function postJob(){
 
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
@@ -74,7 +75,7 @@ class CompaniesController extends AppController {
 			    	case 'date-added':
 			    				$shortByItem = 'created'; 
 			    				break;	
-	        	case 'industry':
+	        		case 'industry':
 	        				$shortByItem = 'industry'; 
 	        				break;
 			    				break;
@@ -88,7 +89,8 @@ class CompaniesController extends AppController {
 			$this->set('shortBy',"date-added");
 			$shortByItem = 'created'; 
 		}
-		$userId = $this->Session->read('Auth.User.id');		
+
+		$userId = $this->TrackUser->getCurrentUserId();	
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
@@ -114,10 +116,11 @@ class CompaniesController extends AppController {
 				    );
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
+		//echo "<pre>"; print_r($jobs);  exit;
 	}
 
 	function save(){
-        $userId =  $this->Session->read('Auth.User.id');
+        $userId = $this->TrackUser->getCurrentUserId();
 		$company = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
 		$this->data['Job']['user_id']= $userId;
 		$this->data['Job']['company_id']= $company['Companies']['id'];
@@ -142,7 +145,7 @@ class CompaniesController extends AppController {
 	}
 	
 	function editJob(){
-		$userId = $this->Session->read('Auth.User.id');	
+		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
 	
@@ -197,7 +200,7 @@ class CompaniesController extends AppController {
 			}
 		}
 		if(isset($this->data['Job'])){
-			$this->data['Job']['user_id'] = $this->Session->read('Auth.User.id');
+			$this->data['Job']['user_id'] = $userId;
 			$this->Job->save($this->data['Job']);
 			$this->Session->setFlash('Job has been updated successfuly.', 'success');				
 			$this->redirect('/companies/newJob');
@@ -209,7 +212,7 @@ class CompaniesController extends AppController {
 	}
 	
 	function accountProfile() {
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
@@ -220,13 +223,11 @@ class CompaniesController extends AppController {
 	}
 
 	function editProfile() {
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
 		}
-		//echo "<pre>"; print_r($this->data['User']);
-		//echo "<pre>"; print_r($this->data['Company']); exit;		
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
@@ -238,6 +239,14 @@ class CompaniesController extends AppController {
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
 		$this->set('company',$user['Companies'][0]);
+	}
+
+	function checkout() {
+		$jobId = $this->params['jobId'];
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1)));
+		$this->set('job',$job['Job']);		
+		
 	}
 
 	function paymentInfo() {
@@ -261,11 +270,13 @@ class CompaniesController extends AppController {
 		}		
 	}
 
-
+	function paymentHistory() {
+		$userId = $this->TrackUser->getCurrentUserId();	
+	}
 
 	/** move active job to archive(Disable) **/
 	function archiveJob(){
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fileds"=>"id"));
@@ -284,15 +295,16 @@ class CompaniesController extends AppController {
 
 	/** list of Applicant for given job **/
 	function showApplicant(){
-		$userId = $this->Session->read('Auth.User.id');
+		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fileds"=>"id"));
+			//echo "<pre>"; print_r($jobs); exit;
 			if($jobs['Job']){
 				$conditions = array('JobseekerApply.job_id'=>$jobs['Job']['id'],"JobseekerApply.is_active"=>0);
 				$this->paginate = array(
-								    'conditions' => $conditions,
-						'joins'=>array(
+						    'conditions' => $conditions,
+							'joins'=>array(
 											array('table' => 'jobseekers',
 												'alias' => 'jobseekers',
 												'type' => 'LEFT',
@@ -300,7 +312,7 @@ class CompaniesController extends AppController {
 															'JobseekerApply.user_id = jobseekers.user_id ',
 												)
 											)
-									),'limit' => 12, // put display fillter here
+									),'limit' => 10, // put display fillter here
 							'order' => array('JobseekerApply.id' => 'desc'), // put sort fillter here
 							'recursive'=>0,
 							'fields'=>array('JobseekerApply.*,jobseekers.contact_name'),
@@ -309,10 +321,50 @@ class CompaniesController extends AppController {
 				$applicants = $this->paginate("JobseekerApply");
 				$this->set('applicants',$applicants);
 			}
+			else{
+				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
+				$this->redirect("/companies/newJob");
+			}
 		}else{
 			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
 			$this->redirect("/companies/newJob");
 		}
+				//echo "<pre>"; print_r($applicants);  exit;
+	}
+
+	/** Job Statistics **/
+	function jobStats(){
+		$userId = $this->TrackUser->getCurrentUserId();
+		$jobId  = $this->params['pass'][0];
+
+		$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId)));
+
+		
+		$jobprofilelastmonth = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'created >'=> date("Y-m-d", strtotime("-1 month")),
+													'created <'=> date("Y-m-d"))));
+		
+		$jobprofilelastweek = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'created >'=> date("Y-m-d", strtotime("-1 week")),
+													'created <'=> date("Y-m-d"))));
+
+		$viewalltime = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId)));
+	
+		$viewlastmonth = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'created >'=> date("Y-m-d", strtotime("-1 month")),
+													'created <'=> date("Y-m-d"))));
+
+		$viewlastweek = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'created >'=> date("Y-m-d", strtotime("-1 week")),
+													'created <'=> date("Y-m-d"))));
+		
+		$this->set('jobId',$jobId);
+		$this->set('application_alltime',$applicationalltime);
+		$this->set('application_last_month',$jobprofilelastmonth);
+		$this->set('application_last_week',$jobprofilelastweek);
+		$this->set('view_alltime',$viewalltime);
+		$this->set('view_last_month',$viewlastmonth);
+		$this->set('view_last_week',$viewlastweek);
 	}
 
 
@@ -462,6 +514,63 @@ class CompaniesController extends AppController {
         
        exit;
     }
+    
+    function paypalProPayment() {
+        $userId = $this->Session->read('Auth.User.id');
+        
+        $cardInfo = $this->PaymentInfo->find('first',array('conditions'=>array('PaymentInfo.user_id'=>$userId)));
+        $companyInfo = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
+        $jobInfo = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId)));
+        echo "<pre>"; print_r($jobInfo); exit;
+        
+        require_once(APP.'vendors'.DS."paypalpro/paypal_pro.inc.php");
+        
+        $firstName =urlencode($companyInfo['Companies']['contact_name']);
+        $lastName =urlencode($companyInfo['Companies']['company_name']);
+        
+        $creditCardType =urlencode($cardInfo['PaymentInfo']['card_type']);
+        $creditCardNumber = urlencode($cardInfo['PaymentInfo']['card_no']);
+        $expDateMonth =urlencode($cardInfo['PaymentInfo']['expiration_month']);
+        $padDateMonth = str_pad($expDateMonth, 2, '0', STR_PAD_LEFT);
+        $expDateYear =urlencode($cardInfo['PaymentInfo']['expiration_year']);
+        $cvv2Number = urlencode($cardInfo['PaymentInfo']['ccv']);
+        
+        $address = urlencode($cardInfo['PaymentInfo']['address']);
+        $city = urlencode($cardInfo['PaymentInfo']['city']);
+        $state =urlencode($cardInfo['PaymentInfo']['state']);
+        $zip = urlencode($cardInfo['PaymentInfo']['zip']);
+        /*$amount = urlencode($jobInfo[]);
+        $currencyCode="USD";
+        $paymentAction = urlencode("Sale");
+	
+        $nvpRecurring = '';
+		$methodToCall = 'doDirectPayment';
+        
+        $nvpstr='&PAYMENTACTION='.$paymentAction.'&AMT='.$amount.'&CREDITCARDTYPE='.$creditCardType.'&ACCT='.$creditCardNumber.'&EXPDATE='.$padDateMonth.$expDateYear.'&CVV2='.$cvv2Number.'&FIRSTNAME='.$firstName.'&LASTNAME='.$lastName.'&STREET='.$address1.'&CITY='.$city.'&STATE='.$state.'&ZIP='.$zip.'&COUNTRYCODE=US&CURRENCYCODE='.$currencyCode.$nvpRecurring;
 
+        $paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE, '', '', FALSE, FALSE );
+        $resArray = $paypalPro->hash_call($methodToCall,$nvpstr);
+        $ack = strtoupper($resArray["ACK"]);
+        /*
+        if($ack == "SUCCESS") {
+            if(isset($resArray['TRANSACTIONID'])) {
+                $this->redirect("/checkout/order/".$resArray['TRANSACTIONID']);
+            }else {
+                $this->Session->setFlash("Due To Unknown Paypal Response, We Cannot Procced.", 'error');
+                $this->redirect("/checkout/cart/");
+            }
+            
+        } else {
+            $error_msg = "Invalid Data";
+            if(isset($resArray['L_LONGMESSAGE0'])) {
+                $error_msg = $resArray['L_LONGMESSAGE0'];
+            }elseif(isset($resArray['L_SHORTMESSAGE0'])) {
+                $error_msg = $resArray['L_SHORTMESSAGE0'];
+            }
+            $this->Session->setFlash($error_msg, 'error');
+            $this->redirect("/checkout/billingAndPayment");
+        }
+  		*/      
+    }
 }
 ?>

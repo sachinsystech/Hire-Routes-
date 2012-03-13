@@ -1,3 +1,8 @@
+<script> 	
+    $(document).ready(function(){
+  		$("#JobseekerSettingsEditProfileForm").validate();
+    });	
+</script>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">

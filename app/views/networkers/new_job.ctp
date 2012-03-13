@@ -82,13 +82,13 @@
 						<tr>
 							<td>
 								<div>
-									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/'.$job['id']); ?></div>
+									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/jobDetail/'.$job['id']); ?></div>
 									<div style="float:right"><?php echo $job['reward'];?>$
 </div>									
 								</div>
 								<div style="clear:both"></div>
                                 <div>
-									<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['id']]."<br>";
+									<?php	echo $job['company_name']."- ".$job['city'].",".$$job['state']."<br>";
 											echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
 											echo $job_array[$job['job_type']]."<br>";
 											echo $job['short_description']."<br>";
@@ -99,7 +99,7 @@
 				                 	Posted <?php  echo $time->timeAgoInWords($job['created'])." <br><br>";?>							
 								</div>	
                                 <div style="padding-left:480px;">
-                                    <?php	echo $this->Html->link('Read More', '/jobs/'.$job['id']); ?>
+                                    <?php	echo $this->Html->link('Read More', '/jobsDetail/'.$job['id']); ?>
                                 </div>                                	
 							</td>
 						</tr>
@@ -110,9 +110,8 @@
 				<?php endif;?>
 			</div>			
 		<!-- middle conyent list -->
-</div>
+		</div>
 	</div>
 	<!-- middle section end -->
-
 </div>
 

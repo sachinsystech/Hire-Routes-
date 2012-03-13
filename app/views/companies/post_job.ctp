@@ -96,7 +96,7 @@
 	  </div> 
 	</div>
 	  <div style="clear: both;"></div>
-	<div>
+	<div class="salary_range">
 		<div style="width: 130px;float:left">Annual salary Range</div>
 		<div style="width: 130px;float:left">	
 			<?php	echo $form->input('salary_from', array('label' => 'From',

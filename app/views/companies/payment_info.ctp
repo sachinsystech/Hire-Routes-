@@ -1,7 +1,22 @@
 <script> 	
-    $(document).ready(function(){
-  		$("#PaymentInfoPaymentInfoForm").validate();
+    $(document).ready(function(){               
+		$("#PaymentInfoPaymentInfoForm").validate();
     });	
+
+function check_expdate() {
+    var currentTime = new Date();
+
+	var month = currentTime.getMonth();	
+	var month = parseInt(month)+1;
+	var year  = currentTime.getFullYear();
+	var selmonth = $("#PaymentInfoExpirationMonth").val();
+	var selyear  = $("#PaymentInfoExpirationYear").val();
+	
+    if ( selyear==year && selmonth <= month){     
+      $("#exp_date_error").removeClass().addClass("terms-condition-error").html("Expiry Date should be greater than current date.*");
+      return false;
+    }
+  }
 </script>
 <div class="page">
 	<!-- left section start -->	
@@ -25,19 +40,19 @@
 			<ul style="float:left">
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">Profile</a></li>
 				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentInfo">Payment Info</a></li>
-				<li>Payment History</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentHistory">Payment History</span></a></li>
 			</ul>
 			<ul style="float:right">
-				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editProfile"><span>Edit</span></a></li>
+				<!--<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editProfile"><span>Edit</span></a></li>-->
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		
 			<div class="middleBox">
-				<div class="company_edit_form">
+				<div class="payment_form">
                     
-					<?php echo $this->Form->create('PaymentInfo', array('url' => array('controller' => 'companies', 'action' => 'paymentInfo'))); ?>
+					<?php echo $this->Form->create('PaymentInfo', array('url' => array('controller' => 'companies', 'action' => 'paymentInfo'),'onsubmit'=>'return check_expdate();')); ?>
 						<div>
                             <?php echo $form->input('id', array('label' => 'Your Name ',
 																	'type'  => 'hidden',
@@ -52,12 +67,11 @@
 														 );?>
          
 						</div>						
-						<div style="clear:both"></div>
-						
+						<!--	====================== Payment Form ===================	-->
 						<div>
 							<?php	echo $form->input('card_type', array('label' => 'Card Type',
 												'type'  => 'select',
-												'class' => '',
+												'class' => 'payment_ctype',
 												'value' => $payment['card_type'],
 												'options' => array('Visa' => 'Visa', 'MC' => 'Mastercard', 'Disc' => 'Discover', 'AmEx' => 'American Express')
 												)
@@ -69,7 +83,7 @@
 						<div>
 							<?php	echo $form->input('card_no', array('label' => 'Card Number',
 												'type'  => 'text',
-												'class' => 'text_field_bg required creditcard',
+												'class' => 'payment_text_field required creditcard',
 												'value' => $payment['card_no'],
 												)
 								 );
@@ -88,44 +102,44 @@
 									for($x=0; $x<12; $x++){
 										$month = mktime(0, 0, 0, date("01")+$x, date("d"),  date("Y"));
 										
-    									$key = date('m', $month);
+    									$key = date('n', $month);
    										$monthname = date('F', $month);
 										$months[$key] = $monthname;
 									}
-
-
-									echo $form->input('expiration_month', array('label' => 'Expiration Month',
+							?>
+							<div style="float:left">
+								<?php
+									echo $form->input('expiration_month', array('label' => 'Expiry Date',
 												'type'  => 'select',
-												'class' => '',
+												'class' => 'cr_expire_month payment_month',
 												'value' => $payment['expiration_month'],
 												'options' => $months
 												)
-								 );
-							?>
-							<?php	echo $form->input('expiration_year', array('label' => 'Expiration Year',
+									);
+								?>
+							</div>
+							<div style="float:left">
+								<?php
+									echo $form->input('expiration_year', array('label' => '',
 												'type'  => 'select',
-												'class' => '',
+												'class' => 'expiry cr_expire_year payment_year',
 												'value' => $payment['expiration_year'],
 												'options' => $year
 												)
-								 );
-							?>
-							<?php	// echo $form->input('expiration_date', array('label' => 'Expiration Date',
-									//			'type'  => 'text',
-									//			'class' => 'text_field_bg required date',
-									//			'minlength' => '10',
-									//			'value' => $payment['expiration_date'],
-
-									//			)
-								// );
-							?>
+									);
+								?>
+							</div>	
+							<div id="exp_date_error"></div>
 						</div>
+						
+						
+						
 						<div style="clear:both"></div>
 
 						<div>
 							<?php	echo $form->input('cardholder_name', array('label' => "Card Holder's Name",
 												'type'  => 'text',
-												'class' => 'text_field_bg required alphabets',
+												'class' => 'payment_text_field required alphabets',
 												'value' => $payment['cardholder_name'],
 
 												)
@@ -136,8 +150,8 @@
 
 						<div>
 							<?php	echo $form->input('address', array('label' => "Address",
-												'type'  => 'text',
-												'class' => 'text_field_bg required',
+												'type'  => 'textarea',
+												'class' => 'payment_textarea_field required',
 												'value' => $payment['address'],
 
 												)
@@ -149,7 +163,7 @@
 						<div>
 							<?php	echo $form->input('city', array('label' => "City",
 												'type'  => 'text',
-												'class' => 'text_field_bg required',
+												'class' => 'payment_text_field required',
 												'value' => $payment['city'],
 
 												)
@@ -161,7 +175,7 @@
 						<div>
 							<?php	echo $form->input('state', array('label' => "State",
 												'type'  => 'text',
-												'class' => 'text_field_bg required',
+												'class' => 'payment_text_field required',
 												'value' => $payment['state'],
 
 												)
@@ -173,7 +187,7 @@
 						<div>
 							<?php	echo $form->input('zip', array('label' => "Zip",
 												'type'  => 'text',
-												'class' => 'text_field_bg required',
+												'class' => 'payment_text_field required',
 												'value' => $payment['zip'],
 
 												)
@@ -185,20 +199,8 @@
 						<div>
 							<?php	echo $form->input('country', array('label' => "Country",
 												'type'  => 'text',
-												'class' => 'text_field_bg required',
+												'class' => 'payment_text_field required',
 												'value' => $payment['country'],
-
-												)
-								 );
-							?>
-						</div>
-						<div style="clear:both"></div>
-
-						<div>
-							<?php	echo $form->input('email', array('label' => 'Email',
-												'type'  => 'text',
-												'class' => 'text_field_bg required email',
-												'value' => $payment['email'],
 
 												)
 								 );
@@ -208,12 +210,14 @@
 
 						<div class="company_profile_field_row">
 							<div style="float:right;margin-top:20px">
-								<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>	
+								<?php echo $form->submit('Save...',array('div'=>false,)); ?>	
 							</div>
 						</div>
 						<div style="clear:both"></div>						
 
-					<?php echo $form->end(); ?>	
+					<?php echo $form->end(); ?>
+				<!--	==================== End Payment Form =================	-->
+						
 				</div>				
 			</div>
 			

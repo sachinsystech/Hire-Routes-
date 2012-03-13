@@ -53,15 +53,16 @@
 			</div>
 			<table style="width:100%">
 				<tr>
-					<th style="width:50%">Name</th>
-					<th style="width:30%">Degree of Separation</th>
+					<th style="width:35%">Name</th>
+					<th style="width:25%">Degree of Separation</th>
 					<th style="width:20%">Networker</th>
+					<th style="width:20%">Operatoins</th>
 				</tr>
-				<?php if(empty($applicants)){ ?>
+				<?php if(empty($applicants)): ?>
 				<tr>
 					<td colspan="100%">Sorry, No applicant found.</td>
 				</tr>
-				<?php } ?>
+				<?php endif; ?>
 				<?php foreach($applicants as $applicant):?>	
 				<tr>
 					<td>
@@ -71,6 +72,22 @@
 					</td>
 					<td>--</td>
 					<td>--</td>
+					<td align="center" width="10%">
+						<?php
+							
+							echo $this->Html->image("/img/icon/ok.png", array(
+								"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:22px;",
+								'url' => "/companies/checkout/".$applicant['JobseekerApply']['job_id'],
+								'title'=>'Accept'
+							));
+							
+							echo $this->Html->image("/img/icon/delete.png", array(
+							"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
+							'url' => "",
+							'title'=>'Reject'
+							));
+						?>
+					</td>
 				</tr>
 				
 				<?php endforeach; ?>			

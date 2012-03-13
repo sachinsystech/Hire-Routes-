@@ -1,3 +1,8 @@
+<?php
+//$options['url'] = "/test/abc:1,2,3,4";
+//$this->Paginator->options($options);
+?>
+
 <!-- ------------------------ ALL JOBS LISTING -------------------------->
 <script>
 	$(document).ready(function(){
@@ -22,7 +27,7 @@
 		$( "#slider-range" ).slider({
 			range: true,
 			min: 1,
-			max: 200,
+			max: 500,
 			values: [ "<?php echo $salaryFrom; ?>","<?php echo $salaryTo; ?>"],
 			slide: function( event, ui ) {
 				$( "#from_amount" ).val( ui.values[ 0 ] +"K");
@@ -89,22 +94,7 @@
 			   $(".flip_company").text("+");
 			}
 	  });
-	});
-
-    function showDescription(){
-	    $('#full_description').show();
-            $('#short_description').hide();
-            $('#more_info').hide();
-	}
-    
-    function checkValidForm() {
-       
-       if(document.getElementById("resume").value=="")
-        {
-           document.getElementById("error").innerHTML = "<font color='red'>Please Select File to upload</font>";
-           return false;
-        }
-       
+	});       
     }
 </script>
 <?php if(!isset($job)): ?>
@@ -137,7 +127,7 @@
 			<div class="joblist_sideMenu">
 				<div><div style="float:left;padding:5px;margin:5px"><b>Industries</b></div><div class="flip_industry"  style="float:right;padding:5px;cursor: pointer;">-</div></div>
 				<div style="clear:both"></div>
-				<?php echo $this->Form->create('NarrowJob', array('url' => array('controller' => 'Jobs', 'action' => 'index'))); ?>
+				<?php echo $this->Form->create('NarrowJob', array('type'=>'get','url' => array('controller' => 'Jobs', 'action' => 'index'))); ?>
 				<div class="narrowby_industry panel_industry" >
 					<?php $i=0; ?>
 					<?php  foreach($industries as $industry):?>
@@ -200,7 +190,7 @@
 				</div>				
 			</div>
 			<div>
-				<div><div style="float:left;padding:5px"><b>Job Type</b></div><div class="flip_jobtype" style="float:right;padding:5px;cursor: pointer;"></div></div>
+				<div><div style="float:left;padding:5px"><b>Job Type</b></div><div class="flip_jobtype" style="float:right;padding:5px;cursor: pointer;">+</div></div>
 				<div style="clear:both"></div>
 		
 				<div class="narrowby_jobtype panel_jobtype" style="display:none;">
@@ -278,12 +268,12 @@
 						<tr>
 							<td>
 								<div>
-									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/'.$job['id']); ?></div>
+									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/jobDetail/'.$job['id']); ?></div>
 									<div style="float:right"> <?php	echo $job['reward'];?>$</div>
 								</div>
 								<div style="clear:both">		
 								<div>
-									<?php	echo $job['company_name']."- ".$job['city'].",".$states[$job['state']]."<br>";
+									<?php	echo $job['company_name']."- ".$job['city'].",".$job['state']."<br>";
 											echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
 											echo $job_array[$job['job_type']]."<br>";
 											echo $job['short_description']."<br>";
@@ -305,107 +295,6 @@
 	<!-- middle section end -->
 
 </div>
-<?php  else:?>	
-		
-<!-- ------------------------ PARTICULAR JOB DETAIL ---------------------->	
 
-	
-<?php if(isset($job)): ?>	
-<div class="page">
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle conyent list -->
-		<?php $job_array = array('1'=>'Full Time',
-                                 '2'=>'Part Time',
-								 '3'=>'Contract',
-								 '4'=>'Internship',
-								 '5'=>'Temporary'); ?>
-			<div class="joblist_middleBox">
-				<table style="width:100%">
-					<tr>
-						<td>
-							<div>
-								<div style="float:left;width:150px;height:90px;">
-									<img src="" alt="Company Logo" title="company logo" />
-								</div>
-								<div>
-									<div style="font-size:20px;"><strong><?php echo ucfirst($job['title']); ?></strong>
-                                    </div>  
-									<div style="font-size:13px;line-height:22px;">
-										<strong>By Company :</strong> <?php echo $job['company_name']."<br>"; ?>
-                                        <strong>Website : </strong><?php	echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br>                <strong>URL : </strong><input type="text" value="http://hireroutes/<?php echo $code; ?>" style="width:100px;">
-                                        <br><strong>Published in :</strong> 
-											<?php echo $industries[$job['industry']]." - ".$specifications[$job['specification']].", "; ?>
-											<?php  echo $time->timeAgoInWords($job['created'])."<br><br>";?>
-									</div>
-								</div>
-								<div>
-									<div style="font-size:15px;padding-left:15px;"><strong>About the Job</strong></div>
-                                    <div style="font-size:13px;padding-left:15px;line-height:22px;">
-                                    	<strong>Location :</strong> 
-											<?php echo $job['city'].", ".$states[$job['state']]."<br>"; ?>
-										<strong>Annual Salary Range :</strong> 
-											<?php echo $job['salary_from']." - ".$job['salary_to']."<br>"; ?>
-										<strong>Type :</strong> 
-											<?php echo $job_array[$job['job_type']]."<br>"; ?>
-									</div>
-									<div style="font-size:13px;padding:10px 15px 25px 15px;">
-										<?php echo $job['short_description']."<br>";?>
-									</div>
-								</div>
-								<div style="padding-left:15px;">
-									<span style="font-size:15px;">
-										<strong><?php echo $job['company_name']; ?></strong></span> - 
-												<?php echo $job['city'].", ".$states[$job['state']]."<br>"; ?>
-                                                <?php echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br><br>
-											<div id="short_description" style="font-size:13px;">
-											<?php $desc = $job['description'];
-													if($desc!=''){
-                                                    	$explode = explode(' ',$desc);
-														$string  = '';
-														$dots = '...';
-														if(count($explode) <= 20){
-															$dots = '';
-														}
-														$count  = count($explode)>= 20 ? 20 :count($explode) ;
-														for($i=0;$i<$count;$i++){
-															$string .= $explode[$i]." ";
-														}
-														if($dots){
-															$string = substr($string, 0, strlen($string));
-														}
-														echo $string.$dots;
-													}?>
-											</div>
-											<div id="full_description" style="display:none;font-size:13px;">
-												<?php echo $job['description'];?>
-											</div>
-										</div>
-										<?php if(str_word_count($desc)>20){?>
-											<div id="more_info" align="center" style="font-size:13px;font-weight:normal;">
-												<a onclick="showDescription();" style="cursor:pointer">More Info</a>
-											</div>
-										<?php }?>
-									</div>
-								<div>
-							</div>
-							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
-                            <div style="padding:20px;">
-                            	<div style="font-size:15px;padding-bottom:20px">
-									<a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobs/applyJob/<?php echo $job['id'];?>">
-										<strong>Apply for this job</strong>
-									</a>
-								</div>
-							</div>
-							<?php }?>
-						</td>
-					</tr>
-				</table>
-			</div>	
-		<!-- middle conyent list -->
-	</div>
-	<!-- middle section end -->
-</div>
-<?php  endif; ?>	
 <?php  endif; ?>	
 	

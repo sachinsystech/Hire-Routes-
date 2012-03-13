@@ -1,9 +1,13 @@
+<script> 	
+    $(document).ready(function(){
+  		$("#NetworkersEditProfileForm").validate();
+    });	
+</script>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" ><span>My Jobs</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
@@ -80,7 +84,7 @@
 												
 						<div>
 							<?php	if(isset($networker)){ $city = $networker['city']; } else { $city = "";}
-                                    echo $form->input('Networkers.city', array('label' => 'City',
+                                    echo $form->input('Networkers.city', array('label' => 'City:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $city,

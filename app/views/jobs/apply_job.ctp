@@ -1,10 +1,7 @@
-<script type="text/javascript"> 	   
-    function checkValidForm(){       
-       if(document.getElementById("resume").value==""){
-           document.getElementById("error").innerHTML = "<font color='red'>Please Select File to upload</font>";
-           return false;
-        }       
-    }
+<script> 	
+    $(document).ready(function(){
+  		$("#JobseekerApplyApplyJobForm").validate();
+    });	
 </script>
 <div class="page">
 	<div class="rightBox" >		
@@ -28,64 +25,74 @@
 						<div style="padding:20px;">
 							<div>           
 								<?php echo $form->create('JobseekerApply', array('url' => array('controller' => 'jobs', 'action' => 'applyJob'), 'type' => 'file'));?>
-								<div style="padding-bottom:20px"><strong>Qualification : </strong>
+								<div style="padding-bottom:20px"><strong>Qualification <font color="red">*</font> : </strong>
                       				<?php echo $form->input('answer1', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer1',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer1']));?>
 								</div>
-								<div style="padding-bottom:20px"><strong>Work Experience : </strong>
+								<div style="padding-bottom:20px"><strong>Work Experience <font color="red">*</font>: </strong>
                       				<?php echo $form->input('answer2', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer2',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer2']));?>
 								</div>
-								<div style="padding-bottom:20px"><strong>Current CTC : </strong>
+								<div style="padding-bottom:20px"><strong>Current CTC <font color="red">*</font>: </strong>
                       				<?php echo $form->input('answer3', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer3',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer3']));?>
 								</div>
-								<div style="padding-bottom:20px"><strong>Expected CTC : </strong>
+								<div style="padding-bottom:20px"><strong>Expected CTC <font color="red">*</font>: </strong>
                       				<?php echo $form->input('answer4', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer4',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer4']));?>
 								</div>
-								<div style="padding-bottom:20px"><strong>Why are you applying for this job : </strong>
+								<div style="padding-bottom:20px"><strong>Why are you applying for this job <font color="red">*</font>: </strong>
                       				<?php echo $form->input('answer5', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer5',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer5']));?>
 								</div>
-								<div style="padding-bottom:20px"><strong>Ready to relocate : </strong>
+								<div style="padding-bottom:20px"><strong>Ready to relocate <font color="red">*</font>: </strong>
                       				<?php echo $form->input('answer6', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer6',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer6']));?>
 								</div>
-								<div style="padding-bottom:20px"><strong>Ready to work on shifts : </strong>
+								<div style="padding-bottom:20px"><strong>Ready to work on shifts <font color="red">*</font>: </strong>
                       				<?php echo $form->input('answer7', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer7',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer7']));?>
 								</div>
-								<div style="padding-bottom:20px"><strong>Do you have passport : </strong>
+								<div style="padding-bottom:20px"><strong>Do you have passport <font color="red">*</font>: </strong>
                       				<?php echo $form->input('answer8', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer8',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer8']));?>
 								</div>
-								<div style="padding-bottom:20px"><strong>Do You Have Any Restrictions On Your Ability To Travel? : </strong>
+								<div style="padding-bottom:20px"><strong>Do You Have Any Restrictions On Your Ability To Travel? <font color="red">*</font>: </strong>
                       				<?php echo $form->input('answer9', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer9',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer9']));?>
 								</div>
-								<div style="padding-bottom:20px"><strong>Do You Need Additional Training? : </strong>
+								<div style="padding-bottom:20px"><strong>Do You Need Additional Training? <font color="red">*</font>: </strong>
                       				<?php echo $form->input('answer10', array('label' => '',
 																			 'type'  => 'text',
                                                                              'id'    => 'answer10',
+																			 'class' => 'required',
 																			 'value' => $jobprofile['answer10']));?>
 								</div>
 								<?php if($jobprofile['resume']!=''){?>
@@ -93,12 +100,20 @@
 									<?php echo $html->link('Your Resume',array('action' => '/viewResume/resume/'.$jobprofile['id'].'/'.$job['id']));?>
 								</div>
 								<?php }?>
+ 								<?php if($jobprofile['resume']!=''){?>
  								<div style="padding-bottom:20px"><strong>Upload Resume (pdf, txt, doc) : </strong>
                       				<?php echo $form->input('resume', array('label' => '',
 																			 'type'  => 'file',
-                                                                             'id'    => 'resume'));?>
-									<span id="error"></span>
+                                                                             'id'    => 'resume',));?>
 								</div>
+								<?php }else{ ?>
+								<div style="padding-bottom:20px"><strong>Upload Resume (pdf, txt, doc) <font color="red">*</font>: </strong>
+                      				<?php echo $form->input('resume', array('label' => '',
+																			 'type'  => 'file',
+                                                                             'id'    => 'resume',
+																			 'class' => 'required',));?>
+								</div>
+								<?php }?>
 								<?php if($jobprofile['cover_letter']!=''){?>
 								<div>
 									<?php echo $html->link('Your Cover Letter',array('action' => '/viewResume/cover_letter/'.$jobprofile['id'].'/'.$job['id']));?>
