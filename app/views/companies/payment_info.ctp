@@ -208,8 +208,8 @@ function check_expdate() {
 						</div>
 						<div style="clear:both"></div>
 
-						<div class="company_profile_field_row">
-							<div style="float:right;margin-top:20px">
+						<div >
+							<div style="float:right;">
 								<?php echo $form->submit('Save...',array('div'=>false,)); ?>	
 							</div>
 						</div>
