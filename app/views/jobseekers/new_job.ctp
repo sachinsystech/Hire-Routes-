@@ -69,20 +69,20 @@
 							<tr>
 								<td>
 									<div>
-										<div><?php	echo $this->Html->link($job['title'], '/jobs/jobDetail/'.$job['id']); ?></div>									
+										<div><?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>									
 									</div>
 									<div style="clear:both"></div>			
                                 	<div>
-										<?php	echo $job['company_name']."- ".$job['city'].",".$job['state']."<br>";
-												echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
-												echo $job_array[$job['job_type']]."<br>";
-												echo $job['short_description']."<br>";?>
+										<?php	echo $job['Job']['company_name']."- ".$job['Job']['city'].",".$job['Job']['state']."<br>";
+												echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
+												echo $job_array[$job['Job']['job_type']]."<br>";
+												echo $job['Job']['short_description']."<br>";?>
                                  	</div>
                                  	<div style="float:left"> Posted 
-               							<?php  echo $time->timeAgoInWords($job['created'])." <br><br>";?>									
+               							<?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>									
 									</div>	
                                 	<div style="padding-left:550px;">
-                                    	<?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['id']); ?>
+                                    	<?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['Job']['id']); ?>
                                		</div>                              	
 								</td>
 							</tr>

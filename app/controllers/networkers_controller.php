@@ -336,8 +336,8 @@ class NetworkersController extends AppController {
 		for($n=0;$n<count($networker_settings);$n++){
 			$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
 			$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
-			$city[$n]			    = $networker_settings[$n]['NetworkerSettings']['city'];
-			$state[$n] 				= $networker_settings[$n]['NetworkerSettings']['state'];
+			$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
+			$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
 		}
 		
 	   
@@ -375,40 +375,22 @@ class NetworkersController extends AppController {
 
 		$this->paginate = array('conditions'=>$cond,
                                 'limit' => isset($displayPageNo)?$displayPageNo:5,
-                                'order' => array("Job.$shortByItem" => 'asc',));
+								'joins'=>array(array('table' => 'industry',
+										             'alias' => 'ind',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.industry = ind.id',)
+									            ),
+											   array('table' => 'specification',
+										             'alias' => 'spec',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.specification = spec.id',)
+									            )),
+                                'order' => array("Job.$shortByItem" => 'asc',),
+								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
         
-        $jobs = $this->paginate('Job');
+        $jobs = $this->paginate('Job');		
 		
-		$jobs_array = array();
-		foreach($jobs as $job){
-			$jobs_array[$job['Job']['id']] =  $job['Job'];
-		}
-		$this->set('jobs',$jobs_array);
-		
-		$this->set('industries',$this->Utility->getIndustry());
-		$this->set('cities',$this->Utility->getCity());		
-		$this->set('states',$this->Utility->getState());
-		$this->set('specifications',$this->Utility->getSpecification());
-        $this->set('urls',$this->Utility->getCompany('url'));
-		
-		$companies = $this->Companies->find('all');
-		$companies_array = array();
-		foreach($companies as $company){
-			$companies_array[$company['Companies']['user_id']] =  $company['Companies']['company_name'];
-		}
-		$this->set('companies',$companies_array);
-		
-		if(isset($this->params['id'])){
-			$id = $this->params['id'];
-			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
-			if($job['Job']){
-				$this->set('job',$job['Job']);
-			}
-			else{
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
-				$this->redirect('/jobs/');
-			}	
-		}
+		$this->set('jobs',$jobs);
 	}
  
 }
