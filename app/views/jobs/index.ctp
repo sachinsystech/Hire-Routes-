@@ -1,8 +1,3 @@
-<?php
-//$options['url'] = "/test/abc:1,2,3,4";
-//$this->Paginator->options($options);
-?>
-
 <!-- ------------------------ ALL JOBS LISTING -------------------------->
 <script>
 	$(document).ready(function(){
@@ -142,7 +137,7 @@
 			<div class="joblist_sideMenu">
 				<div><div style="float:left;padding:5px;margin:5px"><b>Industries</b></div><div class="flip_industry"  style="float:right;padding:5px;cursor: pointer;">-</div></div>
 				<div style="clear:both"></div>
-				<?php echo $this->Form->create('NarrowJob', array('type'=>'get','url' => array('controller' => 'Jobs', 'action' => 'index'))); ?>
+				<?php echo $this->Form->create('NarrowJob', array('url' => array('controller' => 'Jobs', 'action' => 'index'))); ?>
 				<div class="narrowby_industry panel_industry" >
 					<?php $i=0; ?>
 					<?php  foreach($industries as $industry):?>
@@ -335,11 +330,11 @@
 								</div>
 								<div>
 									<div style="font-size:20px;"><strong><?php echo ucfirst($job['title']); ?></strong>
-                                    </div>
+                                    </div>  
 									<div style="font-size:13px;line-height:22px;">
 										<strong>By Company :</strong> <?php echo $job['company_name']."<br>"; ?>
-                                        <strong>Website : </strong><?php	echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br>
-                                        <strong>Published in :</strong> 
+                                        <strong>Website : </strong><?php	echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br>                <strong>URL : </strong><input type="text" value="http://hireroutes/<?php echo $code; ?>" style="width:100px;">
+                                        <br><strong>Published in :</strong> 
 											<?php echo $industries[$job['industry']]." - ".$specifications[$job['specification']].", "; ?>
 											<?php  echo $time->timeAgoInWords($job['created'])."<br><br>";?>
 									</div>

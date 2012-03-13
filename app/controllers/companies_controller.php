@@ -1,9 +1,12 @@
 <?php
+require_once(APP_DIR.'/vendors/facebook/facebook.php');
+require_once(APP_DIR.'/vendors/linkedin/linkedin.php');
+require_once(APP_DIR.'/vendors/linkedin/OAuth.php');
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
    	var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','PaymentInfo','JobseekerApply');
-	var $components = array('TrackUser','Utility');
+	var $components = array('TrackUser','Utility','RequestHandler');
 	var $helpers = array('Form','Paginator','Time');
 	
 
@@ -58,6 +61,7 @@ class CompaniesController extends AppController {
 		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
 		return $currentUserRole;
 	}
+
 	function newJob(){
 		
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
@@ -310,6 +314,16 @@ class CompaniesController extends AppController {
 			$this->redirect("/companies/newJob");
 		}
 	}
+
+
+	function facebookObject() {
+		$facebook = new Facebook(array(
+		  'appId'  => FB_API_KEY,
+		  'secret' => FB_SECRET_KEY,
+          'cookie' => true,
+		));
+		return $facebook;
+	}
 	
 	/****** Delete Job *******/
 	function deleteJob(){
@@ -317,9 +331,137 @@ class CompaniesController extends AppController {
 
 	}
 
+
+    function getFaceBookLoginURL(){ 
+        $loginUrl = $this->facebookObject()->getLoginUrl(array(
+                                                                'canvas' => 1,
+                                                                'fbconnect' => 0,
+                                                                'scope' => 'offline_access,publish_stream'
+                    ));
+        return $loginUrl;
+    }
+
     /***** shareJob *********/
     function shareJob(){
+        /*$this->getFaceBookLoginURL();
+        $user = $this->facebookObject()->getUser();
+        if($user){
+            echo $this->facebookObject()->getAccessToken();exit;
+        }*/
         
+      /*  $token =  array(
+                        'access_token' => 'AAAE1rdcxV8YBADnh8x5tmdYatIHJ0yJTug10lLYH8PuzCGDOXk174jTH1DbTcL5qAdZAMCUfYAHCHx0lsUcigfILSDMSMDiGS36eDaQZDZD'
+
+                    );
+        $userdata = $this->facebookObject()->api('/me/friends', 'GET', $token);
+        //print_r($userdata);
+        foreach ($userdata as $key=>$value) {
+    echo count($value) . ' Friends';
+    echo '<hr />';
+    echo '<ul id="friends">';
+    foreach ($value as $fkey=>$fvalue) {
+        echo '<li><img src="https://graph.facebook.com/' . $fvalue['id'] . '/picture" title="' . $fvalue['name'] . '"/>'.$fvalue['name'].'</li>';
     }
+    echo '</ul>';} */
+    //$result = $this->facebookObject()->api("/me/feed",'post',array('message'=>'Testing','access_token' =>'AAAE1rdcxV8YBADnh8x5tmdYatIHJ0yJTug10lLYH8PuzCGDOXk174jTH1DbTcL5qAdZAMCUfYAHCHx0lsUcigfILSDMSMDiGS36eDaQZDZD'));
+    //print_r($result);exit;
+    //}
+    }
+
+    function getFaceBookFriendList(){
+        $userId = $this->Session->read('Auth.User.id');
+        if(!$this->RequestHandler->isAjax()){
+            $user = $this->facebookObject()->getUser();
+            if($user){
+                
+                // save users facebook token
+                $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+                $saveUser['User']['facebook_token'] = $this->facebookObject()->getAccessToken();
+                $this->User->save($saveUser);
+                $this->set('error',false);
+                
+            }else{
+                //this would be call when user decline permission            
+            }
+        }else{
+
+            $this->autoRender = false;
+            $user = $this->User->find('first',array('fields'=>'facebook_token','conditions'=>array('id'=>$userId,'facebook_token !='=>'NULL')));
+            //get token from table other wise send for login.
+            if($user){
+                try{
+                    $token =  array(
+                                'access_token' =>$user['User']['facebook_token']
+
+                            );
+                    $userdata = $this->facebookObject()->api('/me/friends', 'GET', $token);
+                    $users = array();
+                    $i =0 ;
+                    foreach ($userdata as $key=>$value) {
+                        foreach ($value as $fkey=>$fvalue) {
+                            $users[$i]['name'] = $fvalue['name'] ;
+                            $users[$i]['id'] = $fvalue['id'];
+                            $i++;
+                        }
+                    }
+                    return json_encode(array('error'=>0,'data'=>$users));
+                }catch(Exception $e){
+                    return json_encode(array('error'=>2,'message'=>'Error in facebook connection.Please try after some time.'));
+                }
+            }else{
+                echo json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$this->getFaceBookLoginURL()));
+            }   
+        }
+    }
+
+
+    function commentAtFacebook(){
+        $this->autoRender = false;
+        $userIds = $this->params['form']['usersId'];
+        $userIds = explode(",", $userIds);
+        $message = $this->params['form']['message'];
+        $userId = $this->Session->read('Auth.User.id');
+        $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+        if(!empty($userIds) && $message &&  $User){
+            foreach($userIds as $id){
+                try{
+
+                    $result = $this->facebookObject()->api("/".$id."/feed",'post',array('message'=>$message,'access_token' =>$User['User']['facebook_token']));
+                    
+                }catch(Exception $e){
+                    return json_encode(array('error'=>1));      
+                }
+
+            }
+        }
+        return json_encode(array('error'=>0));
+
+    }
+
+
+   function getLinkedinFriendList(){
+        $config['base_url']             =   'http://thinkdiff.net/demo/linkedin/auth.php';
+        $config['callback_url']         =   'http://thinkdiff.net/demo/linkedin/demo.php';
+        $config['linkedin_access']      =   '341yzad2xife';
+        $config['linkedin_secret']      =   'jN3uF6HePfMLspcb';
+        $userId = $this->Session->read('Auth.User.id');
+        //$this->autoRender = false;
+        $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'NULL')));
+        if(!$user){
+            // user token is exits.
+            $linkedin = new LinkedIn($config['linkedin_access'], $config['linkedin_secret'], $config['callback_url'] );
+            $linkedin->access_token ="f109977e-2e80-4602-8eab-a02a41fc035d"; $user['User']['linkedin_token'];
+            $xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url)");
+            $response=simplexml_load_string($xml_response);
+            if($response->status == '404') echo "Not found11";
+            pr($response->status);
+                
+        }else{
+            echo json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$this->getFaceBookLoginURL()));
+        }   
+        
+       exit;
+    }
+
 }
 ?>

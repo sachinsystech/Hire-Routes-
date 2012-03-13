@@ -455,6 +455,7 @@ class UsersController extends AppController {
 	
 	function logout() {
 		$this->Auth->logout();
+        $this->Session->delete('code');
 		$this->redirect("/home/index");		
 	}
 	
