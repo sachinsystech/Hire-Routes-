@@ -22,8 +22,7 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li>My Jobs</li>
-				<li class='active'><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
+				<li class='active'><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
 			</ul>
@@ -39,12 +38,11 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li><a href="/networkers/setting">Settings/Subscription</a></li>	
-				<li class="active"><a href="/networkers">Profile</a></li>			
-                        </ul>
-			<ul style="float:right">
-				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
-			</ul>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Inbox - <?php echo count($jobs)?></a></li>	
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Shared - 10</a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#"> Data </a></li>			
+            </ul>	
 		</div>
 <div class="middleBox">
         <div class="jobs_topMenu">
