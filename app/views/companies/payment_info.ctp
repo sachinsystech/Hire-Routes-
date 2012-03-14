@@ -85,6 +85,8 @@ function check_expdate() {
 												'type'  => 'text',
 												'class' => 'payment_text_field required creditcard',
 												'value' => $payment['card_no'],
+												'maxlength'=>16,
+												'maxlength'=>16
 												)
 								 );
 							?>
@@ -118,7 +120,7 @@ function check_expdate() {
 									);
 								?>
 							</div>
-							<div style="float:left">
+							<div style="float:left" class="cr_pi_year">
 								<?php
 									echo $form->input('expiration_year', array('label' => '',
 												'type'  => 'select',
@@ -131,8 +133,19 @@ function check_expdate() {
 							</div>	
 							<div id="exp_date_error"></div>
 						</div>
-						
-						
+						<div style="clear:both"></div>
+
+						<div>
+							<?php	echo $form->input('ccv_code', array('label' => "CCV Code",
+												'type'  => 'text',
+												'class' => 'payment_text_field required number',
+												'value' => $payment['ccv_code'],
+												'minlength'=>4,
+												'maxlength'=>4,
+												)
+								 );
+							?>
+						</div>
 						
 						<div style="clear:both"></div>
 
@@ -210,7 +223,8 @@ function check_expdate() {
 
 						<div >
 							<div style="float:right;">
-								<?php echo $form->submit('Save...',array('div'=>false,)); ?>	
+
+								<?php echo $form->submit($submit_txt ,array('div'=>false,)); ?>	
 							</div>
 						</div>
 						<div style="clear:both"></div>						

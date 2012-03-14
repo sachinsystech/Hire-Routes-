@@ -1340,11 +1340,24 @@ label.error{
     border: 1px solid #000000;
     height: 20px;
     margin-left: 66px;
-    width: 86px;
+    width: 92px;
 }
 .payment_year {
     background-color: #FDFDFD;
     border: 1px solid #000000;
     height: 20px;
     width: 87px;
+}
+.cr_pi_year label{
+	display:none;
+}
+.checkout_setting_profile{
+    margin: 15px 40px;
+}
+.checkout_pay_button{
+    background: none repeat scroll 0 0 lime;
+    border: 1px solid green;
+    cursor: pointer;
+    height: 30px;
+    width: 100px;
 }

@@ -55,7 +55,8 @@
 	Router::connect('/companies/editJob/:jobId', array('controller' => 'companies', 'action' => 'editJob'));
 	Router::connect('/companies', array('controller' => 'companies', 'action' => 'accountProfile'));
 	Router::connect('/companies/editProfile', array('controller' => 'companies', 'action' => 'editProfile'));
-	Router::connect('/companies/checkout/:jobId', array('controller' => 'companies', 'action' => 'checkout'));
+	Router::connect('/companies/checkout/', array('controller' => 'companies', 'action' => 'checkout'));
+	Router::connect('/companies/acceptApplicant/:id', array('controller' => 'companies', 'action' => 'acceptApplicant'));
 	
 	
 	Router::connect('/jobs/', array('controller' => 'jobs', 'action' => 'index'));
