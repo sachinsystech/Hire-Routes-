@@ -243,7 +243,7 @@ class CompaniesController extends AppController {
 		$userId = $this->TrackUser->getCurrentUserId();	
 		
 		$appliedJob = $this->Session->read('appliedJob');
-		if(isset($appliedJob) && isset($userId)){
+		if(isset($appliedJob) && isset($userId) && $appliedJob['Job']['user_id'] == $userId){
 			$this->set('job',$appliedJob['Job']);		
 		}
 		else{
@@ -458,8 +458,6 @@ class CompaniesController extends AppController {
         $cardInfo = $this->PaymentInfo->find('first',array('conditions'=>array('PaymentInfo.user_id'=>$userId)));
         $companyInfo = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
         
-        //echo "<pre>"; print_r($companyInfo['Companies']); exit;
-        
         require_once(APP.'vendors'.DS."paypalpro/paypal_pro.inc.php");
         
         $firstName =urlencode($companyInfo['Companies']['contact_name']);
@@ -492,7 +490,10 @@ class CompaniesController extends AppController {
         if($ack == "SUCCESS") {
             if(isset($resArray['TRANSACTIONID'])) {
             	echo "SUCCESS : ".$resArray['TRANSACTIONID']; exit;
-                $this->redirect("/checkout/order/".$resArray['TRANSACTIONID']);
+            	$this->Session->delete('appliedJob');
+                // write code to change status of applied job from applied to selected in jobseeker_apply table....
+            	/*	*/
+                $this->redirect("/companies/newJob/".$resArray['TRANSACTIONID']);
             }else {
                 $this->Session->setFlash("Due To Unknown Paypal Response, We Cannot Procced.", 'error');
                 $this->redirect("/companies/checkout");

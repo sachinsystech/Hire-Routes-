@@ -46,7 +46,7 @@ class User extends AppModel {
 		'account_email' => array(
             'email' => array(
                 'rule' => 'email',
-                'message' => 'Please provide a valid email address.'
+                'message' => 'Please provide a valid E-mail address.'
             ),
             'isUnique' => array(
                 'rule' => 'isUnique',
@@ -56,7 +56,7 @@ class User extends AppModel {
 		'password' => array(
 			'notEmpty'=> array(
 				'rule' => 'notEmpty',
-				'message' => 'Name can not be blank.'
+				'message' => 'password can not be blank....'
 			),
 			'minLength'=> array(
 				'rule' => array('minLength', 6),
@@ -65,12 +65,14 @@ class User extends AppModel {
 			'maxLength'=> array(
 				'rule' => array('maxLength', 255),
 				'message' => 'Password can not be longer that 255 characters.'
-			)
+			),
+			'rule' => array('comparison', '!=', "1e8b5cf1bb9dd228c239af0ca92e4415149fefbb"),
+			'message' => 'password can not be blank.'
 		),
 		'repeat_password' => array(
 			'notEmpty'=> array(
 				'rule' => 'notEmpty',
-				'message' => 'Name can not be blank.'
+				'message' => 'Password can not be blank.'
 			),
 			'rule' => array('checkpasswords', 'password' ), 
 			'message' => 'You didn\'t enter same password twice, please re-enter.'

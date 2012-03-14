@@ -53,14 +53,14 @@
                                  );
     ?>
 	
-	<?php	/*echo $form->input('Code.code', array('label' => 'Code',
+	<?php	echo $form->input('Code.code', array('label' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",
 													'class' => 'text_field_bg required'
                                            			)
                                  );
     ?>
-	<?php if(isset($codeErrors)): ?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; */?>
+	<?php if(isset($codeErrors)): ?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
 	<div style="margin-top:15px;">
 	<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
                                            			'type'  => 'checkbox',

@@ -2,7 +2,7 @@
 /*
 Codes Controller ::
 	1). Resposnible to restrict registration of users.
-	2). Generating code that will be asked to enter when user signup.
+	2). Functionality : Generating code that will be asked by user, when signup.
 */
 
 class CodesController extends AppController {
@@ -25,6 +25,11 @@ class CodesController extends AppController {
 				$this->Session->setFlash('Code has been added successfuly.', 'success');
 				$this->redirect("/admin/codes");
 			}
+			else{
+				$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+				$this->redirect("/admin/codes");
+				return;
+			}
 		}
 		
 		$conditions = array('Code.remianing_signups >'=>0);
@@ -37,12 +42,14 @@ class CodesController extends AppController {
 		$codeValue = $this->set('codeValue',$this->Code);
 	}
 	
-	/*	Delete selected code	*/
+	/*	 Delete selected code	*/
 	function delete(){
 		$id = $this->params['id'];
 		if($id){
 			if(!$this->Code->delete($id)){
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');	
+				$this->redirect("/admin/codes");
+				return;			
 			}
 			$this->Session->setFlash('Code has been deleted successfuly.', 'success');				
 		}
