@@ -13,6 +13,7 @@ class JobsController extends AppController {
 		$this->Auth->allow('apply');
 		$this->Auth->allow('applyJob');
 		$this->Auth->allow('jobDetail');
+		$this->Auth->allow('viewResume');
      }
 	
 	function index(){
@@ -106,18 +107,7 @@ class JobsController extends AppController {
 		$this->set('jobs',$jobs_array);
 		
 		$this->set('industries',$this->Utility->getIndustry());
-		$this->set('cities',$this->Utility->getCity());		
-		$this->set('states',$this->Utility->getState());
-		$this->set('specifications',$this->Utility->getSpecification());
-        	$this->set('urls',$this->Utility->getCompany('url'));
-		
-		$companies = $this->Companies->find('all');
-		$companies_array = array();
-		foreach($companies as $company){
-			$companies_array[$company['Companies']['user_id']] =  $company['Companies']['company_name'];
-		}
-		$this->set('companies',$companies_array);		
-		        
+		$this->set('specifications',$this->Utility->getSpecification());        	
 	}
 
     function getCurrentUserRole(){
@@ -189,8 +179,8 @@ class JobsController extends AppController {
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
 
 		// Job information
-		if(isset($this->params['pass'][0])){
-			$id = $this->params['pass'][0];
+		if(isset($this->params['jobId'])){
+			$id = $this->params['jobId'];
 			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
 			if($job['Job']){
 				$this->set('job',$job['Job']);
@@ -267,10 +257,11 @@ class JobsController extends AppController {
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
 
 		
-		if(isset($this->params['pass'][1])){
-			$job_id = $this->params['pass'][2];
-			$id = $this->params['pass'][1];
-			$file_type = $this->params['pass'][0];
+		if(isset($this->params['id'])){
+
+			$job_id = $this->params['jobId'];
+			$id = $this->params['id'];
+			$file_type = $this->params['filetype'];
 			$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('id'=>$id)));
 			if($jobprofile['JobseekerProfile']){
 
@@ -306,31 +297,32 @@ class JobsController extends AppController {
 		}		
 	} 
 
-function jobDetail(){
+	function jobDetail(){
 
 		$userId = $this->TrackUser->getCurrentUserId();
-		$roleInfo = $this->getCurrentUserRole();    	
+		$roleInfo = $this->getCurrentUserRole();  
 		
-		$this->set('industries',$this->Utility->getIndustry());	
-		$this->set('cities',$this->Utility->getCity());		
-		$this->set('states',$this->Utility->getState());
-		$this->set('specifications',$this->Utility->getSpecification());
-        $this->set('urls',$this->Utility->getCompany('url'));
-		
-		$companies = $this->Companies->find('all');
-		$companies_array = array();
-		foreach($companies as $company){
-			$companies_array[$company['Companies']['user_id']] =  $company['Companies']['company_name'];
-		}
-		$this->set('companies',$companies_array);		
-		
-		
-		if(isset($this->params['pass'][0])){
+		if(isset($this->params['jobId'])){
 
-			$id = $this->params['pass'][0];		
+			$id = $this->params['jobId'];		
 			
-			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
-			if($job['Job']){
+			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id),
+												  'joins'=>array(array('table' => 'industry',
+										                               'alias' => 'ind',
+										             				   'type' => 'LEFT',
+										             				   'conditions' => array('Job.industry = ind.id',)),
+											   			         array('table' => 'specification',
+										             				   'alias' => 'spec',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('Job.specification = spec.id',)),
+																array('table' => 'companies',
+										             				   'alias' => 'comp',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('Job.company_id = comp.id',))
+																),
+												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
+
+			if($job){
 	
 				if($roleInfo['role_id']!=1){
 					$this->data['JobViews']['job_id'] = $id;
@@ -342,7 +334,7 @@ function jobDetail(){
 			   
 				    $this->JobViews->save($this->data['JobViews']);
 			    }
-				$this->set('job',$job['Job']);
+				$this->set('job',$job);
 			}else{
 				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
 				$this->redirect('/jobs/');
@@ -355,7 +347,10 @@ function jobDetail(){
 			if($jobapply){
     			$this->set('jobapply',$jobapply);
 			}			
-		}        
+		}else{
+				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->redirect('/jobs/');
+		}       
                        
 	}
 

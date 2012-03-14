@@ -241,9 +241,14 @@ class CompaniesController extends AppController {
 
 	function checkout() {
 		$userId = $this->TrackUser->getCurrentUserId();	
+		
 		$appliedJob = $this->Session->read('appliedJob');
-		if(isset($appliedJob)){
+		if(isset($appliedJob) && isset($userId)){
 			$this->set('job',$appliedJob['Job']);		
+		}
+		else{
+			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it. ', 'error');	
+			$this->redirect("/");
 		}
 	}
 
@@ -384,36 +389,49 @@ class CompaniesController extends AppController {
 	/** Job Statistics **/
 	function jobStats(){
 		$userId = $this->TrackUser->getCurrentUserId();
-		$jobId  = $this->params['pass'][0];
-
-		$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId)));
+		$jobId = $this->params['jobId'];
+		if($userId && $jobId){
+			
+			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId),"fileds"=>"id"));
+			// 	echo "<pre>"; print_r($jobs); exit;
+			if($jobs['Job']){
+				$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId)));
 
 		
-		$jobprofilelastmonth = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$jobprofilelastmonth = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
 		
-		$jobprofilelastweek = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$jobprofilelastweek = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
 
-		$viewalltime = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId)));
+				
+				$viewalltime = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId)));
 	
-		$viewlastmonth = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$viewlastmonth = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
 
-		$viewlastweek = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$viewlastweek = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
 		
-		$this->set('jobId',$jobId);
-		$this->set('application_alltime',$applicationalltime);
-		$this->set('application_last_month',$jobprofilelastmonth);
-		$this->set('application_last_week',$jobprofilelastweek);
-		$this->set('view_alltime',$viewalltime);
-		$this->set('view_last_month',$viewlastmonth);
-		$this->set('view_last_week',$viewlastweek);
+				$this->set('jobId',$jobId);
+				$this->set('application_alltime',$applicationalltime);
+				$this->set('application_last_month',$jobprofilelastmonth);
+				$this->set('application_last_week',$jobprofilelastweek);
+				$this->set('view_alltime',$viewalltime);
+				$this->set('view_last_month',$viewlastmonth);
+				$this->set('view_last_week',$viewlastweek);
+			}else{
+				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
+				$this->redirect("/companies/newJob");
+			}
+		}else{
+			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
+			$this->redirect("/companies/newJob");
+		}
 	}
 	
 	/****** Delete Job *******/
