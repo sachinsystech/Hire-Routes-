@@ -492,29 +492,52 @@ class CompaniesController extends AppController {
 
 
    function getLinkedinFriendList(){
-        $config['base_url']             =   'http://thinkdiff.net/demo/linkedin/auth.php';
-        $config['callback_url']         =   'http://thinkdiff.net/demo/linkedin/demo.php';
-        $config['linkedin_access']      =   '341yzad2xife';
-        $config['linkedin_secret']      =   'jN3uF6HePfMLspcb';
+        $linkedin = $this->getLinkedinObject();
         $userId = $this->Session->read('Auth.User.id');
+        $this->autoRender = false;
         //$this->autoRender = false;
         $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'NULL')));
-        if(!$user){
-            // user token is exits.
-            $linkedin = new LinkedIn($config['linkedin_access'], $config['linkedin_secret'], $config['callback_url'] );
-            $linkedin->access_token ="f109977e-2e80-4602-8eab-a02a41fc035d"; $user['User']['linkedin_token'];
-            $xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url)");
+        if($user){
+            
+           // $linkedin = new LinkedIn($config['linkedin_access'], $config['linkedin_secret'], $config['callback_url'] );
+            $linkedin->access_token =unserialize($user['User']['linkedin_token']);
+            $xml_response = $linkedin->getProfile("~/connections:(headline,first-name,last-name,picture-url,id)");
+            echo $xml_response;exit;
             $response=simplexml_load_string($xml_response);
             if($response->status == '404') echo "Not found11";
-            pr($response->status);
-                
+            pr($response);
+            exit;
         }else{
-            echo json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$this->getFaceBookLoginURL()));
-        }   
-        
-       exit;
+            $linkedin->getRequestToken();
+            $this->Session->write('requestToken',serialize($linkedin->request_token));
+            echo json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$linkedin->generateAuthorizeUrl()));
+        }
     }
-    
+   
+
+    function linkedinCallback(){
+        $linkedin = $this->getLinkedinObject();
+        $userId = $this->Session->read('Auth.User.id');
+        if (isset($_REQUEST['oauth_verifier'])){
+            //$_SESSION['oauth_verifier']     = $_REQUEST['oauth_verifier'];
+            $linkedin->request_token    =   unserialize($this->Session->read("requestToken"));
+            $verifier = $this->params['url']['oauth_verifier'];
+            $linkedin->oauth_verifier = $verifier;
+            $linkedin->getAccessToken($verifier);
+            $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+            $saveUser['User']['linkedin_token'] = serialize($linkedin->access_token);
+            $this->User->save($saveUser);
+            $this->set('error',false);
+            
+        }
+
+    }
+
+    private function getLinkedinObject(){
+        return  new LinkedIn(LINKEDIN_ACCESS, LINKEDIN_SECRET, LINKEDIN_CALLBACK_URL);    
+    } 
+
+
     function paypalProPayment() {
         $userId = $this->Session->read('Auth.User.id');
         

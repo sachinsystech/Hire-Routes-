@@ -33,6 +33,8 @@
                                     </div>
 									<div style="font-size:13px;line-height:22px;">
 										<strong>By Company :</strong> <?php echo $job['company_name']."<br>"; ?>
+                                        <strong>URL : </strong><input type="text" value="http://hireroutes/<?php echo $code; ?>" style="width:100px;">
+                                        <br>
                                         <strong>Website : </strong><?php	echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br>
                                         <strong>Published in :</strong> 
 											<?php echo $industries[$job['industry']]." - ".$specifications[$job['specification']].", "; ?>
