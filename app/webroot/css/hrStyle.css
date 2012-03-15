@@ -807,6 +807,12 @@ label.error{
   width:188px;
   margin-left:27px;
 }
+.jobseekers_text_salary_range{
+    border: 1px solid;
+    height: 7px;
+    margin-left: 27px;
+    width: 94px;
+}
 .form_content{
 	width:664px;
 }
@@ -1124,6 +1130,14 @@ label.error{
     text-align: center;
     top: 0;
     width: 72px;
+}
+.delete_spe{
+	-moz-border-radius: 8px 8px 8px 8px;
+    background: none repeat scroll 0 0 #00FF00;
+    cursor: pointer;
+    float: right;
+    text-align: center;
+    width: 50px;
 }
 .setting_middleBox{
     border: 1px solid #000000;
