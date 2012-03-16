@@ -178,7 +178,10 @@ class JobsController extends AppController {
         $roleInfo = $this->getCurrentUserRole();
         $this->set('userrole',$roleInfo);
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$jobprofile['JobseekerProfile']['file_id'] = $jobprofile['JobseekerProfile']['id'];
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
+		$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
+		$this->set('is_cover_letter', $jobprofile['JobseekerProfile']['cover_letter']);
 
 		// Job information
 		if(isset($this->params['jobId'])){
@@ -196,18 +199,26 @@ class JobsController extends AppController {
 		//  Apply for this job		
 		if (isset($this->data['JobseekerApply'])) {
 	    	$job_id = $this->data['JobseekerApply']['job_id'];
+			$this->data['JobseekerApply']['file_id'] = $jobprofile['JobseekerProfile']['id'];
+			
             
 			if(is_uploaded_file($this->data['JobseekerApply']['resume']['tmp_name'])){
         		$resume = $this->data['JobseekerApply']['resume'];                 
             	if($resume['error']!=0 ){
-                	$this->Session->setFlash('Uploaded File is corrupted.', 'error');    
-                    $this->redirect('/jobs/applyJob/'.$job_id);          
+                	$this->Session->setFlash('Uploaded File is corrupted.', 'error');
+					$this->data['JobseekerApply']['resume'] = ""; 
+					$this->set('jobprofile',$this->data['JobseekerApply']);  
+					$this->render("apply_job"); 
+					return;          
                 }
                 $type_arr = explode("/",$resume['type']);
                 $type = $type_arr[1];
                 if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
-                	$this->Session->setFlash('File type not supported.', 'error');        
-                    $this->redirect('/jobs/applyJob/'.$job_id);
+					$this->Session->setFlash('File type not supported.', 'error');
+                	$this->data['JobseekerApply']['resume'] = ""; 
+					$this->set('jobprofile',$this->data['JobseekerApply']);  
+					$this->render("apply_job"); 
+					return;
                 }
                 $randomNumber = rand(1,100000000000);            
                 $uploadedFileName=$randomNumber.$resume['name'];
@@ -222,14 +233,20 @@ class JobsController extends AppController {
 			if(is_uploaded_file($this->data['JobseekerApply']['cover_letter']['tmp_name'])){
 				$cover_letter = $this->data['JobseekerApply']['cover_letter'];                 
             	if($cover_letter['error']!=0 ){
-                	$this->Session->setFlash('Uploaded File is corrupted.', 'error');    
-                    $this->redirect('/jobs/applyJob/'.$job_id);          
+					$this->Session->setFlash('Uploaded File is corrupted.', 'error');   
+                	$this->data['JobseekerApply']['cover_letter'] = ""; 
+					$this->set('jobprofile',$this->data['JobseekerApply']);  
+					$this->render("apply_job"); 
+					return;          
                 }
                 $type_arr1 = explode("/",$cover_letter['type']);
                 $type1 = $type_arr1[1];
                 if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
-                	$this->Session->setFlash('File type not supported.', 'error');        
-                    $this->redirect('/jobs/applyJob/'.$job_id);
+					$this->Session->setFlash('File type not supported.', 'error');
+                	$this->data['JobseekerApply']['cover_letter'] = ""; 
+					$this->set('jobprofile',$this->data['JobseekerApply']);  
+					$this->render("apply_job"); 
+					return;
                 }
                 $randomNumber2 = rand(1,100000000000);            
                 $uploadedFileName2=$randomNumber2.$cover_letter['name'];

@@ -54,12 +54,13 @@
 					</div>
 					<div style="padding-left:350px;">
 						<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
-						<?php echo $form -> input('switch_display',array(
+						<?php if($this->Paginator->numbers()){
+													echo $form -> input('switch_display',array(
 												  'type'=>'select',
 												  'label'=>"< < <".$this->Paginator->numbers()."> > > DISPLAYING </span>",
 												  'options'=>$display_page_no,
 												  'class'=>'job_select_diplay',
-												  'selected'=>isset($displayPageNo)?$displayPageNo:5,));?>
+												  'selected'=>isset($displayPageNo)?$displayPageNo:5,)); }?>
 					</div>
 				</div>	
 			</div>		
@@ -83,7 +84,7 @@
 									</div>									
 								</div>
 								<div style="clear:both"></div>
-                                <div style="float:right"> <?php echo $job_status[$job['Job']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['Job']['id']); ?></div>		
+                                <div style="float:right"> <?php echo $job_status[$job['apply']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['Job']['id']); ?></div>		
 								<div>
 									<?php	echo $job['Job']['company_name']."- ".$job['Job']['city'].",".$job['Job']['state']."<br>";
 											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
