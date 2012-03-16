@@ -57,26 +57,27 @@
 					</div>
 					<div>
 						<div style="float:left;margin-left: 43px;clear: both;">
-							<?php echo $form -> input('city',array(
+							<?php echo $form -> input('state',array(
 																		'type'=>'select',
-																		'label'=>'Location:',
-																		'options'=>$cities,
-																		'empty' =>' -- All Cities-- ',
-																		'class'=>'networker_select_city'
+																		'label'=>'Location: ',
+																		'options'=>$states,
+																		'empty' =>' -- All States-- ',
+																		'class'=>'networker_select_state',
+																		'onchange'=>'return fillCities(this.value);'
 																)
 													);
 							?>
 						</div>
 						<div style="float:left;">
-							<?php echo $form -> input('state',array(
+							<?php echo $form -> input('city',array(
 																		'type'=>'select',
 																		'label'=>'',
-																		'options'=>$states,
-																		'empty' =>' -- All States-- ',
-																		'class'=>'networker_select_state'
+//																		'options'=>$cities,
+																		'empty' =>' -- All Cities-- ',
+																		'class'=>'networker_select_city'
 																)
 													);
-							?>
+							?>							
 						</div>
 						<div style="float:right;margin-top: -15px;">
 							<?php echo $form ->submit('Subscribe');?>
@@ -144,6 +145,21 @@ function deleteItem($id){
 		window.location.href="/networkers/delete/"+$id;
 	}
 	return false;
+}
+
+function fillCities($state_id)
+{
+	$.ajax({
+		url: "/utilities/getCitiesOfState/"+$state_id,
+	 	dataType:'json',
+  		success: function(response){
+	 		var options = '<option value=""> -- All Cities-- </option>';
+			$.each(response, function(index, item) {
+                options += '<option value="' + index + '">' + item + '</option>';
+            });
+			$("select#NetworkersCity").html(options);
+  		}
+	});
 }
 
 function saveSubFrequency(){
