@@ -138,7 +138,8 @@
 							  //										   'selected' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>
 						<?php echo $form->input('salary_range', array('label' => 'Annual Salary Range:',
 																  'type'  => 'text',
-																  'class' => 'jobseekers_text_location required',
+																  'class' => 'jobseekers_text_salary_range required number',
+																  'min' =>1000,
 																  'value' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>
 					<div>
 						<b>Subscription Frequency:</b><p>

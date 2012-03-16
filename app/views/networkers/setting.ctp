@@ -18,8 +18,8 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li class="active"><a href="/networkers/setting">Settings/Subscription</a></li>	
-				<li><a href="/networkers">Profile</a></li>			
+				<li class="active"><a  style="text-decoration:none" href="/networkers/setting">Settings/Subscription</a></li>	
+				<li><a style="text-decoration:none" href="/networkers">Profile</a></li>			
 			</ul>
 			<ul style="float:right">
 				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
@@ -91,16 +91,37 @@
 					
 					
 					<div id="accordion" style="width:620px">
-						
+						<?php
+							$oldIndustry = null;
+							//$indtemp2 = null;
+						?>
 						<?php foreach($NetworkerData as $NSI): ?>
+							<?php
+								$indtemp1 = $NSI['NetworkerSettings']['industry'];
+							if($oldIndustry != $indtemp1 && $oldIndustry != null)
+								echo "</div>";
+							if($oldIndustry != $indtemp1){
+							?>
 							<div>
 								<span><?php echo $industries[$NSI['NetworkerSettings']['industry']]; ?></span>
-								<button class="delete_button" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</button>
 							</div>
-							<div>
-								Specification : <?php echo $specifications[$NSI['NetworkerSettings']['specification']]?>,State : <?php echo $states[$NSI['NetworkerSettings']['state']]?>,City : <?php echo $NSI['NetworkerSettings']['city']?>
-							</div>
+							<?php
+							}
+							if($oldIndustry != $indtemp1){
+							?>
+							<div style="font-size: 14px;">
+							<?php }
+							$oldIndustry = $indtemp1;
+							?>
+								<div style="margin-top:2px">
+									<span>Specification : <?php echo $specifications[$NSI['NetworkerSettings']['specification']]?>,
+									State : <?php echo isset($states[$NSI['NetworkerSettings']['state']])?$states[$NSI['NetworkerSettings']['state']]:"All"?>,
+									City : <?php echo ($NSI['NetworkerSettings']['city']!="")?$NSI['NetworkerSettings']['city']:"All"; ?></span>
+									<span class="delete_spe" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</span>
+								</div>
+							
 						<?php endforeach;?>
+							</div>
 					</div>
 					
 				

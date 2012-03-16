@@ -25,11 +25,6 @@ class CodesController extends AppController {
 				$this->Session->setFlash('Code has been added successfuly.', 'success');
 				$this->redirect("/admin/codes");
 			}
-			else{
-				$this->Session->setFlash('Server busy, please try after some Time.', 'error');
-				$this->redirect("/admin/codes");
-				return;
-			}
 		}
 		
 		$conditions = array('Code.remianing_signups >'=>0);

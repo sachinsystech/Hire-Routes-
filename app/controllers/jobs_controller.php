@@ -21,7 +21,7 @@ class JobsController extends AppController {
 		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 
-    	$shortByItem = 'id';
+    	$shortByItem = 'created';
         $salaryFrom = null;
         $salaryTo = null;
         if(isset($this->params['named']['display'])){
@@ -52,7 +52,7 @@ class JobsController extends AppController {
 		$this->paginate = array(
             'limit' => isset($displayPageNo)?$displayPageNo:5,
             'order' => array(
-                             "Job.$shortByItem" => 'asc',
+                             "Job.$shortByItem" => 'desc',
                             ),
 			'conditions'=>$narrowByItems
 
@@ -107,6 +107,8 @@ class JobsController extends AppController {
 		$this->set('jobs',$jobs_array);
 		
 		$this->set('industries',$this->Utility->getIndustry());
+		//echo "<pre>"; print_r($this->Utility->getCity());exit;
+		$this->set('cities',$this->Utility->getCity());
 		$this->set('specifications',$this->Utility->getSpecification());        	
 	}
 

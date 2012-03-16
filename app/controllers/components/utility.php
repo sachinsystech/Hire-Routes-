@@ -29,7 +29,7 @@ class UtilityComponent extends Object
 	
 	function getCity(){
 		$params = array(
-					   'conditions' => array('City.state_code'=>'PA'), 
+					   'conditions' => array('City.state_code'=>'DE'), 
 					   'fields' => array('City.city','City.city') 
 					   );
  

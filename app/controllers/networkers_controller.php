@@ -72,7 +72,9 @@ class NetworkersController extends AppController {
 		$userId = $this->TrackUser->getCurrentUserId();		
 		
 		/* Networker-Setting Info*/
-		$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId)));
+		$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId),'order'=>array('NetworkerSettings.industry'=>'asc')));
+		//echo "<pre>"; print_r($networkerData);exit;
+		
 		$this->set('NetworkerData',$networkerData);
 		
 		/* FB-User Info*/       		        
