@@ -387,7 +387,7 @@ class NetworkersController extends AppController {
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.specification = spec.id',)
 									            )),
-                                'order' => array("Job.$shortByItem" => 'asc',),
+                                'order' => array("Job.$shortByItem" => 'desc',),
 								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
         
         $jobs = $this->paginate('Job');		
