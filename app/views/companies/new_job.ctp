@@ -30,10 +30,9 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li class="active">New Jobs - <?php echo count($jobs);?></li>
-				<li>Shared Jobs - 20</li>
-				<li>Old Jobs - 2</li>
-				<li>JOb Data</li>
+				<li class="active">Jobs - <?php echo count($jobs);?></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showArchiveJobs">Archive - <?php echo $archJobCount;?> </a></li>
+				<li> Data </li>
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->

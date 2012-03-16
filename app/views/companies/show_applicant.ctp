@@ -4,7 +4,7 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li class="active">My Jobs</li>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob">My Jobs</a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
 				<li>My Employees</li>
 			</ul>
@@ -20,9 +20,8 @@
 		<div class="topMenu">
 			<ul>
 				<li class="active">Applicants - <?php echo count($applicants);?></li>
-				<li>Shared Jobs - 20</li>
-				<li>Old Jobs - 2</li>
-				<li>JOb Data</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editJob/<?php echo $jobId;?>"> Edit </a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/jobStats/<?php echo $jobId;?>"> Data </a></li>
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->

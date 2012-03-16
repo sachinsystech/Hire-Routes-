@@ -114,8 +114,74 @@ class CompaniesController extends AppController {
 				    );
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
-		//echo "<pre>"; print_r($jobs);  exit;
+		$arch_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
+		$archJobCount = $this->Job->find('count',array('conditions'=>$arch_conditions));
+		$this->set('archJobCount',$archJobCount);
 	}
+
+/*
+
+list archive jobs..
+*/
+
+	function showArchiveJobs(){
+		
+		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
+	    $this->set('displayPageNo',$displayPageNo);
+
+		if(isset($this->params['named']['shortby'])){
+			    $shortBy = $this->params['named']['shortby'];
+			    $this->set('shortBy',$shortBy);
+			    switch($shortBy){
+			    	case 'date-added':
+			    				$shortByItem = 'created'; 
+			    				break;	
+	        		case 'industry':
+	        				$shortByItem = 'industry'; 
+	        				break;
+			    				break;
+			    	case 'salary':
+			    				$shortByItem = 'salary_from'; 
+			    				break;
+			    	default:
+			    			$this->redirect("/companies/newJob");	        		        	
+			    }
+		}else{
+			$this->set('shortBy',"date-added");
+			$shortByItem = 'created'; 
+		}
+
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$roleInfo = $this->getCurrentUserRole();
+		if($roleInfo['role_id']!=1){
+			$this->redirect("/users/firstTime");
+		}
+
+		$conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
+		$this->paginate = array(
+				            'conditions' => $conditions,
+				"limit"=>$displayPageNo,
+				'joins'=>array(
+									array('table' => 'jobseeker_apply',
+										'alias' => 'ja',
+										'type' => 'LEFT',
+										'conditions' => array(
+													'Job.id = ja.job_id',
+										)
+									)
+							),
+				    'order' => array($shortByItem => 'desc'),
+				    'recursive'=>0,
+				    'fields'=>array('Job.id ,Job.user_id,Job.title,Job.created,COUNT(ja.id) as submissions'),
+				    'group'=>array('Job.id'),
+				    );
+		$jobs = $this->paginate("Job");
+		$this->set('jobs',$jobs);
+		$active_job_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
+		$activejobCount = $this->Job->find('count',array('conditions'=>$active_job_conditions));
+		$this->set('activejobCount',$activejobCount);
+	}
+
 
 	function save(){
         $userId = $this->TrackUser->getCurrentUserId();
@@ -338,6 +404,7 @@ class CompaniesController extends AppController {
 			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
 			$this->redirect("/companies/newJob");
 		}
+		$this->set('jobId',$jobId);
 				//echo "<pre>"; print_r($applicants);  exit;
 	}
 	
