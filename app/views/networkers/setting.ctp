@@ -49,7 +49,7 @@
 																	'label'=>'',
 																	'options'=>$specifications,
 																	'empty' =>' -- Select Specification-- ',
-																	'class'=>'networker_select_bg required'
+																	'class'=>'networker_select_bg'
 															)
 												);
 						?>
@@ -114,7 +114,7 @@
 							$oldIndustry = $indtemp1;
 							?>
 								<div style="margin-top:2px">
-									<span>Specification : <?php echo $specifications[$NSI['NetworkerSettings']['specification']]?>,
+									<span>Specification : <?php echo isset($specifications[$NSI['NetworkerSettings']['specification']])?$specifications[$NSI['NetworkerSettings']['specification']]:"All"?>,
 									State : <?php echo isset($states[$NSI['NetworkerSettings']['state']])?$states[$NSI['NetworkerSettings']['state']]:"All"?>,
 									City : <?php echo isset($allCities[$NSI['NetworkerSettings']['city']])?$allCities[$NSI['NetworkerSettings']['city']]:"All"; ?></span>
 									<span class="delete_spe" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</span>
