@@ -180,7 +180,7 @@ class JobseekersController extends AppController {
 										             'conditions' => array('Job.id = apply.job_id',)
 									            )),
                                 'order' => array("$shortByItem" => $order,),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
+								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, apply.is_active, ind.name as industry_name, spec.name as specification_name'),);
         
            
 		$jobs = $this->paginate('Job');
@@ -262,6 +262,7 @@ class JobseekersController extends AppController {
                       'Job.state' => $state,
                       'Job.salary_from <' => $salary_range,
 					  'Job.salary_to >' => $salary_range,
+					  'Job.is_active'  => 1,
 					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 					); 	
 

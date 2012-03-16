@@ -78,7 +78,7 @@
 									</div>									
 								</div>
 								<div style="clear:both"></div>
-                                <div style="float:right"> <?php echo $job_status[$job['Job']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['Job']['id']); ?></div>		
+                                <div style="float:right"> <?php echo $job_status[$job['apply']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['Job']['id']); ?></div>		
 								<div>
 									<?php	echo $job['Job']['company_name']."- ".$job['Job']['city'].",".$job['Job']['state']."<br>";
 											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
