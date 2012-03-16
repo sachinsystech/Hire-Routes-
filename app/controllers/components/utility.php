@@ -35,6 +35,10 @@ class UtilityComponent extends Object
  
 		return $this->City->find('list',$params);
 	}
+
+	function getCities(){
+		return $this->City->find('list', array('fields' => array('City.city')));
+	}
 	
 	function getSpecification(){
 		return $this->Specification->find('list', array('fields' => array('Specification.name')));

@@ -116,7 +116,7 @@
 								<div style="margin-top:2px">
 									<span>Specification : <?php echo $specifications[$NSI['NetworkerSettings']['specification']]?>,
 									State : <?php echo isset($states[$NSI['NetworkerSettings']['state']])?$states[$NSI['NetworkerSettings']['state']]:"All"?>,
-									City : <?php echo ($NSI['NetworkerSettings']['city']!="")?$NSI['NetworkerSettings']['city']:"All"; ?></span>
+									City : <?php echo isset($allCities[$NSI['NetworkerSettings']['city']])?$allCities[$NSI['NetworkerSettings']['city']]:"All"; ?></span>
 									<span class="delete_spe" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</span>
 								</div>
 							
