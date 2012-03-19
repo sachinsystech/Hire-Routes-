@@ -120,16 +120,16 @@ class JobseekersController extends AppController {
 
         $userId = $this->TrackUser->getCurrentUserId();	
 
-        $user_jobs = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId)));
+        //$user_jobs = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId)));
         
-        $n = 0; $job_ids = "";
-        foreach($user_jobs as $ujob)
+        //$n = 0; $job_ids = "";
+        /*foreach($user_jobs as $ujob)
           {
              $job_ids[$n] = $ujob['JobseekerApply']['job_id'];
              $n++;
-          } 
+          }*/ 
 
-        $shortByItem = 'apply.created';
+        $shortByItem = 'JobseekerApply.created';
 		$order		 = 'desc';
         
         if(isset($this->params['named']['display'])){
@@ -141,19 +141,19 @@ class JobseekersController extends AppController {
 			$this->set('shortBy',$shortBy);
 	        switch($shortBy){
 	        	case 'date-added':
-	        				$shortByItem = 'apply.created'; 
+	        				$shortByItem = 'JobseekerApply.created'; 
 							$order       = 'desc';       				
 	       					break;	
 	        	case 'company-name':
-	        				$shortByItem = 'Job.company_name'; 
+	        				$shortByItem = 'job.company_name'; 
 							$order       = 'asc';
 	        				break;
 	        	case 'industry':
-	        				$shortByItem = 'Job.industry'; 
+	        				$shortByItem = 'job.industry'; 
 							$order       = 'asc';
 	        				break;
 	        	case 'salary':
-	        				$shortByItem = 'Job.salary_from'; 
+	        				$shortByItem = 'job.salary_from'; 
 							$order       = 'asc';
 	        				break;
 	        	default:
@@ -162,38 +162,41 @@ class JobseekersController extends AppController {
 		}
 		
 		$this->paginate = array(
-            'conditions'=>array('Job.id'=>$job_ids),
+            'conditions'=>array('JobseekerApply.user_id'=>$userId),
             'limit' => isset($displayPageNo)?$displayPageNo:5,
-								'joins'=>array(array('table' => 'industry',
+								'joins'=>array(
+												array('table' => 'jobs',
+										             'alias' => 'job',
+										             'type' => 'LEFT',
+										             'conditions' => array('job.id = JobseekerApply.job_id',)
+									            ),
+
+												array('table' => 'industry',
 										             'alias' => 'ind',
 										             'type' => 'LEFT',
-										             'conditions' => array('Job.industry = ind.id',)
+										             'conditions' => array('job.industry = ind.id',)
 									            ),
 											   array('table' => 'specification',
 										             'alias' => 'spec',
 										             'type' => 'LEFT',
-										             'conditions' => array('Job.specification = spec.id',)
+										             'conditions' => array('job.specification = spec.id',)
 									            ),
-												array('table' => 'jobseeker_apply',
-										             'alias' => 'apply',
-										             'type' => 'LEFT',
-										             'conditions' => array('Job.id = apply.job_id',)
-									            ),
+												
 											   array('table' => 'cities',
 										             'alias' => 'city',
 										             'type' => 'LEFT',
-										             'conditions' => array('Job.city = city.id',)
+										             'conditions' => array('job.city = city.id',)
 									            ),
 											   array('table' => 'states',
 										             'alias' => 'state',
 										             'type' => 'LEFT',
-										             'conditions' => array('Job.state = state.id',)
+										             'conditions' => array('job.state = state.id',)
 									            )),
                                 'order' => array("$shortByItem" => $order,),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, apply.is_active, ind.name as industry_name, spec.name as specification_name'),);
+								'fields'=>array('job.id ,job.user_id,job.title,job.company_name,city.city,state.state,job.job_type,job.short_description, job.reward, job.created, JobseekerApply.is_active, ind.name as industry_name, spec.name as specification_name'),);
         
            
-		$jobs = $this->paginate('Job');
+		$jobs = $this->paginate('JobseekerApply');
 		$this->set('jobs',$jobs);
      }
 
