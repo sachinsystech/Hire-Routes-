@@ -178,9 +178,19 @@ class JobseekersController extends AppController {
 										             'alias' => 'apply',
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.id = apply.job_id',)
+									            ),
+											   array('table' => 'cities',
+										             'alias' => 'city',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.city = city.id',)
+									            ),
+											   array('table' => 'states',
+										             'alias' => 'state',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.state = state.id',)
 									            )),
                                 'order' => array("$shortByItem" => $order,),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, apply.is_active, ind.name as industry_name, spec.name as specification_name'),);
+								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, apply.is_active, ind.name as industry_name, spec.name as specification_name'),);
         
            
 		$jobs = $this->paginate('Job');
@@ -277,9 +287,19 @@ class JobseekersController extends AppController {
 										             'alias' => 'spec',
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.specification = spec.id',)
+									            ),
+											   array('table' => 'cities',
+										             'alias' => 'city',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.city = city.id',)
+									            ),
+											   array('table' => 'states',
+										             'alias' => 'state',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.state = state.id',)
 									            )),
                                 'order' => array("Job.$shortByItem" => $order,),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
+								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
         
            
 		$jobs = $this->paginate('Job');

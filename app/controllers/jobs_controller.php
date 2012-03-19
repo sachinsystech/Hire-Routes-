@@ -334,12 +334,21 @@ class JobsController extends AppController {
 										             				   'alias' => 'spec',
 										                               'type' => 'LEFT',
 										                               'conditions' => array('Job.specification = spec.id',)),
-																array('table' => 'companies',
+																 array('table' => 'companies',
 										             				   'alias' => 'comp',
 										                               'type' => 'LEFT',
-										                               'conditions' => array('Job.company_id = comp.id',))
+										                               'conditions' => array('Job.company_id = comp.id',)),
+																 array('table' => 'cities',
+										            				   'alias' => 'city',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('Job.city = city.id',)),
+											                     array('table' => 'states',
+										                               'alias' => 'state',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('Job.state = state.id',))
 																),
-												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
+												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,Job.company_name,city.city,state.state,Job.job_type,
+Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
 
 			if($job){
 	

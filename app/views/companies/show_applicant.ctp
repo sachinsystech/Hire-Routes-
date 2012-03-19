@@ -27,29 +27,122 @@
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		    <div class="middleBox">
+			<?php echo $form->create('', array('url' => array('controller' => 'companies', 'action' => 'showApplicant/'.$jobId),'name'=>'webform'));?>
 			<div>
 				<div>Search By</div>
-				<div style="float:left;width:150px;padding-left:5px;">Filter label </div>
-				<div style="float:left;width:150px"><select><option>--select--</option></select></div> 
-				<div style="float:left;width:150px">Filter label</div>
-				<div style="float:left;width:150px"><select><option>--select--</option></select></div> 
-				<div style="float:left;width:150px;padding-left:5px;">Filter label</div>
-				<div style="float:left;width:150px"><select><option>--select--</option></select></div> 
-				<div style="float:left;width:150px">Filter label</div>
-				<div style="float:left;width:150px"><select><option>--select--</option></select></div> 
-				<div style="float:left;width:150px;padding-left:5px;">Filter label</div>
-				<div style="float:left;width:150px"><select><option>--select--</option></select></div> 
-				<div style="float:left;width:150px">Filer8</div>
-				<div style="float:left;width:150px"><select><option>--select--</option></select></div> 
-				<div style="float:left;width:150px;padding-left:5px;">Filer4</div>
-				<div style="float:left;width:150px"><select><option>--select--</option></select></div> 
-				<div style="float:left;width:150px">Filer9</div>
-				<div style="float:left;width:150px"><select><option>--select--</option></select></div> 
-				<div style="float:left;width:150px;padding-left:5px;">Filer5</div>
-				<div style="float:left;width:150px"><select><option>--select--</option></select></div> 
-				<div style="float:left;width:150px">Filer10</div>
-				<div style="float:left;width:150px"><select><option>--select--</option></select></div> 				
+
+				<div style="float:left;" id="lbl">Qualification </div>
+				<div style="float:left;" id="field">
+					<?php $answer1_array = array(''=>'Select','High School'=>'High School','Diploma'=>'Diploma','Graduation'=>'Graduation','Post Graduation'=>'Post Graduation'); 
+                          echo $form->input('answer1', array('label'   => '',
+															 'type'    => 'select',
+															 'class'   => '',
+															 'options' =>$answer1_array,
+															 'value'   => isset($filterOpt['answer1'])?$filterOpt['answer1']:"",
+															 'onChange'=>"javascript:document.webform.submit();"));?>
+				</div> 
+
+				<div style="float:left;" id="lbl">Work Experience</div>
+				<div style="float:left;" id="field">
+					<?php $answer2_array = array(''=>'Select','0 to 2 year'=>'0 to 2 year','2 to 5 year'=>'2 to 5 year','More than 5 year'=>'More than 5 year'); 
+                          echo $form->input('answer2', array('label'   => '',
+															 'type'    => 'select',
+															 'class'   => '',
+															 'options' =>$answer2_array,
+															 'value'   => isset($filterOpt['answer2'])?$filterOpt['answer2']:"",
+															 'onChange'=>"javascript:document.webform.submit();"));?>
+				</div> 
+
+				<div style="float:left;" id="lbl">Current CTC</div>
+				<div style="float:left;" id="field">
+					<?php	$answer3_array = array(''=>'Select','Less than 1,20,000'=>'Less than 1,20,000','1,20,000 to 3,60,000'=>'1,20,000 to 3,60,000','More than 3,60,000'=>'More than 3,60,000'); 
+							echo $form->input('answer3', array('label'   => '',
+															   'type'    => 'select',
+                                                               'class'   => '',
+															   'options' =>$answer3_array,
+															   'value'   => isset($filterOpt['answer3'])?$filterOpt['answer3']:"",
+															   'onChange'=>"javascript:document.webform.submit();"));?>
+				</div>
+ 
+				<div style="float:left;" id="lbl">Expected CTC</div>
+				<div style="float:left;" id="field">
+					<?php echo $form->input('answer4', array('label'   => '',
+															 'type'    => 'select',
+                                                             'class'   => '',
+															 'options' =>$answer3_array,
+															 'value'   => isset($filterOpt['answer4'])?$filterOpt['answer4']:"",
+															 'onChange'=>"javascript:document.webform.submit();"));?>
+				</div> 
+
+				<div style="float:left;" id="lbl" >Job Type</div>
+				<div style="float:left;" id="field">
+					<?php $answer5_array = array(''=>'Select',
+												 '1'=>'Full Time',
+									 			 '2'=>'Part Time',
+									 			 '3'=>'Contract',
+									 			 '4'=>'Internship',
+									 			 '5'=>'Temporary'); 
+
+                      	  echo $form->input('answer5', array('label'   => '',
+															 'type'    => 'select',
+                                                             'class'   => '',
+															 'options' =>$answer5_array,
+															 'value'   => isset($filterOpt['answer5'])?$filterOpt['answer5']:"",
+															 'onChange'=>"javascript:document.webform.submit();"));?>
+				</div>
+ 
+				<div style="float:left;" id="lbl">Ready to relocate</div>
+				<div style="float:left;" id="field">
+					<?php $answer6_array = array(''=>'Select','Yes'=>'Yes','No'=>'No'); 
+                      	  echo $form->input('answer6', array('label'   => '',
+															 'type'    => 'select',
+                                                             'class'   => '',
+															 'options' =>$answer6_array,
+															 'value'   => isset($filterOpt['answer6'])?$filterOpt['answer6']:"",
+															 'onChange'=>"javascript:document.webform.submit();"));?>
+				</div>
+ 
+				<div style="float:left;" id="lbl">Shifts Availability</div>
+				<div style="float:left;" id="field">
+					<?php echo $form->input('answer7', array('label'   => '',
+															 'type'    => 'select',
+                                                             'class'   => '',
+									                         'options' =>$answer6_array,
+															 'value'   => isset($filterOpt['answer7'])?$filterOpt['answer7']:"",
+															 'onChange'=>"javascript:document.webform.submit();"));?>
+				</div>
+ 
+				<div style="float:left;" id="lbl">Passport Availability</div>
+				<div style="float:left;" id="field">
+					<?php echo $form->input('answer8', array('label'   => '',
+															 'type'    => 'select',
+                                                             'class'   => '',
+															 'options' =>$answer6_array,
+															 'value'   => isset($filterOpt['answer8'])?$filterOpt['answer8']:"",
+															 'onChange'=>"javascript:document.webform.submit();"));?>
+				</div>
+ 
+				<div style="float:left;" id="lbl">Travel Ability</div>
+				<div style="float:left;" id="field">
+					<?php echo $form->input('answer9', array('label'   => '',
+															 'type'    => 'select',
+                                                             'class'   => '',
+															 'options' =>$answer6_array,
+															 'value'   => isset($filterOpt['answer9'])?$filterOpt['answer9']:"",
+															 'onChange'=>"javascript:document.webform.submit();"));?>
+				</div> 
+
+				<div style="float:left;" id="lbl">Training Needs</div>
+				<div style="float:left;" id="field">
+					<?php echo $form->input('answer10', array('label'   => '',
+															  'type'    => 'select',
+                                                              'class'   => '',
+															  'options' =>$answer6_array,
+															  'value'   => isset($filterOpt['answer10'])?$filterOpt['answer10']:"",
+															 'onChange' =>"javascript:document.webform.submit();"));?>
+				</div> 				
 			</div>
+			<?php echo $form->end();?>
 			<table style="width:100%">
 				<tr>
 					<th style="width:35%">Name</th>
