@@ -93,32 +93,31 @@
 					<div id="accordion" style="width:620px">
 						<?php
 							$oldIndustry = null;
-							//$indtemp2 = null;
 						?>
 						<?php foreach($NetworkerData as $NSI): ?>
 							<?php
-								$indtemp1 = $NSI['NetworkerSettings']['industry'];
-							if($oldIndustry != $indtemp1 && $oldIndustry != null)
+								$indtemp = $NSI['ind']['name'];
+							if($oldIndustry != $indtemp && $oldIndustry != null)
 								echo "</div>";
-							if($oldIndustry != $indtemp1){
+							if($oldIndustry != $indtemp){
 							?>
 							<div>
-								<span><?php echo $industries[$NSI['NetworkerSettings']['industry']]; ?></span>
+								<span><?php echo $NSI['ind']['name']; ?></span>
 							</div>
 							<?php
 							}
-							if($oldIndustry != $indtemp1){
+							if($oldIndustry != $indtemp){
 							?>
 							<div style="font-size: 14px;">
 							<?php }
-							$oldIndustry = $indtemp1;
+							$oldIndustry = $indtemp;
 							?>
-								<div style="margin-top:2px">
-									<span>Specification : <?php echo isset($specifications[$NSI['NetworkerSettings']['specification']])?$specifications[$NSI['NetworkerSettings']['specification']]:"All"?>,
-									State : <?php echo isset($states[$NSI['NetworkerSettings']['state']])?$states[$NSI['NetworkerSettings']['state']]:"All"?>,
-									City : <?php echo isset($allCities[$NSI['NetworkerSettings']['city']])?$allCities[$NSI['NetworkerSettings']['city']]:"All"; ?></span>
-									<span class="delete_spe" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</span>
-								</div>
+							<div style="margin-top:2px">
+								<span><?php echo isset($NSI['spec']['name'])?$NSI['spec']['name']:"All Specifications"?>,
+								<?php echo isset($NSI['state']['name'])?$NSI['state']['name']:"All Location"?>
+								<?php echo isset($NSI['city']['name'])?", ".$NSI['city']['name']:""; ?></span>
+								<span class="delete_spe" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</span>
+							</div>
 							
 						<?php endforeach;?>
 							</div>
