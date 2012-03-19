@@ -59,7 +59,7 @@
 					?>
 				</div>
 				
-				<div style="padding-left:350px;">
+				<div style="float: right;margin-right: 100px;">
 					<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
 					<?php echo $form -> input('switch_display',array(
 												'type'=>'select',

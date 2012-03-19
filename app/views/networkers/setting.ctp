@@ -5,7 +5,7 @@
 			<ul>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
-				<li class="active">My Account</li>
+				<li  class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
 			</ul>
 		</div>
 		<div>Feed Back</div>
@@ -49,7 +49,7 @@
 																	'label'=>'',
 																	'options'=>$specifications,
 																	'empty' =>' -- Select Specification-- ',
-																	'class'=>'networker_select_bg required'
+																	'class'=>'networker_select_bg'
 															)
 												);
 						?>
@@ -114,9 +114,9 @@
 							$oldIndustry = $indtemp1;
 							?>
 								<div style="margin-top:2px">
-									<span>Specification : <?php echo $specifications[$NSI['NetworkerSettings']['specification']]?>,
+									<span>Specification : <?php echo isset($specifications[$NSI['NetworkerSettings']['specification']])?$specifications[$NSI['NetworkerSettings']['specification']]:"All"?>,
 									State : <?php echo isset($states[$NSI['NetworkerSettings']['state']])?$states[$NSI['NetworkerSettings']['state']]:"All"?>,
-									City : <?php echo ($NSI['NetworkerSettings']['city']!="")?$NSI['NetworkerSettings']['city']:"All"; ?></span>
+									City : <?php echo isset($allCities[$NSI['NetworkerSettings']['city']])?$allCities[$NSI['NetworkerSettings']['city']]:"All"; ?></span>
 									<span class="delete_spe" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</span>
 								</div>
 							
