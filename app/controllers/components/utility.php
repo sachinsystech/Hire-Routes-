@@ -37,7 +37,7 @@ class UtilityComponent extends Object
 	}
 
 	function getCities(){
-		return $this->City->find('list', array('fields' => array('City.city')));
+		return $this->City->find('list', array('conditions' => array('City.state_code'=>'DE'),'fields' => array('City.city')));
 	}
 	
 	function getSpecification(){
