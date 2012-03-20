@@ -388,7 +388,8 @@ class JobseekersController extends AppController {
 					$this->render("job_profile"); 
 					return;         
                 }
-                $type_arr = explode("/",$resume['type']);
+                $type_arr = explode(".",$resume['name']);
+				
                 $type = $type_arr[1];
                 if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
                 	$this->Session->setFlash('File type not supported.', 'error');        
@@ -416,8 +417,9 @@ class JobseekersController extends AppController {
 					$this->render("job_profile"); 
 					return;        
                 }
-                $type_arr1 = explode("/",$cover_letter['type']);
+                $type_arr1 = explode(".",$cover_letter['name']);				
                 $type1 = $type_arr1[1];
+				
                 if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
                 	$this->Session->setFlash('File type not supported.', 'error'); 
 					$this->data['JobseekerProfile']['cover_letter'] = ""; 
