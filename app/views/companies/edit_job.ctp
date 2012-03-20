@@ -16,7 +16,8 @@
 		<!-- middle conent top menu start -->
         <div class="topMenu">
 			<ul>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/jobStats/<?php echo $job['id']; ?>">Applicants</a></li>
+                <li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Edit</a></li>
+				<li ><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/jobStats/<?php echo $job['id']; ?>">Applicants</a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showApplicant/<?php echo $job['id']; ?>">Data</a></li>
 			</ul>
 		</div>
