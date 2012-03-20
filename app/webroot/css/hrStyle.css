@@ -732,15 +732,16 @@ label.error{
     padding-left: 1.5em;
     vertical-align: top; 
 }
-.terms-condition-error{
+.js_terms-condition-error{
     clear: both;
     color: red;
     display: block;
     float: none;
     font-size: 13.5px;
-    margin-left: 21px;
+    margin-left: -201px;
     padding-left: 0.5em;
     vertical-align: top;
+    width: 315px;
 }
 .networker_select_bg{
     background-color: #FDFDFD;
@@ -1597,4 +1598,25 @@ label.error{
 
 #UserShowApplicantForm #field{
 	width:177px;
+}
+.pj_select_ls{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    margin-left: 77px;
+    width: 196px;
+}
+.js_select_ls{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    margin-left: 28px;
+    width: 196px;
+}
+.js_select_city{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    margin-left: 27px;
+    width: 275px;
 }

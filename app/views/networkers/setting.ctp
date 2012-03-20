@@ -72,7 +72,6 @@
 							<?php echo $form -> input('city',array(
 																		'type'=>'select',
 																		'label'=>'',
-//																		'options'=>$cities,
 																		'empty' =>' -- All Cities-- ',
 																		'class'=>'networker_select_city'
 																)

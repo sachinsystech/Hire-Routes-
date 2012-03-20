@@ -71,10 +71,6 @@ class NetworkersController extends AppController {
 	function setting() {
 		$userId = $this->TrackUser->getCurrentUserId();		
 		
-		/* Networker-Setting Info
-		$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId),'order'=>array('NetworkerSettings.industry'=>'asc')));
-		
-		*/
 		$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId),
 												  'joins'=>array(array('table' => 'industry',
 										                               'alias' => 'ind',
@@ -103,9 +99,7 @@ class NetworkersController extends AppController {
 															 		),
 															 'order'=>array('NetworkerSettings.industry'=>'asc')		
 														 		)
-												 			);		
-		//echo "<pre>"; print_r($networkerData);exit;
-		
+												 			);	
 		$this->set('NetworkerData',$networkerData);
 		$this->set('industries',$this->Utility->getIndustry());
 		$this->set('specifications',$this->Utility->getSpecification());
@@ -416,7 +410,7 @@ class NetworkersController extends AppController {
                                     array('state' => $state),),
 					  'AND'	=>array(array('is_active' => 1))); */
 
-		 $cond = array('OR' => $job_cond,
+		$cond = array('OR' => $job_cond,
 					   'AND' => array(array('is_active' => 1))); 
 
 		$this->paginate = array('conditions'=>$cond,

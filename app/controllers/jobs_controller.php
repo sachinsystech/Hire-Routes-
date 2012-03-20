@@ -100,6 +100,7 @@ class JobsController extends AppController {
         } // find ends here   
         
         $jobs = $this->paginate('Job');
+        
 		$jobs_array = array();
 		foreach($jobs as $job){
 			$jobs_array[$job['Job']['id']] =  $job['Job'];
@@ -107,8 +108,9 @@ class JobsController extends AppController {
 		$this->set('jobs',$jobs_array);
 		
 		$this->set('industries',$this->Utility->getIndustry());
-		//echo "<pre>"; print_r($this->Utility->getCity());exit;
-		$this->set('cities',$this->Utility->getCity());
+		//echo "<pre>"; print_r($this->Utility->getIndustry());exit;
+		$this->set('location',$this->Utility->getState());
+		$this->set('companies',$this->Utility->getCompany());
 		$this->set('specifications',$this->Utility->getSpecification());        	
 	}
 

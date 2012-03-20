@@ -73,21 +73,9 @@ class JobseekersController extends AppController {
 		$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$userId)));
 		$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);
 		
-		$industries = $this->Industry->find('all');
-		$industry = $this->Utility->objectToKeyValueArray($industries, 'id', 'name', 'Industry');
-		$this->set('industries',$industry);
-	
-		$cities = $this->City->find('all',array('conditions'=>array('City.state_code'=>'PA')));
-		$city = $this->Utility->objectToKeyValueArray($cities, 'city', 'city', 'City');
-		$this->set('cities',$city);
-	
-		$states = $this->State->find('all');
-		$state = $this->Utility->objectToKeyValueArray($states, 'state', 'state', 'State');
-		$this->set('states',$state);
-
-		$specifications = $this->Specification->find('all');			
-		$specification = $this->Utility->objectToKeyValueArray($specifications, 'id', 'name', 'Specification');
-		$this->set('specifications',$specification);
+		$this->set('industries',$this->Utility->getIndustry());
+		$this->set('specifications',$this->Utility->getSpecification());
+		$this->set('states',$this->Utility->getState());
 	}
 
 	/* 	Edit Jobseeker's Account-Profile*/   

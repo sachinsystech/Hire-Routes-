@@ -17,27 +17,9 @@ class CompaniesController extends AppController {
 			$this->redirect("/users/firstTime");
 		}
 		if($userId){
-			
-			$industries = $this->Industry->find('all');
-			$industries_array = array();
-			foreach($industries as $industry){
-				$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
-			}
-			$this->set('industries',$industries_array);
-			
-			$states = $this->State->find('all');
-			$state_array = array();
-			foreach($states as $state){
-				$state_array[$state['State']['state']] =  $state['State']['state'];
-			}
-			$this->set('states',$state_array);
-
-			$specifications = $this->Specification->find('all');
-			$specification_array = array();
-			foreach($specifications as $specification){
-				$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
-			}
-			$this->set('specifications',$specification_array);
+			$this->set('states',$this->Utility->getState());
+			$this->set('industries',$this->Utility->getIndustry());
+			$this->set('specifications',$this->Utility->getSpecification());
 		}	
 	
 	}
@@ -93,7 +75,8 @@ class CompaniesController extends AppController {
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
 		}
-
+		
+		//	fetching jobs with given condition
 		$conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
 		$this->paginate = array(
 				            'conditions' => $conditions,
@@ -114,6 +97,7 @@ class CompaniesController extends AppController {
 				    );
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
+		// end for job fetching...
 		$arch_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
 		$archJobCount = $this->Job->find('count',array('conditions'=>$arch_conditions));
 		$this->set('archJobCount',$archJobCount);
@@ -217,26 +201,10 @@ list archive jobs..
 			if($jobs['Job']){
 				$this->set('job',$jobs['Job']);	
 			
-				$industries = $this->Industry->find('all');
-				$industries_array = array();
-				foreach($industries as $industry){
-					$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
-				}
-				$this->set('industries',$industries_array);
-			
-				$states = $this->State->find('all');
-				$state_array = array();
-				foreach($states as $state){
-					$state_array[$state['State']['state']] =  $state['State']['state'];
-				}
-				$this->set('states',$state_array);
-
-				$specifications = $this->Specification->find('all');
-				$specification_array = array();
-				foreach($specifications as $specification){
-					$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
-				}
-				$this->set('specifications',$specification_array);
+				$this->set('states',$this->Utility->getState());
+				$this->set('industries',$this->Utility->getIndustry());
+				$this->set('specifications',$this->Utility->getSpecification());
+				
 				/****************  genrate code for traking user ****************/
 					$str = "11:12";
 					$temp = base64_encode($str);
@@ -608,6 +576,10 @@ list archive jobs..
             $this->redirect("/companies/checkout");
         }
   		      
+    }
+    function viewResume(){
+    	echo $this->params['ftype']."<br>";
+    	echo $this->params['id'];
     }
 }
 ?>
