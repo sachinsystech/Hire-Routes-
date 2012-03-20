@@ -76,7 +76,7 @@
 							
 							echo $this->Html->image("/img/icon/ok.png", array(
 								"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:22px;",
-								'url' => "/companies/acceptApplicant/".$applicant['JobseekerApply']['id'],
+								'url' => "/companies/checkout/".$applicant['JobseekerApply']['id'],
 								'title'=>'Accept'
 							));
 							

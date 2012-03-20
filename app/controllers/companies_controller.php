@@ -305,7 +305,7 @@ list archive jobs..
 		$this->set('company',$user['Companies'][0]);
 	}
 
-	function checkout() {
+	function checkout1() {
 		$userId = $this->TrackUser->getCurrentUserId();	
 		
 		$appliedJob = $this->Session->read('appliedJob');
@@ -326,10 +326,11 @@ list archive jobs..
 		$this->set('user',$user['User']);
 		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('payment',$payment['PaymentInfo']);
+		$this->set('appliedJobId',isset($this->params['id'])?$this->params['id']:"");
+		
 		$submit_txt = "Save...";
-		$appliedJob = $this->Session->read('appliedJob');
-		if(isset($appliedJob)){
-			$submit_txt = "Proceed to checkout...";
+		if(isset($this->params['id'])){
+			$submit_txt = "Proceed to checkout..>>";
 		}
 		$this->set('submit_txt',$submit_txt);
 		if(isset($this->data['PaymentInfo'])){
@@ -338,10 +339,10 @@ list archive jobs..
 				$this->render("payment_info");
 				return;				
 			}else{
-				$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
-				if(isset($appliedJob)){
-					$this->redirect('/companies/checkout');
+				if(isset($this->data['PaymentInfo']['applied_job_id'])&& $this->data['PaymentInfo']['applied_job_id']!=""){
+					$this->redirect('/companies/checkout/'.$this->data['PaymentInfo']['applied_job_id']);
 				}
+				$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
 				$this->redirect('/companies/paymentInfo');
 			}		
 		}		
@@ -409,45 +410,52 @@ list archive jobs..
 	}
 	
 	/** accept applicant for given applied job **/
-	function acceptApplicant(){
+	function checkout(){
 		$userId = $this->TrackUser->getCurrentUserId();
 		$appliedJobId = $this->params['id'];
 		if($userId && $appliedJobId){
-			$appliedJob = $this->Job->find('first', array(
-														'joins' => array(
-																		array(
-																			'table' => 'jobseeker_apply',
-																			'alias' => 'JobseekerapplyJob',
-																			'type' => 'INNER',
-																			'conditions' => array(
-																				"JobseekerapplyJob.job_id = Job.id",
-																			)
-																		)
-														),
-														'conditions' => array(
-															"Job.user_id = $userId",
-															"JobseekerapplyJob.id = $appliedJobId",
-															"JobseekerapplyJob.is_active = 0"
-														),
-														'fields' => array('Job.*','JobseekerapplyJob.*'),
-														'order' => 'JobseekerapplyJob.created DESC'
-										));
+		
+		
+			$paymentInfo = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
+			
+			if(isset($paymentInfo['PaymentInfo'])){
+			
+				$appliedJob = $this->Job->find('first', array(
+										'joins' => array(
+														array(
+															'table' => 'jobseeker_apply',
+															'alias' => 'JobseekerapplyJob',
+															'type' => 'INNER',
+															'conditions' => array(
+																"JobseekerapplyJob.job_id = Job.id",
+															)
+														)
+										),
+										'conditions' => array(
+											"Job.user_id = $userId",
+											"JobseekerapplyJob.id = $appliedJobId",
+											"JobseekerapplyJob.is_active = 0"
+										),
+										'fields' => array('Job.*','JobseekerapplyJob.*'),
+										'order' => 'JobseekerapplyJob.created DESC'
+								));
 										
-			if(isset($appliedJob['Job']) && isset($appliedJob['JobseekerapplyJob'])){
-				$this->Session->write('appliedJob', $appliedJob);
-				//echo "<pre>";print_r($this->Session->read('appliedJob')); exit;
-				$this->redirect("/companies/paymentInfo/");
+				if(isset($appliedJob['Job']) && isset($appliedJob['JobseekerapplyJob'])){
+					$this->set('job',$appliedJob['Job']);
+					$this->render('checkout');		
+				}
+				else{
+					$this->Session->setFlash('May be you click on old link or you are not authorize to do it.', 'error');	
+					$this->redirect("/companies/newJob");
+					return;
+				}
 			}
 			else{
-				$this->Session->write('appliedJob', null);
-				$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
-				$this->redirect("/companies");
-				return;
-			}
-			
+				$this->redirect("/companies/paymentInfo/$appliedJobId");
+			}			
 		}else{
-			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
-			$this->redirect("/companies");
+			$this->Session->setFlash('May be you click on old link or you are not authorize to do it.', 'error');	
+			$this->redirect("/companies/newJob");
 			return;
 		}
 				//echo "<pre>"; print_r($applicants);  exit;
