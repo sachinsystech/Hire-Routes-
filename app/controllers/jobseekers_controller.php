@@ -204,8 +204,8 @@ class JobseekersController extends AppController {
 		$salary_range   = $jobseeker_settings['JobseekerSettings']['salary_range'];
 
         $cond = array('Job.specification' => $specification,
-                       'Job.salary_from <' => $salary_range,
-					  'Job.salary_to >' => $salary_range,
+                       'Job.salary_from <=' => $salary_range,
+					  'Job.salary_to >=' => $salary_range,
 					  'Job.is_active'  => 1,
 					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 					); 	
@@ -301,7 +301,7 @@ class JobseekersController extends AppController {
 
 		 $cond = array('Job.specification' => $specification,
                        'Job.salary_from <' => $salary_range,
-					  'Job.salary_to >' => $salary_range,
+					  'Job.salary_to >=' => $salary_range,
 					  'Job.is_active'  => 1,
 					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 					); 	
