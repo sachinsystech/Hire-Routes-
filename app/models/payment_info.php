@@ -24,7 +24,7 @@ class PaymentInfo extends AppModel {
         'expiration_month' => array(
 			'notEmpty'=> array(
 				'rule' => 'notEmpty',
-				'message' => 'Card No. can not be left blank.'
+				'message' => 'Please select Expiry date'
 			),						
 		),
 		'expiration_year' => array(
@@ -34,6 +34,12 @@ class PaymentInfo extends AppModel {
 			),
 			'rule' => array('datevalid', 'expiration_month' ), 
 			'message' => 'Expiry date should be greater than current date.'						
+		),
+		'ccv_code' => array(
+			'notEmpty'=> array(
+				'rule' => 'notEmpty',
+				'message' => "CCV Code can not be blank."
+			),			
 		),
 		'cardholder_name' => array(
 			'notEmpty'=> array(
@@ -70,13 +76,7 @@ class PaymentInfo extends AppModel {
 				'rule' => 'notEmpty',
 				'message' => 'Zipcode can not be blank.'
 			),			
-		),
-		'email' => array(
-                    'email' => array(
-                	'rule' => 'email',
-                	'message' => 'Please provide a valid email address.'
-            ),            
-        ),
+		)
 	);
 
 	function datevalid( $field=array(), $month_field=null ) {

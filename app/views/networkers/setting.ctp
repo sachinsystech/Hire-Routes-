@@ -3,8 +3,7 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li>My Jobs</li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
 				<li class="active">My Account</li>
 			</ul>
@@ -63,7 +62,7 @@
 																		'label'=>'Location:',
 																		'options'=>$cities,
 																		'empty' =>' -- All Cities-- ',
-																		'class'=>'networker_select_city required'
+																		'class'=>'networker_select_city'
 																)
 													);
 							?>
@@ -74,7 +73,7 @@
 																		'label'=>'',
 																		'options'=>$states,
 																		'empty' =>' -- All States-- ',
-																		'class'=>'networker_select_state required'
+																		'class'=>'networker_select_state'
 																)
 													);
 							?>
@@ -98,7 +97,7 @@
 								<button class="delete_button" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</button>
 							</div>
 							<div>
-								Specification : <?php echo $specifications[$NSI['NetworkerSettings']['specification']]?>,State : <?php echo $NSI['NetworkerSettings']['state']?>,City : <?php echo $NSI['NetworkerSettings']['city']?>
+								Specification : <?php echo $specifications[$NSI['NetworkerSettings']['specification']]?>,State : <?php echo $states[$NSI['NetworkerSettings']['state']]?>,City : <?php echo $NSI['NetworkerSettings']['city']?>
 							</div>
 						<?php endforeach;?>
 					</div>

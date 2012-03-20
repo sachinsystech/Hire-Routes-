@@ -2,6 +2,7 @@
 require_once(APP_DIR.'/vendors/facebook/facebook.php');
 require_once(APP_DIR.'/vendors/linkedin/linkedin.php');
 require_once(APP_DIR.'/vendors/linkedin/OAuth.php');
+
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
@@ -242,11 +243,16 @@ class CompaniesController extends AppController {
 	}
 
 	function checkout() {
-		$jobId = $this->params['jobId'];
 		$userId = $this->TrackUser->getCurrentUserId();	
-		$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1)));
-		$this->set('job',$job['Job']);		
 		
+		$appliedJob = $this->Session->read('appliedJob');
+		if(isset($appliedJob) && isset($userId) && $appliedJob['Job']['user_id'] == $userId){
+			$this->set('job',$appliedJob['Job']);		
+		}
+		else{
+			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it. ', 'error');	
+			$this->redirect("/");
+		}
 	}
 
 	function paymentInfo() {
@@ -257,14 +263,22 @@ class CompaniesController extends AppController {
 		$this->set('user',$user['User']);
 		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('payment',$payment['PaymentInfo']);
+		$submit_txt = "Save...";
+		$appliedJob = $this->Session->read('appliedJob');
+		if(isset($appliedJob)){
+			$submit_txt = "Proceed to checkout...";
+		}
+		$this->set('submit_txt',$submit_txt);
 		if(isset($this->data['PaymentInfo'])){
             
 			if( !$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
-				// echo '<pre>';print_r($this->PaymentInfo); exit;	
 				$this->render("payment_info");
 				return;				
 			}else{
 				$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
+				if(isset($appliedJob)){
+					$this->redirect('/companies/checkout');
+				}
 				$this->redirect('/companies/paymentInfo');
 			}		
 		}		
@@ -290,8 +304,6 @@ class CompaniesController extends AppController {
 		$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it. ', 'error');	
 		$this->redirect("/companies/newJob");
 	}	
-
-
 
 	/** list of Applicant for given job **/
 	function showApplicant(){
@@ -331,40 +343,98 @@ class CompaniesController extends AppController {
 		}
 				//echo "<pre>"; print_r($applicants);  exit;
 	}
+	
+	/** accept applicant for given applied job **/
+	function acceptApplicant(){
+		$userId = $this->TrackUser->getCurrentUserId();
+		$appliedJobId = $this->params['id'];
+		if($userId && $appliedJobId){
+			$appliedJob = $this->Job->find('first', array(
+														'joins' => array(
+																		array(
+																			'table' => 'jobseeker_apply',
+																			'alias' => 'JobseekerapplyJob',
+																			'type' => 'INNER',
+																			'conditions' => array(
+																				"JobseekerapplyJob.job_id = Job.id",
+																			)
+																		)
+														),
+														'conditions' => array(
+															"Job.user_id = $userId",
+															"JobseekerapplyJob.id = $appliedJobId",
+															"JobseekerapplyJob.is_active = 0"
+														),
+														'fields' => array('Job.*','JobseekerapplyJob.*'),
+														'order' => 'JobseekerapplyJob.created DESC'
+										));
+										
+			if(isset($appliedJob['Job']) && isset($appliedJob['JobseekerapplyJob'])){
+				$this->Session->write('appliedJob', $appliedJob);
+				//echo "<pre>";print_r($this->Session->read('appliedJob')); exit;
+				$this->redirect("/companies/paymentInfo/");
+			}
+			else{
+				$this->Session->write('appliedJob', null);
+				$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
+				$this->redirect("/companies");
+				return;
+			}
+			
+		}else{
+			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
+			$this->redirect("/companies");
+			return;
+		}
+				//echo "<pre>"; print_r($applicants);  exit;
+	}
 
 	/** Job Statistics **/
 	function jobStats(){
 		$userId = $this->TrackUser->getCurrentUserId();
-		$jobId  = $this->params['pass'][0];
-
-		$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId)));
+		$jobId = $this->params['jobId'];
+		if($userId && $jobId){
+			
+			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId),"fileds"=>"id"));
+			// 	echo "<pre>"; print_r($jobs); exit;
+			if($jobs['Job']){
+				$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId)));
 
 		
-		$jobprofilelastmonth = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$jobprofilelastmonth = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
 		
-		$jobprofilelastweek = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$jobprofilelastweek = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
 
-		$viewalltime = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId)));
+				
+				$viewalltime = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId)));
 	
-		$viewlastmonth = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$viewlastmonth = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
 
-		$viewlastweek = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$viewlastweek = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
 		
-		$this->set('jobId',$jobId);
-		$this->set('application_alltime',$applicationalltime);
-		$this->set('application_last_month',$jobprofilelastmonth);
-		$this->set('application_last_week',$jobprofilelastweek);
-		$this->set('view_alltime',$viewalltime);
-		$this->set('view_last_month',$viewlastmonth);
-		$this->set('view_last_week',$viewlastweek);
+				$this->set('jobId',$jobId);
+				$this->set('application_alltime',$applicationalltime);
+				$this->set('application_last_month',$jobprofilelastmonth);
+				$this->set('application_last_week',$jobprofilelastweek);
+				$this->set('view_alltime',$viewalltime);
+				$this->set('view_last_month',$viewlastmonth);
+				$this->set('view_last_week',$viewlastweek);
+			}else{
+				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
+				$this->redirect("/companies/newJob");
+			}
+		}else{
+			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
+			$this->redirect("/companies/newJob");
+		}
 	}
 
 
@@ -539,12 +609,17 @@ class CompaniesController extends AppController {
 
 
     function paypalProPayment() {
-        $userId = $this->Session->read('Auth.User.id');
+        $userId = $this->TrackUser->getCurrentUserId();
+        
+        $appliedJob = $this->Session->read('appliedJob');
+		if(!isset($appliedJob)){
+			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
+			$this->redirect("/companies");
+			return;
+		}
         
         $cardInfo = $this->PaymentInfo->find('first',array('conditions'=>array('PaymentInfo.user_id'=>$userId)));
         $companyInfo = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
-        $jobInfo = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId)));
-        echo "<pre>"; print_r($jobInfo); exit;
         
         require_once(APP.'vendors'.DS."paypalpro/paypal_pro.inc.php");
         
@@ -556,44 +631,49 @@ class CompaniesController extends AppController {
         $expDateMonth =urlencode($cardInfo['PaymentInfo']['expiration_month']);
         $padDateMonth = str_pad($expDateMonth, 2, '0', STR_PAD_LEFT);
         $expDateYear =urlencode($cardInfo['PaymentInfo']['expiration_year']);
-        $cvv2Number = urlencode($cardInfo['PaymentInfo']['ccv']);
+        $cvv2Number = urlencode($cardInfo['PaymentInfo']['ccv_code']);
         
         $address = urlencode($cardInfo['PaymentInfo']['address']);
         $city = urlencode($cardInfo['PaymentInfo']['city']);
         $state =urlencode($cardInfo['PaymentInfo']['state']);
         $zip = urlencode($cardInfo['PaymentInfo']['zip']);
-        /*$amount = urlencode($jobInfo[]);
+        $amount = urlencode($appliedJob['Job']['reward']);
         $currencyCode="USD";
         $paymentAction = urlencode("Sale");
 	
         $nvpRecurring = '';
 		$methodToCall = 'doDirectPayment';
         
-        $nvpstr='&PAYMENTACTION='.$paymentAction.'&AMT='.$amount.'&CREDITCARDTYPE='.$creditCardType.'&ACCT='.$creditCardNumber.'&EXPDATE='.$padDateMonth.$expDateYear.'&CVV2='.$cvv2Number.'&FIRSTNAME='.$firstName.'&LASTNAME='.$lastName.'&STREET='.$address1.'&CITY='.$city.'&STATE='.$state.'&ZIP='.$zip.'&COUNTRYCODE=US&CURRENCYCODE='.$currencyCode.$nvpRecurring;
+        $nvpstr='&PAYMENTACTION='.$paymentAction.'&AMT='.$amount.'&CREDITCARDTYPE='.$creditCardType.'&ACCT='.$creditCardNumber.'&EXPDATE='.$padDateMonth.$expDateYear.'&CVV2='.$cvv2Number.'&FIRSTNAME='.$firstName.'&LASTNAME='.$lastName.'&STREET='.$address.'&CITY='.$city.'&STATE='.$state.'&ZIP='.$zip.'&COUNTRYCODE=US&CURRENCYCODE='.$currencyCode.$nvpRecurring;
 
         $paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE, '', '', FALSE, FALSE );
         $resArray = $paypalPro->hash_call($methodToCall,$nvpstr);
         $ack = strtoupper($resArray["ACK"]);
-        /*
+        
         if($ack == "SUCCESS") {
             if(isset($resArray['TRANSACTIONID'])) {
-                $this->redirect("/checkout/order/".$resArray['TRANSACTIONID']);
+            	echo "SUCCESS : ".$resArray['TRANSACTIONID']; exit;
+            	$this->Session->delete('appliedJob');
+                // write code to change status of applied job from applied to selected in jobseeker_apply table....
+            	/*	*/
+                $this->redirect("/companies/newJob/".$resArray['TRANSACTIONID']);
             }else {
                 $this->Session->setFlash("Due To Unknown Paypal Response, We Cannot Procced.", 'error');
-                $this->redirect("/checkout/cart/");
+                $this->redirect("/companies/checkout");
             }
             
         } else {
             $error_msg = "Invalid Data";
+            echo "<pre>"; print_r($resArray); exit;
             if(isset($resArray['L_LONGMESSAGE0'])) {
                 $error_msg = $resArray['L_LONGMESSAGE0'];
             }elseif(isset($resArray['L_SHORTMESSAGE0'])) {
                 $error_msg = $resArray['L_SHORTMESSAGE0'];
             }
             $this->Session->setFlash($error_msg, 'error');
-            $this->redirect("/checkout/billingAndPayment");
+            $this->redirect("/companies/checkout");
         }
-  		*/      
+  		      
     }
 }
 ?>

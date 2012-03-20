@@ -69,8 +69,7 @@ class UsersController extends AppController {
 
 /**
  * Called as default action for UserController.
-**/
-	
+**/	
 	function index(){
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");				
@@ -79,7 +78,6 @@ class UsersController extends AppController {
 		else{
 			$this->redirect("/users/userSelection");
 		}
-
     }
 /**
  * Displays a view to choose which type of user you want to register if user is not logged-in, 
@@ -90,38 +88,10 @@ class UsersController extends AppController {
 			$this->redirect("/users/firstTime");	
 		}
 	}
-    
-	function confirmation(){
-		$id = isset($this->params['id'])?$this->params['id']:"";
-		if(!isset($id)){
-			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
-			$this->redirect("/");
-			return;
-		}
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-		if($user){
-			if(!$user['User']['is_active']){
-				$this->set('confirmation_email', $user['User']['account_email']);
-				$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$id)));
-				if($userRole['UserRoles']['role_id']==1){
-					$this->set('roleId',1);
-					$this->Session->setFlash('Your Account created successfully.', 'success');		
-				}
-				else{
-					$this->Session->setFlash('Account confirmation is required. Please, check your email for the confirmation link.', 'success');		
-				}
-			}
-			else{
-				$this->redirect("/users/firstTime");				
-			}
-		}
-		else{
-			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
-			$this->redirect("/");
-			return;
-		}
-	}
 
+/**
+ * Display Company/Recruiter registration view.
+**/ 
 	function companyRecruiterSignup(){
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
@@ -161,51 +131,28 @@ class UsersController extends AppController {
 			}
 		}
 	}
-
+/**
+ * Display Networker registration view also validate by asking restrict code for signup process.
+**/ 
 	function networkerSignup() {	
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
 		}
-
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
 			    unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
-				$this->render("networker_signup");
+                return;
+			}
+			/*	Validating Restrict_Code	*/
+			if(!$this->validateCode()){
 				return;
 			}
-			
-			/*	Validating Restricaiotn_Code	*/
-			/*
-			if(empty($this->data['Code']['code'])){
-				unset($this->data["User"]["password"]);
-                unset($this->data["User"]["repeat_password"]);
-                $this->set('codeErrors', "This field is required.");
-				$this->render("networker_signup");
-				return;
-			}
-			
-			$code = $this->Code->find('first',array('conditions'=>array(
-																	'Code.code'=>$this->data['Code']['code'],
-																	'Code.user_type'=>'Networker',
-																	'Code.remianing_signups >'=>0
-																	)
-													)
-									);
-			if(!isset($code['Code']))
-			{				
-				unset($this->data["User"]["password"]);
-                unset($this->data["User"]["repeat_password"]);
-				$this->set('codeErrors', "This Code is Expired or invalid...");
-				$this->render("networker_signup");
-				return;
-			}
-			*/
+
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
-			    $this->set('errors', "You must agree to the Terms and Conditions");
-				$this->render("networker_signup");
+			    $this->set('tc-errors', "You must agree to the Terms and Conditions");
 				return;
 			}			
 
@@ -216,17 +163,27 @@ class UsersController extends AppController {
 				$networker['user_id'] = $userId;
 				if( $this->Networkers->save($networker) ){			
 					$this->sendConfirmationEmail($userId);
-					/*$code['Code']['remianing_signups']--;
-					$this->Code->save($code['Code']);
-					if($code['Code']['remianing_signups']<1){
-						$this->Code->delete($code['Code']);
-					}*/
+					$code = $this->findCodeFor('Networker');
+					$code['remianing_signups']--;
+					$this->Code->save($code);
+					if($code['remianing_signups']<1){
+						$this->Code->delete($code);
+					}
 					$this->redirect("confirmation/".$userId);
+				}
+				else{
+					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					$this->redirect("/");
+					return;
 				}
 			}
 		}	
 	}
-
+	
+/**
+ * Display Jobseeker registration view also validate by asking restrict code for signup process.
+ * Save Jobseeker info.
+**/ 
 	function jobseekerSignup(){
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
@@ -240,32 +197,11 @@ class UsersController extends AppController {
 				return;
 			}
 			
-			/*	Validating Restricaiotn_Code	*/
-			/*
-			if(empty($this->data['Code']['code'])){
-				unset($this->data["User"]["password"]);
-                unset($this->data["User"]["repeat_password"]);
-                $this->set('codeErrors', "This field is required.");
-				$this->render("jobseeker_signup");
+			/*	Validating Restrict_Code	*/
+			if(!$this->validateCode()){
 				return;
 			}
 			
-			$code = $this->Code->find('first',array('conditions'=>array(
-																	'Code.code'=>$this->data['Code']['code'],
-																	'Code.user_type'=>'Jobseeker',
-																	'Code.remianing_signups >'=>0
-																	)
-													)
-									);
-			if(!isset($code['Code']))
-			{				
-				unset($this->data["User"]["password"]);
-                unset($this->data["User"]["repeat_password"]);
-				$this->set('codeErrors', "This Code is Expired or invalid...");
-				$this->render("jobseeker_signup");
-				return;
-			}
-			*/
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
@@ -281,11 +217,13 @@ class UsersController extends AppController {
 				$jobseeker['user_id'] = $userId;
 				if( $this->Jobseekers->save($jobseeker) ){			
 					$this->sendConfirmationEmail($userId);
-					/*$code['Code']['remianing_signups']--;
-					$this->Code->save($code['Code']);
-					if($code['Code']['remianing_signups']<1){
-						$this->Code->delete($code['Code']);
-					}*/
+					
+					$code = $this->findCodeFor('Jobseeker');
+					$code['remianing_signups']--;
+					$this->Code->save($code);
+					if($code['remianing_signups']<1){
+						$this->Code->delete($code);
+					}
 					$this->redirect("confirmation/".$userId);
 				}
 				else{
@@ -297,9 +235,60 @@ class UsersController extends AppController {
 		}	
 	}
 	
-	private function saveUser($userData){
+/**
+ * validating signup restriction code
+ * @return boolean True on validate success, false on failure(code not found)
+ * @access private
+ */	
+	private function validateCode(){
+		if(empty($this->data['Code']['code'])){
+			unset($this->data["User"]["password"]);
+            unset($this->data["User"]["repeat_password"]);
+            $this->set('codeErrors', "This field is required.");
+			return false;
+		}
+		if($this->action=="networkerSignup"){
+			$user_type = 'Networker';
+		}
+		if($this->action=="jobseekerSignup"){
+			$user_type = 'Jobseeker';
+		}
+		$code = $this->findCodeFor($user_type);
+		if(!isset($code))
+		{	
+			unset($this->data["User"]["password"]);
+            unset($this->data["User"]["repeat_password"]);
+			$this->set('codeErrors', "This Code is Expired or invalid...");
+			return false;
+		}
+		return true;
+	}
+/**
+ * find signup restriction code
+ * @return boolean True on validate success, false on failure(code not found)
+ * @access private
+ */		
+	private function findCodeFor($user_type){
+		$code = $this->Code->find('first',array('conditions'=>array(
+																'Code.code'=>$this->data['Code']['code'],
+																'Code.user_type'=>$user_type,
+																'Code.remianing_signups >'=>0
+																)
+												)
+								);
+		return $code['Code'];
+	}	
+
+/**
+ * save User with generating md5 password.
+ * @return user's id
+ * @access private
+ */
+ 	private function saveUser($userData){
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
+        if($parent = $this->Utility->getRecentUserIdFromCode())
+            $userData['User']['parent_user_id'] = $parent;
 		if(!$this->User->save($userData)){
 			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 			$this->redirect("/");
@@ -307,7 +296,11 @@ class UsersController extends AppController {
 		}
 	    return $this->User->id;
 	}
-
+/**
+ * save User's Role like company/recruiter, jobseeker OR nerworker.
+ * @return user's id
+ * @access private
+ */
 	private function saveUserRoles($userId,$userRoleId){
 		$roles = array();
 		$roles['user_id'] = $userId;			
@@ -319,7 +312,11 @@ class UsersController extends AppController {
 			return;
 		}
 	}
-	
+/**
+ * send comfirmation email for jobseeker and networker, if signed-up successfully.
+ * e-mail contains account confirmation link.
+ * @access private
+ */
 	private function sendConfirmationEmail($id){		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 		try{
@@ -332,10 +329,16 @@ class UsersController extends AppController {
 			$this->set('user', $user['User']);
 			$this->Email->send();
 		}catch(Exception $e){
-			echo 'Message: ' .$e->getMessage();
+			//echo 'Message: ' .$e->getMessage();
+			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			$this->redirect("/");
+			return;
 		}		
 	}
-	
+/**
+ * send comfirmation email for company/recruiter, if signed-up successfully.
+ * @access private
+ */	
 	private function sendCompanyAccountEmail($id){		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 		try{
@@ -348,25 +351,68 @@ class UsersController extends AppController {
 			$this->set('user', $user['User']);
 			$this->Email->send();
 		}catch(Exception $e){
-			echo 'Message: ' .$e->getMessage();
+			//echo 'Message: ' .$e->getMessage();
+			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			$this->redirect("/");
+			return;
 		}		
 	}	
 	
+/**
+ * Display account confirmaiton message after sigining-up.
+**/    
+	function confirmation(){
+		$id = isset($this->params['id'])?$this->params['id']:"";
+		if(!isset($id)){
+			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
+			$this->redirect("/");
+			return;
+		}
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
+		if($user){
+			if(!$user['User']['is_active']){
+				$this->set('confirmation_email', $user['User']['account_email']);
+				$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$id)));
+				if($userRole['UserRoles']['role_id']==1){
+					$this->set('roleId',1);
+					$this->Session->setFlash('Your Account created successfully.', 'success');		
+				}
+				else{
+					$this->Session->setFlash('Account confirmation is required. Please, check your email for the confirmation link.', 'success');		
+				}
+			}
+			else{
+				$this->redirect("/users/firstTime");				
+			}
+		}
+		else{
+			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
+			$this->redirect("/");
+			return;
+		}
+	}
+
+/**
+ * after account confirmation redirect user to "first-time" page.
+ */
 	function accountConfirmation(){
 		$userId = $this->params['id'];
 		$confirmCode = $this->params['code'];
 		$this->confirmAccount($userId,$confirmCode);
-		$this->redirect("firstTime");				
-
+		$this->redirect("firstTime");
 	}
-	
+/**
+ * after click on confirmation link display intermediate view performing some account handling after account confirmation.
+ */
 	function account() {
 		$userId = $this->params['id'];
 		$confirmCode = $this->params['code'];
 		$this->set('userId', $userId);
 		$this->set('confirmCode', $confirmCode);
 	}
-
+/**
+ * after click on confirmation link match confirm code and activate user.
+ */
 	function confirmAccount($userId,$confirmCode){
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId,'User.confirm_code'=>$confirmCode)));
 		if(isset($user['User']['confirm_code']) && isset($user['User']['id'])){
@@ -393,7 +439,9 @@ class UsersController extends AppController {
 			}	
 		} 
 	}		
-
+/**
+ * after click on confirmation link  authenticate user and set as logged-in.
+ */
 	function setUserAsLoggedIn($user){
 		if(isset($user)){
 			$data = array('User' => array('account_email' => $user['account_email'],
@@ -406,7 +454,10 @@ class UsersController extends AppController {
 			$this->Auth->login($data);
 		}	
 	}	
-	
+/**
+ * display first time page when user click on confirmation link.
+ * redirect users to respective setting pages if they setting up their account.
+ */
 	function firstTime() {
 		$id = $this->TrackUser->getCurrentUserId();
 		$role = $this->TrackUser->getCurrentUserRole();
@@ -432,7 +483,10 @@ class UsersController extends AppController {
 		}
 		$this->set('roleName', $role['role_id']);
 	}
-	
+/**
+ * create facebook object.
+ * @return an array of facebook object 
+ */	
 	function facebookObject() {
 		$facebook = new Facebook(array(
 		  'appId'  => FB_API_KEY,
@@ -440,8 +494,9 @@ class UsersController extends AppController {
 		));
 		return $facebook;
 	}
-	
-	/*	Tracking facebook users, whether he/she is first-time or existing user.... */
+/**	
+ * Tracking facebook users, whether he/she is first-time or existing user.... 
+ */
 	function facebookUser() {
 		$facebook = $this->facebookObject();
 		$user = $facebook->getUser();
@@ -479,7 +534,10 @@ class UsersController extends AppController {
 		}		
 	}	
 	
-	/*	save FB-User if not exist.....*/
+/**	
+ * save FB-User if not exist.....
+ * first ask to become Networker or Jobseeker.
+ */
 	function saveFacebookUser(){
 		$facebook = $this->facebookObject();
 		$fb_user_profile = $facebook->api('/me');
@@ -514,13 +572,26 @@ class UsersController extends AppController {
 			}	
 		}		
 	}		
-
+/**	
+ * check FB-User exist or not
+ * @return FB-User info OR Null
+ */
 	function isExistFBUser($facebookUser){
 		$FB_USER = $this->FacebookUsers->find('first',array('conditions'=>array('FacebookUsers.facebook_id'=>$facebookUser)));
 		return $FB_USER;
 	}
-	
+/**
+ * Log-in a user with the given parameter account_email and password
+ * use AuthComponent to authenticate...
+ * @return boolean True on login success, false on failure
+ * @access public
+ */
 	function login() {
+		if($this->TrackUser->isHRUserLoggedIn()){
+			$this->redirect("/users/firstTime");				
+			
+		}
+
 		if(isset($this->data['User'])){
 			$data = array('User' => array('account_email' => $this->data['User']['username'],
 										  'password' => Security::hash(Configure::read('Security.salt') .$this->data['User']['password'])
@@ -537,13 +608,19 @@ class UsersController extends AppController {
 			}
 		}	
 	}
-	
+/**
+ * Logs a user out, and returns the home page to redirect to.
+ * @access public
+ */	
 	function logout() {
 		$this->Auth->logout();
         $this->Session->delete('code');
 		$this->redirect("/home/index");		
 	}	
-
+/**
+ * Ask facebook user to become Jobseeker OR Networker
+ * @access public
+ */	
 	function facebookUserSelection(){
 		
 	}

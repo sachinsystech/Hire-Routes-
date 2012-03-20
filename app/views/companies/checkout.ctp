@@ -47,7 +47,7 @@ function check_expdate() {
 		<!-- middle conyent list -->
 		
 			<div class="middleBox">
-				<div class="setting_profile">
+				<div class="checkout_setting_profile">
 
 					<div class="setting_profile_row">
 						<div class="cr_setting_profile_field">Job Title:</div>
@@ -63,14 +63,25 @@ function check_expdate() {
 						<div class="cr_setting_profile_field">Description:</div>
 						<div class="setting_profile_value"><?php echo $job['short_description'];?></div>
 					</div>
+
+					<div class="setting_profile_row">
+						<div style="float:right;margin-right:50px">
+							<button class="checkout_pay_button" onclick="paynow();">Pay Now...</button>
+						</div>
+					</div>
 				
 				</div>				
 			</div>
 			
 			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
-		<!-- middle conyent list -->
+		<!-- middle content list -->
 
 	</div>
 	<!-- middle section end -->
 
 </div>
+<script>
+function paynow(){
+	window.location.href="/companies/paypalProPayment";			
+}
+</script>

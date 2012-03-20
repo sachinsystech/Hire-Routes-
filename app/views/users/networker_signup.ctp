@@ -26,7 +26,7 @@
                                            			)
                                  );
     ?>
-
+<?php if(isset($pwd_error)): ?><div class="error-message"><?php echo $pwd_error;?></div><?php endif; ?>
 	<?php	echo $form->input('repeat_password', array('label' => 'Repeat Password',
                                            			'type'  => 'password',
 													'name'  => "data[User][repeat_password]",
@@ -34,14 +34,14 @@
                                            			)
                                  );
     ?>
-	<?php	/*echo $form->input('Code.code', array('label' => 'Code',
+	<?php	echo $form->input('Code.code', array('label' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",
-													'class' => 'text_field_bg'
+													'class' => 'text_field_bg required'
                                            			)
                                  );
     ?>
-	<?php if(isset($codeErrors)): ?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; */?>
+	<?php if(isset($codeErrors)): ?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
 	<div class="signup_agree_condition">
 		<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
 															'type'  => 'checkbox',
@@ -50,7 +50,7 @@
 											)
 									 );
 		?>	
-		<?php if(isset($errors)): ?><div class="error-message"><?php echo $errors;?></div><?php endif; ?>
+		<?php if(isset($tc_errors)): ?><div class="error-message"><?php echo $tc_errors;?></div><?php endif; ?>
 	</div>
 	<?php echo $form->submit('Register',array('div'=>false,)); ?>
 	<?php echo $form->end(); ?>

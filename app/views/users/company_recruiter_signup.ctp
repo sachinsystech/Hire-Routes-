@@ -64,7 +64,7 @@
                                            			)
                                  );
     ?>
-       <?php	echo $form->input('Companies.company_url', array('label' => 'Company Website',
+    <?php	echo $form->input('Companies.company_url', array('label' => 'Company Website',
                                            			'type'  => 'text',
 													'class' => 'text_field_bg required url',
 													'minlength' => '8',

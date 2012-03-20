@@ -9,10 +9,11 @@
 // +----------------------------------------------------------------------+
 
 class AppController extends Controller {
-	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus');
+	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','TrackUser');
 	public $helpers = array('Session','Html', 'Form', 'Javascript','Bcp.DatabaseMenus');
 	function beforeFilter(){
-	
+        //here we get intermidiate user id from URLs
+        $this->setIntermidiateUser();
 		/* SMTP Options for GMAIL */
 	  	$this->Email->smtpOptions = array(
 		   'port'=>'465',
@@ -41,6 +42,17 @@ class AppController extends Controller {
 
 		$this->Auth->allow('logout');
 	}
+
+
+
+    function setIntermidiateUser(){
+       /****************  genrate code for traking user ****************/
+        if(isset($this->params['url']['code'])){
+            $this->Session->write('code',$this->params['url']['code']);        
+        }
+		
+	/************************** end *********************************/ 
+    }
 
 }
 

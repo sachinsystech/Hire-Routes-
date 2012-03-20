@@ -52,15 +52,25 @@
  */
 	Router::connect('/pages', array('controller' => 'home', 'action' => 'index', 'home'));
 
-	Router::connect('/companies/editJob/:jobId', array('controller' => 'companies', 'action' => 'editJob'));
 	Router::connect('/companies', array('controller' => 'companies', 'action' => 'accountProfile'));
+	Router::connect('/companies/editJob/:jobId', array('controller' => 'companies', 'action' => 'editJob'));
 	Router::connect('/companies/editProfile', array('controller' => 'companies', 'action' => 'editProfile'));
-	Router::connect('/companies/checkout/:jobId', array('controller' => 'companies', 'action' => 'checkout'));
+
+	Router::connect('/companies/checkout/', array('controller' => 'companies', 'action' => 'checkout'));
+	Router::connect('/companies/acceptApplicant/:id', array('controller' => 'companies', 'action' => 'acceptApplicant'), array('jobId' => '[0-9]+'));
+	Router::connect('/companies/jobStats/:jobId', array('controller' => 'companies', 'action' => 'jobStats'), array('jobId' => '[0-9]+'));
+
 	
 	
 	Router::connect('/jobs/', array('controller' => 'jobs', 'action' => 'index'));
 	Router::connect('/jobs/:id/*', array('controller' => 'jobs','action' => 'index'),
 												array('id' => '[0-9]+'));
+	Router::connect('/jobs/jobDetail/:jobId/*', array('controller' => 'jobs','action' => 'jobDetail'),
+												array('jobId' => '[0-9]+'));
+	Router::connect('/jobs/applyJob/:jobId/*', array('controller' => 'jobs','action' => 'applyJob'),
+												array('jobId' => '[0-9]+'));
+	Router::connect('/jobs/viewResume/:filetype/:id/:jobId/*', array('controller' => 'jobs','action' => 'viewResume'));
+	
 	
 	//Router::connect('/users/:action', array('controller' => 'users'));
 	Router::connect('/users/userSelection', array('controller' => 'users','action' => 'userSelection'));
@@ -83,4 +93,6 @@
 	
 	
 	Router::connect('/jobseekers/delete/:id', array('controller' => 'jobseekers','action' => 'delete'));	
-	Router::connect('/jobseekers/sendNotifyEmal/:notifyId', array('controller' => 'jobseekers','action' => 'sendNotifyEmal'));	
+	Router::connect('/jobseekers/sendNotifyEmal/:notifyId', array('controller' => 'jobseekers','action' => 'sendNotifyEmal'));
+	Router::connect('/jobseekers/viewResume/:filetype/:id', array('controller' => 'jobseekers','action' => 'viewResume'),
+												array('id' => '[0-9]+'));	

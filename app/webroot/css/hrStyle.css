@@ -356,12 +356,12 @@ div.message {
     text-align: center;
 }
 div.error-message {
-	clear: both;
-	color: #FF0000;
-	font-size: 107%;
-	height: 14px;
+    clear: both;
+    color: #FF0000;
+    font-size: 13px;
+    height: 14px;
+    margin: 0 14px;
     width: 425px;
-	margin-top: 5px;
 }
 p.error {
 	background-color: #e32;
@@ -723,22 +723,24 @@ button.fb-logout {
     width: 425px;
 }
 label.error{ 
-	display: block;
-	float: none; 
-	color: red; 
-	padding-left: 1.5em; 
-	vertical-align: top;
-	clear:both;
-	font-size: 13px; 
-}
-.terms-condition-error{
-	clear: both;
+    clear: both;
     color: red;
     display: block;
     float: none;
+    font-size: 13px;
+    font-weight: normal !important;
+    padding-left: 1.5em;
+    vertical-align: top; 
+}
+.terms-condition-error{
+    clear: both;
+    color: red;
+    display: block;
+    float: none;
+    font-size: 13.5px;
+    margin-left: 21px;
     padding-left: 0.5em;
     vertical-align: top;
-	font-size: 110%;
 }
 .networker_select_bg{
     background-color: #FDFDFD;
@@ -1291,7 +1293,7 @@ label.error{
 #PaymentInfoPaymentInfoForm label{
 	font-size: 95%;
 	font-weight: bold;
-	width: 150px;
+	width: 270px;
 }
 
 .salary_range label.error{
@@ -1338,7 +1340,7 @@ label.error{
     border: 1px solid #000000;
     height: 20px;
     margin-left: 66px;
-    width: 86px;
+    width: 92px;
 }
 .payment_year {
     background-color: #FDFDFD;
@@ -1404,3 +1406,18 @@ border: 1px solid #000000;
     text-align: center;
 }
 /**** end share ****/
+
+.cr_pi_year label{
+	display:none;
+}
+.checkout_setting_profile{
+    margin: 15px 40px;
+}
+.checkout_pay_button{
+    background: none repeat scroll 0 0 lime;
+    border: 1px solid green;
+    cursor: pointer;
+    height: 30px;
+    width: 100px;
+}
+

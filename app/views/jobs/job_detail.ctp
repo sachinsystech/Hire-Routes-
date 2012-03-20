@@ -29,39 +29,39 @@
 									<img src="" alt="Company Logo" title="company logo" />
 								</div>
 								<div>
-									<div style="font-size:20px;"><strong><?php echo ucfirst($job['title']); ?></strong>
+									<div style="font-size:20px;"><strong><?php echo ucfirst($job['Job']['title']); ?></strong>
                                     </div>
 									<div style="font-size:13px;line-height:22px;">
-										<strong>By Company :</strong> <?php echo $job['company_name']."<br>"; ?>
-                                        <strong>URL : </strong><input type="text" value="http://hireroutes/<?php echo $code; ?>" style="width:100px;">
+										<strong>By Company :</strong> <?php echo $job['Job']['company_name']."<br>"; ?>
+                                        <strong>Website : </strong><?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?><br>
+ <strong>URL : </strong><input type="text" value="<?php echo Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/'; echo isset($code)?'?code='.$code:''; ?>" style="width:100px;">
                                         <br>
-                                        <strong>Website : </strong><?php	echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br>
                                         <strong>Published in :</strong> 
-											<?php echo $industries[$job['industry']]." - ".$specifications[$job['specification']].", "; ?>
-											<?php  echo $time->timeAgoInWords($job['created'])."<br><br>";?>
+											<?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name'].", "; ?>
+											<?php  echo $time->timeAgoInWords($job['Job']['created'])."<br><br>";?>
 									</div>
 								</div>
 								<div>
 									<div style="font-size:15px;padding-left:15px;"><strong>About the Job</strong></div>
                                     <div style="font-size:13px;padding-left:15px;line-height:22px;">
                                     	<strong>Location :</strong> 
-											<?php echo $job['city'].", ".$job['state']."<br>"; ?>
+											<?php echo $job['Job']['city'].", ".$job['Job']['state']."<br>"; ?>
 										<strong>Annual Salary Range :</strong> 
-											<?php echo $job['salary_from']." - ".$job['salary_to']."<br>"; ?>
+											<?php echo $job['Job']['salary_from']." - ".$job['Job']['salary_to']."<br>"; ?>
 										<strong>Type :</strong> 
-											<?php echo $job_array[$job['job_type']]."<br>"; ?>
+											<?php echo $job_array[$job['Job']['job_type']]."<br>"; ?>
 									</div>
 									<div style="font-size:13px;padding:10px 15px 25px 15px;">
-										<?php echo $job['short_description']."<br>";?>
+										<?php echo $job['Job']['short_description']."<br>";?>
 									</div>
 								</div>
 								<div style="padding-left:15px;">
 									<span style="font-size:15px;">
-										<strong><?php echo $job['company_name']; ?></strong></span> - 
-												<?php echo $job['city'].", ".$job['state']."<br>"; ?>
-                                                <?php echo $this->Html->link($urls[$job['company_id']], 'http://'.$urls[$job['company_id']]); ?><br><br>
+										<strong><?php echo $job['Job']['company_name']; ?></strong></span> - 
+												<?php echo $job['Job']['city'].", ".$job['Job']['state']."<br>"; ?>
+                                                <?php echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?><br><br>
 											<div id="short_description" style="font-size:13px;">
-											<?php $desc = $job['description'];
+											<?php $desc = $job['Job']['description'];
 													if($desc!=''){
                                                     	$explode = explode(' ',$desc);
 														$string  = '';
@@ -80,7 +80,7 @@
 													}?>
 											</div>
 											<div id="full_description" style="display:none;font-size:13px;">
-												<?php echo $job['description'];?>
+												<?php echo $job['Job']['description'];?>
 											</div>
 										</div>
 										<?php if(str_word_count($desc)>20){?>
@@ -94,7 +94,7 @@
 							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
                             <div style="padding:20px;">
                             	<div style="font-size:15px;padding-bottom:20px">
-									<a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobs/applyJob/<?php echo $job['id'];?>">
+									<a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobs/applyJob/<?php echo $job['Job']['id'];?>">
 										<strong>Apply for this job</strong>
 									</a>
 								</div>
@@ -104,6 +104,7 @@
 					</tr>
 				</table>
 			</div>	
+            <?php echo $this->element("jobRight"); ?>
 		<!-- middle conyent list -->
 	</div>
 	<!-- middle section end -->

@@ -22,8 +22,7 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li>My Jobs</li>
-				<li class='active'><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>New Jobs</span></a></li>
+				<li class='active'><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
 			</ul>
@@ -39,12 +38,11 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li><a href="/networkers/setting">Settings/Subscription</a></li>	
-				<li class="active"><a href="/networkers">Profile</a></li>			
-                        </ul>
-			<ul style="float:right">
-				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
-			</ul>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Inbox - <?php echo "15"?></a></li>	
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Shared - 10</a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#"> Data </a></li>			
+            </ul>	
 		</div>
 <div class="middleBox">
         <div class="jobs_topMenu">
@@ -82,24 +80,24 @@
 						<tr>
 							<td>
 								<div>
-									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/jobDetail/'.$job['id']); ?></div>
-									<div style="float:right"><?php echo $job['reward'];?>$
+									<div style="float:left"> <?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>
+									<div style="float:right"><?php echo $job['Job']['reward'];?>$
 </div>									
 								</div>
 								<div style="clear:both"></div>
                                 <div>
-									<?php	echo $job['company_name']."- ".$job['city'].",".$$job['state']."<br>";
-											echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
-											echo $job_array[$job['job_type']]."<br>";
-											echo $job['short_description']."<br>";
+									<?php	echo $job['Job']['company_name']."- ".$job['Job']['city'].",".$job['Job']['state']."<br>";
+											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
+											echo $job_array[$job['Job']['job_type']]."<br>";
+											echo $job['Job']['short_description']."<br>";
 									?>
                                  </div>
                                  
                                  <div style="float:left">
-				                 	Posted <?php  echo $time->timeAgoInWords($job['created'])." <br><br>";?>							
+				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>							
 								</div>	
                                 <div style="padding-left:480px;">
-                                    <?php	echo $this->Html->link('Read More', '/jobsDetail/'.$job['id']); ?>
+                                    <?php	echo $this->Html->link('Read More', '/jobsDetail/'.$job['Job']['id']); ?>
                                 </div>                                	
 							</td>
 						</tr>
