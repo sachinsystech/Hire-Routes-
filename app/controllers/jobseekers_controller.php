@@ -108,15 +108,6 @@ class JobseekersController extends AppController {
 
         $userId = $this->TrackUser->getCurrentUserId();	
 
-        //$user_jobs = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId)));
-        
-        //$n = 0; $job_ids = "";
-        /*foreach($user_jobs as $ujob)
-          {
-             $job_ids[$n] = $ujob['JobseekerApply']['job_id'];
-             $n++;
-          }*/ 
-
         $shortByItem = 'JobseekerApply.created';
 		$order		 = 'desc';
         
@@ -182,9 +173,47 @@ class JobseekersController extends AppController {
 									            )),
                                 'order' => array("$shortByItem" => $order,),
 								'fields'=>array('job.id ,job.user_id,job.title,job.company_name,city.city,state.state,job.job_type,job.short_description, job.reward, job.created, JobseekerApply.is_active, ind.name as industry_name, spec.name as specification_name'),);
-        
-           
+
 		$jobs = $this->paginate('JobseekerApply');
+		
+        
+		$appliedjob = $this->JobseekerApply->find('count',array('conditions'=>array('JobseekerApply.user_id'=>$userId)));
+		
+		$jobseeker_settings = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
+
+		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId),
+															   'fields'=>array('job_id'),));
+		for($a=0;$a<count($applied_job);$a++){
+			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
+		}
+
+		
+        
+        $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
+		$industry2 		= $jobseeker_settings['JobseekerSettings']['industry_2'];
+        $industry       = array(0=>$industry1, 1=>$industry2);
+		$specification1 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_1']);
+	    $specification2 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_2']);
+		$specification  = array_merge($specification1, $specification2);
+	    $city 			= $jobseeker_settings['JobseekerSettings']['city'];
+		$state 			= $jobseeker_settings['JobseekerSettings']['state'];
+		$salary_range   = $jobseeker_settings['JobseekerSettings']['salary_range'];
+
+		$cond = array('Job.industry' => $industry,
+                      'Job.specification' => $specification,
+                      'Job.city ' => $city,
+                      'Job.state' => $state,
+                      'Job.salary_from <' => $salary_range,
+					  'Job.salary_to >' => $salary_range,
+					  'Job.is_active'  => 1,
+					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
+					);
+		
+		$newjobs = $this->Job->find('count',array('conditions'=>$cond));  
+           
+		
+		$this->set('AppliedJobs',$appliedjob);
+		$this->set('NewJobs',$newjobs);
 		$this->set('jobs',$jobs);
      }
 
@@ -291,9 +320,12 @@ class JobseekersController extends AppController {
 									            )),
                                 'order' => array("Job.$shortByItem" => $order,),
 								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
-        
+  
+		$newjobs = $this->Job->find('count',array('conditions'=>$cond));      
            
 		$jobs = $this->paginate('Job');
+		$this->set('AppliedJobs',count($applied_job));
+		$this->set('NewJobs',$newjobs);
 		$this->set('jobs',$jobs);
 	}
     
@@ -344,7 +376,8 @@ class JobseekersController extends AppController {
 					$this->render("job_profile"); 
 					return;         
                 }
-                $type_arr = explode("/",$resume['type']);
+                $type_arr = explode(".",$resume['name']);
+				
                 $type = $type_arr[1];
                 if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
                 	$this->Session->setFlash('File type not supported.', 'error');        
@@ -372,8 +405,9 @@ class JobseekersController extends AppController {
 					$this->render("job_profile"); 
 					return;        
                 }
-                $type_arr1 = explode("/",$cover_letter['type']);
+                $type_arr1 = explode(".",$cover_letter['name']);				
                 $type1 = $type_arr1[1];
+				
                 if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
                 	$this->Session->setFlash('File type not supported.', 'error'); 
 					$this->data['JobseekerProfile']['cover_letter'] = ""; 

@@ -438,8 +438,10 @@ class NetworkersController extends AppController {
                                 'order' => array("Job.$shortByItem" => $order,),
 								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
         
-        $jobs = $this->paginate('Job');		
-		
+        $jobs = $this->paginate('Job');	
+
+		$newjobs = $this->Job->find('count',array('conditions'=>$cond));	
+		$this->set('NewJobs',$newjobs);
 		$this->set('jobs',$jobs);
 	}
  

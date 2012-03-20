@@ -27,9 +27,6 @@
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -38,7 +35,7 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Inbox - <?php echo "15"?></a></li>	
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Inbox - <?php echo $NewJobs;?></a></li>	
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Shared - 10</a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#"> Data </a></li>			

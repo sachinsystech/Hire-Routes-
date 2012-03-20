@@ -1,21 +1,14 @@
 <script>
-	$(document).ready(function(){
+    $(document).ready(function(){
 	    $("#switch_display").change(onSelectChange);
-		$("#short_by").change(onSelectShortByChange);
-		
+		$("#short_by").change(onSelectChange);
 	});
 	function onSelectChange(){
-	    var selected = $("#switch_display option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobseekers/appliedJob/display:"+selected.text();
-	    }
+
+	    var displaySelected = $("#switch_display option:selected");
+		var shortSelected = $("#short_by option:selected"); 
+		window.location.href="/jobseekers/appliedJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
 	}
-	function onSelectShortByChange(){
-	    var selected = $("#short_by option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobseekers/appliedJob/shortby:"+selected.val();
-	    }
-	}	
 </script>
 <div class="page">
 	<!-- left section start -->	
@@ -26,17 +19,14 @@
 				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
 	<div class="rightBox" >
 		<div class="topMenu">
 			<ul style="float:left">
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;"  href="/jobseekers/newJob">Inbox - </a></li>	
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;">Applied - </a></li>	
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;"  href="/jobseekers/newJob">Inbox - <?php echo $NewJobs;?></a></li>	
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;">Applied - <?php echo $AppliedJobs;?></a></li>	
                 <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
 			</ul>
 			

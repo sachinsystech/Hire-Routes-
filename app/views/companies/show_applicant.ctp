@@ -8,10 +8,7 @@
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
 				<li>My Employees</li>
 			</ul>
-		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
+		</div>		
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -159,8 +156,14 @@
 				<tr>
 					<td>
 						<span style="font-weight:bold"><?php echo $applicant['jobseekers']['contact_name']; ?></span>
-						<span style="font-size:11px"><?php echo "<br>Submitted ". $time->timeAgoInWords($applicant['JobseekerApply']['created']); ?> </span>
-						<?php echo "<br> view resume   |   view cover letter"; ?>
+						<span style="font-size:11px"><?php echo "<br>Submitted ". $time->timeAgoInWords($applicant['JobseekerApply']['created']); ?> </span><br>
+						<span>
+						<?php if($applicant['JobseekerApply']['resume']!=''){
+								echo $html->link('view resume',array('controller'=>'/companies/','action' => '/viewResume/resume/'.$applicant['JobseekerApply']['id'])); }?>
+						<?php if($applicant['JobseekerApply']['resume']!='' && $applicant['JobseekerApply']['cover_letter']!=''){ echo " | "; }?>
+						<?php if($applicant['JobseekerApply']['cover_letter']!=''){ 
+								echo $html->link('view cover letter',array('controller'=>'/companies/','action' => '/viewResume/cover_letter/'.$applicant['JobseekerApply']['id'])); }?>
+						</span>
 					</td>
 					<td>--</td>
 					<td>--</td>
@@ -175,7 +178,7 @@
 							
 							echo $this->Html->image("/img/icon/delete.png", array(
 							"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
-							'url' => "",
+							'url' => "/companies/deleteJob/".$applicant['JobseekerApply']['id']."/".$applicant['JobseekerApply']['job_id'],
 							'title'=>'Reject'
 							));
 						?>

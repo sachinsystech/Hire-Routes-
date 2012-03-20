@@ -34,6 +34,8 @@
 									<div style="font-size:13px;line-height:22px;">
 										<strong>By Company :</strong> <?php echo $job['Job']['company_name']."<br>"; ?>
                                         <strong>Website : </strong><?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?><br>
+ <strong>URL : </strong><input type="text" value="<?php echo Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/'; echo isset($code)?'?code='.$code:''; ?>" style="width:100px;">
+                                        <br>
                                         <strong>Published in :</strong> 
 											<?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name'].", "; ?>
 											<?php  echo $time->timeAgoInWords($job['Job']['created'])."<br><br>";?>
@@ -102,6 +104,7 @@
 					</tr>
 				</table>
 			</div>	
+            <?php echo $this->element("jobRight"); ?>
 		<!-- middle conyent list -->
 	</div>
 	<!-- middle section end -->

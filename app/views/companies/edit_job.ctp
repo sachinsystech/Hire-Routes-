@@ -7,10 +7,7 @@
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
 				<li>My Employees</li>
 			</ul>
-		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
+		</div>		
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
