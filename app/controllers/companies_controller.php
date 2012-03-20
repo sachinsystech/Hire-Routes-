@@ -577,9 +577,5 @@ list archive jobs..
         }
   		      
     }
-    function viewResume(){
-    	echo $this->params['ftype']."<br>";
-    	echo $this->params['id'];
-    }
 }
 ?>
