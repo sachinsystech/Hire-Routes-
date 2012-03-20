@@ -1,21 +1,14 @@
 <script>
-	$(document).ready(function(){
+    $(document).ready(function(){
 	    $("#switch_display").change(onSelectChange);
-		$("#short_by").change(onSelectShortByChange);
-		
+		$("#short_by").change(onSelectChange);
 	});
 	function onSelectChange(){
-	    var selected = $("#switch_display option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobseekers/appliedJob/display:"+selected.text();
-	    }
+
+	    var displaySelected = $("#switch_display option:selected");
+		var shortSelected = $("#short_by option:selected"); 
+		window.location.href="/jobseekers/appliedJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
 	}
-	function onSelectShortByChange(){
-	    var selected = $("#short_by option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobseekers/appliedJob/shortby:"+selected.val();
-	    }
-	}	
 </script>
 <div class="page">
 	<!-- left section start -->	

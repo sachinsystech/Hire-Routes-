@@ -61,5 +61,68 @@ class UtilityComponent extends Object
 		}		
 		return $object_to_key_value_array;
 	}
+
+    /** it will return job code for current user **/
+    function getCode($passJobId,$userId){
+        $saveCode = $this->Session->read('code');
+        if($saveCode){
+            $str = base64_decode($saveCode);
+            $code="";
+            $data = explode("^",$str);
+            $jobId = $data[0];
+            $ids = split(":",$data[1]);
+            if($jobId == $passJobId && $ids!=false && count($ids)>0){
+                if(in_array($userId,$ids)){
+                    $code = $saveCode;                    
+                }else{
+	                $ids[] = $userId;
+	                $str = implode(":",$ids);
+                    $str = $jobId."^".$str;
+	                $code = base64_encode($str);
+                }
+                return $code;
+            }
+        }
+        return base64_encode($passJobId."^".$userId);
+    }
+    /*** end ****/
+
+    /** It returns recent user id from Code which is set by URL  **/ 
+    function getRecentUserIdFromCode(){
+        $saveCode = $this->Session->read('code');
+        if($saveCode){
+            $str = base64_decode($saveCode);
+            echo $str;
+            $code="";
+            $data = explode("^",$str);
+            if(count($data)>1){
+                $ids = split(":",$data[1]);
+                return array_pop($ids);
+            }
+            
+        }
+        return null;
+    }
+
+    /*** It will return all intermediate users ***/
+    function getIntermediateUsers($jobId){
+        $saveCode = $this->Session->read('code');
+        if($saveCode){
+            $str = base64_decode($saveCode);
+            echo $str;
+            $code="";
+            $data = explode("^",$str);
+            if(count($data)>1){
+                if($jobId == $data[0]){
+                    $ids = split(":",$data[1]);
+                    return implode(",",$ids);
+                }
+            }
+            
+        }
+        return null;
+    }
+
+
 }
 ?>

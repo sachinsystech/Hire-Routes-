@@ -287,6 +287,8 @@ class UsersController extends AppController {
  	private function saveUser($userData){
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
+        if($parent = $this->Utility->getRecentUserIdFromCode())
+            $userData['User']['parent_user_id'] = $parent;
 		if(!$this->User->save($userData)){
 			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 			$this->redirect("/");
@@ -590,6 +592,7 @@ class UsersController extends AppController {
 			$this->redirect("/users/firstTime");				
 			
 		}
+
 		if(isset($this->data['User'])){
 			$data = array('User' => array('account_email' => $this->data['User']['username'],
 										  'password' => Security::hash(Configure::read('Security.salt') .$this->data['User']['password'])
@@ -612,6 +615,7 @@ class UsersController extends AppController {
  */	
 	function logout() {
 		$this->Auth->logout();
+        $this->Session->delete('code');
 		$this->redirect("/home/index");		
 	}	
 /**

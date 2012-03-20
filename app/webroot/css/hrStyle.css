@@ -1362,6 +1362,65 @@ label.error{
     height: 20px;
     width: 87px;
 }
+
+
+/*** CSS for share page ***/
+
+.contactBox{
+    width: 100px; 
+    border: 1px solid green; 
+    height: 100px;
+    float: left;
+}
+
+.contactImage{
+    height: 50px; 
+    width: 50px; 
+    border: 1px solid red; 
+    margin: auto;
+}
+
+.contactCheckBox{
+    position: absolute; 
+    top: 0px; 
+    left: 80px;
+}
+
+.contactName{
+    border:1px solid pink;
+    clear:both;
+    text-align: center;
+}
+
+.tabMenu{
+    float:left;
+    width:140px;
+}
+
+.tabContainer{
+    float:left;
+    width:600px;
+    height:400px;
+    border:1px solid #000000;
+    overflow:auto;
+
+}
+
+.socialContainer{
+ border: 1px solid red;
+    overflow: auto;
+    width: 750px;
+}
+
+.tabItem{
+  background: none repeat scroll 0 0 #33AA33;
+border: 1px solid #000000;
+    border-radius: 15px 15px 15px 15px;
+    padding: 5px;
+    text-align: center;
+}
+/**** end share ****/
+
 .cr_pi_year label{
 	display:none;
 }
@@ -1375,7 +1434,6 @@ label.error{
     height: 30px;
     width: 100px;
 }
-
 
 #JobseekerProfileJobProfileForm {
 	width: 154%;
@@ -1598,3 +1656,4 @@ label.error{
 #UserShowApplicantForm #field{
 	width:177px;
 }
+
