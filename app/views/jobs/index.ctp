@@ -166,9 +166,9 @@
 				<div style="clear:both"></div>
 		
 				<div class="narrowby_city panel_location" style="display:none;">
-					<?php  foreach($location as $lc):?>
+					<?php  foreach($location as $key=>$value):?>
 						<div>
-							<?php	echo $form->input("State.$lc", array('label' => "<span>$lc</span>",
+							<?php	echo $form->input("State.$key", array('label' => "<span>$value</span>",
 														'type'  => 'checkbox',));
 							?>
 						</div>

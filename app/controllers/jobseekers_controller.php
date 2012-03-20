@@ -236,7 +236,12 @@ class JobseekersController extends AppController {
         
         $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
 		$industry2 		= $jobseeker_settings['JobseekerSettings']['industry_2'];
-        $industry       = array(0=>$industry1, 1=>$industry2);
+		$industry = array();
+		if($industry1 != 1)
+			$industry[] = $industry1;
+		if($industry2 != 1)
+			$industry[] = $industry2;
+
 		$specification1 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_1']);
 	    $specification2 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_2']);
 		$specification  = array_merge($specification1, $specification2);
@@ -286,15 +291,20 @@ class JobseekersController extends AppController {
 					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 					);	*/
 
-		 $cond = array('Job.industry' => $industry,
-                      'Job.specification' => $specification,
-                      'Job.city ' => $city,
-                      'Job.state' => $state,
-                      'Job.salary_from <' => $salary_range,
+		 $cond = array('Job.specification' => $specification,
+                       'Job.salary_from <' => $salary_range,
 					  'Job.salary_to >' => $salary_range,
 					  'Job.is_active'  => 1,
 					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 					); 	
+		if(count($industry)>0)
+			$cond['Job.industry'] = $industry;
+		if($city)
+			$cond['Job.city']  = $city;
+                      
+        if($state)
+            $cond['Job.state'] = $state;
+
 
 		$this->paginate = array('conditions'=>$cond,
             'limit' => isset($displayPageNo)?$displayPageNo:5,

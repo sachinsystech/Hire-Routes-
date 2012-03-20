@@ -364,10 +364,23 @@ class NetworkersController extends AppController {
 			$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
 			$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
 
-			$job_cond[$n] =  array('AND' => array(array('Job.industry' => $industry[$n]),
-                               					  array('Job.specification' => $specification[$n]),
-                                                  array('Job.city ' => $city[$n]),
-                                                  array('Job.state' => $state[$n])));
+			$tempCond = array();
+			if($industry[$n]>1){
+				$tempCond[] = array('Job.industry' => $industry[$n]);
+				
+			}
+			if($specification[$n])
+					$tempCond[] = array('Job.specification' => $specification[$n]);
+			if($city[$n])
+				$tempCond[] = array('Job.city ' => $city[$n]);
+            if($state[$n])
+            	$tempCond[] = array('Job.state' => $state[$n]);
+		      
+			
+			if(!$tempCond){
+				$tempCond = array(1);
+			}
+			$job_cond[$n] =  array('AND' =>$tempCond);
 			
 		}
 		
