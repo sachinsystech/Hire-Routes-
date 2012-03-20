@@ -1585,3 +1585,16 @@ label.error{
     margin-left: 25px;
     width: 193px;
 }
+
+
+#UserShowApplicantForm{
+	width:100%;
+}
+
+#UserShowApplicantForm #lbl{
+	width:130px;
+}
+
+#UserShowApplicantForm #field{
+	width:177px;
+}

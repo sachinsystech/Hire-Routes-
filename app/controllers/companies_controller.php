@@ -378,6 +378,27 @@ list archive jobs..
 			//echo "<pre>"; print_r($jobs); exit;
 			if($jobs['Job']){
 				$conditions = array('JobseekerApply.job_id'=>$jobs['Job']['id'],"JobseekerApply.is_active"=>0);
+	
+				if(isset($this->data['User'])){
+
+					$conditions = array('OR' => array('JobseekerApply.answer1'  => $this->data['User']['answer1'],
+                                    				  'JobseekerApply.answer2'  => $this->data['User']['answer2'],
+                                                      'JobseekerApply.answer3'  => $this->data['User']['answer3'],
+                                                      'JobseekerApply.answer4'  => $this->data['User']['answer4'],
+                                                      'JobseekerApply.answer5'  => $this->data['User']['answer5'],
+									                  'JobseekerApply.answer6'  => $this->data['User']['answer6'],
+													  'JobseekerApply.answer7'  => $this->data['User']['answer7'],
+													  'JobseekerApply.answer8'  => $this->data['User']['answer8'],
+													  'JobseekerApply.answer9'  => $this->data['User']['answer9'],
+													  'JobseekerApply.answer10' => $this->data['User']['answer10'],
+													),
+					                   'AND' => array('JobseekerApply.job_id'=>$jobs['Job']['id'],
+													  "JobseekerApply.is_active"=>0)
+					);
+					
+					$this->set('filterOpt',$this->data['User']);
+				}
+
 				$this->paginate = array(
 						    'conditions' => $conditions,
 							'joins'=>array(
@@ -396,6 +417,7 @@ list archive jobs..
 							);
 				$applicants = $this->paginate("JobseekerApply");
 				$this->set('applicants',$applicants);
+				$this->set('jobId',$jobId);
 			}
 			else{
 				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	

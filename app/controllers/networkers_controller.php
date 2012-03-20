@@ -369,10 +369,17 @@ class NetworkersController extends AppController {
 			$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
 			$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
 			$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
+
+			$job_cond[$n] =  array('AND' => array(array('Job.industry' => $industry[$n]),
+                               					  array('Job.specification' => $specification[$n]),
+                                                  array('Job.city ' => $city[$n]),
+                                                  array('Job.state' => $state[$n])));
+			
 		}
 		
-	   
-		$shortByItem = 'id';
+			   
+		$shortByItem = 'created';
+		$order		 = 'desc';
         
         if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
@@ -384,25 +391,33 @@ class NetworkersController extends AppController {
 	        switch($shortBy){
 	        	case 'date-added':
 	        				$shortByItem = 'created'; 
+							$order		 = 'desc';
 	        				break;	
 	        	case 'company-name':
-	        				$shortByItem = 'company_name'; 
+	        				$shortByItem = 'company_name';
+							$order		 = 'asc'; 
 	        				break;
 	        	case 'industry':
-	        				$shortByItem = 'industry'; 
+	        				$shortByItem = 'industry';
+							$order		 = 'asc'; 
 	        				break;
 	        	case 'salary':
-	        				$shortByItem = 'salary_from'; 
+	        				$shortByItem = 'salary_from';
+							$order		 = 'asc'; 
 	        				break;
 	        	default:
 	        			$this->redirect("/jobs");	        		        	
 	        }
 		}
 
-		$cond = array('OR' => array(array('industry' => $industry),
+		/* $cond = array('OR' => array(array('industry' => $industry),
                                     array('specification' => $specification),
                                     array('city ' => $city),
-                                    array('state' => $state),));		
+                                    array('state' => $state),),
+					  'AND'	=>array(array('is_active' => 1))); */
+
+		 $cond = array('OR' => $job_cond,
+					   'AND' => array(array('is_active' => 1))); 
 
 		$this->paginate = array('conditions'=>$cond,
                                 'limit' => isset($displayPageNo)?$displayPageNo:5,
@@ -415,9 +430,19 @@ class NetworkersController extends AppController {
 										             'alias' => 'spec',
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.specification = spec.id',)
+									            ),
+											   array('table' => 'cities',
+										             'alias' => 'city',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.city = city.id',)
+									            ),
+											   array('table' => 'states',
+										             'alias' => 'state',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.state = state.id',)
 									            )),
-                                'order' => array("Job.$shortByItem" => 'desc',),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
+                                'order' => array("Job.$shortByItem" => $order,),
+								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
         
         $jobs = $this->paginate('Job');		
 		
