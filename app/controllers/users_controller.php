@@ -580,6 +580,7 @@ class UsersController extends AppController {
 		$FB_USER = $this->FacebookUsers->find('first',array('conditions'=>array('FacebookUsers.facebook_id'=>$facebookUser)));
 		return $FB_USER;
 	}
+
 /**
  * Log-in a user with the given parameter account_email and password
  * use AuthComponent to authenticate...

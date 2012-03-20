@@ -51,7 +51,9 @@
  * ...and connect the rest of 'Pages' controller's urls.
  */
 	Router::connect('/pages', array('controller' => 'home', 'action' => 'index', 'home'));
-
+	
+	Router::connect('/contact_us', array('controller'=> 'home', 'action'=>'contactUs'));
+	
 	Router::connect('/companies', array('controller' => 'companies', 'action' => 'accountProfile'));
 	Router::connect('/companies/editJob/:jobId', array('controller' => 'companies', 'action' => 'editJob'));
 	Router::connect('/companies/editProfile', array('controller' => 'companies', 'action' => 'editProfile'));
@@ -70,9 +72,11 @@
 	Router::connect('/jobs/applyJob/:jobId/*', array('controller' => 'jobs','action' => 'applyJob'),
 												array('jobId' => '[0-9]+'));
 	Router::connect('/jobs/viewResume/:filetype/:id/:jobId/*', array('controller' => 'jobs','action' => 'viewResume'));
-	
+	//UTILITY
+	Router::connect('/utilities/getCitiesOfState/:state_id', array('controller'=>'utilities', 'action'=>'getCitiesOfState'));
 	
 	//Router::connect('/users/:action', array('controller' => 'users'));
+
 	Router::connect('/users/userSelection', array('controller' => 'users','action' => 'userSelection'));
 	Router::connect('/users/confirmation/:id', array('controller' => 'users','action' => 'confirmation'),
 												array('id' => '[0-9]+'));

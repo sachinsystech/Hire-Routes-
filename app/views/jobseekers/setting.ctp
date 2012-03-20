@@ -26,9 +26,7 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/newJob"><span>New Jobs</span></a></li>
-                <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/appliedJob"><span>Applied Jobs</span></a></li>
-				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href=""><span>My Network</span></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/newJob"><span>My Jobs</span></a></li>
 				<li class="active"><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
 			</ul>
 		</div>
@@ -138,7 +136,8 @@
 							  //										   'selected' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>
 						<?php echo $form->input('salary_range', array('label' => 'Annual Salary Range:',
 																  'type'  => 'text',
-																  'class' => 'jobseekers_text_location required',
+																  'class' => 'jobseekers_text_salary_range required number',
+																  'min' =>1000,
 																  'value' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>
 					<div>
 						<b>Subscription Frequency:</b><p>

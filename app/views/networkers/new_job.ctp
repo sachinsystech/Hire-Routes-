@@ -59,15 +59,17 @@
 					?>
 				</div>
 				
-				<div style="padding-left:350px;">
+				<div style="float: right;margin-right: 100px;">
 					<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
-					<?php echo $form -> input('switch_display',array(
+					<?php if($this->Paginator->numbers()){
+							echo $form -> input('switch_display',array(
 												'type'=>'select',
 												'label'=>"< < <".$this->Paginator->numbers()."> > > DISPLAYING </span>",
 												'options'=>$display_page_no,
 												'class'=>'job_select_diplay',
 												'selected'=>isset($displayPageNo)?$displayPageNo:5,
-												));?>
+												));
+						}?>
 				</div>
 			</div>	
 		</div>
@@ -81,12 +83,11 @@
 							<td>
 								<div>
 									<div style="float:left"> <?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>
-									<div style="float:right"><?php echo $job['Job']['reward'];?>$
-</div>									
+									<div style="float:right"><b>Reward : </b><?php echo $job['Job']['reward'];?>$</div>									
 								</div>
 								<div style="clear:both"></div>
                                 <div>
-									<?php	echo $job['Job']['company_name']."- ".$job['Job']['city'].",".$job['Job']['state']."<br>";
+									<?php	echo $job['Job']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
 											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
 											echo $job_array[$job['Job']['job_type']]."<br>";
 											echo $job['Job']['short_description']."<br>";
@@ -96,8 +97,8 @@
                                  <div style="float:left">
 				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>							
 								</div>	
-                                <div style="padding-left:480px;">
-                                    <?php	echo $this->Html->link('Read More', '/jobsDetail/'.$job['Job']['id']); ?>
+                                <div style="float:right">
+                                    <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['Job']['id']); ?>
                                 </div>                                	
 							</td>
 						</tr>

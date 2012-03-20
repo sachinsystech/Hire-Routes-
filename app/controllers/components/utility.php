@@ -29,11 +29,15 @@ class UtilityComponent extends Object
 	
 	function getCity(){
 		$params = array(
-					   'conditions' => array('City.state_code'=>'PA'), 
+					   'conditions' => array('City.state_code'=>'DE'), 
 					   'fields' => array('City.city','City.city') 
 					   );
  
 		return $this->City->find('list',$params);
+	}
+
+	function getCities(){
+		return $this->City->find('list', array('conditions' => array('City.state_code'=>'DE'),'fields' => array('City.city')));
 	}
 	
 	function getSpecification(){

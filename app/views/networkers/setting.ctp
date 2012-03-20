@@ -5,7 +5,7 @@
 			<ul>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
-				<li class="active">My Account</li>
+				<li  class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
 			</ul>
 		</div>
 		<div>Feed Back</div>
@@ -18,8 +18,8 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li class="active"><a href="/networkers/setting">Settings/Subscription</a></li>	
-				<li><a href="/networkers">Profile</a></li>			
+				<li class="active"><a  style="text-decoration:none" href="/networkers/setting">Settings/Subscription</a></li>	
+				<li><a style="text-decoration:none" href="/networkers">Profile</a></li>			
 			</ul>
 			<ul style="float:right">
 				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
@@ -49,7 +49,7 @@
 																	'label'=>'',
 																	'options'=>$specifications,
 																	'empty' =>' -- Select Specification-- ',
-																	'class'=>'networker_select_bg required'
+																	'class'=>'networker_select_bg'
 															)
 												);
 						?>
@@ -57,26 +57,27 @@
 					</div>
 					<div>
 						<div style="float:left;margin-left: 43px;clear: both;">
-							<?php echo $form -> input('city',array(
+							<?php echo $form -> input('state',array(
 																		'type'=>'select',
-																		'label'=>'Location:',
-																		'options'=>$cities,
-																		'empty' =>' -- All Cities-- ',
-																		'class'=>'networker_select_city'
+																		'label'=>'Location: ',
+																		'options'=>$states,
+																		'empty' =>' -- All States-- ',
+																		'class'=>'networker_select_state',
+																		'onchange'=>'return fillCities(this.value);'
 																)
 													);
 							?>
 						</div>
 						<div style="float:left;">
-							<?php echo $form -> input('state',array(
+							<?php echo $form -> input('city',array(
 																		'type'=>'select',
 																		'label'=>'',
-																		'options'=>$states,
-																		'empty' =>' -- All States-- ',
-																		'class'=>'networker_select_state'
+//																		'options'=>$cities,
+																		'empty' =>' -- All Cities-- ',
+																		'class'=>'networker_select_city'
 																)
 													);
-							?>
+							?>							
 						</div>
 						<div style="float:right;margin-top: -15px;">
 							<?php echo $form ->submit('Subscribe');?>
@@ -90,16 +91,36 @@
 					
 					
 					<div id="accordion" style="width:620px">
-						
+						<?php
+							$oldIndustry = null;
+						?>
 						<?php foreach($NetworkerData as $NSI): ?>
+							<?php
+								$indtemp = $NSI['ind']['name'];
+							if($oldIndustry != $indtemp && $oldIndustry != null)
+								echo "</div>";
+							if($oldIndustry != $indtemp){
+							?>
 							<div>
-								<span><?php echo $industries[$NSI['NetworkerSettings']['industry']]; ?></span>
-								<button class="delete_button" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</button>
+								<span><?php echo $NSI['ind']['name']; ?></span>
 							</div>
-							<div>
-								Specification : <?php echo $specifications[$NSI['NetworkerSettings']['specification']]?>,State : <?php echo $states[$NSI['NetworkerSettings']['state']]?>,City : <?php echo $NSI['NetworkerSettings']['city']?>
+							<?php
+							}
+							if($oldIndustry != $indtemp){
+							?>
+							<div style="font-size: 14px;">
+							<?php }
+							$oldIndustry = $indtemp;
+							?>
+							<div style="margin-top:2px">
+								<span><?php echo isset($NSI['spec']['name'])?$NSI['spec']['name']:"All Specifications"?>,
+								<?php echo isset($NSI['state']['name'])?$NSI['state']['name']:"All Location"?>
+								<?php echo isset($NSI['city']['name'])?", ".$NSI['city']['name']:""; ?></span>
+								<span class="delete_spe" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">Delete</span>
 							</div>
+							
 						<?php endforeach;?>
+							</div>
 					</div>
 					
 				
@@ -144,6 +165,21 @@ function deleteItem($id){
 		window.location.href="/networkers/delete/"+$id;
 	}
 	return false;
+}
+
+function fillCities($state_id)
+{
+	$.ajax({
+		url: "/utilities/getCitiesOfState/"+$state_id,
+	 	dataType:'json',
+  		success: function(response){
+	 		var options = '<option value=""> -- All Cities-- </option>';
+			$.each(response, function(index, item) {
+                options += '<option value="' + index + '">' + item + '</option>';
+            });
+			$("select#NetworkersCity").html(options);
+  		}
+	});
 }
 
 function saveSubFrequency(){

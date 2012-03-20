@@ -3,7 +3,7 @@ class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
 	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles',
 'FacebookUsers','Company','Job','Industry','State','Specification','Companies','City','JobseekerApply',
-'JobseekerProfile');
+'JobseekerProfile','JobseekerApply');
 	var $components = array('Email','Session','TrackUser','Utility');
 	var $helpers = array('Time','Html','Javascript');	
 
@@ -120,16 +120,17 @@ class JobseekersController extends AppController {
 
         $userId = $this->TrackUser->getCurrentUserId();	
 
-        $user_jobs = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId)));
+        //$user_jobs = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId)));
         
-        $n = 0; $job_ids = "";
-        foreach($user_jobs as $ujob)
+        //$n = 0; $job_ids = "";
+        /*foreach($user_jobs as $ujob)
           {
              $job_ids[$n] = $ujob['JobseekerApply']['job_id'];
              $n++;
-          } 
+          }*/ 
 
-        $shortByItem = 'id';
+        $shortByItem = 'JobseekerApply.created';
+		$order		 = 'desc';
         
         if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
@@ -137,19 +138,23 @@ class JobseekersController extends AppController {
 		}
 		if(isset($this->params['named']['shortby'])){
 	        $shortBy = $this->params['named']['shortby'];
-	        $this->set('shortBy',$shortBy);
+			$this->set('shortBy',$shortBy);
 	        switch($shortBy){
 	        	case 'date-added':
-	        				$shortByItem = 'created'; 
-	        				break;	
+	        				$shortByItem = 'JobseekerApply.created'; 
+							$order       = 'desc';       				
+	       					break;	
 	        	case 'company-name':
-	        				$shortByItem = 'company_name'; 
+	        				$shortByItem = 'job.company_name'; 
+							$order       = 'asc';
 	        				break;
 	        	case 'industry':
-	        				$shortByItem = 'industry'; 
+	        				$shortByItem = 'job.industry'; 
+							$order       = 'asc';
 	        				break;
 	        	case 'salary':
-	        				$shortByItem = 'salary_from'; 
+	        				$shortByItem = 'job.salary_from'; 
+							$order       = 'asc';
 	        				break;
 	        	default:
 	        			$this->redirect("/jobs");	        		        	
@@ -157,23 +162,41 @@ class JobseekersController extends AppController {
 		}
 		
 		$this->paginate = array(
-            'conditions'=>array('Job.id'=>$job_ids),
+            'conditions'=>array('JobseekerApply.user_id'=>$userId),
             'limit' => isset($displayPageNo)?$displayPageNo:5,
-								'joins'=>array(array('table' => 'industry',
+								'joins'=>array(
+												array('table' => 'jobs',
+										             'alias' => 'job',
+										             'type' => 'LEFT',
+										             'conditions' => array('job.id = JobseekerApply.job_id',)
+									            ),
+
+												array('table' => 'industry',
 										             'alias' => 'ind',
 										             'type' => 'LEFT',
-										             'conditions' => array('Job.industry = ind.id',)
+										             'conditions' => array('job.industry = ind.id',)
 									            ),
 											   array('table' => 'specification',
 										             'alias' => 'spec',
 										             'type' => 'LEFT',
-										             'conditions' => array('Job.specification = spec.id',)
+										             'conditions' => array('job.specification = spec.id',)
+									            ),
+												
+											   array('table' => 'cities',
+										             'alias' => 'city',
+										             'type' => 'LEFT',
+										             'conditions' => array('job.city = city.id',)
+									            ),
+											   array('table' => 'states',
+										             'alias' => 'state',
+										             'type' => 'LEFT',
+										             'conditions' => array('job.state = state.id',)
 									            )),
-                                'order' => array("Job.$shortByItem" => 'asc',),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
+                                'order' => array("$shortByItem" => $order,),
+								'fields'=>array('job.id ,job.user_id,job.title,job.company_name,city.city,state.state,job.job_type,job.short_description, job.reward, job.created, JobseekerApply.is_active, ind.name as industry_name, spec.name as specification_name'),);
         
            
-		$jobs = $this->paginate('Job');
+		$jobs = $this->paginate('JobseekerApply');
 		$this->set('jobs',$jobs);
      }
 
@@ -185,6 +208,14 @@ class JobseekersController extends AppController {
         
 
         $jobseeker_settings = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
+
+		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId),
+															   'fields'=>array('job_id'),));
+		for($a=0;$a<count($applied_job);$a++){
+			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
+		}
+
+		
         
         $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
 		$industry2 		= $jobseeker_settings['JobseekerSettings']['industry_2'];
@@ -197,7 +228,8 @@ class JobseekersController extends AppController {
 		$salary_range   = $jobseeker_settings['JobseekerSettings']['salary_range'];
         
        
-		$shortByItem = 'id';
+		$shortByItem = 'created';
+		$order		 = 'desc';
         
         if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
@@ -209,27 +241,43 @@ class JobseekersController extends AppController {
 	        switch($shortBy){
 	        	case 'date-added':
 	        				$shortByItem = 'created'; 
+							$order		 = 'desc';
 	        				break;	
 	        	case 'company-name':
 	        				$shortByItem = 'company_name'; 
+							$order		 = 'asc';
 	        				break;
 	        	case 'industry':
-	        				$shortByItem = 'industry'; 
+	        				$shortByItem = 'industry';
+							$order		 = 'asc'; 
 	        				break;
 	        	case 'salary':
 	        				$shortByItem = 'salary_from'; 
+							$order		 = 'asc';
 	        				break;
 	        	default:
 	        			$this->redirect("/jobs");	        		        	
 	        }
 		}
 
-		$cond = array('OR' => array(array('industry' => $industry),
-                                    array('specification' => $specification),
-                                    array('city ' => $city),
-                                    array('state' => $state),
-                                    array('salary_from <' => $salary_range),
-									array('salary_to >' => $salary_range)));		
+		/* $cond = array('OR' => array(array('Job.industry' => $industry),
+                                    array('Job.specification' => $specification),
+                                    array('Job.city ' => $city),
+                                    array('Job.state' => $state),
+                                    array('Job.salary_from <' => $salary_range),
+									array('Job.salary_to >' => $salary_range)),
+					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
+					);	*/
+
+		 $cond = array('Job.industry' => $industry,
+                      'Job.specification' => $specification,
+                      'Job.city ' => $city,
+                      'Job.state' => $state,
+                      'Job.salary_from <' => $salary_range,
+					  'Job.salary_to >' => $salary_range,
+					  'Job.is_active'  => 1,
+					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
+					); 	
 
 		$this->paginate = array('conditions'=>$cond,
             'limit' => isset($displayPageNo)?$displayPageNo:5,
@@ -242,9 +290,19 @@ class JobseekersController extends AppController {
 										             'alias' => 'spec',
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.specification = spec.id',)
+									            ),
+											   array('table' => 'cities',
+										             'alias' => 'city',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.city = city.id',)
+									            ),
+											   array('table' => 'states',
+										             'alias' => 'state',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.state = state.id',)
 									            )),
-                                'order' => array("Job.$shortByItem" => 'asc',),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
+                                'order' => array("Job.$shortByItem" => $order,),
+								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
         
            
 		$jobs = $this->paginate('Job');
@@ -284,6 +342,8 @@ class JobseekersController extends AppController {
 
         $jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
+		$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
+		$this->set('is_cover_letter', $jobprofile['JobseekerProfile']['cover_letter']);
 
 		if(isset($this->data['JobseekerProfile'])){
 
@@ -291,13 +351,19 @@ class JobseekersController extends AppController {
         		$resume = $this->data['JobseekerProfile']['resume'];                 
             	if($resume['error']!=0 ){
                 	$this->Session->setFlash('Uploaded File is corrupted.', 'error');    
-                    $this->redirect('/jobs/applyJob/'.$job_id);          
+                    $this->data['JobseekerProfile']['resume'] = ""; 
+					$this->set('jobprofile',$this->data['JobseekerProfile']);  
+					$this->render("job_profile"); 
+					return;         
                 }
                 $type_arr = explode("/",$resume['type']);
                 $type = $type_arr[1];
                 if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
                 	$this->Session->setFlash('File type not supported.', 'error');        
-                    $this->redirect('/jobs/applyJob/'.$job_id);
+                    $this->data['JobseekerProfile']['resume'] = ""; 
+					$this->set('jobprofile',$this->data['JobseekerProfile']);  
+					$this->render("job_profile"); 
+					return;
                 }
                 $randomNumber = rand(1,100000000000);            
                 $uploadedFileName=$randomNumber.$resume['name'];
@@ -313,13 +379,19 @@ class JobseekersController extends AppController {
 				$cover_letter = $this->data['JobseekerProfile']['cover_letter'];                 
             	if($cover_letter['error']!=0 ){
                 	$this->Session->setFlash('Uploaded File is corrupted.', 'error');    
-                    $this->redirect('/jobs/applyJob/'.$job_id);          
+                    $this->data['JobseekerProfile']['cover_letter'] = ""; 
+					$this->set('jobprofile',$this->data['JobseekerProfile']);  
+					$this->render("job_profile"); 
+					return;        
                 }
                 $type_arr1 = explode("/",$cover_letter['type']);
                 $type1 = $type_arr1[1];
                 if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
-                	$this->Session->setFlash('File type not supported.', 'error');        
-                    $this->redirect('/jobs/applyJob/'.$job_id);
+                	$this->Session->setFlash('File type not supported.', 'error'); 
+					$this->data['JobseekerProfile']['cover_letter'] = ""; 
+					$this->set('jobprofile',$this->data['JobseekerProfile']);  
+					$this->render("job_profile"); 
+					return;
                 }
                 $randomNumber2 = rand(1,100000000000);            
                 $uploadedFileName2=$randomNumber2.$cover_letter['name'];
@@ -331,9 +403,10 @@ class JobseekersController extends AppController {
 				$this->data['JobseekerProfile']['cover_letter']=$jobprofile['JobseekerApply']['cover_letter'];
 			}            
 			
-			$this->JobseekerProfile->save($this->data['JobseekerProfile']);
-			$this->Session->setFlash('Profile Infomation has been updated successfuly.', 'success');	
-			$this->redirect('jobProfile');					
+			if($this->JobseekerProfile->save($this->data['JobseekerProfile'])){
+				$this->Session->setFlash('Profile Infomation has been updated successfuly.', 'success');	
+				$this->redirect('jobProfile');	
+			}			
 		}
 	}
 
