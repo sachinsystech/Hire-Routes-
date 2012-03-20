@@ -380,20 +380,32 @@ list archive jobs..
 	
 				if(isset($this->data['User'])){
 
-					$conditions = array('OR' => array('JobseekerApply.answer1'  => $this->data['User']['answer1'],
-                                    				  'JobseekerApply.answer2'  => $this->data['User']['answer2'],
-                                                      'JobseekerApply.answer3'  => $this->data['User']['answer3'],
-                                                      'JobseekerApply.answer4'  => $this->data['User']['answer4'],
-                                                      'JobseekerApply.answer5'  => $this->data['User']['answer5'],
-									                  'JobseekerApply.answer6'  => $this->data['User']['answer6'],
-													  'JobseekerApply.answer7'  => $this->data['User']['answer7'],
-													  'JobseekerApply.answer8'  => $this->data['User']['answer8'],
-													  'JobseekerApply.answer9'  => $this->data['User']['answer9'],
-													  'JobseekerApply.answer10' => $this->data['User']['answer10'],
+					$answer1  = $this->data['User']['answer1'];
+					$answer2  = $this->data['User']['answer2'];
+					$answer3  = $this->data['User']['answer3'];
+					$answer4  = $this->data['User']['answer4'];
+					$answer5  = $this->data['User']['answer5'];
+					$answer6  = $this->data['User']['answer6'];
+					$answer7  = $this->data['User']['answer7'];
+					$answer8  = $this->data['User']['answer8'];
+					$answer9  = $this->data['User']['answer9'];
+					$answer10 = $this->data['User']['answer10'];
+
+								
+					$conditions = array('OR' => array('JobseekerApply.answer1'  => $answer1, 
+                                    				  'JobseekerApply.answer2'  => $answer2,
+                                                      'JobseekerApply.answer3'  => $answer3,
+                                                      'JobseekerApply.answer4'  => $answer4,
+                                                      'JobseekerApply.answer5'  => $answer5,
+									                  'JobseekerApply.answer6'  => $answer6,
+													  'JobseekerApply.answer7'  => $answer7,
+													  'JobseekerApply.answer8'  => $answer8,
+													  'JobseekerApply.answer9'  => $answer9,
+													  'JobseekerApply.answer10' => $answer10,
 													),
-					                   'AND' => array('JobseekerApply.job_id'=>$jobs['Job']['id'],
-													  "JobseekerApply.is_active"=>0)
-					);
+					                    'AND' => array('JobseekerApply.job_id'=>$jobs['Job']['id'],
+													   'JobseekerApply.is_active'=>0)
+					                  );
 					
 					$this->set('filterOpt',$this->data['User']);
 				}
@@ -402,13 +414,12 @@ list archive jobs..
 						    'conditions' => $conditions,
 							'joins'=>array(
 											array('table' => 'jobseekers',
-												'alias' => 'jobseekers',
-												'type' => 'LEFT',
-												'conditions' => array(
-															'JobseekerApply.user_id = jobseekers.user_id ',
-												)
-											)
-									),'limit' => 10, // put display fillter here
+												  'alias' => 'jobseekers',
+												  'type' => 'LEFT',
+												  'conditions' => array('JobseekerApply.user_id = jobseekers.user_id ')
+											     )
+									      ),
+							'limit' => 10, // put display fillter here
 							'order' => array('JobseekerApply.id' => 'desc'), // put sort fillter here
 							'recursive'=>0,
 							'fields'=>array('JobseekerApply.*,jobseekers.contact_name'),
@@ -417,8 +428,7 @@ list archive jobs..
 				$applicants = $this->paginate("JobseekerApply");
 				$this->set('applicants',$applicants);
 				$this->set('jobId',$jobId);
-			}
-			else{
+			}else{
 				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
 				$this->redirect("/companies/newJob");
 			}
@@ -428,6 +438,50 @@ list archive jobs..
 		}
 		$this->set('jobId',$jobId);
 				//echo "<pre>"; print_r($applicants);  exit;
+	}
+
+	
+	function viewResume(){
+ 		
+		if(isset($this->params['id'])){		
+			
+			$id = $this->params['id'];
+			$file_type = $this->params['ftype'];
+			
+		
+			$jobprofile = $this->JobseekerApply->find('first',array('conditions'=>array('id'=>$id)));
+			if($jobprofile['JobseekerApply']){
+
+				if($file_type=='resume'){
+					$file = $jobprofile['JobseekerApply']['resume'];
+					$fl = BASEPATH."webroot/files/resume/".$file;
+				}
+				if($file_type=='cover_letter'){
+					$file = $jobprofile['JobseekerApply']['cover_letter'];
+					$fl = BASEPATH."webroot/files/cover_letter/".$file;
+				}				
+				
+				if (file_exists($fl)){
+					header('Content-Description: File Transfer');
+					header('Content-Disposition: attachment; filename='.basename($fl));
+					header('Content-Transfer-Encoding: binary');
+					header('Expires: 0');
+					header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+					header('Pragma: public');
+					header('Content-Length: ' . filesize($fl));
+					ob_clean();
+					flush();
+					readfile($fl);
+					exit;
+				}else{
+					$this->Session->setFlash('File does not exist.', 'error');				
+					// $this->redirect('/jobs/jobProfile');
+				}				
+			}else{
+				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				// $this->redirect('/jobs/jobProfile');
+			}
+		}		
 	}
 	
 	/** accept applicant for given applied job **/
@@ -525,8 +579,21 @@ list archive jobs..
 	
 	/****** Delete Job *******/
 	function deleteJob(){
-		
+		$userId = $this->TrackUser->getCurrentUserId();
+		$id = $this->params['id'];
+		$JobId = $this->params['jobId'];
+		if($userId && $id){
+			
+			$this->JobseekerApply->updateAll(array('is_active'=>2), array('JobseekerApply.id'=>$id));
 
+			$this->Session->setFlash('Applicant has been rejected successfully.', 'success');	
+			$this->redirect("/companies/showApplicant/".$JobId);
+			return;
+		}else{
+			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
+			$this->redirect("/companies");
+			return;
+		}
 	}
 
     /***** shareJob *********/
