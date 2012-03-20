@@ -463,18 +463,18 @@ class UsersController extends AppController {
 		$role = $this->TrackUser->getCurrentUserRole();
 		switch($role['role_id']){
 			case 1:
-					$this->redirect("/companies");
+					$this->redirect("/companies/newJob");
 					break;	
 			case 2:
 					$jobseekerData = $this->Jobseekers->find('first',array('conditions'=>array('Jobseekers.user_id'=>$id)));
 					if(isset($jobseekerData['Jobseekers']['contact_name'])){
-						$this->redirect("/jobseekers");						
+						$this->redirect("/jobseekers/newJob");						
 					}
 					break;			
 			case 3:
 					$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$id)));
 					if(isset($networkerData['Networkers']['contact_name'])){
-						$this->redirect("/networkers");						
+						$this->redirect("/networkers/newJob");						
 					}
 					break;		
 			case 5:

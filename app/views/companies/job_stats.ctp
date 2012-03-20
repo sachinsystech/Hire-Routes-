@@ -15,8 +15,8 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul style="float:left">
+                <li ><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editJob/<?php echo $jobId;?>"> Edit </a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showApplicant/<?php echo $jobId;?>">Applicants</a></li>
-				<li ><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editJob/<?php echo $jobId;?>"> Edit </a></li>
 				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/jobStats/<?php echo $jobId;?>"> Data </a></li>
 			</ul>
 			
