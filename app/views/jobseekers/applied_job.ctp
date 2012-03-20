@@ -19,17 +19,14 @@
 				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
 	<div class="rightBox" >
 		<div class="topMenu">
 			<ul style="float:left">
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;"  href="/jobseekers/newJob">Inbox - </a></li>	
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;">Applied - </a></li>	
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;"  href="/jobseekers/newJob">Inbox - <?php echo $NewJobs;?></a></li>	
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;">Applied - <?php echo $AppliedJobs;?></a></li>	
                 <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
 			</ul>
 			

@@ -42,7 +42,27 @@
 		echo $html->script('jquery.validate.js');
 	
 		echo $scripts_for_layout;
+		if($session->check('Auth.User.id')){ 
 	?>
+	<script type="text/javascript" charset="utf-8">
+		var is_ssl = ("https:" == document.location.protocol);
+		var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+		document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+
+	<script type="text/javascript" charset="utf-8">
+		var feedback_widget_options = {};
+
+		feedback_widget_options.display = "overlay";  
+		feedback_widget_options.company = "hireroutes";
+		feedback_widget_options.placement = "left";
+		feedback_widget_options.color = "#222";
+		feedback_widget_options.style = "idea";  
+  
+
+		var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
+	</script>
+	<?php }?>
 </head>
 <body>
 	<div id="container">
@@ -61,6 +81,6 @@
 			<?php include("site_footer.ctp");?>
 		</div>
 	</div>
-	<?php //echo $this->element('sql_dump'); ?>
+	<?php // echo $this->element('sql_dump'); ?>
 </body>
 </html>
