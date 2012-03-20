@@ -1,3 +1,4 @@
+<?php ?>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -16,6 +17,12 @@
 	<!-- middle section start -->
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
+        <div class="topMenu">
+			<ul>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/jobStats/<?php echo $job['id']; ?>">Applicants</a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showApplicant/<?php echo $job['id']; ?>">Data</a></li>
+			</ul>
+		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
@@ -29,7 +36,7 @@
 </script>
 
 <div style="width:600px;margin: auto;">
-<div style="width:300px; margin: 4px 0;">Job URL <input type="text" class='text_field_bg' value="<?php echo Configure::read('httpRootURL')."job/".$job['id']."/".$code; ?>"></div>
+<div style="width:300px; margin: 4px 0;">Job URL <input type="text" class='text_field_bg' value="<?php echo Configure::read('httpRootURL')."job/".$job['id']."/"; ?>"></div>
 <div style="clear:both"></div>
 <div class="sigup_heading">Edit Posted Job </div>
 <?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'editJob'))); ?>
