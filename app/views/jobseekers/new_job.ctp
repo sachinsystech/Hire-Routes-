@@ -76,7 +76,7 @@
 							<tr>
 								<td>
 									<div>
-										<div><?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>									
+										<div><?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>								<div style="float:right"><b>Reward : </b><?php echo $job['Job']['reward'];?>$</div>										
 									</div>
 									<div style="clear:both"></div>			
                                 	<div>
