@@ -99,6 +99,7 @@ class JobsController extends AppController {
         } // find ends here   
         
         $jobs = $this->paginate('Job');
+        
 		$jobs_array = array();
 		foreach($jobs as $job){
 			$jobs_array[$job['Job']['id']] =  $job['Job'];
@@ -106,9 +107,12 @@ class JobsController extends AppController {
 		$this->set('jobs',$jobs_array);
 		
 		$this->set('industries',$this->Utility->getIndustry());
-		$this->set('cities',$this->Utility->getCity());		
-		$this->set('states',$this->Utility->getState());
-		$this->set('specifications',$this->Utility->getSpecification());
+
+
+		$this->set('location',$this->Utility->getState());
+		$this->set('companies',$this->Utility->getCompany());
+		$this->set('specifications',$this->Utility->getSpecification());        	
+
        	$this->set('urls',$this->Utility->getCompany('url'));
 		
 		$companies = $this->Companies->find('all');
@@ -139,6 +143,7 @@ class JobsController extends AppController {
 			}			
 		}
  	}
+
 
 
     function getCurrentUserRole(){

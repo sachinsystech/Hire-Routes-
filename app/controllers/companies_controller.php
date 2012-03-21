@@ -6,7 +6,7 @@ require_once(APP_DIR.'/vendors/linkedin/OAuth.php');
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-   	var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','PaymentInfo','JobseekerApply');
+   	var $uses = array('User','Company','Companies','Job','Industry','State','Specification','UserRoles','PaymentInfo','JobseekerApply','JobViews');
 	var $components = array('TrackUser','Utility','RequestHandler');
 
 	var $helpers = array('Form','Paginator','Time');
@@ -20,27 +20,9 @@ class CompaniesController extends AppController {
 			$this->redirect("/users/firstTime");
 		}
 		if($userId){
-			
-			$industries = $this->Industry->find('all');
-			$industries_array = array();
-			foreach($industries as $industry){
-				$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
-			}
-			$this->set('industries',$industries_array);
-			
-			$states = $this->State->find('all');
-			$state_array = array();
-			foreach($states as $state){
-				$state_array[$state['State']['state']] =  $state['State']['state'];
-			}
-			$this->set('states',$state_array);
-
-			$specifications = $this->Specification->find('all');
-			$specification_array = array();
-			foreach($specifications as $specification){
-				$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
-			}
-			$this->set('specifications',$specification_array);
+			$this->set('states',$this->Utility->getState());
+			$this->set('industries',$this->Utility->getIndustry());
+			$this->set('specifications',$this->Utility->getSpecification());
 		}	
 	
 	}
@@ -96,7 +78,8 @@ class CompaniesController extends AppController {
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
 		}
-
+		
+		//	fetching jobs with given condition
 		$conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
 		$this->paginate = array(
 				            'conditions' => $conditions,
@@ -117,6 +100,7 @@ class CompaniesController extends AppController {
 				    );
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
+		// end for job fetching...
 		$arch_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
 		$archJobCount = $this->Job->find('count',array('conditions'=>$arch_conditions));
 		$this->set('archJobCount',$archJobCount);
@@ -220,26 +204,10 @@ list archive jobs..
 			if($jobs['Job']){
 				$this->set('job',$jobs['Job']);	
 			
-				$industries = $this->Industry->find('all');
-				$industries_array = array();
-				foreach($industries as $industry){
-					$industries_array[$industry['Industry']['id']] =  $industry['Industry']['name'];
-				}
-				$this->set('industries',$industries_array);
-			
-				$states = $this->State->find('all');
-				$state_array = array();
-				foreach($states as $state){
-					$state_array[$state['State']['state']] =  $state['State']['state'];
-				}
-				$this->set('states',$state_array);
-
-				$specifications = $this->Specification->find('all');
-				$specification_array = array();
-				foreach($specifications as $specification){
-					$specification_array[$specification['Specification']['id']] =  $specification['Specification']['name'];
-				}
-				$this->set('specifications',$specification_array);
+				$this->set('states',$this->Utility->getState());
+				$this->set('industries',$this->Utility->getIndustry());
+				$this->set('specifications',$this->Utility->getSpecification());
+				
 				/****************  genrate code for traking user ****************/
 					$str = "11:12";
 					$temp = base64_encode($str);
@@ -308,7 +276,7 @@ list archive jobs..
 		$this->set('company',$user['Companies'][0]);
 	}
 
-	function checkout() {
+	function checkout1() {
 		$userId = $this->TrackUser->getCurrentUserId();	
 		
 		$appliedJob = $this->Session->read('appliedJob');
@@ -329,10 +297,11 @@ list archive jobs..
 		$this->set('user',$user['User']);
 		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('payment',$payment['PaymentInfo']);
+		$this->set('appliedJobId',isset($this->params['id'])?$this->params['id']:"");
+		
 		$submit_txt = "Save...";
-		$appliedJob = $this->Session->read('appliedJob');
-		if(isset($appliedJob)){
-			$submit_txt = "Proceed to checkout...";
+		if(isset($this->params['id'])){
+			$submit_txt = "Proceed to checkout..>>";
 		}
 		$this->set('submit_txt',$submit_txt);
 		if(isset($this->data['PaymentInfo'])){
@@ -341,10 +310,10 @@ list archive jobs..
 				$this->render("payment_info");
 				return;				
 			}else{
-				$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
-				if(isset($appliedJob)){
-					$this->redirect('/companies/checkout');
+				if(isset($this->data['PaymentInfo']['applied_job_id'])&& $this->data['PaymentInfo']['applied_job_id']!=""){
+					$this->redirect('/companies/checkout/'.$this->data['PaymentInfo']['applied_job_id']);
 				}
+				$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
 				$this->redirect('/companies/paymentInfo');
 			}		
 		}		
@@ -488,45 +457,52 @@ list archive jobs..
 	}
 	
 	/** accept applicant for given applied job **/
-	function acceptApplicant(){
+	function checkout(){
 		$userId = $this->TrackUser->getCurrentUserId();
 		$appliedJobId = $this->params['id'];
 		if($userId && $appliedJobId){
-			$appliedJob = $this->Job->find('first', array(
-														'joins' => array(
-																		array(
-																			'table' => 'jobseeker_apply',
-																			'alias' => 'JobseekerapplyJob',
-																			'type' => 'INNER',
-																			'conditions' => array(
-																				"JobseekerapplyJob.job_id = Job.id",
-																			)
-																		)
-														),
-														'conditions' => array(
-															"Job.user_id = $userId",
-															"JobseekerapplyJob.id = $appliedJobId",
-															"JobseekerapplyJob.is_active = 0"
-														),
-														'fields' => array('Job.*','JobseekerapplyJob.*'),
-														'order' => 'JobseekerapplyJob.created DESC'
-										));
+		
+		
+			$paymentInfo = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
+			
+			if(isset($paymentInfo['PaymentInfo'])){
+			
+				$appliedJob = $this->Job->find('first', array(
+										'joins' => array(
+														array(
+															'table' => 'jobseeker_apply',
+															'alias' => 'JobseekerapplyJob',
+															'type' => 'INNER',
+															'conditions' => array(
+																"JobseekerapplyJob.job_id = Job.id",
+															)
+														)
+										),
+										'conditions' => array(
+											"Job.user_id = $userId",
+											"JobseekerapplyJob.id = $appliedJobId",
+											"JobseekerapplyJob.is_active = 0"
+										),
+										'fields' => array('Job.*','JobseekerapplyJob.*'),
+										'order' => 'JobseekerapplyJob.created DESC'
+								));
 										
-			if(isset($appliedJob['Job']) && isset($appliedJob['JobseekerapplyJob'])){
-				$this->Session->write('appliedJob', $appliedJob);
-				//echo "<pre>";print_r($this->Session->read('appliedJob')); exit;
-				$this->redirect("/companies/paymentInfo/");
+				if(isset($appliedJob['Job']) && isset($appliedJob['JobseekerapplyJob'])){
+					$this->set('job',$appliedJob['Job']);
+					$this->render('checkout');		
+				}
+				else{
+					$this->Session->setFlash('May be you click on old link or you are not authorize to do it.', 'error');	
+					$this->redirect("/companies/newJob");
+					return;
+				}
 			}
 			else{
-				$this->Session->write('appliedJob', null);
-				$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
-				$this->redirect("/companies");
-				return;
-			}
-			
+				$this->redirect("/companies/paymentInfo/$appliedJobId");
+			}			
 		}else{
-			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
-			$this->redirect("/companies");
+			$this->Session->setFlash('May be you click on old link or you are not authorize to do it.', 'error');	
+			$this->redirect("/companies/newJob");
 			return;
 		}
 				//echo "<pre>"; print_r($applicants);  exit;

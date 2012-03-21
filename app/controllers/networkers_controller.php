@@ -71,10 +71,6 @@ class NetworkersController extends AppController {
 	function setting() {
 		$userId = $this->TrackUser->getCurrentUserId();		
 		
-		/* Networker-Setting Info
-		$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId),'order'=>array('NetworkerSettings.industry'=>'asc')));
-		
-		*/
 		$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId),
 												  'joins'=>array(array('table' => 'industry',
 										                               'alias' => 'ind',
@@ -103,9 +99,7 @@ class NetworkersController extends AppController {
 															 		),
 															 'order'=>array('NetworkerSettings.industry'=>'asc')		
 														 		)
-												 			);		
-		//echo "<pre>"; print_r($networkerData);exit;
-		
+												 			);	
 		$this->set('NetworkerData',$networkerData);
 		$this->set('industries',$this->Utility->getIndustry());
 		$this->set('specifications',$this->Utility->getSpecification());
@@ -370,10 +364,23 @@ class NetworkersController extends AppController {
 			$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
 			$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
 
-			$job_cond[$n] =  array('AND' => array(array('Job.industry' => $industry[$n]),
-                               					  array('Job.specification' => $specification[$n]),
-                                                  array('Job.city ' => $city[$n]),
-                                                  array('Job.state' => $state[$n])));
+			$tempCond = array();
+			if($industry[$n]>1){
+				$tempCond[] = array('Job.industry' => $industry[$n]);
+				
+			}
+			if($specification[$n])
+					$tempCond[] = array('Job.specification' => $specification[$n]);
+			if($city[$n])
+				$tempCond[] = array('Job.city ' => $city[$n]);
+            if($state[$n])
+            	$tempCond[] = array('Job.state' => $state[$n]);
+		      
+			
+			if(!$tempCond){
+				$tempCond = array(1);
+			}
+			$job_cond[$n] =  array('AND' =>$tempCond);
 			
 		}
 		
@@ -416,7 +423,7 @@ class NetworkersController extends AppController {
                                     array('state' => $state),),
 					  'AND'	=>array(array('is_active' => 1))); */
 
-		 $cond = array('OR' => $job_cond,
+		$cond = array('OR' => $job_cond,
 					   'AND' => array(array('is_active' => 1))); 
 
 		$this->paginate = array('conditions'=>$cond,

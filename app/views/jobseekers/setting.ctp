@@ -16,7 +16,7 @@
 	function check_email_subs(){
 		var sel_val = $("#JobseekersSubscribeEmail").val();
 		if ($('#JobseekersNotification').attr('checked') && sel_val=='') {
-			$("#email_setting").removeClass().addClass("terms-condition-error").html("Please Select Email Settings for Job Notifications*");
+			$("#email_setting").removeClass().addClass("js_terms-condition-error").html("Please Select Email Settings for Job Notifications*");
 			return false;
 		}
 	}	
@@ -74,7 +74,7 @@
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
 						</div>
-						<div style="float:left;">
+						<div style="float:left;width: 289px;">
 							<?php $industry_specification_array = array('1'=>'Industry specification 1',
 																		'2'=>'Industry specification 2',
 																		'3'=>'Industry specification 3',
@@ -97,7 +97,7 @@
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:""));?>
 						</div>
-						<div style="float:left;">
+						<div style="float:left;width: 289px;">
 							<?php echo $form -> input('industry_specification_2',array('type'=>'select',
 																	                   'label'=>'',
 																	                   'multiple'=>'multiple',
@@ -107,23 +107,41 @@
 											                                           'selected'=>isset($jobseekerData['specification_2'])?explode(",",$jobseekerData['specification_2']):""));?>
 						</div>
 					</div>
-					<div style=" clear :both;">
-						<div style="float: left; width: 302px;">
-							<?php echo $form->input('city', array('label' => 'Location:',
-																  'type'  => 'text',
-																  'class' => 'jobseekers_text_location required',
-																  'value' => isset($jobseekerData['city'])?$jobseekerData['city']:""));?>
-						</div>
-						<div style="float:left">
-							<?php $state_array = array('1'=>'state1','2'=>'state2','3'=>'state3','4'=>'state4');?>
-							<?php echo $form -> input('state',array('type'=>'select',
-																	'label'=>'',
-																	'options'=>$states,
-																	'empty' =>' -- Select state-- ',
-																	'class'=>'jobseeker_select required',
-																	'selected' => isset($jobseekerData['state'])?$jobseekerData['state']:""));?>
-						</div> 
-					</div>
+					
+							  <!-- 	Location :: State wise cities....	-->
+	  
+ <div style="float:left;margin-left: 0px;clear: both;">
+<?php echo $form -> input('state',array(
+											'type'=>'select',
+											'label'=>'Location: ',
+											'options'=>$states,
+											'empty' =>' -- All States-- ',
+											'class'=>'js_select_ls required',
+											'onchange'=>'return fillCities(this.value);',
+											'selected' => isset($jobseekerData['state'])?$jobseekerData['state']:""
+									)
+						);
+?>
+</div>
+<div style="float:left;">
+<?php echo $form -> input('city',array(
+											'type'=>'select',
+											'label'=>'',
+											'empty' =>' -- All Cities-- ',
+											'class'=>'js_select_city',
+									)
+						);
+?>							
+</div>
+	  
+	  
+      <!-- 	End of Location fields...	-->
+	  
+	  <div style=" clear :both;">
+	
+					
+					
+					
 					<div style=" clear :both;">
 						<?php $salary_array = array('25'=>'20K-30K','35'=>'30K-40K','45'=>'40K-50K','55'=>'50K-60K'); ?>
 						<?php // echo $form -> input('salary_range',array('type'=>'select',
@@ -138,7 +156,7 @@
 																  'value' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>
 					<div>
 						<b>Subscription Frequency:</b><p>
-						<div style="float:left;margin-top: 8px;">
+						<div style="float:left;margin-top: 8px;width: 616px;">
 							<?php if(isset($jobseekerData['notification']) && $jobseekerData['notification']==1){?>
 							<?php echo $form->input('notification', array('label' => '',
 																          'type'  => 'checkbox',
@@ -150,9 +168,8 @@
 																          'type'  => 'checkbox',
 																          'class' => '',));?>
 							<?php }?>
-							<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email  based on my information<span>
-						</div>
-						<div>
+							<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email based on my settings:<span>
+							<div style="float:right;margin-top: -12px;width: 129px;">
 							<?php if(isset($jobseekerData['notification']) && $jobseekerData['notification']==1){
 									$style = '';
 								}else{
@@ -168,6 +185,10 @@
 							</div>
 							<div id="email_setting"></div>
 						</div>
+							
+							
+						</div>
+						
 					</div>
 					<?php echo $form ->submit('Save');?>
 					<?php echo $form->end(); ?>
@@ -180,6 +201,27 @@
 </div>
 <script>
 $(document).ready(function(){
+	var city_id = <?php echo $jobseekerData['city'];?>;
+	fillCities(<?php echo $jobseekerData['state'];?>);
+	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
+	
 	$("#JobseekersAddForm").validate();
 });
+
+function fillCities($state_id)
+{
+	$.ajax({
+		url: "/utilities/getCitiesOfState/"+$state_id,
+	 	dataType:'json',
+		async:false,
+  		success: function(response){
+	 		var options = '<option value=""> -- All Cities-- </option>';
+			$.each(response, function(index, item) {
+                options += '<option value="' + index + '">' + item + '</option>';
+            });
+			$("select#JobseekersCity").html(options);
+  		}
+	});	
+}
+
 </script>
