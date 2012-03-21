@@ -150,7 +150,7 @@
 																          'type'  => 'checkbox',
 																          'class' => '',));?>
 							<?php }?>
-							<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email based on my network settings:<span>
+							<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email  based on my information<span>
 						</div>
 						<div>
 							<?php if(isset($jobseekerData['notification']) && $jobseekerData['notification']==1){
