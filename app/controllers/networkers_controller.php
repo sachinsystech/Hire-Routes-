@@ -34,12 +34,7 @@ class NetworkersController extends AppController {
 		$this->redirect('/networkers/setting');
 	}
 	
-	/*	Send subscripiton Email	*/
-	function sendNotifyEmail(){
-		$notifyId = $this->params['id'];
-		$this->Session->setFlash('Your E-mail  Notification has been saved successfuly.', 'success');				
-		$this->redirect('/users/networkerSetting');
-	}
+	
 	
 	/* 	Networker's Account-Profile page*/
 	function index(){
@@ -65,6 +60,17 @@ class NetworkersController extends AppController {
 				$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
          	}
 		}
+	}
+
+	/* save email notifications setting*/
+	
+	function sendNotifyEmail(){
+		$userId = $this->TrackUser->getCurrentUserId();
+			
+		if($this->Networkers->save($this->data['Networkers'])){
+			$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
+		}
+		$this->redirect('/networkers/setting');		
 	}
 	
 	/* 	Setting and Subscriptoin page*/
@@ -99,8 +105,11 @@ class NetworkersController extends AppController {
 															 		),
 															 'order'=>array('NetworkerSettings.industry'=>'asc')		
 														 		)
-												 			);	
+												 			);
+
+		$SubscriptionData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$userId)));	
 		$this->set('NetworkerData',$networkerData);
+		$this->set('SubscriptionData',$SubscriptionData['Networkers']);
 		$this->set('industries',$this->Utility->getIndustry());
 		$this->set('specifications',$this->Utility->getSpecification());
 		$this->set('states',$this->Utility->getState());

@@ -164,8 +164,12 @@
 								echo $html->link('view cover letter',array('controller'=>'/companies/','action' => '/viewResume/cover_letter/'.$applicant['JobseekerApply']['id'])); }?>
 						</span>
 					</td>
-					<td>--</td>
-					<td>--</td>
+					<td><?php if($applicant['JobseekerApply']['intermediate_users']!=''){
+								echo count(explode(",",$applicant['JobseekerApply']['intermediate_users']))+1;
+							  }else{
+								echo $applicant['JobseekerApply']['intermediate_users']+1;
+							  }?></td>
+					<td><?php echo $applicant['networkers']['contact_name'];?></td>
 					<td align="center" width="10%">
 						<?php
 							
@@ -177,7 +181,8 @@
 							
 							echo $this->Html->image("/img/icon/delete.png", array(
 							"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
-							'url' => "/companies/deleteJob/".$applicant['JobseekerApply']['id']."/".$applicant['JobseekerApply']['job_id'],
+							'url' => "javascript:void();",
+							'onclick'=>'javascript:return deleteItem('.$applicant['JobseekerApply']['id'].','.$applicant['JobseekerApply']['job_id'].');',
 							'title'=>'Reject'
 							));
 						?>
@@ -200,4 +205,12 @@
 function goTo(){
 	window.location.href="/companies/postJob";			
 }
+
+function deleteItem(id,jobid){
+	if (confirm("Are you sure to delete this?")){
+		window.location.href="/companies/rejectApplicant/"+id+"/"+jobid;
+	}
+	return false;
+}
 </script>
+
