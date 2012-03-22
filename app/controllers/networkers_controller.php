@@ -87,8 +87,7 @@ class NetworkersController extends AppController {
 		}
 		
 		$this->set('specifications',$this->Utility->getSpecification());
-		$this->set('industries',$this->Utility->getIndustry());		
-		//$this->set('cities',$this->Utility->getCity());
+		$this->set('industries',$this->Utility->getIndustry());
 		$this->set('states',$this->Utility->getState());
 	}
    

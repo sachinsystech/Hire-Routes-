@@ -101,11 +101,30 @@
 						</td>
 					</tr>
 				</table>
-			</div>	
+			</div>
 		<!-- middle conyent list -->
+	</div>
+	<div style="float:right;width:220px;text-align:center;">
+		<p><font size='5px'><b>Total Reward $<?php echo $job['Job']['reward'];?></b></font></br>
+		<font size='3px'><b>Your reward is up to $<?php echo $job['Job']['reward'];?></b></font></p></br>
+		<p><a href='httpRootUrl/how_it_works'>See how it works >></a></p></br>
+		<p>Know the perfact candidate for this job?</br>
+		<font size='3px'><a href='/users/login'><b>Login</b></a>
+		OR
+		<a href='/users/networkerSignup'><b>Register</b></a>
+		</font></br>
+		To share and get a Reward
+		</p></br>
+		<p>Are you the perfact candidate for this job?</br>
+		<font size='3px'><a href='/users/login'><b>Login</b></a>
+		OR
+		<a href='/users/jobseekerSignup'><b>Register</b></a>
+		</font></br>
+		To apply
+		</p>
 	</div>
 	<!-- middle section end -->
 </div>
-<?php  endif; ?>	
+<?php  endif; ?>
 
 	

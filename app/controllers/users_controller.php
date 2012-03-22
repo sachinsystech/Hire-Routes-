@@ -602,9 +602,19 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Username or password not matched.', 'error');	
 			
 			}else{
+				if($this->Session->check('redirection_url'))
+				{
+					$this->Session->write('redirection_url','null');// exit;
+					$this->redirect("/jobs");					
+				}
 				$this->redirect("/users/firstTime");		
 			}
-		}	
+		}
+		$redirect_url=$this->referer();
+		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url))
+		{
+			$this->Session->write('redirection_url',$redirect_url);
+		}		
 	}
 /**
  * Logs a user out, and returns the home page to redirect to.
@@ -621,6 +631,7 @@ class UsersController extends AppController {
 	function facebookUserSelection(){
 		
 	}
+	
 	
 }
 ?>

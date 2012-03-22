@@ -62,6 +62,8 @@
 	Router::connect('/companies/acceptApplicant/:id', array('controller' => 'companies', 'action' => 'acceptApplicant'), array('jobId' => '[0-9]+'));
 	Router::connect('/companies/jobStats/:jobId', array('controller' => 'companies', 'action' => 'jobStats'), array('jobId' => '[0-9]+'));
 
+	Router::connect('/companies/share_email', array('controller'=>'companies', 'action'=>'share_render'));
+	Router::connect('/companies/share_job_by_email', array('controller'=>'companies', 'action'=>'share_job_by_email'));
 	
 	
 	Router::connect('/jobs/', array('controller' => 'jobs', 'action' => 'index'));
@@ -72,8 +74,11 @@
 	Router::connect('/jobs/applyJob/:jobId/*', array('controller' => 'jobs','action' => 'applyJob'),
 												array('jobId' => '[0-9]+'));
 	Router::connect('/jobs/viewResume/:filetype/:id/:jobId/*', array('controller' => 'jobs','action' => 'viewResume'));
+	
+
 	//UTILITY
 	Router::connect('/utilities/getCitiesOfState/:state_id', array('controller'=>'utilities', 'action'=>'getCitiesOfState'));
+	Router::connect('/utilities/getSpecificationOfIndustry/:industry_id', array('controller'=>'utilities', 'action'=>'getSpecificationOfIndustry'));
 	
 	//Router::connect('/users/:action', array('controller' => 'users'));
 
