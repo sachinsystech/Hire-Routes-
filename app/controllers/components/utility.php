@@ -67,6 +67,7 @@ class UtilityComponent extends Object
         $saveCode = $this->Session->read('code');
         if($saveCode){
             $str = base64_decode($saveCode);
+	    echo $str;
             $code="";
             $data = explode("^",$str);
             $jobId = $data[0];

@@ -1,3 +1,31 @@
+<script>
+	$(document).ready(function(){
+	    $("#NetworkersNotification").click(onCheckChange);
+	});
+	
+	function onCheckChange(){
+		if ($('#NetworkersNotification').attr('checked')) {
+			$("#subs_div").show();
+		}else{
+    		$("#subs_div").hide();
+			$("select#NetworkersSubscribeEmail").val('0');
+			$("#email_setting").html(""); 
+		}
+
+	}
+
+	function check_email_subs(){
+		var sel_val = $("#NetworkersSubscribeEmail").val();
+		if (!$('#NetworkersNotification').attr('checked')) {
+			$("#email_setting").removeClass().addClass("js_terms-condition-error").html("Please Check for email notifications.*");
+			return false;
+		}
+		if ($('#NetworkersNotification').attr('checked') && sel_val=='') {
+			$("#email_setting").removeClass().addClass("js_terms-condition-error").html("Please Select Email Settings for Job Notifications*");
+			return false;
+		}
+	}	
+</script>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -121,28 +149,45 @@
 					
 				
 				</div>
-				<?php /* 
-				<div class="form_content" style="clear: both; margin-left: 150px;">
-					<b>Subscription Frequency:</b><p>
-					<div style="float:left;">		
-						<?php	echo $form->input('is_notify', array('label' => '<span style="font-size: 87%;">I would like to receive job notifications by email based on my network settings:<span>',
-																		'type'  => 'checkbox',
-																		)
-													 );
-						?>
-					</div>
-						
-					<div style="float:right;">	
-						<?php echo $form -> input('job_notification_email',array(
-																	'type'=>'select',
-																	'label'=>'',
-																	'options'=>array('Every 10 Post','Every Day','Every 3 Days','Every Week'),
-																	'class'=>'networker_select_job_notify'
-															)
-												);
-						*/ ?>
-					</div>
-				</div>						   
+				 <?php echo $form->create('', array('name'=>'Subscriptions','controller'=>'networkers','action' => 'sendNotifyEmail','onsubmit'=>'return check_email_subs();')); ?>
+				<div class="form_content">
+					<div>
+						<?php	if(isset($SubscriptionData)){ $id = $SubscriptionData['id']; } else { $id = "";}
+                                    echo $form->input('Networkers.id', array('label' => '',
+																	'type'  => 'hidden',
+																	'value' => $id
+																	)
+														 );?>
+						<div style="float:left;">	
+							<?php echo $form->input('notification', array('label' => '',
+																          'type'  => 'checkbox',
+																		  'class' => '',
+                                                                          'checked' => isset($SubscriptionData['notification'])?$SubscriptionData['notification']:"checked",
+																		  'value' => isset($SubscriptionData['notification'])?$SubscriptionData['notification']:""));?>
+							
+							<span>I would like to receive job notifications by email based on my information:<span>
+						</div>
+						<div>
+							<?php if(isset($SubscriptionData['notification']) && $SubscriptionData['notification']==1){
+									$style = '';
+								}else{
+									$style = 'style="display:none;"';
+							 	}?>
+							<?php $emil_post_array =array(''=>'Please Select','10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
+							<div id="subs_div" <?php echo $style;?>>
+								<?php echo $form -> input('subscribe_email',array('type'=>'select',
+																              'label'=>'',
+																              'options'=>$emil_post_array,
+																              'class'=>'networker_select_job_notify',
+																              'selected' => isset($SubscriptionData['subscribe_email'])?$SubscriptionData['subscribe_email']:""));?>
+							</div>
+							<div id="email_setting" style="padding-left:400px;"></div>
+						</div>
+						<div>
+							<?php echo $form ->submit('Save');?>
+						</div>
+				</div>
+				<?php echo $form->end(); ?>						   
 			</div>
 		<!-- middle conyent list -->
 
