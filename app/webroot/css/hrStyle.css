@@ -743,6 +743,17 @@ label.error{
     vertical-align: top;
     width: 315px;
 }
+.expry_date_error{
+    clear: both;
+    color: red;
+    display: block;
+    float: none;
+    font-size: 13.5px;
+    margin-left: 23px;
+    padding-left: 0.5em;
+    vertical-align: top;
+    width: 315px;
+}
 .networker_select_bg{
     background-color: #FDFDFD;
     border: 1px solid #000000;
@@ -1308,7 +1319,7 @@ label.error{
 #PaymentInfoPaymentInfoForm label{
 	font-size: 95%;
 	font-weight: bold;
-	width: 270px;
+	width: 330px;
 }
 
 .salary_range label.error{

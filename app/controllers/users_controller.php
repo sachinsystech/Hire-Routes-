@@ -330,7 +330,7 @@ class UsersController extends AppController {
 			$this->Email->send();
 		}catch(Exception $e){
 			//echo 'Message: ' .$e->getMessage();
-			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			//$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 			$this->redirect("/");
 			return;
 		}		
@@ -352,7 +352,7 @@ class UsersController extends AppController {
 			$this->Email->send();
 		}catch(Exception $e){
 			//echo 'Message: ' .$e->getMessage();
-			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			//$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 			$this->redirect("/");
 			return;
 		}		
@@ -590,7 +590,7 @@ class UsersController extends AppController {
 	function login() {
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");				
-			
+			return;
 		}
 
 		if(isset($this->data['User'])){
@@ -607,7 +607,8 @@ class UsersController extends AppController {
 			}else{
 				$this->redirect("/users/firstTime");		
 			}
-		}	
+		}
+			
 	}
 /**
  * Logs a user out, and returns the home page to redirect to.

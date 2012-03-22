@@ -79,6 +79,6 @@ function check_expdate() {
 </div>
 <script>
 function paynow(){
-	window.location.href="/companies/paypalProPayment";			
+	window.location.href="/companies/paypalProPayment/<?php echo $appliedJobId;?>";			
 }
 </script>
