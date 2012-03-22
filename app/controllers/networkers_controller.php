@@ -366,103 +366,108 @@ class NetworkersController extends AppController {
 		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
         
     	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
-        
-		for($n=0;$n<count($networker_settings);$n++){
-			$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
-			$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
-			$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
-			$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
-
-			$tempCond = array();
-			if($industry[$n]>1){
-				$tempCond[] = array('Job.industry' => $industry[$n]);
-				
-			}
-			if($specification[$n])
-					$tempCond[] = array('Job.specification' => $specification[$n]);
-			if($city[$n])
-				$tempCond[] = array('Job.city ' => $city[$n]);
-            if($state[$n])
-            	$tempCond[] = array('Job.state' => $state[$n]);
-		      
-			
-			if(!$tempCond){
-				$tempCond = array(1);
-			}
-			$job_cond[$n] =  array('AND' =>$tempCond);
-			
-		}
 		
-			   
-		$shortByItem = 'created';
-		$order		 = 'desc';
-        
-        if(isset($this->params['named']['display'])){
-	        $displayPageNo = $this->params['named']['display'];
-	        $this->set('displayPageNo',$displayPageNo);
+        if(count($networker_settings)>0){
+			for($n=0;$n<count($networker_settings);$n++){
+				$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
+				$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
+				$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
+				$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
+
+				$tempCond = array();
+				if($industry[$n]>1){
+					$tempCond[] = array('Job.industry' => $industry[$n]);
+				
+				}
+				if($specification[$n])
+						$tempCond[] = array('Job.specification' => $specification[$n]);
+				if($city[$n])
+					$tempCond[] = array('Job.city ' => $city[$n]);
+		        if($state[$n])
+		        	$tempCond[] = array('Job.state' => $state[$n]);
+				  
+			
+				if(!$tempCond){
+					$tempCond = array(1);
+				}
+				$job_cond[$n] =  array('AND' =>$tempCond);
+			
+			}
+		
+				   
+			$shortByItem = 'created';
+			$order		 = 'desc';
+		    
+		    if(isset($this->params['named']['display'])){
+			    $displayPageNo = $this->params['named']['display'];
+			    $this->set('displayPageNo',$displayPageNo);
+			}
+			if(isset($this->params['named']['shortby'])){
+			    $shortBy = $this->params['named']['shortby'];
+			    $this->set('shortBy',$shortBy);
+			    switch($shortBy){
+			    	case 'date-added':
+			    				$shortByItem = 'created'; 
+								$order		 = 'desc';
+			    				break;	
+			    	case 'company-name':
+			    				$shortByItem = 'company_name';
+								$order		 = 'asc'; 
+			    				break;
+			    	case 'industry':
+			    				$shortByItem = 'industry';
+								$order		 = 'asc'; 
+			    				break;
+			    	case 'salary':
+			    				$shortByItem = 'salary_from';
+								$order		 = 'asc'; 
+			    				break;
+			    	default:
+			    			$this->redirect("/jobs");	        		        	
+			    }
+			}
+
+			/* $cond = array('OR' => array(array('industry' => $industry),
+		                                array('specification' => $specification),
+		                                array('city ' => $city),
+		                                array('state' => $state),),
+						  'AND'	=>array(array('is_active' => 1))); */
+
+			$cond = array('OR' => $job_cond,
+						   'AND' => array(array('is_active' => 1))); 
+
+			$this->paginate = array('conditions'=>$cond,
+		                            'limit' => isset($displayPageNo)?$displayPageNo:5,
+									'joins'=>array(array('table' => 'industry',
+												         'alias' => 'ind',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.industry = ind.id',)
+											        ),
+												   array('table' => 'specification',
+												         'alias' => 'spec',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.specification = spec.id',)
+											        ),
+												   array('table' => 'cities',
+												         'alias' => 'city',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.city = city.id',)
+											        ),
+												   array('table' => 'states',
+												         'alias' => 'state',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.state = state.id',)
+											        )),
+		                            'order' => array("Job.$shortByItem" => $order,),
+									'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
+		    
+		    $jobs = $this->paginate('Job');	
+
+			$newjobs = $this->Job->find('count',array('conditions'=>$cond));	
+		}else{
+			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'error');				
+			$this->redirect('/networkers/setting');
 		}
-		if(isset($this->params['named']['shortby'])){
-	        $shortBy = $this->params['named']['shortby'];
-	        $this->set('shortBy',$shortBy);
-	        switch($shortBy){
-	        	case 'date-added':
-	        				$shortByItem = 'created'; 
-							$order		 = 'desc';
-	        				break;	
-	        	case 'company-name':
-	        				$shortByItem = 'company_name';
-							$order		 = 'asc'; 
-	        				break;
-	        	case 'industry':
-	        				$shortByItem = 'industry';
-							$order		 = 'asc'; 
-	        				break;
-	        	case 'salary':
-	        				$shortByItem = 'salary_from';
-							$order		 = 'asc'; 
-	        				break;
-	        	default:
-	        			$this->redirect("/jobs");	        		        	
-	        }
-		}
-
-		/* $cond = array('OR' => array(array('industry' => $industry),
-                                    array('specification' => $specification),
-                                    array('city ' => $city),
-                                    array('state' => $state),),
-					  'AND'	=>array(array('is_active' => 1))); */
-
-		$cond = array('OR' => $job_cond,
-					   'AND' => array(array('is_active' => 1))); 
-
-		$this->paginate = array('conditions'=>$cond,
-                                'limit' => isset($displayPageNo)?$displayPageNo:5,
-								'joins'=>array(array('table' => 'industry',
-										             'alias' => 'ind',
-										             'type' => 'LEFT',
-										             'conditions' => array('Job.industry = ind.id',)
-									            ),
-											   array('table' => 'specification',
-										             'alias' => 'spec',
-										             'type' => 'LEFT',
-										             'conditions' => array('Job.specification = spec.id',)
-									            ),
-											   array('table' => 'cities',
-										             'alias' => 'city',
-										             'type' => 'LEFT',
-										             'conditions' => array('Job.city = city.id',)
-									            ),
-											   array('table' => 'states',
-										             'alias' => 'state',
-										             'type' => 'LEFT',
-										             'conditions' => array('Job.state = state.id',)
-									            )),
-                                'order' => array("Job.$shortByItem" => $order,),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
-        
-        $jobs = $this->paginate('Job');	
-
-		$newjobs = $this->Job->find('count',array('conditions'=>$cond));	
 		$this->set('NewJobs',$newjobs);
 		$this->set('jobs',$jobs);
 	}

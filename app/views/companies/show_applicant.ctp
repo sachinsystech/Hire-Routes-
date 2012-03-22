@@ -165,11 +165,13 @@
 						</span>
 					</td>
 					<td><?php if($applicant['JobseekerApply']['intermediate_users']!=''){
-								echo count(explode(",",$applicant['JobseekerApply']['intermediate_users']))+1;
+								$degree = count(explode(",",$applicant['JobseekerApply']['intermediate_users']))+1;
 							  }else{
-								echo $applicant['JobseekerApply']['intermediate_users']+1;
-							  }?></td>
-					<td><?php echo $applicant['networkers']['contact_name'];?></td>
+								$degree = $applicant['JobseekerApply']['intermediate_users']+1;
+							  } echo $degree;?></td>
+					<td><?php // echo $applicant['networkers']['contact_name'];
+							if($degree==1){ echo "Personal";} 
+							if($degree>1){ echo "Hireroutes";} ?></td>
 					<td align="center" width="10%">
 						<?php
 							
