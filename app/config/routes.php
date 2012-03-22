@@ -62,6 +62,7 @@
 	Router::connect('/companies/acceptApplicant/:id', array('controller' => 'companies', 'action' => 'acceptApplicant'), array('jobId' => '[0-9]+'));
 	Router::connect('/companies/jobStats/:jobId', array('controller' => 'companies', 'action' => 'jobStats'), array('jobId' => '[0-9]+'));
 
+
 	Router::connect('/companies/share_email', array('controller'=>'companies', 'action'=>'share_render'));
 	Router::connect('/companies/share_job_by_email', array('controller'=>'companies', 'action'=>'share_job_by_email'));
 	
