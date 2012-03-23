@@ -57,5 +57,6 @@ class UtilityComponent extends Object
 		}		
 		return $object_to_key_value_array;
 	}
+	
 }
 ?>

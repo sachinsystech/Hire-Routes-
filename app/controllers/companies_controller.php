@@ -524,7 +524,7 @@ class CompaniesController extends AppController {
 /**
  * For test send_email
  */
-	function share_job_by_email()
+	function shareJobByEmail()
 	{
 		$this->autoRender= false ;
 		if(isset($this->params['form']['toEmail'])&&!empty($this->params['form']['toEmail']))
@@ -532,7 +532,24 @@ class CompaniesController extends AppController {
 			$from='traineest@gmail.com';
 			$to=trim($this->params['form']['toEmail']);
 			$subject=$this->params['form']['subject'];
-			$job_details=$this->Job->find('first',array('fields'=>array('id','title','reward','company_name','city','state'),'conditions'=>array('id'=>5, 'is_active'=>1)));
+			$job_details=$this->Job->find('first',array('fields'=>array(
+														'Job.id','title','reward','Company.company_name','city','state'
+														),
+														'recursive'=>-1,
+														'joins'=>array(
+															array(
+															'table'=>'companies',
+															'alias'=>'Company',
+															'type'=>'inner',
+															'fields'=>'Company.id,Company.company_name',
+															'conditions'=>array(
+																'Job.company_id = Company.id'
+																)
+															)
+														),
+														'conditions'=>array('Job.id'=>5, 'is_active'=>1)
+													)
+												);
 			$message=$this->params['form']['message'];
 			if(!isset($from)||empty($job_details))
 				return "Email address not found";

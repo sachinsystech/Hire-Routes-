@@ -177,7 +177,7 @@ class UsersController extends AppController {
 					return;
 				}
 			}
-		}	
+		}
 	}
 	
 /**
@@ -232,7 +232,7 @@ class UsersController extends AppController {
 					return;
 				}
 			}
-		}	
+		}
 	}
 	
 /**
@@ -604,17 +604,15 @@ class UsersController extends AppController {
 			}else{
 				if($this->Session->check('redirection_url'))
 				{
-					$this->Session->write('redirection_url','null');// exit;
-					$this->redirect("/jobs");					
+					$redirect_to=$this->Session->read('redirection_url');
+					$this->Session->delete('redirection_url');
+					$this->redirect($redirect_to);					
 				}
+				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
 				$this->redirect("/users/firstTime");		
 			}
 		}
-		$redirect_url=$this->referer();
-		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url))
-		{
-			$this->Session->write('redirection_url',$redirect_url);
-		}		
+		$this->setRedirectionUrl();
 	}
 /**
  * Logs a user out, and returns the home page to redirect to.
@@ -632,6 +630,14 @@ class UsersController extends AppController {
 		
 	}
 	
-	
+	private function setRedirectionUrl()
+	{
+		$redirect_url=$this->referer();
+		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url))
+		{
+			$this->Session->write('redirection_url',$redirect_url);
+		}
+		return true;
+	}
 }
 ?>

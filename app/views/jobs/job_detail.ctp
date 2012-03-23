@@ -92,7 +92,8 @@
 							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
                             <div style="padding:20px;">
                             	<div style="font-size:15px;padding-bottom:20px">
-									<a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobs/applyJob/<?php echo $job['Job']['id'];?>">
+	
+									<a style="color: #000000;background:rgb(0, 255, 0);text-decoration: none;text-align:center;padding-top:5px;font-weight:normal;display:block;width:200px;height:30px;" href="/jobs/applyJob/<?php echo $job['Job']['id'];?>">
 										<strong>Apply for this job</strong>
 									</a>
 								</div>
@@ -108,23 +109,24 @@
 		<p><font size='5px'><b>Total Reward $<?php echo $job['Job']['reward'];?></b></font></br>
 		<font size='3px'><b>Your reward is up to $<?php echo $job['Job']['reward'];?></b></font></p></br>
 		<p><a href='httpRootUrl/how_it_works'>See how it works >></a></p></br>
-		<p>Know the perfact candidate for this job?</br>
-		<font size='3px'><a href='/users/login'><b>Login</b></a>
-		OR
-		<a href='/users/networkerSignup'><b>Register</b></a>
-		</font></br>
-		To share and get a Reward
-		</p></br>
-		<p>Are you the perfact candidate for this job?</br>
-		<font size='3px'><a href='/users/login'><b>Login</b></a>
-		OR
-		<a href='/users/jobseekerSignup'><b>Register</b></a>
-		</font></br>
-		To apply
-		</p>
+		<?php if(empty($userrole['role'])){?>
+			<p>Know the perfact candidate for this job?</br>
+			<font size='3px'><a href='/users/login'><b>Login</b></a>
+			OR
+			<a href='/users/networkerSignup'><b>Register</b></a>
+			</font></br>
+			To share and get a Reward
+			</p></br>
+			<p>Are you the perfact candidate for this job?</br>
+			<font size='3px'><a href='/users/login'><b>Login</b></a>
+			OR
+			<a href='/users/jobseekerSignup'><b>Register</b></a>
+			</font></br>
+			To apply
+			</p>
+		<?php }?>
 	</div>
 	<!-- middle section end -->
 </div>
 <?php  endif; ?>
 
-	

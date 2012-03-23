@@ -94,21 +94,18 @@ function share()
 	var to_email=$('#CompaniesToEmail').val();
 	if(to_email!=undefined)
 		validateEmail(to_email);
-	else
-	{
-		$.ajax({
-			url: "/companies/share_job_by_email",
-			type: "post",
-			data: {toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
-  			success: function(response){
-					$('#message').html(response);		
-				},
-			error:function(response)
-			{
-				$('#message').html("ERROR:");
-			}
-		});
-	}
+	$.ajax({
+		url: "/companies/shareJobByEmail",
+		type: "post",
+		data: {toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
+  		success: function(response){
+				$('#message').html(response);		
+			},
+		error:function(response)
+		{
+			$('#message').html("ERROR:");
+		}
+	});
 	return false;
 }
 
