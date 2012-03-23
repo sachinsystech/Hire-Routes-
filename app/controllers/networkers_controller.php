@@ -283,12 +283,11 @@ class NetworkersController extends AppController {
 
 	function getRecursiveData($userId){
 
-		$test2   = "";		
 		$Users   = $this->User->find('all',array('conditions'=>array('User.parent_user_id'=>$userId)));
 		foreach($Users as $userkey=>$user){
-			echo $test2.=$this->getRecursiveData($user['User']['id']);
+			$userId.=$this->getRecursiveData($user['User']['id']);
 		}
-		return $test2;
+		return $userId;
 	}
 	
 	/*	Adding contacts by Importing CSV	*/
