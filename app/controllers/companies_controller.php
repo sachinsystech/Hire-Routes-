@@ -471,15 +471,24 @@ list archive jobs..
 												  'alias' => 'jobseekers',
 												  'type' => 'LEFT',
 												  'conditions' => array('JobseekerApply.user_id = jobseekers.user_id ')
+											     ),
+											array('table' => 'networkers',
+												  'alias' => 'networkers',
+												  'type' => 'LEFT',
+												  'conditions' => array('SUBSTRING_INDEX(JobseekerApply.intermediate_users, ",", -1) = networkers.user_id')
 											     )
 									      ),
 							'limit' => 10, // put display fillter here
 							'order' => array('JobseekerApply.id' => 'desc'), // put sort fillter here
 							'recursive'=>0,
-							'fields'=>array('JobseekerApply.*,jobseekers.contact_name'),
+							'fields'=>array('JobseekerApply.*,
+											jobseekers.contact_name,networkers.contact_name'),
 							
 							);
+				
+
 				$applicants = $this->paginate("JobseekerApply");
+				//echo "<pre>";  print_r($applicants);
 				$this->set('applicants',$applicants);
 				$this->set('jobId',$jobId);
 			}else{
@@ -598,16 +607,18 @@ list archive jobs..
 	}
 	
 	/****** Delete Job *******/
-	function deleteJob(){
+	function rejectApplicant(){
 		$userId = $this->TrackUser->getCurrentUserId();
 		$id = $this->params['id'];
-		$JobId = $this->params['jobId'];
+		$JobId = $this->params['jobId']; 
 		if($userId && $id){
 			
-			$this->JobseekerApply->updateAll(array('is_active'=>2), array('JobseekerApply.id'=>$id));
-
-			$this->Session->setFlash('Applicant has been rejected successfully.', 'success');	
-			$this->redirect("/companies/showApplicant/".$JobId);
+			if($this->JobseekerApply->updateAll(array('is_active'=>2), array('JobseekerApply.id'=>$id))){
+				$this->Session->setFlash('Applicant has been rejected successfully.', 'success');
+			}else{
+				$this->Session->setFlash('Error occurred while rejecting applicant.Please try later!', 'error');
+			}	
+				$this->redirect("/companies/showApplicant/".$JobId);
 			return;
 		}else{
 			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	

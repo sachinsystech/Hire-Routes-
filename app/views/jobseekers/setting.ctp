@@ -8,7 +8,8 @@
 			$("#subs_div").show();
 		}else{
     		$("#subs_div").hide();
-			$("select#JobseekersSubscribeEmail").val('0'); 
+			$("select#JobseekersSubscribeEmail").val('0');
+			$("#email_setting").html(""); 
 		}
 
 	}
@@ -168,7 +169,7 @@
 																          'type'  => 'checkbox',
 																          'class' => '',));?>
 							<?php }?>
-							<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email based on my settings:<span>
+							<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email based on my information:<span>
 							<div style="float:right;margin-top: -12px;width: 129px;">
 							<?php if(isset($jobseekerData['notification']) && $jobseekerData['notification']==1){
 									$style = '';
