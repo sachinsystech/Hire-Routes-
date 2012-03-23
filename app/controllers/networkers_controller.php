@@ -268,6 +268,28 @@ class NetworkersController extends AppController {
 			$this->set('editContact',$contact['NetworkerContact']);
 		}       
 	}
+
+	/* to show network statistics*/
+	function networkerData(){
+		$parent_id = null;
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$test = "";
+		$Users   = $this->User->find('all',array('conditions'=>array('User.parent_user_id'=>$userId)));
+		foreach($Users as $userkey=>$user){
+			$test.= $this->getRecursiveData($user['User']['id']);			
+		}
+		echo $test;
+	}
+
+	function getRecursiveData($userId){
+
+		$test2   = "";		
+		$Users   = $this->User->find('all',array('conditions'=>array('User.parent_user_id'=>$userId)));
+		foreach($Users as $userkey=>$user){
+			echo $test2.=$this->getRecursiveData($user['User']['id']);
+		}
+		return $test2;
+	}
 	
 	/*	Adding contacts by Importing CSV	*/
 	function importCsv() {
