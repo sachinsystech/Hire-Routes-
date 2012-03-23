@@ -64,7 +64,7 @@
 
 
 	Router::connect('/companies/share_email', array('controller'=>'companies', 'action'=>'share_render'));
-	Router::connect('/companies/share_job_by_email', array('controller'=>'companies', 'action'=>'share_job_by_email'));
+	Router::connect('/companies/share_job_by_email', array('controller'=>'companies', 'action'=>'shareJobByEmail'));
 	
 	
 	Router::connect('/jobs/', array('controller' => 'jobs', 'action' => 'index'));
