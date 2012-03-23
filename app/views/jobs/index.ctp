@@ -1,28 +1,17 @@
-<?php
-//$options['url'] = "/test/abc:1,2,3,4";
-//$this->Paginator->options($options);
-?>
 
 <!-- ------------------------ ALL JOBS LISTING -------------------------->
+
 <script>
 	$(document).ready(function(){
-	    $("#switch_display").change(onSelectChange);
-		$("#short_by").change(onSelectShortByChange);
 		$("#slider").slider();
+	    $("#switch_display").change(onSelectChange);
+		$("#short_by").change(onSelectChange);		
 	});
 	function onSelectChange(){
-	    var selected = $("#switch_display option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobs/index/display:"+selected.text();
-	    }
-	}
-	function onSelectShortByChange(){
-	    var selected = $("#short_by option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobs/index/shortby:"+selected.val();
-	    }
-	}
-	
+	    var displaySelected = $("#switch_display option:selected");
+		var shortSelected = $("#short_by option:selected"); 
+		window.location.href="/jobs/index/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
+	}	
 	$(function() {
 		$( "#slider-range" ).slider({
 			range: true,
@@ -94,8 +83,7 @@
 			   $(".flip_company").text("+");
 			}
 	  });
-	});       
-    }
+	}); 
 </script>
 <?php if(!isset($job)): ?>
 
@@ -178,9 +166,9 @@
 				<div style="clear:both"></div>
 		
 				<div class="narrowby_city panel_location" style="display:none;">
-					<?php  foreach($cities as $city):?>
+					<?php  foreach($location as $key=>$value):?>
 						<div>
-							<?php	echo $form->input("City.$city", array('label' => "<span>$city</span>",
+							<?php	echo $form->input("State.$key", array('label' => "<span>$value</span>",
 														'type'  => 'checkbox',));
 							?>
 						</div>

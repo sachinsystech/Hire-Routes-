@@ -8,9 +8,9 @@
 				<li>My Employees</li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
+		<!--<div>Feed Back</div>
 		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
+		<div class="feedbackSubmit">Submit</div>-->
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -50,19 +50,11 @@
 					</div>
 				
 				</div>
-			</div>	
-		
-		
-		
-		
-		
-			
+			</div>			
 			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
 		<!-- middle conyent list -->
-
 	</div>
 	<!-- middle section end -->
-
 </div>
 
 <script>

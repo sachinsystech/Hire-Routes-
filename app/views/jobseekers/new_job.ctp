@@ -22,19 +22,24 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/newJob"><span>New Jobs</span></a></li>
-                <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/appliedJob"><span>Applied Jobs</span></a></li>
-				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href=""><span>My Network</span></li>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/newJob"><span>My Jobs</span></a></li>
 				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
 	<div class="rightBox" >
+		<!-- middle conent top menu start -->
+		<div class="topMenu">
+			<ul style="float:left">
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;">Inbox - <?php echo $NewJobs;?></a></li>	
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/appliedJob">Applied - <?php echo $AppliedJobs;?></a></li>	
+                <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
+			</ul>
+			
+		</div>		
+		
 		<div class="middleBox">
 			<div class="jobs_topMenu">
 				<div>
@@ -48,12 +53,14 @@
 					</div>
 					<div style="padding-left:280px;">
 						<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
-						<?php echo $form -> input('switch_display',array(
+						<?php if($this->Paginator->numbers()){
+								echo $form -> input('switch_display',array(
 												  'type'=>'select',
 												  'label'=>"< < <".$this->Paginator->numbers()."> > > DISPLAYING </span>",
 												  'options'=>$display_page_no,
 												  'class'=>'job_select_diplay',
-												  'selected'=>isset($displayPageNo)?$displayPageNo:5,));?>
+												  'selected'=>isset($displayPageNo)?$displayPageNo:5,));
+							}?>
 					</div>
 				</div>	
 			</div>		
@@ -69,11 +76,11 @@
 							<tr>
 								<td>
 									<div>
-										<div><?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>									
+										<div><?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>								<div style="float:right"><b>Reward : </b><?php echo $job['Job']['reward'];?>$</div>										
 									</div>
 									<div style="clear:both"></div>			
                                 	<div>
-										<?php	echo $job['Job']['company_name']."- ".$job['Job']['city'].",".$job['Job']['state']."<br>";
+										<?php	echo $job['Job']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
 												echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
 												echo $job_array[$job['Job']['job_type']]."<br>";
 												echo $job['Job']['short_description']."<br>";?>

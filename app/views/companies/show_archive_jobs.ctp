@@ -7,7 +7,7 @@
 	function onSelectChange(){
 	    var displaySelected = $("#switch_display option:selected");
 		var shortSelected = $("#short_by option:selected"); 
-		window.location.href="/companies/newJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
+		window.location.href="/companies/showArchiveJobs/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
 	}
 </script>
 <div class="page">
@@ -15,7 +15,7 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li class="active">My Jobs</li>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob">My Jobs</a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
 				<li>My Employees</li>
 			</ul>
@@ -27,8 +27,8 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li class="active">Jobs - <?php echo count($jobs);?></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showArchiveJobs">Archive - <?php echo $archJobCount;?> </a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob">Jobs - <?php echo $activejobCount;?></a></li>
+				<li class="active">Archive - <?php echo count($jobs);?></li>
 				<li> Data </li>
 			</ul>
 		</div>
@@ -62,7 +62,7 @@
 				<tr>
 					<th style="width:53%">Title</th>
 					<th style="width:20%">Submissions</th>
-					<th  style="width:27%">Action</th>
+					<th  style="width:17%">Action</th>
 				</tr>
 				<?php if(empty($jobs)){ ?>
 				<tr>
@@ -84,21 +84,6 @@
                         'title'=> 'Edit'
 						));
 
-						echo $this->Html->image("/img/icon/ok.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/archiveJob/".$job['Job']['id'],
-                        'title'=>'Archive'
-						));
-						echo $this->Html->image("/img/icon/person.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/showApplicant/".$job['Job']['id'],
-                        'title'=>'Applicant'
-						));
-						echo $this->Html->image("/img/icon/static.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/jobStats/".$job['Job']['id'],
-                        'title'=>'Statistics'
-						));
 						echo $this->Html->image("/img/icon/delete.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
 						'url' => "#",

@@ -8,9 +8,6 @@
 				<li>My Employees</li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -32,19 +29,27 @@
 
 			<div class="middleBox">
 				<div class="job_data">
-					<table>	
+					<table style="width:100%">
 						<tr>
-							<td>Date</td>
-							<td><strong>#</strong></td>
-							<td><strong>Payment Method</strong></td>
-							<td><strong>Payment Amount</strong></td>
+							<td style="text-align:center;"><strong>#</strong></td>
+							<td style="text-align:center;"><strong>Transication-Id</strong></td>
+							<td style="text-align:center;"><strong>Date</strong></td>
+							<td style="text-align:center;width: 25%;"><strong>Payment Amount</strong></td>
 						</tr>
+						<?php $sn=1;?>
+						<?php if(empty($PaymentHistory)){ ?>
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>						
+							<td colspan="100%">Sorry, No Payment History found.</td>
+						</tr>
+						<?php } ?>
+						<?php foreach($PaymentHistory as $PH):?>	
+						<tr>
+							<td style="text-align:center;"><?php echo $sn++; ?></td>
+							<td style="text-align:center;"><?php echo$this->Html->link($PH['PaymentHistory']['transaction_id'], '/companies/paymentHistoryInfo/'.$PH['PaymentHistory']['transaction_id']); ?></td>
+							<td style="text-align:center;"><?php echo $PH['PaymentHistory']['paid_date']; ?></td>
+							<td><span style="float: right; margin-right: 30px;"><?php echo number_format($PH['PaymentHistory']['amount'],'2','.',''); ?><b>$</b></span></td>
+						</tr>
+						<?php endforeach; ?>
 					</table>
 				</div>
 			</div>	

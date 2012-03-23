@@ -27,9 +27,6 @@
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -38,7 +35,7 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Inbox - <?php echo "15"?></a></li>	
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Inbox - <?php echo $NewJobs;?></a></li>	
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Shared - 10</a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#"> Data </a></li>			
@@ -59,15 +56,17 @@
 					?>
 				</div>
 				
-				<div style="padding-left:350px;">
+				<div style="float: right;margin-right: 100px;">
 					<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
-					<?php echo $form -> input('switch_display',array(
+					<?php if($this->Paginator->numbers()){
+							echo $form -> input('switch_display',array(
 												'type'=>'select',
 												'label'=>"< < <".$this->Paginator->numbers()."> > > DISPLAYING </span>",
 												'options'=>$display_page_no,
 												'class'=>'job_select_diplay',
 												'selected'=>isset($displayPageNo)?$displayPageNo:5,
-												));?>
+												));
+						}?>
 				</div>
 			</div>	
 		</div>
@@ -85,7 +84,7 @@
 								</div>
 								<div style="clear:both"></div>
                                 <div>
-									<?php	echo $job['Job']['company_name']."- ".$job['Job']['city'].",".$job['Job']['state']."<br>";
+									<?php	echo $job['Job']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
 											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
 											echo $job_array[$job['Job']['job_type']]."<br>";
 											echo $job['Job']['short_description']."<br>";

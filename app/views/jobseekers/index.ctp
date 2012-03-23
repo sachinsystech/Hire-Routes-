@@ -1,12 +1,21 @@
+<?php 
+/*
+
+*/
+?>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
+
 			<?php echo $this->element('side_menu'); ?>
+
+			<ul>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/newJob"><span>My Jobs</span></a></li>
+ 				<li class="active"><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
+			</ul>
+
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -16,7 +25,7 @@
 			<ul>
                 <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/jobProfile">Job Profile</a></li>	
 	            <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/setting">Settings/Subscription</a></li>	
-                <li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">Profile</a></li>
+                <li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">Account Profile</a></li>
 			</ul>
             <ul style="float:right">
 				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/editProfile"><span>Edit</span></a></li>

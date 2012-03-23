@@ -9,9 +9,6 @@
 				<li>My Employees</li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -74,6 +71,7 @@
 
 
 	<div style=" clear :both;">
+												<?php /* ?>
 	  <div style="float: left; width: 302px;">
 		  <?php echo $form->input('city', array('label' => 'Location:',
 													  'type'  => 'text',
@@ -96,7 +94,40 @@
 	  </div> 
 	</div>
 	  <div style="clear: both;"></div>
-	<div class="salary_range">
+	  <?php */?>
+	  
+	  
+	  <!-- 	Location :: State wise cities....	-->
+	  
+ <div style="float:left;margin-left: -7px;clear: both;">
+<?php echo $form -> input('state',array(
+											'type'=>'select',
+											'label'=>'Location: ',
+											'options'=>$states,
+											'empty' =>' -- All States-- ',
+											'class'=>'pj_select_ls required',
+											'onchange'=>'return fillCities(this.value);'
+									)
+						);
+?>
+</div>
+<div style="float:left;">
+<?php echo $form -> input('city',array(
+											'type'=>'select',
+											'label'=>'',
+											'empty' =>' -- All Cities-- ',
+											'class'=>'job_select__i_s'
+									)
+						);
+?>							
+</div>
+	  
+	  
+      <!-- 	End of Location fields...	-->
+	  
+	  <div style=" clear :both;">
+	  
+	<div class="salary_range">				
 		<div style="width: 130px;float:left">Annual salary Range</div>
 		<div style="width: 130px;float:left">	
 			<?php	echo $form->input('salary_from', array('label' => 'From',
@@ -134,7 +165,7 @@
 	  <div style="clear: both;"></div>
 <div style="text-align:center">
 	<?php echo $form->submit('Save for Later',array('div'=>false,'name'=>'save','value'=>'later')); ?>
-	<?php echo $form->submit('Post and Share Job with Network',array('div'=>false,'name'=>'save','value'=>'share')); ?>
+	<?php //echo $form->submit('Post and Share Job with Network',array('div'=>false,'name'=>'save','value'=>'share')); ?>
 </div>
  <?php echo $form->end(); ?>
  </div>
@@ -151,9 +182,22 @@
 
 
 <script>
-	$(document).ready(function(){
-		$("#JobPostJobForm").validate();
+$(document).ready(function(){
+	$("#JobPostJobForm").validate();
+});
+function fillCities($state_id)
+{
+	$.ajax({
+		url: "/utilities/getCitiesOfState/"+$state_id,
+	 	dataType:'json',
+  		success: function(response){
+	 		var options = '<option value=""> -- All Cities-- </option>';
+			$.each(response, function(index, item) {
+                options += '<option value="' + index + '">' + item + '</option>';
+            });
+			$("select#JobCity").html(options);
+  		}
 	});
-
+}
 </script>
 

@@ -41,6 +41,9 @@
 	Router::connect('/jobseekerInformation', array('controller' => 'home', 'action' => 'jobseekerInformation'));		
 	Router::connect('/companies/archiveJob/:id', array('controller' => 'Companies','action' => 'archiveJob'),array('id' => '[0-9]+')); 
 	Router::connect('/companies/showApplicant/:id', array('controller' => 'Companies','action' => 'showApplicant'),array('id' => '[0-9]+')); 
+	Router::connect('/companies/rejectApplicant/:id/:jobId', array('controller' => 'Companies','action' => 'deleteJob'),array('id' => '[0-9]+','jobId' => '[0-9]+')); 
+
+	Router::connect('/companies/viewResume/:ftype/:id', array('controller' => 'Companies','action' => 'viewResume')); 
 
 
 	Router::connect('/users/saveFacebookUser/:userType', array('controller' => 'users', 'action' => 'saveFacebookUser'));
@@ -57,14 +60,20 @@
 	Router::connect('/companies', array('controller' => 'companies', 'action' => 'accountProfile'));
 	Router::connect('/companies/editJob/:jobId', array('controller' => 'companies', 'action' => 'editJob'));
 	Router::connect('/companies/editProfile', array('controller' => 'companies', 'action' => 'editProfile'));
-
-	Router::connect('/companies/checkout/', array('controller' => 'companies', 'action' => 'checkout'));
+	Router::connect('/companies/checkout/:id', array('controller' => 'companies', 'action' => 'checkout'));
+	Router::connect('/companies/paypalProPayment/:id', array('controller' => 'companies', 'action' => 'paypalProPayment'));
+	Router::connect('/companies/paymentHistoryInfo/:tid', array('controller' => 'companies', 'action' => 'paymentHistoryInfo'));
+	Router::connect('/companies/paymentInfo/', array('controller' => 'companies', 'action' => 'paymentInfo'));
+	Router::connect('/companies/paymentInfo/:id', array('controller' => 'companies', 'action' => 'paymentInfo'));
 	Router::connect('/companies/acceptApplicant/:id', array('controller' => 'companies', 'action' => 'acceptApplicant'), array('jobId' => '[0-9]+'));
 	Router::connect('/companies/jobStats/:jobId', array('controller' => 'companies', 'action' => 'jobStats'), array('jobId' => '[0-9]+'));
 
 
+
 	Router::connect('/companies/share_email', array('controller'=>'companies', 'action'=>'share_render'));
 	Router::connect('/companies/share_job_by_email', array('controller'=>'companies', 'action'=>'shareJobByEmail'));
+
+
 	
 	
 	Router::connect('/jobs/', array('controller' => 'jobs', 'action' => 'index'));
