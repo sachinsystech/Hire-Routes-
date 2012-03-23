@@ -29,43 +29,44 @@
 
 			<div class="middleBox">
 				<div class="job_data">
-					<div>PAYMENT INFO ::</div>
-					<div class="payment_info" style="width:400px;margin-left:50px">
-						<div style="clear:both">							
-							<div style="float:left">Transaction-Id:</div>
-							<div style="float:right"><?php echo $PaymentDetail['PaymentHistory']['transaction_id']; ?></div>
+					<div style="font-weight: bold;margin:10px;"><u>PAYMENT INFO</u> ::</div>
+					<div class="payment_info" style="width:500px;margin-left:50px">
+						<div style="clear:both;">							
+							<div style="float:left;font-weight: bold;width: 130px;">Transaction-Id:</div>
+							<div style="float:left"><?php echo $PaymentDetail['PaymentHistory']['transaction_id']; ?></div>
 						</div>
 						<div style="clear:both">							
-							<div style="float:left">Date:</div>
-							<div style="float:right"><?php echo $PaymentDetail['PaymentHistory']['paid_date']; ?></div>
+							<div style="float:left;font-weight: bold;width: 130px;">Date:</div>
+							<div style="float:left"><?php echo $PaymentDetail['PaymentHistory']['paid_date']; ?></div>
 						</div>
 						<div style="clear:both">							
-							<div style="float:left">Reward(Amout):</div>
-							<div style="float:right"><?php echo number_format($PaymentDetail['PaymentHistory']['amount'],'2','.',''); ?><b>$</b></div>
+							<div style="float:left;font-weight: bold;width: 130px;">Reward(Amout):</div>
+							<div style="float:left"><?php echo number_format($PaymentDetail['PaymentHistory']['amount'],'2','.',''); ?><b>$</b></div>
 						</div>
 					</div>
-					<div style="clear:both">JOB ::</div>
-					<div class="job_info" style="width:400px;margin-left:50px">
+					<div style="clear:both;margin-left: 45px;margin-top: 35px;width: 410px;"><hr/></div>
+					<div style="clear:both;font-weight: bold;margin:10px;"><u>JOB INFO</u> ::</div>
+					<div class="job_info" style="width:500px;margin-left:50px">
 						<div style="clear:both">							
-							<div style="float:left">Jobseeker Name:</div>
-							<div style="float:right"><?php echo $PaymentDetail['j_setting']['name']; ?></div>
+							<div style="float:left;font-weight: bold;width: 130px;">Jobseeker Name:</div>
+							<div style="float:left"><?php echo $PaymentDetail['j_setting']['name']; ?></div>
 						</div>
 						<div style="clear:both">							
-							<div style="float:left">Title:</div>
-							<div style="float:right"><?php echo $PaymentDetail['job']['title']; ?></div>
+							<div style="float:left;font-weight: bold;width: 130px;">Title:</div>
+							<div style="float:left"><?php echo $PaymentDetail['job']['title']; ?></div>
 						</div>
 						<div style="clear:both">							
-							<div style="float:left">Description:</div>
-							<div style="float:right"><?php echo $PaymentDetail['job']['short_description']; ?></div>
+							<div style="float:left;font-weight: bold;width: 130px;">Description:</div>
+							<div style="float:left"><?php echo $PaymentDetail['job']['short_description']; ?></div>
 						</div>
 						
 						<div style="clear:both">							
-							<div style="float:left">Industry:</div>
-							<div style="float:right"><?php echo $jobInfo['ind']['name'].", ".$jobInfo['spec']['name']; ?></div>
+							<div style="float:left;font-weight: bold;width: 130px;">Industry:</div>
+							<div style="float:left"><?php echo $jobInfo['ind']['name'].", ".$jobInfo['spec']['name']; ?></div>
 						</div>
 						<div style="clear:both">							
-							<div style="float:left">Location:</div>
-							<div style="float:right"><?php echo $jobInfo['state']['state'].", ".$jobInfo['city']['city']; ?></div>
+							<div style="float:left;font-weight: bold;width: 130px;">Location:</div>
+							<div style="float:left"><?php echo $jobInfo['state']['state'].", ".$jobInfo['city']['city']; ?></div>
 						</div>
 					</div>
 				</div>

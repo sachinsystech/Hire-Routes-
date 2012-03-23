@@ -62,7 +62,7 @@
 	Router::connect('/companies/editProfile', array('controller' => 'companies', 'action' => 'editProfile'));
 	Router::connect('/companies/checkout/:id', array('controller' => 'companies', 'action' => 'checkout'));
 	Router::connect('/companies/paypalProPayment/:id', array('controller' => 'companies', 'action' => 'paypalProPayment'));
-	Router::connect('/companies/paymentHistoryInfo/:tid', array('controller' => 'companies', 'action' => 'paymentHistoryInfo'));
+	Router::connect('/companies/paymentHistoryInfo/:id/:tid', array('controller' => 'companies', 'action' => 'paymentHistoryInfo'));
 	Router::connect('/companies/paymentInfo/', array('controller' => 'companies', 'action' => 'paymentInfo'));
 	Router::connect('/companies/paymentInfo/:id', array('controller' => 'companies', 'action' => 'paymentInfo'));
 	Router::connect('/companies/acceptApplicant/:id', array('controller' => 'companies', 'action' => 'acceptApplicant'), array('jobId' => '[0-9]+'));
