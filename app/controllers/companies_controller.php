@@ -90,7 +90,9 @@ class CompaniesController extends AppController {
 										'type' => 'LEFT',
 										'conditions' => array(
 													'Job.id = ja.job_id',
-										)
+													'ja.is_active' => 0
+										),
+													
 									)
 							),
 				    'order' => array($shortByItem => 'desc'),
