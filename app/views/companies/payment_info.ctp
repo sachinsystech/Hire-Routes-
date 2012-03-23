@@ -14,7 +14,7 @@ function check_expdate() {
 	var selyear  = $("#PaymentInfoExpirationYear").val();
 	
     if ( selyear==year && selmonth <= month){     
-      $("#exp_date_error").removeClass().addClass("terms-condition-error").html("Expiry Date should be greater than current date.*");
+      $("#exp_date_error").removeClass().addClass("expry_date_error").html("Expiry Date should be greater than current date.*");
       return false;
     }
   }
