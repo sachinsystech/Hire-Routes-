@@ -113,7 +113,7 @@ class JobsController extends AppController {
 		$this->set('companies',$this->Utility->getCompany());
 		$this->set('specifications',$this->Utility->getSpecification());        	
 
-       	$this->set('urls',$this->Utility->getCompany('url'));
+       		$this->set('urls',$this->Utility->getCompany('url'));
 		
 		$companies = $this->Companies->find('all');
 		$companies_array = array();
@@ -292,7 +292,7 @@ class JobsController extends AppController {
 				$this->data['JobseekerApply']['cover_letter'] = $jobprofile['JobseekerProfile']['cover_letter'];
 			}           
                    
-		if($intermediateUsers=$this->Utility->getIntermediateUsers($job_id))
+		if($intermediateUsers=$this->Utility->getIntermediateUsers($this->params['jobId']))
             $this->data['JobseekerApply']['intermediate_users'] = $intermediateUsers;
 		$this->JobseekerApply->save($this->data['JobseekerApply']);
 		
@@ -300,7 +300,7 @@ class JobsController extends AppController {
 		if(!$jobprofile){
 			$this->JobseekerProfile->save($this->data['JobseekerApply']);
 		}           
-        $this->Session->setFlash('Successfully Uploaded Resume', 'success');   
+        $this->Session->setFlash('You have applied for this job successfully.', 'success');   
         $this->redirect('/jobseekers/appliedJob');     
         }
 	}
