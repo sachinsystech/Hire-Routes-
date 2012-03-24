@@ -26,9 +26,6 @@
 				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -36,8 +33,8 @@
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul style="float:left">
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;">Inbox - </a></li>	
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/appliedJob">Applied - </a></li>	
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;">Inbox - <?php echo $NewJobs;?></a></li>	
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/appliedJob">Applied - <?php echo $AppliedJobs;?></a></li>	
                 <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
 			</ul>
 			
@@ -79,11 +76,11 @@
 							<tr>
 								<td>
 									<div>
-										<div><?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>									
+										<div><?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>								<div style="float:right"><b>Reward : </b><?php echo $job['Job']['reward'];?>$</div>										
 									</div>
 									<div style="clear:both"></div>			
                                 	<div>
-										<?php	echo $job['Job']['company_name']."- ".$job['Job']['city'].",".$job['Job']['state']."<br>";
+										<?php	echo $job['Job']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
 												echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
 												echo $job_array[$job['Job']['job_type']]."<br>";
 												echo $job['Job']['short_description']."<br>";?>

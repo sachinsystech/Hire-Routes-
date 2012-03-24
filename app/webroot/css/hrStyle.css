@@ -731,15 +731,27 @@ label.error{
     padding-left: 1.5em;
     vertical-align: top; 
 }
-.terms-condition-error{
+.js_terms-condition-error{
     clear: both;
     color: red;
     display: block;
     float: none;
     font-size: 13.5px;
-    margin-left: 21px;
+    margin-left: -201px;
     padding-left: 0.5em;
     vertical-align: top;
+    width: 315px;
+}
+.expry_date_error{
+    clear: both;
+    color: red;
+    display: block;
+    float: none;
+    font-size: 13.5px;
+    margin-left: 23px;
+    padding-left: 0.5em;
+    vertical-align: top;
+    width: 315px;
 }
 .networker_select_bg{
     background-color: #FDFDFD;
@@ -1306,7 +1318,7 @@ label.error{
 #PaymentInfoPaymentInfoForm label{
 	font-size: 95%;
 	font-weight: bold;
-	width: 270px;
+	width: 330px;
 }
 
 .salary_range label.error{
@@ -1361,6 +1373,65 @@ label.error{
     height: 20px;
     width: 87px;
 }
+
+
+/*** CSS for share page ***/
+
+.contactBox{
+    width: 100px; 
+    border: 1px solid green; 
+    height: 100px;
+    float: left;
+}
+
+.contactImage{
+    height: 50px; 
+    width: 50px; 
+    border: 1px solid red; 
+    margin: auto;
+}
+
+.contactCheckBox{
+    position: absolute; 
+    top: 0px; 
+    left: 80px;
+}
+
+.contactName{
+    border:1px solid pink;
+    clear:both;
+    text-align: center;
+}
+
+.tabMenu{
+    float:left;
+    width:140px;
+}
+
+.tabContainer{
+    float:left;
+    width:600px;
+    height:400px;
+    border:1px solid #000000;
+    overflow:auto;
+
+}
+
+.socialContainer{
+ border: 1px solid red;
+    overflow: auto;
+    width: 750px;
+}
+
+.tabItem{
+  background: none repeat scroll 0 0 #33AA33;
+border: 1px solid #000000;
+    border-radius: 15px 15px 15px 15px;
+    padding: 5px;
+    text-align: center;
+}
+/**** end share ****/
+
 .cr_pi_year label{
 	display:none;
 }
@@ -1374,7 +1445,6 @@ label.error{
     height: 30px;
     width: 100px;
 }
-
 
 #JobseekerProfileJobProfileForm {
 	width: 154%;
@@ -1584,6 +1654,7 @@ label.error{
     margin-left: 25px;
     width: 193px;
 }
+<<<<<<< HEAD
 #ImageHowToWork{
 	width:950px;
 	margin:25px 0px 0px 100px ;
@@ -1717,3 +1788,41 @@ label.error{
 	width:650px;
 	margin-top:10px;
 }
+=======
+
+
+#UserShowApplicantForm{
+	width:100%;
+}
+
+#UserShowApplicantForm #lbl{
+	width:130px;
+}
+
+#UserShowApplicantForm #field{
+	width:177px;
+}
+
+.pj_select_ls{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    margin-left: 77px;
+    width: 196px;
+}
+.js_select_ls{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    margin-left: 28px;
+    width: 196px;
+}
+.js_select_city{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 23px;
+    margin-left: 27px;
+    width: 275px;
+}
+
+>>>>>>> 8203dfc4113b68798788bc8a2f9df9872fdd8866

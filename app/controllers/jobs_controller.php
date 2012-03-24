@@ -1,7 +1,6 @@
 <?php
 class JobsController extends AppController {
-    var $uses = array('Company','Job','Industry','State','Specification',
-'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews');
+    var $uses = array('Company','Job','Industry','State','Specification' , 'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews');
 	var $helpers = array('Form','Paginator','Time');
 	var $components = array('Session','TrackUser','Utility');
         
@@ -100,6 +99,7 @@ class JobsController extends AppController {
         } // find ends here   
         
         $jobs = $this->paginate('Job');
+        
 		$jobs_array = array();
 		foreach($jobs as $job){
 			$jobs_array[$job['Job']['id']] =  $job['Job'];
@@ -107,10 +107,44 @@ class JobsController extends AppController {
 		$this->set('jobs',$jobs_array);
 		
 		$this->set('industries',$this->Utility->getIndustry());
-		//echo "<pre>"; print_r($this->Utility->getCity());exit;
-		$this->set('cities',$this->Utility->getCity());
+
+
+		$this->set('location',$this->Utility->getState());
+		$this->set('companies',$this->Utility->getCompany());
 		$this->set('specifications',$this->Utility->getSpecification());        	
-	}
+
+       		$this->set('urls',$this->Utility->getCompany('url'));
+		
+		$companies = $this->Companies->find('all');
+		$companies_array = array();
+		foreach($companies as $company){
+			$companies_array[$company['Companies']['user_id']] =  $company['Companies']['company_name'];
+		}
+
+		$this->set('companies',$companies_array);
+		
+		if(isset($this->params['id'])){
+			$id = $this->params['id'];
+			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
+			if($job['Job']){
+				$this->set('job',$job['Job']);
+			}
+			else{
+				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->redirect('/jobs/');
+			}	
+             // job role
+            $userId = $this->Session->read('Auth.User.id');
+            $roleInfo = $this->getCurrentUserRole();
+            $this->set('userrole',$roleInfo);
+			$jobapply = $this->JobseekerApply->find('first',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
+			if($jobapply){
+    			$this->set('jobapply',$jobapply);
+			}			
+		}
+ 	}
+
+
 
     function getCurrentUserRole(){
 		$userId = $this->TrackUser->getCurrentUserId();		
@@ -211,7 +245,7 @@ class JobsController extends AppController {
 					$this->render("apply_job"); 
 					return;          
                 }
-                $type_arr = explode("/",$resume['type']);
+                $type_arr = explode(".",$resume['name']);
                 $type = $type_arr[1];
                 if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
 					$this->Session->setFlash('File type not supported.', 'error');
@@ -223,7 +257,7 @@ class JobsController extends AppController {
                 $randomNumber = rand(1,100000000000);            
                 $uploadedFileName=$randomNumber.$resume['name'];
                 
-                if(move_uploaded_file($resume['tmp_name'],BASEPATH."webroot/files/resume/".$uploadedFileName)){
+                if(move_uploaded_file($resume['tmp_name'],WWW_ROOT."files/resume/".$uploadedFileName)){
                 	$this->data['JobseekerApply']['resume'] = $uploadedFileName;
                 }
 			}else{
@@ -239,7 +273,7 @@ class JobsController extends AppController {
 					$this->render("apply_job"); 
 					return;          
                 }
-                $type_arr1 = explode("/",$cover_letter['type']);
+                $type_arr1 = explode(".",$cover_letter['name']);
                 $type1 = $type_arr1[1];
                 if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
 					$this->Session->setFlash('File type not supported.', 'error');
@@ -251,20 +285,22 @@ class JobsController extends AppController {
                 $randomNumber2 = rand(1,100000000000);            
                 $uploadedFileName2=$randomNumber2.$cover_letter['name'];
                 
-                if(move_uploaded_file($cover_letter['tmp_name'],BASEPATH."webroot/files/cover_letter/".$uploadedFileName2)){
+                if(move_uploaded_file($cover_letter['tmp_name'],WWW_ROOT."files/cover_letter/".$uploadedFileName2)){
                 	$this->data['JobseekerApply']['cover_letter'] = $uploadedFileName2;
                 }
 			}else{
 				$this->data['JobseekerApply']['cover_letter'] = $jobprofile['JobseekerProfile']['cover_letter'];
-			}                       
-		
+			}           
+                   
+		if($intermediateUsers=$this->Utility->getIntermediateUsers($this->params['jobId']))
+            $this->data['JobseekerApply']['intermediate_users'] = $intermediateUsers;
 		$this->JobseekerApply->save($this->data['JobseekerApply']);
 		
 		// If user doesnt have a job profile 
 		if(!$jobprofile){
 			$this->JobseekerProfile->save($this->data['JobseekerApply']);
 		}           
-        $this->Session->setFlash('Successfully Uploaded Resume', 'success');   
+        $this->Session->setFlash('You have applied for this job successfully.', 'success');   
         $this->redirect('/jobseekers/appliedJob');     
         }
 	}
@@ -334,12 +370,21 @@ class JobsController extends AppController {
 										             				   'alias' => 'spec',
 										                               'type' => 'LEFT',
 										                               'conditions' => array('Job.specification = spec.id',)),
-																array('table' => 'companies',
+																 array('table' => 'companies',
 										             				   'alias' => 'comp',
 										                               'type' => 'LEFT',
-										                               'conditions' => array('Job.company_id = comp.id',))
+										                               'conditions' => array('Job.company_id = comp.id',)),
+																 array('table' => 'cities',
+										            				   'alias' => 'city',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('Job.city = city.id',)),
+											                     array('table' => 'states',
+										                               'alias' => 'state',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('Job.state = state.id',))
 																),
-												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
+												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,Job.company_name,city.city,state.state,Job.job_type,
+Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
 
 			if($job){
 	
@@ -365,7 +410,14 @@ class JobsController extends AppController {
 			$jobapply = $this->JobseekerApply->find('first',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
 			if($jobapply){
     			$this->set('jobapply',$jobapply);
-			}			
+			}
+            /*** code for networker trac **/
+            if($userId ){
+                $role = $this->TrackUser->getCurrentUserRole();
+                if($role['role_id'] == 3)
+                    $this->set('code',$this->Utility->getCode($id,$userId));
+            }
+            /**** end code ***/			
 		}else{
 				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
 				$this->redirect('/jobs/');

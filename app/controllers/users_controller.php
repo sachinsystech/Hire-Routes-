@@ -287,6 +287,8 @@ class UsersController extends AppController {
  	private function saveUser($userData){
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
+        if($parent = $this->Utility->getRecentUserIdFromCode())
+            $userData['User']['parent_user_id'] = $parent;
 		if(!$this->User->save($userData)){
 			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 			$this->redirect("/");
@@ -328,7 +330,7 @@ class UsersController extends AppController {
 			$this->Email->send();
 		}catch(Exception $e){
 			//echo 'Message: ' .$e->getMessage();
-			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			//$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 			$this->redirect("/");
 			return;
 		}		
@@ -350,7 +352,7 @@ class UsersController extends AppController {
 			$this->Email->send();
 		}catch(Exception $e){
 			//echo 'Message: ' .$e->getMessage();
-			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			//$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 			$this->redirect("/");
 			return;
 		}		
@@ -461,18 +463,18 @@ class UsersController extends AppController {
 		$role = $this->TrackUser->getCurrentUserRole();
 		switch($role['role_id']){
 			case 1:
-					$this->redirect("/companies");
+					$this->redirect("/companies/newJob");
 					break;	
 			case 2:
 					$jobseekerData = $this->Jobseekers->find('first',array('conditions'=>array('Jobseekers.user_id'=>$id)));
 					if(isset($jobseekerData['Jobseekers']['contact_name'])){
-						$this->redirect("/jobseekers");						
+						$this->redirect("/jobseekers/newJob");						
 					}
 					break;			
 			case 3:
 					$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$id)));
 					if(isset($networkerData['Networkers']['contact_name'])){
-						$this->redirect("/networkers");						
+						$this->redirect("/networkers/newJob");						
 					}
 					break;		
 			case 5:
@@ -588,8 +590,9 @@ class UsersController extends AppController {
 	function login() {
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");				
-			
+			return;
 		}
+
 		if(isset($this->data['User'])){
 			$data = array('User' => array('account_email' => $this->data['User']['username'],
 										  'password' => Security::hash(Configure::read('Security.salt') .$this->data['User']['password'])
@@ -604,7 +607,8 @@ class UsersController extends AppController {
 			}else{
 				$this->redirect("/users/firstTime");		
 			}
-		}	
+		}
+			
 	}
 /**
  * Logs a user out, and returns the home page to redirect to.
@@ -612,6 +616,7 @@ class UsersController extends AppController {
  */	
 	function logout() {
 		$this->Auth->logout();
+        $this->Session->delete('code');
 		$this->redirect("/home/index");		
 	}	
 /**
@@ -620,7 +625,7 @@ class UsersController extends AppController {
  */	
 	function facebookUserSelection(){
 		
-	}
+	} 
 	
 }
 ?>

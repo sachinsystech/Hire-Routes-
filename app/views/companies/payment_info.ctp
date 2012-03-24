@@ -1,3 +1,4 @@
+
 <script> 	
     $(document).ready(function(){               
 		$("#PaymentInfoPaymentInfoForm").validate();
@@ -13,7 +14,7 @@ function check_expdate() {
 	var selyear  = $("#PaymentInfoExpirationYear").val();
 	
     if ( selyear==year && selmonth <= month){     
-      $("#exp_date_error").removeClass().addClass("terms-condition-error").html("Expiry Date should be greater than current date.*");
+      $("#exp_date_error").removeClass().addClass("expry_date_error").html("Expiry Date should be greater than current date.*");
       return false;
     }
   }
@@ -28,9 +29,6 @@ function check_expdate() {
 				<li>My Employees</li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -39,7 +37,7 @@ function check_expdate() {
 		<div class="topMenu">
 			<ul style="float:left">
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">Profile</a></li>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentInfo">Payment Info</a></li>
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;">Payment Info</a></li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentHistory">Payment History</span></a></li>
 			</ul>
 			<ul style="float:right">
@@ -54,17 +52,26 @@ function check_expdate() {
                     
 					<?php echo $this->Form->create('PaymentInfo', array('url' => array('controller' => 'companies', 'action' => 'paymentInfo'),'onsubmit'=>'return check_expdate();')); ?>
 						<div>
-                            <?php echo $form->input('id', array('label' => 'Your Name ',
+                            <?php echo $form->input('id', array('label' => '',
 																	'type'  => 'hidden',
 																	'value' => isset($payment['id'])?$payment['id']:""
 																	)
-												 );?>
+												 );
+							?>
 
-							<?php	echo $form->input('user_id', array('label' => 'User Id',
+							<?php	echo $form->input('user_id', array('label' => '',
 																	'type'  => 'hidden',
 																	'value' => $user['id']
 																	)
-														 );?>
+														 );
+							?>
+							
+							<?php	echo $form->input('applied_job_id', array('label' => '',
+																	'type'  => 'hidden',
+																	'value' => isset($appliedJobId)?$appliedJobId:""
+																	)
+														 );
+							?>
          
 						</div>						
 						<!--	====================== Payment Form ===================	-->

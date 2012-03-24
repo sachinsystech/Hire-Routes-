@@ -1,3 +1,4 @@
+<?php ?>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -7,29 +8,27 @@
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
 				<li>My Employees</li>
 			</ul>
-		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
+		</div>		
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
+        <div class="topMenu">
+			<ul>
+                <li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Edit</a></li>
+				<li ><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/jobStats/<?php echo $job['id']; ?>">Applicants</a></li>
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showApplicant/<?php echo $job['id']; ?>">Data</a></li>
+			</ul>
+		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
 			<div class="job_middleBox">
 
-<script>
-	$(document).ready(function(){
-		$("#JobEditJobForm").validate();
-	});
-
-</script>
 
 <div style="width:600px;margin: auto;">
-<div style="width:300px; margin: 4px 0;">Job URL <input type="text" class='text_field_bg' value="<?php echo Configure::read('httpRootURL')."job/".$job['id']."/".$code; ?>"></div>
+<div style="width:300px; margin: 4px 0;">Job URL <input type="text" class='text_field_bg' value="<?php echo Configure::read('httpRootURL')."job/".$job['id']."/"; ?>"></div>
 <div style="clear:both"></div>
 <div class="sigup_heading">Edit Posted Job </div>
 <?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'editJob'))); ?>
@@ -91,7 +90,7 @@
       </div>
     </div>
 
-
+<?php /*?>
     <div style=" clear :both;">
       <div style="float: left; width: 302px;">
           <?php echo $form->input('city', array('label' => 'Location:',
@@ -116,6 +115,45 @@
       </div> 
     </div>
     <div style="clear: both;"></div>
+	
+	<?php */?>
+	
+	
+	<?php $state_val = $job['state']; ?>
+	
+		  <!-- 	Location :: State wise cities....	-->
+	  
+ <div style="float:left;margin-left: 0px;clear: both;">
+<?php echo $form -> input('state',array(
+											'type'=>'select',
+											'label'=>'Location: ',
+											'options'=>$states,
+											'empty' =>' -- All States-- ',
+											'class'=>'pj_select_ls required',
+											'onchange'=>'return fillCities(this.value);',
+											'selected' => isset($job['state'])?$job['state']:""
+									)
+						);
+?>
+</div>
+<div style="float:left;">
+<?php echo $form -> input('city',array(
+											'type'=>'select',
+											'label'=>'',
+											'empty' =>' -- All Cities-- ',
+											'class'=>'job_select__i_s',
+											'selected' => isset($job['city'])?$job['city']:""
+									)
+						);
+?>							
+</div>
+	  
+	  
+      <!-- 	End of Location fields...	-->
+	  
+	  <div style=" clear :both;">
+	
+	
 	<div class="salary_range">
 		<div style="width: 130px;float:left">Annual salary Range</div>
 		<div style="width: 130px;float:left">	
@@ -168,11 +206,36 @@
 
 	</div>
 	<!-- middle section end -->
-
 </div>
 
+<script>
+	
+$(document).ready(function(){
+	var city_id = <?php echo $job['city'];?>;
+	fillCities(<?php echo $job['state'];?>);
+	$("select#JobCity option[value=<?php echo $job['city'];?>]").attr('selected', 'selected');
 
-
+	$("#JobEditJobForm").validate();
+	
+});
+	
+function fillCities($state_id)
+{
+	$.ajax({
+		url: "/utilities/getCitiesOfState/"+$state_id,
+	 	dataType:'json',
+		async:false,
+  		success: function(response){
+	 		var options = '<option value=""> -- All Cities-- </option>';
+			$.each(response, function(index, item) {
+                options += '<option value="' + index + '">' + item + '</option>';
+            });
+			$("select#JobCity").html(options);
+  		}
+	});
+	
+}
+</script>
 
 
 

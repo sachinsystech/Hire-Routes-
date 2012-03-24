@@ -34,12 +34,7 @@ class NetworkersController extends AppController {
 		$this->redirect('/networkers/setting');
 	}
 	
-	/*	Send subscripiton Email	*/
-	function sendNotifyEmail(){
-		$notifyId = $this->params['id'];
-		$this->Session->setFlash('Your E-mail  Notification has been saved successfuly.', 'success');				
-		$this->redirect('/users/networkerSetting');
-	}
+	
 	
 	/* 	Networker's Account-Profile page*/
 	function index(){
@@ -66,16 +61,58 @@ class NetworkersController extends AppController {
          	}
 		}
 	}
+
+	/* save email notifications setting*/
+	
+	function sendNotifyEmail(){
+		$userId = $this->TrackUser->getCurrentUserId();
+			
+		if($this->Networkers->save($this->data['Networkers'])){
+			$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
+		}
+		$this->redirect('/networkers/setting');		
+	}
 	
 	/* 	Setting and Subscriptoin page*/
 	function setting() {
 		$userId = $this->TrackUser->getCurrentUserId();		
 		
-		/* Networker-Setting Info*/
-		$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId),'order'=>array('NetworkerSettings.industry'=>'asc')));
-		//echo "<pre>"; print_r($networkerData);exit;
-		
+		$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId),
+												  'joins'=>array(array('table' => 'industry',
+										                               'alias' => 'ind',
+										             				   'type' => 'LEFT',
+										             				   'conditions' => array('NetworkerSettings.industry = ind.id',)),
+											   			         array('table' => 'specification',
+										             				   'alias' => 'spec',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('NetworkerSettings.specification = spec.id',)),
+										                         array('table' => 'states',
+										             				   'alias' => 'state',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('NetworkerSettings.state = state.id',)),       
+																 array('table' => 'cities',
+										             				   'alias' => 'city',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('NetworkerSettings.city = city.id',))
+																 ),
+															 'fields'=>array(
+															 			'NetworkerSettings.id,
+															 			NetworkerSettings.user_id,
+															 			ind.name as name,
+															 			spec.name as name,
+															 			state.state as name,
+															 			city.city as name'
+															 		),
+															 'order'=>array('NetworkerSettings.industry'=>'asc')		
+														 		)
+												 			);
+
+		$SubscriptionData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$userId)));	
 		$this->set('NetworkerData',$networkerData);
+		$this->set('SubscriptionData',$SubscriptionData['Networkers']);
+		$this->set('industries',$this->Utility->getIndustry());
+		$this->set('specifications',$this->Utility->getSpecification());
+		$this->set('states',$this->Utility->getState());
 		
 		/* FB-User Info*/       		        
         $fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
@@ -85,11 +122,6 @@ class NetworkersController extends AppController {
         if(isset($networker) && $networker['Networkers']){
 			$this->set('networker',$networker['Networkers']);
 		}
-		
-		$this->set('specifications',$this->Utility->getSpecification());
-		$this->set('industries',$this->Utility->getIndustry());		
-		$this->set('allCities',$this->Utility->getCities());
-		$this->set('states',$this->Utility->getState());
 	}
    
 	/* 	Edit Networker's Account-Profile*/   
@@ -236,6 +268,27 @@ class NetworkersController extends AppController {
 			$this->set('editContact',$contact['NetworkerContact']);
 		}       
 	}
+
+	/* to show network statistics*/
+	function networkerData(){
+		$parent_id = null;
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$networkerData = $this->getRecursiveData($userId);
+		$this->set('networkerData',$networkerData);
+	}
+
+	function getRecursiveData($userId){	
+		$Users   = $this->User->find('list',array('fields'=>'id','conditions'=>array('User.parent_user_id'=>$userId)));
+		
+		if(count($Users)== 0 ){
+			return null;
+			
+		}
+  	    return array_merge(array(count($Users)),(array)$this->getRecursiveData($Users));
+	}
+
+
+
 	
 	/*	Adding contacts by Importing CSV	*/
 	function importCsv() {
@@ -334,64 +387,109 @@ class NetworkersController extends AppController {
 		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
         
     	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
-        
-		for($n=0;$n<count($networker_settings);$n++){
-			$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
-			$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
-			$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
-			$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
-		}
 		
-	   
-		$shortByItem = 'id';
-        
-        if(isset($this->params['named']['display'])){
-	        $displayPageNo = $this->params['named']['display'];
-	        $this->set('displayPageNo',$displayPageNo);
-		}
-		if(isset($this->params['named']['shortby'])){
-	        $shortBy = $this->params['named']['shortby'];
-	        $this->set('shortBy',$shortBy);
-	        switch($shortBy){
-	        	case 'date-added':
-	        				$shortByItem = 'created'; 
-	        				break;	
-	        	case 'company-name':
-	        				$shortByItem = 'company_name'; 
-	        				break;
-	        	case 'industry':
-	        				$shortByItem = 'industry'; 
-	        				break;
-	        	case 'salary':
-	        				$shortByItem = 'salary_from'; 
-	        				break;
-	        	default:
-	        			$this->redirect("/jobs");	        		        	
-	        }
-		}
+        if(count($networker_settings)>0){
+			for($n=0;$n<count($networker_settings);$n++){
+				$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
+				$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
+				$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
+				$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
 
-		$cond = array('OR' => array(array('industry' => $industry),
-                                    array('specification' => $specification),
-                                    array('city ' => $city),
-                                    array('state' => $state),));		
-
-		$this->paginate = array('conditions'=>$cond,
-                                'limit' => isset($displayPageNo)?$displayPageNo:5,
-								'joins'=>array(array('table' => 'industry',
-										             'alias' => 'ind',
-										             'type' => 'LEFT',
-										             'conditions' => array('Job.industry = ind.id',)
-									            ),
-											   array('table' => 'specification',
-										             'alias' => 'spec',
-										             'type' => 'LEFT',
-										             'conditions' => array('Job.specification = spec.id',)
-									            )),
-                                'order' => array("Job.$shortByItem" => 'desc',),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,Job.city,Job.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
-        
-        $jobs = $this->paginate('Job');		
+				$tempCond = array();
+				if($industry[$n]>1){
+					$tempCond[] = array('Job.industry' => $industry[$n]);
+				
+				}
+				if($specification[$n])
+						$tempCond[] = array('Job.specification' => $specification[$n]);
+				if($city[$n])
+					$tempCond[] = array('Job.city ' => $city[$n]);
+		        if($state[$n])
+		        	$tempCond[] = array('Job.state' => $state[$n]);
+				  
+			
+				if(!$tempCond){
+					$tempCond = array(1);
+				}
+				$job_cond[$n] =  array('AND' =>$tempCond);
+			
+			}
 		
+				   
+			$shortByItem = 'created';
+			$order		 = 'desc';
+		    
+		    if(isset($this->params['named']['display'])){
+			    $displayPageNo = $this->params['named']['display'];
+			    $this->set('displayPageNo',$displayPageNo);
+			}
+			if(isset($this->params['named']['shortby'])){
+			    $shortBy = $this->params['named']['shortby'];
+			    $this->set('shortBy',$shortBy);
+			    switch($shortBy){
+			    	case 'date-added':
+			    				$shortByItem = 'created'; 
+								$order		 = 'desc';
+			    				break;	
+			    	case 'company-name':
+			    				$shortByItem = 'company_name';
+								$order		 = 'asc'; 
+			    				break;
+			    	case 'industry':
+			    				$shortByItem = 'industry';
+								$order		 = 'asc'; 
+			    				break;
+			    	case 'salary':
+			    				$shortByItem = 'salary_from';
+								$order		 = 'asc'; 
+			    				break;
+			    	default:
+			    			$this->redirect("/jobs");	        		        	
+			    }
+			}
+
+			/* $cond = array('OR' => array(array('industry' => $industry),
+		                                array('specification' => $specification),
+		                                array('city ' => $city),
+		                                array('state' => $state),),
+						  'AND'	=>array(array('is_active' => 1))); */
+
+			$cond = array('OR' => $job_cond,
+						   'AND' => array(array('is_active' => 1))); 
+
+			$this->paginate = array('conditions'=>$cond,
+		                            'limit' => isset($displayPageNo)?$displayPageNo:5,
+									'joins'=>array(array('table' => 'industry',
+												         'alias' => 'ind',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.industry = ind.id',)
+											        ),
+												   array('table' => 'specification',
+												         'alias' => 'spec',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.specification = spec.id',)
+											        ),
+												   array('table' => 'cities',
+												         'alias' => 'city',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.city = city.id',)
+											        ),
+												   array('table' => 'states',
+												         'alias' => 'state',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.state = state.id',)
+											        )),
+		                            'order' => array("Job.$shortByItem" => $order,),
+									'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
+		    
+		    $jobs = $this->paginate('Job');	
+
+			$newjobs = $this->Job->find('count',array('conditions'=>$cond));	
+		}else{
+			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'error');				
+			$this->redirect('/networkers/setting');
+		}
+		$this->set('NewJobs',$newjobs);
 		$this->set('jobs',$jobs);
 	}
  

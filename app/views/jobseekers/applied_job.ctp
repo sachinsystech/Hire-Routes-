@@ -1,21 +1,14 @@
 <script>
-	$(document).ready(function(){
+    $(document).ready(function(){
 	    $("#switch_display").change(onSelectChange);
-		$("#short_by").change(onSelectShortByChange);
-		
+		$("#short_by").change(onSelectChange);
 	});
 	function onSelectChange(){
-	    var selected = $("#switch_display option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobseekers/appliedJob/display:"+selected.text();
-	    }
+
+	    var displaySelected = $("#switch_display option:selected");
+		var shortSelected = $("#short_by option:selected"); 
+		window.location.href="/jobseekers/appliedJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
 	}
-	function onSelectShortByChange(){
-	    var selected = $("#short_by option:selected");    
-	    if(selected.val() != 0){
-			window.location.href="/jobseekers/appliedJob/shortby:"+selected.val();
-	    }
-	}	
 </script>
 <div class="page">
 	<!-- left section start -->	
@@ -26,17 +19,14 @@
 				<li><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
 	<div class="rightBox" >
 		<div class="topMenu">
 			<ul style="float:left">
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;"  href="/jobseekers/newJob">Inbox - </a></li>	
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;">Applied - </a></li>	
+				<li><a style="color: #000000;text-decoration: none;font-weight: normal;"  href="/jobseekers/newJob">Inbox - <?php echo $NewJobs;?></a></li>	
+				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;">Applied - <?php echo $AppliedJobs;?></a></li>	
                 <li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
 			</ul>
 			
@@ -80,23 +70,23 @@
 							<td>
 								<div>
 									<div>
-										<?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?>
+										<?php	echo $this->Html->link($job['job']['title'], '/jobs/jobDetail/'.$job['job']['id']); ?>
 									</div>									
 								</div>
 								<div style="clear:both"></div>
-                                <div style="float:right"> <?php echo $job_status[$job['apply']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['Job']['id']); ?></div>		
+                                <div style="float:right"> <?php echo $job_status[$job['JobseekerApply']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['job']['id']); ?></div>		
 								<div>
-									<?php	echo $job['Job']['company_name']."- ".$job['Job']['city'].",".$job['Job']['state']."<br>";
+									<?php	echo $job['job']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
 											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
-											echo $job_array[$job['Job']['job_type']]."<br>";
-											echo $job['Job']['short_description']."<br>";?>
+											echo $job_array[$job['job']['job_type']]."<br>";
+											echo $job['job']['short_description']."<br>";?>
                                  </div>                                 
                                  <div style="float:left">
 									Posted 
-                                    <?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>							
+                                    <?php  echo $time->timeAgoInWords($job['job']['created'])." <br><br>";?>							
 								 </div>	
                                  <div style="padding-left:550px;">
-                                    <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['Job']['id']); ?>
+                                    <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['job']['id']); ?>
                                  </div>                                	
 							</td>
 						</tr>
