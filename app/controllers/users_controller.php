@@ -625,7 +625,7 @@ class UsersController extends AppController {
  */	
 	function facebookUserSelection(){
 		
-	}
+	} 
 	
 }
 ?>
