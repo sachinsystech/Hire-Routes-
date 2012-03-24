@@ -96,6 +96,14 @@ echo $html->script('validation.js');
 			<li><a href="#"><b>Forms</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
 		
+		
+		<div class="nav-divider">&nbsp;</div>
+		
+		
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+			<li><a href="/admin/paymentInformation"><b>Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+		</ul>
+		
 		<div class="clear"></div>
 		</div>
 		<div class="clear"></div>
