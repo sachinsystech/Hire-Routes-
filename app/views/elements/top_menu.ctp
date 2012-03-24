@@ -113,13 +113,13 @@
 					<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit Profile</span></a></li>
 				</ul>
 			<?php
-			}elseif($this->action=='personal'||$this->action=='addContacts'||$this->action=='#')
+			}elseif($this->action=='personal'||$this->action=='addContacts'||$this->action=='networkerData')
 			{
 			?>
 				<ul style="float:left">
 					<li <?php if($this->action=='personal') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>Personal</span></a></li>
 					<li <?php if($this->action=='addContacts') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/addContacts"><span>Add Contact(s)</span></a></li>
-					<li <?php if($this->action=='#') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href='#'>Data</a></li>
+					<li <?php if($this->action=='networkerData') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href='/networkers/networkerData'>Data</a></li>
 				</ul>
 			<?php
 			}
