@@ -340,15 +340,17 @@ list archive jobs..
 	function paymentHistoryInfo(){
 		
 		$userId = $this->TrackUser->getCurrentUserId();	
+		$id = isset($this->params['id'])?$this->params['id']:"";
 		$tid = isset($this->params['tid'])?$this->params['tid']:"";
 		$roleInfo = $this->TrackUser->getCurrentUserRole();
 		if($roleInfo['role_id']!=1){
 			$this->redirect("/users/firstTime");
 		}
 		
-		if($userId && isset($tid)){
+		if($userId && isset($tid) &&isset($id)){
 				$PaymentDetail = $this->PaymentHistory->find('first',
 																array('conditions'=>array(
+																							'PaymentHistory.id'=>$id, 
 																							'PaymentHistory.user_id'=>$userId, 
 																							'PaymentHistory.transaction_id'=>$tid
 																						),
@@ -966,14 +968,14 @@ list archive jobs..
 						$paymentHistory['transaction_id'] = $resArray['CORRELATIONID'];//TRANSACTIONID
 						
 						if($this->PaymentHistory->save($paymentHistory)){
+							$this->sendCongratulationEmail($appliedJob);	
 							$this->Session->setFlash('Applicant has been selected successfully.', 'success');	
 							$this->redirect("/companies/showApplicant/".$appliedJob['Job']['id']);
 							return;
 						}						
 					}
 		        
-		        
-		        echo "<pre>"; print_r($resArray); exit;
+		        //echo "<pre>"; print_r($resArray); exit;
 		        if(isset($resArray['L_LONGMESSAGE0'])) {
 		            $error_msg = $resArray['L_LONGMESSAGE0'];
 		        }elseif(isset($resArray['L_SHORTMESSAGE0'])) {
@@ -990,6 +992,48 @@ list archive jobs..
 		}  		      
     }
     
+/*
+	send congratulation email to selected applicant.
+*/
+    private function sendCongratulationEmail($appliedJob){
+    	
+    	$userId = $this->TrackUser->getCurrentUserId();
+    	$companyUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+    	$JobseekerUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$appliedJob['JobseekerapplyJob']['user_id'])));
+    	$jobDetails = $this->getJob($appliedJob['Job']['id']);    	
+    	$interMeedUsers = count(explode(',',$appliedJob['JobseekerapplyJob']['intermediate_users']));
+    	$appliedOn = $appliedJob['JobseekerapplyJob']['created'];
+    	$jobTyps = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
+    	
+    	$emailMsgInfo = array();
+    	$emailMsgInfo['company']['name'] = $companyUserInfo['Companies']['0']['company_name'];
+    	$emailMsgInfo['company']['url'] = $companyUserInfo['Companies']['0']['company_url'];
+    	$emailMsgInfo['jobseker']['name'] = $JobseekerUserInfo['Jobseekers']['0']['contact_name'];
+    	$emailMsgInfo['job']['title'] = $jobDetails['Job']['title'];
+    	$emailMsgInfo['job']['reward'] = ($interMeedUsers===1)?"<b>Reward for you : </b>".(($jobDetails['Job']['reward']*75)/100)."<b>$</b>":"";
+    	$emailMsgInfo['job']['description'] = $jobDetails['Job']['short_description'];
+    	$emailMsgInfo['job']['industry'] = isset($jobDetails['ind']['name'])?$jobDetails['ind']['name']:"";
+    	$emailMsgInfo['job']['specification'] = isset($jobDetails['spec']['name'])?$jobDetails['spec']['name']:"";
+    	$emailMsgInfo['job']['city'] = isset($jobDetails['city']['city'])?$jobDetails['city']['city']:"";
+    	$emailMsgInfo['job']['state'] = isset($jobDetails['state']['state'])?$jobDetails['state']['state']:"";
+    	$emailMsgInfo['job']['salary_range'] = $jobDetails['Job']['salary_from']."<b>$</b> - ".$jobDetails['Job']['salary_to']."<b>$</b>";
+    	$emailMsgInfo['job']['type'] = $jobTyps[$jobDetails['Job']['job_type']];
+    	$emailMsgInfo['job']['applied_on'] = $appliedOn;
+    	try{
+			$this->Email->to = $JobseekerUserInfo['User']['account_email'];
+			$this->Email->subject = 'Congratulations : Job Offer Acceptance...!!';
+			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
+			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
+			$this->Email->template = 'select_applicant';
+			$this->Email->sendAs = 'html';
+			$this->set('emailMsgInfo', $emailMsgInfo);
+			$this->Email->send();
+		}catch(Exception $e){
+			$this->redirect("/");
+			return;
+		}
+    }
+
     private function appliedJob($appliedJobId){
    		$userId = $this->TrackUser->getCurrentUserId();
     	$appliedJob = $this->Job->find('first', array(
@@ -1008,16 +1052,14 @@ list archive jobs..
 											"JobseekerapplyJob.id = $appliedJobId",
 											"JobseekerapplyJob.is_active = 0"
 										),
-										'fields' => array('Job.id, 
-															Job.user_id, 
-															Job.title, 
-															Job.reward, 
-															Job.short_description, 
-															Job.is_active',
+										'fields' => array('Job.*',
 														 'JobseekerapplyJob.id,
 														 JobseekerapplyJob.user_id,
 														 JobseekerapplyJob.job_id,
-														 JobseekerapplyJob.is_active'
+														 JobseekerapplyJob.is_active,
+														 JobseekerapplyJob.intermediate_users,
+														 JobseekerapplyJob.created'
+														 
 														 ),
 										'order' => 'JobseekerapplyJob.created DESC'
 								));

@@ -80,7 +80,7 @@ class TrackUserComponent extends Object
  * @access public
  */	
 	function getCurrentUserRole(){
-		$userId = $this->Session->read('Auth.User.id');	
+		$userId = $this->getCurrentUserId();	
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));		
 		$roleName  = null;
 		switch($userRole['UserRoles']['role_id']){
