@@ -273,22 +273,22 @@ class NetworkersController extends AppController {
 	function networkerData(){
 		$parent_id = null;
 		$userId = $this->TrackUser->getCurrentUserId();	
-		$test = "";
-		$Users   = $this->User->find('all',array('conditions'=>array('User.parent_user_id'=>$userId)));
-		foreach($Users as $userkey=>$user){
-			$test.= $this->getRecursiveData($user['User']['id']);			
-		}
-		echo $test;
+		$networkerData = $this->getRecursiveData($userId);
+		$this->set('networkerData',$networkerData);
 	}
 
-	function getRecursiveData($userId){
-
-		$Users   = $this->User->find('all',array('conditions'=>array('User.parent_user_id'=>$userId)));
-		foreach($Users as $userkey=>$user){
-			$userId.=$this->getRecursiveData($user['User']['id']);
+	function getRecursiveData($userId){	
+		$Users   = $this->User->find('list',array('fields'=>'id','conditions'=>array('User.parent_user_id'=>$userId)));
+		
+		if(count($Users)== 0 ){
+			return null;
+			
 		}
-		return $userId;
+  	    return array_merge(array(count($Users)),(array)$this->getRecursiveData($Users));
 	}
+
+
+
 	
 	/*	Adding contacts by Importing CSV	*/
 	function importCsv() {
