@@ -147,13 +147,15 @@
 	<!-- middle section end -->
 
 </div>
-
-
-
 <script>
 	$(document).ready(function(){
 		$("#JobPostJobForm").validate();
+		$("#JobSalaryTo").blur(function(){ 
+			if(parseInt($("#JobSalaryFrom").val()) >= parseInt($("#JobSalaryTo").val()))
+			{	
+				$("#JobSalaryTo").after("<label class='error' for='JobSalaryTo' >Must greter than 'From' field value..</label>");
+			} 
+		});
 	});
-
 </script>
 

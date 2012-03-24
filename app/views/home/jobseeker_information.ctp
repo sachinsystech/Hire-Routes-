@@ -1,3 +1,8 @@
+<?php 
+/*
+Page for job seeker information
+*/
+?>
 <center><b><h3>Jobseeker Information</h3></b></center>
 <div>
 <b>Get sent the right job for you automatically!
@@ -19,7 +24,25 @@ Sed	ut perspicia-s unde	omnis iste natus error sit .........
   <button onclick="getStarted();">Get Started</button>
 </div>
 </center>
-
+<div >
+	<div id="LeftContainer">
+		<div id="HeadingInformation"  >HOW TO WORK VIDEO</div>
+		<div id="Video">vedio</div>
+		<div id="GetStart" onclick="return informationPage(4)">Get Started </div>
+		<div >
+			<div id="HeadingInformation">	WHY HIRE ROUTES?</div>
+			<div id="WhyHireRoutes">
+				<div id="WhyHireRoutesData">1: Hire Routes </div>
+				<div id="WhyHireRoutesData">2: Hire Routes </div>
+				<div id="WhyHireRoutesData">3: Hire Routes </div>
+				<div id="WhyHireRoutesData">4: Hire Routes </div>
+			</div>
+		</div>
+	</div>
+	<div id="InformationImage">
+		<?php echo $this->Html->image('/../img/company_info.png', array('style'=>'width:600px;height:510px;'));?>
+	</div>
+</div>
 
 
 
@@ -37,6 +60,9 @@ function informationPage(redirect){
 		case 3:
 			window.location.href="/networkerInformation";			
 			break;
+	
+		case 4:
+			window.location.href="/users/jobseekerSignup";
 	}
 }
 function getStarted(){

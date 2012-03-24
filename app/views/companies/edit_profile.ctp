@@ -1,3 +1,4 @@
+<?php ?>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">

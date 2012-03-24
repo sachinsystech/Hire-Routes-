@@ -52,7 +52,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('logout'); // Allow logout to everybody
 		$this->Auth->allow('login');
 		$this->Auth->allow('index');
-
+		
 		$this->Auth->allow('jobseekerSignup');		
 		$this->Auth->allow('networkerSignup');		
 		$this->Auth->allow('companyRecruiterSignup');

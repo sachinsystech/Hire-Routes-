@@ -189,7 +189,11 @@ list archive jobs..
 		$this->data['Job']['user_id']= $userId;
 		$this->data['Job']['company_id']= $company['Companies']['id'];
 		$this->data['Job']['company_name']= $company['Companies']['company_name'];
-		if($this->Job->save($this->data['Job'])){
+
+		$this->Job->set();
+
+		
+		if($this->Job->save($this->data['Job'],array('validate'=>'only'))){
             switch($this->params['form']['save']){
                 case 'Post and Share Job with Network':
                     $this->Session->setFlash('Job has been saved successfuly.', 'success');
@@ -203,8 +207,8 @@ list archive jobs..
         
             }
         }else{
-            $this->Session->setFlash('Internal error while save job.', 'error');	
-            $this->redirect('/companies/newJob/');
+            //$this->Session->setFlash('Internal error while save job.', 'error');	
+            $this->redirect('/companies/postJob/');
         }		
 	}
 	
@@ -492,7 +496,7 @@ list archive jobs..
 				$this->set('view_last_month',$viewlastmonth);
 				$this->set('view_last_week',$viewlastweek);
 			}else{
-				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
+				$this->Session->setFlash('success.', 'success');	
 				$this->redirect("/companies/newJob");
 			}
 		}else{
@@ -503,8 +507,26 @@ list archive jobs..
 	
 	/****** Delete Job *******/
 	function deleteJob(){
-		
+		$this->autoRender=false;
+		$userId = $this->TrackUser->getCurrentUserId();
+		$jobId=$this->params['form']['jobId'];
+		$action=$this->params['form']['action'];
+		if($action=='newJobs'){
+			$activate=1;
+		}else 
+			$activate=0;
 
+		if($userId && $jobId){
+			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>$activate),"fileds"=>"id"));
+			if($jobs['Job']){
+				$jobs['Job']["is_active"] = 2 ;
+				$this->Job->save($jobs);
+				$this->Session->setFlash('Successfully, Job has been deleted.', 'success');	
+				return;
+			}
+		}
+		$this->Session->setFlash('May be you click on old link.','error');	
+		return;
 	}
 
     /***** shareJob *********/
