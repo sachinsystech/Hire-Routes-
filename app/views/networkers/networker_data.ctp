@@ -29,6 +29,7 @@
 						<tr>
 							<td colspan="2">All Networkers</td>
 						</tr>
+						<?php if(count($networkerData)>0){ ?>
 						<tr>
 							<td><strong>Total</strong></td>
 							<td><?php echo array_sum($networkerData);?></td>
@@ -38,7 +39,7 @@
 							<td><?php echo $degree+1;?></td>
 							<td><?php echo $totalNetworkers;?></td>
 						</tr>
-						<?php }?>						
+						<?php }}?>						
 					</table>
 				</div>
 			</div>
