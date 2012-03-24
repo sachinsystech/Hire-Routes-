@@ -101,7 +101,7 @@
 	Router::connect('/users/account/:id/:code', array('controller' => 'users','action' => 'account'));		
 	Router::connect('/users/firstTime/', array('controller' => 'users','action' => 'firstTime'));	
 	Router::connect('/users/accountConfirmation/:id/:code', array('controller' => 'users','action' => 'accountConfirmation'));		
-
+	Router::connect('/users/myAccount', array('controller' => 'users', 'action' => 'myAccount'));
 
 
 	Router::connect('/networkers/delete/:id', array('controller' => 'networkers','action' => 'delete'));	

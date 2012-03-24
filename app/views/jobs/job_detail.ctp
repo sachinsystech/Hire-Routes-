@@ -12,8 +12,20 @@
 	
 <?php if(isset($job)): ?>	
 <div class="page">
+	<!--left section start-->
+	<div class="leftPanel">
+		<div class="sideMenu">
+			<?php echo $this->element('side_menu');?>
+		</div>
+	</div>
+	<!--left section end-->
 	<!-- middle section start -->
 	<div class="rightBox" >
+		<!--middle conyent top menu start-->
+			<div class='top_menu'>
+				<?php echo $this->element('top_menu');?>
+			</div>
+		<!--middle conyent top menu end-->
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time',
                                  '2'=>'Part Time',

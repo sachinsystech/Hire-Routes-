@@ -60,25 +60,17 @@
 setView('Facebook');
 function setView(value)
 {
-	$('#message').html("");
+	$('#message').hide();
 	if(value=='Email')
 	{
-		$('#liEmail').removeClass('active');
-		$('#liFacebook').removeClass('active');
-		$('#liLinkedIn').removeClass('active');
-		$('#liTwitter').removeClass('active');
-		$('#liOther').removeClass('active');
+		$('li').removeClass('active');
 		$('#li'+value).addClass('active');
 		$('#other').html("");
 		$('#to').html("<div style='padding-bottom:10px;'><strong>Email Address:</strong><textarea id='CompaniesToEmail' name='toEmail' rows='1'></textarea></div>");
 	}
 	else
 	{	
-		$('#liEmail').removeClass('active');
-		$('#liFacebook').removeClass('active');
-		$('#liLinkedIn').removeClass('active');
-		$('#liTwitter').removeClass('active');
-		$('#liOther').removeClass('active');
+		$('li').removeClass('active');
 		$('#li'+value).addClass('active');
 		$('#to').html("");
 		$('#other').html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox'/></div><div id='imageDiv' style='border: 1px solid #000000;width:400px;height:220px;overflow:auto;'>");
@@ -99,6 +91,7 @@ function share()
 		type: "post",
 		data: {toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
   		success: function(response){
+  				$('#message').show();
 				$('#message').html(response);		
 			},
 		error:function(response)

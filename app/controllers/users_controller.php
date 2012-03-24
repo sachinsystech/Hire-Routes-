@@ -63,6 +63,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('facebookUser');
 		$this->Auth->allow('facebookUserSelection');
 		$this->Auth->allow('accountConfirmation');		
+		$this->Auth->allow('myAccount');		
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -633,7 +634,31 @@ class UsersController extends AppController {
 	function facebookUserSelection(){
 		
 	}
-	
+
+/**
+ * Display setting page when user clicks on My Account link 
+ */
+ 	public function myAccount()
+ 	{
+ 		$id = $this->TrackUser->getCurrentUserId();
+		$role = $this->TrackUser->getCurrentUserRole();
+		switch($role['role_id']){
+			case 1:
+					$this->redirect(array('controller'=>'Companies','action'=>'accountProfile'));
+					break;	
+			case 2:
+					$this->redirect(array('controller'=>'jobseekers'));
+					break;
+			case 3:
+					$this->redirect(array('controller'=>'networkers'));
+					break;
+		}
+ 	}
+
+
+/**
+ * TO store before Authenticate URL
+ */	
 	private function setRedirectionUrl()
 	{
 		$redirect_url=$this->referer();

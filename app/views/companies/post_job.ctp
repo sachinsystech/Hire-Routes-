@@ -3,17 +3,16 @@
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
-			<ul>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob"><span>My Jobs</span></a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
-				<li>My Employees</li>
-			</ul>
+			<?php echo $this->element('side_menu');?>
 		</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
+		<div class="top_menu">
+			<?php echo $this->element('top_menu');?>
+		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
