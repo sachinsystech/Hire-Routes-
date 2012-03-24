@@ -26,7 +26,7 @@
 <div id="HomeContanier">
 	<div>
 		<input type=text id="SearchInput">
-		<div id="FindJob" onclick="alert('find job');">FIND JOB</div>
+		<div id="FindJob" onclick="">FIND JOB</div>
 	</div>
 	<div id="HeadingHome">		
 		<div id="HeadingVedio">HOW IT WORKS VIDEO</div>
@@ -34,7 +34,7 @@
 		<div id="HeadingJobList">JOB</div>
 	</div>
 	<div style="margin-top:10px;clear:both;">
-		<div id="Video">vedio</div>
+		<div id="Video">video</div>
 		<div id="WhyHireRoutes">
 			<div id="WhyHireRoutesData">1: Hire Routes </div>
 			<div id="WhyHireRoutesData">2: Hire Routes </div>
@@ -55,12 +55,16 @@
 			<?	endforeach;?>
 		</div>
 	</div>
-		<div id='GetStart' onclick="alert('Video');"> Get Started </div>
+		<div id='GetStart' onclick="getStarted();"> Get Started </div>
 		<div id="ContanierForSearch">
 			<label>Be in know</label>
 			<input type="text" style="width:180px;">
-			<div id="Go" onclick="alert('Find Job');">Go</div>
+			<div id="Go" onclick="">Go</div>
 		</div>
 	</div>	
-
+<script>
+function getStarted(){
+    window.location.href="/users/userSelection";			
+}
+</script>
 <!-- end content-->

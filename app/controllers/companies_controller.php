@@ -601,5 +601,44 @@ list archive jobs..
         }
   		      
     }
+
+	public function employees(){
+		$userId= $this->TrackUser->getCurrentUserId();
+		$data=$this->User->find("all",array('joins'=>array(
+														'table'=>'payment_history',
+														'type'=>'INNER',
+														'conditions'=>array(
+																		'payment_history.jobseeker_user_id=users.id'	
+																			)
+															),
+											'conditions'=>array("payment_history.user_id=$userId"),
+											'fields' =>'User.id',
+											)
+								);
+
+	pr($data);exit;
+/*
+	$appliedJob = $this->Job->find('first', array(
+														'joins' => array(
+																		array(
+																			'table' => 'jobseeker_apply',
+																			'alias' => 'JobseekerapplyJob',
+																			'type' => 'INNER',
+																			'conditions' => array(
+																				"JobseekerapplyJob.job_id = Job.id",
+																			)
+																		)
+														),
+														'conditions' => array(
+															"Job.user_id = $userId",
+															"JobseekerapplyJob.id = $appliedJobId",
+															"JobseekerapplyJob.is_active = 0"
+														),
+														'fields' => array('Job.*','JobseekerapplyJob.*'),
+														'order' => 'JobseekerapplyJob.created DESC'
+										));
+	*/
+
+	}
 }
 ?>

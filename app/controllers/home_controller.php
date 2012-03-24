@@ -9,7 +9,7 @@ class HomeController extends AppController {
 		$this->Auth->allow('companyInformation');
 		$this->Auth->allow('networkerInformation');
 		$this->Auth->allow('jobseekerInformation');
-		$this->auth->allow('howItWorks');
+		$this->Auth->allow('howItWorks');
 		$this->Auth->allow('contactUs');
 	}
 	function index(){

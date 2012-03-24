@@ -1586,8 +1586,7 @@ label.error{
 }
 #ImageHowToWork{
 	width:950px;
-	margin:5px;
-	-webkit-box-shadow: 0 0 16px #A8CD94;
+	margin:25px 0px 0px 100px ;
 }
 #JobListOnHome{
 	padding:10px;
@@ -1599,7 +1598,7 @@ label.error{
 }
 #Video{
 	margin-bottom:10px;
-	margin-right:20px;
+	margin-right:50px;
 	padding:10px;
 	height:150px;
 	border: 1px solid #000000;
@@ -1679,7 +1678,7 @@ label.error{
 }
 #HeadingWhyHireRoutes{
 	position:relative;
-	margin-left:235px;
+	margin-left:260px;
 	margin-top:-25px;	
 	height:25px;
 	width:300px;	
@@ -1691,7 +1690,7 @@ label.error{
 	float:right;
 }
 #SearchInput{
-	width:86%;
+	width:731px;
 	border-right:none;
 	float:left;
 }

@@ -40,9 +40,9 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li class="active">My Jobs</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight:normal;" href="/companies/newJobs">My Jobs</li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
-				<li><a style="color: #000000;text-decoration: none; font-weight:normal;" href="/companies/employees">My Employees</a></li>
+				<li class="active">My Employees</li>
 			</ul>
 		</div>
 		<div>Feed Back</div>

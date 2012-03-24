@@ -25,8 +25,8 @@ Sed	ut perspicia-s unde	omnis iste natus error sit .........
 <div >
 	<div id="LeftContainer">
 		<div id="HeadingInformation"  >HOW TO WORK VIDEO</div>
-		<div id="Video">vedio</div>
-		<div id="GetStart" onclick="return informationPage(4)">Get Started </div>
+		<div id="Video">video</div>
+		<div id="GetStart" onclick="return getStarted();">Get Started </div>
 		<div >
 			<div id="HeadingInformation">	WHY HIRE ROUTES?</div>
 			<div id="WhyHireRoutes">
@@ -38,14 +38,12 @@ Sed	ut perspicia-s unde	omnis iste natus error sit .........
 		</div>
 	</div>
 	<div id="InformationImage">
-		<?php echo $this->Html->image('/../img/company_info.png', array('style'=>'width:600px;height:510px;'));?>
+		<?php echo $this->Html->image('/../img/network_info.png', array('style'=>'width:600px;height:510px;','usemap'=>'#network_info'));?>
+		<map name="network_info">
+			<area shape="rect" coords="215,475,400,510" href="/users/userSelection">
+		</map>
 	</div>
 </div>
-
-
-
-
-
 <script>
 function informationPage(redirect){
 	switch(redirect){
