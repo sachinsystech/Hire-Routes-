@@ -30,11 +30,7 @@
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
-			<ul>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
-				<li  class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
-			</ul>
+			<?php echo $this->element('side_menu');?>
 		</div>
 	</div>
 	<!-- left section end -->
@@ -42,13 +38,7 @@
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
-			<ul>
-				<li class="active"><a  style="text-decoration:none" href="/networkers/setting">Settings/Subscription</a></li>	
-				<li><a style="text-decoration:none" href="/networkers">Profile</a></li>			
-			</ul>
-			<ul style="float:right">
-				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit</span></a></li>
-			</ul>
+			<?php echo $this->element('top_menu'); ?>
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
@@ -63,7 +53,8 @@
 																	'label'=>'',
 																	'options'=>$industries,
 																	'empty' =>' -- Select Industry-- ',
-																	'class'=>'networker_select_bg required'
+																	'class'=>'networker_select_bg required',
+																	'onchange'=>'return fillSpecification(this.value);'
 															)
 												);
 						?>
@@ -72,7 +63,6 @@
 						<?php echo $form -> input('specification',array(
 																	'type'=>'select',
 																	'label'=>'',
-																	'options'=>$specifications,
 																	'empty' =>' -- Select Specification-- ',
 																	'class'=>'networker_select_bg'
 															)
@@ -85,8 +75,7 @@
 							<?php echo $form -> input('state',array(
 																		'type'=>'select',
 																		'label'=>'Location: ',
-																		'options'=>$states,
-																		'empty' =>' -- All States-- ',
+																		'options'=>array('-1'=>' -- All States-- ',$states),
 																		'class'=>'networker_select_state',
 																		'onchange'=>'return fillCities(this.value);'
 																)
@@ -208,17 +197,33 @@ function deleteItem($id){
 	return false;
 }
 
+function fillSpecification($industry_id)
+{
+	$('#NetworkersSpecification option').each(function(i, option){ $(option).remove(); });
+	$.ajax({
+		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
+	 	dataType:'json',
+  		success: function(response){
+	 		document.getElementById('NetworkersSpecification').options[0]=new Option("--All Specification--",'');
+			$.each(response, function(index, specification) {
+				document.getElementById('NetworkersSpecification').options[document.getElementById('NetworkersSpecification').options.length] = new Option(specification, index);
+            });
+  		}
+	});
+}
+
 function fillCities($state_id)
 {
+	$('#NetworkersCity option').each(function(i, option){ $(option).remove(); });
 	$.ajax({
 		url: "/utilities/getCitiesOfState/"+$state_id,
 	 	dataType:'json',
   		success: function(response){
-	 		var options = '<option value=""> -- All Cities-- </option>';
-			$.each(response, function(index, item) {
-                options += '<option value="' + index + '">' + item + '</option>';
+	 		document.getElementById('NetworkersCity').options[0]=new Option("--All Cities--",'');
+			$.each(response, function(index, city) {
+				document.getElementById('NetworkersCity').options[document.getElementById('NetworkersCity').options.length] = new Option(city, index);
             });
-			$("select#NetworkersCity").html(options);
+
   		}
 	});
 }

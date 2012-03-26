@@ -4,11 +4,7 @@
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
-			<ul>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
-			</ul>
+			<?php echo $this->element('side_menu');?>
 		</div>
 	</div>
 	<!-- left section end -->

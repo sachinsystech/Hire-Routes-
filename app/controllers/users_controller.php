@@ -63,6 +63,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('facebookUser');
 		$this->Auth->allow('facebookUserSelection');
 		$this->Auth->allow('accountConfirmation');		
+		$this->Auth->allow('myAccount');		
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -177,7 +178,7 @@ class UsersController extends AppController {
 					return;
 				}
 			}
-		}	
+		}
 	}
 	
 /**
@@ -232,7 +233,7 @@ class UsersController extends AppController {
 					return;
 				}
 			}
-		}	
+		}
 	}
 	
 /**
@@ -605,10 +606,17 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Username or password not matched.', 'error');	
 			
 			}else{
+				if($this->Session->check('redirection_url'))
+				{
+					$redirect_to=$this->Session->read('redirection_url');
+					$this->Session->delete('redirection_url');
+					$this->redirect($redirect_to);					
+				}
+				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
 				$this->redirect("/users/firstTime");		
 			}
 		}
-			
+		$this->setRedirectionUrl();
 	}
 /**
  * Logs a user out, and returns the home page to redirect to.
@@ -625,7 +633,40 @@ class UsersController extends AppController {
  */	
 	function facebookUserSelection(){
 		
-	} 
-	
+	}
+
+/**
+ * Display setting page when user clicks on My Account link 
+ */
+ 	public function myAccount()
+ 	{
+ 		$id = $this->TrackUser->getCurrentUserId();
+		$role = $this->TrackUser->getCurrentUserRole();
+		switch($role['role_id']){
+			case 1:
+					$this->redirect(array('controller'=>'Companies','action'=>'accountProfile'));
+					break;	
+			case 2:
+					$this->redirect(array('controller'=>'jobseekers'));
+					break;
+			case 3:
+					$this->redirect(array('controller'=>'networkers'));
+					break;
+		}
+ 	}
+
+
+/**
+ * TO store before Authenticate URL
+ */	
+	private function setRedirectionUrl()
+	{
+		$redirect_url=$this->referer();
+		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url))
+		{
+			$this->Session->write('redirection_url',$redirect_url);
+		}
+		return true;
+	}
 }
 ?>

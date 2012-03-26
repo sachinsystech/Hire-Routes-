@@ -991,6 +991,94 @@ list archive jobs..
 			return;
 		}  		      
     }
+
+
+/**
+ * For test view share_email
+ */
+	function share_render()
+	{
+		$this->render('share_email');
+	}
+
+/**
+ * For test send_email
+ */
+	function shareJobByEmail()
+	{
+		$this->autoRender= false ;
+		if(isset($this->params['form']['toEmail'])&&!empty($this->params['form']['toEmail']))
+		{
+			$from='traineest@gmail.com';
+			$to=trim($this->params['form']['toEmail']);
+			$subject=$this->params['form']['subject'];
+			$job_details=$this->Job->find('first',array('fields'=>array(
+														'Job.id','title','reward','Company.company_name','city','state'
+														),
+														'recursive'=>-1,
+														'joins'=>array(
+															array(
+															'table'=>'companies',
+															'alias'=>'Company',
+															'type'=>'inner',
+															'fields'=>'Company.id,Company.company_name',
+															'conditions'=>array(
+																'Job.company_id = Company.id'
+																)
+															)
+														),
+														'conditions'=>array('Job.id'=>5, 'is_active'=>1)
+													)
+												);
+			$message=$this->params['form']['message'];
+			if(!isset($from)||empty($job_details))
+				return "Email address not found";
+			if(isset($job_details)&&!empty($job_details))
+				return $this->sendEmail($to,$from,$subject,$message,$job_details);
+			else
+				return "Job not selected!";
+		}
+		else
+		{
+			return "Email address not specified!";
+		}
+
+	}
+
+	private function sendEmail($to,$from,$subject,$message,$job_details)
+	{
+		$this->autoRender= false ;
+		if(isset($to) && $to!="" && isset($from) && $from!="")
+		{
+			if(isset($job_details)&&!empty($job_details))
+			{
+				try
+				{
+					$this->Email->from=$from;
+					$this->Email->to=$to;
+					$this->Email->subject=$subject;
+					$this->Email->template='shared_job_details';
+					$this->set('message',$message);
+					$this->set('job_details',$job_details);
+					$this->Email->sendAs='both';
+					$this->Email->send();
+				}catch(Exception $e)
+				{
+					pr($e);
+					exit;
+				}
+			}
+			else
+				return "Job not selected";
+			return "Email send";
+		}
+		else
+		{
+			return "Email address is not specified!";
+		}
+	}
+
+
     
 /*
 	send congratulation email to selected applicant.
@@ -1065,6 +1153,5 @@ list archive jobs..
 								));
 		return $appliedJob;
     }
-    
 }
 ?>
