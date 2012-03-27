@@ -80,4 +80,5 @@
 	</div>
 	<?php echo $form->end(); ?>
 </div>
+<div style="margin-top:50px;"><a href="/jobseekerInformation">Don't know about Jobseeker</a> </div>
 </div>
