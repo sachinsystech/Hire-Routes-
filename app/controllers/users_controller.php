@@ -460,6 +460,7 @@ class UsersController extends AppController {
  * redirect users to respective setting pages if they setting up their account.
  */
 	function firstTime() {
+		
 		$id = $this->TrackUser->getCurrentUserId();
 		$role = $this->TrackUser->getCurrentUserRole();
 		switch($role['role_id']){
@@ -598,10 +599,24 @@ class UsersController extends AppController {
 			$data = array('User' => array('account_email' => $this->data['User']['username'],
 										  'password' => Security::hash(Configure::read('Security.salt') .$this->data['User']['password'])
 										  ));
+
+			/** check if user is activated **/
+			$active_user = $this->User->find('first',array('conditions'=>array('account_email'=>$this->data['User']['username'])));
+			if($active_user ){
+				if($active_user['User']['is_active']==0 && $active_user['User']['account_email']!='admin'){
+					$this->Session->setFlash('Your account is not activated yet.', 'error');
+					$this->redirect("/users/login");
+				}
+			}else{
+				$this->Session->setFlash('User with this email does not exist.', 'error');
+				$this->redirect("/users/login");
+			}
+			
 			$this->Auth->fields = array(
 				'username' => 'account_email',
 				'password' => 'password'
 			);
+			
 			if(!$this->Auth->login($data)){
 				$this->Session->setFlash('Username or password not matched.', 'error');	
 			

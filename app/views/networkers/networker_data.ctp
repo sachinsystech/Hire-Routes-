@@ -36,7 +36,17 @@
 						</tr>
 						<?php foreach($networkerData as $degree=>$totalNetworkers){?>
 						<tr>
-							<td><?php echo $degree+1;?></td>
+							<td><?php	$networkDegree = $degree+1;
+									  	if($networkDegree==1){
+											$suffix = "st";
+									  	}elseif($networkDegree==2){
+											$suffix = "nd";
+									  	}elseif($networkDegree==3){
+											$suffix = "rd";
+									  	}else{
+											$suffix = "th";
+									  	}
+										echo $networkDegree.$suffix;?></td>
 							<td><?php echo $totalNetworkers;?></td>
 						</tr>
 						<?php }}?>						

@@ -229,6 +229,9 @@ list archive jobs..
 					}
 					$this->set('code',$code);
 				/************************** end *********************************/
+
+				$NoOfApplicants = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
+				$this->set('NoOfApplicants',$NoOfApplicants);
 		
 			}	
 			else{
@@ -493,6 +496,7 @@ list archive jobs..
 
 				$applicants = $this->paginate("JobseekerApply");
 				//echo "<pre>";  print_r($applicants);
+				$this->set('NoOfApplicants',count($applicants));
 				$this->set('applicants',$applicants);
 				$this->set('jobId',$jobId);
 			}else{
@@ -561,14 +565,15 @@ list archive jobs..
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId),"fileds"=>"id"));
 			// 	echo "<pre>"; print_r($jobs); exit;
 			if($jobs['Job']){
-				$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId)));
-
-		
+				$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
+				
 				$jobprofilelastmonth = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'is_active'=>0,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
 		
 				$jobprofilelastweek = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'is_active'=>0,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
 
@@ -589,7 +594,8 @@ list archive jobs..
 				$this->set('application_last_week',$jobprofilelastweek);
 				$this->set('view_alltime',$viewalltime);
 				$this->set('view_last_month',$viewlastmonth);
-				$this->set('view_last_week',$viewlastweek);
+				$this->set('view_last_week',$viewlastweek);				
+				$this->set('NoOfApplicants',$applicationalltime);
 			}else{
 				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
 				$this->redirect("/companies/newJob");
