@@ -596,12 +596,15 @@ class UsersController extends AppController {
 		}
 
 		if(isset($this->data['User'])){
-			$data = array('User' => array('account_email' => $this->data['User']['username'],
-										  'password' => Security::hash(Configure::read('Security.salt') .$this->data['User']['password'])
+			$username = trim($this->data['User']['username']);
+			$password = trim($this->data['User']['password']);
+
+			$data = array('User' => array('account_email' => $username,
+										  'password' => Security::hash(Configure::read('Security.salt') .$password)
 										  ));
 
 			/** check if user is activated **/
-			$active_user = $this->User->find('first',array('conditions'=>array('account_email'=>$this->data['User']['username'])));
+			$active_user = $this->User->find('first',array('conditions'=>array('account_email'=>$username)));
 			if($active_user ){
 				if($active_user['User']['is_active']==0 && $active_user['User']['account_email']!='admin'){
 					$this->Session->setFlash('Your account is not activated yet.', 'error');
