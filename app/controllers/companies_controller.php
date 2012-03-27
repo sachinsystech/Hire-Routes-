@@ -187,7 +187,8 @@ list archive jobs..
                 case 'Save for Later':
                 default:
                     $this->Session->setFlash('Job has been saved successfuly.', 'success');	
-                    $this->redirect('/companies/editJob/'.$this->Job->id);
+                    //$this->redirect('/companies/editJob/'.$this->Job->id);
+					$this->redirect('/companies/newJob');
                     break;
         
             }
