@@ -47,7 +47,7 @@
 			?>
 				<ul style="float:left">
                 	<li <?php if($this->action=='editJob') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editJob/<?php if(isset($jobId)) echo $jobId; elseif(isset($job['id'])) echo $job['id'];?>"> Edit </a></li>
-					<li <?php if($this->action=='showApplicant') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showApplicant/<?php if(isset($jobId)) echo $jobId; elseif(isset($job['id'])) echo $job['id'];?>">Applicants -<?php if(isset($applicants)) echo count($applicants);?></a></li>
+					<li <?php if($this->action=='showApplicant') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showApplicant/<?php if(isset($jobId)) echo $jobId; elseif(isset($job['id'])) echo $job['id'];?>">Applicants - <?php if(isset($NoOfApplicants)) echo $NoOfApplicants;?></a></li>
 					<li <?php if($this->action=='jobStats') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/jobStats/<?php if(isset($jobId)) echo $jobId; elseif(isset($job['id'])) echo $job['id'];?>"> Data </a></li>
 				</ul>
 			<?php

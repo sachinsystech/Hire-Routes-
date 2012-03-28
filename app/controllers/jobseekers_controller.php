@@ -237,6 +237,7 @@ class JobseekersController extends AppController {
 
 		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId),
 															   'fields'=>array('job_id'),));
+		$jobIds = array();
 		for($a=0;$a<count($applied_job);$a++){
 			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
 		}
