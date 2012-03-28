@@ -606,13 +606,13 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Username or password not matched.', 'error');	
 			
 			}else{
+				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
 				if($this->Session->check('redirection_url'))
 				{
 					$redirect_to=$this->Session->read('redirection_url');
 					$this->Session->delete('redirection_url');
 					$this->redirect($redirect_to);					
 				}
-				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
 				$this->redirect("/users/firstTime");		
 			}
 		}
