@@ -202,7 +202,6 @@
 </div>
 <script>
 $(document).ready(function(){
-	var city_id = <?php echo $jobseekerData['city'];?>;
 	fillCities(<?php echo $jobseekerData['state'];?>);
 	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
 	

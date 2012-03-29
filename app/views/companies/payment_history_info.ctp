@@ -47,10 +47,12 @@
 					<div style="clear:both;margin-left: 45px;margin-top: 35px;width: 410px;"><hr/></div>
 					<div style="clear:both;font-weight: bold;margin:10px;"><u>JOB INFO</u> ::</div>
 					<div class="job_info" style="width:500px;margin-left:50px">
+						<?php if(!empty($PaymentDetail['js']['contact_name'])):?>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Jobseeker Name:</div>
-							<div style="float:left"><?php echo $PaymentDetail['j_setting']['name']; ?></div>
+							<div style="float:left"><?php echo $PaymentDetail['js']['contact_name']; ?></div>
 						</div>
+						<?php endif;?>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Title:</div>
 							<div style="float:left"><?php echo $PaymentDetail['job']['title']; ?></div>
