@@ -10,6 +10,7 @@ class AdminController extends AppController {
 		//$this->Auth->allow('CompaniesList');
 		//$this->Auth->allow('acceptCompanyRequest');
 		$this->Auth->allow('Code');
+		$this->Auth->allow('paymentInformation');
 		$this->layout = "admin";
 	}
 	function index(){
@@ -111,6 +112,12 @@ class AdminController extends AppController {
 
 	}
 
-
+	/**
+	 * For payment information 
+	 */
+	function paymentInformation()
+	{
+	
+	}
 }
 ?>

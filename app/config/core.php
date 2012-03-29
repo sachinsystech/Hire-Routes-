@@ -307,16 +307,20 @@
  */
 	Cache::config('default', array('engine' => 'File'));
 
+	/*	Facebook API key	*/
     define("FB_API_KEY","305849939456125");
     define("FB_SECRET_KEY","e52a5d92d6429e4abd6408ca3a1fc710");
-
-    define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
-    define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
-    define("BASEPATH","/var/www/staging-hr/Hire-Routes-/app/");
+	/*************/
+    
+	/*	Twitter API key	*/	
+		define('CONSUMER_KEY', 'fEMVnhuHU9hGfoPFKG5zjA');
+		define('CONSUMER_SECRET','mWJt4MRN8rZMM6E4GYpX2KD5Ee8Zvxw0DxKJLNToumE');
+	/****************/	
 
 	/* Paypal Credentials */
-		 define('API_USERNAME', 'amahes_1296472615_biz_api1.systematixtechnocrates.com');
+		define('API_USERNAME', 'amahes_1296472615_biz_api1.systematixtechnocrates.com');
         define('API_PASSWORD', '1296472630');
         define('API_SIGNATURE', 'A0yXjfWegGWSw36x2o1FMUR9fUN.AohzBaj78ZVz.0dMA3K0e0wL0SsH');
         define('LIVEPAYPAL', '0'); //0 for sandbox, 1 for live .
 	/* *********  */
+

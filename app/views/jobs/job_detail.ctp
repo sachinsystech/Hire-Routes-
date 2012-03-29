@@ -12,8 +12,20 @@
 	
 <?php if(isset($job)): ?>	
 <div class="page">
+	<!--left section start-->
+	<div class="leftPanel">
+		<div class="sideMenu">
+			<?php echo $this->element('side_menu');?>
+		</div>
+	</div>
+	<!--left section end-->
 	<!-- middle section start -->
 	<div class="rightBox" >
+		<!--middle conyent top menu start-->
+			<div class='top_menu'>
+				<?php echo $this->element('top_menu');?>
+			</div>
+		<!--middle conyent top menu end-->
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time',
                                  '2'=>'Part Time',
@@ -92,10 +104,11 @@
 								<div>
 							</div>
 							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
-                            <div style="padding:20px;">
-                            	<div style="font-size:15px;padding-bottom:20px">
-									<a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobs/applyJob/<?php echo $job['Job']['id'];?>">
-										<strong>Apply for this job</strong>
+                            <div id="apply" style="padding:20px;">
+                            	<div style="font-size:15px;padding-bottom:20px;">
+	
+									<a style="color: #000000;text-decoration: none;text-align:center;padding-top:5px;font-weight:normal;display:block;width:200px;height:30px;" href="/jobs/applyJob/<?php echo $job['Job']['id'];?>">
+										<input style="cursor:pointer;" type="button" name="apply" value="Apply For This Job"/>
 									</a>
 								</div>
 							</div>
@@ -103,12 +116,34 @@
 						</td>
 					</tr>
 				</table>
-			</div>	
+
+			</div>
+		</div>	
             <?php echo $this->element("jobRight"); ?>
 		<!-- middle conyent list -->
 	</div>
+	<div style="float:right;width:220px;text-align:center;">
+		<p><font size='5px'><b>Total Reward $<?php echo $job['Job']['reward'];?></b></font></br>
+		<font size='3px'><b>Your reward is up to $<?php echo $job['Job']['reward'];?></b></font></p></br>
+		<p><a href='httpRootUrl/how_it_works'>See how it works >></a></p></br>
+		<?php if(empty($userrole['role'])){?>
+			<p>Know the perfact candidate for this job?</br>
+			<font size='3px'><a href='/users/login'><b>Login</b></a>
+			OR
+			<a href='/users/networkerSignup'><b>Register</b></a>
+			</font></br>
+			To share and get a Reward
+			</p></br>
+			<p>Are you the perfact candidate for this job?</br>
+			<font size='3px'><a href='/users/login'><b>Login</b></a>
+			OR
+			<a href='/users/jobseekerSignup'><b>Register</b></a>
+			</font></br>
+			To apply
+			</p>
+		<?php }?>
+	</div>
 	<!-- middle section end -->
 </div>
-<?php  endif; ?>	
+<?php  endif; ?>
 
-	

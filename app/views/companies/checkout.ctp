@@ -22,11 +22,7 @@ function check_expdate() {
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
-			<ul>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob"><span>My Jobs</span></a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
-				<li>My Employees</li>
-			</ul>
+			<?php echo $this->element('side_menu');?>
 		</div>		
 	</div>
 	<!-- left section end -->
@@ -34,11 +30,7 @@ function check_expdate() {
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
-			<ul style="float:left">
-				<li class="active">Checkout</li>
-			</ul>
-			<ul style="float:right">
-			</ul>
+			<?php echo $this->element('top_menu');?>
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->

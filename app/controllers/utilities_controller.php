@@ -3,7 +3,7 @@
  * UtilityController
  */
 class UtilitiesController extends AppController {
-    var $uses = array('Specification','State','City','Industry');
+    var $uses = array('IndustrySpecification','Specification','State','City','Industry');
 
 /**
  * get list cities of a specific state
@@ -34,6 +34,36 @@ class UtilitiesController extends AppController {
 
 		$cities=json_encode($cities);
 		return $cities;
+	}
+
+/**
+ *get list of specifications of a given Industry
+ */
+	public function getSpecificationOfIndustry()
+	{
+		$this->autoRender= false ;
+		$specifications=$this->IndustrySpecification->find('list',array(
+			'fields'=>array(
+				'Specification.id',
+				'Specification.name'
+			),
+			'recursive'=>-1,
+			'joins' => array(
+			    array(
+			        'table' => 'specification',
+			        'alias' => 'Specification',
+			        'type' => 'inner',
+			        'foreignKey' => false,
+			        'conditions'=> array('Specification.id = IndustrySpecification.specification_id')
+			    )
+			),
+			'conditions'=>array(
+					'IndustrySpecification.industry_id'=>array(0,$this->params['industry_id'])
+				)
+			)
+		);		
+		$specifications=json_encode($specifications);
+		return $specifications;
 	}
 }
 ?>

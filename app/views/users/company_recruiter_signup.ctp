@@ -108,6 +108,7 @@
       <div class="error-message"><?php echo $errors;?></div>
     <?php endif; ?>
     <?php echo $form->submit('Send A Request',array('div'=>false,)); ?>
-    <?php echo $form->end(); ?>
+    <?php echo $form->end(); ?>	
 </div>
+<div style="margin-top:50px;"><a href="/companyInformation">Don't know about Company/Recruiters</a> </div>
 </div>

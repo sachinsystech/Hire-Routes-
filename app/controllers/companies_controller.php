@@ -187,7 +187,8 @@ list archive jobs..
                 case 'Save for Later':
                 default:
                     $this->Session->setFlash('Job has been saved successfuly.', 'success');	
-                    $this->redirect('/companies/editJob/'.$this->Job->id);
+                    //$this->redirect('/companies/editJob/'.$this->Job->id);
+					$this->redirect('/companies/newJob');
                     break;
         
             }
@@ -229,6 +230,9 @@ list archive jobs..
 					}
 					$this->set('code',$code);
 				/************************** end *********************************/
+
+				$NoOfApplicants = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
+				$this->set('NoOfApplicants',$NoOfApplicants);
 		
 			}	
 			else{
@@ -287,7 +291,7 @@ list archive jobs..
 		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('payment',$payment['PaymentInfo']);
 		$appliedJobId = isset($this->params['id'])?$this->params['id']:null;
-		if(isset($appliedJobId)){
+		if(isset($appliedJobId)){			
 			
 			$appliedJob = $this->appliedJob($appliedJobId);
 		    if(!isset($appliedJob) || !isset($appliedJob['JobseekerapplyJob'])){
@@ -304,6 +308,55 @@ list archive jobs..
 		}
 		$this->set('submit_txt',$submit_txt);
 		if(isset($this->data['PaymentInfo'])){
+			
+			/*** 
+			require_once(APP.'vendors'.DS."paypalpro/paypal_pro.inc.php");
+				
+		    $firstName =urlencode($this->data['PaymentInfo']['cardholder_name']);
+		    $lastName =urlencode($this->data['PaymentInfo']['cardholder_name']);
+		    
+		    $creditCardType =urlencode($this->data['PaymentInfo']['card_type']);
+		    $creditCardNumber = urlencode($this->data['PaymentInfo']['card_no']);
+		    $expDateMonth =urlencode($this->data['PaymentInfo']['expiration_month']);
+		    $padDateMonth = str_pad($expDateMonth, 2, '0', STR_PAD_LEFT);
+		    $expDateYear =urlencode($this->data['PaymentInfo']['expiration_year']);
+		    $cvv2Number = urlencode($this->data['PaymentInfo']['ccv_code']);
+		    
+		    $address = urlencode($this->data['PaymentInfo']['address']);
+		    $city = urlencode($this->data['PaymentInfo']['city']);
+		    $state =urlencode($this->data['PaymentInfo']['state']);
+		    $zip = urlencode($this->data['PaymentInfo']['zip']);
+		    $amount = urlencode('1');
+		    $currencyCode="USD";
+		    $paymentAction = urlencode("Sale");
+	
+		    $nvpRecurring = '';
+			$methodToCall = 'doDirectPayment';
+		    
+		    $nvpstr='&PAYMENTACTION='.$paymentAction.'&AMT='.$amount.'&CREDITCARDTYPE='.$creditCardType.'&ACCT='.$creditCardNumber.'&EXPDATE='.$padDateMonth.$expDateYear.'&CVV2='.$cvv2Number.'&FIRSTNAME='.$firstName.'&LASTNAME='.$lastName.'&STREET='.$address.'&CITY='.$city.'&STATE='.$state.'&ZIP='.$zip.'&COUNTRYCODE=US&CURRENCYCODE='.$currencyCode.$nvpRecurring;
+
+			$paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE, '', '', FALSE, FALSE );
+		    $resArray = $paypalPro->hash_call($methodToCall,$nvpstr);
+		    $ack = strtoupper($resArray["ACK"]);
+			print_r($resArray);
+			exit;
+		   
+			$authorizationID = urlencode('');
+			$note = urlencode('');
+
+			// Add request-specific fields to the request string.
+			$nvpstr.="&AUTHORIZATIONID=$authorizationID&NOTE=$note";		
+
+			// Execute the API operation; see the PPHttpPost function above.
+			$httpParsedResponseAr = $this->PPHttpPost('DoVoid', $nvpstr);
+
+			if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+				exit('Void Completed Successfully: '.print_r($httpParsedResponseAr, true));
+			} else  {
+				exit('DoVoid failed: ' . print_r($httpParsedResponseAr, true));
+			}
+			exit;
+			/*** end test code***/
             
 			if( !$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
 				$this->render("payment_info");
@@ -431,38 +484,23 @@ list archive jobs..
 		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
-			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fileds"=>"id"));
+			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fields"=>"id"));
 			//echo "<pre>"; print_r($jobs); exit;
 			if($jobs['Job']){
 				$conditions = array('JobseekerApply.job_id'=>$jobs['Job']['id'],"JobseekerApply.is_active"=>0);
 	
 				if(isset($this->data['User'])){
 
-					$answer1  = $this->data['User']['answer1'];
-					$answer2  = $this->data['User']['answer2'];
-					$answer3  = $this->data['User']['answer3'];
-					$answer4  = $this->data['User']['answer4'];
-					$answer5  = $this->data['User']['answer5'];
-					$answer6  = $this->data['User']['answer6'];
-					$answer7  = $this->data['User']['answer7'];
-					$answer8  = $this->data['User']['answer8'];
-					$answer9  = $this->data['User']['answer9'];
-					$answer10 = $this->data['User']['answer10'];
-
-								
-					$conditions = array('OR' => array('JobseekerApply.answer1'  => $answer1, 
-                                    				  'JobseekerApply.answer2'  => $answer2,
-                                                      'JobseekerApply.answer3'  => $answer3,
-                                                      'JobseekerApply.answer4'  => $answer4,
-                                                      'JobseekerApply.answer5'  => $answer5,
-									                  'JobseekerApply.answer6'  => $answer6,
-													  'JobseekerApply.answer7'  => $answer7,
-													  'JobseekerApply.answer8'  => $answer8,
-													  'JobseekerApply.answer9'  => $answer9,
-													  'JobseekerApply.answer10' => $answer10,
-													),
-					                    'AND' => array('JobseekerApply.job_id'=>$jobs['Job']['id'],
-													   'JobseekerApply.is_active'=>0)
+					$i=0;
+					foreach($this->data['User'] as $answer=>$user){
+						if($user!=""){
+							$ans[$i] = array($answer=>$user);
+							$i++;
+						}
+					}
+					
+					$conditions = array('OR' => $ans,
+					                    'AND' => $conditions
 					                  );
 					
 					$this->set('filterOpt',$this->data['User']);
@@ -493,6 +531,7 @@ list archive jobs..
 
 				$applicants = $this->paginate("JobseekerApply");
 				//echo "<pre>";  print_r($applicants);
+				$this->set('NoOfApplicants',count($applicants));
 				$this->set('applicants',$applicants);
 				$this->set('jobId',$jobId);
 			}else{
@@ -561,14 +600,15 @@ list archive jobs..
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId),"fileds"=>"id"));
 			// 	echo "<pre>"; print_r($jobs); exit;
 			if($jobs['Job']){
-				$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId)));
-
-		
+				$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
+				
 				$jobprofilelastmonth = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'is_active'=>0,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
 		
 				$jobprofilelastweek = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'is_active'=>0,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
 
@@ -589,7 +629,8 @@ list archive jobs..
 				$this->set('application_last_week',$jobprofilelastweek);
 				$this->set('view_alltime',$viewalltime);
 				$this->set('view_last_month',$viewlastmonth);
-				$this->set('view_last_week',$viewlastweek);
+				$this->set('view_last_week',$viewlastweek);				
+				$this->set('NoOfApplicants',$applicationalltime);
 			}else{
 				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
 				$this->redirect("/companies/newJob");
@@ -943,6 +984,94 @@ list archive jobs..
 			return;
 		}  		      
     }
+
+
+/**
+ * For test view share_email
+ */
+	function share_render()
+	{
+		$this->render('share_email');
+	}
+
+/**
+ * For test send_email
+ */
+	function shareJobByEmail()
+	{
+		$this->autoRender= false ;
+		if(isset($this->params['form']['toEmail'])&&!empty($this->params['form']['toEmail']))
+		{
+			$from='traineest@gmail.com';
+			$to=trim($this->params['form']['toEmail']);
+			$subject=$this->params['form']['subject'];
+			$job_details=$this->Job->find('first',array('fields'=>array(
+														'Job.id','title','reward','Company.company_name','city','state'
+														),
+														'recursive'=>-1,
+														'joins'=>array(
+															array(
+															'table'=>'companies',
+															'alias'=>'Company',
+															'type'=>'inner',
+															'fields'=>'Company.id,Company.company_name',
+															'conditions'=>array(
+																'Job.company_id = Company.id'
+																)
+															)
+														),
+														'conditions'=>array('Job.id'=>5, 'is_active'=>1)
+													)
+												);
+			$message=$this->params['form']['message'];
+			if(!isset($from)||empty($job_details))
+				return "Email address not found";
+			if(isset($job_details)&&!empty($job_details))
+				return $this->sendEmail($to,$from,$subject,$message,$job_details);
+			else
+				return "Job not selected!";
+		}
+		else
+		{
+			return "Email address not specified!";
+		}
+
+	}
+
+	private function sendEmail($to,$from,$subject,$message,$job_details)
+	{
+		$this->autoRender= false ;
+		if(isset($to) && $to!="" && isset($from) && $from!="")
+		{
+			if(isset($job_details)&&!empty($job_details))
+			{
+				try
+				{
+					$this->Email->from=$from;
+					$this->Email->to=$to;
+					$this->Email->subject=$subject;
+					$this->Email->template='shared_job_details';
+					$this->set('message',$message);
+					$this->set('job_details',$job_details);
+					$this->Email->sendAs='both';
+					$this->Email->send();
+				}catch(Exception $e)
+				{
+					pr($e);
+					exit;
+				}
+			}
+			else
+				return "Job not selected";
+			return "Email send";
+		}
+		else
+		{
+			return "Email address is not specified!";
+		}
+	}
+
+
     
 /*
 	send congratulation email to selected applicant.
@@ -1017,6 +1146,61 @@ list archive jobs..
 								));
 		return $appliedJob;
     }
-    
+
+	private function PPHttpPost($methodName_, $nvpStr_) {
+	$environment = 'sandbox';
+
+	// Set up your API credentials, PayPal end point, and API version.
+	$API_UserName = urlencode(API_USERNAME);
+	$API_Password = urlencode(API_PASSWORD);
+	$API_Signature = urlencode(API_SIGNATURE);
+	$API_Endpoint = "https://api-3t.paypal.com/nvp";
+	if("sandbox" === $environment || "beta-sandbox" === $environment) {
+		$API_Endpoint = "https://api-3t.$environment.paypal.com/nvp";
+	}
+	$version = urlencode('51.0');
+
+	// Set the curl parameters.
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
+	curl_setopt($ch, CURLOPT_VERBOSE, 1);
+
+	// Turn off the server and peer verification (TrustManager Concept).
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_POST, 1);
+
+	// Set the API operation, version, and API signature in the request.
+	$nvpreq = "METHOD=$methodName_&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_";
+
+	// Set the request as a POST FIELD for curl.
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
+
+	// Get response from the server.
+	$httpResponse = curl_exec($ch);
+
+	if(!$httpResponse) {
+		exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
+	}
+
+	// Extract the response details.
+	$httpResponseAr = explode("&", $httpResponse);
+
+	$httpParsedResponseAr = array();
+	foreach ($httpResponseAr as $i => $value) {
+		$tmpAr = explode("=", $value);
+		if(sizeof($tmpAr) > 1) {
+			$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
+		}
+	}
+
+	if((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr)) {
+		exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
+	}
+
+	return $httpParsedResponseAr;
+}
 }
 ?>
