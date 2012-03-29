@@ -104,11 +104,11 @@
 								<div>
 							</div>
 							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
-                            <div style="padding:20px;">
-                            	<div style="font-size:15px;padding-bottom:20px">
+                            <div id="apply" style="padding:20px;">
+                            	<div style="font-size:15px;padding-bottom:20px;">
 	
-									<a style="color: #000000;background:rgb(0, 255, 0);text-decoration: none;text-align:center;padding-top:5px;font-weight:normal;display:block;width:200px;height:30px;" href="/jobs/applyJob/<?php echo $job['Job']['id'];?>">
-										<strong>Apply for this job</strong>
+									<a style="color: #000000;text-decoration: none;text-align:center;padding-top:5px;font-weight:normal;display:block;width:200px;height:30px;" href="/jobs/applyJob/<?php echo $job['Job']['id'];?>">
+										<input style="cursor:pointer;" type="button" name="apply" value="Apply For This Job"/>
 									</a>
 								</div>
 							</div>
