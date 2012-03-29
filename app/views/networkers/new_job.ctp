@@ -21,11 +21,7 @@
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
-			<ul>
-				<li class='active'><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/"><span>My Account</span></a></li>
-			</ul>
+			<?php echo $this->element('side_menu');?>
 		</div>
 	</div>
 	<!-- left section end -->
@@ -34,12 +30,7 @@
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
-			<ul>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Inbox - <?php echo $NewJobs;?></a></li>	
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Shared - 10</a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#"> Data </a></li>			
-            </ul>	
+			<?php echo $this->element('top_menu'); ?>
 		</div>
 <div class="middleBox">
         <div class="jobs_topMenu">

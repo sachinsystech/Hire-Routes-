@@ -310,6 +310,8 @@
 
     define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
     define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
+
+	/*		********		*/
     define("BASEPATH","/var/www/staging-hr/Hire-Routes-/app/");
 	
 	/*	Facebook API key	*/

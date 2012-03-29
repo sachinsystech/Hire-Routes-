@@ -3,7 +3,7 @@
 class UtilityComponent extends Object
 {
 	var $controller = true;
-	var $components = array('Session','Auth');
+	var $components = array('Session','Auth','Email');
 	var $uses = array('Industry','State','City','Specification','FacebookUsers','Companies');
 	
 	function initialize(&$controller) {
@@ -123,7 +123,5 @@ class UtilityComponent extends Object
         }
         return null;
     }
-
-
 }
 ?>
