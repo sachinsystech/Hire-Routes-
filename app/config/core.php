@@ -33,7 +33,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 3);
+	Configure::write('debug', 0);
 
 /**
  * CakePHP Log Level:
@@ -91,7 +91,7 @@
  * Turn off all caching application-wide.
  *
  */
-	//Configure::write('Cache.disable', true);
+	Configure::write('Cache.disable', true);
 
 /**
  * Enable cache checking.
@@ -127,8 +127,8 @@
 	Configure::write('Session.save', 'php');
  
 
-    Configure::write('rootURL','192.168.1.28/');
-    Configure::write('httpRootURL','http://192.168.1.28/');	
+    Configure::write('rootURL','qa.hireroutes.com/');
+    Configure::write('httpRootURL','http://qa.hireroutes.com/');	
 
 /**
  * The model name to be used for the session model.
@@ -307,9 +307,16 @@
  */
 	Cache::config('default', array('engine' => 'File'));
 
-    define("FB_API_KEY","169752649798619");
-    define("FB_SECRET_KEY","7254bec29aa59710c004a97a2716374c");
+    define("FB_API_KEY","305849939456125");
+    define("FB_SECRET_KEY","e52a5d92d6429e4abd6408ca3a1fc710");
 
     define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
     define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
-  
+    define("BASEPATH","/var/www/staging-hr/Hire-Routes-/app/");
+
+	/* Paypal Credentials */
+		 define('API_USERNAME', 'amahes_1296472615_biz_api1.systematixtechnocrates.com');
+        define('API_PASSWORD', '1296472630');
+        define('API_SIGNATURE', 'A0yXjfWegGWSw36x2o1FMUR9fUN.AohzBaj78ZVz.0dMA3K0e0wL0SsH');
+        define('LIVEPAYPAL', '0'); //0 for sandbox, 1 for live .
+	/* *********  */
