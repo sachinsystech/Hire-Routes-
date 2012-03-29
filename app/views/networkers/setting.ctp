@@ -99,7 +99,7 @@
 						<?php echo $form->end(); ?>
 				</div>
 				
-				<div style="clear: both; margin:auto;" class="form_content">
+				<div style="clear: both; margin:auto;" >
 					<b>Current Subscriptions:</b>
 					
 					
@@ -137,9 +137,10 @@
 					</div>
 					
 				
-				</div>
-				 <?php echo $form->create('', array('name'=>'Subscriptions','controller'=>'networkers','action' => 'sendNotifyEmail','onsubmit'=>'return check_email_subs();')); ?>
+				
 				<div class="form_content">
+				 <?php echo $form->create('', array('name'=>'Subscriptions','controller'=>'networkers','action' => 'sendNotifyEmail','onsubmit'=>'return check_email_subs();')); ?>
+				
 					<div>
 						<?php	if(isset($SubscriptionData)){ $id = $SubscriptionData['id']; } else { $id = "";}
                                     echo $form->input('Networkers.id', array('label' => '',
@@ -174,12 +175,12 @@
 						</div>
 						<div>
 							<?php echo $form ->submit('Save');?>
-						</div>
-				</div>
-				<?php echo $form->end(); ?>						   
+						</div>				
+					<?php echo $form->end(); ?>	
+				</div>	
+				</div>				   
 			</div>
 		<!-- middle conyent list -->
-
 	</div>
 	<!-- middle section end -->
 </div>

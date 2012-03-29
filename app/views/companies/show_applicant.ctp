@@ -1,12 +1,27 @@
-<?php //echo "<pre>"; print_r($jobs); exit;?>
 <script>
-	function gotoUrl(val){
-		if(val!=''){
-			document.webform.submit();
-		}else{
-			return false;
-		}
+function valid_form(){
+	answer1 = $("#UserAnswer1").val();
+	answer2 = $("#UserAnswer2").val();
+	answer3 = $("#UserAnswer3").val();
+	answer4 = $("#UserAnswer4").val();
+	answer5 = $("#UserAnswer5").val();
+	answer6 = $("#UserAnswer6").val();
+	answer7 = $("#UserAnswer7").val();
+	answer8 = $("#UserAnswer8").val();
+	answer9 = $("#UserAnswer9").val();
+	answer10 = $("#UserAnswer10").val();
+	if(answer1==="" && answer2==="" && answer3==="" && answer4==="" && answer5==="" && answer6==="" && answer7==="" && answer8==="" && answer9==="" && answer10===""){
+		$("#error_div").removeClass().addClass("js_terms-condition-error").html("Please Select Atleast One Option to Filter Results.*");
+		return false;
 	}
+}
+
+function clear_div(val){
+	if(val!=""){
+		$("#error_div").html(""); 
+	}
+}
+		
 </script>
 <div class="page">
 	<!-- left section start -->	
@@ -25,7 +40,7 @@
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		    <div class="middleBox">
-			<?php echo $form->create('', array('url' => array('controller' => 'companies', 'action' => 'showApplicant/'.$jobId),'name'=>'webform'));?>
+			<?php echo $form->create('', array('url' => array('controller' => 'companies', 'action' => 'showApplicant/'.$jobId),'name'=>'webform','onsubmit'=>'return valid_form();'));?>
 			<div>
 				<div>Search By</div>
 
@@ -37,7 +52,7 @@
 															 'class'   => '',
 															 'options' =>$answer1_array,
 															 'value'   => isset($filterOpt['answer1'])?$filterOpt['answer1']:"",
-															 'onChange'=>"return gotoUrl(this.value);"));?>
+															 'onChange'=>"return clear_div(this.value);"));?>
 				</div> 
 
 				<div style="float:left;" id="lbl">Work Experience</div>
@@ -48,7 +63,7 @@
 															 'class'   => '',
 															 'options' =>$answer2_array,
 															 'value'   => isset($filterOpt['answer2'])?$filterOpt['answer2']:"",
-															 'onChange'=>"return gotoUrl(this.value);"));?>
+															 'onChange'=>"return clear_div(this.value);"));?>
 				</div> 
 
 				<div style="float:left;" id="lbl">Current CTC</div>
@@ -59,7 +74,8 @@
                                                                'class'   => '',
 															   'options' =>$answer3_array,
 															   'value'   => isset($filterOpt['answer3'])?$filterOpt['answer3']:"",
-															   'onChange'=>"return gotoUrl(this.value);"));?>
+																'onChange'=>"return clear_div(this.value);"
+															   ));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Expected CTC</div>
@@ -69,7 +85,8 @@
                                                              'class'   => '',
 															 'options' =>$answer3_array,
 															 'value'   => isset($filterOpt['answer4'])?$filterOpt['answer4']:"",
-															 'onChange'=>"return gotoUrl(this.value);"));?>
+															 'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div> 
 
 				<div style="float:left;" id="lbl" >Job Type</div>
@@ -86,7 +103,8 @@
                                                              'class'   => '',
 															 'options' =>$answer5_array,
 															 'value'   => isset($filterOpt['answer5'])?$filterOpt['answer5']:"",
-															 'onChange'=>"return gotoUrl(this.value);"));?>
+															 'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Ready to relocate</div>
@@ -97,7 +115,8 @@
                                                              'class'   => '',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer6'])?$filterOpt['answer6']:"",
-															 'onChange'=>"return gotoUrl(this.value);"));?>
+															 'onChange'=>"return clear_div(this.value);"
+															));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Shifts Availability</div>
@@ -107,7 +126,8 @@
                                                              'class'   => '',
 									                         'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer7'])?$filterOpt['answer7']:"",
-															 'onChange'=>"return gotoUrl(this.value);"));?>
+															 'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Passport Availability</div>
@@ -117,7 +137,8 @@
                                                              'class'   => '',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer8'])?$filterOpt['answer8']:"",
-															 'onChange'=>"return gotoUrl(this.value);"));?>
+															 'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Travel Ability</div>
@@ -127,7 +148,8 @@
                                                              'class'   => '',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer9'])?$filterOpt['answer9']:"",
-															 'onChange'=>"return gotoUrl(this.value);"));?>
+														     'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div> 
 
 				<div style="float:left;" id="lbl">Training Needs</div>
@@ -137,8 +159,13 @@
                                                               'class'   => '',
 															  'options' =>$answer6_array,
 															  'value'   => isset($filterOpt['answer10'])?$filterOpt['answer10']:"",
-															 'onChange' =>"return gotoUrl(this.value);"));?>
+															  'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div> 				
+			</div>			
+			<div style="float:right;margin:20px">
+				<div id="error_div"></div>
+				<?php	echo $form->submit('Search',array('div'=>false,)); ?>	
 			</div>
 			<?php echo $form->end();?>
 			<table style="width:100%">

@@ -66,7 +66,7 @@
 																			 'type'  => 'select',
                                                                              'class' => '',
 																			 'options'=>$answer5_array,
-																			 'value' => $jobprofile['answer5']));?>
+																			 'value' => isset($jobprofile['answer5'])?$jobprofile['answer5']:""));?>
 								</div>
 								<div>
 								<?php $answer6_array = array('Yes'=>'Yes','No'=>'No'); ?>
@@ -104,12 +104,12 @@
 																			 'options'=>$answer6_array,
 																			 'value' => isset($jobprofile['answer10'])?$jobprofile['answer10']:""));?>
 								</div>
-								<?php if($is_resume!=''){?>
+								<?php if(isset($is_resume) && $is_resume!=''){?>
 								<div>
 									<?php echo $html->link('Your Resume',array('controller'=>'/jobseekers','action' => '/viewResume/resume/'.$jobprofile['file_id']));?>
 								</div>
 								<?php }?>
- 								<?php if($is_resume!=''){?>
+ 								<?php if(isset($is_resume) && $is_resume!=''){?>
  								<div>
                       				<?php echo $form->input('resume', array('label' => 'Upload Resume (pdf, txt, doc)',
 																			 'type'  => 'file',
@@ -117,13 +117,13 @@
 								</div>
 								<?php }else{ ?>
 								<div>
-                      				<?php echo $form->input('resume', array('label' => 'Upload Resume (pdf, txt, doc)',
+                      				<?php echo $form->input('resume', array('label' => 'Upload Resume* (pdf, txt, doc)',
 																			 'type'  => 'file',
                                                                              'id'    => 'resume',
 																			 'class' => 'required',));?>
 								</div>
 								<?php }?>
-								<?php if($is_cover_letter!=''){?>
+								<?php if(isset($is_cover_letter) && $is_cover_letter!=''){?>
 								<div>
 									<?php echo $html->link('Your Cover Letter',array('controller'=>'/jobseekers','action' => '/viewResume/cover_letter/'.$jobprofile['file_id']));?>
 								</div>
