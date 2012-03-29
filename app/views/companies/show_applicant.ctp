@@ -1,4 +1,13 @@
 <?php //echo "<pre>"; print_r($jobs); exit;?>
+<script>
+	function gotoUrl(val){
+		if(val!=''){
+			document.webform.submit();
+		}else{
+			return false;
+		}
+	}
+</script>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -28,7 +37,7 @@
 															 'class'   => '',
 															 'options' =>$answer1_array,
 															 'value'   => isset($filterOpt['answer1'])?$filterOpt['answer1']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return gotoUrl(this.value);"));?>
 				</div> 
 
 				<div style="float:left;" id="lbl">Work Experience</div>
@@ -39,7 +48,7 @@
 															 'class'   => '',
 															 'options' =>$answer2_array,
 															 'value'   => isset($filterOpt['answer2'])?$filterOpt['answer2']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return gotoUrl(this.value);"));?>
 				</div> 
 
 				<div style="float:left;" id="lbl">Current CTC</div>
@@ -50,7 +59,7 @@
                                                                'class'   => '',
 															   'options' =>$answer3_array,
 															   'value'   => isset($filterOpt['answer3'])?$filterOpt['answer3']:"",
-															   'onChange'=>"javascript:document.webform.submit();"));?>
+															   'onChange'=>"return gotoUrl(this.value);"));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Expected CTC</div>
@@ -60,7 +69,7 @@
                                                              'class'   => '',
 															 'options' =>$answer3_array,
 															 'value'   => isset($filterOpt['answer4'])?$filterOpt['answer4']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return gotoUrl(this.value);"));?>
 				</div> 
 
 				<div style="float:left;" id="lbl" >Job Type</div>
@@ -77,7 +86,7 @@
                                                              'class'   => '',
 															 'options' =>$answer5_array,
 															 'value'   => isset($filterOpt['answer5'])?$filterOpt['answer5']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return gotoUrl(this.value);"));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Ready to relocate</div>
@@ -88,7 +97,7 @@
                                                              'class'   => '',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer6'])?$filterOpt['answer6']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return gotoUrl(this.value);"));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Shifts Availability</div>
@@ -98,7 +107,7 @@
                                                              'class'   => '',
 									                         'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer7'])?$filterOpt['answer7']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return gotoUrl(this.value);"));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Passport Availability</div>
@@ -108,7 +117,7 @@
                                                              'class'   => '',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer8'])?$filterOpt['answer8']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return gotoUrl(this.value);"));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Travel Ability</div>
@@ -118,7 +127,7 @@
                                                              'class'   => '',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer9'])?$filterOpt['answer9']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return gotoUrl(this.value);"));?>
 				</div> 
 
 				<div style="float:left;" id="lbl">Training Needs</div>
@@ -128,7 +137,7 @@
                                                               'class'   => '',
 															  'options' =>$answer6_array,
 															  'value'   => isset($filterOpt['answer10'])?$filterOpt['answer10']:"",
-															 'onChange' =>"javascript:document.webform.submit();"));?>
+															 'onChange' =>"return gotoUrl(this.value);"));?>
 				</div> 				
 			</div>
 			<?php echo $form->end();?>

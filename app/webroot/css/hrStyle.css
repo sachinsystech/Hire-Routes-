@@ -1034,6 +1034,13 @@ label.error{
     padding: 10px;
     width: 745px;
 }
+.middleBox .jobs_topMenu {
+    border-style: solid solid solid none;
+    border-width: 1px 1px 1px medium;
+    height: 40px;
+    padding: 10px;
+    width: 637px;
+}
 .jobs_sideMenu{
 	margin-left: 5px;
 }
