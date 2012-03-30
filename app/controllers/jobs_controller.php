@@ -212,10 +212,12 @@ class JobsController extends AppController {
         $roleInfo = $this->getCurrentUserRole();
         $this->set('userrole',$roleInfo);
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
-		$jobprofile['JobseekerProfile']['file_id'] = $jobprofile['JobseekerProfile']['id'];
-		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
-		$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
-		$this->set('is_cover_letter', $jobprofile['JobseekerProfile']['cover_letter']);
+		if($jobprofile){
+			$jobprofile['JobseekerProfile']['file_id'] = $jobprofile['JobseekerProfile']['id'];		
+			$this->set('jobprofile',$jobprofile['JobseekerProfile']);
+			$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
+			$this->set('is_cover_letter', $jobprofile['JobseekerProfile']['cover_letter']);
+		}
 
 		// Job information
 		if(isset($this->params['jobId'])){
@@ -223,8 +225,7 @@ class JobsController extends AppController {
 			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
 			if($job['Job']){
 				$this->set('job',$job['Job']);
-			}
-			else{
+			}else{
 				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
 				$this->redirect('/jobs/');
 			}
@@ -294,7 +295,7 @@ class JobsController extends AppController {
                    
 		if($intermediateUsers=$this->Utility->getIntermediateUsers($this->params['jobId']))
             $this->data['JobseekerApply']['intermediate_users'] = $intermediateUsers;
-		$this->JobseekerApply->save($this->data['JobseekerApply']);
+			$this->JobseekerApply->save($this->data['JobseekerApply']);
 		
 		// If user doesnt have a job profile 
 		if(!$jobprofile){

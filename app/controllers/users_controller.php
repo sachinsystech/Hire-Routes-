@@ -611,7 +611,7 @@ class UsersController extends AppController {
 			$active_user = $this->User->find('first',array('conditions'=>array('account_email'=>$username)));
 			if($active_user ){
 				if($active_user['User']['is_active']==0 && $active_user['User']['account_email']!='admin'){
-					$this->Session->setFlash('Your account is not activated yet.', 'error');
+					$this->Session->setFlash('Your account is not confirmed, please check you email for confirmation link.', 'error');
 					$this->redirect("/users/login");
 				}
 			}else{
