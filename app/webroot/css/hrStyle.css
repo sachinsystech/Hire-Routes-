@@ -1351,7 +1351,7 @@ label.error{
     border: 1px solid #000000;
     height: 20px;
     margin-left: 79px;
-    width: 193px;
+    width: 192px;
 }
 .payment_text_field {
     border: 1px solid;
@@ -1693,6 +1693,7 @@ border: 1px solid #000000;
     margin-left: 77px;
     width: 196px;
 }
+
 .js_select_ls{
     background-color: #FDFDFD;
     border: 1px solid #000000;
@@ -1700,6 +1701,7 @@ border: 1px solid #000000;
     margin-left: 28px;
     width: 196px;
 }
+
 .js_select_city{
     background-color: #FDFDFD;
     border: 1px solid #000000;
@@ -1773,6 +1775,7 @@ border: 1px solid #000000;
 	font-size:15px;
 }
 
+
 .jobDetail_middleBox #apply a{
     color: #000000;
 	text-decoration: none;
@@ -1784,7 +1787,26 @@ border: 1px solid #000000;
 	height:30px;
 }
 
-.jobDetail_middleBox #apply input[type="button"]{
+
+#UserShowApplicantForm div{
+	padding: 0.2em;
+}
+
+.show_appl_filter_select{
+    background-color: #FDFDFD;
+    border: 1px solid #000000;
+    height: 21px;
+    width: 125px;
+}
+.txt_bg_twiter_tweet{
+    border: 1px solid;
+    font-size: 91%;
+    height: 20px;
+    width: 156px;
+
+
+#apply input[type="button"]{
+
     background: -moz-linear-gradient(center top , #F1F1D4, #E6E49F) repeat scroll 0 0 #E6E49F;
     border: 1px solid #AAAC62;
     border-radius: 8px 8px 8px 8px;

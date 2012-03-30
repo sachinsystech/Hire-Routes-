@@ -390,9 +390,9 @@ list archive jobs..
 		}
 	}
 	
-	function paymentHistoryInfo(){
+function paymentHistoryInfo(){
 		
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->TrackUser->getCurrentUserId();
 		$id = isset($this->params['id'])?$this->params['id']:"";
 		$tid = isset($this->params['tid'])?$this->params['tid']:"";
 		$roleInfo = $this->TrackUser->getCurrentUserRole();
@@ -417,13 +417,13 @@ list archive jobs..
 																			           'alias' => 'job',
 																			           'type' => 'INNER',
 																			           'conditions' => array('PaymentHistory.job_id = job.id',)),
-																			        array('table' => 'jobseeker_settings',
-																			           'alias' => 'j_setting',
+																			        array('table' => 'jobseekers',
+																			           'alias' => 'js',
 																			           'type' => 'INNER',
 																			           'conditions' => array(
-																				           		'PaymentHistory.jobseeker_user_id = j_setting.user_id',)),   
+																				           		'PaymentHistory.jobseeker_user_id = js.user_id',)),   
 																			),
-																 		'fields'=>array( 'PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, job.id,job.title, job.short_description, jsapply.*, j_setting.name') 
+																 		'fields'=>array( 'PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, job.id,job.title, job.short_description, jsapply.*, js.contact_name') 
 																 	) 
 																); 		
 			if(!$PaymentDetail){
@@ -817,7 +817,6 @@ list archive jobs..
             $saveUser['User']['linkedin_token'] = serialize($linkedin->access_token);
             $this->User->save($saveUser);
             $this->set('error',false);
-            
         }
 
     }
@@ -1146,61 +1145,143 @@ list archive jobs..
 								));
 		return $appliedJob;
     }
+/**		*****	Twitter :: Handling	*****	**/
+
+	private function getTwitterObject(){
+		require_once(APP_DIR.'/vendors/twitter/EpiCurl.php'); 
+		require_once(APP_DIR.'/vendors/twitter/EpiOAuth.php'); 
+		require_once(APP_DIR.'/vendors/twitter/EpiTwitter.php'); 
+		require_once(APP_DIR.'/vendors/twitter/secret.php');
+		$twitterObj = new EpiTwitter(CONSUMER_KEY, CONSUMER_SECRET);
+		return $twitterObj;
+	}
+
+	private function connectTwitter(){
+		$this->redirect($this->getTwitterObject()->getAuthorizationUrl());
+	}
+
+	function twitterCallback(){
+	 	$userId = $this->Session->read('Auth.User.id');
+		$oauth_token = isset($this->params['url']['oauth_token'])?$this->params['url']['oauth_token']:'';
+		if($oauth_token){
+			$twitterObj = $this->getTwitterObject();
+			$twitterObj->setToken($oauth_token);
+			$token = $twitterObj->getAccessToken();			
+			
+			$currentUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+            $currentUser['User']['twitter_token'] = $token->oauth_token;
+            $currentUser['User']['twitter_token_secret'] = $token->oauth_token_secret;
+            if($this->User->save($currentUser)){
+            	$this->redirect("/companies/getTwitterFriendList");
+            }            
+		}
+	}	
+	
+	function postTweet(){
+		$user = $user = $this->data['Twitter']['SendTo'];
+		$msg = $this->data['Twitter']['msg'];
+		$twitterObj = $this->getTwitterObject();
+		$twitterObj->setToken($this->Session->read('Twitter.twitter_token'),$this->Session->read('Twitter.twitter_token_secret'));
+		$myArray = array('user' => $user, 'text' => $msg);
+        $resp = $twitterObj->post_direct_messagesNew( $myArray);
+        $temp = $resp->response;
+		$this->Session->setFlash('Your message has been posted successfuly.', 'success');
+		$this->redirect("/companies/getTwitterFriendList");
+	}
+	
+	function getTwitterFriendList(){
+        $userId = $this->Session->read('Auth.User.id');
+		$user = $this->User->find('first',array('fields'=>array('twitter_token','twitter_token_secret'),'conditions'=>array('id'=>$userId,
+																								'twitter_token !='=>'',
+																								'twitter_token_secret !='=>'')));
+		if(!$user){
+			$this->connectTwitter();
+		}
+		else{
+			$twitterObj = $this->getTwitterObject();
+			
+			$this->Session->write('Twitter.twitter_token',$user['User']['twitter_token']);
+			$this->Session->write('Twitter.twitter_token_secret',$user['User']['twitter_token_secret']);
+			
+			$twitterObj->setToken($user['User']['twitter_token'],$user['User']['twitter_token_secret']);
+			$twitterInfo= $twitterObj->get_accountVerify_credentials();
+			$twitterInfo->response;
+
+			$username = $twitterInfo->screen_name;
+			$profilepic = $twitterInfo->profile_image_url;
+			
+			$trends_url = "http://api.twitter.com/1/statuses/followers/$username.json";
+			$ch = curl_init(); 
+			curl_setopt($ch, CURLOPT_URL, $trends_url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			$curlout = curl_exec($ch);
+			curl_close($ch);
+			$response = json_decode($curlout, true);			
+			$this->set('url',$twitterObj->getAuthorizationUrl());
+			$this->set('username',$username);
+			$this->set('profilepic',$profilepic);
+			$this->set('response',$response);
+		}		
+    }
+   /**		*****	End of Twitter :: Handling	*****	**/  
+    
+
 
 	private function PPHttpPost($methodName_, $nvpStr_) {
-	$environment = 'sandbox';
+		$environment = 'sandbox';
 
-	// Set up your API credentials, PayPal end point, and API version.
-	$API_UserName = urlencode(API_USERNAME);
-	$API_Password = urlencode(API_PASSWORD);
-	$API_Signature = urlencode(API_SIGNATURE);
-	$API_Endpoint = "https://api-3t.paypal.com/nvp";
-	if("sandbox" === $environment || "beta-sandbox" === $environment) {
-		$API_Endpoint = "https://api-3t.$environment.paypal.com/nvp";
-	}
-	$version = urlencode('51.0');
-
-	// Set the curl parameters.
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
-	curl_setopt($ch, CURLOPT_VERBOSE, 1);
-
-	// Turn off the server and peer verification (TrustManager Concept).
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	curl_setopt($ch, CURLOPT_POST, 1);
-
-	// Set the API operation, version, and API signature in the request.
-	$nvpreq = "METHOD=$methodName_&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_";
-
-	// Set the request as a POST FIELD for curl.
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
-
-	// Get response from the server.
-	$httpResponse = curl_exec($ch);
-
-	if(!$httpResponse) {
-		exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
-	}
-
-	// Extract the response details.
-	$httpResponseAr = explode("&", $httpResponse);
-
-	$httpParsedResponseAr = array();
-	foreach ($httpResponseAr as $i => $value) {
-		$tmpAr = explode("=", $value);
-		if(sizeof($tmpAr) > 1) {
-			$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
+		// Set up your API credentials, PayPal end point, and API version.
+		$API_UserName = urlencode(API_USERNAME);
+		$API_Password = urlencode(API_PASSWORD);
+		$API_Signature = urlencode(API_SIGNATURE);
+		$API_Endpoint = "https://api-3t.paypal.com/nvp";
+		if("sandbox" === $environment || "beta-sandbox" === $environment) {
+			$API_Endpoint = "https://api-3t.$environment.paypal.com/nvp";
 		}
+		$version = urlencode('51.0');
+
+		// Set the curl parameters.
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
+		curl_setopt($ch, CURLOPT_VERBOSE, 1);
+
+		// Turn off the server and peer verification (TrustManager Concept).
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+
+		// Set the API operation, version, and API signature in the request.
+		$nvpreq = "METHOD=$methodName_&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_";
+
+		// Set the request as a POST FIELD for curl.
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
+
+		// Get response from the server.
+		$httpResponse = curl_exec($ch);
+
+		if(!$httpResponse) {
+			exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
+		}
+
+		// Extract the response details.
+		$httpResponseAr = explode("&", $httpResponse);
+
+		$httpParsedResponseAr = array();
+		foreach ($httpResponseAr as $i => $value) {
+			$tmpAr = explode("=", $value);
+			if(sizeof($tmpAr) > 1) {
+				$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
+			}
+		}
+
+		if((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr)) {
+			exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
+		}
+
+		return $httpParsedResponseAr;
 	}
 
-	if((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr)) {
-		exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
-	}
-
-	return $httpParsedResponseAr;
-}
 }
 ?>
