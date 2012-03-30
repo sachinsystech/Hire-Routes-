@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is core configuration file.
  *
