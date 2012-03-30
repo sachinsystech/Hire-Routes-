@@ -3,6 +3,7 @@ class HomeController extends AppController {
     var $uses = array('Home');
 				
 	var $helpers = array('Form');
+	/*
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->allow('index');
@@ -11,6 +12,7 @@ class HomeController extends AppController {
 		$this->Auth->allow('jobseekerInformation');
 		$this->Auth->allow('contactUs');
 	}
+	*/
 	function index(){
 		
 	}
@@ -30,6 +32,5 @@ class HomeController extends AppController {
 	function contactUs(){
 	
 	}
-		
 }
 ?>

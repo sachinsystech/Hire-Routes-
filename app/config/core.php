@@ -131,7 +131,6 @@
     Configure::write('rootURL','192.168.1.17/');
     Configure::write('httpRootURL','http://192.168.1.17/');	
 
-
 /**
  * The model name to be used for the session model.
  *
@@ -308,6 +307,13 @@
  *
  */
 	Cache::config('default', array('engine' => 'File'));
+
+
+    define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
+    define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
+
+	/*		********		*/
+    define("BASEPATH","/var/www/staging-hr/Hire-Routes-/app/");
 
 	/*	Facebook API key	*/
     define("FB_API_KEY","305849939456125");

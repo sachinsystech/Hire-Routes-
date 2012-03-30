@@ -572,7 +572,7 @@ class UsersController extends AppController {
 				}		
 			}
 			else{
-				$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+				$this->Session->setFlash('An Internal Error has been occured...', 'error');
 				$this->redirect("/");
 				return;
 			}	

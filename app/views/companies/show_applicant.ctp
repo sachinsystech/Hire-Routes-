@@ -49,7 +49,7 @@ function clear_div(val){
 					<?php $answer1_array = array(''=>'Select','High School'=>'High School','Diploma'=>'Diploma','Graduation'=>'Graduation','Post Graduation'=>'Post Graduation'); 
                           echo $form->input('answer1', array('label'   => '',
 															 'type'    => 'select',
-															 'class'   => '',
+															 'class'   => 'show_appl_filter_select',
 															 'options' =>$answer1_array,
 															 'value'   => isset($filterOpt['answer1'])?$filterOpt['answer1']:"",
 															 'onChange'=>"return clear_div(this.value);"));?>
@@ -60,7 +60,7 @@ function clear_div(val){
 					<?php $answer2_array = array(''=>'Select','0 to 2 year'=>'0 to 2 year','2 to 5 year'=>'2 to 5 year','More than 5 year'=>'More than 5 year'); 
                           echo $form->input('answer2', array('label'   => '',
 															 'type'    => 'select',
-															 'class'   => '',
+															 'class'   => 'show_appl_filter_select',
 															 'options' =>$answer2_array,
 															 'value'   => isset($filterOpt['answer2'])?$filterOpt['answer2']:"",
 															 'onChange'=>"return clear_div(this.value);"));?>
@@ -71,7 +71,7 @@ function clear_div(val){
 					<?php	$answer3_array = array(''=>'Select','Less than 1,20,000'=>'Less than 1,20,000','1,20,000 to 3,60,000'=>'1,20,000 to 3,60,000','More than 3,60,000'=>'More than 3,60,000'); 
 							echo $form->input('answer3', array('label'   => '',
 															   'type'    => 'select',
-                                                               'class'   => '',
+                                                               'class'   => 'show_appl_filter_select',
 															   'options' =>$answer3_array,
 															   'value'   => isset($filterOpt['answer3'])?$filterOpt['answer3']:"",
 																'onChange'=>"return clear_div(this.value);"
@@ -82,7 +82,7 @@ function clear_div(val){
 				<div style="float:left;" id="field">
 					<?php echo $form->input('answer4', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 															 'options' =>$answer3_array,
 															 'value'   => isset($filterOpt['answer4'])?$filterOpt['answer4']:"",
 															 'onChange'=>"return clear_div(this.value);"
@@ -100,7 +100,7 @@ function clear_div(val){
 
                       	  echo $form->input('answer5', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 															 'options' =>$answer5_array,
 															 'value'   => isset($filterOpt['answer5'])?$filterOpt['answer5']:"",
 															 'onChange'=>"return clear_div(this.value);"
@@ -112,7 +112,7 @@ function clear_div(val){
 					<?php $answer6_array = array(''=>'Select','Yes'=>'Yes','No'=>'No'); 
                       	  echo $form->input('answer6', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer6'])?$filterOpt['answer6']:"",
 															 'onChange'=>"return clear_div(this.value);"
@@ -123,7 +123,7 @@ function clear_div(val){
 				<div style="float:left;" id="field">
 					<?php echo $form->input('answer7', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 									                         'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer7'])?$filterOpt['answer7']:"",
 															 'onChange'=>"return clear_div(this.value);"
@@ -134,7 +134,7 @@ function clear_div(val){
 				<div style="float:left;" id="field">
 					<?php echo $form->input('answer8', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer8'])?$filterOpt['answer8']:"",
 															 'onChange'=>"return clear_div(this.value);"
@@ -145,7 +145,7 @@ function clear_div(val){
 				<div style="float:left;" id="field">
 					<?php echo $form->input('answer9', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer9'])?$filterOpt['answer9']:"",
 														     'onChange'=>"return clear_div(this.value);"
@@ -156,7 +156,7 @@ function clear_div(val){
 				<div style="float:left;" id="field">
 					<?php echo $form->input('answer10', array('label'   => '',
 															  'type'    => 'select',
-                                                              'class'   => '',
+                                                              'class'   => 'show_appl_filter_select',
 															  'options' =>$answer6_array,
 															  'value'   => isset($filterOpt['answer10'])?$filterOpt['answer10']:"",
 															  'onChange'=>"return clear_div(this.value);"
