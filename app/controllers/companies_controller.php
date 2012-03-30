@@ -1178,7 +1178,6 @@ function paymentHistoryInfo(){
 	}	
 	
 	function postTweet(){
-		//echo "<pre>"; print_r($user = $this->data['Twitter']); exit;
 		$user = $user = $this->data['Twitter']['SendTo'];
 		$msg = $this->data['Twitter']['msg'];
 		$twitterObj = $this->getTwitterObject();
