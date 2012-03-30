@@ -12,7 +12,7 @@
 <div><b>Email us:</b></div>
 <div>
 	<a href="#">
-		hireroutes@gmail.com
+		support@hireroutes.com
 	</a><br/>
 </div>
 </div>
