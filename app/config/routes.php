@@ -40,6 +40,9 @@
 	Router::connect('/companyInformation', array('controller' => 'home', 'action' => 'companyInformation'));	
 	Router::connect('/networkerInformation', array('controller' => 'home', 'action' => 'networkerInformation'));		
 	Router::connect('/jobseekerInformation', array('controller' => 'home', 'action' => 'jobseekerInformation'));		
+	Router::connect('/howItWorks', array('controller' => 'home', 'action' => 'howItWorks'));	
+	
+	
 	Router::connect('/companies/archiveJob/:id', array('controller' => 'Companies','action' => 'archiveJob'),array('id' => '[0-9]+')); 
 	Router::connect('/companies/showApplicant/:id', array('controller' => 'Companies','action' => 'showApplicant'),array('id' => '[0-9]+')); 
 	Router::connect('/companies/rejectApplicant/:id/:jobId', array('controller' => 'Companies','action' => 'deleteJob'),array('id' => '[0-9]+','jobId' => '[0-9]+')); 

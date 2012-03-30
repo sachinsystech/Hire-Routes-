@@ -32,5 +32,10 @@ class HomeController extends AppController {
 	function contactUs(){
 	
 	}
+	function howItWorks(){
+	
+	}
+
+
 }
 ?>
