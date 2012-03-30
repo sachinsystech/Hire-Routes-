@@ -127,8 +127,8 @@
 	Configure::write('Session.save', 'php');
  
 
-    Configure::write('rootURL','192.168.1.28/');
-    Configure::write('httpRootURL','192.168.1.28/');	
+    Configure::write('rootURL','qa.hireroutes.com/');
+    Configure::write('httpRootURL','http://qa.hireroutes.com/');	
 
 /**
  * The model name to be used for the session model.
@@ -307,12 +307,8 @@
  */
 	Cache::config('default', array('engine' => 'File'));
 
-
-    define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
-    define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
-
 	/*		********		*/
-    define("BASEPATH","/var/www/staging-hr/Hire-Routes-/app/");
+	define("BASEPATH","/var/www/staging-hr/Hire-Routes-/app/");
 
 	/*	Facebook API key	*/
     define("FB_API_KEY","305849939456125");
@@ -320,8 +316,8 @@
 	/*************/
     
 	/*	Twitter API key	*/	
-		define('CONSUMER_KEY', 'fEMVnhuHU9hGfoPFKG5zjA');
-		define('CONSUMER_SECRET','mWJt4MRN8rZMM6E4GYpX2KD5Ee8Zvxw0DxKJLNToumE');
+		define('CONSUMER_KEY', 'piSyb0wl0ju8QFvnaZI5rw');
+		define('CONSUMER_SECRET','3XyJaN8UbVSx3kuxaAOxcV6Qpu08RuRPwbJEsltufTs');
 	/****************/	
 
 	/* Paypal Credentials */
