@@ -452,7 +452,11 @@ class UsersController extends AppController {
 				'username' => 'account_email',
 				'password' => 'password'
 			);
-			$this->Auth->login($data);
+			
+			if($this->Auth->login($data)){
+				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
+			}
+			
 		}	
 	}	
 /**
@@ -642,7 +646,9 @@ class UsersController extends AppController {
  */	
 	function logout() {
 		$this->Auth->logout();
-        $this->Session->delete('code');
+		$this->Session->delete('user_role');
+		$this->Session->delete('code');
+		$this->Session->delete('Twitter');
 		$this->redirect("/home/index");		
 	}	
 /**
@@ -675,7 +681,7 @@ class UsersController extends AppController {
 
 
 /**
- * TO store before Authenticate URL
+ * To store before Authenticate URL
  */	
 	private function setRedirectionUrl()
 	{

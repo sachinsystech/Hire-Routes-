@@ -1,7 +1,7 @@
 <?php
 class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers');
-	var $helpers = array('Form');
+	var $helpers = array('Form','Number');
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl');
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -13,6 +13,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('paymentInformation');
 		$this->Auth->allow('filterPayment');
 		$this->Auth->allow('paymentDetails');
+		$this->Auth->allow('updatePaymentStatus');
 		$this->layout = "admin";
 	}
 	function index(){
@@ -162,20 +163,25 @@ class AdminController extends AppController {
 	/**
 	 * For filter payment information
 	 */
-	 function filterPayment()
-	 {
+	function filterPayment()
+	{
 	 	if(!empty($this->data['filter']['status']))
 	 		$statusCondition='payment_status ='.$this->data['filter']['status'];
 	 	else
 	 		$statusCondition=true;
 	 	if(!empty($this->data['filter']['from_date']))
-	 		$from_date="paid_date >='".$this->data['filter']['from_date']."'";
+	 		$from_date="date(paid_date) >='".$this->data['filter']['from_date']."'";
 	 	else
 	 		$from_date=true;
 	 	if(!empty($this->data['filter']['to_date']))
-	 		$to_date="paid_date <='".$this->data['filter']['to_date']."'";
+	 		$to_date="date(paid_date) <='".$this->data['filter']['to_date']."'";
 	 	else
 	 		$to_date=true;
+	 		
+	 		$this->set('from_date',$this->data['filter']['from_date']);
+			$this->set('to_date',$this->data['filter']['to_date']);
+			$this->set('status',$this->data['filter']['status']);
+			
 			$this->paginate=array(
 				'fields'=>'PaymentHistory.id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 				'recursive'=>-1,
@@ -230,7 +236,7 @@ class AdminController extends AppController {
 	function paymentDetails()
 	{
 		$payment_detail = $this->PaymentHistory->find('first',array(
-			'fields'=>'PaymentHistory.id, Company.company_name, Company.contact_phone, Company.company_url, Jobseeker.contact_name, Jobseeker.contact_phone, User.account_email, Job.title, PaymentHistory.amount, JobseekerApply.intermediate_users,PaymentHistory.paid_date, PaymentHistory.transaction_id',
+			'fields'=>'PaymentHistory.id, Company.company_name, Company.contact_phone, Company.company_url, Jobseeker.contact_name, Jobseeker.contact_phone, User.account_email, Job.title, PaymentHistory.amount, JobseekerApply.intermediate_users,PaymentHistory.paid_date, PaymentHistory.transaction_id, PaymentHistory.payment_status',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -271,7 +277,7 @@ class AdminController extends AppController {
 				)
 			),
 			'limit'=>10,			
-			'conditions'=>array('PaymentHistory.id'=>$this->params['user_id'])
+			'conditions'=>array('PaymentHistory.id'=>$this->params['payment_history_id'])
 		));
 		$networker_ids=explode(',',$payment_detail['JobseekerApply']['intermediate_users']);
 		$this->paginate=array(
@@ -292,6 +298,19 @@ class AdminController extends AppController {
 		$networkers=$this->paginate('Networkers');
 		$this->set('payment_detail',$payment_detail);
 		$this->set('networkers',$networkers);
+	}
+	
+	/**
+	 * For filter payment information
+	 */
+	function updatePaymentStatus()
+	{
+		$this->PaymentHistory->set(array('id'=>$this->data['PaymentHistory']['id'],'payment_status'=>true));
+	 	if($this->PaymentHistory->save())
+	 		$this->Session->setFlash('Status updated successfully');
+	 	else
+	 		$this->Session->setFlash('Status update failure');
+	 	$this->redirect(array('controller' => 'admin','action'=>'paymentDetails',$this->data['PaymentHistory']['id']));
 	}
 }
 ?>

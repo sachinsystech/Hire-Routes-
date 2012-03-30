@@ -45,7 +45,6 @@
 		var to_date=document.getElementById('filterToDate');
 		if(from_date.value==""||to_date.value=="")
 		{
-			alert('empty');
 		}
 		else
 		{
@@ -56,63 +55,85 @@
 		}
 	}
 </script>
+<?php //echo $this->element('sql_dump');?>
 <?php echo $this->Session->flash();?>
 <div id="page-heading"><h1>Payment Information</h1></div>
 <div class="table_seperator"></div>
+
+
 <table class="content-table" border="0" cellpadding="0" cellspacing="0" width="100%">
 	<tbody>
-		<?php
-			echo $this->Form->create('filter',array('url'=>array('controller'=>'admin','action'=>'filterPayment'),'onsubmit'=>'return validateForm();'));
-		?>
 		<tr>
-			<td>
-				<?php echo "<font size='3px'>From :</font>";?>
-			</td>
-			<td>
-				<?php 
-					echo $this->Form->input('from_date',array(
-						'label'=>'',
-						'type'=>'text',
-						'value'=>'2012-03-01'
-						)
-					);
-				?>
-			</td>
-			<td>
-				<?php echo "<font size='3px'>To :</font>";?>
-			</td>
-			<td>
-				<?php 
-					echo $this->Form->input('to_date',array(
-						'label'=>'',
-						'type'=>'text',
-						'value'=>date('Y-m-d')
-						)
-					);
-				?>
-			</td>
+			<th rowspan="3" class="sized"></th>
+			<th class="topleft"></th>
+			<td id="tbl-border-top">&nbsp;</td>
+			<th class="topright"></th>
+			<th rowspan="3" class="sized"></th>
 		</tr>
 		<tr>
+			<td id="tbl-border-left"></td>
 			<td>
-				<font size='3px'>Status</font>
-			</td>
-			<td>
-				<?php 
-					echo $this->Form->input('status',
-						array(
+				<div style="float:left">
+					<?php
+						echo $this->Form->create('filter',array('url'=>array('controller'=>'admin','action'=>'filterPayment'),'onsubmit'=>'return validateForm();'));
+					?>
+					<div style="float:left;width:100px;margin: 2px;">
+						<?php echo "<font size='3px'>From :</font>";?>
+					</div>
+					<div style="float:left;width:300px;margin: 2px;">
+						<?php 
+							echo $this->Form->input('from_date',array(
+								'label'=>'',
+								'type'=>'text',
+								'value'=>isset($from_date)?$from_date:'2012-03-01'
+								)
+							);
+						?>
+					</div>
+					<div style="float:left;width:100px;margin: 2px;">
+						<?php echo "<font size='3px'>To :</font>";?>
+					</div>
+					<div style="float:left;width:300px;margin: 2px;">
+					<?php 
+						echo $this->Form->input('to_date',array(
 							'label'=>'',
-							'type'=>'select',
-							'empty'=>'All',
-							'options'=>array('0'=>'Pending','1'=>'Done')
-						)
-					);
-				?>
-			</td>
-			<td>
-				<?php echo $this->Form->submit('GO');?>
-			</td>
+							'type'=>'text',
+							'value'=>isset($to_date)?$to_date:date('Y-m-d')
+							)
+						);
+					?>
+					</div>
+					<div style="clear:both"></div>
+					<div style="float:left;width:100px;margin: 2px;">
+						<font size='3px'>Status</font>
+					</div>
+					<div style="float:left;width:300px;margin: 2px;">
+					<?php 
+						echo $this->Form->input('status',
+							array(
+								'label'=>'',
+								'type'=>'select',
+								'empty'=>'All',
+								'options'=>array('0'=>'Pending','1'=>'Done'),
+								'style'=>'background:none;scroll:0 0 #FFFFFF;color:#393939;border:1px solid;'
+							)
+						);
+					?>
+					</div>
+					<div style="float:left;width:100px;margin: 2px;">
+						<?php echo $this->Form->submit('GO',array('style'=>'background:#1E90FF;color:#FFFFFF'));?>
+					</div>
+					<div style="clear:both"></div>
+					<?php echo $this->Form->end(); ?>
+				</div>
+			</td>	
+			<td id="tbl-border-right"></td>
 		</tr>
-		<?php echo $this->Form->end(); ?>
+		<tr>
+			<th class="sized bottomleft"></th>
+			<th id="tbl-border-bottom">&nbsp;</th>
+			<th class="sized bottomright"></th>
+		</tr>
 	</tbody>
 </table>
 <div class="table_seperator"></div>
@@ -134,11 +155,11 @@
 						<tr>
 							<td COLSPAN="7">
 								<div class="code_pagination">
-								<?php  echo $paginator->first('First '); ?>	
+								<?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
 								<?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
-								< <  <?php echo $this->Paginator->numbers(); ?>  > >
+								<?php echo "< < ".$this->Paginator->numbers()."  > >"; ?>
 								<?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
-								<?php echo $paginator->last(' Last'); ?>
+								<?php echo $paginator->last(' Last'); }?>
 								</div>
 							</td>
 						</tr>	
@@ -167,8 +188,16 @@
 							<td align="center" width="20%">
 								<?php echo $paymentHistory['Job']['title'];?>
 							</td> 
-							<td align="center" width="10%">
-								<?php echo $paymentHistory['PaymentHistory']['amount'];?>
+							<td align="right" width="10%">
+								<?php
+									echo $this->Number->format(
+										$paymentHistory['PaymentHistory']['amount'],
+										array(
+											'places' => 2,
+											'before' => '',
+											'decimals' => '.',
+											'thousands' => ',')
+										)."$";?>
 							</td>
 							<td align="center" width="15%">
 								<?php echo date('Y/M/d',strtotime($paymentHistory['PaymentHistory']['paid_date']))."&nbsp;";?>
@@ -177,7 +206,7 @@
 								<?php echo $paymentHistory['PaymentHistory']['transaction_id'];?>
 							</td>
 							<td align="center" width="10%">
-								<?php echo $html->link("View Details", array('action' => 'admin','action'=>'paymentDetails', $paymentHistory['PaymentHistory']['id']));?>
+								<?php echo $html->link("View Details", array('controller' => 'admin','action'=>'paymentDetails', $paymentHistory['PaymentHistory']['id']));?>
 							</td>
 					    </tr>
 		      			<?php 
