@@ -1,3 +1,8 @@
+<?php
+/*
+	page for companie account
+*/
+?>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -5,7 +10,7 @@
 			<ul>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob"><span>My Jobs</span></a></li>
 				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
-				<li>My Employees</li>
+				<li><a style="color: #000000;text-decoration: none;font:weight: normal;" href="/companies/employees">My Employees</li>
 			</ul>
 		</div>
 		<!--<div>Feed Back</div>

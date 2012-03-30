@@ -131,7 +131,8 @@ class NetworkersController extends AppController {
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			if($this->User->save($this->data['User'])){
-				if($this->Networkers->save($this->data['Networkers'])){			
+				if($this->Networkers->save($this->data['Networkers'])){
+					$this->Session->write('userName',$this->data['Networkers']['contact_name']);			
 					$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
 				}	
 			}

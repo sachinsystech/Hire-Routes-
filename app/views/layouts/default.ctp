@@ -16,7 +16,10 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+
 ?>
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -24,7 +27,9 @@
 	<title>
 		<?php __('Hire Routes'); ?>
 		<?php echo $title_for_layout; ?>
+
 	</title>
+
 	<?php
 		echo $this->Html->meta('icon');
 
@@ -70,8 +75,16 @@
 
 		</div>
 		<div id="content">
+			
+			<?php if($this->Session->read('Auth.User.id')):?>
+				<?php if(isset($_SESSION['welcomeUserName']) && !empty($_SESSION['welcomeUserName']) ): ?>
+					<div style=" margin-left:10px">Welcome <?php echo ucfirst($this->Session->read('welcomeUserName'));?>,</div>
+				<?php else: ?>
+					<div style=" margin-left:10px">Welcome User, </div>
+				<?php endif; ?>
+			<?php endif; ?>
+			
 			<?php echo $this->Session->flash(); ?>
-
 			<?php echo $content_for_layout; ?>
 
 		</div>

@@ -1,36 +1,5 @@
 <?php ?>
 <script>
-	
-	$(document).ready(function(){
-	    $("#switch_display").change(onSelectChange);
-		$("#short_by").change(onSelectChange);
-	});
-
-	function onSelectChange(){
-	    var displaySelected = $("#switch_display option:selected");
-		var shortSelected = $("#short_by option:selected"); 
-		window.location.href="/companies/newJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
-	}
-		
-	function onDelete(id)
-	{	if(confirm('Do you want to delete it ?')){
-			$.ajax({
-				url: "/companies/deleteJob",
-				type: "post",
-				data: {jobId : id,action:'newJobs'},
-				success: function(response){
-					window.location.reload();			
-				},
-				error:function(response)
-				{
-					$('.success').html("ERROR:");
-				}
-			});
-		}
-		else
-			return false;
-	}
-
 	function goTo(){
 		window.location.href="/companies/postJob";			
 	}
@@ -40,24 +9,19 @@
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li><a style="color: #000000;text-decoration: none;font-weight:normal;" href="/companies/newJobs">My Jobs</li>
+				<li><a style="color: #000000;text-decoration: none;font-weight:normal;" href="/companies/newJob">My Jobs</li>
 				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
 				<li class="active">My Employees</li>
 			</ul>
 		</div>
-		<div>Feed Back</div>
-		<div><textarea class="feedbacktextarea"></textarea></div>	
-		<div class="feedbackSubmit">Submit</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
-	<div class="rightBox" >
+	<div class="rightBox" style=width:860px;">
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
 			<ul>
-				<li class="active">Jobs - <?php echo count($jobs);?></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showArchiveJobs">Archive - <?php echo $archJobCount;?> </a></li>
-				<li> Data </li>
+				<li class="active">Employees - <?php echo count($employees);?></li>
 			</ul>
 		</div>
 		<!-- middle conyent top menu end -->
@@ -66,73 +30,49 @@
 			<table style="width:100%">
 				<tr >
 					<td colspan="100%">
-						<div style="float:left;width:50%;">
-							SORT BY<select  id="short_by">
-							<option value="date-added" <?php echo $shortBy=="date-added"?"selected":"" ?> >Date Added</option>
-							<option value="industry" <?php echo $shortBy=="industry"?"selected":"" ?> >Industry</option>
-							<option value="salary" <?php echo $shortBy=="salary"?"selected":"" ?> >Salary</option>
-							</select>
-						</div>
 						<div style="float:right;width:50%;text-align: right;">
-						<?php echo $paginator->first(' << ', null, null, array("class"=>"disableText"));?>
-						<?php echo $this->Paginator->prev(' < ', null, null, array("class"=>"disableText")); ?>
-						<?php echo $this->Paginator->numbers(); ?>
-						<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>
-						<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
-						 DISPLAYING 
-						<select id="switch_display">
-							<option <?php echo $displayPageNo=="10"?"selected":"" ?>>10</option>
-							<option <?php echo $displayPageNo=="20"?"selected":"" ?>>20</option>
-							<option <?php echo $displayPageNo=="50"?"selected":"" ?>>50</option>
-						</select>
+							<?php echo $paginator->first(' << ',null, null, array("class"=>"disableText"));?>
+							<?php echo $this->Paginator->prev(' < ',null, null, array("class"=>"disableText")); ?>
+							<?php echo $this->Paginator->numbers(); ?>
+							<?php echo $this->Paginator->next(' > ',null, null, array("class"=>"disableText")); ?>
+							<?php echo $paginator->last(' >> ',null, null, array("class"=>"disableText"));?>
 						</div>
-					</td></tr>
-				<tr>
-					<th style="width:53%">Title</th>
-					<th style="width:20%">Submissions</th>
-					<th  style="width:27%">Action</th>
+					</td>
 				</tr>
-				<?php if(empty($jobs)){ ?>
 				<tr>
-					<td colspan="100%">Sorry, No job found.</td>
+					<th style="width:5%">#</th>
+					<th style="width:15%"><?php echo $paginator->sort('Name','js.contact_name');?></th>
+					<th style="width:20%">Address</th>
+					<th style="width:25%">Email</th>
+					<th style="width:20%">Contact no.</th>
+					<th style="width:20%"><?php echo $paginator->sort('Date', 'paid_date');?></th> 
+					<th style="width:10%">Action</th>
+				</tr>
+				<?php if(empty($employees)){ ?>
+				<tr>
+					<td colspan="100%">Sorry, No Employee found.</td>
 				</tr>
 				<?php } ?>
-				<?php foreach($jobs as $job):?>	
-				<tr>
-					<td><?php echo $this->Html->link($job['Job']['title'], '/companies/editJob/'.$job['Job']['id']); echo "<br>Posted ". $time->timeAgoInWords($job['Job']['created']) ?></td>
-					<td><?php echo $job[0]['submissions']; ?> submissions</td>
-					<td><?php echo $this->Html->image("/img/icon/detail.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' =>  '/jobs/jobDetail/'.$job['Job']['id'],
-                        'title'=> 'Detail'
-						));
-						echo $this->Html->image("/img/icon/edit.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' =>  '/companies/editJob/'.$job['Job']['id'],
-                        'title'=> 'Edit'
-						));
-						echo $this->Html->image("/img/icon/ok.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/archiveJob/".$job['Job']['id'],
-                        'title'=>'Archive'
-						));
-						echo $this->Html->image("/img/icon/person.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/showApplicant/".$job['Job']['id'],
-                        'title'=>'Applicant'
-						));
-						echo $this->Html->image("/img/icon/static.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/jobStats/".$job['Job']['id'],
-                        'title'=>'Statistics'
-						));
-						echo $this->Html->image("/img/icon/delete.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url'=>'javascript:void(0);',
-                        'title'=>'Delete',
-						'onclick'=>"return onDelete(".$job['Job']['id'].");"
-						));
- ?>
+				<?php $count=1; foreach($employees as $employee):?>	
+				<tr><td><? echo $count++; ?></td>
+					<?php if(!empty($employee['js']['contact_name']) ):?>
+						<td><?php echo ucFirst($employee['js']['contact_name']);?></td>
+					<?php else:?>
+						<td> -- -- -- </td>
+					<?php endif;?>
+					<td><?php echo $employee['js']['state'].' , '.$employee['js']['city'];?></td>
+					<td><?php echo $employee['users']['account_email'];?></td>
+					<td><?php echo $employee['js']['contact_phone'];?></td>
+					<td><?php echo $this->Time->format('j M Y', $employee['PaymentHistory']['paid_date']);?></td>
+					<td><?php echo $this->Html->image("/img/icon/delete.png",
+														array(
+															"alt" => "image",
+															"width"=>"24","height"=>"24",
+															'url'=>'javascript:void(0);',
+														    'title'=>'Delete',
+															)
+													);
+ 						?>
 					</td>
 				</tr>
 			

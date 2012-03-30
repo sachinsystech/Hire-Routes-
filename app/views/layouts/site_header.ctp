@@ -29,7 +29,8 @@
 
 	<?php $current_user = $this->Session->read('Auth.User'); ?>
 
-	<div id="tabs">
+
+	<div id="tabs" style="clear:both;">
 	  <ul style="float:left;">
 		<li></li>
 		<li><a href="/"><span> HOME </span></a></li>
@@ -55,3 +56,4 @@
 	    <?php endif; ?>
 	  </ul>
 	</div>
+

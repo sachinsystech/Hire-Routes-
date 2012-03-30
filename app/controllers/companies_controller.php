@@ -255,8 +255,8 @@ list archive jobs..
 			$this->redirect("/users/firstTime");
 		}
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-		$this->set('user',$user['User']);
-		$this->set('company',$user['Companies'][0]);
+			$this->set('user',$user['User']);
+			$this->set('company',$user['Companies'][0]);
 	}
 
 	function editProfile() {
@@ -268,7 +268,8 @@ list archive jobs..
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
-			$this->Companies->save($this->data['Company']);		
+			$this->Companies->save($this->data['Company']);
+			$this->Session->write('userName',$this->data['Company']['contact_name']);		
 			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
 			$this->redirect('/companies');						
 		}
@@ -1017,7 +1018,7 @@ list archive jobs..
 								));
 		return $appliedJob;
     }
-
+// =======================delete jobs=========
 	function deleteJob(){
 		$this->autoRender=false;
 		$userId = $this->TrackUser->getCurrentUserId();
@@ -1040,46 +1041,31 @@ list archive jobs..
 		$this->Session->setFlash('May be you click on old link.','error');	
 		return;	
     }
+//================= function for employee list =================
 
 	public function employees(){
-		$userId= $this->TrackUser->getCurrentUserId();
-		$data=$this->User->find("all",array('joins'=>array(
-														'table'=>'payment_history',
-														'type'=>'INNER',
-														'conditions'=>array(
-																		'payment_history.jobseeker_user_id=users.id'	
-																			)
-															),
-											'conditions'=>array("payment_history.user_id=$userId"),
-											'fields' =>'User.id',
-											)
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$this->paginate = array('conditions' => array('PaymentHistory.user_id'=>$userId),
+								'limit'=>'10', 	
+								'joins'=>array(
+											array('table'=>'users',
+												  'type'=>'inner',
+												  'conditions'=>array('users.id=PaymentHistory.jobseeker_user_id',
+																	  'users.is_active=1'),
+												 ),
+										 	array('table'=>'jobseekers',
+												  'alias'=> 'js',
+												  'type'=>'inner',
+												  'conditions'=>array('js.user_id =PaymentHistory.jobseeker_user_id'),
+												 ),
+											   ),
+								'fields'=>array('PaymentHistory.user_id,PaymentHistory.paid_date,js.contact_name,
+												js.contact_phone,js.city,js.state,users.account_email'),
 								);
-
-	pr($data);exit;
-/*
-	$appliedJob = $this->Job->find('first', array(
-														'joins' => array(
-																		array(
-																			'table' => 'jobseeker_apply',
-																			'alias' => 'JobseekerapplyJob',
-																			'type' => 'INNER',
-																			'conditions' => array(
-																				"JobseekerapplyJob.job_id = Job.id",
-																			)
-																		)
-														),
-														'conditions' => array(
-															"Job.user_id = $userId",
-															"JobseekerapplyJob.id = $appliedJobId",
-															"JobseekerapplyJob.is_active = 0"
-														),
-														'fields' => array('Job.*','JobseekerapplyJob.*'),
-														'order' => 'JobseekerapplyJob.created DESC'
-										));
-	*/
-
-	}
-    
+		$employees = $this->paginate("PaymentHistory");
+		$this->set('employees',$employees);
+		// end for job fetching...
+    }
 }
 ?>
 

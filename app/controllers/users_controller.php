@@ -4,7 +4,6 @@
  */
 require_once(APP_DIR.'/vendors/facebook/facebook.php'); 
 
-
 /**
  * UserController
  *
@@ -18,6 +17,7 @@ class UsersController extends AppController {
     var $uses = array(
 					'User',
 					'Companies',
+					'UserRules',
 					'UserRoles',
 					'Networkers',
 					'Jobseekers',
@@ -33,8 +33,8 @@ class UsersController extends AppController {
 					'Industry',
 					'Code'
 					);
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
-					
+	var $components = array('Email','Session','Bcp.AclCached', 'Cookie','Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
+				
 	var $helpers = array('Form');
 
 /**
@@ -63,6 +63,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('facebookUser');
 		$this->Auth->allow('facebookUserSelection');
 		$this->Auth->allow('accountConfirmation');		
+
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -110,7 +111,6 @@ class UsersController extends AppController {
 				$this->render("company_recruiter_signup");
 				return;
 			}
-			
 			if( $userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = 1;
 				$this->saveUserRoles($userId,$userRoleId);				
@@ -118,13 +118,15 @@ class UsersController extends AppController {
 				$company = $this->data['Companies'];
 				$company['user_id'] = $userId;
 				$company['act_as'] = $this->data['Companies']['role'];
-				if( $this->Companies->save($company) ){			
+				if($this->Companies->save($company) ){			
 					$this->sendCompanyAccountEmail($userId);
 					$this->redirect("confirmation/".$userId);
 					return;
 				}
 				else{
-					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					$this->User->rollback();
+					$this->UserRoles->rollback();
+					$this->Session->setFlash('111Server busy, please try after some Time.', 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -134,7 +136,9 @@ class UsersController extends AppController {
 /**
  * Display Networker registration view also validate by asking restrict code for signup process.
 **/ 
-	function networkerSignup() {	
+	function networkerSignup() {
+		
+		$codeFlag=true;
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
 		}
@@ -145,31 +149,42 @@ class UsersController extends AppController {
                 return;
 			}
 			/*	Validating Restrict_Code	*/
-			if(!$this->validateCode()){
-				return;
+			if($this->Session->read('code')=='' || $this->Session->read('code')== null){
+				if(!$this->validateCode()){
+					return;
+				}
+			}else{ 
+				$codeFlag=false;
 			}
-
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
-                unset($this->data["User"]["repeat_password"]);
+   	            unset($this->data["User"]["repeat_password"]);
 			    $this->set('tc-errors', "You must agree to the Terms and Conditions");
 				return;
 			}			
-
-			if( $userId = $this->saveUser($this->data['User']) ){
+	
+			if($userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = 3;
 				$this->saveUserRoles($userId,$userRoleId);
 				$networker = array();
 				$networker['user_id'] = $userId;
-				if( $this->Networkers->save($networker) ){			
+				if($this->Networkers->save($networker) ){			
 					$this->sendConfirmationEmail($userId);
-					$code = $this->findCodeFor('Networker');
-					$code['remianing_signups']--;
-					$this->Code->save($code);
-					if($code['remianing_signups']<1){
-						$this->Code->delete($code);
+					if($codeFlag){
+						$code = $this->findCodeFor('Networker');
+						$code['remianing_signups']--;
+						if(!$this->Code->save($code)){
+							$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+							$this->redirect("/");return;
+						}
+						if($code['remianing_signups']<1){
+							if(!$this->Code->delete($code)){
+								$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+								$this->redirect("/");return;
+							}
+						}
 					}
-					$this->redirect("confirmation/".$userId);
+					$this->redirect("confirmation/".$userId);return;
 				}
 				else{
 					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
@@ -185,10 +200,12 @@ class UsersController extends AppController {
  * Save Jobseeker info.
 **/ 
 	function jobseekerSignup(){
+		$codeFlag=true;
+		$transaction_validity=false;
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
 		}
-		
+
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
                 unset($this->data["User"]["password"]);
@@ -196,12 +213,13 @@ class UsersController extends AppController {
    			    $this->render("jobseeker_signup");
 				return;
 			}
-			
 			/*	Validating Restrict_Code	*/
-			if(!$this->validateCode()){
-				return;
-			}
-			
+			if($this->Session->read('code')=='' || $this->Session->read('code')== null){
+				if(!$this->validateCode()){
+					return;
+				}
+			}else $codeFlag=false;
+
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
@@ -209,20 +227,30 @@ class UsersController extends AppController {
 				$this->render("jobseeker_signup");
 				return;
 			}
-			
-			if( $userId = $this->saveUser($this->data['User']) ){
+			if($userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = 2;
-				$this->saveUserRoles($userId,$userRoleId);
+				if(!$this->saveUserRoles($userId,$userRoleId))
+				{
+					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					return;
+				}
 				$jobseeker = array();
 				$jobseeker['user_id'] = $userId;
-				if( $this->Jobseekers->save($jobseeker) ){			
+				if($this->Jobseekers->save($jobseeker) ){			
 					$this->sendConfirmationEmail($userId);
-					
-					$code = $this->findCodeFor('Jobseeker');
-					$code['remianing_signups']--;
-					$this->Code->save($code);
-					if($code['remianing_signups']<1){
-						$this->Code->delete($code);
+					if($codeFlag){
+						$code = $this->findCodeFor('Jobseeker');
+						$code['remianing_signups']--;
+						if(!$this->Code->save($code)){
+							$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+							return;
+						}
+						if($code['remianing_signups']<1){
+							if(!$this->Code->delete($code)){
+								$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+								return;
+							}
+						}	
 					}
 					$this->redirect("confirmation/".$userId);
 				}
@@ -241,10 +269,10 @@ class UsersController extends AppController {
  * @access private
  */	
 	private function validateCode(){
-		if(empty($this->data['Code']['code'])){
+		if(empty($this->data['Code']['code']) ){
 			unset($this->data["User"]["password"]);
-            unset($this->data["User"]["repeat_password"]);
-            $this->set('codeErrors', "This field is required.");
+       	    unset($this->data["User"]["repeat_password"]);
+       	    $this->set('codeErrors', "This field is required.");
 			return false;
 		}
 		if($this->action=="networkerSignup"){
@@ -287,8 +315,9 @@ class UsersController extends AppController {
  	private function saveUser($userData){
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
-        if($parent = $this->Utility->getRecentUserIdFromCode())
+        if($parent = $this->Utility->getRecentUserIdFromCode()){
             $userData['User']['parent_user_id'] = $parent;
+		}
 		if(!$this->User->save($userData)){
 			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 			$this->redirect("/");
@@ -309,8 +338,9 @@ class UsersController extends AppController {
 		if(!$this->UserRoles->save($roles)){
 			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 			$this->redirect("/");
-			return;
+			return false;
 		}
+		return true;
 	}
 /**
  * send comfirmation email for jobseeker and networker, if signed-up successfully.
@@ -426,13 +456,15 @@ class UsersController extends AppController {
 			$arosAcosData['_read'] = 1;						
 			$arosAcosData['_update'] = 1;
 			$arosAcosData['_delete'] = 1;	
-			
+			$this->ArosAcos->begin();
 			if($this->ArosAcos->save($arosAcosData)){
 				if($this->User->save($user['User'])){
 					$this->setUserAsLoggedIn($user['User']);
+					$this->ArosAcos->commit();
 				}
 			}
 			else{
+				$this->ArosAcos->rollback();
 				$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 				$this->redirect("/");
 				return;
@@ -592,7 +624,6 @@ class UsersController extends AppController {
 			$this->redirect("/users/firstTime");				
 			return;
 		}
-
 		if(isset($this->data['User'])){
 			$data = array('User' => array('account_email' => $this->data['User']['username'],
 										  'password' => Security::hash(Configure::read('Security.salt') .$this->data['User']['password'])
@@ -605,11 +636,24 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Username or password not matched.', 'error');	
 			
 			}else{
+				$userData=$this->User->find('first',array('conditions'=>array("id"=>$this->TrackUser->getCurrentUserId())));
+				switch($userData['UserRoles'][0]['role_id']){
+					case 1:
+							$this->Session->write('welcomeUserName',$userData['Companies'][0]['contact_name']);
+							break;
+					case 2:
+							$this->Session->write('welcomeUserName',$userData['Jobseekers'][0]['contact_name']);
+							break;
+					case 3:
+							$this->Session->write('welcomeUserName',$userData['Networkers'][0]['contact_name']);
+							break;
+				}	
 				$this->redirect("/users/firstTime");		
 			}
 		}
 			
 	}
+
 /**
  * Logs a user out, and returns the home page to redirect to.
  * @access public
@@ -617,6 +661,7 @@ class UsersController extends AppController {
 	function logout() {
 		$this->Auth->logout();
         $this->Session->delete('code');
+		$this->Session->delete('userName');
 		$this->redirect("/home/index");		
 	}	
 /**

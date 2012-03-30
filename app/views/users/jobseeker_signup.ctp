@@ -53,12 +53,15 @@
                                  );
     ?>
 	
-	<?php	echo $form->input('Code.code', array('label' => 'Code',
+	<?php	
+		if($this->Session->read('code')=="" || $this->Session->read('code')==null){
+			echo $form->input('Code.code', array('label' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",
 													'class' => 'text_field_bg required'
                                            			)
-                                 );
+                              );	
+		}
     ?>
 	<?php if(isset($codeErrors)): ?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
 	<div style="margin-top:15px;">
@@ -67,7 +70,7 @@
 													'name'  => "data[User][agree_condition]",
 													'class' => 'required',
                                            			)
-                                 );
+                              );
     ?>
 	<div>
 		 <?php if(isset($errors)): ?>

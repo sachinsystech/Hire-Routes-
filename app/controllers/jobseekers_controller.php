@@ -85,7 +85,8 @@ class JobseekersController extends AppController {
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
-			$this->Jobseeker->save($this->data['Jobseeker']);		
+			$this->Jobseeker->save($this->data['Jobseeker']);
+			$this->Session->write('userName',$this->data['Jobseeker']['contact_name']);		
 			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
 			$this->redirect('/jobseekers');						
 		}
