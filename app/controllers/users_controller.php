@@ -629,16 +629,16 @@ class UsersController extends AppController {
 			
 			}else{
 				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
-				if($this->Session->check('redirection_url'))
+				/*if($this->Session->check('redirection_url'))
 				{
 					$redirect_to=$this->Session->read('redirection_url');
 					$this->Session->delete('redirection_url');
 					$this->redirect($redirect_to);					
-				}
+				}*/
 				$this->redirect("/users/firstTime");		
 			}
 		}
-		$this->setRedirectionUrl();
+		//$this->setRedirectionUrl();
 	}
 /**
  * Logs a user out, and returns the home page to redirect to.

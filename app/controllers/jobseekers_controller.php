@@ -75,7 +75,7 @@ class JobseekersController extends AppController {
 		$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);
 		
 		$this->set('industries',$this->Utility->getIndustry());
-		$this->set('specifications',$this->Utility->getSpecification());
+		//$this->set('specifications',$this->Utility->getSpecification());
 		$this->set('states',$this->Utility->getState());
 	}
 

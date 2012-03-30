@@ -25,7 +25,7 @@
 		{
 		?>
 			<ul>
-				<li <?php if($this->action=='newJob'||$this->action=='#'||$this->action=='#'||$this->action=='#') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
+				<li <?php if($this->action=='newJob'||$this->action=='jobDetail'||$this->action=='#'||$this->action=='#'||$this->action=='#') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
 				<li <?php if($this->action=='personal'||$this->action=='addContacts'||$this->action=='#') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
 				<li <?php if($this->action=='index'||$this->action=='setting'||$this->action=='editProfile') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers">My Account</a></li>
 
