@@ -22,7 +22,7 @@ class CompaniesController extends AppController {
 		if($userId){
 			$this->set('states',$this->Utility->getState());
 			$this->set('industries',$this->Utility->getIndustry());
-			$this->set('specifications',$this->Utility->getSpecification());
+			//$this->set('specifications',$this->Utility->getSpecification());
 		}	
 	
 	}
@@ -209,7 +209,7 @@ list archive jobs..
 			
 				$this->set('states',$this->Utility->getState());
 				$this->set('industries',$this->Utility->getIndustry());
-				$this->set('specifications',$this->Utility->getSpecification());
+				//$this->set('specifications',$this->Utility->getSpecification());
 				
 				/****************  genrate code for traking user ****************/
 					$str = "11:12";

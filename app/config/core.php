@@ -102,7 +102,7 @@
  * or in each action using $this->cacheAction = true.
  *
  */
-	//Configure::write('Cache.check', true);
+	Configure::write('Cache.check', true);
 
 /**
  * Defines the default error type when using the log() function. Used for
@@ -129,6 +129,7 @@
 
     Configure::write('rootURL','qa.hireroutes.com/');
     Configure::write('httpRootURL','http://qa.hireroutes.com/');	
+
 
 /**
  * The model name to be used for the session model.

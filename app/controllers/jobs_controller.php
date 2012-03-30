@@ -1,7 +1,7 @@
 <?php
 class JobsController extends AppController {
     var $uses = array('Company','Job','Industry','State','Specification' , 'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews','Jobseeker');
-	var $helpers = array('Form','Paginator','Time');
+	var $helpers = array('Form','Paginator','Time','Number');
 	var $components = array('Session','TrackUser','Utility');
         
 	

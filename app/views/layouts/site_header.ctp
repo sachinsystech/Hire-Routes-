@@ -42,16 +42,19 @@
 		<!-- li><a style="background: none; margin: -4px 3px;" href="<?php echo $fb_url; ?>"><button class="facebook"></button></a></li -->
 		<li><a href="/users/login"><span>LOG IN</span></a></li>
 		<li><a href="/users"><span>SIGN UP</span></a></li>
+		<li><a href="/contact_us"><span>CONTACT US</span></a></li>
    	    <?php endif; ?>
 
 		<?php  if($current_user['id']==1):?>
 		<li><a href="/users/firstTime"><span>MY ACCOUNT</span></a></li>
 		<li><a href="/users/logout"><span>LOG OUT</span></a></li>
+		<li><a href="/contact_us"><span>CONTACT US</span></a></li>
 	    <?php endif; ?>
 
 		<?php  if($current_user['id']>2):?>
 		<li><a href="/users/myAccount"><span>MY ACCOUNT</span></a></li>
 		<li><a href="/users/logout"><span>LOG OUT</span></a></li>
+		<li><a href="/contact_us"><span>CONTACT US</span></a></li>
 	    <?php endif; ?>
 	  </ul>
 	</div>
