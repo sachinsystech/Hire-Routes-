@@ -656,30 +656,35 @@ class UsersController extends AppController {
 			}else{
 
 				$userData=$this->User->find('first',array('conditions'=>array("id"=>$this->TrackUser->getCurrentUserId())));
+				$welcomeUserName = 'User';				
 				switch($userData['UserRoles'][0]['role_id']){
 					case 1:
-							$this->Session->write('welcomeUserName',$userData['Companies'][0]['contact_name']);
+							if(isset($userData['Companies'][0]['contact_name']))
+								$welcomeUserName = $userData['Companies'][0]['contact_name'];
 							break;
 					case 2:
-							$this->Session->write('welcomeUserName',$userData['Jobseekers'][0]['contact_name']);
+							if(isset($userData['Jobseekers'][0]['contact_name']))
+								$welcomeUserName = $userData['Jobseekers'][0]['contact_name'];
 							break;
 					case 3:
-							$this->Session->write('welcomeUserName',$userData['Networkers'][0]['contact_name']);
+							if(isset($userData['Networkers'][0]['contact_name']))
+								$welcomeUserName = $userData['Networkers'][0]['contact_name'];
 							break;
-				}	
+				}
+				$this->Session->write('welcomeUserName',$welcomeUserName);
+	
 				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
-				if($this->Session->check('redirection_url'))
+				/*if($this->Session->check('redirection_url'))
 				{
 					$redirect_to=$this->Session->read('redirection_url');
 					$this->Session->delete('redirection_url');
 					$this->redirect($redirect_to);					
 				}
-
-
+				*/
 				$this->redirect("/users/firstTime");		
 			}
 		}
-		$this->setRedirectionUrl();
+		//$this->setRedirectionUrl();
 	}
 
 /**
@@ -689,7 +694,7 @@ class UsersController extends AppController {
 	function logout() {
 		$this->Auth->logout();
         $this->Session->delete('code');
-		$this->Session->delete('userName');
+		$this->Session->delete('welcomeUserName');
 		$this->redirect("/home/index");		
 	}	
 /**

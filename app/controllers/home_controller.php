@@ -14,8 +14,7 @@ class HomeController extends AppController {
 										            		  'conditions' => array('Job.industry = ind.id',)),
 											),
 										'fields'=>array('Job.id,Job.title,Job.company_name,Job.reward,ind.name as industry_name'),));
-		$this->set('jobs',$jobs);
-	
+		$this->set('jobs',$jobs);		
 	}
 
 	function companyInformation(){

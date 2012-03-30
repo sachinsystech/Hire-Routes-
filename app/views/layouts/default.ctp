@@ -75,14 +75,17 @@
 
 		</div>
 		<div id="content">
-			
+			<!-- ******		welcome User **** -->
 			<?php if($this->Session->read('Auth.User.id')):?>
-				<?php if(isset($_SESSION['welcomeUserName']) && !empty($_SESSION['welcomeUserName']) ): ?>
-					<div style=" margin-left:10px">Welcome <?php echo ucfirst($this->Session->read('welcomeUserName'));?>,</div>
-				<?php else: ?>
-					<div style=" margin-left:10px">Welcome User, </div>
+				<?php if($this->Session->read('welcomeUserName')):?>
+					<div style=" margin-left:10px">
+						Welcome <?php echo ucfirst($this->Session->read('welcomeUserName'));?>,
+					</div>
 				<?php endif; ?>
 			<?php endif; ?>
+
+			<!-- ******		End welcome User **** -->
+
 			
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $content_for_layout; ?>

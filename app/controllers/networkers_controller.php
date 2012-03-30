@@ -38,28 +38,21 @@ class NetworkersController extends AppController {
 	
 	/* 	Networker's Account-Profile page*/
 	function index(){
-		$userId = $this->TrackUser->getCurrentUserId();
-		
-		if($userId){
-
-			$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$userId)));
-			if(!isset($networkerData['Networkers']['contact_name'])){
-				$this->redirect("/networkers/editProfile");						
+		$userId = $this->TrackUser->getCurrentUserId();		
+        if($userId){
+        	/* User Info*/			
+			$user = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+			$networkers = $user['Networkers'][0];
+			if(!isset($networkers['contact_name']) || empty($networkers['contact_name'])){
+				$this->redirect("/Networkers/editProfile");						
 			}
-			/* User Info*/						
-		    $user = $this->User->find('all',array('conditions'=>array('id'=>$userId)));
-			$this->set('user',$user[0]['User']);
-
-			/* Networker Info*/
-			$networkers = $this->Networkers->find('all',array('conditions'=>array('user_id'=>$userId)));
-			$this->set('networker',$networkers[0]['Networkers']);
-		
-			/* FB-User Info*/
-			$fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
-       	 	if(isset($fbinfos[0])){
-				$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
-         	}
+			$this->set('networker',$networkers);
 		}
+		else{		
+			$this->Session->setFlash('Internal error has been occured...', 'error');	
+			$this->redirect('/');								
+		}
+
 	}
 
 	/* save email notifications setting*/
@@ -133,7 +126,7 @@ class NetworkersController extends AppController {
 			$this->data['User']['group_id'] = 0;
 			if($this->User->save($this->data['User'])){
 				if($this->Networkers->save($this->data['Networkers'])){
-					$this->Session->write('userName',$this->data['Networkers']['contact_name']);			
+					$this->Session->write('welcomeUserName',$this->data['Networkers']['contact_name']);			
 					$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
 				}	
 			}
