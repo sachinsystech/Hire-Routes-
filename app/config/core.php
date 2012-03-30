@@ -91,7 +91,7 @@
  * Turn off all caching application-wide.
  *
  */
-	//Configure::write('Cache.disable', true);
+	Configure::write('Cache.disable', true);
 
 /**
  * Enable cache checking.
@@ -127,8 +127,8 @@
 	Configure::write('Session.save', 'php');
  
 
-    Configure::write('rootURL','192.168.1.28/');
-    Configure::write('httpRootURL','http://192.168.1.28/');	
+    Configure::write('rootURL','192.168.1.116/');
+    Configure::write('httpRootURL','http://192.168.1.116/');	
 
 /**
  * The model name to be used for the session model.
@@ -312,4 +312,5 @@
 
     define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
     define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
+
   
