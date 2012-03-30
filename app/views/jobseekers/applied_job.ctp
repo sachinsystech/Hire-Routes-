@@ -34,7 +34,7 @@
 												  'class'=>'job_select_shortby',
 												  'selected'=>isset($shortBy)?$shortBy:'date-added',));?>
 					</div>
-					<div style="padding-left:350px;">
+					<div style="padding-left:250px;">
 						<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
 						<?php if($this->Paginator->numbers()){
 													echo $form -> input('switch_display',array(
