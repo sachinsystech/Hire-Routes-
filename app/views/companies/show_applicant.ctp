@@ -1,13 +1,33 @@
-<?php //echo "<pre>"; print_r($jobs); exit;?>
+<script>
+function valid_form(){
+	answer1 = $("#UserAnswer1").val();
+	answer2 = $("#UserAnswer2").val();
+	answer3 = $("#UserAnswer3").val();
+	answer4 = $("#UserAnswer4").val();
+	answer5 = $("#UserAnswer5").val();
+	answer6 = $("#UserAnswer6").val();
+	answer7 = $("#UserAnswer7").val();
+	answer8 = $("#UserAnswer8").val();
+	answer9 = $("#UserAnswer9").val();
+	answer10 = $("#UserAnswer10").val();
+	if(answer1==="" && answer2==="" && answer3==="" && answer4==="" && answer5==="" && answer6==="" && answer7==="" && answer8==="" && answer9==="" && answer10===""){
+		$("#error_div").removeClass().addClass("js_terms-condition-error").html("Please Select Atleast One Option to Filter Results.*");
+		return false;
+	}
+}
+
+function clear_div(val){
+	if(val!=""){
+		$("#error_div").html(""); 
+	}
+}
+		
+</script>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
-			<ul>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob">My Jobs</a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
-				<li>My Employees</li>
-			</ul>
+			<?php echo $this->element('side_menu');?>
 		</div>		
 	</div>
 	<!-- left section end -->
@@ -15,15 +35,12 @@
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
-			<ul>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editJob/<?php echo $jobId;?>"> Edit </a></li><li class="active">Applicants - <?php echo count($applicants);?></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/jobStats/<?php echo $jobId;?>"> Data </a></li>
-			</ul>
+			<?php echo $this->element('top_menu');?>
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		    <div class="middleBox">
-			<?php echo $form->create('', array('url' => array('controller' => 'companies', 'action' => 'showApplicant/'.$jobId),'name'=>'webform'));?>
+			<?php echo $form->create('', array('url' => array('controller' => 'companies', 'action' => 'showApplicant/'.$jobId),'name'=>'webform','onsubmit'=>'return valid_form();'));?>
 			<div>
 				<div>Search By</div>
 
@@ -32,10 +49,10 @@
 					<?php $answer1_array = array(''=>'Select','High School'=>'High School','Diploma'=>'Diploma','Graduation'=>'Graduation','Post Graduation'=>'Post Graduation'); 
                           echo $form->input('answer1', array('label'   => '',
 															 'type'    => 'select',
-															 'class'   => '',
+															 'class'   => 'show_appl_filter_select',
 															 'options' =>$answer1_array,
 															 'value'   => isset($filterOpt['answer1'])?$filterOpt['answer1']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return clear_div(this.value);"));?>
 				</div> 
 
 				<div style="float:left;" id="lbl">Work Experience</div>
@@ -43,10 +60,10 @@
 					<?php $answer2_array = array(''=>'Select','0 to 2 year'=>'0 to 2 year','2 to 5 year'=>'2 to 5 year','More than 5 year'=>'More than 5 year'); 
                           echo $form->input('answer2', array('label'   => '',
 															 'type'    => 'select',
-															 'class'   => '',
+															 'class'   => 'show_appl_filter_select',
 															 'options' =>$answer2_array,
 															 'value'   => isset($filterOpt['answer2'])?$filterOpt['answer2']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return clear_div(this.value);"));?>
 				</div> 
 
 				<div style="float:left;" id="lbl">Current CTC</div>
@@ -54,20 +71,22 @@
 					<?php	$answer3_array = array(''=>'Select','Less than 1,20,000'=>'Less than 1,20,000','1,20,000 to 3,60,000'=>'1,20,000 to 3,60,000','More than 3,60,000'=>'More than 3,60,000'); 
 							echo $form->input('answer3', array('label'   => '',
 															   'type'    => 'select',
-                                                               'class'   => '',
+                                                               'class'   => 'show_appl_filter_select',
 															   'options' =>$answer3_array,
 															   'value'   => isset($filterOpt['answer3'])?$filterOpt['answer3']:"",
-															   'onChange'=>"javascript:document.webform.submit();"));?>
+																'onChange'=>"return clear_div(this.value);"
+															   ));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Expected CTC</div>
 				<div style="float:left;" id="field">
 					<?php echo $form->input('answer4', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 															 'options' =>$answer3_array,
 															 'value'   => isset($filterOpt['answer4'])?$filterOpt['answer4']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div> 
 
 				<div style="float:left;" id="lbl" >Job Type</div>
@@ -81,10 +100,11 @@
 
                       	  echo $form->input('answer5', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 															 'options' =>$answer5_array,
 															 'value'   => isset($filterOpt['answer5'])?$filterOpt['answer5']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Ready to relocate</div>
@@ -92,51 +112,60 @@
 					<?php $answer6_array = array(''=>'Select','Yes'=>'Yes','No'=>'No'); 
                       	  echo $form->input('answer6', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer6'])?$filterOpt['answer6']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return clear_div(this.value);"
+															));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Shifts Availability</div>
 				<div style="float:left;" id="field">
 					<?php echo $form->input('answer7', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 									                         'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer7'])?$filterOpt['answer7']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Passport Availability</div>
 				<div style="float:left;" id="field">
 					<?php echo $form->input('answer8', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer8'])?$filterOpt['answer8']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+															 'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div>
  
 				<div style="float:left;" id="lbl">Travel Ability</div>
 				<div style="float:left;" id="field">
 					<?php echo $form->input('answer9', array('label'   => '',
 															 'type'    => 'select',
-                                                             'class'   => '',
+                                                             'class'   => 'show_appl_filter_select',
 															 'options' =>$answer6_array,
 															 'value'   => isset($filterOpt['answer9'])?$filterOpt['answer9']:"",
-															 'onChange'=>"javascript:document.webform.submit();"));?>
+														     'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div> 
 
 				<div style="float:left;" id="lbl">Training Needs</div>
 				<div style="float:left;" id="field">
 					<?php echo $form->input('answer10', array('label'   => '',
 															  'type'    => 'select',
-                                                              'class'   => '',
+                                                              'class'   => 'show_appl_filter_select',
 															  'options' =>$answer6_array,
 															  'value'   => isset($filterOpt['answer10'])?$filterOpt['answer10']:"",
-															 'onChange' =>"javascript:document.webform.submit();"));?>
+															  'onChange'=>"return clear_div(this.value);"
+															 ));?>
 				</div> 				
+			</div>			
+			<div style="float:right;margin:20px">
+				<div id="error_div"></div>
+				<?php	echo $form->submit('Search',array('div'=>false,)); ?>	
 			</div>
 			<?php echo $form->end();?>
 			<table style="width:100%">

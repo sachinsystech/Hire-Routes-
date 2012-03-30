@@ -2,11 +2,7 @@
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
-			<ul>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob"><span>My Jobs</span></a></li>
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
-				<li>My Employees</li>
-			</ul>
+			<?php echo $this->element('side_menu');?>
 		</div>
 	</div>
 	<!-- left section end -->
@@ -14,15 +10,7 @@
 	<div class="rightBox" >
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
-			<ul style="float:left">
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">Profile</a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentInfo">Payment Info</a></li>
-				<li  class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentHistory">Payment History</span></a></li>
-			</ul>
-			<ul style="float:right">
-				<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editProfile"><span>Edit</span></a></li>
-			</ul>
-			
+			<?php echo $this->element('top_menu');?>
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
@@ -47,10 +35,12 @@
 					<div style="clear:both;margin-left: 45px;margin-top: 35px;width: 410px;"><hr/></div>
 					<div style="clear:both;font-weight: bold;margin:10px;"><u>JOB INFO</u> ::</div>
 					<div class="job_info" style="width:500px;margin-left:50px">
+						<?php if(!empty($PaymentDetail['js']['contact_name'])):?>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Jobseeker Name:</div>
-							<div style="float:left"><?php echo $PaymentDetail['j_setting']['name']; ?></div>
+							<div style="float:left"><?php echo $PaymentDetail['js']['contact_name']; ?></div>
 						</div>
+						<?php endif;?>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Title:</div>
 							<div style="float:left"><?php echo $PaymentDetail['job']['title']; ?></div>

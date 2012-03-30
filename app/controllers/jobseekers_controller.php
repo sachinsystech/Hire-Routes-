@@ -14,6 +14,7 @@ class JobseekersController extends AppController {
 		if($roleInfo['role_id']!=2){
 			$this->redirect("/users/firstTime");
 		}
+		$this->Auth->allow('jobseekerSetting');
 	}
 	
 	function add() {
@@ -67,7 +68,7 @@ class JobseekersController extends AppController {
 	}	
 
 	/* 	Setting and Subscriptoin page*/
-	function setting() {
+	function setting(){
 		$userId = $this->TrackUser->getCurrentUserId();		
 
 		$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$userId)));
@@ -237,6 +238,7 @@ class JobseekersController extends AppController {
 
 		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId),
 															   'fields'=>array('job_id'),));
+		$jobIds = array();
 		for($a=0;$a<count($applied_job);$a++){
 			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
 		}

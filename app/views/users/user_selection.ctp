@@ -10,6 +10,11 @@
 <button onclick="registrationInto(3);">Job Seeker</button>
 </center>
 </div>
+<div style='margin-top:20px;'>
+	<center>
+		<font size='5px'><b><a style="color:#00FF00;text-decoration:none;" href='/networkerInformation'>Don't Know?</a></b></font>
+	</center>
+</div>
 
 <script>
 function registrationInto(redirect){

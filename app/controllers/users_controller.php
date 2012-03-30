@@ -63,7 +63,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('facebookUser');
 		$this->Auth->allow('facebookUserSelection');
 		$this->Auth->allow('accountConfirmation');		
-
+		$this->Auth->allow('myAccount');		
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -192,7 +192,7 @@ class UsersController extends AppController {
 					return;
 				}
 			}
-		}	
+		}
 	}
 	
 /**
@@ -260,7 +260,7 @@ class UsersController extends AppController {
 					return;
 				}
 			}
-		}	
+		}
 	}
 	
 /**
@@ -491,6 +491,7 @@ class UsersController extends AppController {
  * redirect users to respective setting pages if they setting up their account.
  */
 	function firstTime() {
+		
 		$id = $this->TrackUser->getCurrentUserId();
 		$role = $this->TrackUser->getCurrentUserRole();
 		switch($role['role_id']){
@@ -598,7 +599,7 @@ class UsersController extends AppController {
 				}		
 			}
 			else{
-				$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+				$this->Session->setFlash('An Internal Error has been occured...', 'error');
 				$this->redirect("/");
 				return;
 			}	
@@ -625,17 +626,35 @@ class UsersController extends AppController {
 			return;
 		}
 		if(isset($this->data['User'])){
-			$data = array('User' => array('account_email' => $this->data['User']['username'],
-										  'password' => Security::hash(Configure::read('Security.salt') .$this->data['User']['password'])
+			$username = trim($this->data['User']['username']);
+			$password = trim($this->data['User']['password']);
+
+			$data = array('User' => array('account_email' => $username,
+										  'password' => Security::hash(Configure::read('Security.salt') .$password)
 										  ));
+
+			/** check if user is activated **/
+			$active_user = $this->User->find('first',array('conditions'=>array('account_email'=>$username)));
+			if($active_user ){
+				if($active_user['User']['is_active']==0 && $active_user['User']['account_email']!='admin'){
+					$this->Session->setFlash('Your account is not confirmed, please check you email for confirmation link.', 'error');
+					$this->redirect("/users/login");
+				}
+			}else{
+				$this->Session->setFlash('User with this email does not exist.', 'error');
+				$this->redirect("/users/login");
+			}
+			
 			$this->Auth->fields = array(
 				'username' => 'account_email',
 				'password' => 'password'
 			);
+			
 			if(!$this->Auth->login($data)){
 				$this->Session->setFlash('Username or password not matched.', 'error');	
 			
 			}else{
+
 				$userData=$this->User->find('first',array('conditions'=>array("id"=>$this->TrackUser->getCurrentUserId())));
 				switch($userData['UserRoles'][0]['role_id']){
 					case 1:
@@ -648,10 +667,19 @@ class UsersController extends AppController {
 							$this->Session->write('welcomeUserName',$userData['Networkers'][0]['contact_name']);
 							break;
 				}	
+				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
+				if($this->Session->check('redirection_url'))
+				{
+					$redirect_to=$this->Session->read('redirection_url');
+					$this->Session->delete('redirection_url');
+					$this->redirect($redirect_to);					
+				}
+
+
 				$this->redirect("/users/firstTime");		
 			}
 		}
-			
+		$this->setRedirectionUrl();
 	}
 
 /**
@@ -670,7 +698,40 @@ class UsersController extends AppController {
  */	
 	function facebookUserSelection(){
 		
-	} 
-	
+	}
+
+/**
+ * Display setting page when user clicks on My Account link 
+ */
+ 	public function myAccount()
+ 	{
+ 		$id = $this->TrackUser->getCurrentUserId();
+		$role = $this->TrackUser->getCurrentUserRole();
+		switch($role['role_id']){
+			case 1:
+					$this->redirect(array('controller'=>'Companies','action'=>'accountProfile'));
+					break;	
+			case 2:
+					$this->redirect(array('controller'=>'jobseekers'));
+					break;
+			case 3:
+					$this->redirect(array('controller'=>'networkers'));
+					break;
+		}
+ 	}
+
+
+/**
+ * TO store before Authenticate URL
+ */	
+	private function setRedirectionUrl()
+	{
+		$redirect_url=$this->referer();
+		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url))
+		{
+			$this->Session->write('redirection_url',$redirect_url);
+		}
+		return true;
+	}
 }
 ?>

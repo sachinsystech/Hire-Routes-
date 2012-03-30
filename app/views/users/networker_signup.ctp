@@ -57,7 +57,7 @@
 	<?php echo $form->submit('Register',array('div'=>false,)); ?>
 	<?php echo $form->end(); ?>
 </div>
-
+<div style="margin-top:50px;"><a href="/networkerInformation">Don't know about Networker</a> </div>
 <script>
 	$(document).ready(function(){
 		$("#UserNetworkerSignupForm").validate({

@@ -110,6 +110,7 @@ class NetworkersController extends AppController {
 		$SubscriptionData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$userId)));	
 		$this->set('NetworkerData',$networkerData);
 		$this->set('SubscriptionData',$SubscriptionData['Networkers']);
+		
 		$this->set('industries',$this->Utility->getIndustry());
 		$this->set('specifications',$this->Utility->getSpecification());
 		$this->set('states',$this->Utility->getState());
