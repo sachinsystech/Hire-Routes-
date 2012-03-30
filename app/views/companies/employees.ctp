@@ -8,11 +8,7 @@
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
-			<ul>
-				<li><a style="color: #000000;text-decoration: none;font-weight:normal;" href="/companies/newJob">My Jobs</li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
-				<li class="active">My Employees</li>
-			</ul>
+			<?php echo $this->element('side_menu');?>
 		</div>
 	</div>
 	<!-- left section end -->
@@ -20,9 +16,7 @@
 	<div class="rightBox" style=width:860px;">
 		<!-- middle conent top menu start -->
 		<div class="topMenu">
-			<ul>
-				<li class="active">Employees - <?php echo count($employees);?></li>
-			</ul>
+			<?php echo $this->element('top_menu');?>
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
