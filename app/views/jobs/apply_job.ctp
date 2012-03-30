@@ -35,7 +35,7 @@
 						</div>
 						<?php if(isset($userrole) && $userrole['role_id']==2){ ?>
 						<div style="padding:20px;">
-							<div class="payment_form">           
+							<div>           
 								<?php echo $form->create('JobseekerApply', array('url' => array('controller' => 'jobs', 'action' => 'applyJob/'.$job['id']), 'type' => 'file'));?>
 								<div>
 									<?php $answer1_array = array('High School'=>'High School','Diploma'=>'Diploma','Graduation'=>'Graduation','Post Graduation'=>'Post Graduation'); ?>

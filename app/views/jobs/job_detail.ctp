@@ -34,29 +34,33 @@
 								 '3'=>'Contract',
 								 '4'=>'Internship',
 								 '5'=>'Temporary'); ?>
-			<div class="joblist_middleBox">
-				<table style="width:100%">
+			<div class="jobDetail_middleBox">
+				<table>
 					<tr>
 						<td>
 							<div>
-								<div style="float:left;width:150px;height:90px;">
+								<div class="logo">
 									<img src="" alt="Company Logo" title="company logo" />
 								</div>
 								<div>
-									<div style="font-size:20px;"><strong><?php echo ucfirst($job['Job']['title']); ?></strong>
-                                    </div>
-									<div style="font-size:13px;line-height:22px;">
+									<div class="title"><?php echo ucfirst($job['Job']['title']); ?></div>
+									<div class="detail">
 										<strong>By Company :</strong> <?php echo $job['Job']['company_name']."<br>"; ?>
+<<<<<<< HEAD
                                         <strong>Website : </strong><?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?>
                                         <br>
+=======
+                                        <strong>Website :</strong> <?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?><br>
+ 										<strong>URL :</strong> <input type="text" value="<?php echo Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/'; echo isset($code)?'?code='.$code:''; ?>" style="width:100px;"><br>
+>>>>>>> 534bc632584c14ac603781079f281302e47c871b
                                         <strong>Published in :</strong> 
 											<?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name'].", "; ?>
 											<?php  echo $time->timeAgoInWords($job['Job']['created'])."<br><br>";?>
 									</div>
 								</div>
 								<div>
-									<div style="font-size:15px;padding-left:15px;"><strong>About the Job</strong></div>
-                                    <div style="font-size:13px;padding-left:15px;line-height:22px;">
+									<div class="about_job"><strong>About the Job</strong></div>
+                                    <div class="other_detail">
                                     	<strong>Location :</strong> 
 											<?php echo $job['city']['city'].", ".$job['state']['state']."<br>"; ?>
 										<strong>Annual Salary Range :</strong> 
@@ -64,16 +68,16 @@
 										<strong>Type :</strong> 
 											<?php echo $job_array[$job['Job']['job_type']]."<br>"; ?>
 									</div>
-									<div style="font-size:13px;padding:10px 15px 25px 15px;">
+									<div class="desc">
 										<?php echo $job['Job']['short_description']."<br>";?>
 									</div>
 								</div>
-								<div style="padding-left:15px;">
-									<span style="font-size:15px;">
+								<div class="company_detail">
+									<span>
 										<strong><?php echo $job['Job']['company_name']; ?></strong></span> - 
 												<?php echo $job['city']['city'].", ".$job['state']['state']."<br>"; ?>
                                                 <?php echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?><br><br>
-											<div id="short_description" style="font-size:13px;">
+											<div class="description" id="short_description">
 											<?php $desc = $job['Job']['description'];
 													if($desc!=''){
                                                     	$explode = explode(' ',$desc);
@@ -92,13 +96,13 @@
 														echo $string.$dots;
 													}?>
 											</div>
-											<div id="full_description" style="display:none;font-size:13px;">
+											<div class="description" id="full_description" style="display:none;">
 												<?php echo $job['Job']['description'];?>
 											</div>
 										</div>
 										<?php if(str_word_count($desc)>20){?>
-											<div id="more_info" align="center" style="font-size:13px;font-weight:normal;">
-												<a onclick="showDescription();" style="cursor:pointer">More Info</a>
+											<div id="more_info">
+												<a onclick="showDescription();">More Info</a>
 											</div>
 										<?php }?>
 									</div>
@@ -120,6 +124,7 @@
             <?php //echo $this->element("jobRight"); ?>
 		<!-- middle conyent list -->
 	</div>
+<<<<<<< HEAD
 	<div style="font-size:1.2em;float:right;width:200px;text-align:center;margin-right:30px;">
 		<div style="font-weight:bold;">
 			<div style="font-size:1.4em;">
@@ -146,6 +151,12 @@
 		<div style="font-size:1.2em;">
 			<a href='httpRootUrl/how_it_works'>See how it works >></a>
 		</div>
+=======
+	<div class="reward">
+		<p><font size='5px'><b>Total Reward $<?php echo $job['Job']['reward'];?></b></font></br>
+		<font size='3px'><b>Your reward is up to $<?php echo $job['Job']['reward'];?></b></font></p></br>
+		<p><a href='httpRootUrl/how_it_works'>See how it works >></a></p></br>
+>>>>>>> 534bc632584c14ac603781079f281302e47c871b
 		<?php if(empty($userrole['role'])){?>
 			<div style="margin-top:20px;">
 				<div >

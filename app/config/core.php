@@ -312,8 +312,9 @@
     define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
     define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
 
-	/*		********		*/
-    define("BASEPATH","/var/www/staging-hr/Hire-Routes-/app/");
+	define("BASEPATH","/opt/lampp/htdocs/Hire-Routes-/app/");
+    
+    
 
 	/*	Facebook API key	*/
     define("FB_API_KEY","305849939456125");
@@ -330,5 +331,6 @@
         define('API_PASSWORD', '1296472630');
         define('API_SIGNATURE', 'A0yXjfWegGWSw36x2o1FMUR9fUN.AohzBaj78ZVz.0dMA3K0e0wL0SsH');
         define('LIVEPAYPAL', '0'); //0 for sandbox, 1 for live .
+
 	/* *********  */
 

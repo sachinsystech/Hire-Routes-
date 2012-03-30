@@ -92,14 +92,14 @@
 		{
 ?>
 		<?php
-			if($this->action=='newJob'||$this->action=='#'||$this->action=='#'||$this->action=='#')
+			if($this->action=='newJob'||$this->action=='#'||$this->action=='archiveJob'||$this->action=='jobData')
 			{
 		?>
 				<ul>
-					<li <?php if($this->action=='newJob'||$this->action=='#') echo "class='active'";  ?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Inbox - <?php if(isset($NewJobs))echo $NewJobs;?></a></li>	
+					<li <?php if($this->action=='newJob'||$this->action=='#') echo "class='active'";  ?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="newJob">Inbox - <?php if(isset($NewJobs)) echo $NewJobs;?></a></li>	
 					<li <?php if($this->action=='#') echo "class='active'";  ?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Shared - 10</a></li>
-					<li <?php if($this->action=='#') echo "class='active'";  ?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
-					<li <?php if($this->action=='#') echo "class='active'";  ?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#"> Data </a></li>			
+					<li <?php if($this->action=='archiveJob') echo "class='active'";  ?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="archiveJob">Archive - <?php if(isset($ArchiveJobs)) echo $ArchiveJobs;?></a></li>
+					<li <?php if($this->action=='jobData') echo "class='active'";  ?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="jobData"> Data </a></li>			
             </ul>
 			<?php
 			}elseif($this->action=='index'||$this->action=='setting'||$this->action=='editProfile')

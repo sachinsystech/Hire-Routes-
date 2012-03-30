@@ -86,9 +86,14 @@ class JobseekersController extends AppController {
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
-			$this->Jobseeker->save($this->data['Jobseeker']);		
-			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
-			$this->redirect('/jobseekers');						
+			$this->Jobseeker->save($this->data['Jobseeker']);	
+			$this->Session->setFlash('Profile has been updated successfuly.', 'success');
+			if($this->Session->check('redirect_url')){
+				$redirect_to = $this->Session->read('redirect_url');
+				$this->redirect($redirect_to);
+			}else{
+				$this->redirect('/jobseekers');	
+			}					
 		}
 		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
@@ -341,7 +346,8 @@ class JobseekersController extends AppController {
                                 'order' => array("Job.$shortByItem" => $order,),
 								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
   
-		$newjobs = $this->Job->find('count',array('conditions'=>$cond));      
+		$newjobs = $this->Job->find('count',array('conditions'=>$cond));     
+		
            
 		$jobs = $this->paginate('Job');
 		$this->set('AppliedJobs',count($applied_job));
