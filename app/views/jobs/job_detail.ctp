@@ -46,13 +46,10 @@
 									<div class="title"><?php echo ucfirst($job['Job']['title']); ?></div>
 									<div class="detail">
 										<strong>By Company :</strong> <?php echo $job['Job']['company_name']."<br>"; ?>
-<<<<<<< HEAD
+
                                         <strong>Website : </strong><?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?>
                                         <br>
-=======
-                                        <strong>Website :</strong> <?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?><br>
- 										<strong>URL :</strong> <input type="text" value="<?php echo Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/'; echo isset($code)?'?code='.$code:''; ?>" style="width:100px;"><br>
->>>>>>> 534bc632584c14ac603781079f281302e47c871b
+
                                         <strong>Published in :</strong> 
 											<?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name'].", "; ?>
 											<?php  echo $time->timeAgoInWords($job['Job']['created'])."<br><br>";?>
@@ -124,7 +121,7 @@
             <?php //echo $this->element("jobRight"); ?>
 		<!-- middle conyent list -->
 	</div>
-<<<<<<< HEAD
+
 	<div style="font-size:1.2em;float:right;width:200px;text-align:center;margin-right:30px;">
 		<div style="font-weight:bold;">
 			<div style="font-size:1.4em;">
@@ -149,14 +146,9 @@
 			</div>
 		</div>
 		<div style="font-size:1.2em;">
-			<a href='httpRootUrl/how_it_works'>See how it works >></a>
+			<a href='/how_it_works'>See how it works >></a>
 		</div>
-=======
-	<div class="reward">
-		<p><font size='5px'><b>Total Reward $<?php echo $job['Job']['reward'];?></b></font></br>
-		<font size='3px'><b>Your reward is up to $<?php echo $job['Job']['reward'];?></b></font></p></br>
-		<p><a href='httpRootUrl/how_it_works'>See how it works >></a></p></br>
->>>>>>> 534bc632584c14ac603781079f281302e47c871b
+
 		<?php if(empty($userrole['role'])){?>
 			<div style="margin-top:20px;">
 				<div >
