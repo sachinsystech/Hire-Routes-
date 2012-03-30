@@ -3,7 +3,7 @@ class NotificationsController extends AppController {
 
 	var $name = 'Notifications';
 	var $uses = array('JobseekerSettings','User','Job','Industry','State','Specification',
-					  'City','JobPost','Networkers','NetworkerSettings');
+			  'UserRoles', 'City','JobPost','Networkers','NetworkerSettings');
 
 	var $components = array('Email');
 	var $helpers = array('Html');

@@ -7,20 +7,14 @@
 <link rel="stylesheet" media="all" type="text/css" href="css/pro_dropline_ie.css" />
 <![endif]-->
 
-
- 
-
-
-
-<!--  date picker script -->
-<link rel="stylesheet" type="text/css" href="/css/datePicker.css"/>
-
-
 <?php
-echo $html->meta('icon', 'favicon.ico');
-echo $html->css('screen');
-echo $html->script('jquery.js');
-echo $html->script('validation.js');
+	echo $html->meta('icon', 'favicon.ico');
+	
+	echo $html->css('screen');
+	echo $html->css('jquery-ui-1.8.18.custom');
+	
+	echo $html->script('jquery_min.js');	
+	echo $html->script('jquery-ui.min.js');
 ?>
 
 </head>
@@ -95,11 +89,7 @@ echo $html->script('validation.js');
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a href="#"><b>Forms</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
-		
-		
-		<div class="nav-divider">&nbsp;</div>
-		
-		
+
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a href="/admin/paymentInformation"><b>Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>

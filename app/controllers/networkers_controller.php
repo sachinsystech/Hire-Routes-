@@ -2,8 +2,9 @@
 class NetworkersController extends AppController {
 	var $name = 'Networkers';
 
-	var $uses = array('Networkers','NetworkerContact','NetworkerCsvcontact','NetworkerSettings','User','UserRoles','Industry','State','City','Specification',
-'FacebookUsers','Companies','Job');
+	var $uses = array('Networkers','NetworkerContact','NetworkerCsvcontact','NetworkerSettings',
+						'User','UserRoles','Industry','State','City','Specification',
+						'FacebookUsers','Companies','Job','PaymentHistory','JobseekerApply');
 	var $components = array('Email','Session','TrackUser','Utility');	
 	var $helpers = array('Time','Form');
 	
@@ -376,7 +377,7 @@ class NetworkersController extends AppController {
 		$this->redirect('/networkers/personal');
 	}
 		  
-	function newJob(){
+	function archiveJob(){
 		$userId = $this->TrackUser->getCurrentUserId();		
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
 		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
@@ -443,12 +444,114 @@ class NetworkersController extends AppController {
 			    }
 			}
 
-			/* $cond = array('OR' => array(array('industry' => $industry),
-		                                array('specification' => $specification),
-		                                array('city ' => $city),
-		                                array('state' => $state),),
-						  'AND'	=>array(array('is_active' => 1))); */
+			$cond = array('OR' => $job_cond,
+						   'AND' => array(array('is_active' => 0))); 
 
+			$this->paginate = array('conditions'=>$cond,
+		                            'limit' => isset($displayPageNo)?$displayPageNo:5,
+									'joins'=>array(array('table' => 'industry',
+												         'alias' => 'ind',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.industry = ind.id',)
+											        ),
+												   array('table' => 'specification',
+												         'alias' => 'spec',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.specification = spec.id',)
+											        ),
+												   array('table' => 'cities',
+												         'alias' => 'city',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.city = city.id',)
+											        ),
+												   array('table' => 'states',
+												         'alias' => 'state',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.state = state.id',)
+											        )),
+		                            'order' => array("Job.$shortByItem" => $order,),
+									'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
+		    
+		    $jobs = $this->paginate('Job');	
+
+			$archivejobs = $this->Job->find('count',array('conditions'=>$cond));	
+			$newjobs     = $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
+						   											'AND' => array('is_active' => 1)) ));
+		}else{
+			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'error');				
+			$this->redirect('/networkers/setting');
+		}
+		$this->set('ArchiveJobs',$archivejobs);
+		$this->set('NewJobs',$newjobs);
+		$this->set('jobs',$jobs);
+	}
+
+	function newJob(){
+		$userId = $this->TrackUser->getCurrentUserId();		
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
+		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
+        
+    	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
+		
+        if(count($networker_settings)>0){
+			for($n=0;$n<count($networker_settings);$n++){
+				$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
+				$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
+				$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
+				$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
+
+				$tempCond = array();
+				if($industry[$n]>1){
+					$tempCond[] = array('Job.industry' => $industry[$n]);
+				
+				}
+				if($specification[$n])
+						$tempCond[] = array('Job.specification' => $specification[$n]);
+				if($city[$n])
+					$tempCond[] = array('Job.city ' => $city[$n]);
+		        if($state[$n])
+		        	$tempCond[] = array('Job.state' => $state[$n]);
+				  
+			
+				if(!$tempCond){
+					$tempCond = array(1);
+				}
+				$job_cond[$n] =  array('AND' =>$tempCond);
+			
+			}
+		
+				   
+			$shortByItem = 'created';
+			$order		 = 'desc';
+		    
+		    if(isset($this->params['named']['display'])){
+			    $displayPageNo = $this->params['named']['display'];
+			    $this->set('displayPageNo',$displayPageNo);
+			}
+			if(isset($this->params['named']['shortby'])){
+			    $shortBy = $this->params['named']['shortby'];
+			    $this->set('shortBy',$shortBy);
+			    switch($shortBy){
+			    	case 'date-added':
+			    				$shortByItem = 'created'; 
+								$order		 = 'desc';
+			    				break;	
+			    	case 'company-name':
+			    				$shortByItem = 'company_name';
+								$order		 = 'asc'; 
+			    				break;
+			    	case 'industry':
+			    				$shortByItem = 'industry';
+								$order		 = 'asc'; 
+			    				break;
+			    	case 'salary':
+			    				$shortByItem = 'salary_from';
+								$order		 = 'asc'; 
+			    				break;
+			    	default:
+			    			$this->redirect("/jobs");	        		        	
+			    }
+			}
 			$cond = array('OR' => $job_cond,
 						   'AND' => array(array('is_active' => 1))); 
 
@@ -479,13 +582,93 @@ class NetworkersController extends AppController {
 		    
 		    $jobs = $this->paginate('Job');	
 
-			$newjobs = $this->Job->find('count',array('conditions'=>$cond));	
+			$newjobs = $this->Job->find('count',array('conditions'=>$cond));
+			$archivejobs = $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
+						   									'AND' => array('is_active' => 0))));
+			$this->set('ArchiveJobs',$archivejobs);
+			$this->set('NewJobs',$newjobs);
+			$this->set('jobs',$jobs);	
 		}else{
 			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'error');				
 			$this->redirect('/networkers/setting');
 		}
+		
+	}
+
+	function jobData(){
+		$userId = $this->TrackUser->getCurrentUserId();		
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
+		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
+        
+    	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
+		
+        if(count($networker_settings)>0){
+			for($n=0;$n<count($networker_settings);$n++){
+				$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
+				$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
+				$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
+				$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
+
+				$tempCond = array();
+				if($industry[$n]>1){
+					$tempCond[] = array('Job.industry' => $industry[$n]);
+				
+				}
+				if($specification[$n])
+						$tempCond[] = array('Job.specification' => $specification[$n]);
+				if($city[$n])
+					$tempCond[] = array('Job.city ' => $city[$n]);
+		        if($state[$n])
+		        	$tempCond[] = array('Job.state' => $state[$n]);
+				  
+			
+				if(!$tempCond){
+					$tempCond = array(1);
+				}
+				$job_cond[$n] =  array('AND' =>$tempCond);
+			
+			}			
+			
+			$cond = array('OR' => $job_cond,
+						   'AND' => array(array('is_active' => 1))); 			
+
+			$newjobs = $this->Job->find('count',array('conditions'=>$cond));
+			$archivejobs = $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
+						   'AND' => array(array('is_active' => 0)))));
+				
+		}else{
+			$newjobs = 0;
+			$archivejobs = 0;
+		}
+
+		$payment = $this->PaymentHistory->find('all',array('conditions'=>array('PaymentHistory.payment_status'=>1,
+																			   'jobseeker_apply.intermediate_users LIKE' => "%$userId%"),
+														   'joins'=>array(
+																		array('table' => 'jobseeker_apply',
+												  							  'alias' => 'jobseeker_apply',
+												  							  'type' => 'LEFT',
+												  							  'conditions' => array('PaymentHistory.applied_job_id = jobseeker_apply.id ')
+											     							),
+																		array('table' => 'jobs',
+												 							  'alias' => 'jobs',
+												                              'type' => 'LEFT',
+												                              'conditions' => array('PaymentHistory.job_id = jobs.id ')
+											     							)
+		
+																		),
+															'fields'=>array('SUM((jobs.reward)*0.75) as networker_reward'),
+							
+							
+														  )
+											 );
+		if($payment[0][0]['networker_reward']!=""){
+			$total_reward = "$ ".$payment[0][0]['networker_reward'];
+		}else{
+			$total_reward = "";
+		}
+		$this->set('TotalReward',$total_reward);
 		$this->set('NewJobs',$newjobs);
-		$this->set('jobs',$jobs);
+		$this->set('ArchiveJobs',$archivejobs);
 	}
  
 }

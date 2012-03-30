@@ -59,7 +59,6 @@
 			</div>
 			
 		<!-- middle conyent list -->
-
 	</div>
 	<!-- middle section end -->
 

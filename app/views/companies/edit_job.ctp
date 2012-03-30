@@ -64,6 +64,7 @@
                                                       'options'=>$industries,
                                                       'empty' =>' -- Select Industry-- ',
                                                       'class'=>'jobseeker_select_i required',
+                                                      'onchange'=>'return fillSpecification(this.value);',
                                                       'selected' => isset($job['industry'])?$job['industry']:""
                                               )
                                   );
@@ -73,7 +74,8 @@
           <?php echo $form -> input('specification',array(
                                                       'type'=>'select',
                                                       'label'=>'',
-                                                      'options'=>$specifications,
+                                                      'empty' =>' -- Select Specifications-- ',
+                                                      //'options'=>$specifications,
                                                       'class'=>'job_select__i_s required',
 													  'selected'=>isset($job['specification'])?$job['specification']:""
                                               )
@@ -195,7 +197,6 @@
 			</div>
 	
 		<!-- middle conyent list -->
-
 	</div>
 	<!-- middle section end -->
 </div>
@@ -206,10 +207,27 @@ $(document).ready(function(){
 	var city_id = <?php echo $job['city'];?>;
 	fillCities(<?php echo $job['state'];?>);
 	$("select#JobCity option[value=<?php echo $job['city'];?>]").attr('selected', 'selected');
-
+	fillSpecification(<?php echo $job['industry'];?>);
+	$("select#JobSpecification option[value=<?php echo $job['specification'];?>]").attr('selected', 'selected');
 	$("#JobEditJobForm").validate();
 	
 });
+
+function fillSpecification($industry_id)
+{
+	$('#JobSpecification option').each(function(i, option){ $(option).remove(); });
+	$.ajax({
+		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
+	 	dataType:'json',
+	 	async:false,
+  		success: function(response){
+	 		document.getElementById('JobSpecification').options[0]=new Option("--All Specification--",'');
+			$.each(response, function(index, specification) {
+				document.getElementById('JobSpecification').options[document.getElementById('JobSpecification').options.length] = new Option(specification, index);
+            });
+  		}
+	});
+}
 	
 function fillCities($state_id)
 {
