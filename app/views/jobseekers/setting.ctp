@@ -1,3 +1,4 @@
+<?php ?>
 <script>
 	$(document).ready(function(){
 	    $("#JobseekersNotification").click(onCheckChange);
@@ -52,6 +53,7 @@
 														  'type'  => 'text',
 														  'class' => 'jobseekers_text required',
 														  'value' => isset($jobseekerData['name'])?$jobseekerData['name']:""));?>
+					<div id="industry_specification_1">
 						<div style="float:left;margin-left: -7px;clear: both;">
 							<?php $industry_array = array('1'=>'Industry1',
 														  '2'=>'Industry2',
@@ -64,8 +66,8 @@
 																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification1","specification_1_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
-							<div id="specification_1_loader" style="float:left;"></div>
 						</div>
+						<div id="specification_1_loader" style="float:left;"></div>
 						<div style="float:left;width: 289px;">
 							<?php $industry_specification_array = array('1'=>'Industry specification 1',
 																		'2'=>'Industry specification 2',
@@ -79,6 +81,8 @@
 																	                   'class'=>'jobseeker_select__i_s required',
 											                                           'selected'=>isset($jobseekerData['specification_1'])?explode(",",$jobseekerData['specification_1']):""));?>
 						</div>
+					</div>
+					<div>
 						<div style="float:left;margin-left: -7px;clear: both;">
 							<?php echo $form -> input('industry_2',array('type'=>'select',
 																	     'label'=>'Industry 2:',
@@ -87,8 +91,8 @@
 																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification2","specification_2_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:""));?>
-							<div id="specification_2_loader" style="float:left;"></div>
 						</div>
+						<div id="specification_2_loader" style="float:left;"></div>
 						<div style="float:left;width: 289px;">
 							<?php echo $form -> input('industry_specification_2',array('type'=>'select',
 																	                   'label'=>'',
@@ -114,8 +118,8 @@
 									)
 						);
 ?>
-<div id="city_loader" style="float:left;">&nbsp;</div>
 </div>
+<div id="city_loader" style="float:left;">&nbsp;</div>
 <div style="float:left;">
 <?php echo $form -> input('city',array(
 											'type'=>'select',

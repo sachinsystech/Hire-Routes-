@@ -69,8 +69,8 @@
                                               )
                                   );
           ?>
-          <div id="specification_loader" style="float:left;width:20px;"></div>
       </div>
+      <div id="specification_loader" style="float:left;width:20px;"></div>
       <div style="float:left;">
           <?php echo $form -> input('specification',array(
                                                       'type'=>'select',
@@ -128,9 +128,9 @@
 											'selected' => isset($job['state'])?$job['state']:""
 									)
 						);
-?>
-<div id="city_loader" style="float:left;"></div>	
+?>	
 </div>
+<div id="city_loader" style="float:left;"></div>
 <div style="float:left;">
 <?php echo $form -> input('city',array(
 											'type'=>'select',
