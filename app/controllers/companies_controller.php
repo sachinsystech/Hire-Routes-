@@ -259,8 +259,8 @@ list archive jobs..
 			$this->redirect("/users/firstTime");
 		}
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-		$this->set('user',$user['User']);
-		$this->set('company',$user['Companies'][0]);
+			$this->set('user',$user['User']);
+			$this->set('company',$user['Companies'][0]);
 	}
 
 	function editProfile() {
@@ -272,7 +272,8 @@ list archive jobs..
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
-			$this->Companies->save($this->data['Company']);		
+			$this->Companies->save($this->data['Company']);
+			$this->Session->write('userName',$this->data['Company']['contact_name']);		
 			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
 			$this->redirect('/companies');						
 		}
@@ -1145,6 +1146,56 @@ function paymentHistoryInfo(){
 								));
 		return $appliedJob;
     }
+
+// =======================delete jobs=========
+	function deleteJob(){
+		$this->autoRender=false;
+		$userId = $this->TrackUser->getCurrentUserId();
+		$jobId=$this->params['form']['jobId'];
+		$action=$this->params['form']['action'];
+		if($action=='newJobs'){
+			$activate=1;
+		}else 
+			$activate=0;
+
+		if($userId && $jobId){
+			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>$activate),"fileds"=>"id"));
+			if($jobs['Job']){
+				$jobs['Job']["is_active"] = 2 ;
+				$this->Job->save($jobs);
+				$this->Session->setFlash('Successfully, Job has been deleted.', 'success');	
+				return;
+			}
+		}
+		$this->Session->setFlash('May be you click on old link.','error');	
+		return;	
+    }
+
+
+	public function employees(){
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$this->paginate = array('conditions' => array('PaymentHistory.user_id'=>$userId),
+								'limit'=>'10', 	
+								'joins'=>array(
+											array('table'=>'users',
+												  'type'=>'inner',
+												  'conditions'=>array('users.id=PaymentHistory.jobseeker_user_id',
+																	  'users.is_active=1'),
+												 ),
+										 	array('table'=>'jobseekers',
+												  'alias'=> 'js',
+												  'type'=>'inner',
+												  'conditions'=>array('js.user_id =PaymentHistory.jobseeker_user_id'),
+												 ),
+											   ),
+								'fields'=>array('PaymentHistory.user_id,PaymentHistory.paid_date,js.contact_name,
+												js.contact_phone,js.city,js.state,users.account_email'),
+								);
+		$employees = $this->paginate("PaymentHistory");
+		$this->set('employees',$employees);
+		// end for job fetching...
+    }
+
 /**		*****	Twitter :: Handling	*****	**/
 
 	private function getTwitterObject(){
@@ -1285,3 +1336,4 @@ function paymentHistoryInfo(){
 
 }
 ?>
+

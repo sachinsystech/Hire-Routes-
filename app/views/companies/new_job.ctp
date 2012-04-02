@@ -1,13 +1,38 @@
-<?php //echo "<pre>"; print_r($jobs); exit;?>
+<?php ?>
 <script>
+	
 	$(document).ready(function(){
 	    $("#switch_display").change(onSelectChange);
 		$("#short_by").change(onSelectChange);
 	});
+
 	function onSelectChange(){
 	    var displaySelected = $("#switch_display option:selected");
 		var shortSelected = $("#short_by option:selected"); 
 		window.location.href="/companies/newJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
+	}
+		
+	function onDelete(id)
+	{	if(confirm('Do you want to delete it ?')){
+			$.ajax({
+				url: "/companies/deleteJob",
+				type: "post",
+				data: {jobId : id,action:'newJobs'},
+				success: function(response){
+					window.location.reload();			
+				},
+				error:function(response)
+				{
+					$('.success').html("ERROR:");
+				}
+			});
+		}
+		else
+			return false;
+	}
+
+	function goTo(){
+		window.location.href="/companies/postJob";			
 	}
 </script>
 <div class="page">
@@ -75,7 +100,6 @@
 						'url' =>  '/companies/editJob/'.$job['Job']['id'],
                         'title'=> 'Edit'
 						));
-
 						echo $this->Html->image("/img/icon/ok.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
 						'url' => "/companies/archiveJob/".$job['Job']['id'],
@@ -93,27 +117,19 @@
 						));
 						echo $this->Html->image("/img/icon/delete.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "#",
-                        'title'=>'Delete'
+						'url'=>'javascript:void(0);',
+                        'title'=>'Delete',
+						'onclick'=>"return onDelete(".$job['Job']['id'].");"
 						));
  ?>
 					</td>
 				</tr>
-				
+			
 				<?php endforeach; ?>			
 			</table>
-			</div>
-			
-			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
+		</div>
+		<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
 		<!-- middle conyent list -->
-
-	</div>
+		</div>
 	<!-- middle section end -->
-
 </div>
-
-<script>
-function goTo(){
-	window.location.href="/companies/postJob";			
-}
-</script>

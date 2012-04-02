@@ -292,7 +292,7 @@ input, textarea {
 	/*font-size: 140%;*/
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
 	padding: 1%;
-	width:98%;
+	width:90%;
 }
 select {
 	clear: both;
@@ -556,12 +556,11 @@ div.code-coverage-results span.result-good {
 #url-rewriting-warning {
 	display: none;
 }
-
 .selection-button{
-  margin: 38px 0 0 21px;
+  margin: 20px 0 0 21px;
 }
 .selection-button button{
-  padding:5px;background:#00FF00;
+  padding:5px;background:#04B431;
   cursor:pointer;
   width: 145px;
 }
@@ -1669,6 +1668,141 @@ border: 1px solid #000000;
     border: 1px solid #000000;
     margin-left: 25px;
     width: 193px;
+}
+.ImageHowToWork{
+	width:950px;
+	margin-left:100px;
+	margin-right:100px 
+	margin-top:100px;
+}
+#JobListOnHome{
+	padding:10px;
+	border: 1px solid #000000;
+	width:250px;
+	height:auto;
+	float:right;
+	margin-top:5px;
+}
+.Video{
+	margin-bottom:10px;
+	margin-right:50px;
+	padding:10px;
+	height:150px;
+	border: 1px solid #000000;
+	width:200px;
+	height:150px;
+	float:left;
+}
+#ContanierForSearch{
+	padding:10px;
+	border:1px solid #000000;
+	width:250px;
+	margin-top: -25px;
+	float:right;
+}
+.WhyHireRoutes{
+	padding:10px;
+	width:150px;
+	height:100px;
+	float:left;
+}
+#HomeContanier{
+	margin-left:200px;
+	margin-right:150px;
+	padding:10px;
+}
+
+#GetStart{
+	clear:both;
+	width:100px;
+	margin-left:50px;
+	margin-bottom:20px;
+    background-color: #3DB517;
+    border: 1px solid #000000;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+	text-align:center;
+    padding: 5px;
+}
+#FindJob{
+	float:left;
+	width:88px;
+	height:26px;
+	padding:5px;
+	border: 1px solid #000000;
+	background-color: #3DB517;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+	text-align:center;
+	margin-top:-1px;
+}
+#Go{
+	float:right;
+	width:40px;
+	height:14px;
+	padding:5px;
+	background-color: #3DB517;
+    border: 1px solid #000000;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+	text-align:center;
+}
+#HeadingHome{
+	clear:both;
+	height:25px;
+	padding:10px;
+	font-size: 20px;
+    font-weight: bold;
+	width:auto;
+}
+#HeadingVedio{
+	height:25px;
+	height:auto;
+	width:300px;
+}
+#HeadingWhyHireRoutes{
+	position:relative;
+	margin-left:260px;
+	margin-top:-25px;	
+	height:25px;
+	width:300px;	
+}
+#HeadingJobList{
+	width:250px;
+	text-align:center;
+	margin-top:-25px;
+	float:right;
+}
+#SearchInput{
+	width:731px;
+	border-right:none;
+	float:left;
+}
+.WhyHireRoutesData{
+	width:150px;
+}
+.LeftContainer{
+	height:425px;
+	width:260px;
+	border-right: 1px solid #000000;
+	margin-left:150px;
+	padding:40px;
+	float:left;
+}
+.HeadingInformation{
+	font-size:20px;
+	font-weight:bold;
+	float:right;
+	width:250px;
+	margin-bottom:20px;
+}
+.InformationImage{
+	float:right;
+	width:650px;
+	margin-top:10px;
 }
 
 

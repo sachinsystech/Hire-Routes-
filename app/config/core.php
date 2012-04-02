@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is core configuration file.
  *
@@ -129,6 +130,7 @@
 
     Configure::write('rootURL','qa.hireroutes.com/');
     Configure::write('httpRootURL','http://qa.hireroutes.com/');	
+
 
 
 /**
@@ -316,7 +318,6 @@
     define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
     define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
 
-    
 	/*	Facebook API key	*/
     define("FB_API_KEY","305849939456125");
     define("FB_SECRET_KEY","e52a5d92d6429e4abd6408ca3a1fc710");
@@ -334,4 +335,5 @@
         define('LIVEPAYPAL', '0'); //0 for sandbox, 1 for live .
 
 	/* *********  */
+
 

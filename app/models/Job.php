@@ -22,5 +22,5 @@ class Job extends AppModel {
     }
 
 }
-
 ?>
+

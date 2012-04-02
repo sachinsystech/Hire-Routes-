@@ -1,5 +1,4 @@
 <?php
-
 class User extends AppModel {
     var $name = 'User';
     var $useTable = 'users';
@@ -41,7 +40,7 @@ class User extends AppModel {
 				'dependent'=> true
 			),						
 	);
-	
+
     var $validate = array(
 		'account_email' => array(
             'email' => array(
