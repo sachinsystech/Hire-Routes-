@@ -62,7 +62,7 @@
 																	     'label'=>'Industry 1:',
 																	     'options'=>$industries,
 																	     'empty' =>' -- Select Industry-- ',
-																	     'onchange'=>'return fillSpecification1(this.value,"JobseekersIndustrySpecification1");',
+																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification1");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
 						</div>
