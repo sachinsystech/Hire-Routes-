@@ -33,7 +33,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 3);
+	Configure::write('debug', 2);
 
 /**
  * CakePHP Log Level:
@@ -91,7 +91,7 @@
  * Turn off all caching application-wide.
  *
  */
-	//Configure::write('Cache.disable', true);
+	Configure::write('Cache.disable', true);
 
 /**
  * Enable cache checking.
@@ -128,7 +128,7 @@
  
 
     Configure::write('rootURL','192.168.1.28/');
-    Configure::write('httpRootURL','http://192.168.1.28/');	
+    Configure::write('httpRootURL','http://hireroutes/');	
 
 /**
  * The model name to be used for the session model.
@@ -307,9 +307,18 @@
  */
 	Cache::config('default', array('engine' => 'File'));
 
-    define("FB_API_KEY","169752649798619");
-    define("FB_SECRET_KEY","7254bec29aa59710c004a97a2716374c");
+    define("FB_API_KEY","340495732660166");
+    define("FB_SECRET_KEY","465991fdcd75fb0fd64d98efaeab2f05");
 
     define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
     define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
+
+/*** Linked in  ***/
+
+    define("LINKEDIN_BASE_URL","http://127.0.0.1/companies/getLinkedinFriendList");
+    define("LINKEDIN_CALLBACK_URL","http://127.0.0.1/companies/linkedinCallback");
+    define("LINKEDIN_ACCESS","341yzad2xife");
+    define("LINKEDIN_SECRET","jN3uF6HePfMLspcb");
+
+/****** end *****/
   
