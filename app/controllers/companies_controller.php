@@ -6,7 +6,7 @@ require_once(APP_DIR.'/vendors/linkedin/OAuth.php');
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews'/*, 'PaymentHistory'*/);
+   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory');
 	var $components = array('TrackUser','Utility','RequestHandler');
 
 	var $helpers = array('Form','Paginator','Time');
@@ -1106,7 +1106,7 @@ function paymentHistoryInfo(){
 				}catch(Exception $e)
 				{
 					pr($e);
-					exit;
+					//exit;
 				}
 			}
 			else

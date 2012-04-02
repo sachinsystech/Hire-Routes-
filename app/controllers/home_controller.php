@@ -37,10 +37,6 @@ class HomeController extends AppController {
 	function howItWorks(){
 
 	}
-	function howItWorks(){
-	
-	}
-
 
 }
 ?>
