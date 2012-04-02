@@ -112,7 +112,7 @@
 	
 	<?php */?>
 	
-	
+	<div id="loader" style="float:left;margin-left:50%;"></div>	
 	<?php $state_val = $job['state']; ?>
 	
 		  <!-- 	Location :: State wise cities....	-->
@@ -220,6 +220,12 @@ function fillSpecification($industry_id)
 		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
 	 	dataType:'json',
 	 	async:false,
+	 	beforeSend: function(){
+     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+		},
+		complete: function(){
+   	    	$('#loader').html("");
+		},
   		success: function(response){
 	 		document.getElementById('JobSpecification').options[0]=new Option("--All Specification--",'');
 			$.each(response, function(index, specification) {
@@ -235,6 +241,12 @@ function fillCities($state_id)
 		url: "/utilities/getCitiesOfState/"+$state_id,
 	 	dataType:'json',
 		async:false,
+		beforeSend: function(){
+     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+		},
+		complete: function(){
+   	    	$('#loader').html("");
+		},
   		success: function(response){
 	 		var options = '<option value=""> -- All Cities-- </option>';
 			$.each(response, function(index, item) {
