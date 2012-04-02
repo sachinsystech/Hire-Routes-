@@ -12,13 +12,13 @@
 		{
 ?>
 		<?php
-			if($this->action=='newJob'||$this->action=='showArchiveJobs'||$this->action=='#')
+			if($this->action=='newJob'||$this->action=='showArchiveJobs'||$this->action=='companyData')
 			{
 		?>
 			<ul>
 				<li <?php if($this->action=='newJob') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob">Jobs - <?php if($this->action=='newJob'){ echo count($jobs);}else{echo $activejobCount;}?></a></li>
 				<li <?php if($this->action=='showArchiveJobs') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showArchiveJobs">Archive - <?php if($this->action=='showArchiveJobs'){echo count($jobs);}else{echo $archJobCount;}?></a></li>
-				<li <?php if($this->action=='#') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Data</a></li>
+				<li <?php if($this->action=='companyData') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="companyData">Data</a></li>
 			</ul>
 			<?php
 			}elseif($this->action=='index'||$this->action=='accountProfile'||$this->action=='paymentInfo'||$this->action=='paymentHistory'||$this->action=='paymentHistoryInfo'||$this->action=='editProfile')
@@ -61,13 +61,13 @@
 		{
 ?>
 		<?php
-			if($this->action=='newJob'||$this->action=='appliedJob'||$this->action=='#')
+			if($this->action=='newJob'||$this->action=='appliedJob'||$this->action=='archivedJob')
 			{
 		?>
 			<ul style="float:left">
 				<li <?php if($this->action=='newJob') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;"  href="/jobseekers/newJob">Inbox - <?php echo $NewJobs;?></a></li>	
 				<li <?php if($this->action=='appliedJob') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href='/jobseekers/appliedJob'>Applied - <?php echo $AppliedJobs;?></a></li>	
-                <li <?php if($this->action=='#') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Archive - 2</a></li>
+                <li <?php if($this->action=='archivedJob') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="archivedJob">Archive - <?php echo $Archivedjobs;?></a></li>
 			</ul>
 			<?php
 			}elseif($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile')
