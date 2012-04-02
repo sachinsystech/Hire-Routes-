@@ -42,6 +42,15 @@
 				<ul style="float:right">
 				</ul>
 			<?php
+			}elseif($this->action=='employees')
+			{
+			?>
+				<ul style="float:left">
+					<li class="active">Employees</li>
+				</ul>
+				<ul style="float:right">
+				</ul>
+			<?php
 			}elseif($this->action=='editJob'||$this->action=='showApplicant'||$this->action=='jobStats')
 			{
 			?>

@@ -38,7 +38,7 @@
 						<?php echo $form->button('Share', array('label' => '',
 																'type'  => 'button',
 																'value' => 'Share',
-																'onclick'=> 'return share();',
+																'onclick'=> 'return facebookComment();',
 																'style' => 'float:right;'
 						));?>
 						<?php echo $form->button('Cancel', array('label' => '',
@@ -114,3 +114,136 @@ function validateEmail(elementValue){
 	return true;  
  }  
 </script>
+
+    <script>
+
+/*************************************************************/
+       function fillLinkedinFriend(){
+            //get list of facebook friend from ajax request
+            $("#facebook").html("<img src='/img/loading.gif'>");
+            $.ajax({
+                type: 'POST',
+                url: '/companies/getLinkedinFriendList',
+                dataType: 'json',
+                success: function(response){
+                   switch(response.error){
+                        case 0: // success
+                            createHTMLforFacebookFriends(response.data);
+                            break;
+                        case 1: // we don't have user's facebook token
+                            alert(response.message);
+                            window.open(response.URL);
+                            break;
+                        case 2: // something went wrong when we connect with facebook.Need to login by facebook 
+                            alert(response.message);
+                            break;
+                   }
+            
+                },
+                error: function(message){
+                    alert(message);
+                }
+            });
+            
+        }
+/**************************************************************/
+
+        
+        function facebookComment(){
+            usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+            $.ajax({
+                type: 'POST',
+                url: '/companies/commentAtFacebook',
+                dataType: 'json',
+                data: "usersId="+usersId+"&message="+$("#message").val(),
+                success: function(response){
+                   switch(response.error){
+                        case 0: // success
+                            // show success message
+                            break;
+                        case 1: // we don't have user's facebook token
+                            // show error message
+                            break;
+                   }
+            
+                },
+                error: function(message){
+                    alert(message);
+                }
+            });
+        }
+
+
+/****** linked in comment ******/
+
+
+        function linkedInComment(){
+            usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+            $.ajax({
+                type: 'POST',
+                url: '/companies/sendMessagetoLinkedinUser',
+                dataType: 'json',
+                data: "usersId="+usersId+"&message="+$("#message").val(),
+                success: function(response){
+                   switch(response.error){
+                        case 0: // success
+                            // show success message
+                            break;
+                        case 1: // we don't have user's facebook token
+                            // show error message
+                            break;
+                   }
+            
+                },
+                error: function(message){
+                    alert(message);
+                }
+            });
+        }
+
+/**********************/
+
+
+        function fillFacebookFriend(){
+            //get list of facebook friend from ajax request
+            $("#facebook").html("<img src='/img/loading.gif'>");
+            $.ajax({
+                type: 'POST',
+                url: '/companies/getFaceBookFriendList',
+                dataType: 'json',
+                success: function(response){
+                   switch(response.error){
+                        case 0: // success
+                            createHTMLforFacebookFriends(response.data);
+                            break;
+                        case 1: // we don't have user's facebook token
+                            alert(response.message);
+                            window.open(response.URL);
+                            break;
+                        case 2: // something went wrong when we connect with facebook.Need to login by facebook 
+                            alert(response.message);
+                            break;
+                   }
+            
+                },
+                error: function(message){
+                    alert(message);
+                }
+            });
+            
+        }
+
+    function createHTMLforFacebookFriends(friends){
+       
+       length = friends.length;
+       html="";        
+       for(i=0;i<length;i++){
+           html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img width="50" height="50" src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox"></div></div></div>';
+       }
+       $("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox' onclick='var flag=this.checked; $(\".facebookfriend\").each(function(){ this.checked = flag; });'/></div><div id='imageDiv' style='border: 1px solid #000000;width:400px;height:220px;overflow:auto;'>"+html+"</div>");
+    }
+
+        fillFacebookFriend();
+        //fillLinkedinFriend();
+    </script>
+

@@ -1,4 +1,4 @@
-<div class="page">
+<?php ?><div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
@@ -16,21 +16,12 @@
 		<!-- middle conyent list -->
 			<div class="middleBox">
 				<div class="setting_profile">
-
-					<?php if(isset($fbinfo['first_name']) && isset($fbinfo['last_name'])): ?>
-					<div class="setting_profile_row">
-						<div class="setting_profile_field">Name:</div>
-						<div class="setting_profile_value"><?php  echo ucfirst($fbinfo['first_name'])." ".ucfirst($fbinfo['last_name']);  ?></div>
-					</div>
-					<?php endif;?>
-
 					<?php if(isset($networker['contact_name'])): ?>
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">Name:</div>
 						<div class="setting_profile_value"><?php echo $networker['contact_name'];?></div>
 					</div>
 					<?php endif;?>
-
 
 					<?php if(isset($networker['address'])): ?>
 					<div class="setting_profile_row">
@@ -64,6 +55,5 @@
 		<!-- middle conyent list -->
 	</div>
 	<!-- middle section end -->
-
 
 </div>

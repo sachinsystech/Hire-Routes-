@@ -1,15 +1,39 @@
-<?php //echo "<pre>"; print_r($jobs); exit;?>
+<?php ?>
 <script>
 	$(document).ready(function(){
 	    $("#switch_display").change(onSelectChange);
 		$("#short_by").change(onSelectChange);
+		$("#message").hide();
 	});
 	function onSelectChange(){
 	    var displaySelected = $("#switch_display option:selected");
 		var shortSelected = $("#short_by option:selected"); 
 		window.location.href="/companies/showArchiveJobs/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
 	}
+
+	function onDelete(id)
+	{	if(confirm("Do you want to delete?")){
+			$.ajax({
+				url: "/companies/deleteJob",
+				type: "post",
+				data: {jobId : id,action:'archiveJobs'},
+				success: function(response){
+					window.location.reload();          
+				},
+				error:function(response)
+				{
+					$('#message').html("ERROR:");
+				}
+			});
+		}
+		return false;
+	}
+
+	function goTo(){
+		window.location.href="/companies/postJob";			
+	}
 </script>
+<div id="message" class="success"></div>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -78,27 +102,19 @@
 
 						echo $this->Html->image("/img/icon/delete.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "#",
-                        'title'=>'Delete'
+						'url' => '#',
+                        'title'=>'Delete',
+						'onclick'=>'return onDelete('.$job['Job']['id'].');'
 						));
  ?>
 					</td>
 				</tr>
-				
 				<?php endforeach; ?>			
 			</table>
 			</div>
-			
 			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
 		<!-- middle conyent list -->
-
 	</div>
 	<!-- middle section end -->
-
 </div>
 
-<script>
-function goTo(){
-	window.location.href="/companies/postJob";			
-}
-</script>

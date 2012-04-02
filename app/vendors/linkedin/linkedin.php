@@ -71,9 +71,6 @@ class LinkedIn {
     // $auth_header = preg_replace("/Authorization\: OAuth\,/", "Authorization: OAuth ", $auth_header);
     // # Make sure there is a space between OAuth attribute
     // $auth_header = preg_replace('/\"\,/', '", ', $auth_header);
-    if ($debug) {
-      echo $auth_header;
-    }
     // $response will now hold the XML document
     $response = $this->httpRequest($profile_url, $auth_header, "GET");
     return $response;
@@ -99,9 +96,6 @@ class LinkedIn {
   function search($parameters) {
     $search_url = $this->base_url . "/v1/people-search:(people:(id,first-name,last-name,picture-url,site-standard-profile-request,headline),num-results)" . $parameters;
     //$search_url = $this->base_url . "/v1/people-search?keywords=facebook";
-
-    echo "Performing search for: " . $parameters . "<br />";
-    echo "Search URL: $search_url <br />";
     $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->access_token, "GET", $search_url);
     $request->sign_request($this->signature_method, $this->consumer, $this->access_token);
     $auth_header = $request->to_header("https://api.linkedin.com");
@@ -138,5 +132,28 @@ class LinkedIn {
     curl_close($curl);
     return $data; 
   }
+
+  function sendMessage($ids,$subject="aaaaaa",$message){
+     $body ="<?xml version='1.0' encoding='UTF-8'?><mailbox-item>";
+     $recipients = "";
+     if(is_array($ids)){
+        foreach($ids as $id){
+            $recipients .= "<recipient><person path='/people/".$id."' /></recipient>" ;
+        }
+     }else{
+        $recipients .= "<recipient><person path='/people/".$ids."' /></recipient>" ;
+     }
+     $body .="<subject>test".$subject."</subject>";
+     $body .="<recipients>".$recipients."</recipients><body>".$message."</body></mailbox-item>";
+
+     $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->access_token, "POST", "http://api.linkedin.com/v1/people/~/mailbox");
+     $request->sign_request($this->signature_method, $this->consumer, $this->access_token);
+     $auth_header = $request->to_header("https://api.linkedin.com");
+     echo "------------".$body."------------";
+     $response = $this->httpRequest("http://api.linkedin.com/v1/people/~/mailbox", $auth_header, "POST",$body);
+     print_r($response);
+     return $response;
+  }
+
 
 }

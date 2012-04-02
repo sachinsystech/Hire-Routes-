@@ -43,27 +43,17 @@ class JobseekersController extends AppController {
 	function index(){
 		$userId = $this->TrackUser->getCurrentUserId();		
         if($userId){
-        
-        	$jobSeekerData = $this->Jobseeker->find('first',array('conditions'=>array('Jobseeker.user_id'=>$userId)));
-			//echo "<pre>"; print_r($jobSeekerData); exit;
-			if(!isset($jobSeekerData['Jobseeker']['contact_name'])){
+        	/* User Info*/			
+			$user = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+			$jobseeker = $user['Jobseekers'][0];
+			if(!isset($jobseeker['contact_name']) || empty($jobseeker['contact_name'])){
 				$this->redirect("/jobseekers/editProfile");						
 			}
-			/* User Info*/			
-			$user = $this->User->find('all',array('conditions'=>array('id'=>$userId)));
-			$this->set('user',$user[0]['User']);
-			
-			/* Jobseeker Info*/
-			$jobseeker = $this->Jobseeker->find('all',array('conditions'=>array('user_id'=>$userId)));
-			$this->set('jobseeker',$jobseeker[0]['Jobseeker']);
-			$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$userId)));
-			$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);
-			
-			/* FB-User Info*/       		
-        	$fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
-	    	if(isset($fbinfos[0])){
-				$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
-	    	}
+			$this->set('jobseeker',$jobseeker);
+		}
+		else{		
+			$this->Session->setFlash('Internal error has been occured...', 'error');	
+			$this->redirect('/');								
 		}
 	}	
 
@@ -86,8 +76,11 @@ class JobseekersController extends AppController {
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
-			$this->Jobseeker->save($this->data['Jobseeker']);	
-			$this->Session->setFlash('Profile has been updated successfuly.', 'success');
+
+			$this->Jobseeker->save($this->data['Jobseeker']);
+			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+			$this->redirect('/jobseekers');						
+
 			if($this->Session->check('redirect_url')){
 				$redirect_to = $this->Session->read('redirect_url');
 				$this->redirect($redirect_to);
@@ -113,7 +106,6 @@ class JobseekersController extends AppController {
       function appliedJob() {
 
         $userId = $this->TrackUser->getCurrentUserId();	
-
         $shortByItem = 'JobseekerApply.created';
 		$order		 = 'desc';
         
@@ -309,10 +301,9 @@ class JobseekersController extends AppController {
 										             'conditions' => array('Job.state = state.id',)
 									            )),
                                 'order' => array("Job.$shortByItem" => $order,),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
-  
-		
+								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);		
            
+
 		$jobs = $this->paginate('Job');
 
 		$NoOfAppliedJob = $this->CountAppliedJob();
@@ -323,6 +314,7 @@ class JobseekersController extends AppController {
 
 		$NoOfArchivedJob = $this->CountArchivedJob();
 		$this->set('Archivedjobs',$NoOfArchivedJob);
+
 
 		$this->set('jobs',$jobs);
 	}

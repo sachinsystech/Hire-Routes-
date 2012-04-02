@@ -1,3 +1,8 @@
+<?php
+/*
+	page for companie account
+*/
+?>
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
