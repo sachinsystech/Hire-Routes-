@@ -122,7 +122,7 @@ class JobseekersController extends AppController {
 							$order       = 'desc';       				
 	       					break;	
 	        	case 'company-name':
-	        				$shortByItem = 'job.company_name'; 
+	        				$shortByItem = 'comp.company_name'; 
 							$order       = 'asc';
 	        				break;
 	        	case 'industry':
@@ -164,13 +164,17 @@ class JobseekersController extends AppController {
 										             'type' => 'LEFT',
 										             'conditions' => array('job.city = city.id',)
 									            ),
+                                               array('table' => 'companies',
+						             				   'alias' => 'comp',
+						                               'type' => 'LEFT',
+    				                               'conditions' => array('job.company_id = comp.id',)),
 											   array('table' => 'states',
 										             'alias' => 'state',
 										             'type' => 'LEFT',
 										             'conditions' => array('job.state = state.id',)
 									            )),
                                 'order' => array("$shortByItem" => $order,),
-								'fields'=>array('job.id ,job.user_id,job.title,job.company_name,city.city,state.state,job.job_type,job.short_description, job.reward, job.created, JobseekerApply.is_active, ind.name as industry_name, spec.name as specification_name'),);
+								'fields'=>array('job.id ,job.user_id,job.title,comp.company_name,city.city,state.state,job.job_type,job.short_description, job.reward, job.created, JobseekerApply.is_active, ind.name as industry_name, spec.name as specification_name'),);
 
 		$jobs = $this->paginate('JobseekerApply');	      
 		
@@ -417,13 +421,23 @@ class JobseekersController extends AppController {
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.city = city.id',)
 									            ),
+                                                 array('table' => 'companies',
+						             				   'alias' => 'comp',
+						                               'type' => 'LEFT',
+    				                               'conditions' => array('Job.company_id = comp.id',)),
 											   array('table' => 'states',
 										             'alias' => 'state',
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.state = state.id',)
 									            )),
                                 'order' => array("Job.$shortByItem" => $order,),
+<<<<<<< HEAD
+								'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
+  
+		$newjobs = $this->Job->find('count',array('conditions'=>$cond));     
+=======
 								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);  
+>>>>>>> 8da4b12bb37418f3b3e9fa950a6f0caaf6a94c46
 		
            
 		$jobs = $this->paginate('Job');
