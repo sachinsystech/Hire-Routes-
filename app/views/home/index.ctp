@@ -50,7 +50,7 @@
 					<span style="float:right"><? echo "<b>$</b>".number_format($job['Job']['reward'],'2','.','');?></span>
 				</div>
 				<div>	
-					<?php echo $job['Job']['company_name'].','.$job['ind']['industry_name'];?>
+					<?php echo $job['companies']['company_name'].','.$job['ind']['industry_name'];?>
 				</div>
 			<?	endforeach;?>
 		</div>

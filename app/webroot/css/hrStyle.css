@@ -1946,22 +1946,7 @@ border: 1px solid #000000;
     font-size: 91%;
     height: 20px;
     width: 156px;
-
-
-#apply input[type="button"]{
-
-    background: -moz-linear-gradient(center top , #F1F1D4, #E6E49F) repeat scroll 0 0 #E6E49F;
-    border: 1px solid #AAAC62;
-    border-radius: 8px 8px 8px 8px;
-    color: #333333;
-    font-weight: normal;
-    min-width: 0;
-    padding: 4px 8px;
-    text-decoration: none;
-    text-shadow: 0 1px 0 #FFFFFF;
-	cursor:pointer;
 }
-
 .reward{
 	float:right;
 	width:220px;

@@ -12,10 +12,15 @@ class HomeController extends AppController {
 										                      'alias' => 'ind',
 										            		  'type' => 'LEFT',
 										            		  'conditions' => array('Job.industry = ind.id',)),
+										            	array('table' => 'companies',
+										                      'alias' => 'companies',
+										            		  'type' => 'LEFT',
+										            		  'conditions' => array('Job.company_id = companies.id',)),	  
 											),
 										 'order' => array("Job.created" => 'desc'),
-										'fields'=>array('Job.id,Job.title,Job.company_name,Job.reward,ind.name as industry_name'),));
+										'fields'=>array('Job.id,Job.title,companies.company_name,Job.reward,ind.name as industry_name'),));
 		$this->set('jobs',$jobs);		
+		//echo "<pre>"; print_r($jobs); exit;
 	}
 
 	function companyInformation(){
