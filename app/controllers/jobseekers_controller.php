@@ -107,7 +107,6 @@ class JobseekersController extends AppController {
       function appliedJob() {
 
         $userId = $this->TrackUser->getCurrentUserId();	
-
         $shortByItem = 'JobseekerApply.created';
 		$order		 = 'desc';
         
@@ -219,7 +218,6 @@ class JobseekersController extends AppController {
 		
 		$newjobs = $this->Job->find('count',array('conditions'=>$cond));  
            
-		
 		$this->set('AppliedJobs',$appliedjob);
 		$this->set('NewJobs',$newjobs);
 		$this->set('jobs',$jobs);
