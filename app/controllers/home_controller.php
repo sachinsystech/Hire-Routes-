@@ -1,20 +1,21 @@
 <?php
 class HomeController extends AppController {
-    var $uses = array('Home');
+    var $uses = array('Home','Job');
 				
-	var $helpers = array('Form');
-	/*
-	public function beforeFilter(){
-		parent::beforeFilter();
-		$this->Auth->allow('index');
-		$this->Auth->allow('companyInformation');
-		$this->Auth->allow('networkerInformation');
-		$this->Auth->allow('jobseekerInformation');
-		$this->Auth->allow('contactUs');
-	}
-	*/
+
+	var $helpers = array('Form','Paginator');
+
 	function index(){
-		
+		$jobs = $this->Job->find('all',array('limit'=>3,
+											 'joins'=>array(
+														array('table' => 'industry',
+										                      'alias' => 'ind',
+										            		  'type' => 'LEFT',
+										            		  'conditions' => array('Job.industry = ind.id',)),
+											),
+										 'order' => array("Job.created" => 'desc'),
+										'fields'=>array('Job.id,Job.title,Job.company_name,Job.reward,ind.name as industry_name'),));
+		$this->set('jobs',$jobs);		
 	}
 
 	function companyInformation(){
@@ -26,11 +27,20 @@ class HomeController extends AppController {
 	}
 
 	function jobseekerInformation(){
-		
+	
 	}
 
 	function contactUs(){
+
+	}
+
+	function howItWorks(){
+
+	}
+	function howItWorks(){
 	
 	}
+
+
 }
 ?>

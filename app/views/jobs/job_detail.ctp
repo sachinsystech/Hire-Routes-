@@ -146,7 +146,7 @@
 			</div>
 		</div>
 		<div style="font-size:1.2em;">
-			<a href='/how_it_works'>See how it works >></a>
+			<a href='/howItWorks'>See how it works >></a>
 		</div>
 
 		<?php if(empty($userrole['role'])){?>

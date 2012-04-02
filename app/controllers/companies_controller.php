@@ -6,7 +6,7 @@ require_once(APP_DIR.'/vendors/linkedin/OAuth.php');
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory');
+   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews'/*, 'PaymentHistory'*/);
 	var $components = array('TrackUser','Utility','RequestHandler');
 
 	var $helpers = array('Form','Paginator','Time');
@@ -259,8 +259,8 @@ list archive jobs..
 			$this->redirect("/users/firstTime");
 		}
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-		$this->set('user',$user['User']);
-		$this->set('company',$user['Companies'][0]);
+			$this->set('user',$user['User']);
+			$this->set('company',$user['Companies'][0]);
 	}
 
 	function editProfile() {
@@ -272,7 +272,8 @@ list archive jobs..
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
-			$this->Companies->save($this->data['Company']);		
+			$this->Companies->save($this->data['Company']);
+			$this->Session->write('userName',$this->data['Company']['contact_name']);		
 			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
 			$this->redirect('/companies');						
 		}
@@ -742,6 +743,7 @@ function paymentHistoryInfo(){
                         foreach ($value as $fkey=>$fvalue) {
                             $users[$i]['name'] = $fvalue['name'] ;
                             $users[$i]['id'] = $fvalue['id'];
+                            $users[$i]['url'] = 'https://graph.facebook.com/'.$fvalue['id'].'/picture';
                             $i++;
                         }
                     }
@@ -791,11 +793,21 @@ function paymentHistoryInfo(){
            // $linkedin = new LinkedIn($config['linkedin_access'], $config['linkedin_secret'], $config['callback_url'] );
             $linkedin->access_token =unserialize($user['User']['linkedin_token']);
             $xml_response = $linkedin->getProfile("~/connections:(headline,first-name,last-name,picture-url,id)");
-            echo $xml_response;exit;
             $response=simplexml_load_string($xml_response);
-            if($response->status == '404') echo "Not found11";
-            pr($response);
-            exit;
+            $users = array();
+            
+            if(count($response->person)){
+                $firstName = 'first-name';
+                $lastName = 'last-name';
+                $id = 'id';
+                $picURL = 'picture-url';
+                foreach($response->person as $person){ //print_r($person->$a);
+                    $users[] = array('name'=>$person->$firstName." ".$person->$lastName,'id'=>"".$person->$id,'url'=>"".$person->$picURL);                
+                }             
+            }
+            return json_encode(array('error'=>0,'data'=>$users));
+//            if($response->status == '404') echo "Not found11";
+ //               echo json_encode(array('error'=>1,'message'=>'User id is not valid'));
         }else{
             $linkedin->getRequestToken();
             $this->Session->write('requestToken',serialize($linkedin->request_token));
@@ -820,6 +832,43 @@ function paymentHistoryInfo(){
         }
 
     }
+
+//sendMessage($ids,$subject,$message)
+    function sendMessagetoLinkedinUser(){
+        $userIds = $this->params['form']['usersId'];
+        $userIds = explode(",", $userIds);
+        $message = $this->params['form']['message'];
+        $linkedin = $this->getLinkedinObject();
+        $userId = $this->Session->read('Auth.User.id');
+        $this->autoRender = false;
+        //$this->autoRender = false;
+        $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'NULL')));
+
+
+        if(!empty($userIds) && $message &&  $user){
+            foreach($userIds as $id){
+                try{
+
+                    $linkedin->access_token =unserialize($user['User']['linkedin_token']);
+                    $xml_response = $linkedin->sendMessage($id,$subject,$message);
+                    return json_encode(array('error'=>0));
+                    
+                }catch(Exception $e){
+                    return json_encode(array('error'=>1));      
+                }
+
+            }
+        }
+
+
+
+        if($user){
+            
+         }
+
+    }
+
+
 
     private function getLinkedinObject(){
         return  new LinkedIn(LINKEDIN_ACCESS, LINKEDIN_SECRET, LINKEDIN_CALLBACK_URL);    
@@ -1145,6 +1194,56 @@ function paymentHistoryInfo(){
 								));
 		return $appliedJob;
     }
+
+// =======================delete jobs=========
+	function deleteJob(){
+		$this->autoRender=false;
+		$userId = $this->TrackUser->getCurrentUserId();
+		$jobId=$this->params['form']['jobId'];
+		$action=$this->params['form']['action'];
+		if($action=='newJobs'){
+			$activate=1;
+		}else 
+			$activate=0;
+
+		if($userId && $jobId){
+			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>$activate),"fileds"=>"id"));
+			if($jobs['Job']){
+				$jobs['Job']["is_active"] = 2 ;
+				$this->Job->save($jobs);
+				$this->Session->setFlash('Successfully, Job has been deleted.', 'success');	
+				return;
+			}
+		}
+		$this->Session->setFlash('May be you click on old link.','error');	
+		return;	
+    }
+
+
+	public function employees(){
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$this->paginate = array('conditions' => array('PaymentHistory.user_id'=>$userId),
+								'limit'=>'10', 	
+								'joins'=>array(
+											array('table'=>'users',
+												  'type'=>'inner',
+												  'conditions'=>array('users.id=PaymentHistory.jobseeker_user_id',
+																	  'users.is_active=1'),
+												 ),
+										 	array('table'=>'jobseekers',
+												  'alias'=> 'js',
+												  'type'=>'inner',
+												  'conditions'=>array('js.user_id =PaymentHistory.jobseeker_user_id'),
+												 ),
+											   ),
+								'fields'=>array('PaymentHistory.user_id,PaymentHistory.paid_date,js.contact_name,
+												js.contact_phone,js.city,js.state,users.account_email'),
+								);
+		$employees = $this->paginate("PaymentHistory");
+		$this->set('employees',$employees);
+		// end for job fetching...
+    }
+
 /**		*****	Twitter :: Handling	*****	**/
 
 	private function getTwitterObject(){
@@ -1285,3 +1384,4 @@ function paymentHistoryInfo(){
 
 }
 ?>
+

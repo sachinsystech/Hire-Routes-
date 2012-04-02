@@ -1,6 +1,4 @@
-
 <!-- ------------------------ ALL JOBS LISTING -------------------------->
-
 <script>
 	$(document).ready(function(){
 		$("#slider").slider();
@@ -94,16 +92,18 @@
             <div style="float:left;width: 268px;margin-left: 65px;">
                <?php echo $form->input('what', array('label' => 'What',
 							                         'type'  => 'text',
+                                                     'value' => isset($what)?$what:"",
                                                      'id'    => 'what',
                                                      'class' => 'text_field_bg'));?></div>
                      
            <div style="float:left;width: 268px;margin-left: 160px;">
                <?php echo $form->input('where', array('label' => 'Where',
 							                          'type'  => 'text',
+                                                      'value' => isset($where)?$where:"",
                                                       'id'    => 'where',
                                                       'class' => 'text_field_bg'));?></div>
            <div style="float:right;width: 100px;">
-			   <button style="float: right; width: 100px; background:rgb(0, 255, 0);" type="submit"> Find Job</button>
+			   <button style="float: right; width: 100px; background:rgb(0, 255, 0);" type="submit" name="search" value="Find Job" >Find Job</button>
 		   </div>
 
      <?php echo $form->end();?>
@@ -118,13 +118,17 @@
 				<?php echo $this->Form->create('NarrowJob', array('url' => array('controller' => 'Jobs', 'action' => 'index'))); ?>
 				<div class="narrowby_industry panel_industry" >
 				
-					<?php  foreach($industries as $key=>$value):?>
+					<?php // foreach($industries as $key=>$value):?>
 						<div>
-							<?php	echo $form->input("Industry.$key", array('label' => "<span>$value</span>",
-														'type'  => 'checkbox',));?>
+							<?php	echo $form->input("industry", array('label' => false,
+                                                                        'type' => 'select',
+                                                                        'multiple' => 'checkbox',
+														                'options'  => $industries,
+                                                                        'selected' => isset($industry)?$industry:null
+                                                      ));?>
 						</div>
 						<div style="clear:both"></div>
-					<?php endforeach; ?>
+					<?php //endforeach; ?>
 				</div>				
 			</div>
 			<div style="margin:5px;">
@@ -136,7 +140,7 @@
 						<!--input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" / -->
 						<div>
 							<div style="float:left">
-								<?php	echo $form->input('salary_from.amount', array('label' => '',
+								<?php	echo $form->input('salary_from', array('label' => '',
 															'type'  => 'text',
 															'id' => 'from_amount',
 															'class'=> 'salary_range_slider'
@@ -146,7 +150,7 @@
 							</div>
 							<div class="salary_range_seperator"> - </div>
 							<div style="float:left;">		
-								<?php	echo $form->input('salary_to.amount', array('label' => '',
+								<?php	echo $form->input('salary_to', array('label' => '',
 															'type'  => 'text',
 															'id' => 'to_amount',
 															'class'=> 'salary_range_slider',
@@ -162,35 +166,41 @@
 				</div>
 			</div>
 			<div>
-				<div><div style="float:left;padding:5px"><b>Location</b></div><div class="flip_location" style="float:right;padding:5px;cursor: pointer;">+</div></div>
+				<div><div style="float:left;padding:5px"><b>Location</b></div><div class="flip_location" style="float:right;padding:5px;cursor: pointer;"><?php echo isset($location)?'-':'+' ?></div></div>
 				<div style="clear:both"></div>
-		
-				<div class="narrowby_city panel_location" style="display:none;">
-					<?php  foreach($location as $key=>$value):?>
+				<div class="narrowby_city panel_location" style="<?php echo isset($location)?'':'display:none;' ?>">
+					<?php  //foreach($location as $key=>$value):?>
 						<div>
-							<?php	echo $form->input("State.$key", array('label' => "<span>$value</span>",
-														'type'  => 'checkbox',));
+							<?php	echo $form->input("state", array('label' => false,
+                                                                     'type' => 'select',
+                                                                     'multiple' => 'checkbox',
+                                                                     'options'  => $states,
+                                                                     'selected' => isset($location)?$location:null
+                                                      ));
 							?>
 						</div>
 						<div style="clear:both"></div>
-					<?php endforeach; ?>
+					<?php //endforeach; ?>
 				</div>				
 			</div>
 			<div>
 				<div><div style="float:left;padding:5px"><b>Job Type</b></div><div class="flip_jobtype" style="float:right;padding:5px;cursor: pointer;">+</div></div>
 				<div style="clear:both"></div>
-		
-				<div class="narrowby_jobtype panel_jobtype" style="display:none;">
+				<div class="narrowby_jobtype panel_jobtype" style="<?php echo isset($job_type)?'':'display:none;' ?>">
 					<?php $jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
-					<?php $i=0; ?>
-					<?php  foreach($jobtypes as $jobtype):?>
+					<?php //$i=0; ?>
+					<?php  //foreach($jobtypes as $jobtype):?>
 						<div>
-							<?php $i++; ?>
-							<?php	echo $form->input("job_type.$i", array('label' => "<span>$jobtype</span>",
-														'type'  => 'checkbox',));?>
+							<?php  ?>
+							<?php	echo $form->input("job_type", array('label' => false,
+                                                                        'type' => 'select',
+                                                                        'multiple' => 'checkbox',
+                                                                        'options'  => $jobtypes,
+                                                                        'selected' =>  isset($job_type)?$job_type:null
+                                                       ));?>
 						</div>
 						<div style="clear:both"></div>
-					<?php endforeach; ?>
+					<?php //endforeach; ?>
 				</div>				
 			</div>
 		
@@ -198,19 +208,22 @@
 				<div><div style="float:left;padding:5px"><b>Company</b></div><div class="flip_company" style="float:right;padding:5px;cursor: pointer;">+</div></div>
 				<div style="clear:both"></div>
 		
-				<div class="narrowby_company panel_company" style="display:none;">
-					<?php  foreach($companies as $company):?>
+				<div class="narrowby_company panel_company" style="<?php echo isset($company_name)?'':'display:none;' ?>">
 						<div>
-							<?php	echo $form->input("company_name.$company", array('label' => "<span>$company</span>",
-														'type'  => 'checkbox',));?>
+							<?php	echo $form->input("company_name", array('label' => false,
+                                                                            'type' => 'select',
+                                                                            'multiple' => 'checkbox',
+														                    'options'=>$companies,
+                                                                             'selected' =>  isset($company_name)?$company_name:null
+                                                      ));?>
 						</div>
 						<div style="clear:both"></div>
-					<?php endforeach; ?>
+					<?php //endforeach; ?>
 				</div>				
 			</div>
 			
 			<div>
-				<?php echo $form->submit('Go',array('div'=>false,)); ?>
+				<?php echo $form->submit('Go',array('div'=>false,'name'=>'save','value'=>'fillter')); ?>
 				<?php echo $form->end(); ?>
 				<div style="clear:both"></div>
 			</div>			
@@ -255,16 +268,16 @@
 						<tr>
 							<td>
 								<div>
-									<div style="float:left"> <?php	echo $this->Html->link($job['title'], '/jobs/jobDetail/'.$job['id']); ?></div>
-									<div style="float:right"> Reward : <?php	echo $job['reward'];?>$</div>
+									<div style="float:left"> <?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>
+									<div style="float:right"> Reward : <?php	echo $job['Job']['reward'];?>$</div>
 								</div>
 								<div style="clear:both">		
 								<div>
-									<?php	echo $job['company_name']."- ".$job['city'].",".$job['state']."<br>";
-											echo $industries[$job['industry']].", ".$specifications[$job['specification']]."<br>";
-											echo $job_array[$job['job_type']]."<br>";
-											echo $job['short_description']."<br>";
-                                            echo "Posted : ".$time->timeAgoInWords($job['created']);?>
+									<?php	echo $job['company']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
+											echo $job['ind']['industry'].", ".$job['spec']['specification']."<br>";
+											echo $job_array[$job['Job']['job_type']]."<br>";
+											echo $job['Job']['short_description']."<br>";
+                                            echo "Posted : ".$time->timeAgoInWords($job['Job']['created']);?>
 																
 								</div>			
 							</td>

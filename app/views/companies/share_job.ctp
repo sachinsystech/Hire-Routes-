@@ -85,6 +85,37 @@
             });
         }
 
+
+/****** linked in comment ******/
+
+
+        function linkedInComment(){
+            usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+            $.ajax({
+                type: 'POST',
+                url: '/companies/sendMessagetoLinkedinUser',
+                dataType: 'json',
+                data: "usersId="+usersId+"&message="+$("#message").val(),
+                success: function(response){
+                   switch(response.error){
+                        case 0: // success
+                            // show success message
+                            break;
+                        case 1: // we don't have user's facebook token
+                            // show error message
+                            break;
+                   }
+            
+                },
+                error: function(message){
+                    alert(message);
+                }
+            });
+        }
+
+/**********************/
+
+
         function fillFacebookFriend(){
             //get list of facebook friend from ajax request
             $("#facebook").html("<img src='/img/loading.gif'>");
@@ -119,7 +150,7 @@
        length = friends.length;
        html="";        
        for(i=0;i<length;i++){
-           html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img src="https://graph.facebook.com/' + friends[i].id +'/picture" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox"></div></div><div class="contactName">'+friends[i].name+'</div></div>';
+           html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox"></div></div><div class="contactName">'+friends[i].name+'</div></div>';
        }
        $("#facebook").html(html);
     }
@@ -143,10 +174,10 @@
     All <input type="checkbox" onclick='var flag=this.checked; $(".facebookfriend").each(function(){ this.checked = flag; });
 '> 
         <textarea id="message"></textarea>
-        <input type="button" onclick="facebookComment();" value="Send">
+        <input type="button" onclick="linkedInComment();" value="Send">
     <script>
-        fillFacebookFriend();
-        //fillLinkedinFriend();
+        //fillFacebookFriend();
+        fillLinkedinFriend();
     </script>
   </body>
 </html>
