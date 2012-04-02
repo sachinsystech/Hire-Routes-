@@ -24,8 +24,8 @@ class HomeController extends AppController {
 							
 										'order' => array("Job.created" => 'desc'),
 										'fields'=>array('Job.id,Job.title,Job.company_name,Job.reward,ind.name as industry_name, cities.city as city,states.state as state'),));
-
 		$this->set('jobs',$jobs);		
+		//echo "<pre>"; print_r($jobs); exit;
 	}
 
 	function companyInformation(){
