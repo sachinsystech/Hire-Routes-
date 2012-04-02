@@ -181,7 +181,7 @@
 		?>
 			<div style="text-align:left">
 				<div> Share your unique URL </div>
-<div><input type="" value="<?php echo Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/'; isset($code)?'?code='.$code:'' ?>"></div>
+<div><input type="" value="<?php echo Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/'; echo isset($code)?'?code='.$code:'' ?>"></div>
 
 	<div>Mail It</div>
 
