@@ -89,6 +89,8 @@ class JobsController extends AppController {
                 $this->set('company_name',$company_name);
             }
         }
+
+        $conditions[] = array('Job.is_active'=>1);
 		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 
@@ -146,7 +148,7 @@ class JobsController extends AppController {
 							),
 				    'order' => array($shortByItem => 'desc'),
 				    'recursive'=>0,
-				    'fields'=>array('company_name,city.city,state.state,ind.name as industry,spec.name as specification,job_type,short_description,Job.created,Job.title,Job.reward,Job.id')
+				    'fields'=>array('company.company_name,city.city,state.state,ind.name as industry,spec.name as specification,job_type,short_description,Job.created,Job.title,Job.reward,Job.id')
 				    );
         $jobs = $this->paginate('Job');
 		$this->set('jobs',$jobs);
@@ -388,8 +390,7 @@ class JobsController extends AppController {
 		
 		if(isset($this->params['jobId'])){
 
-			$id = $this->params['jobId'];		
-			
+			$id = $this->params['jobId'];
 			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id),
 												  'joins'=>array(array('table' => 'industry',
 										                               'alias' => 'ind',
@@ -412,7 +413,7 @@ class JobsController extends AppController {
 										                               'type' => 'LEFT',
 										                               'conditions' => array('Job.state = state.id',))
 																),
-												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,Job.company_name,city.city,state.state,Job.job_type,
+												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,comp.company_name,city.city,state.state,Job.job_type,
 Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
 
 			if($job){

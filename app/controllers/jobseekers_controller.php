@@ -1,9 +1,9 @@
 <?php
 class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
-	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles',
-'FacebookUsers','Company','Job','Industry','State','Specification','Companies','City','JobseekerApply',
-'JobseekerProfile','JobseekerApply');
+	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles','FacebookUsers','Company',
+					  'Job','Industry','State','Specification','Companies','City','JobseekerApply',
+					  'JobseekerProfile');
 	var $components = array('Email','Session','TrackUser','Utility');
 	var $helpers = array('Time','Html','Javascript');	
 
@@ -122,7 +122,7 @@ class JobseekersController extends AppController {
 							$order       = 'desc';       				
 	       					break;	
 	        	case 'company-name':
-	        				$shortByItem = 'job.company_name'; 
+	        				$shortByItem = 'comp.company_name'; 
 							$order       = 'asc';
 	        				break;
 	        	case 'industry':
@@ -164,61 +164,30 @@ class JobseekersController extends AppController {
 										             'type' => 'LEFT',
 										             'conditions' => array('job.city = city.id',)
 									            ),
+                                               array('table' => 'companies',
+						             				   'alias' => 'comp',
+						                               'type' => 'LEFT',
+    				                               'conditions' => array('job.company_id = comp.id',)),
 											   array('table' => 'states',
 										             'alias' => 'state',
 										             'type' => 'LEFT',
 										             'conditions' => array('job.state = state.id',)
 									            )),
                                 'order' => array("$shortByItem" => $order,),
-								'fields'=>array('job.id ,job.user_id,job.title,job.company_name,city.city,state.state,job.job_type,job.short_description, job.reward, job.created, JobseekerApply.is_active, ind.name as industry_name, spec.name as specification_name'),);
+								'fields'=>array('job.id ,job.user_id,job.title,comp.company_name,city.city,state.state,job.job_type,job.short_description, job.reward, job.created, JobseekerApply.is_active, ind.name as industry_name, spec.name as specification_name'),);
 
-		$jobs = $this->paginate('JobseekerApply');
+		$jobs = $this->paginate('JobseekerApply');	      
 		
-        
-		$appliedjob = $this->JobseekerApply->find('count',array('conditions'=>array('JobseekerApply.user_id'=>$userId)));
 		
-		$jobseeker_settings = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$NoOfAppliedJob = $this->CountAppliedJob();
+		$this->set('AppliedJobs',$NoOfAppliedJob);
 
-		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId),
-															   'fields'=>array('job_id'),));
-		for($a=0;$a<count($applied_job);$a++){
-			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
-		}
+		$NoOfNewJob = $this->CountNewJob();
+		$this->set('NewJobs',$NoOfNewJob);
 
-		
-        
-        $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
-		$industry2 		= $jobseeker_settings['JobseekerSettings']['industry_2'];
-        $industry = array();
-		if($industry1 != 1)
-			$industry[] = $industry1;
-		if($industry2 != 1)
-			$industry[] = $industry2;
-		$specification1 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_1']);
-	    $specification2 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_2']);
-		$specification  = array_merge($specification1, $specification2);
-	    $city 			= $jobseeker_settings['JobseekerSettings']['city'];
-		$state 			= $jobseeker_settings['JobseekerSettings']['state'];
-		$salary_range   = $jobseeker_settings['JobseekerSettings']['salary_range'];
+		$NoOfArchivedJob = $this->CountArchivedJob();
+		$this->set('Archivedjobs',$NoOfArchivedJob);
 
-        $cond = array('Job.specification' => $specification,
-                       'Job.salary_from <=' => $salary_range,
-					  'Job.salary_to >=' => $salary_range,
-					  'Job.is_active'  => 1,
-					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
-					); 	
-		if(count($industry)>0)
-			$cond['Job.industry'] = $industry;
-		if($city)
-			$cond['Job.city']  = $city;
-                      
-        if($state)
-            $cond['Job.state'] = $state;
-		
-		$newjobs = $this->Job->find('count',array('conditions'=>$cond));  
-           
-		$this->set('AppliedJobs',$appliedjob);
-		$this->set('NewJobs',$newjobs);
 		$this->set('jobs',$jobs);
      }
 
@@ -302,6 +271,133 @@ class JobseekersController extends AppController {
 					  'Job.salary_to >=' => $salary_range,
 					  'Job.is_active'  => 1,
 					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
+					);
+		 	
+		if(count($industry)>0)
+			$cond['Job.industry'] = $industry;
+		if($city)
+			$cond['Job.city']  = $city;
+                      
+        if($state)
+            $cond['Job.state'] = $state;
+
+
+		$this->paginate = array('conditions'=>$cond,
+            'limit' => isset($displayPageNo)?$displayPageNo:5,
+								'joins'=>array(array('table' => 'industry',
+										             'alias' => 'ind',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.industry = ind.id',)
+									            ),
+											   array('table' => 'specification',
+										             'alias' => 'spec',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.specification = spec.id',)
+									            ),
+											   array('table' => 'cities',
+										             'alias' => 'city',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.city = city.id',)
+									            ),
+                                                array('table' => 'companies',
+						             				   'alias' => 'comp',
+						                               'type' => 'LEFT',
+    				                               'conditions' => array('Job.company_id = comp.id',)),
+											   array('table' => 'states',
+										             'alias' => 'state',
+										             'type' => 'LEFT',
+										             'conditions' => array('Job.state = state.id',)
+									            )),
+                                'order' => array("Job.$shortByItem" => $order,),
+								'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);		
+           
+
+		$jobs = $this->paginate('Job');
+
+		$NoOfAppliedJob = $this->CountAppliedJob();
+		$this->set('AppliedJobs',$NoOfAppliedJob);
+
+		$NoOfNewJob = $this->CountNewJob();
+		$this->set('NewJobs',$NoOfNewJob);
+
+		$NoOfArchivedJob = $this->CountArchivedJob();
+		$this->set('Archivedjobs',$NoOfArchivedJob);
+
+
+		$this->set('jobs',$jobs);
+	}
+
+	function archivedJob(){
+		$userId = $this->TrackUser->getCurrentUserId();	
+	
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
+		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
+        
+
+        $jobseeker_settings = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
+
+		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId),
+															   'fields'=>array('job_id'),));
+		$jobIds = array();
+		for($a=0;$a<count($applied_job);$a++){
+			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
+		}
+
+		
+        
+        $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
+		$industry2 		= $jobseeker_settings['JobseekerSettings']['industry_2'];
+		$industry = array();
+		if($industry1 != 1)
+			$industry[] = $industry1;
+		if($industry2 != 1)
+			$industry[] = $industry2;
+
+		$specification1 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_1']);
+	    $specification2 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_2']);
+		$specification  = array_merge($specification1, $specification2);
+	    $city 			= $jobseeker_settings['JobseekerSettings']['city'];
+		$state 			= $jobseeker_settings['JobseekerSettings']['state'];
+		$salary_range   = $jobseeker_settings['JobseekerSettings']['salary_range'];
+        
+       
+		$shortByItem = 'created';
+		$order		 = 'desc';
+        
+        if(isset($this->params['named']['display'])){
+	        $displayPageNo = $this->params['named']['display'];
+	        $this->set('displayPageNo',$displayPageNo);
+		}
+		if(isset($this->params['named']['shortby'])){
+	        $shortBy = $this->params['named']['shortby'];
+	        $this->set('shortBy',$shortBy);
+	        switch($shortBy){
+	        	case 'date-added':
+	        				$shortByItem = 'created'; 
+							$order		 = 'desc';
+	        				break;	
+	        	case 'company-name':
+	        				$shortByItem = 'company_name'; 
+							$order		 = 'asc';
+	        				break;
+	        	case 'industry':
+	        				$shortByItem = 'industry';
+							$order		 = 'asc'; 
+	        				break;
+	        	case 'salary':
+	        				$shortByItem = 'salary_from'; 
+							$order		 = 'asc';
+	        				break;
+	        	default:
+	        			$this->redirect("/jobs");	        		        	
+	        }
+		}
+
+		 $cond = array('Job.specification' => $specification,
+                       'Job.salary_from <=' => $salary_range,
+					  'Job.salary_to >=' => $salary_range,
+					  'Job.is_active'  => 0,
+					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 					); 	
 		if(count($industry)>0)
 			$cond['Job.industry'] = $industry;
@@ -329,22 +425,35 @@ class JobseekersController extends AppController {
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.city = city.id',)
 									            ),
+                                                 array('table' => 'companies',
+						             				   'alias' => 'comp',
+						                               'type' => 'LEFT',
+    				                               'conditions' => array('Job.company_id = comp.id',)),
 											   array('table' => 'states',
 										             'alias' => 'state',
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.state = state.id',)
 									            )),
                                 'order' => array("Job.$shortByItem" => $order,),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
+								'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
   
 		$newjobs = $this->Job->find('count',array('conditions'=>$cond));     
-		
+	
            
 		$jobs = $this->paginate('Job');
-		$this->set('AppliedJobs',count($applied_job));
-		$this->set('NewJobs',$newjobs);
+		
+		$NoOfAppliedJob = $this->CountAppliedJob();
+		$this->set('AppliedJobs',$NoOfAppliedJob);
+
+		$NoOfNewJob = $this->CountNewJob();
+		$this->set('NewJobs',$NoOfNewJob);
+
+		$NoOfArchivedJob = $this->CountArchivedJob();
+		$this->set('Archivedjobs',$NoOfArchivedJob);
+
 		$this->set('jobs',$jobs);
 	}
+
     
    function delete(){
         
@@ -493,5 +602,101 @@ class JobseekersController extends AppController {
 			}
 		}		
 	}
+
+	private function CountAppliedJob(){
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$CountAppliedJob = $this->JobseekerApply->find('count',array('conditions'=>array('user_id'=>$userId),
+															        )
+													  );
+		return $CountAppliedJob;
+	}
+
+	private function CountNewJob(){
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$jobseeker_settings = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
+
+		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId),
+															   'fields'=>array('job_id'),));
+		for($a=0;$a<count($applied_job);$a++){
+			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
+		}		
+        
+        $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
+		$industry2 		= $jobseeker_settings['JobseekerSettings']['industry_2'];
+        $industry = array();
+		if($industry1 != 1)
+			$industry[] = $industry1;
+		if($industry2 != 1)
+			$industry[] = $industry2;
+		$specification1 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_1']);
+	    $specification2 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_2']);
+		$specification  = array_merge($specification1, $specification2);
+	    $city 			= $jobseeker_settings['JobseekerSettings']['city'];
+		$state 			= $jobseeker_settings['JobseekerSettings']['state'];
+		$salary_range   = $jobseeker_settings['JobseekerSettings']['salary_range'];
+
+        $cond = array('Job.specification' => $specification,
+                       'Job.salary_from <=' => $salary_range,
+					  'Job.salary_to >=' => $salary_range,
+					  'Job.is_active'  => 1,
+					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
+					); 	
+		if(count($industry)>0)
+			$cond['Job.industry'] = $industry;
+		if($city)
+			$cond['Job.city']  = $city;
+                      
+        if($state)
+            $cond['Job.state'] = $state;
+		
+		$CountNewJob = $this->Job->find('count',array('conditions'=>$cond));
+		return $CountNewJob;
+	}
+
+	private function CountArchivedJob(){
+		$userId = $this->TrackUser->getCurrentUserId();	
+
+		$jobseeker_settings = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
+
+		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId),
+															   'fields'=>array('job_id'),));
+		for($a=0;$a<count($applied_job);$a++){
+			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
+		}
+
+		
+        
+        $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
+		$industry2 		= $jobseeker_settings['JobseekerSettings']['industry_2'];
+        $industry = array();
+		if($industry1 != 1)
+			$industry[] = $industry1;
+		if($industry2 != 1)
+			$industry[] = $industry2;
+		$specification1 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_1']);
+	    $specification2 = explode(",",$jobseeker_settings['JobseekerSettings']['specification_2']);
+		$specification  = array_merge($specification1, $specification2);
+	    $city 			= $jobseeker_settings['JobseekerSettings']['city'];
+		$state 			= $jobseeker_settings['JobseekerSettings']['state'];
+		$salary_range   = $jobseeker_settings['JobseekerSettings']['salary_range'];
+
+        $cond = array('Job.specification' => $specification,
+                       'Job.salary_from <=' => $salary_range,
+					  'Job.salary_to >=' => $salary_range,
+					  'Job.is_active'  => 0,
+					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
+					); 	
+		if(count($industry)>0)
+			$cond['Job.industry'] = $industry;
+		if($city)
+			$cond['Job.city']  = $city;
+                      
+        if($state)
+            $cond['Job.state'] = $state;
+		
+		$CountNewJob = $this->Job->find('count',array('conditions'=>$cond));
+		return $CountNewJob;
+	}
+
 }
 ?>

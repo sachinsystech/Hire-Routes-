@@ -76,10 +76,10 @@ class DATABASE_CONFIG {
 	var $default = array(
 		'driver' => 'mysql',
 		'persistent' => false,
-		'host' => '192.168.1.28',
+		'host' => 'localhost',
 		'login' => 'root',
-		'password' => '12345678',
-		'database' => 'staging_hireroutes',
+		'password' => '',
+		'database' => 'hireroutes',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);

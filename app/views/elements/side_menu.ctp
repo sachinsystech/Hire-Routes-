@@ -4,7 +4,7 @@
 		$user_role=$this->Session->read('user_role');
 		if(isset($user_role) && $user_role['role_id']==1)
 		{
-			$my_jobs_actions=array('newJob','postJob','jobDetail','applyJob','showArchiveJobs','editJob','showApplicant','checkout','editJob','jobStats');
+			$my_jobs_actions=array('newJob','postJob','jobDetail','applyJob','showArchiveJobs','editJob','showApplicant','checkout','jobStats','companyData');
 			$my_accounts_actions=array('index','accountProfile','editProfile','paymentInfo','paymentHistory','paymentHistoryInfo');
 			$my_employees_actions=array('employees','#','#');
 ?>
@@ -17,12 +17,14 @@
 		}
 		elseif(isset($user_role) && $user_role['role_id']==2)
 		{
-			$my_jobs_actions=array('newJob','appliedJob','jobDetail','applyJob','#');
+			$my_jobs_actions=array('newJob','appliedJob','jobDetail','applyJob','archivedJob');
 			$my_accounts_actions=array('index','editProfile','setting','jobProfile');
 		?>
 			<ul>
+
 				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/newJob"><span>My Jobs</span></a></li>
  				<li <?php if(in_array($this->action,$my_accounts_actions)) echo "class='active'";?>><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
+
 			</ul>
 		<?php 
 		}
