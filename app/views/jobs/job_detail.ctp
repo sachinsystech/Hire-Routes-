@@ -104,7 +104,7 @@
 							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
                             <div id="apply">
                             	<a href="/jobs/applyJob/<?php echo $job['Job']['id'];?>">
-										<input type="button" name="apply" value="Apply For This Job"/>
+										<input id="btn_apply" type="button" name="apply" value="Apply For This Job"/>
 									</a>
 							</div>
 							<?php }?>
