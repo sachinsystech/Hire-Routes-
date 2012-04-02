@@ -42,7 +42,7 @@ Sed	ut perspicia-s unde	omnis iste natus error sit .........
 	<div class="InformationImage">
 		<?php echo $this->Html->image('/../img/job_seeker_info.png', array('style'=>'width:600px;height:510px;','usemap'=>'#network_info'));?>
 		<map name="network_info">
-			<area shape="rect" coords="215,450,395,480" href="/users/userSelection">
+			<area shape="rect" coords="205,445,430,475" href="/users/userSelection">
 		</map>
 	</div>
 </div>
