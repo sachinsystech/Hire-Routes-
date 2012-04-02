@@ -10,11 +10,21 @@ class HomeController extends AppController {
 											 'joins'=>array(
 														array('table' => 'industry',
 										                      'alias' => 'ind',
-										            		  'type' => 'LEFT',
-										            		  'conditions' => array('Job.industry = ind.id',)),
-											),
-										 'order' => array("Job.created" => 'desc'),
-										'fields'=>array('Job.id,Job.title,Job.company_name,Job.reward,ind.name as industry_name'),));
+										            		  'type' => 'inner',
+										            		  'conditions' => array('Job.industry = ind.id',),),
+														array('table' =>'cities',
+														      'type'  => 'inner',
+															  'conditions' => array('Job.city=cities.id'),
+															 ),
+														array('table'=>'states',
+															'type'=>'inner',
+															'conditions'=>array('Job.state=states.id'))
+							
+															),
+							
+										'order' => array("Job.created" => 'desc'),
+										'fields'=>array('Job.id,Job.title,Job.company_name,Job.reward,ind.name as industry_name, cities.city as city,states.state as state'),));
+
 		$this->set('jobs',$jobs);		
 	}
 

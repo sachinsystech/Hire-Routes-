@@ -19,7 +19,9 @@ $(document).ready(function(){
 	if($("#UserUsername").val()==='' || $("#UserUsername").val()===null ){
 		var data=getCookie();
 		if(data!=undefined){
-			fillCookieOnForm();
+			$("#UserUsername").val(data[0]);
+			$("#UserPassword").val(data[1]);
+			$("#UserRememberMe").attr('checked',true);		
 		}
 	}
 	// On submit create cookie.
@@ -27,11 +29,8 @@ $(document).ready(function(){
 		if($("#UserRememberMe").is(':checked')){		
 			saveCookie(); 
 		}else{
-			var data=getCookie();
-			if(data!=undefined && data[0]===$("#UserUsername").val()){
-				// Delete cookie if not check the check box.
-				 document.cookie = "username"+ "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-			}
+			// Delete cookie if not check the check box.
+			document.cookie = "username"+ "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		}
 	});
 
@@ -63,13 +62,4 @@ function saveCookie(){
 	return ;
 }
 
-function fillCookieOnForm(){
-	var data=getCookie();
-	if(data!=undefined){
-		$("#UserUsername").val(data[0]);
-		$("#UserPassword").val(data[1]);
-		$("#UserRememberMe").attr('checked',true);		
-	}
-	return;
-}
 </script>
