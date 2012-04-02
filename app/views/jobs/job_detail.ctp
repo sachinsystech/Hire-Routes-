@@ -106,7 +106,6 @@
 								<div>
 							</div>
 							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
-
                             	
 
                             <div id="apply" style="padding:20px;">
