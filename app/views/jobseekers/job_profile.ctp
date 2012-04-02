@@ -141,7 +141,7 @@
 									<?php echo $form->input('user_id', array('label' => 'User ID',
 							                                                 'type'  => 'hidden',
 							                                                 'value' => $this->Session->read('Auth.User.id')));?>
-									<?php  echo $form->submit('Apply',array('div'=>false,)); ?>
+									<?php  echo $form->submit('Save',array('div'=>false,)); ?>
 								</div>
 								<?php echo $form->end();?>
 							</div>

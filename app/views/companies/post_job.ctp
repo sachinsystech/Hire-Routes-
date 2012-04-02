@@ -51,6 +51,7 @@
 													  'label'=>'Category',
 													  'options'=>$industries,
 													  'empty' =>' -- Select Industry-- ',
+													  'onchange'=>'return fillSpecification(this.value);',
 													  'class'=>'jobseeker_select_i required',
 											  )
 								  );
@@ -60,7 +61,8 @@
 		  <?php echo $form -> input('specification',array(
 													  'type'=>'select',
 													  'label'=>'',
-													  'options'=>$specifications,
+													  'empty' =>' -- Select Industry-- ',
+													 // 'options'=>$specifications,
 													  'class'=>'job_select__i_s required',
 											  )
 								  );
@@ -177,13 +179,34 @@
 	<!-- middle section end -->
 
 </div>
-
-
-
 <script>
-$(document).ready(function(){
-	$("#JobPostJobForm").validate();
-});
+
+	$(document).ready(function(){
+		$("#JobPostJobForm").validate();
+		$("#JobSalaryTo").blur(function(){ 
+			if(parseInt($("#JobSalaryFrom").val()) >= parseInt($("#JobSalaryTo").val()))
+			{	
+				$("#JobSalaryTo").after("<label class='error' for='JobSalaryTo' >Must greter than 'From' field value..</label>");
+			} 
+		});
+	});
+
+
+function fillSpecification($industry_id)
+{
+	$('#JobSpecification option').each(function(i, option){ $(option).remove(); });
+	$.ajax({
+		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
+	 	dataType:'json',
+  		success: function(response){
+	 		document.getElementById('JobSpecification').options[0]=new Option("--All Specification--",'');
+			$.each(response, function(index, specification) {
+				document.getElementById('JobSpecification').options[document.getElementById('JobSpecification').options.length] = new Option(specification, index);
+            });
+  		}
+	});
+}
+
 function fillCities($state_id)
 {
 	$.ajax({

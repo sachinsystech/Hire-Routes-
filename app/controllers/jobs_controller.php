@@ -1,7 +1,7 @@
 <?php
 class JobsController extends AppController {
-    var $uses = array('Company','Job','Industry','State','Specification' , 'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews');
-	var $helpers = array('Form','Paginator','Time');
+    var $uses = array('Company','Job','Industry','State','Specification' , 'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews','Jobseeker');
+	var $helpers = array('Form','Paginator','Time','Number');
 	var $components = array('Session','TrackUser','Utility');
         
 	
@@ -216,105 +216,122 @@ class JobsController extends AppController {
 	//echo "<pre>"; print_r($params_array); exit;
 		return $params_array;
 	}
+<<<<<<< HEAD
 */
-    function applyJob(){	
 
-		// Jobseeker's profile information
+
+	function applyJob(){	
+
+
 		$userId = $this->TrackUser->getCurrentUserId();
         $roleInfo = $this->getCurrentUserRole();
         $this->set('userrole',$roleInfo);
-		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
-		$jobprofile['JobseekerProfile']['file_id'] = $jobprofile['JobseekerProfile']['id'];
-		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
-		$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
-		$this->set('is_cover_letter', $jobprofile['JobseekerProfile']['cover_letter']);
+		if($this->Session->check('redirect_url')){
+			$this->Session->delete('redirect_url');	
+		}
 
 		// Job information
 		if(isset($this->params['jobId'])){
 			$id = $this->params['jobId'];
 			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
 			if($job['Job']){
+				
+				// If user doesnt have filled profile //
+				$Userinfo = $this->Jobseeker->find('first',array('conditions'=>array('user_id'=>$userId)));
+				if($Userinfo['Jobseeker']['contact_name']==""){				
+					$this->Session->write('redirect_url','/jobs/applyJob/'.$id);
+					$this->Session->setFlash('Please fill your contact information first.', 'error');		
+					$this->redirect('/jobseekers/editProfile');
+				}
+
+				// Jobseeker's profile information
+		
+				$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
+				if($jobprofile){
+					$jobprofile['JobseekerProfile']['file_id'] = $jobprofile['JobseekerProfile']['id'];		
+					$this->set('jobprofile',$jobprofile['JobseekerProfile']);
+					$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
+					$this->set('is_cover_letter', $jobprofile['JobseekerProfile']['cover_letter']);
+				}		
+
+				//  Apply for this job		
+				if (isset($this->data['JobseekerApply'])) {
+	    			$job_id = $this->data['JobseekerApply']['job_id'];
+					$this->data['JobseekerApply']['file_id'] = $jobprofile['JobseekerProfile']['id'];			
+            
+					if(is_uploaded_file($this->data['JobseekerApply']['resume']['tmp_name'])){
+        				$resume = $this->data['JobseekerApply']['resume'];                 
+            			if($resume['error']!=0 ){
+                			$this->Session->setFlash('Uploaded File is corrupted.', 'error');
+							$this->data['JobseekerApply']['resume'] = ""; 
+							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->render("apply_job"); 
+							return;          
+                		}
+                		$type_arr = explode(".",$resume['name']);
+                		$type = $type_arr[1];
+               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
+							$this->Session->setFlash('File type not supported.', 'error');
+                			$this->data['JobseekerApply']['resume'] = ""; 
+							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->render("apply_job"); 
+							return;
+                		}
+                		$randomNumber = rand(1,100000000000);            
+                		$uploadedFileName=$randomNumber.$resume['name'];
+                
+                		if(move_uploaded_file($resume['tmp_name'],WWW_ROOT."files/resume/".$uploadedFileName)){
+                			$this->data['JobseekerApply']['resume'] = $uploadedFileName;
+                		}
+					}else{
+						$this->data['JobseekerApply']['resume'] = $jobprofile['JobseekerProfile']['resume'];
+					}
+
+					if(is_uploaded_file($this->data['JobseekerApply']['cover_letter']['tmp_name'])){
+						$cover_letter = $this->data['JobseekerApply']['cover_letter'];                 
+            			if($cover_letter['error']!=0 ){
+							$this->Session->setFlash('Uploaded File is corrupted.', 'error');   
+                			$this->data['JobseekerApply']['cover_letter'] = ""; 
+							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->render("apply_job"); 
+							return;          
+               			}
+                		$type_arr1 = explode(".",$cover_letter['name']);
+                		$type1 = $type_arr1[1];
+                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
+							$this->Session->setFlash('File type not supported.', 'error');
+                			$this->data['JobseekerApply']['cover_letter'] = ""; 
+							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->render("apply_job"); 
+							return;
+                		}
+                		$randomNumber2 = rand(1,100000000000);            
+                		$uploadedFileName2=$randomNumber2.$cover_letter['name'];
+                
+                		if(move_uploaded_file($cover_letter['tmp_name'],WWW_ROOT."files/cover_letter/".$uploadedFileName2)){
+                			$this->data['JobseekerApply']['cover_letter'] = $uploadedFileName2;
+                		}
+					}else{
+						$this->data['JobseekerApply']['cover_letter'] = $jobprofile['JobseekerProfile']['cover_letter'];
+					}           
+                   
+					if($intermediateUsers=$this->Utility->getIntermediateUsers($this->params['jobId']))
+            			$this->data['JobseekerApply']['intermediate_users'] = $intermediateUsers;
+						$this->JobseekerApply->save($this->data['JobseekerApply']);
+		
+					// If user doesnt have a job profile 
+					if(!$jobprofile){
+						$this->JobseekerProfile->save($this->data['JobseekerApply']);
+					}           
+        			$this->Session->setFlash('You have applied for this job successfully.', 'success');   
+        			$this->redirect('/jobseekers/appliedJob');     
+        		}
 				$this->set('job',$job['Job']);
-			}
-			else{
+			}else{
 				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
 				$this->redirect('/jobs/');
 			}
-		}
-
-		//  Apply for this job		
-		if (isset($this->data['JobseekerApply'])) {
-	    	$job_id = $this->data['JobseekerApply']['job_id'];
-			$this->data['JobseekerApply']['file_id'] = $jobprofile['JobseekerProfile']['id'];
-			
-            
-			if(is_uploaded_file($this->data['JobseekerApply']['resume']['tmp_name'])){
-        		$resume = $this->data['JobseekerApply']['resume'];                 
-            	if($resume['error']!=0 ){
-                	$this->Session->setFlash('Uploaded File is corrupted.', 'error');
-					$this->data['JobseekerApply']['resume'] = ""; 
-					$this->set('jobprofile',$this->data['JobseekerApply']);  
-					$this->render("apply_job"); 
-					return;          
-                }
-                $type_arr = explode(".",$resume['name']);
-                $type = $type_arr[1];
-                if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
-					$this->Session->setFlash('File type not supported.', 'error');
-                	$this->data['JobseekerApply']['resume'] = ""; 
-					$this->set('jobprofile',$this->data['JobseekerApply']);  
-					$this->render("apply_job"); 
-					return;
-                }
-                $randomNumber = rand(1,100000000000);            
-                $uploadedFileName=$randomNumber.$resume['name'];
-                
-                if(move_uploaded_file($resume['tmp_name'],WWW_ROOT."files/resume/".$uploadedFileName)){
-                	$this->data['JobseekerApply']['resume'] = $uploadedFileName;
-                }
-			}else{
-				$this->data['JobseekerApply']['resume'] = $jobprofile['JobseekerProfile']['resume'];
-			}
-
-			if(is_uploaded_file($this->data['JobseekerApply']['cover_letter']['tmp_name'])){
-				$cover_letter = $this->data['JobseekerApply']['cover_letter'];                 
-            	if($cover_letter['error']!=0 ){
-					$this->Session->setFlash('Uploaded File is corrupted.', 'error');   
-                	$this->data['JobseekerApply']['cover_letter'] = ""; 
-					$this->set('jobprofile',$this->data['JobseekerApply']);  
-					$this->render("apply_job"); 
-					return;          
-                }
-                $type_arr1 = explode(".",$cover_letter['name']);
-                $type1 = $type_arr1[1];
-                if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
-					$this->Session->setFlash('File type not supported.', 'error');
-                	$this->data['JobseekerApply']['cover_letter'] = ""; 
-					$this->set('jobprofile',$this->data['JobseekerApply']);  
-					$this->render("apply_job"); 
-					return;
-                }
-                $randomNumber2 = rand(1,100000000000);            
-                $uploadedFileName2=$randomNumber2.$cover_letter['name'];
-                
-                if(move_uploaded_file($cover_letter['tmp_name'],WWW_ROOT."files/cover_letter/".$uploadedFileName2)){
-                	$this->data['JobseekerApply']['cover_letter'] = $uploadedFileName2;
-                }
-			}else{
-				$this->data['JobseekerApply']['cover_letter'] = $jobprofile['JobseekerProfile']['cover_letter'];
-			}           
-                   
-		if($intermediateUsers=$this->Utility->getIntermediateUsers($this->params['jobId']))
-            $this->data['JobseekerApply']['intermediate_users'] = $intermediateUsers;
-		$this->JobseekerApply->save($this->data['JobseekerApply']);
-		
-		// If user doesnt have a job profile 
-		if(!$jobprofile){
-			$this->JobseekerProfile->save($this->data['JobseekerApply']);
-		}           
-        $this->Session->setFlash('You have applied for this job successfully.', 'success');   
-        $this->redirect('/jobseekers/appliedJob');     
-        }
+		}		
 	}
 
 	function viewResume(){

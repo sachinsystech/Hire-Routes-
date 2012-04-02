@@ -34,14 +34,16 @@
                                            			)
                                  );
     ?>
-	<?php	echo $form->input('Code.code', array('label' => 'Code',
+	<?php
+		if($this->Session->read('code')=='' || $this->Session->read('code')==null){
+			echo $form->input('Code.code', array('label' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",
 													'class' => 'text_field_bg required'
                                            			)
                                  );
-    ?>
-	<?php if(isset($codeErrors)): ?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
+			if(isset($codeErrors)):?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
+	<?  }?>
 	<div class="signup_agree_condition">
 		<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
 															'type'  => 'checkbox',
@@ -55,7 +57,7 @@
 	<?php echo $form->submit('Register',array('div'=>false,)); ?>
 	<?php echo $form->end(); ?>
 </div>
-
+<div style="margin-top:50px;"><a href="/networkerInformation">Don't know about Networker</a> </div>
 <script>
 	$(document).ready(function(){
 		$("#UserNetworkerSignupForm").validate({

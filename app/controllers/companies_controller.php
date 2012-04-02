@@ -22,7 +22,7 @@ class CompaniesController extends AppController {
 		if($userId){
 			$this->set('states',$this->Utility->getState());
 			$this->set('industries',$this->Utility->getIndustry());
-			$this->set('specifications',$this->Utility->getSpecification());
+			//$this->set('specifications',$this->Utility->getSpecification());
 		}	
 	
 	}
@@ -187,7 +187,8 @@ list archive jobs..
                 case 'Save for Later':
                 default:
                     $this->Session->setFlash('Job has been saved successfuly.', 'success');	
-                    $this->redirect('/companies/editJob/'.$this->Job->id);
+                    //$this->redirect('/companies/editJob/'.$this->Job->id);
+					$this->redirect('/companies/newJob');
                     break;
         
             }
@@ -208,7 +209,7 @@ list archive jobs..
 			
 				$this->set('states',$this->Utility->getState());
 				$this->set('industries',$this->Utility->getIndustry());
-				$this->set('specifications',$this->Utility->getSpecification());
+				//$this->set('specifications',$this->Utility->getSpecification());
 				
 				/****************  genrate code for traking user ****************/
 					$str = "11:12";
@@ -229,6 +230,9 @@ list archive jobs..
 					}
 					$this->set('code',$code);
 				/************************** end *********************************/
+
+				$NoOfApplicants = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
+				$this->set('NoOfApplicants',$NoOfApplicants);
 		
 			}	
 			else{
@@ -255,8 +259,8 @@ list archive jobs..
 			$this->redirect("/users/firstTime");
 		}
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-		$this->set('user',$user['User']);
-		$this->set('company',$user['Companies'][0]);
+			$this->set('user',$user['User']);
+			$this->set('company',$user['Companies'][0]);
 	}
 
 	function editProfile() {
@@ -268,7 +272,8 @@ list archive jobs..
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
-			$this->Companies->save($this->data['Company']);		
+			$this->Companies->save($this->data['Company']);
+			$this->Session->write('userName',$this->data['Company']['contact_name']);		
 			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
 			$this->redirect('/companies');						
 		}
@@ -287,7 +292,7 @@ list archive jobs..
 		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('payment',$payment['PaymentInfo']);
 		$appliedJobId = isset($this->params['id'])?$this->params['id']:null;
-		if(isset($appliedJobId)){
+		if(isset($appliedJobId)){			
 			
 			$appliedJob = $this->appliedJob($appliedJobId);
 		    if(!isset($appliedJob) || !isset($appliedJob['JobseekerapplyJob'])){
@@ -304,6 +309,55 @@ list archive jobs..
 		}
 		$this->set('submit_txt',$submit_txt);
 		if(isset($this->data['PaymentInfo'])){
+			
+			/*** 
+			require_once(APP.'vendors'.DS."paypalpro/paypal_pro.inc.php");
+				
+		    $firstName =urlencode($this->data['PaymentInfo']['cardholder_name']);
+		    $lastName =urlencode($this->data['PaymentInfo']['cardholder_name']);
+		    
+		    $creditCardType =urlencode($this->data['PaymentInfo']['card_type']);
+		    $creditCardNumber = urlencode($this->data['PaymentInfo']['card_no']);
+		    $expDateMonth =urlencode($this->data['PaymentInfo']['expiration_month']);
+		    $padDateMonth = str_pad($expDateMonth, 2, '0', STR_PAD_LEFT);
+		    $expDateYear =urlencode($this->data['PaymentInfo']['expiration_year']);
+		    $cvv2Number = urlencode($this->data['PaymentInfo']['ccv_code']);
+		    
+		    $address = urlencode($this->data['PaymentInfo']['address']);
+		    $city = urlencode($this->data['PaymentInfo']['city']);
+		    $state =urlencode($this->data['PaymentInfo']['state']);
+		    $zip = urlencode($this->data['PaymentInfo']['zip']);
+		    $amount = urlencode('1');
+		    $currencyCode="USD";
+		    $paymentAction = urlencode("Sale");
+	
+		    $nvpRecurring = '';
+			$methodToCall = 'doDirectPayment';
+		    
+		    $nvpstr='&PAYMENTACTION='.$paymentAction.'&AMT='.$amount.'&CREDITCARDTYPE='.$creditCardType.'&ACCT='.$creditCardNumber.'&EXPDATE='.$padDateMonth.$expDateYear.'&CVV2='.$cvv2Number.'&FIRSTNAME='.$firstName.'&LASTNAME='.$lastName.'&STREET='.$address.'&CITY='.$city.'&STATE='.$state.'&ZIP='.$zip.'&COUNTRYCODE=US&CURRENCYCODE='.$currencyCode.$nvpRecurring;
+
+			$paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE, '', '', FALSE, FALSE );
+		    $resArray = $paypalPro->hash_call($methodToCall,$nvpstr);
+		    $ack = strtoupper($resArray["ACK"]);
+			print_r($resArray);
+			exit;
+		   
+			$authorizationID = urlencode('');
+			$note = urlencode('');
+
+			// Add request-specific fields to the request string.
+			$nvpstr.="&AUTHORIZATIONID=$authorizationID&NOTE=$note";		
+
+			// Execute the API operation; see the PPHttpPost function above.
+			$httpParsedResponseAr = $this->PPHttpPost('DoVoid', $nvpstr);
+
+			if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+				exit('Void Completed Successfully: '.print_r($httpParsedResponseAr, true));
+			} else  {
+				exit('DoVoid failed: ' . print_r($httpParsedResponseAr, true));
+			}
+			exit;
+			/*** end test code***/
             
 			if( !$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
 				$this->render("payment_info");
@@ -337,9 +391,9 @@ list archive jobs..
 		}
 	}
 	
-	function paymentHistoryInfo(){
+function paymentHistoryInfo(){
 		
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->TrackUser->getCurrentUserId();
 		$id = isset($this->params['id'])?$this->params['id']:"";
 		$tid = isset($this->params['tid'])?$this->params['tid']:"";
 		$roleInfo = $this->TrackUser->getCurrentUserRole();
@@ -364,13 +418,13 @@ list archive jobs..
 																			           'alias' => 'job',
 																			           'type' => 'INNER',
 																			           'conditions' => array('PaymentHistory.job_id = job.id',)),
-																			        array('table' => 'jobseeker_settings',
-																			           'alias' => 'j_setting',
+																			        array('table' => 'jobseekers',
+																			           'alias' => 'js',
 																			           'type' => 'INNER',
 																			           'conditions' => array(
-																				           		'PaymentHistory.jobseeker_user_id = j_setting.user_id',)),   
+																				           		'PaymentHistory.jobseeker_user_id = js.user_id',)),   
 																			),
-																 		'fields'=>array( 'PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, job.id,job.title, job.short_description, jsapply.*, j_setting.name') 
+																 		'fields'=>array( 'PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, job.id,job.title, job.short_description, jsapply.*, js.contact_name') 
 																 	) 
 																); 		
 			if(!$PaymentDetail){
@@ -431,38 +485,23 @@ list archive jobs..
 		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
-			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fileds"=>"id"));
+			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fields"=>"id"));
 			//echo "<pre>"; print_r($jobs); exit;
 			if($jobs['Job']){
 				$conditions = array('JobseekerApply.job_id'=>$jobs['Job']['id'],"JobseekerApply.is_active"=>0);
 	
 				if(isset($this->data['User'])){
 
-					$answer1  = $this->data['User']['answer1'];
-					$answer2  = $this->data['User']['answer2'];
-					$answer3  = $this->data['User']['answer3'];
-					$answer4  = $this->data['User']['answer4'];
-					$answer5  = $this->data['User']['answer5'];
-					$answer6  = $this->data['User']['answer6'];
-					$answer7  = $this->data['User']['answer7'];
-					$answer8  = $this->data['User']['answer8'];
-					$answer9  = $this->data['User']['answer9'];
-					$answer10 = $this->data['User']['answer10'];
-
-								
-					$conditions = array('OR' => array('JobseekerApply.answer1'  => $answer1, 
-                                    				  'JobseekerApply.answer2'  => $answer2,
-                                                      'JobseekerApply.answer3'  => $answer3,
-                                                      'JobseekerApply.answer4'  => $answer4,
-                                                      'JobseekerApply.answer5'  => $answer5,
-									                  'JobseekerApply.answer6'  => $answer6,
-													  'JobseekerApply.answer7'  => $answer7,
-													  'JobseekerApply.answer8'  => $answer8,
-													  'JobseekerApply.answer9'  => $answer9,
-													  'JobseekerApply.answer10' => $answer10,
-													),
-					                    'AND' => array('JobseekerApply.job_id'=>$jobs['Job']['id'],
-													   'JobseekerApply.is_active'=>0)
+					$i=0;
+					foreach($this->data['User'] as $answer=>$user){
+						if($user!=""){
+							$ans[$i] = array($answer=>$user);
+							$i++;
+						}
+					}
+					
+					$conditions = array('OR' => $ans,
+					                    'AND' => $conditions
 					                  );
 					
 					$this->set('filterOpt',$this->data['User']);
@@ -493,6 +532,7 @@ list archive jobs..
 
 				$applicants = $this->paginate("JobseekerApply");
 				//echo "<pre>";  print_r($applicants);
+				$this->set('NoOfApplicants',count($applicants));
 				$this->set('applicants',$applicants);
 				$this->set('jobId',$jobId);
 			}else{
@@ -561,14 +601,15 @@ list archive jobs..
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId),"fileds"=>"id"));
 			// 	echo "<pre>"; print_r($jobs); exit;
 			if($jobs['Job']){
-				$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId)));
-
-		
+				$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
+				
 				$jobprofilelastmonth = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'is_active'=>0,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
 		
 				$jobprofilelastweek = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'is_active'=>0,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
 
@@ -589,7 +630,8 @@ list archive jobs..
 				$this->set('application_last_week',$jobprofilelastweek);
 				$this->set('view_alltime',$viewalltime);
 				$this->set('view_last_month',$viewlastmonth);
-				$this->set('view_last_week',$viewlastweek);
+				$this->set('view_last_week',$viewlastweek);				
+				$this->set('NoOfApplicants',$applicationalltime);
 			}else{
 				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
 				$this->redirect("/companies/newJob");
@@ -787,7 +829,6 @@ list archive jobs..
             $saveUser['User']['linkedin_token'] = serialize($linkedin->access_token);
             $this->User->save($saveUser);
             $this->set('error',false);
-            
         }
 
     }
@@ -1153,5 +1194,194 @@ list archive jobs..
 								));
 		return $appliedJob;
     }
+
+// =======================delete jobs=========
+	function deleteJob(){
+		$this->autoRender=false;
+		$userId = $this->TrackUser->getCurrentUserId();
+		$jobId=$this->params['form']['jobId'];
+		$action=$this->params['form']['action'];
+		if($action=='newJobs'){
+			$activate=1;
+		}else 
+			$activate=0;
+
+		if($userId && $jobId){
+			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>$activate),"fileds"=>"id"));
+			if($jobs['Job']){
+				$jobs['Job']["is_active"] = 2 ;
+				$this->Job->save($jobs);
+				$this->Session->setFlash('Successfully, Job has been deleted.', 'success');	
+				return;
+			}
+		}
+		$this->Session->setFlash('May be you click on old link.','error');	
+		return;	
+    }
+
+
+	public function employees(){
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$this->paginate = array('conditions' => array('PaymentHistory.user_id'=>$userId),
+								'limit'=>'10', 	
+								'joins'=>array(
+											array('table'=>'users',
+												  'type'=>'inner',
+												  'conditions'=>array('users.id=PaymentHistory.jobseeker_user_id',
+																	  'users.is_active=1'),
+												 ),
+										 	array('table'=>'jobseekers',
+												  'alias'=> 'js',
+												  'type'=>'inner',
+												  'conditions'=>array('js.user_id =PaymentHistory.jobseeker_user_id'),
+												 ),
+											   ),
+								'fields'=>array('PaymentHistory.user_id,PaymentHistory.paid_date,js.contact_name,
+												js.contact_phone,js.city,js.state,users.account_email'),
+								);
+		$employees = $this->paginate("PaymentHistory");
+		$this->set('employees',$employees);
+		// end for job fetching...
+    }
+
+/**		*****	Twitter :: Handling	*****	**/
+
+	private function getTwitterObject(){
+		require_once(APP_DIR.'/vendors/twitter/EpiCurl.php'); 
+		require_once(APP_DIR.'/vendors/twitter/EpiOAuth.php'); 
+		require_once(APP_DIR.'/vendors/twitter/EpiTwitter.php'); 
+		require_once(APP_DIR.'/vendors/twitter/secret.php');
+		$twitterObj = new EpiTwitter(CONSUMER_KEY, CONSUMER_SECRET);
+		return $twitterObj;
+	}
+
+	private function connectTwitter(){
+		$this->redirect($this->getTwitterObject()->getAuthorizationUrl());
+	}
+
+	function twitterCallback(){
+	 	$userId = $this->Session->read('Auth.User.id');
+		$oauth_token = isset($this->params['url']['oauth_token'])?$this->params['url']['oauth_token']:'';
+		if($oauth_token){
+			$twitterObj = $this->getTwitterObject();
+			$twitterObj->setToken($oauth_token);
+			$token = $twitterObj->getAccessToken();			
+			
+			$currentUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+            $currentUser['User']['twitter_token'] = $token->oauth_token;
+            $currentUser['User']['twitter_token_secret'] = $token->oauth_token_secret;
+            if($this->User->save($currentUser)){
+            	$this->redirect("/companies/getTwitterFriendList");
+            }            
+		}
+	}	
+	
+	function postTweet(){
+		$user = $user = $this->data['Twitter']['SendTo'];
+		$msg = $this->data['Twitter']['msg'];
+		$twitterObj = $this->getTwitterObject();
+		$twitterObj->setToken($this->Session->read('Twitter.twitter_token'),$this->Session->read('Twitter.twitter_token_secret'));
+		$myArray = array('user' => $user, 'text' => $msg);
+        $resp = $twitterObj->post_direct_messagesNew( $myArray);
+        $temp = $resp->response;
+		$this->Session->setFlash('Your message has been posted successfuly.', 'success');
+		$this->redirect("/companies/getTwitterFriendList");
+	}
+	
+	function getTwitterFriendList(){
+        $userId = $this->Session->read('Auth.User.id');
+		$user = $this->User->find('first',array('fields'=>array('twitter_token','twitter_token_secret'),'conditions'=>array('id'=>$userId,
+																								'twitter_token !='=>'',
+																								'twitter_token_secret !='=>'')));
+		if(!$user){
+			$this->connectTwitter();
+		}
+		else{
+			$twitterObj = $this->getTwitterObject();
+			
+			$this->Session->write('Twitter.twitter_token',$user['User']['twitter_token']);
+			$this->Session->write('Twitter.twitter_token_secret',$user['User']['twitter_token_secret']);
+			
+			$twitterObj->setToken($user['User']['twitter_token'],$user['User']['twitter_token_secret']);
+			$twitterInfo= $twitterObj->get_accountVerify_credentials();
+			$twitterInfo->response;
+
+			$username = $twitterInfo->screen_name;
+			$profilepic = $twitterInfo->profile_image_url;
+			
+			$trends_url = "http://api.twitter.com/1/statuses/followers/$username.json";
+			$ch = curl_init(); 
+			curl_setopt($ch, CURLOPT_URL, $trends_url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			$curlout = curl_exec($ch);
+			curl_close($ch);
+			$response = json_decode($curlout, true);			
+			$this->set('url',$twitterObj->getAuthorizationUrl());
+			$this->set('username',$username);
+			$this->set('profilepic',$profilepic);
+			$this->set('response',$response);
+		}		
+    }
+   /**		*****	End of Twitter :: Handling	*****	**/  
+    
+
+
+	private function PPHttpPost($methodName_, $nvpStr_) {
+		$environment = 'sandbox';
+
+		// Set up your API credentials, PayPal end point, and API version.
+		$API_UserName = urlencode(API_USERNAME);
+		$API_Password = urlencode(API_PASSWORD);
+		$API_Signature = urlencode(API_SIGNATURE);
+		$API_Endpoint = "https://api-3t.paypal.com/nvp";
+		if("sandbox" === $environment || "beta-sandbox" === $environment) {
+			$API_Endpoint = "https://api-3t.$environment.paypal.com/nvp";
+		}
+		$version = urlencode('51.0');
+
+		// Set the curl parameters.
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $API_Endpoint);
+		curl_setopt($ch, CURLOPT_VERBOSE, 1);
+
+		// Turn off the server and peer verification (TrustManager Concept).
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+
+		// Set the API operation, version, and API signature in the request.
+		$nvpreq = "METHOD=$methodName_&VERSION=$version&PWD=$API_Password&USER=$API_UserName&SIGNATURE=$API_Signature$nvpStr_";
+
+		// Set the request as a POST FIELD for curl.
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpreq);
+
+		// Get response from the server.
+		$httpResponse = curl_exec($ch);
+
+		if(!$httpResponse) {
+			exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
+		}
+
+		// Extract the response details.
+		$httpResponseAr = explode("&", $httpResponse);
+
+		$httpParsedResponseAr = array();
+		foreach ($httpResponseAr as $i => $value) {
+			$tmpAr = explode("=", $value);
+			if(sizeof($tmpAr) > 1) {
+				$httpParsedResponseAr[$tmpAr[0]] = $tmpAr[1];
+			}
+		}
+
+		if((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr)) {
+			exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
+		}
+
+		return $httpParsedResponseAr;
+	}
+
 }
 ?>
+

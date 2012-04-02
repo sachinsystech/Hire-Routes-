@@ -26,20 +26,32 @@
 			<div class="network_contact_middleBox">
 			  <div class="job_data">
 					<table>	
+						<?php if(count($networkerData)>0){ ?>
 						<tr>
 							<td colspan="2">All Networkers</td>
-						</tr>
-						<?php if(count($networkerData)>0){ ?>
+						</tr>						
 						<tr>
 							<td><strong>Total</strong></td>
 							<td><?php echo array_sum($networkerData);?></td>
 						</tr>
 						<?php foreach($networkerData as $degree=>$totalNetworkers){?>
 						<tr>
-							<td><?php echo $degree+1;?></td>
+							<td><?php	$networkDegree = $degree+1;
+									  	if($networkDegree==1){
+											$suffix = "st";
+									  	}elseif($networkDegree==2){
+											$suffix = "nd";
+									  	}elseif($networkDegree==3){
+											$suffix = "rd";
+									  	}else{
+											$suffix = "th";
+									  	}
+										echo $networkDegree.$suffix;?></td>
 							<td><?php echo $totalNetworkers;?></td>
 						</tr>
-						<?php }}?>						
+						<?php }} else{?>
+							<div class="empty_concats_msg"> No Data To Show..</div>
+			  			<?php }?>						
 					</table>
 				</div>
 			</div>

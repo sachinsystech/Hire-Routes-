@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This is core configuration file.
  *
@@ -33,6 +34,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
+
 	Configure::write('debug', 2);
 
 /**
@@ -102,7 +104,7 @@
  * or in each action using $this->cacheAction = true.
  *
  */
-	//Configure::write('Cache.check', true);
+	Configure::write('Cache.check', true);
 
 /**
  * Defines the default error type when using the log() function. Used for
@@ -126,9 +128,10 @@
  */
 	Configure::write('Session.save', 'php');
  
-
     Configure::write('rootURL','192.168.1.28/');
     Configure::write('httpRootURL','http://hireroutes/');	
+
+
 
 /**
  * The model name to be used for the session model.
@@ -307,11 +310,17 @@
  */
 	Cache::config('default', array('engine' => 'File'));
 
+
     define("FB_API_KEY","340495732660166");
     define("FB_SECRET_KEY","465991fdcd75fb0fd64d98efaeab2f05");
 
+	/*		********		*/
+	define("BASEPATH","/var/www/staging-hr/Hire-Routes-/app/");
+
+
     define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
     define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
+
 
 /*** Linked in  ***/
 
@@ -322,3 +331,22 @@
 
 /****** end *****/
   
+
+	/*	Facebook API key	*/
+    define("FB_API_KEY","305849939456125");
+    define("FB_SECRET_KEY","e52a5d92d6429e4abd6408ca3a1fc710");
+	/*************/
+    
+	/*	Twitter API key	*/	
+		define('CONSUMER_KEY', 'piSyb0wl0ju8QFvnaZI5rw');
+		define('CONSUMER_SECRET','3XyJaN8UbVSx3kuxaAOxcV6Qpu08RuRPwbJEsltufTs');
+	/****************/	
+
+	/* Paypal Credentials */
+		define('API_USERNAME', 'amahes_1296472615_biz_api1.systematixtechnocrates.com');
+        define('API_PASSWORD', '1296472630');
+        define('API_SIGNATURE', 'A0yXjfWegGWSw36x2o1FMUR9fUN.AohzBaj78ZVz.0dMA3K0e0wL0SsH');
+        define('LIVEPAYPAL', '0'); //0 for sandbox, 1 for live .
+
+	/* *********  */
+

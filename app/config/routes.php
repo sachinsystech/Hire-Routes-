@@ -30,6 +30,7 @@
  /** Admin URL **/
   	Router::connect('/admin/acceptCompanyRequest/:id', array('controller' => 'admin','action' => 'acceptCompanyRequest'),array('id' => '[0-9]+'));
   	Router::connect('/admin/declineCompanyRequest/:id', array('controller' => 'admin','action' => 'declineCompanyRequest'),array('id' => '[0-9]+'));
+  	  	Router::connect('/admin/paymentDetails/:payment_history_id/*', array('controller' => 'admin','action' => 'paymentDetails'),array('payment_history_id' => '[0-9]+'));
  /** end Admin URL **/
  
 	Router::connect('/admin/codes', array('controller' => 'codes','action' => 'add'));
@@ -39,6 +40,9 @@
 	Router::connect('/companyInformation', array('controller' => 'home', 'action' => 'companyInformation'));	
 	Router::connect('/networkerInformation', array('controller' => 'home', 'action' => 'networkerInformation'));		
 	Router::connect('/jobseekerInformation', array('controller' => 'home', 'action' => 'jobseekerInformation'));		
+	Router::connect('/howItWorks', array('controller' => 'home', 'action' => 'howItWorks'));	
+	
+	
 	Router::connect('/companies/archiveJob/:id', array('controller' => 'Companies','action' => 'archiveJob'),array('id' => '[0-9]+')); 
 	Router::connect('/companies/showApplicant/:id', array('controller' => 'Companies','action' => 'showApplicant'),array('id' => '[0-9]+')); 
 	Router::connect('/companies/rejectApplicant/:id/:jobId', array('controller' => 'Companies','action' => 'deleteJob'),array('id' => '[0-9]+','jobId' => '[0-9]+')); 
@@ -57,6 +61,8 @@
 	
 	Router::connect('/contact_us', array('controller'=> 'home', 'action'=>'contactUs'));
 	
+	Router::connect('/howItWorks',array('controller'=>'home','action'=>'howItWorks'));
+	
 	Router::connect('/companies', array('controller' => 'companies', 'action' => 'accountProfile'));
 	Router::connect('/companies/editJob/:jobId', array('controller' => 'companies', 'action' => 'editJob'));
 	Router::connect('/companies/editProfile', array('controller' => 'companies', 'action' => 'editProfile'));
@@ -68,14 +74,13 @@
 	Router::connect('/companies/acceptApplicant/:id', array('controller' => 'companies', 'action' => 'acceptApplicant'), array('jobId' => '[0-9]+'));
 	Router::connect('/companies/jobStats/:jobId', array('controller' => 'companies', 'action' => 'jobStats'), array('jobId' => '[0-9]+'));
 
+	Router::connect('/companies/deleteJob',array('controller'=>'companies','action'=>'deleteJob'));	
 
 
 	Router::connect('/companies/share_email', array('controller'=>'companies', 'action'=>'share_render'));
 	Router::connect('/companies/share_job_by_email', array('controller'=>'companies', 'action'=>'shareJobByEmail'));
 
 
-	
-	
 	Router::connect('/jobs/', array('controller' => 'jobs', 'action' => 'index'));
 	Router::connect('/jobs/:id/*', array('controller' => 'jobs','action' => 'index'),
 												array('id' => '[0-9]+'));
@@ -113,5 +118,7 @@
 	
 	Router::connect('/jobseekers/delete/:id', array('controller' => 'jobseekers','action' => 'delete'));	
 	Router::connect('/jobseekers/sendNotifyEmal/:notifyId', array('controller' => 'jobseekers','action' => 'sendNotifyEmal'));
-	Router::connect('/jobseekers/viewResume/:filetype/:id', array('controller' => 'jobseekers','action' => 'viewResume'),
-												array('id' => '[0-9]+'));	
+	Router::connect('/jobseekers/viewResume/:filetype/:id', array('controller' => 'jobseekers','action' => 'viewResume'),array('id' => '[0-9]+'));	
+
+
+

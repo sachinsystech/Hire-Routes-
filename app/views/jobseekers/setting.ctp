@@ -62,6 +62,7 @@
 																	     'label'=>'Industry 1:',
 																	     'options'=>$industries,
 																	     'empty' =>' -- Select Industry-- ',
+																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification1");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
 						</div>
@@ -74,7 +75,7 @@
 																					   'label'=>'',
 																	                   'multiple'=>'multiple',
 																	                   'size' => '4',
-																	                   'options'=>$specifications,
+																	                   //'options'=>$specifications,
 																	                   'class'=>'jobseeker_select__i_s required',
 											                                           'selected'=>isset($jobseekerData['specification_1'])?explode(",",$jobseekerData['specification_1']):""));?>
 						</div>
@@ -85,6 +86,7 @@
 																	     'label'=>'Industry 2:',
 																	     'options'=>$industries,
 																	     'empty' =>' -- Select Industry-- ',
+																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification2");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:""));?>
 						</div>
@@ -93,7 +95,7 @@
 																	                   'label'=>'',
 																	                   'multiple'=>'multiple',
 																	                   'size' => '4',
-																	                   'options'=>$specifications,
+																	                   //'options'=>$specifications,
 																	                   'class'=>'jobseeker_select__i_s required',
 											                                           'selected'=>isset($jobseekerData['specification_2'])?explode(",",$jobseekerData['specification_2']):""));?>
 						</div>
@@ -192,12 +194,30 @@
 </div>
 <script>
 $(document).ready(function(){
-	var city_id = <?php echo $jobseekerData['city'];?>;
 	fillCities(<?php echo $jobseekerData['state'];?>);
 	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
-	
+	fillSpecification(<?php echo $jobseekerData['industry_1'];?>,'JobseekersIndustrySpecification1');
+	$("select#JobseekersIndustrySpecification1 option[value=<?php echo $jobseekerData['specification_1'];?>]").attr('selected', 'selected');
+	fillSpecification(<?php echo $jobseekerData['industry_2'];?>,'JobseekersIndustrySpecification2');
+	$("select#JobseekersIndustrySpecification2 option[value=<?php echo $jobseekerData['specification_2'];?>]").attr('selected', 'selected');
 	$("#JobseekersAddForm").validate();
 });
+
+function fillSpecification($industry_id, specification_field)
+{
+	$('#'+specification_field+' option').each(function(i, option){ $(option).remove(); });
+	$.ajax({
+		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
+	 	dataType:'json',
+	 	async:false,
+  		success: function(response){
+	 		document.getElementById(specification_field).options[0]=new Option("--All Specification--",'');
+			$.each(response, function(index, specification) {
+				document.getElementById(specification_field).options[document.getElementById(specification_field).options.length] = new Option(specification, index);
+            });
+  		}
+	});
+}
 
 function fillCities($state_id)
 {

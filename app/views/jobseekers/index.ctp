@@ -21,18 +21,10 @@
 		<!-- middle conyent list -->
 			<div class="middleBox">                                 
                 <div class="setting_profile">
-
-					<?php if(isset($fbinfo['first_name']) && isset($fbinfo['last_name'])): ?>
-					<div class="etting_profile_row">
-						<div class="setting_profile_field">Name:</div>
-						<div class="setting_profile_value"><?php  echo ucfirst($fbinfo['first_name'])." ".ucfirst($fbinfo['last_name']);  ?></div>
-					</div>
-					<?php endif;?>
-					
-					<?php if(isset($jobseekerData['name'])): ?>
+					<?php if(isset($jobseeker['contact_name'])): ?>
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">Name:</div>
-						<div class="setting_profile_value"><?php echo $jobseekerData['name'];?></div>
+						<div class="setting_profile_value"><?php echo $jobseeker['contact_name'];?></div>
 					</div>
 					<?php endif;?>
 
@@ -67,7 +59,6 @@
 			</div>
 			
 		<!-- middle conyent list -->
-
 	</div>
 	<!-- middle section end -->
 
