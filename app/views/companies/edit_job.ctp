@@ -69,6 +69,7 @@
                                               )
                                   );
           ?>
+          <div id="specification_loader" style="float:left;width:20px;"></div>
       </div>
       <div style="float:left;">
           <?php echo $form -> input('specification',array(
@@ -112,7 +113,6 @@
 	
 	<?php */?>
 	
-	<div id="loader" style="float:left;margin-left:50%;"></div>	
 	<?php $state_val = $job['state']; ?>
 	
 		  <!-- 	Location :: State wise cities....	-->
@@ -129,6 +129,7 @@
 									)
 						);
 ?>
+<div id="city_loader" style="float:left;"></div>	
 </div>
 <div style="float:left;">
 <?php echo $form -> input('city',array(
@@ -204,11 +205,12 @@
 <script>
 	
 $(document).ready(function(){
+
+	fillSpecification(<?php echo $job['industry'];?>);
+	$("select#JobSpecification option[value=<?php echo $job['specification'];?>]").attr('selected', 'selected');
 	var city_id = <?php echo $job['city'];?>;
 	fillCities(<?php echo $job['state'];?>);
 	$("select#JobCity option[value=<?php echo $job['city'];?>]").attr('selected', 'selected');
-	fillSpecification(<?php echo $job['industry'];?>);
-	$("select#JobSpecification option[value=<?php echo $job['specification'];?>]").attr('selected', 'selected');
 	$("#JobEditJobForm").validate();
 	
 });
@@ -221,10 +223,10 @@ function fillSpecification($industry_id)
 	 	dataType:'json',
 	 	async:false,
 	 	beforeSend: function(){
-     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+     		$('#specification_loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
 		},
 		complete: function(){
-   	    	$('#loader').html("");
+   	    	$('#specification_loader').html("");
 		},
   		success: function(response){
 	 		document.getElementById('JobSpecification').options[0]=new Option("--All Specification--",'');
@@ -242,10 +244,10 @@ function fillCities($state_id)
 	 	dataType:'json',
 		async:false,
 		beforeSend: function(){
-     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+     		$('#city_loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
 		},
 		complete: function(){
-   	    	$('#loader').html("");
+   	    	$('#city_loader').html("");
 		},
   		success: function(response){
 	 		var options = '<option value=""> -- All Cities-- </option>';

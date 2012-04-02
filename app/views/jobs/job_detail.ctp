@@ -61,7 +61,7 @@
                                     	<strong>Location :</strong> 
 											<?php echo $job['city']['city'].", ".$job['state']['state']."<br>"; ?>
 										<strong>Annual Salary Range :</strong> 
-											<?php echo $job['Job']['salary_from']." - ".$job['Job']['salary_to']."<br>"; ?>
+											<?php echo $job['Job']['salary_from']." - ".$job['Job']['salary_to']."<b> K</b><br>"; ?>
 										<strong>Type :</strong> 
 											<?php echo $job_array[$job['Job']['job_type']]."<br>"; ?>
 									</div>

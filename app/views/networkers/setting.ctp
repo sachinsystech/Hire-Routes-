@@ -58,6 +58,7 @@
 															)
 												);
 						?>
+						<div id="specification_loader" style="float:left;"></div>
 						</div>
 						<div style="float:right">
 						<?php echo $form -> input('specification',array(
@@ -70,7 +71,6 @@
 						?>
 						</div>
 					</div>
-					<div id="loader" style="float:left;margin-left:50%;"></div>
 					<div>
 						<div style="float:left;margin-left: 43px;clear: both;">
 							<?php echo $form -> input('state',array(
@@ -82,6 +82,7 @@
 																)
 													);
 							?>
+							<div id="city_loader" style="float:left;"></div>
 						</div>
 						<div style="float:left;">
 							<?php echo $form -> input('city',array(
@@ -206,10 +207,10 @@ function fillSpecification($industry_id)
 		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
 	 	dataType:'json',
 	  	beforeSend: function(){
-     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+     		$('#specification_loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
    		},
 		complete: function(){
-   	    	$('#loader').html("");
+   	    	$('#specification_loader').html("&nbsp;");
    		},
   		success: function(response){
 	 		document.getElementById('NetworkersSpecification').options[0]=new Option("--All Specification--",'');
@@ -227,10 +228,10 @@ function fillCities($state_id)
 		url: "/utilities/getCitiesOfState/"+$state_id,
 	 	dataType:'json',
 	 		 	beforeSend: function(){
-     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+     		$('#city_loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
    		},
 		complete: function(){
-   	    	$('#loader').html("");
+   	    	$('#city_loader').html("&nbsp;");
    		},
   		success: function(response){
 	 		document.getElementById('NetworkersCity').options[0]=new Option("--All Cities--",'');
