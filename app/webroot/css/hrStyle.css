@@ -309,11 +309,17 @@ option {
 input[type=checkbox] {
 	clear: left;
 	float: left;
-	margin: 4px 6px 7px 2px;
+	margin: 3px 8px 0 2px;
 	width: auto;
 }
+
+div.checkbox{
+    margin-top:4px;
+}
+
 div.checkbox label {
 	display: inline;
+    margin:4px 6px 7px 2px;
 }
 input[type=radio] {
 /*	float:left;*/
@@ -1385,27 +1391,27 @@ label.error{
 /*** CSS for share page ***/
 
 .contactBox{
-    width: 100px; 
-    border: 1px solid green; 
-    height: 100px;
+    width: 52px; 
+    margin: 1px; 
+    height: 52px;
     float: left;
 }
 
 .contactImage{
     height: 50px; 
     width: 50px; 
-    border: 1px solid red; 
+    /*border: 1px solid red; */
     margin: auto;
 }
 
 .contactCheckBox{
     position: absolute; 
     top: 0px; 
-    left: 80px;
+    left: 33px;
 }
 
 .contactName{
-    border:1px solid pink;
+    /*border:1px solid pink;*/
     clear:both;
     text-align: center;
 }
@@ -1840,6 +1846,9 @@ border: 1px solid #000000;
     height: 23px;
     margin-left: 27px;
     width: 275px;
+}
+.contactBox div{
+    padding:0px;
 }
 
 .jobDetail_middleBox{

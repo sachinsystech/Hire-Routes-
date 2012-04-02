@@ -70,6 +70,7 @@
 						?>
 						</div>
 					</div>
+					<div id="loader" style="float:left;margin-left:50%;"></div>
 					<div>
 						<div style="float:left;margin-left: 43px;clear: both;">
 							<?php echo $form -> input('state',array(
@@ -204,6 +205,12 @@ function fillSpecification($industry_id)
 	$.ajax({
 		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
 	 	dataType:'json',
+	  	beforeSend: function(){
+     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+   		},
+		complete: function(){
+   	    	$('#loader').html("");
+   		},
   		success: function(response){
 	 		document.getElementById('NetworkersSpecification').options[0]=new Option("--All Specification--",'');
 			$.each(response, function(index, specification) {
@@ -219,6 +226,12 @@ function fillCities($state_id)
 	$.ajax({
 		url: "/utilities/getCitiesOfState/"+$state_id,
 	 	dataType:'json',
+	 		 	beforeSend: function(){
+     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+   		},
+		complete: function(){
+   	    	$('#loader').html("");
+   		},
   		success: function(response){
 	 		document.getElementById('NetworkersCity').options[0]=new Option("--All Cities--",'');
 			$.each(response, function(index, city) {

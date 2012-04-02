@@ -52,7 +52,7 @@
 														  'type'  => 'text',
 														  'class' => 'jobseekers_text required',
 														  'value' => isset($jobseekerData['name'])?$jobseekerData['name']:""));?>
-					<div>
+					<div id="industry_specification_1">
 						<div style="float:left;margin-left: -7px;clear: both;">
 							<?php $industry_array = array('1'=>'Industry1',
 														  '2'=>'Industry2',
@@ -80,6 +80,7 @@
 											                                           'selected'=>isset($jobseekerData['specification_1'])?explode(",",$jobseekerData['specification_1']):""));?>
 						</div>
 					</div>
+					<div id="loader" style="float:left;margin-left:50%;"></div>
 					<div>
 						<div style="float:left;margin-left: -7px;clear: both;">
 							<?php echo $form -> input('industry_2',array('type'=>'select',
@@ -197,11 +198,20 @@ $(document).ready(function(){
 	fillCities(<?php echo $jobseekerData['state'];?>);
 	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
 	fillSpecification(<?php echo $jobseekerData['industry_1'];?>,'JobseekersIndustrySpecification1');
-	$("select#JobseekersIndustrySpecification1 option[value=<?php echo $jobseekerData['specification_1'];?>]").attr('selected', 'selected');
 	fillSpecification(<?php echo $jobseekerData['industry_2'];?>,'JobseekersIndustrySpecification2');
-	$("select#JobseekersIndustrySpecification2 option[value=<?php echo $jobseekerData['specification_2'];?>]").attr('selected', 'selected');
+	<?php $specification_1=explode(",",$jobseekerData['specification_1']);
+		foreach($specification_1 as $key=>$specification_id)
+		{
+	?>
+	$("select#JobseekersIndustrySpecification1 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
+	<?php }$specification_2=explode(",",$jobseekerData['specification_2']);
+		foreach($specification_2 as $key=>$specification_id)
+		{?>
+	$("select#JobseekersIndustrySpecification2 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
+	<?php }?>
 	$("#JobseekersAddForm").validate();
 });
+
 
 function fillSpecification($industry_id, specification_field)
 {
@@ -210,6 +220,12 @@ function fillSpecification($industry_id, specification_field)
 		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
 	 	dataType:'json',
 	 	async:false,
+	 	beforeSend: function(){
+     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+   		},
+		complete: function(){
+   	    	$('#loader').html("");
+   		},
   		success: function(response){
 	 		document.getElementById(specification_field).options[0]=new Option("--All Specification--",'');
 			$.each(response, function(index, specification) {
@@ -225,6 +241,12 @@ function fillCities($state_id)
 		url: "/utilities/getCitiesOfState/"+$state_id,
 	 	dataType:'json',
 		async:false,
+	 	beforeSend: function(){
+    	 	$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+   		},
+		complete: function(){
+   	    	$('#loader').html("");
+   		},
   		success: function(response){
 	 		var options = '<option value=""> -- All Cities-- </option>';
 			$.each(response, function(index, item) {

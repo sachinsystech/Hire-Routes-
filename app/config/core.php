@@ -34,7 +34,8 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 0);
+
+	Configure::write('debug', 2);
 
 /**
  * CakePHP Log Level:
@@ -127,11 +128,10 @@
  */
 	Configure::write('Session.save', 'php');
  
+    Configure::write('rootURL','192.168.1.28/');
+    Configure::write('httpRootURL','http://hireroutes/');	
 
 
-
-    Configure::write('rootURL','192.168.1.116/');
-    Configure::write('httpRootURL','http://192.168.1.116/');	
 
 /**
  * The model name to be used for the session model.
@@ -311,14 +311,26 @@
 	Cache::config('default', array('engine' => 'File'));
 
 
+    define("FB_API_KEY","340495732660166");
+    define("FB_SECRET_KEY","465991fdcd75fb0fd64d98efaeab2f05");
+
+	/*		********		*/
+	define("BASEPATH","/var/www/staging-hr/Hire-Routes-/app/");
+
+
     define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
     define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
 
 
-	define("BASEPATH","/opt/lampp/htdocs/Hire-Routes-/app/");
-    
-    
+/*** Linked in  ***/
 
+    define("LINKEDIN_BASE_URL","http://127.0.0.1/companies/getLinkedinFriendList");
+    define("LINKEDIN_CALLBACK_URL","http://127.0.0.1/companies/linkedinCallback");
+    define("LINKEDIN_ACCESS","341yzad2xife");
+    define("LINKEDIN_SECRET","jN3uF6HePfMLspcb");
+
+/****** end *****/
+  
 
 	/*	Facebook API key	*/
     define("FB_API_KEY","305849939456125");
@@ -326,8 +338,8 @@
 	/*************/
     
 	/*	Twitter API key	*/	
-		define('CONSUMER_KEY', 'fEMVnhuHU9hGfoPFKG5zjA');
-		define('CONSUMER_SECRET','mWJt4MRN8rZMM6E4GYpX2KD5Ee8Zvxw0DxKJLNToumE');
+		define('CONSUMER_KEY', 'piSyb0wl0ju8QFvnaZI5rw');
+		define('CONSUMER_SECRET','3XyJaN8UbVSx3kuxaAOxcV6Qpu08RuRPwbJEsltufTs');
 	/****************/	
 
 	/* Paypal Credentials */
@@ -337,5 +349,4 @@
         define('LIVEPAYPAL', '0'); //0 for sandbox, 1 for live .
 
 	/* *********  */
-
 
