@@ -13,6 +13,7 @@ class HomeController extends AppController {
 										            		  'type' => 'LEFT',
 										            		  'conditions' => array('Job.industry = ind.id',)),
 											),
+										 'order' => array("Job.created" => 'desc'),
 										'fields'=>array('Job.id,Job.title,Job.company_name,Job.reward,ind.name as industry_name'),));
 		$this->set('jobs',$jobs);		
 	}

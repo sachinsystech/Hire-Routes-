@@ -31,7 +31,7 @@
 	<div id="HeadingHome">		
 		<div id="HeadingVedio">HOW IT WORKS VIDEO</div>
 		<div id="HeadingWhyHireRoutes">	WHY HIRE ROUTES?</div>
-		<div id="HeadingJobList">JOB</div>
+		<div id="HeadingJobList">JOBS</div>
 	</div>
 	<div style="margin-top:10px;clear:both;">
 		<div class="Video">video</div>
@@ -47,7 +47,7 @@
 					<?php echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']);
 										
 					 ?>
-					<span style="float:right"><? echo "$".$job['Job']['reward'];?></span>
+					<span style="float:right"><? echo "<b>$</b>".number_format($job['Job']['reward'],'2','.','');?></span>
 				</div>
 				<div>	
 					<?php echo $job['Job']['company_name'].','.$job['ind']['industry_name'];?>
