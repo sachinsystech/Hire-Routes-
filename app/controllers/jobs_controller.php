@@ -16,13 +16,83 @@ class JobsController extends AppController {
      }
 	
 	function index(){
+        $conditions = array();
+        $salaryFrom = null;
+        $salaryTo = null;
+        if( (isset($this->params['form']['search']) && $this->params['form']['search'] =="Find Job" ) || $this->Session->read("FilterJob")){
+            if(!isset($this->data['FilterJob'])){
+                $this->data['FilterJob'] = $this->Session->read("FilterJob");
+            }else{
+                $this->Session->write("FilterJob",$this->data['FilterJob']);
+            }
+            $what = $this->data['FilterJob']['what']; 
+            $this->set('what',$what);
+            
+            if($this->data['FilterJob']['what']!=""){
+                           
+                $conditions[] = array('OR'=>array(
+                                                     'Job.title LIKE'=>"%$what%",
+                                                     'company.company_name LIKE'=>"%$what%",
+                                                     'spec.name LIKE'=>"%$what%",
+                                                     'ind.name LIKE'=>"%$what%",
+                                                  )
+                                        );
+            }
+            $where  = $this->data['FilterJob']['where'];
+            $this->set('where',$where);
+            if($this->data['FilterJob']['where']!=""){
+                $conditions[] = array( 
+                                        'OR'=> array(
+                                                            'city.city LIKE'=>"%$where%",
+                                                            'state.state LIKE'=>"%$where%",
+                                                            'ind.name LIKE'=>"%$where%",
+                                                    )
+                                    );       
 
+            }
+        }
+        if((isset($this->params['form']['save']) && $this->params['form']['save'] =="Go" ) || $this->Session->read("NarrowJob")){
+            if(!isset($this->data['NarrowJob'])){
+                $this->data['NarrowJob'] = $this->Session->read("NarrowJob");
+            }else{
+                $this->Session->write("NarrowJob",$this->data['NarrowJob']);
+            }
+            if(!empty($this->data['NarrowJob']['industry']) && $this->data['NarrowJob']['industry']){
+                $industry = $this->data['NarrowJob']['industry'];
+                $conditions[] =array('industry'=>$industry);
+                $this->set('industry',$industry);
+            }
+            if(!empty($this->data['NarrowJob']['state'])&&$this->data['NarrowJob']['state']){
+                $location = $this->data['NarrowJob']['state'];
+                $conditions[] = array('state.id'=>$location);
+                $this->set('location',$location);
+            }
+            if(isset($this->data['NarrowJob']['job_type'])&&$this->data['NarrowJob']['job_type']){
+                $job_type = $this->data['NarrowJob']['job_type'];
+                $conditions[] = array('job_type'=>$job_type);
+                $this->set('job_type',$job_type);
+            }
+            if(isset($this->data['NarrowJob']['salary_from'])){
+                $salaryFrom = $this->data['NarrowJob']['salary_from'];
+                $salaryFrom = str_replace("K", "", $salaryFrom);
+                $conditions[] = array('salary_from >='=>($salaryFrom*1000));
+            }
+            if(isset($this->data['NarrowJob']['salary_to'])){
+                $salaryTo = $this->data['NarrowJob']['salary_to'];
+                $salaryTo = str_replace("K", "", $salaryTo);
+                $conditions[] = array('salary_to <='=>($salaryTo*1000));
+            }
+            
+            if(!empty($this->data['NarrowJob']['company_name']) && $this->data['NarrowJob']['company_name']){
+                $company_name = $this->data['NarrowJob']['company_name'];
+                $conditions[] = array('company.id'=>$company_name);
+                $this->set('company_name',$company_name);
+            }
+        }
 		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 
     	$shortByItem = 'created';
-        $salaryFrom = null;
-        $salaryTo = null;
         if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
 	        $this->set('displayPageNo',$displayPageNo);
@@ -47,102 +117,43 @@ class JobsController extends AppController {
 	        			$this->redirect("/jobs");	        		        	
 	        }
 		}
-		$narrowByItems = $this->narrowByItems($this->data); 
-		$this->paginate = array(
-            'limit' => isset($displayPageNo)?$displayPageNo:5,
-            'order' => array(
-                             "Job.$shortByItem" => 'desc',
-                            ),
-			'conditions'=>$narrowByItems
-
-        );
-        foreach($narrowByItems as $key=>$value){
-	        if(strstr($key,"salary_from")){
-		       $salaryFrom = $value/1000;
-		    }
-   	        if(strstr($key,"salary_to")){
-		       $salaryTo = $value/1000;
-		    }
-        }
         $this->set('salaryFrom',isset($salaryFrom)?$salaryFrom:1);      
-        $this->set('salaryTo',isset($salaryTo)?$salaryTo:150);  
-
-         // find section
-        $what=""; $whr=""; 
-        if(isset($this->data['FilterJob'])){
-            
-        $what = $this->data['FilterJob']['what'];
-        $whr  = $this->data['FilterJob']['where'];
-          
-        $ind_find = $this->Industry->find('all',array('conditions'=>array('name LIKE'=>"%$what%")));
-        $n = 0; $ind_ids = "";
-        foreach($ind_find as $ind){
-             $ind_ids[$n] = $ind['Industry']['id'];
-             $n++;
-        }
-		  
-        $spec_find = $this->Specification->find('all',array('conditions'=>array('name LIKE'=>"%$what%")));
-        $t = 0; $spec_ids = "";
-        foreach($spec_find as $spec){
-             $spec_ids[$t] = $spec['Specification']['id'];
-             $t++;
-        }         
-          
-        $cond = array('OR' => array(array('industry' => $ind_ids),
-                                    array('specification' => $spec_ids),
-                                    array('city ' => $whr),
-                                    array('state' => $whr)));
-           
-        $this->paginate = array('conditions'=>$cond,
-                                'limit' => isset($displayPageNo)?$displayPageNo:5,
-                                'order' => array("Job.$shortByItem" => 'asc',));             
-        } // find ends here   
-        
+        $this->set('salaryTo',isset($salaryFrom)?$salaryTo:500);  
+		$this->paginate = array(
+				            'conditions' => $conditions,
+				"limit"=>isset($displayPageNo)?$displayPageNo:5,
+				'joins'=>array(
+                                    array('table' => 'companies',
+	                                       'alias' => 'company',
+	                     				   'type' => 'left',
+	                     				   'conditions' => array('Job.company_id = company.id',)),
+									 array('table' => 'industry',
+	                                       'alias' => 'ind',
+	                     				   'type' => 'left',
+	                     				   'conditions' => array('Job.industry = ind.id',)),
+		           			         array('table' => 'specification',
+	                     				   'alias' => 'spec',
+	                                       'type' => 'left',
+	                                       'conditions' => array('Job.specification = spec.id',)),
+							         array('table' => 'cities',
+	                    				   'alias' => 'city',
+	                                       'type' => 'left',
+	                                       'conditions' => array('Job.city = city.id',)),
+		                             array('table' => 'states',
+	                                       'alias' => 'state',
+	                                       'type' => 'left',
+	                                       'conditions' => array('Job.state = state.id',))
+							),
+				    'order' => array($shortByItem => 'desc'),
+				    'recursive'=>0,
+				    'fields'=>array('company_name,city.city,state.state,ind.name as industry,spec.name as specification,job_type,short_description,Job.created,Job.title,Job.reward,Job.id')
+				    );
         $jobs = $this->paginate('Job');
-        
-		$jobs_array = array();
-		foreach($jobs as $job){
-			$jobs_array[$job['Job']['id']] =  $job['Job'];
-		}
-		$this->set('jobs',$jobs_array);
-		
+		$this->set('jobs',$jobs);
 		$this->set('industries',$this->Utility->getIndustry());
-
-
-		$this->set('location',$this->Utility->getState());
+		$this->set('states',$this->Utility->getState());
 		$this->set('companies',$this->Utility->getCompany());
-		$this->set('specifications',$this->Utility->getSpecification());        	
-
-       		$this->set('urls',$this->Utility->getCompany('url'));
-		
-		$companies = $this->Companies->find('all');
-		$companies_array = array();
-		foreach($companies as $company){
-			$companies_array[$company['Companies']['user_id']] =  $company['Companies']['company_name'];
-		}
-
-		$this->set('companies',$companies_array);
-		
-		if(isset($this->params['id'])){
-			$id = $this->params['id'];
-			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
-			if($job['Job']){
-				$this->set('job',$job['Job']);
-			}
-			else{
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
-				$this->redirect('/jobs/');
-			}	
-             // job role
-            $userId = $this->Session->read('Auth.User.id');
-            $roleInfo = $this->getCurrentUserRole();
-            $this->set('userrole',$roleInfo);
-			$jobapply = $this->JobseekerApply->find('first',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
-			if($jobapply){
-    			$this->set('jobapply',$jobapply);
-			}			
-		}
- 	}
+	}
 
 
 
@@ -165,7 +176,7 @@ class JobsController extends AppController {
 		return $currentUserRole;
 	}   
       
-	function narrowByItems($filterParams){
+/*	function narrowByItems($filterParams){
 		$params_array = array();
 		$flag = false;
 		foreach($filterParams as $FPKey=>$FPValue){
@@ -188,6 +199,7 @@ class JobsController extends AppController {
 			if(!$flag){
 				continue;
 			}
+
 			if($FPKey == "salary_from")
 			{
 				$params_array[$FPKey." >= "] = $temp_array;
@@ -204,7 +216,7 @@ class JobsController extends AppController {
 	//echo "<pre>"; print_r($params_array); exit;
 		return $params_array;
 	}
-
+*/
     function applyJob(){	
 
 		// Jobseeker's profile information
