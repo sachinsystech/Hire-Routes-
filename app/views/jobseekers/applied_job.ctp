@@ -68,7 +68,7 @@
 								<div style="clear:both"></div>
                                 <div style="float:right"> <?php echo $job_status[$job['JobseekerApply']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['job']['id']); ?></div>		
 								<div>
-									<?php	echo $job['job']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
+									<?php	echo $job['comp']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
 											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
 											echo $job_array[$job['job']['job_type']]."<br>";
 											echo $job['job']['short_description']."<br>";?>

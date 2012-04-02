@@ -45,7 +45,7 @@
 								<div>
 									<div class="title"><?php echo ucfirst($job['Job']['title']); ?></div>
 									<div class="detail">
-										<strong>By Company :</strong> <?php echo $job['Job']['company_name']."<br>"; ?>
+										<strong>By Company :</strong> <?php echo $job['comp']['company_name']."<br>"; ?>
 
                                         <strong>Website : </strong><?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?>
                                         <br>
@@ -71,7 +71,7 @@
 								</div>
 								<div class="company_detail">
 									<span>
-										<strong><?php echo $job['Job']['company_name']; ?></strong></span> - 
+										<strong><?php echo $job['comp']['company_name']; ?></strong></span> - 
 												<?php echo $job['city']['city'].", ".$job['state']['state']."<br>"; ?>
                                                 <?php echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?><br><br>
 											<div class="description" id="short_description">
