@@ -102,7 +102,7 @@
  * or in each action using $this->cacheAction = true.
  *
  */
-	//Configure::write('Cache.check', true);
+	Configure::write('Cache.check', true);
 
 /**
  * Defines the default error type when using the log() function. Used for
@@ -127,8 +127,9 @@
 	Configure::write('Session.save', 'php');
  
 
-    Configure::write('rootURL','192.168.1.28/');
-    Configure::write('httpRootURL','192.168.1.28/');	
+
+    Configure::write('rootURL','192.168.1.17/');
+    Configure::write('httpRootURL','http://192.168.1.17/');	
 
 /**
  * The model name to be used for the session model.

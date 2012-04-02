@@ -4,7 +4,19 @@
     });	
 </script>
 <div class="page">
-	<div class="rightBox" >		
+	<!--left section start-->
+	<div class="leftPanel">
+		<div class="sideMenu">
+			<?php echo $this->element('side_menu');?>
+		</div>
+	</div>
+	<!--left section end-->
+	<div class="rightBox" >
+		<!--middle conyent top menu start-->
+		<div class='top_menu'>
+			<?php echo $this->element('top_menu');?>
+		</div>
+		<!--middle conyent top menu end-->		
 		<div class="joblist_middleBox">
 			<table style="width:100%">
 				<tr>

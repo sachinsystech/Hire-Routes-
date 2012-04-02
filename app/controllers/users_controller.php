@@ -452,7 +452,11 @@ class UsersController extends AppController {
 				'username' => 'account_email',
 				'password' => 'password'
 			);
-			$this->Auth->login($data);
+			
+			if($this->Auth->login($data)){
+				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
+			}
+			
 		}	
 	}	
 /**
@@ -624,17 +628,17 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Username or password not matched.', 'error');	
 			
 			}else{
-				if($this->Session->check('redirection_url'))
+				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
+				/*if($this->Session->check('redirection_url'))
 				{
 					$redirect_to=$this->Session->read('redirection_url');
 					$this->Session->delete('redirection_url');
 					$this->redirect($redirect_to);					
-				}
-				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
+				}*/
 				$this->redirect("/users/firstTime");		
 			}
 		}
-		$this->setRedirectionUrl();
+		//$this->setRedirectionUrl();
 	}
 /**
  * Logs a user out, and returns the home page to redirect to.
@@ -642,7 +646,9 @@ class UsersController extends AppController {
  */	
 	function logout() {
 		$this->Auth->logout();
-        $this->Session->delete('code');
+		$this->Session->delete('user_role');
+		$this->Session->delete('code');
+		$this->Session->delete('Twitter');
 		$this->redirect("/home/index");		
 	}	
 /**
@@ -675,7 +681,7 @@ class UsersController extends AppController {
 
 
 /**
- * TO store before Authenticate URL
+ * To store before Authenticate URL
  */	
 	private function setRedirectionUrl()
 	{

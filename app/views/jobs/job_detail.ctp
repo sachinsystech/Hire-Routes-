@@ -1,3 +1,5 @@
+<?php /*Job Details*/?>
+
 <script type="text/javascript"> 
 	
     function showDescription(){
@@ -20,7 +22,7 @@
 	</div>
 	<!--left section end-->
 	<!-- middle section start -->
-	<div class="rightBox" >
+	<div class="rightBox" style="width:690px;" >
 		<!--middle conyent top menu start-->
 			<div class='top_menu'>
 				<?php echo $this->element('top_menu');?>
@@ -44,8 +46,10 @@
 									<div class="title"><?php echo ucfirst($job['Job']['title']); ?></div>
 									<div class="detail">
 										<strong>By Company :</strong> <?php echo $job['Job']['company_name']."<br>"; ?>
-                                        <strong>Website :</strong> <?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?><br>
- 										<strong>URL :</strong> <input type="text" value="<?php echo Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/'; echo isset($code)?'?code='.$code:''; ?>" style="width:100px;"><br>
+
+                                        <strong>Website : </strong><?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?>
+                                        <br>
+
                                         <strong>Published in :</strong> 
 											<?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name'].", "; ?>
 											<?php  echo $time->timeAgoInWords($job['Job']['created'])."<br><br>";?>
@@ -102,10 +106,14 @@
 								<div>
 							</div>
 							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
-                            <div id="apply">
-                            	<a href="/jobs/applyJob/<?php echo $job['Job']['id'];?>">
-										<input id="btn_apply" type="button" name="apply" value="Apply For This Job"/>
-									</a>
+
+                            	
+
+                            <div id="apply" style="padding:20px;">
+								<div class="selection-button">
+									  <button style="width:200px" onclick='window.location.href="/jobs/applyJob/<?php echo $job['Job']['id'];?>"'><a style="text-decoration: none;">Apply for this job</a></button>
+								</div>
+
 							</div>
 							<?php }?>
 						</td>
@@ -114,29 +122,80 @@
 
 			</div>
 		</div>	
-            <?php echo $this->element("jobRight"); ?>
+            <?php //echo $this->element("jobRight"); ?>
 		<!-- middle conyent list -->
 	</div>
-	<div class="reward">
-		<p><font size='5px'><b>Total Reward $<?php echo $job['Job']['reward'];?></b></font></br>
-		<font size='3px'><b>Your reward is up to $<?php echo $job['Job']['reward'];?></b></font></p></br>
-		<p><a href='httpRootUrl/how_it_works'>See how it works >></a></p></br>
+
+	<div style="font-size:1.2em;float:right;width:200px;text-align:center;margin-right:30px;">
+		<div style="font-weight:bold;">
+			<div style="font-size:1.4em;">
+				Total Reward <?php echo $this->Number->format(
+										$job['Job']['reward'],
+										array(
+											'places' => 2,
+											'before' => '',
+											'decimals' => '.',
+											'thousands' => ',')
+										)."$";?>
+			</div>
+			<div>
+				Your reward is up to <?php echo $this->Number->format(
+										$job['Job']['reward'],
+										array(
+											'places' => 2,
+											'before' => '',
+											'decimals' => '.',
+											'thousands' => ',')
+										)."$";?>
+			</div>
+		</div>
+		<div style="font-size:1.2em;">
+			<a href='/how_it_works'>See how it works >></a>
+		</div>
+
 		<?php if(empty($userrole['role'])){?>
-			<p>Know the perfact candidate for this job?</br>
-			<font size='3px'><a href='/users/login'><b>Login</b></a>
-			OR
-			<a href='/users/networkerSignup'><b>Register</b></a>
-			</font></br>
-			To share and get a Reward
-			</p></br>
-			<p>Are you the perfact candidate for this job?</br>
-			<font size='3px'><a href='/users/login'><b>Login</b></a>
-			OR
-			<a href='/users/jobseekerSignup'><b>Register</b></a>
-			</font></br>
-			To apply
-			</p>
-		<?php }?>
+			<div style="margin-top:20px;">
+				<div >
+					Know the perfact candidate for this job?
+				</div>
+				<div >
+					<a href='/users/login'><b>Login</b></a>
+					OR
+					<a href='/users/networkerSignup'><b>Register</b></a>
+				</div>
+				<div >
+					To share and get a Reward
+				</div>
+			</div>
+			<div style="margin-top:20px;">
+				<div >
+					Are you the perfact candidate for this job?
+				</div>
+				<div >
+					<a href='/users/login'><b>Login</b></a>
+					OR
+					<a href='/users/jobseekerSignup'><b>Register</b></a>
+				</div>
+					To apply
+			</div>
+		<?php }else{
+		?>
+			<div style="text-align:left">
+				<div> Share your unique URL </div>
+<div><input type="" value="<?php echo Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/'; isset($code)?'?code='.$code:'' ?>"></div>
+
+	<div>Mail It</div>
+
+	<div>Share It on Facebook</div>
+
+	<div>Post on LinkedIn</div>
+
+	<div>Tweet It</div>
+	</div>
+		<?php
+			}
+		
+		?>
 	</div>
 	<!-- middle section end -->
 </div>

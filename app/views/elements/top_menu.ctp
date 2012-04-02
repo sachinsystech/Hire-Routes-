@@ -21,13 +21,13 @@
 				<li <?php if($this->action=='#') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="#">Data</a></li>
 			</ul>
 			<?php
-			}elseif($this->action=='index'||$this->action=='accountProfile'||$this->action=='paymentInfo'||$this->action=='paymentHistory'||$this->action=='editProfile')
+			}elseif($this->action=='index'||$this->action=='accountProfile'||$this->action=='paymentInfo'||$this->action=='paymentHistory'||$this->action=='paymentHistoryInfo'||$this->action=='editProfile')
 			{
 			?>
 				<ul style="float:left">
-					<li <?php if($this->action=='accountProfile') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">Profile</a></li>
+					<li <?php if($this->action=='accountProfile'||$this->action=='editProfile') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">Profile</a></li>
 					<li <?php if($this->action=='paymentInfo') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentInfo">Payment Info</a></li>
-					<li <?php if($this->action=='paymentHistory') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentHistory">Payment History</span></a></li>
+					<li <?php if($this->action=='paymentHistory'||$this->action=='paymentHistoryInfo') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/paymentHistory">Payment History</span></a></li>
 				</ul>
 				<ul style="float:right">
 					<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/editProfile"><span>Edit Profile</span></a></li>
@@ -76,7 +76,7 @@
 				<ul style="float:left">
 					<li <?php if($this->action=='jobProfile') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/jobProfile">Job Profile</a></li>	
 					<li <?php if($this->action=='setting') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/setting">Settings/Subscription</a></li>	
-                	<li <?php if($this->action=='index') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">Profile</a></li>
+                	<li <?php if($this->action=='index'||$this->action=='editProfile') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">Profile</a></li>
 				</ul>
 				<ul style="float:right">
 					<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/editProfile"><span>Edit Profile</span></a></li>
@@ -107,7 +107,7 @@
 			?>
 				<ul>
 					<li <?php if($this->action=='setting') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/setting">Settings/Subscription</a></li>	
-					<li <?php if($this->action=='index') echo "class='active'";  ?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers">Profile</a></li>			
+					<li <?php if($this->action=='index'||$this->action=='editProfile') echo "class='active'";  ?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers">Profile</a></li>			
                 </ul>
 				<ul style="float:right">
 					<li style="background-color: #3DB517;"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/editProfile"><span>Edit Profile</span></a></li>
