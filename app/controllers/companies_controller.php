@@ -6,7 +6,7 @@ require_once(APP_DIR.'/vendors/linkedin/OAuth.php');
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews'/*, 'PaymentHistory'*/);
+   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory');
 	var $components = array('TrackUser','Utility','RequestHandler');
 
 	var $helpers = array('Form','Paginator','Time');
@@ -170,6 +170,74 @@ list archive jobs..
 		$activejobCount = $this->Job->find('count',array('conditions'=>$active_job_conditions));
 		$this->set('activejobCount',$activejobCount);
 	}
+
+	/* Company data starts*/
+
+	function companyData(){
+		$userId = $this->TrackUser->getCurrentUserId();
+
+		$jobPosted = $this->Job->find('all',array('conditions'=>array('Job.user_id'=>$userId),
+												 'fields'=>array('SUM(Job.reward) as jobs_reward, count(Job.id) as jobs_posted'), ));
+
+		if($jobPosted){
+			$rewardPosted = "$ ".$jobPosted[0][0]['jobs_reward'];
+			$jobPosted	  = $jobPosted[0][0]['jobs_posted'];
+		}else{
+			$rewardPosted = 0;
+			$jobPosted	  = 0;
+		}
+
+		$jobApply = $this->JobseekerApply->find('all',array('conditions'=>array('jobs.user_id'=>$userId),
+															  	'joins'    =>array(array('table' => 'jobs',
+																	    				'alias' => 'jobs',
+																						'type'  => 'LEFT',
+																						'conditions' => 'jobs.id = JobseekerApply.job_id',											 						   )
+																		         ),
+																'fields'   => array('COUNT(DISTINCT JobseekerApply.job_id) as job_filled, count(JobseekerApply.job_id) as applicants'), ));
+
+		$jobFilled  = $jobApply[0][0]['job_filled'];
+		$applicants = $jobApply[0][0]['applicants'];
+		
+		
+		$jobReward = $this->Job->find('all',array('conditions'=>array('Job.user_id'=>$userId),
+													 'fields'=>array('SUM(Job.reward) as jobs_reward'),	));
+
+		
+
+		$paidReward = $this->PaymentHistory->find('all',array('conditions'=>array('PaymentHistory.user_id'=>$userId,
+																				'PaymentHistory.payment_status' =>1),
+													 'fields'=>array('SUM(PaymentHistory.amount) as paid_reward'),));
+		if($paidReward){
+			$rewardPaid = "$ ".$paidReward[0][0]['paid_reward'];
+		}else{
+			$rewardPaid = 0;
+		}
+
+		
+
+		$jobViews = $this->JobViews->find('count',array('conditions'=>array('jobs.user_id'=>$userId),
+													    'joins'     =>array(array('table' => 'jobs',
+																	    		  'alias' => 'jobs',
+																		          'type'  => 'LEFT',
+																				  'conditions' => 'JobViews.job_id = jobs.id',	))));
+		
+		$this->set('JobPosted',$jobPosted);
+		$this->set('JobFilled',$jobFilled);	
+		$this->set('RewardsPosted',$rewardPosted);
+		$this->set('RewardsPaid',$rewardPaid);
+		$this->set('Applicants',$applicants);
+		$this->set('Views',$jobViews);	
+
+		$arch_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
+		$archJobCount = $this->Job->find('count',array('conditions'=>$arch_conditions));
+		$this->set('archJobCount',$archJobCount);
+
+		$active_job_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
+		$activejobCount = $this->Job->find('count',array('conditions'=>$active_job_conditions));
+		$this->set('activejobCount',$activejobCount);		
+	}
+
+	/* Company data ends */
 
 
 	function save(){
@@ -1106,7 +1174,7 @@ function paymentHistoryInfo(){
 				}catch(Exception $e)
 				{
 					pr($e);
-					exit;
+					//exit;
 				}
 			}
 			else

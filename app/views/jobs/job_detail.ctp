@@ -106,10 +106,13 @@
 								<div>
 							</div>
 							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
+                            	
+
                             <div id="apply" style="padding:20px;">
 								<div class="selection-button">
 									  <button style="width:200px" onclick='window.location.href="/jobs/applyJob/<?php echo $job['Job']['id'];?>"'><a style="text-decoration: none;">Apply for this job</a></button>
 								</div>
+
 							</div>
 							<?php }?>
 						</td>
