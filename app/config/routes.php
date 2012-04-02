@@ -58,7 +58,7 @@
 	
 	Router::connect('/contact_us', array('controller'=> 'home', 'action'=>'contactUs'));
 	
-	Router::connect('/how_it_works',array('controller'=>'home','action'=>'howItWorks'));
+	Router::connect('/howItWorks',array('controller'=>'home','action'=>'howItWorks'));
 	
 	Router::connect('/companies', array('controller' => 'companies', 'action' => 'accountProfile'));
 	Router::connect('/companies/editJob/:jobId', array('controller' => 'companies', 'action' => 'editJob'));

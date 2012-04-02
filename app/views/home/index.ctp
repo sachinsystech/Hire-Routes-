@@ -34,16 +34,16 @@
 		<div id="HeadingJobList">JOB</div>
 	</div>
 	<div style="margin-top:10px;clear:both;">
-		<div id="Video">video</div>
-		<div id="WhyHireRoutes">
-			<div id="WhyHireRoutesData">1: Hire Routes </div>
-			<div id="WhyHireRoutesData">2: Hire Routes </div>
-			<div id="WhyHireRoutesData">3: Hire Routes </div>
-			<div id="WhyHireRoutesData">4: Hire Routes </div>
+		<div class="Video">video</div>
+		<div class="WhyHireRoutes">
+			<div class="WhyHireRoutesData">1: Hire Routes </div>
+			<div class="WhyHireRoutesData">2: Hire Routes </div>
+			<div class="WhyHireRoutesData">3: Hire Routes </div>
+			<div class="WhyHireRoutesData">4: Hire Routes </div>
 		</div>
 		<div id="JobListOnHome">
 			<?php foreach($jobs as $job):?>
-				<div id="JobListData">
+				<div class="JobListData">
 					<?php echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']);
 										
 					 ?>

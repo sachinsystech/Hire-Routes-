@@ -1669,9 +1669,11 @@ border: 1px solid #000000;
     margin-left: 25px;
     width: 193px;
 }
-#ImageHowToWork{
+.ImageHowToWork{
 	width:950px;
-	margin:25px 0px 0px 100px ;
+	margin-left:100px;
+	margin-right:100px 
+	margin-top:100px;
 }
 #JobListOnHome{
 	padding:10px;
@@ -1681,7 +1683,7 @@ border: 1px solid #000000;
 	float:right;
 	margin-top:5px;
 }
-#Video{
+.Video{
 	margin-bottom:10px;
 	margin-right:50px;
 	padding:10px;
@@ -1698,7 +1700,7 @@ border: 1px solid #000000;
 	margin-top: -25px;
 	float:right;
 }
-#WhyHireRoutes{
+.WhyHireRoutes{
 	padding:10px;
 	width:150px;
 	height:100px;
@@ -1779,10 +1781,10 @@ border: 1px solid #000000;
 	border-right:none;
 	float:left;
 }
-#WhyHireRoutesData{
+.WhyHireRoutesData{
 	width:150px;
 }
-#LeftContainer{
+.LeftContainer{
 	height:425px;
 	width:260px;
 	border-right: 1px solid #000000;
@@ -1790,14 +1792,14 @@ border: 1px solid #000000;
 	padding:40px;
 	float:left;
 }
-#HeadingInformation{
+.HeadingInformation{
 	font-size:20px;
 	font-weight:bold;
 	float:right;
 	width:250px;
 	margin-bottom:20px;
 }
-#InformationImage{
+.InformationImage{
 	float:right;
 	width:650px;
 	margin-top:10px;

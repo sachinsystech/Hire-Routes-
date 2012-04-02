@@ -25,24 +25,24 @@ Sed	ut perspicia-s unde	omnis iste natus error sit .........
 </div>
 </center>
 <div >
-	<div id="LeftContainer">
-		<div id="HeadingInformation"  >HOW TO WORK VIDEO</div>
-		<div id="Video">video</div>
+	<div class="LeftContainer">
+		<div class="HeadingInformation"  >HOW TO WORK VIDEO</div>
+		<div class="Video">video</div>
 		<div id="GetStart" onclick="return getStarted()">Get Started </div>
 		<div >
-			<div id="HeadingInformation">	WHY HIRE ROUTES?</div>
-			<div id="WhyHireRoutes">
-				<div id="WhyHireRoutesData">1: Hire Routes </div>
-				<div id="WhyHireRoutesData">2: Hire Routes </div>
-				<div id="WhyHireRoutesData">3: Hire Routes </div>
-				<div id="WhyHireRoutesData">4: Hire Routes </div>
+			<div class="HeadingInformation">	WHY HIRE ROUTES?</div>
+			<div class="WhyHireRoutes">
+				<div class="WhyHireRoutesData">1: Hire Routes </div>
+				<div class="WhyHireRoutesData">2: Hire Routes </div>
+				<div class="WhyHireRoutesData">3: Hire Routes </div>
+				<div class="WhyHireRoutesData">4: Hire Routes </div>
 			</div>
 		</div>
 	</div>
-	<div id="InformationImage">
+	<div class="InformationImage">
 		<?php echo $this->Html->image('/../img/job_seeker_info.png', array('style'=>'width:600px;height:510px;','usemap'=>'#network_info'));?>
 		<map name="network_info">
-			<area shape="rect" coords="170,440,375,470" href="/users/userSelection">
+			<area shape="rect" coords="215,450,395,480" href="/users/userSelection">
 		</map>
 	</div>
 </div>
@@ -65,5 +65,4 @@ function informationPage(redirect){
 function getStarted(){
     window.location.href="/users/userSelection";			
 }
-
 </script>
