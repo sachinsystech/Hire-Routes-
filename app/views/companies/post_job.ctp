@@ -51,7 +51,7 @@
 													  'label'=>'Category',
 													  'options'=>$industries,
 													  'empty' =>' -- Select Industry-- ',
-													  'onchange'=>'return fillSpecification(this.value);',
+													  'onchange'=>'return fillSpecification(this.value,"JobSpecification","specification_loader");',
 													  'class'=>'jobseeker_select_i required',
 											  )
 								  );
@@ -106,7 +106,7 @@
 											'options'=>$states,
 											'empty' =>' -- All States-- ',
 											'class'=>'pj_select_ls required',
-											'onchange'=>'return fillCities(this.value);'
+											'onchange'=>'return fillCities(this.value,"JobCity","city_loader");'
 									)
 						);
 ?>
@@ -180,7 +180,6 @@
 
 </div>
 <script>
-
 	$(document).ready(function(){
 		$("#JobPostJobForm").validate();
 		$("#JobSalaryTo").blur(function(){ 
@@ -190,48 +189,5 @@
 			} 
 		});
 	});
-
-
-function fillSpecification($industry_id)
-{
-	$('#JobSpecification option').each(function(i, option){ $(option).remove(); });
-	$.ajax({
-		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
-	 	dataType:'json',
-	  	beforeSend: function(){
-     		$('#specification_loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
-		},
-		complete: function(){
-   	    	$('#specification_loader').html("");
-		},
-  		success: function(response){
-	 		document.getElementById('JobSpecification').options[0]=new Option("--All Specification--",'');
-			$.each(response, function(index, specification) {
-				document.getElementById('JobSpecification').options[document.getElementById('JobSpecification').options.length] = new Option(specification, index);
-            });
-  		}
-	});
-}
-
-function fillCities($state_id)
-{
-	$.ajax({
-		url: "/utilities/getCitiesOfState/"+$state_id,
-	 	dataType:'json',
-	  	beforeSend: function(){
-     		$('#city_loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
-		},
-		complete: function(){
-   	    	$('#city_loader').html("");
-		},
-  		success: function(response){
-	 		var options = '<option value=""> -- All Cities-- </option>';
-			$.each(response, function(index, item) {
-                options += '<option value="' + index + '">' + item + '</option>';
-            });
-			$("select#JobCity").html(options);
-  		}
-	});
-}
 </script>
 

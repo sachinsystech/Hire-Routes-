@@ -57,7 +57,7 @@
 					<td><?php echo $employee['js']['state'].' , '.$employee['js']['city'];?></td>
 					<td><?php echo $employee['users']['account_email'];?></td>
 					<td><?php echo $employee['js']['contact_phone'];?></td>
-					<td><?php echo $this->Time->format('j M Y', $employee['PaymentHistory']['paid_date']);?></td>
+					<td><?php echo $this->Time->format('m/d/Y', $employee['PaymentHistory']['paid_date']);?></td>
 					<td><?php echo $this->Html->image("/img/icon/delete.png",
 														array(
 															"alt" => "image",

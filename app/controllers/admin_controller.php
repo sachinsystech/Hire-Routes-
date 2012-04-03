@@ -169,12 +169,13 @@ class AdminController extends AppController {
 	 		$statusCondition='payment_status ='.$this->data['filter']['status'];
 	 	else
 	 		$statusCondition=true;
-	 	if(!empty($this->data['filter']['from_date']))
-	 		$from_date="date(paid_date) >='".$this->data['filter']['from_date']."'";
+	 	if(!empty($this->data['filter']['from_date'])){
+	 		$from_date="date(paid_date) >='".date("Y-m-d",strtotime($this->data['filter']['from_date']))."'";
+	 	}
 	 	else
 	 		$from_date=true;
 	 	if(!empty($this->data['filter']['to_date']))
-	 		$to_date="date(paid_date) <='".$this->data['filter']['to_date']."'";
+	 		$to_date="date(paid_date) <='".date("Y-m-d",strtotime($this->data['filter']['to_date']))."'";
 	 	else
 	 		$to_date=true;
 	 		
