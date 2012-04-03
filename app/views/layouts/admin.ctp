@@ -65,7 +65,7 @@
 
 		<div class="nav-divider">&nbsp;</div>
 		                    
-		<ul class="<?php echo $this->params['controller']=='sliders' && $this->params['action']=='add'?'current':'select'; ?>"><li><a href="/admin/CompaniesList"><b>Companies Request</b><!--[if IE 7]><!--></a><!--<![endif]-->
+		<ul class="<?php echo $this->params['controller']=='sliders' && $this->params['action']=='add'?'current':'select'; ?>"><li><a href="/admin/companiesList"><b>Companies Request</b><!--[if IE 7]><!--></a><!--<![endif]-->
 
 		</ul>
 		

@@ -113,7 +113,7 @@
 											'options'=>$states,
 											'empty' =>' -- All States-- ',
 											'class'=>'js_select_ls required',
-											'onchange'=>'return fillCities(this.value);',
+											'onchange'=>'return fillCities(this.value,"JobseekersCity","city_loader");',
 											'selected' => isset($jobseekerData['state'])?$jobseekerData['state']:""
 									)
 						);
@@ -126,6 +126,7 @@
 											'label'=>'',
 											'empty' =>' -- All Cities-- ',
 											'class'=>'js_select_city',
+											'selected' => isset($jobseekerData['city'])?$jobseekerData['city']:""
 									)
 						);
 ?>							
@@ -197,9 +198,12 @@
 	<!-- middle section end -->
 </div>
 <script>
+	$("#JobseekersAddForm").validate();
+</script>
+<script>
 $(document).ready(function(){
-	fillSpecification(<?php echo $jobseekerData['industry_1'];?>,'JobseekersIndustrySpecification1','specification_1_loader');
-	fillSpecification(<?php echo $jobseekerData['industry_2'];?>,'JobseekersIndustrySpecification2','specification_2_loader');
+	fillSpecification(<?php echo $jobseekerData['industry_1'];?>, 'JobseekersIndustrySpecification1', 'specification_1_loader');
+	fillSpecification(<?php echo $jobseekerData['industry_2'];?>, 'JobseekersIndustrySpecification2', 'specification_2_loader');
 	<?php $specification_1=explode(",",$jobseekerData['specification_1']);
 		foreach($specification_1 as $key=>$specification_id)
 		{
@@ -210,55 +214,8 @@ $(document).ready(function(){
 		{?>
 	$("select#JobseekersIndustrySpecification2 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
 	<?php }?>
-	fillCities(<?php echo $jobseekerData['state'];?>);
+	fillCities(<?php echo $jobseekerData['state'];?>,'JobseekersCity','city_loader');
 	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
-	
-	$("#JobseekersAddForm").validate();
+
 });
-
-
-function fillSpecification($industry_id, specification_field,loader_id)
-{
-	$('#'+specification_field+' option').each(function(i, option){ $(option).remove(); });
-	$.ajax({
-		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
-	 	dataType:'json',
-	 	async:false,
-	 	beforeSend: function(){
-     		$('#'+loader_id).html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
-   		},
-		complete: function(){
-   	    	$('#'+loader_id).html("&nbsp;");
-   		},
-  		success: function(response){
-	 		document.getElementById(specification_field).options[0]=new Option("--All Specification--",'');
-			$.each(response, function(index, specification) {
-				document.getElementById(specification_field).options[document.getElementById(specification_field).options.length] = new Option(specification, index);
-            });
-  		}
-	});
-}
-
-function fillCities($state_id)
-{
-	$.ajax({
-		url: "/utilities/getCitiesOfState/"+$state_id,
-	 	dataType:'json',
-		async:false,
-	 	beforeSend: function(){
-    	 	$('#city_loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
-   		},
-		complete: function(){
-   	    	$('#city_loader').html("&nbsp;");
-   		},
-  		success: function(response){
-	 		var options = '<option value=""> -- All Cities-- </option>';
-			$.each(response, function(index, item) {
-                options += '<option value="' + index + '">' + item + '</option>';
-            });
-			$("select#JobseekersCity").html(options);
-  		}
-	});	
-}
-
 </script>

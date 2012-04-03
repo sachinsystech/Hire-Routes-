@@ -39,7 +39,7 @@
 		
 
 		echo $html->script('hr.js');
-
+		echo $html->script('hr_ajax.js');
 		echo $html->script('jquery_min.js');	
 		echo $html->script('jquery-ui.min.js');
 		

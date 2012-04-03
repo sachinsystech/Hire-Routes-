@@ -5,7 +5,7 @@
 		if(isset($user_role) && $user_role['role_id']==1)
 		{
 			$my_jobs_actions=array('newJob','postJob','jobDetail','applyJob','showArchiveJobs','editJob','showApplicant','checkout','jobStats','companyData');
-			$my_accounts_actions=array('index','accountProfile','editProfile','paymentInfo','paymentHistory','paymentHistoryInfo');
+			$my_accounts_actions=array('index','accountProfile','editProfile','paymentInfo','paymentHistory','paymentHistoryInfo','changePassword');
 			$my_employees_actions=array('employees','#','#');
 ?>
 			<ul>
@@ -18,7 +18,7 @@
 		elseif(isset($user_role) && $user_role['role_id']==2)
 		{
 			$my_jobs_actions=array('newJob','appliedJob','jobDetail','applyJob','archivedJob');
-			$my_accounts_actions=array('index','editProfile','setting','jobProfile');
+			$my_accounts_actions=array('index','editProfile','setting','jobProfile','changePassword');
 		?>
 			<ul>
 
@@ -31,7 +31,7 @@
 		elseif(isset($user_role) && $user_role['role_id']==3)
 		{
 			$my_jobs_actions=array('newJob','jobDetail','archiveJob','jobData','#');
-			$my_accounts_actions=array('index','setting','editProfile');
+			$my_accounts_actions=array('index','setting','editProfile','changePassword');
 			$my_networks_actions=array('personal','addContacts','networkerData');
 		?>
 			<ul>

@@ -6,26 +6,33 @@ class HomeController extends AppController {
 	var $helpers = array('Form','Paginator');
 
 	function index(){
-		$jobs = $this->Job->find('all',array('limit'=>3,
+		$jobs = $this->Job->find('all',	array('limit'=>3,
 											 'joins'=>array(
 														array('table' => 'industry',
 										                      'alias' => 'ind',
-										            		  'type' => 'inner',
-										            		  'conditions' => array('Job.industry = ind.id',),),
-														array('table' =>'cities',
-														      'type'  => 'inner',
-															  'conditions' => array('Job.city=cities.id'),
-															 ),
-														array('table'=>'states',
-															'type'=>'inner',
-															'conditions'=>array('Job.state=states.id'))
-							
-															),
-							
-										'order' => array("Job.created" => 'desc'),
-										'fields'=>array('Job.id,Job.title,Job.reward,ind.name as industry_name, cities.city as city,states.state as state'),));
+										            		  'type' => 'LEFT',
+										            		  'conditions' => array('Job.industry = ind.id',)),
+										            	array('table' => 'cities',
+															   'alias' => 'city',
+															   'type' => 'INNER',
+															   'conditions' => array('Job.city = city.id',)),
+														array('table' => 'states',
+															   'alias' => 'state',
+															   'type' => 'INNER',
+															   'conditions' => array('Job.state = state.id',)),
+														array('table' => 'specification',
+											 				   'alias' => 'spec',
+															   'type' => 'INNER',
+															   'conditions' => array('Job.specification = spec.id',)),	   
+										            	array('table' => 'companies',
+										                      'alias' => 'companies',
+										            		  'type' => 'LEFT',
+										            		  'conditions' => array('Job.company_id = companies.id',)),	  
+											),
+										 'order' => array("Job.created" => 'desc'),
+										 'conditions'=>array('Job.is_active'=>1),
+										'fields'=>array('Job.id,Job.title,Job.reward, companies.company_name, state.state  as name,city.city as name,ind.name, spec.name'),));
 		$this->set('jobs',$jobs);		
-		//echo "<pre>"; print_r($jobs); exit;
 	}
 
 	function companyInformation(){

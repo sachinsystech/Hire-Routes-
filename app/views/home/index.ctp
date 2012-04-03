@@ -49,8 +49,8 @@
 					 ?>
 					<span style="float:right"><? echo "<b>$</b>".number_format($job['Job']['reward'],'2','.','');?></span>
 				</div>
-				<div style="width:180px;">	
-					<?php echo $job['ind']['industry_name'],','.$job['cities']['city'].','.$job['states']['state'];?>
+				<div>	
+					<?php echo $job['companies']['company_name'].', '.$job['ind']['name'];?>
 				</div>
 			<?	endforeach;?>
 		</div>
