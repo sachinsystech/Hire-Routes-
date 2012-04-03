@@ -63,10 +63,11 @@
 																	     'label'=>'Industry 1:',
 																	     'options'=>$industries,
 																	     'empty' =>' -- Select Industry-- ',
-																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification1");',
+																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification1","specification_1_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
 						</div>
+						<div id="specification_1_loader" style="float:left;"></div>
 						<div style="float:left;width: 289px;">
 							<?php $industry_specification_array = array('1'=>'Industry specification 1',
 																		'2'=>'Industry specification 2',
@@ -81,17 +82,17 @@
 											                                           'selected'=>isset($jobseekerData['specification_1'])?explode(",",$jobseekerData['specification_1']):""));?>
 						</div>
 					</div>
-					<div id="loader" style="float:left;margin-left:50%;"></div>
 					<div>
 						<div style="float:left;margin-left: -7px;clear: both;">
 							<?php echo $form -> input('industry_2',array('type'=>'select',
 																	     'label'=>'Industry 2:',
 																	     'options'=>$industries,
 																	     'empty' =>' -- Select Industry-- ',
-																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification2");',
+																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification2","specification_2_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:""));?>
 						</div>
+						<div id="specification_2_loader" style="float:left;"></div>
 						<div style="float:left;width: 289px;">
 							<?php echo $form -> input('industry_specification_2',array('type'=>'select',
 																	                   'label'=>'',
@@ -118,6 +119,7 @@
 						);
 ?>
 </div>
+<div id="city_loader" style="float:left;">&nbsp;</div>
 <div style="float:left;">
 <?php echo $form -> input('city',array(
 											'type'=>'select',
@@ -196,10 +198,8 @@
 </div>
 <script>
 $(document).ready(function(){
-	fillCities(<?php echo $jobseekerData['state'];?>);
-	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
-	fillSpecification(<?php echo $jobseekerData['industry_1'];?>,'JobseekersIndustrySpecification1');
-	fillSpecification(<?php echo $jobseekerData['industry_2'];?>,'JobseekersIndustrySpecification2');
+	fillSpecification(<?php echo $jobseekerData['industry_1'];?>,'JobseekersIndustrySpecification1','specification_1_loader');
+	fillSpecification(<?php echo $jobseekerData['industry_2'];?>,'JobseekersIndustrySpecification2','specification_2_loader');
 	<?php $specification_1=explode(",",$jobseekerData['specification_1']);
 		foreach($specification_1 as $key=>$specification_id)
 		{
@@ -210,11 +210,14 @@ $(document).ready(function(){
 		{?>
 	$("select#JobseekersIndustrySpecification2 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
 	<?php }?>
+	fillCities(<?php echo $jobseekerData['state'];?>);
+	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
+	
 	$("#JobseekersAddForm").validate();
 });
 
 
-function fillSpecification($industry_id, specification_field)
+function fillSpecification($industry_id, specification_field,loader_id)
 {
 	$('#'+specification_field+' option').each(function(i, option){ $(option).remove(); });
 	$.ajax({
@@ -222,10 +225,10 @@ function fillSpecification($industry_id, specification_field)
 	 	dataType:'json',
 	 	async:false,
 	 	beforeSend: function(){
-     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+     		$('#'+loader_id).html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
    		},
 		complete: function(){
-   	    	$('#loader').html("");
+   	    	$('#'+loader_id).html("&nbsp;");
    		},
   		success: function(response){
 	 		document.getElementById(specification_field).options[0]=new Option("--All Specification--",'');
@@ -243,10 +246,10 @@ function fillCities($state_id)
 	 	dataType:'json',
 		async:false,
 	 	beforeSend: function(){
-    	 	$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+    	 	$('#city_loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
    		},
 		complete: function(){
-   	    	$('#loader').html("");
+   	    	$('#city_loader').html("&nbsp;");
    		},
   		success: function(response){
 	 		var options = '<option value=""> -- All Cities-- </option>';
