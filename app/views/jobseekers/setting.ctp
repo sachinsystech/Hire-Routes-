@@ -1,3 +1,4 @@
+<?php ?>
 <script>
 	$(document).ready(function(){
 	    $("#JobseekersNotification").click(onCheckChange);
