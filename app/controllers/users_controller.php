@@ -63,7 +63,8 @@ class UsersController extends AppController {
 		$this->Auth->allow('facebookUser');
 		$this->Auth->allow('facebookUserSelection');
 		$this->Auth->allow('accountConfirmation');		
-		$this->Auth->allow('myAccount');		
+		$this->Auth->allow('myAccount');	
+		$this->Auth->allow('forgetPassword');	
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -745,5 +746,41 @@ class UsersController extends AppController {
 		}
 		return true;
 	}
+
+	public function forgetPassword(){
+		
+	if(isset($this->data['User'])){
+			$userEmail = trim($this->data['User']['user_email']);
+			$user = $this->User->find('first',array('conditions'=>array('account_email'=>$userEmail,
+																			 'is_active'=>1)));
+			if(isset($user['User'])){
+				try{
+					$newPassword=substr(md5(uniqid(mt_rand(), true)), 0, 6);
+					$user['User']['password'] =$this->Auth->password($newPassword);
+					if($this->User->save($user)){
+						$this->set("password",$newPassword );
+						$this->set('user_email',$userEmail);
+						$this->Email->to =$user['User']['account_email'];
+						$this->Email->subject = 'Your Hire Routes password';
+						$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
+						$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
+						$this->Email->template = 'forget_password';
+						$this->Email->sendAs ='html';
+						$this->Email->send();
+						$this->Session->setFlash('Your password is send to your email address','success');
+						$this->redirect('/users/login');		
+					}else{
+						$this->Session->SetFlash('Server busy, please try after some time','error');
+					}
+				}catch(Exception $e){
+					$this->Session->SetFlash('Server busy, please try after some time','error');
+				}
+			}else{
+				$this->Session->SetFlash('Email address is not found ','error');
+			}
+			$this->redirect('/users/forgetPassword');
+		}
+	}
+
 }
 ?>

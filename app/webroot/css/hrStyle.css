@@ -1951,3 +1951,10 @@ border: 1px solid #000000;
 	text-align:center;
 }
 
+.text_field_forget_password{
+	width: 250px;
+	height:10px;
+	margin-left:40px;
+	border:1px solid #000000;
+
+}

@@ -21,7 +21,7 @@ class AdminController extends AppController {
 	}
 	
 	
-	function CompaniesList() {
+	function companiesList() {
 		$Companies = $this->Companies->find('all', array(
 		'fields' => array('Companies.id','Companies.user_id','Companies.contact_name','Companies.contact_phone','Companies.company_name','Companies.act_as','User.account_email'),
 		'joins' => array(
