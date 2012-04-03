@@ -55,7 +55,7 @@ class AppController extends Controller {
     }
     
         /****	Common function to send email	****/
-	public function sendEmail($to,$subject,$template,$message,$replyTo=null,$from=null){
+	protected function sendEmail($to,$subject,$template,$message,$replyTo=null,$from=null){
  		if($replyTo==null || empty($replyTo)){
  			$replyTo = USER_ACCOUNT_REPLY_EMAIL;
  		}

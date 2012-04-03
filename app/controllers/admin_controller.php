@@ -56,7 +56,7 @@ class AdminController extends AppController {
 			$arosAcosData['_read'] = 1;						
 			$arosAcosData['_update'] = 1;
 			$arosAcosData['_delete'] = 1;	
-			// acivate user account
+			// activate user's account
 			if($this->ArosAcos->save($arosAcosData) && $this->User->save($user['User'])){
 				$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 				$to = $user['User']['account_email'];
@@ -82,6 +82,7 @@ class AdminController extends AppController {
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 		if($user){
 			$user['User']['is_active'] = '2';
+			// deactivate user's account	
 			if($this->User->save($user['User'])){
 			
 				$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
@@ -90,7 +91,7 @@ class AdminController extends AppController {
 				$template = 'company_account_decline';
 				$message = $user['User'];
 				$this->sendEmail($to,$subject,$template,$message);		
-				$this->Session->setFlash('Successfully declined user.', 'success');				
+				$this->Session->setFlash('User has been declined.', 'success');				
 			}else{
 				$this->Session->setFlash('Internal error.', 'error');
 				$this->redirect("/admin/companiesList");
@@ -103,8 +104,8 @@ class AdminController extends AppController {
 	}
 	
 	/**** For payment information ****/
-	function paymentInformation()
-	{
+	function paymentInformation(){
+
 		$this->paginate = array(
 			'fields'=>'PaymentHistory.id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 			'recursive'=>-1,
@@ -211,7 +212,7 @@ class AdminController extends AppController {
 				$this->set('paymentHistories',$paymentHistories);
 			}catch(Exception $e)
 			{
-				$this->Session->setFlash("Server Problem!");
+				$this->Session->setFlash("Internal Error!");
 			}
 			$this->render('payment_information');
 	 }
