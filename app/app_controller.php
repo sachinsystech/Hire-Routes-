@@ -53,6 +53,31 @@ class AppController extends Controller {
 		
 	/************************** end *********************************/ 
     }
+    
+        /****	Common function to send email	****/
+	public function sendEmail($to,$subject,$template,$message,$replyTo=null,$from=null){
+ 		if($replyTo==null || empty($replyTo)){
+ 			$replyTo = USER_ACCOUNT_REPLY_EMAIL;
+ 		}
+ 		if($from==null || empty($from)){
+	  		$from = 'Hire-Routes :: '.USER_ACCOUNT_SENDER_EMAIL;
+ 		}
+ 		try{
+		 	$this->Email->to = $to;
+			$this->Email->subject = $subject;
+			$this->Email->replyTo = $replyTo;
+			$this->Email->from = $from;
+			$this->Email->template = $template;
+			$this->Email->sendAs = 'html';
+			$this->set('message',$message);
+			$this->Email->send();
+		}catch(Exception $e){
+			echo 'Message: ' .$e->getMessage();
+			return false; 
+		}
+		return true; 
+    }
+    
 
 }
 
