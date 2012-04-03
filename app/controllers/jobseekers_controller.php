@@ -8,9 +8,7 @@ class JobseekersController extends AppController {
 	var $helpers = array('Time','Html','Javascript');	
 
 	public function beforeFilter(){
-		$userId = $this->TrackUser->getCurrentUserId();		
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
+		$roleInfo = $this->TrackUser->getCurrentUserRole();
 		if($roleInfo['role_id']!=2){
 			$this->redirect("/users/firstTime");
 		}
@@ -206,7 +204,6 @@ class JobseekersController extends AppController {
 		for($a=0;$a<count($applied_job);$a++){
 			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
 		}
-
 		
         
         $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
@@ -343,7 +340,9 @@ class JobseekersController extends AppController {
 			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
 		}
 
-		
+		 if(empty($jobIds)){
+			$jobIds = null;
+		}
         
         $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
 		$industry2 		= $jobseeker_settings['JobseekerSettings']['industry_2'];
@@ -620,7 +619,9 @@ class JobseekersController extends AppController {
 		for($a=0;$a<count($applied_job);$a++){
 			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
 		}		
-        
+        if(empty($jobIds)){
+			$jobIds = null;
+		}
         $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
 		$industry2 		= $jobseeker_settings['JobseekerSettings']['industry_2'];
         $industry = array();
@@ -664,7 +665,9 @@ class JobseekersController extends AppController {
 			$jobIds[$a] = $applied_job[$a]['JobseekerApply']['job_id'];
 		}
 
-		
+		 if(empty($jobIds)){
+			$jobIds = null;
+		}
         
         $industry1 		= $jobseeker_settings['JobseekerSettings']['industry_1'];
 		$industry2 		= $jobseeker_settings['JobseekerSettings']['industry_2'];

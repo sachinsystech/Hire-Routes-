@@ -2,7 +2,7 @@
 class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers');
 	var $helpers = array('Form','Number');
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl');
+	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser');
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->authorize = 'actions';
@@ -15,6 +15,10 @@ class AdminController extends AppController {
 		$this->Auth->allow('paymentDetails');
 		$this->Auth->allow('updatePaymentStatus');
 		$this->layout = "admin";
+		$roleInfo = $this->TrackUser->getCurrentUserRole();
+		if($roleInfo['role_id']!=5){
+			$this->redirect("/users/firstTime");
+		}
 	}
 	function index(){
 
