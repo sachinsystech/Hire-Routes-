@@ -235,7 +235,17 @@ class JobsController extends AppController {
 		// Job information
 		if(isset($this->params['jobId'])){
 			$id = $this->params['jobId'];
-			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
+			//$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
+			
+			$job = $this->Job->find('first',	array('limit'=>3,
+											 'joins'=>array(   
+										            	array('table' => 'companies',
+										                      'alias' => 'comp',
+										            		  'type' => 'LEFT',
+										            		  'conditions' => array('Job.company_id = comp.id',)),	  
+											),
+										 'conditions'=>array('Job.id'=>$id),
+										'fields'=>array('Job.*, comp.company_name'),));
 			if($job['Job']){
 				
 				// If user doesnt have filled profile //
@@ -329,8 +339,9 @@ class JobsController extends AppController {
         			$this->redirect('/jobseekers/appliedJob');     
         		}
 				$this->set('job',$job['Job']);
+				$this->set('jobCompany',$job['comp']['company_name']);
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/');
 			}
 		}		
