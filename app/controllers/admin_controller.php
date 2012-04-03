@@ -307,9 +307,9 @@ class AdminController extends AppController {
 	{
 		$this->PaymentHistory->set(array('id'=>$this->data['PaymentHistory']['id'],'payment_status'=>true));
 	 	if($this->PaymentHistory->save())
-	 		$this->Session->setFlash('Status updated successfully');
+	 		$this->Session->setFlash('Status updated successfully','success');
 	 	else
-	 		$this->Session->setFlash('Status update failure');
+	 		$this->Session->setFlash('Status update failure','error');
 	 	$this->redirect(array('controller' => 'admin','action'=>'paymentDetails',$this->data['PaymentHistory']['id']));
 	}
 }

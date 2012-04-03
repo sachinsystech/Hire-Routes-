@@ -57,7 +57,7 @@ class JobsController extends AppController {
             }else{
                 $this->Session->write("NarrowJob",$this->data['NarrowJob']);
             }
-            if(!empty($this->data['NarrowJob']['industry']) && $this->data['NarrowJob']['industry']){
+            if(!empty($this->data['NarrowJob']['industry']) && $this->data['NarrowJob']['industry'] && !in_array(1,$this->data['NarrowJob']['industry'])){
                 $industry = $this->data['NarrowJob']['industry'];
                 $conditions[] =array('industry'=>$industry);
                 $this->set('industry',$industry);
