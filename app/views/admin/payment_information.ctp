@@ -6,16 +6,18 @@
 <?php echo $html->css('datepicker');?>
 <script>
 	$('document').ready(function(){
-		$("#filterFromDate").datepicker({ dateFormat: 'yy-mm-dd',minDate: new Date(2012,2,1), maxDate:'+0'});
-		$("#filterToDate").datepicker({ dateFormat: 'yy-mm-dd',minDate: new Date(2012,2,1), maxDate:'+0'});
+		$("#filterFromDate").datepicker({ minDate: new Date(2012,2,1), maxDate:'+0'});
+		$("#filterToDate").datepicker({ minDate: new Date(2012,2,1), maxDate:'+0'});
 	});
 </script>
 <script type='text/javascript'>	
 	function validateDate(datefield)
 	{
-		var date1=datefield.value.split('-');
-		if(date1.length==3&&date1[0].match('\^2[0-9]{3}\$')&&date1[1].match('\^[0-1]{1}[0-9]{1}\$')&&date1[2].match('\^[0-3]{1}[0-9]{1}\$'))
+		var date1=datefield.value.split('/');
+		if(date1.length==3&&date1[2].match('\^2[0-9]{3}\$')&&date1[0].match('\^[0-1]{1}[0-9]{1}\$')&&date1[1].match('\^[0-3]{1}[0-9]{1}\$'))
+		{
 			return true;
+		}
 		else
 		{
 			alert('Invalid Date');
@@ -27,10 +29,10 @@
 	
 	function validateDateRange(from,to)
 	{
-		date1=from.value.split('-');
-		date2=to.value.split('-');
-		var from_date=new Date(date1[0],date1[1],date1[2]);
-		var to_date= new Date(date2[0],date2[1],date2[2]);
+		date1=from.value.split('/');
+		date2=to.value.split('/');
+		var from_date=new Date(date1[2],date1[0],date1[1]);
+		var to_date= new Date(date2[2],date2[0],date2[1]);
 		if(from_date>to_date)
 		{
 			alert("Invalid period");
@@ -85,7 +87,7 @@
 							echo $this->Form->input('from_date',array(
 								'label'=>'',
 								'type'=>'text',
-								'value'=>isset($from_date)?$from_date:'2012-03-01'
+								'value'=>isset($from_date)?$from_date:'03/01/2012'
 								)
 							);
 						?>
@@ -98,7 +100,7 @@
 						echo $this->Form->input('to_date',array(
 							'label'=>'',
 							'type'=>'text',
-							'value'=>isset($to_date)?$to_date:date('Y-m-d')
+							'value'=>isset($to_date)?$to_date:date('m/d/Y')
 							)
 						);
 					?>
@@ -200,7 +202,7 @@
 										)."$";?>
 							</td>
 							<td align="center" width="15%">
-								<?php echo date('Y/M/d',strtotime($paymentHistory['PaymentHistory']['paid_date']))."&nbsp;";?>
+								<?php echo date('m/d/Y',strtotime($paymentHistory['PaymentHistory']['paid_date']))."&nbsp;";?>
 							</td>
 							<td align="center" width="15%">
 								<?php echo $paymentHistory['PaymentHistory']['transaction_id'];?>

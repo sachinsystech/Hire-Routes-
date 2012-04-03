@@ -2,7 +2,7 @@
 class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers');
 	var $helpers = array('Form','Number');
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl');
+	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser');
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->authorize = 'actions';
@@ -15,6 +15,10 @@ class AdminController extends AppController {
 		$this->Auth->allow('paymentDetails');
 		$this->Auth->allow('updatePaymentStatus');
 		$this->layout = "admin";
+		$roleInfo = $this->TrackUser->getCurrentUserRole();
+		if($roleInfo['role_id']!=5){
+			$this->redirect("/users/firstTime");
+		}
 	}
 	function index(){
 
@@ -169,12 +173,13 @@ class AdminController extends AppController {
 	 		$statusCondition='payment_status ='.$this->data['filter']['status'];
 	 	else
 	 		$statusCondition=true;
-	 	if(!empty($this->data['filter']['from_date']))
-	 		$from_date="date(paid_date) >='".$this->data['filter']['from_date']."'";
+	 	if(!empty($this->data['filter']['from_date'])){
+	 		$from_date="date(paid_date) >='".date("Y-m-d",strtotime($this->data['filter']['from_date']))."'";
+	 	}
 	 	else
 	 		$from_date=true;
 	 	if(!empty($this->data['filter']['to_date']))
-	 		$to_date="date(paid_date) <='".$this->data['filter']['to_date']."'";
+	 		$to_date="date(paid_date) <='".date("Y-m-d",strtotime($this->data['filter']['to_date']))."'";
 	 	else
 	 		$to_date=true;
 	 		
@@ -307,9 +312,9 @@ class AdminController extends AppController {
 	{
 		$this->PaymentHistory->set(array('id'=>$this->data['PaymentHistory']['id'],'payment_status'=>true));
 	 	if($this->PaymentHistory->save())
-	 		$this->Session->setFlash('Status updated successfully');
+	 		$this->Session->setFlash('Status updated successfully','success');
 	 	else
-	 		$this->Session->setFlash('Status update failure');
+	 		$this->Session->setFlash('Status update failure','error');
 	 	$this->redirect(array('controller' => 'admin','action'=>'paymentDetails',$this->data['PaymentHistory']['id']));
 	}
 }

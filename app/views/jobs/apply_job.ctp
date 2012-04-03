@@ -29,7 +29,7 @@
                             	<div style="font-size:20px;"><strong><?php echo ucfirst($job['title']); ?></strong>
                                 </div>
                                 <div style="font-size:13px;line-height:22px;"><strong>By Company :</strong> 
-									<?php echo $job['company_name']."<br>"; ?>
+									<?php echo $jobCompany."<br>"; ?>
                                 </div>
 							</div>
 						</div>
