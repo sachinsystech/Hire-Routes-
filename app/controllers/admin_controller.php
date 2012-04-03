@@ -2,12 +2,13 @@
 class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers');
 	var $helpers = array('Form','Number');
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser');
+	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
+	
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->authorize = 'actions';
-		//$this->Auth->allow('index');
-		//$this->Auth->allow('CompaniesList');
+		$this->Auth->allow('index');
+		$this->Auth->allow('companiesList');
 		//$this->Auth->allow('acceptCompanyRequest');
 		$this->Auth->allow('Code');
 		$this->Auth->allow('paymentInformation');
@@ -20,12 +21,14 @@ class AdminController extends AppController {
 			$this->redirect("/users/firstTime");
 		}
 	}
+	
+	/****	Admin default view	***/
 	function index(){
 
 	}
 	
-	
-	function CompaniesList() {
+	/****	listing companies to accept/decline registration request	***/
+	function companiesList() {
 		$Companies = $this->Companies->find('all', array(
 		'fields' => array('Companies.id','Companies.user_id','Companies.contact_name','Companies.contact_phone','Companies.company_name','Companies.act_as','User.account_email'),
 		'joins' => array(
@@ -40,6 +43,7 @@ class AdminController extends AppController {
 		$this->set('Companies',$Companies);		
 	}
 
+	/****	Accept company request	***/
 	function acceptCompanyRequest() {
 		$id = $this->params['id'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
@@ -52,76 +56,53 @@ class AdminController extends AppController {
 			$arosAcosData['_read'] = 1;						
 			$arosAcosData['_update'] = 1;
 			$arosAcosData['_delete'] = 1;	
-			
+			// acivate user account
 			if($this->ArosAcos->save($arosAcosData) && $this->User->save($user['User'])){
-				$this->sendAcceptCompanyRequestEmail($id);			
+				$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
+				$to = $user['User']['account_email'];
+				$subject = 'Hire Routes : Accept Account Request';
+				$template = 'company_account_accept';
+				$message = $user['User'];
+				$this->sendEmail($to,$subject,$template,$message);			
 				$this->Session->setFlash('Successfully activated user.', 'success');
 			}else{
 				$this->Session->setFlash('Internal error.', 'error');
+				$this->redirect("/admin/companiesList");
 			}
 		}
 		else{
-			$this->Session->setFlash('Company not exits.May be you click on old link.', 'success');
+			$this->Session->setFlash('Company not exit. OR you maybe clickd on old link.', 'error');
 		}
-		$this->redirect("/admin/CompaniesList");
+		$this->redirect("/admin/companiesList");
 	}
 
-
+	/****	Decline company request	***/
 	function declineCompanyRequest() {
 		$id = $this->params['id'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 		if($user){
 			$user['User']['is_active'] = '2';
 			if($this->User->save($user['User'])){
-				$this->Session->setFlash('Successfully declined user.', 'success');
-				$this->sendDeclineCompanyRequestEmail($id);
+			
+				$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
+				$to = $user['User']['account_email'];
+				$subject = 'Hire Routes : Decline Account Request';
+				$template = 'company_account_decline';
+				$message = $user['User'];
+				$this->sendEmail($to,$subject,$template,$message);		
+				$this->Session->setFlash('Successfully declined user.', 'success');				
 			}else{
 				$this->Session->setFlash('Internal error.', 'error');
+				$this->redirect("/admin/companiesList");
 			}
 		}
 		else{
-			$this->Session->setFlash('Company not exits.May be you click on old link.', 'success');
+			$this->Session->setFlash('Company not exit. OR you maybe clickd on old link.', 'error');
 		}
-		$this->redirect("/admin/CompaniesList");
+		$this->redirect("/admin/companiesList");
 	}
-
-	function sendAcceptCompanyRequestEmail($id){
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-		try{
-			$this->Email->to = $user['User']['account_email'];
-			$this->Email->subject = 'Hire Routes : Accept Account Request';
-			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
-			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
-			$this->Email->template = 'company_account_accept';
-			$this->Email->sendAs = 'html';
-			$this->set('user', $user['User']);
-			$this->Email->send();
-		}catch(Exception $e){
-			echo 'Message: ' .$e->getMessage();
-		}
-	}
-	function sendDeclineCompanyRequestEmail($id){
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-		try{
-			$this->Email->to = $user['User']['account_email'];
-			$this->Email->subject = 'Hire Routes : Decline Account Request';
-			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
-			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
-			$this->Email->template = 'company_account_decline';
-			$this->Email->sendAs = 'html';
-			$this->set('user', $user['User']);
-			$this->Email->send();
-		}catch(Exception $e){
-			echo 'Message: ' .$e->getMessage();
-		}
-	}
-	function Code() {
-
-	}
-
-	/**
-	 * For payment information 
-	 */
+	
+	/**** For payment information ****/
 	function paymentInformation()
 	{
 		$this->paginate = array(
