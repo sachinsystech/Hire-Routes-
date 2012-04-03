@@ -60,7 +60,7 @@
  */
 	Router::connect('/pages', array('controller' => 'home', 'action' => 'index', 'home'));
 	
-	Router::connect('/contact_us', array('controller'=> 'home', 'action'=>'contactUs'));
+	Router::connect('/contactUs', array('controller'=> 'home', 'action'=>'contactUs'));
 	
 	Router::connect('/howItWorks',array('controller'=>'home','action'=>'howItWorks'));
 	
