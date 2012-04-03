@@ -774,7 +774,7 @@ class UsersController extends AppController {
 					$this->Session->SetFlash('Internal Error!','error');
 				}
 			}else{
-				$this->Session->SetFlash('Email address is not found','error');
+				$this->Session->SetFlash('Account with this Email is not found','error');
 			}
 			$this->redirect('/users/forgetPassword');
 		}
