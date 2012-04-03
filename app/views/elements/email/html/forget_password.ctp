@@ -5,7 +5,7 @@
 <div><h1>Hire Routes,</h1></div>
 <div>
 	<div>
-		Your password for account email   <?php echo $user_email ;?>  is <b><?php echo $password ;?></b>
+		Your password for account email "<?php echo $message['account_email'] ;?>"  is<b><?php echo $message['password'] ;?></b>
 	</div>
 	<div>
 		Your can <a href="<?php echo $login_link; ?>" >login</a>
