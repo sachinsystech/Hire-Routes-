@@ -198,6 +198,9 @@
 	<!-- middle section end -->
 </div>
 <script>
+	$("#JobseekersAddForm").validate();
+</script>
+<script>
 $(document).ready(function(){
 	fillSpecification(<?php echo $jobseekerData['industry_1'];?>, 'JobseekersIndustrySpecification1', 'specification_1_loader');
 	fillSpecification(<?php echo $jobseekerData['industry_2'];?>, 'JobseekersIndustrySpecification2', 'specification_2_loader');
@@ -213,6 +216,6 @@ $(document).ready(function(){
 	<?php }?>
 	fillCities(<?php echo $jobseekerData['state'];?>,'JobseekersCity','city_loader');
 	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
-	$("#JobseekersAddForm").validate();
+
 });
 </script>
