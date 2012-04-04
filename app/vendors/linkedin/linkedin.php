@@ -149,9 +149,7 @@ class LinkedIn {
      $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->access_token, "POST", "http://api.linkedin.com/v1/people/~/mailbox");
      $request->sign_request($this->signature_method, $this->consumer, $this->access_token);
      $auth_header = $request->to_header("https://api.linkedin.com");
-     echo "------------".$body."------------";
      $response = $this->httpRequest("http://api.linkedin.com/v1/people/~/mailbox", $auth_header, "POST",$body);
-     print_r($response);
      return $response;
   }
 
