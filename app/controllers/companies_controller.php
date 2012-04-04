@@ -103,9 +103,9 @@ class CompaniesController extends AppController {
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
 		// end for job fetching...
-		$arch_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
-		$archJobCount = $this->Job->find('count',array('conditions'=>$arch_conditions));
-		$this->set('archJobCount',$archJobCount);
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
+
 	}
 
 /*
@@ -114,6 +114,12 @@ list archive jobs..
 */
 
 	function showArchiveJobs(){
+		
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$roleInfo = $this->getCurrentUserRole();
+		if($roleInfo['role_id']!=1){
+			$this->redirect("/users/firstTime");
+		}
 		
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
 	    $this->set('displayPageNo',$displayPageNo);
@@ -140,12 +146,6 @@ list archive jobs..
 			$shortByItem = 'created'; 
 		}
 
-		$userId = $this->TrackUser->getCurrentUserId();	
-		$roleInfo = $this->getCurrentUserRole();
-		if($roleInfo['role_id']!=1){
-			$this->redirect("/users/firstTime");
-		}
-
 		$conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
 		$this->paginate = array(
 				            'conditions' => $conditions,
@@ -166,11 +166,12 @@ list archive jobs..
 				    );
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
-		$active_job_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
-		$activejobCount = $this->Job->find('count',array('conditions'=>$active_job_conditions));
-		$this->set('activejobCount',$activejobCount);
+		// end for job fetching...
+		
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
-
+	
 	/* Company data starts*/
 
 	function companyData(){
@@ -228,18 +229,26 @@ list archive jobs..
 		$this->set('Applicants',$applicants);
 		$this->set('Views',$jobViews);	
 
-		$arch_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
-		$archJobCount = $this->Job->find('count',array('conditions'=>$arch_conditions));
-		$this->set('archJobCount',$archJobCount);
-
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());		
+	}
+	/* Company data ends */
+	
+	private function getCompanyActiveJobsCount(){
+		$userId = $this->TrackUser->getCurrentUserId();	
 		$active_job_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
 		$activejobCount = $this->Job->find('count',array('conditions'=>$active_job_conditions));
-		$this->set('activejobCount',$activejobCount);		
+		return $activejobCount;
 	}
 
-	/* Company data ends */
+	private function getCompanyArchiveJobsCount(){
+		$userId = $this->TrackUser->getCurrentUserId();	
+		$arch_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
+		$archJobCount = $this->Job->find('count',array('conditions'=>$arch_conditions));
+		return $archJobCount;
+	}
 
-
+/*****	Posting new Job by company	*********/
 	function save(){
         $userId = $this->TrackUser->getCurrentUserId();
 		$company = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
@@ -266,6 +275,7 @@ list archive jobs..
         }		
 	}
 	
+/*****	Companies edit their own Job :: 	*********/
 	function editJob(){
 		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId = $this->params['jobId'];
@@ -650,24 +660,21 @@ function paymentHistoryInfo(){
 					exit;
 				}else{
 					$this->Session->setFlash('File does not exist.', 'error');				
-					// $this->redirect('/jobs/jobProfile');
 				}				
 			}else{
 				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
-				// $this->redirect('/jobs/jobProfile');
 			}
 		}		
 	}
 	
 
-	/** Job Statistics **/
+	/** Job Statistics/Data Details... **/
 	function jobStats(){
 		$userId = $this->TrackUser->getCurrentUserId();
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
 			
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId),"fileds"=>"id"));
-			// 	echo "<pre>"; print_r($jobs); exit;
 			if($jobs['Job']){
 				$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
 				
@@ -720,7 +727,7 @@ function paymentHistoryInfo(){
 		return $facebook;
 	}
 	
-	/****** Delete Job *******/
+	/****** Reject Applicant for company Job *******/
 	function rejectApplicant(){
 		$userId = $this->TrackUser->getCurrentUserId();
 		$id = $this->params['id'];
@@ -1105,19 +1112,16 @@ function paymentHistoryInfo(){
 /**
  * For test view share_email
  */
-	function share_render()
-	{
+	function share_render(){
 		$this->render('share_email');
 	}
 
 /**
  * For test send_email
  */
-	function shareJobByEmail()
-	{
+	function shareJobByEmail(){
 		$this->autoRender= false ;
-		if(isset($this->params['form']['toEmail'])&&!empty($this->params['form']['toEmail']))
-		{
+		if(isset($this->params['form']['toEmail'])&&!empty($this->params['form']['toEmail'])){
 			$from='traineest@gmail.com';
 			$to=trim($this->params['form']['toEmail']);
 			$subject=$this->params['form']['subject'];
@@ -1142,52 +1146,18 @@ function paymentHistoryInfo(){
 			$message=$this->params['form']['message'];
 			if(!isset($from)||empty($job_details))
 				return "Email address not found";
-			if(isset($job_details)&&!empty($job_details))
-				return $this->sendEmail($to,$from,$subject,$message,$job_details);
+			if(isset($job_details)&&!empty($job_details)){
+				$job_details['message'] = $message;
+				$template = 'shared_job_details';
+				return $this->sendEmail($to,$subject,$template,$job_details);
+			}	
 			else
 				return "Job not selected!";
 		}
-		else
-		{
+		else{
 			return "Email address not specified!";
 		}
-
 	}
-
-	protected function sendEmail($to,$from,$subject,$message,$job_details)
-	{
-		$this->autoRender= false ;
-		if(isset($to) && $to!="" && isset($from) && $from!="")
-		{
-			if(isset($job_details)&&!empty($job_details))
-			{
-				try
-				{
-					$this->Email->from=$from;
-					$this->Email->to=$to;
-					$this->Email->subject=$subject;
-					$this->Email->template='shared_job_details';
-					$this->set('message',$message);
-					$this->set('job_details',$job_details);
-					$this->Email->sendAs='both';
-					$this->Email->send();
-				}catch(Exception $e)
-				{
-					pr($e);
-				}
-			}
-			else
-				return "Job not selected";
-			return "Email send";
-		}
-		else
-		{
-			return "Email address is not specified!";
-		}
-	}
-
-
-    
 /*
 	send congratulation email to selected applicant.
 */

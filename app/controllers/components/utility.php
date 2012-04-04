@@ -4,7 +4,7 @@ class UtilityComponent extends Object
 {
 	var $controller = true;
 	var $components = array('Session','Auth','Email');
-	var $uses = array('Industry','State','City','Specification','FacebookUsers','Companies');
+	var $uses = array('Industry','State','City','Specification','FacebookUsers','Companies','UserRoles');
 	
 	function initialize(&$controller) {
 		if ($this->uses !== false) {
@@ -123,5 +123,23 @@ class UtilityComponent extends Object
         }
         return null;
     }
+    
+    function getUserRole($userId){
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));		
+		$roleName  = null;
+		switch($userRole['UserRoles']['role_id']){
+			case 1:
+					$roleName = 'company';
+					break;
+			case 2:
+					$roleName = 'jobseeker';	
+					break;			
+			case 3:
+					$roleName = 'networker';		
+					break;			
+		}
+		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
+		return $userRole;
+	}
 }
 ?>
