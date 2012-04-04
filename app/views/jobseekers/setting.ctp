@@ -198,21 +198,40 @@
 	<!-- middle section end -->
 </div>
 <script>
+$("#JobseekersAddForm").validate();
+</script>
+<?php $industry_1 = isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:1;?>
+<?php $industry_2 = isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:1;?>
+<?php $state = $jobseekerData['state'];?>
+<script>
 $(document).ready(function(){
-	fillSpecification(<?php echo $jobseekerData['industry_1'];?>, 'JobseekersIndustrySpecification1', 'specification_1_loader');
-	fillSpecification(<?php echo $jobseekerData['industry_2'];?>, 'JobseekersIndustrySpecification2', 'specification_2_loader');
+	<?php if(isset($jobseekerData['industry_1'])){?>
+		fillSpecification(<?php echo $industry_1;?>, 'JobseekersIndustrySpecification1', 'specification_1_loader');
+	?>
 	<?php $specification_1=explode(",",$jobseekerData['specification_1']);
 		foreach($specification_1 as $key=>$specification_id)
 		{
 	?>
 	$("select#JobseekersIndustrySpecification1 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
-	<?php }$specification_2=explode(",",$jobseekerData['specification_2']);
+	<?php
+		}
+	}
+	?>
+	<?php if(isset($jobseekerData['industry_2'])){?>
+	fillSpecification(<?php echo $industry_2;?>, 'JobseekersIndustrySpecification2', 'specification_2_loader');
+	<?php $specification_2=explode(",",$jobseekerData['specification_2']);
 		foreach($specification_2 as $key=>$specification_id)
 		{?>
 	$("select#JobseekersIndustrySpecification2 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
-	<?php }?>
-	fillCities(<?php echo $jobseekerData['state'];?>,'JobseekersCity','city_loader');
+	<?php 
+		}
+	}
+	?>
+	<?php if(isset($jobseekerData['industry_2'])){?>
+	fillCities(<?php echo $state;?>,'JobseekersCity','city_loader');
 	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
-	$("#JobseekersAddForm").validate();
+	<?php 
+	}
+	?>
 });
 </script>

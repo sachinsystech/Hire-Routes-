@@ -335,6 +335,7 @@ input[type=submit] {
 	display: inline;
 	font-size: 110%;
 	width: auto;
+	cursor:pointer;
 }
 form .submit input[type=submit] {
 	background:#62af56;
@@ -938,13 +939,13 @@ label.error{
 
 .topMenu{
 	height:50px;
-	
+	width:730px;
 }
 
 .topMenu ul li{
     float: left;
     list-style: none outside none;
-	padding: 10px 25px;
+	padding: 10px 15px;
 	margin-left:5px;
 	border:1px solid #000000;
 	-moz-border-radius: 15px;
@@ -1953,3 +1954,23 @@ border: 1px solid #000000;
 	text-align:center;
 }
 
+.clear_button{
+	float:right;
+	width:auto;
+	background: -moz-linear-gradient(center top , #F1F1D4, #E6E49F) repeat scroll 0 0 #E6E49F;
+	border-radius: 8px 8px 8px 8px;
+    border-color: #2D6324;
+    color: #000000;
+    text-shadow: 0 1px 0 #8CEE7C;
+    padding: 4px 8px;
+    font-weight:normal;
+    font-size:110%;
+    text-decoration: none;
+    cursor:pointer;
+}
+
+.required label:after {
+	color: #e32;
+	content: '*';
+	display:inline;
+}

@@ -53,10 +53,6 @@ class User extends AppModel {
             )
         ),
 		'password' => array(
-			'notEmpty'=> array(
-				'rule' => 'notEmpty',
-				'message' => 'password can not be blank....'
-			),
 			'minLength'=> array(
 				'rule' => array('minLength', 6),
 				'message' => 'Password must be at least 6 characters long.'
@@ -71,10 +67,22 @@ class User extends AppModel {
 		'repeat_password' => array(
 			'notEmpty'=> array(
 				'rule' => 'notEmpty',
-				'message' => 'Password can not be blank.'
+				'message' => 'Repeat Password can not be blank.',
+				'last'=>true,
 			),
-			'rule' => array('checkpasswords', 'password' ), 
-			'message' => 'You didn\'t enter same password twice, please re-enter.'
+			'minLength'=> array(
+				'rule' => array('minLength', 6),
+				'message' => 'Password must be at least 6 characters long.',
+				'last'=>true,
+			),
+			'maxLength'=> array(
+				'rule' => array('maxLength', 255),
+				'message' => 'Password can not be longer that 255 characters.'
+			),
+			'equalTo'=> array(
+				'rule' => array('checkpasswords', 'password' ), 
+				'message' => 'You didn\'t enter same password twice, please re-enter.'
+			)	
 		),
 
 	);

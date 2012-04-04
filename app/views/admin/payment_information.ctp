@@ -6,8 +6,8 @@
 <?php echo $html->css('datepicker');?>
 <script>
 	$('document').ready(function(){
-		$("#filterFromDate").datepicker({ minDate: new Date(2012,2,1), maxDate:'+0'});
-		$("#filterToDate").datepicker({ minDate: new Date(2012,2,1), maxDate:'+0'});
+		$("#paymentInformationFromDate").datepicker({ minDate: new Date(2012,2,1), maxDate:'+0'});
+		$("#paymentInformationToDate").datepicker({ minDate: new Date(2012,2,1), maxDate:'+0'});
 	});
 </script>
 <script type='text/javascript'>	
@@ -43,8 +43,8 @@
 
 	function validateForm()
 	{
-		var from_date=document.getElementById('filterFromDate');
-		var to_date=document.getElementById('filterToDate');
+		var from_date=document.getElementById('paymentInformationFromDate');
+		var to_date=document.getElementById('paymentInformationToDate');
 		if(from_date.value==""||to_date.value=="")
 		{
 		}
@@ -77,7 +77,7 @@
 			<td>
 				<div style="float:left">
 					<?php
-						echo $this->Form->create('filter',array('url'=>array('controller'=>'admin','action'=>'filterPayment'),'onsubmit'=>'return validateForm();'));
+						echo $this->Form->create('paymentInformation',array('url'=>array('controller'=>'admin','action'=>'paymentInformation'),'onsubmit'=>'return validateForm();'));
 					?>
 					<div style="float:left;width:100px;margin: 2px;">
 						<?php echo "<font size='3px'>From :</font>";?>
@@ -117,7 +117,7 @@
 								'type'=>'select',
 								'empty'=>'All',
 								'options'=>array('0'=>'Pending','1'=>'Done'),
-								'style'=>'background:none;scroll:0 0 #FFFFFF;color:#393939;border:1px solid;'
+								'style'=>'background:none;scroll:0 0 #FFFFFF;color:#393939;border:1px solid;',
 							)
 						);
 					?>
