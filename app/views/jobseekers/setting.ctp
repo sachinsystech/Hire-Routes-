@@ -207,7 +207,6 @@ $("#JobseekersAddForm").validate();
 $(document).ready(function(){
 	<?php if(isset($jobseekerData['industry_1'])){?>
 		fillSpecification(<?php echo $industry_1;?>, 'JobseekersIndustrySpecification1', 'specification_1_loader');
-	?>
 	<?php $specification_1=explode(",",$jobseekerData['specification_1']);
 		foreach($specification_1 as $key=>$specification_id)
 		{
