@@ -54,11 +54,12 @@
 																	'options'=>$industries,
 																	'empty' =>' -- Select Industry-- ',
 																	'class'=>'networker_select_bg required',
-																	'onchange'=>'return fillSpecification(this.value);'
+																	'onchange'=>'return fillSpecification(this.value,"NetworkersSpecification","specification_loader");'
 															)
 												);
 						?>
 						</div>
+						<div id="specification_loader" style="float:left;"></div>
 						<div style="float:right">
 						<?php echo $form -> input('specification',array(
 																	'type'=>'select',
@@ -70,7 +71,6 @@
 						?>
 						</div>
 					</div>
-					<div id="loader" style="float:left;margin-left:50%;"></div>
 					<div>
 						<div style="float:left;margin-left: 43px;clear: both;">
 							<?php echo $form -> input('state',array(
@@ -78,11 +78,12 @@
 																		'label'=>'Location: ',
 																		'options'=>array('-1'=>' -- All States-- ',$states),
 																		'class'=>'networker_select_state',
-																		'onchange'=>'return fillCities(this.value);'
+																		'onchange'=>'return fillCities(this.value,"NetworkersCity","city_loader");'
 																)
 													);
 							?>
 						</div>
+						<div id="city_loader" style="float:left;"></div>
 						<div style="float:left;">
 							<?php echo $form -> input('city',array(
 																		'type'=>'select',
@@ -197,49 +198,6 @@ function deleteItem($id){
 		window.location.href="/networkers/delete/"+$id;
 	}
 	return false;
-}
-
-function fillSpecification($industry_id)
-{
-	$('#NetworkersSpecification option').each(function(i, option){ $(option).remove(); });
-	$.ajax({
-		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
-	 	dataType:'json',
-	  	beforeSend: function(){
-     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
-   		},
-		complete: function(){
-   	    	$('#loader').html("");
-   		},
-  		success: function(response){
-	 		document.getElementById('NetworkersSpecification').options[0]=new Option("--All Specification--",'');
-			$.each(response, function(index, specification) {
-				document.getElementById('NetworkersSpecification').options[document.getElementById('NetworkersSpecification').options.length] = new Option(specification, index);
-            });
-  		}
-	});
-}
-
-function fillCities($state_id)
-{
-	$('#NetworkersCity option').each(function(i, option){ $(option).remove(); });
-	$.ajax({
-		url: "/utilities/getCitiesOfState/"+$state_id,
-	 	dataType:'json',
-	 		 	beforeSend: function(){
-     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
-   		},
-		complete: function(){
-   	    	$('#loader').html("");
-   		},
-  		success: function(response){
-	 		document.getElementById('NetworkersCity').options[0]=new Option("--All Cities--",'');
-			$.each(response, function(index, city) {
-				document.getElementById('NetworkersCity').options[document.getElementById('NetworkersCity').options.length] = new Option(city, index);
-            });
-
-  		}
-	});
 }
 
 function saveSubFrequency(){

@@ -50,7 +50,7 @@
 					<span style="float:right"><? echo "<b>$</b>".number_format($job['Job']['reward'],'2','.','');?></span>
 				</div>
 				<div>	
-					<?php echo $job['companies']['company_name'].','.$job['ind']['industry_name'];?>
+					<?php echo $job['companies']['company_name'].', '.$job['ind']['name'];?>
 				</div>
 			<?	endforeach;?>
 		</div>
@@ -58,7 +58,7 @@
 		<div id='GetStart' onclick="getStarted();"> Get Started </div>
 		<div id="ContanierForSearch">
 			<label>Be in know</label>
-			<input type="text" style="width:180px;">
+			<input type="text" style="width:180px; border: 1px solid #000000;;height:20px;">
 			<div id="Go" onclick="">Go</div>
 		</div>
 	</div>	

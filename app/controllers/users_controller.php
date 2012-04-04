@@ -63,7 +63,8 @@ class UsersController extends AppController {
 		$this->Auth->allow('facebookUser');
 		$this->Auth->allow('facebookUserSelection');
 		$this->Auth->allow('accountConfirmation');		
-		$this->Auth->allow('myAccount');		
+		$this->Auth->allow('myAccount');	
+		$this->Auth->allow('forgetPassword');	
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -82,7 +83,7 @@ class UsersController extends AppController {
     }
 /**
  * Displays a view to choose which type of user you want to register if user is not logged-in, 
- * Redirecting respactive my-account page otherwise(If user logged-in). 
+ * Redirecting respactive my-account page (If user logged-in). 
 **/
 	function userSelection(){
 		if($this->TrackUser->isHRUserLoggedIn()){
@@ -119,14 +120,14 @@ class UsersController extends AppController {
 				$company['user_id'] = $userId;
 				$company['act_as'] = $this->data['Companies']['role'];
 				if($this->Companies->save($company) ){			
-					$this->sendCompanyAccountEmail($userId);
+					$this->sendConfirmationEmail($userId);
 					$this->redirect("confirmation/".$userId);
 					return;
 				}
 				else{
 					$this->User->rollback();
 					$this->UserRoles->rollback();
-					$this->Session->setFlash('111Server busy, please try after some Time.', 'error');
+					$this->Session->setFlash('Internal Error!', 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -174,12 +175,12 @@ class UsersController extends AppController {
 						$code = $this->findCodeFor('Networker');
 						$code['remianing_signups']--;
 						if(!$this->Code->save($code)){
-							$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+							$this->Session->setFlash('Internal Error!', 'error');
 							$this->redirect("/");return;
 						}
 						if($code['remianing_signups']<1){
 							if(!$this->Code->delete($code)){
-								$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+								$this->Session->setFlash('Internal Error!', 'error');
 								$this->redirect("/");return;
 							}
 						}
@@ -187,7 +188,7 @@ class UsersController extends AppController {
 					$this->redirect("confirmation/".$userId);return;
 				}
 				else{
-					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					$this->Session->setFlash('Internal Error!', 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -208,6 +209,7 @@ class UsersController extends AppController {
 
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
+                //echo "<pre>"; print_r($this->User);exit;
                 unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
    			    $this->render("jobseeker_signup");
@@ -231,7 +233,7 @@ class UsersController extends AppController {
 				$userRoleId = 2;
 				if(!$this->saveUserRoles($userId,$userRoleId))
 				{
-					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					$this->Session->setFlash('Internal Error!', 'error');
 					return;
 				}
 				$jobseeker = array();
@@ -242,12 +244,12 @@ class UsersController extends AppController {
 						$code = $this->findCodeFor('Jobseeker');
 						$code['remianing_signups']--;
 						if(!$this->Code->save($code)){
-							$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+							$this->Session->setFlash('Internal Error!', 'error');
 							return;
 						}
 						if($code['remianing_signups']<1){
 							if(!$this->Code->delete($code)){
-								$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+								$this->Session->setFlash('Internal Error!', 'error');
 								return;
 							}
 						}	
@@ -255,7 +257,7 @@ class UsersController extends AppController {
 					$this->redirect("confirmation/".$userId);
 				}
 				else{
-					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					$this->Session->setFlash('Internal Error!', 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -319,7 +321,7 @@ class UsersController extends AppController {
             $userData['User']['parent_user_id'] = $parent;
 		}
 		if(!$this->User->save($userData)){
-			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			$this->Session->setFlash('Internal Error!', 'error');
 			$this->redirect("/");
 			return;
 		}
@@ -336,57 +338,36 @@ class UsersController extends AppController {
 		$roles['role_id'] = $userRoleId;
 		$roles['permission'] = "allow";
 		if(!$this->UserRoles->save($roles)){
-			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			$this->Session->setFlash('Internal Error!', 'error');
 			$this->redirect("/");
 			return false;
 		}
 		return true;
 	}
 /**
- * send comfirmation email for jobseeker and networker, if signed-up successfully.
+ * send comfirmation email for acivating account.
  * e-mail contains account confirmation link.
  * @access private
  */
-	private function sendConfirmationEmail($id){		
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-		try{
-			$this->Email->to = $user['User']['account_email'];
-			$this->Email->subject = 'Hire Routes : Account Confirmation';
-			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
-			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
-			$this->Email->template = 'user_account_confirmation';
-			$this->Email->sendAs = 'html';
-			$this->set('user', $user['User']);
-			$this->Email->send();
-		}catch(Exception $e){
-			//echo 'Message: ' .$e->getMessage();
-			//$this->Session->setFlash('Server busy, please try after some Time.', 'error');
-			$this->redirect("/");
-			return;
-		}		
+
+	private function sendConfirmationEmail($userId){		
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+		$userRole = $user['UserRoles'][0]['role_id'];
+		switch($userRole){
+			case 1:
+				$template = 'company_user_registration';
+				break;			
+			case 2:
+				$template = 'user_account_confirmation';
+				break;			
+			default:
+				$template = 'user_account_confirmation';			
+		}
+		$to = $user['User']['account_email'];
+		$subject = 'Hire Routes : Account Confirmation';
+		$message =  $user['User'];
+		$this->sendEmail($to,$subject,$template,$message);
 	}
-/**
- * send comfirmation email for company/recruiter, if signed-up successfully.
- * @access private
- */	
-	private function sendCompanyAccountEmail($id){		
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-		try{
-			$this->Email->to = $user['User']['account_email'];
-			$this->Email->subject = 'Hire Routes : Account Registration';
-			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
-			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
-			$this->Email->template = 'company_user_registration';
-			$this->Email->sendAs = 'html';
-			$this->set('user', $user['User']);
-			$this->Email->send();
-		}catch(Exception $e){
-			//echo 'Message: ' .$e->getMessage();
-			//$this->Session->setFlash('Server busy, please try after some Time.', 'error');
-			$this->redirect("/");
-			return;
-		}		
-	}	
 	
 /**
  * Display account confirmaiton message after sigining-up.
@@ -465,7 +446,7 @@ class UsersController extends AppController {
 			}
 			else{
 				$this->ArosAcos->rollback();
-				$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+				$this->Session->setFlash('Internal Error!', 'error');
 				$this->redirect("/");
 				return;
 			}	
@@ -626,7 +607,7 @@ class UsersController extends AppController {
  */
 	function login() {
 		if($this->TrackUser->isHRUserLoggedIn()){
-			$this->redirect("/users/firstTime");				
+			$this->redirect("/users/myaccount");				
 			return;
 		}
 		if(isset($this->data['User'])){
@@ -729,21 +710,115 @@ class UsersController extends AppController {
 			case 3:
 					$this->redirect(array('controller'=>'networkers'));
 					break;
+			case 5:
+					$this->redirect(array('controller'=>'admin'));
+					break;
+			default:
+					$this->Session->SetFlash('Internal Error!','error');
+					$this->redirect('/');
 		}
  	}
 
+/**
+ * To change users account password
+ */
+
+	public function changePassword(){
+		if(isset($this->data['User'])){
+		
+			//check for blank or empty field
+			if(empty($this->data['User']['oldPassword'])){
+				$this->set("old_password_error","Old Password Required");
+				return;
+			}
+			
+			// Password hashing
+			$this->data['User']['id'] = $this->TrackUser->getCurrentUserId();
+			$this->data['User']['password']=$this->Auth->password($this->data['User']['password']);
+			$this->data['User']['oldPassword']=$this->Auth->password($this->data['User']['oldPassword']);
+			
+			
+			//Check old password match
+			if(!$this->User->find('first',array('conditions'=>array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword'])))){
+			unset($this->data['User']);
+			$this->Session->setFlash("Old password not matched!.","error");
+			return;
+			}
+			
+			//set User data
+			$this->User->set($this->data['User']);
+			
+			//Validate user data
+			if($this->User->validates(array('fieldList'=>array('password','repeat_password')))){
+				$this->User->updateAll(array('password'=>"'".$this->data['User']['password']."'"),array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword']));
+				
+				//check row update or not
+				if(mysql_affected_rows()>0){
+					unset($this->data['User']);
+					$this->Session->setFlash("Password changed successfully.","success");
+				}
+				elseif(mysql_affected_rows()==0){
+					unset($this->data['User']);
+					$this->Session->setFlash("Change password process failed, Try again!.","error");
+				}elseif(mysql_affected_rows()<0){	//check for server problem
+					unset($this->data['User']);
+					$this->Session->setFlash("Server problem!","error");
+				}
+			}
+			else{
+				unset($this->data['User']);
+			}
+		}
+	}
 
 /**
  * To store before Authenticate URL
  */	
-	private function setRedirectionUrl()
-	{
+	private function setRedirectionUrl(){
 		$redirect_url=$this->referer();
-		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url))
-		{
+		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url)){
 			$this->Session->write('redirection_url',$redirect_url);
 		}
 		return true;
 	}
+
+	function forgetPassword(){
+		
+		if($this->TrackUser->isHRUserLoggedIn()){
+			$this->redirect("/users/myAccount");				
+			return;
+		}
+
+		if(isset($this->data['User'])){
+			$userEmail = trim($this->data['User']['user_email']);
+			$user = $this->User->find('first',array('conditions'=>array('account_email'=>$userEmail)));
+			if(!$user['User']){
+				$this->Session->SetFlash('Account with this Email is not registered!','error');
+				return;
+			}
+			if($user['User']['is_active']==1 && $user['User']['is_active']){
+				$newPassword = substr(md5(uniqid(mt_rand(), true)), 0, 6);
+				$user['User']['password'] =$this->Auth->password($newPassword);
+				$to =$userEmail;
+				$subject = 'Hire-Routes :: Account Password';
+				$template = 'forget_password';
+					
+				if($this->User->save($user['User'])){
+					$user['User']['password'] = $newPassword;
+					if($this->sendEmail($to,$subject,$template,$user['User'])){
+						$this->Session->setFlash('Your password is send to your email address','success');
+						$this->redirect('/users/login');		
+					}
+				}else{
+					$this->Session->SetFlash('Internal Error!','error');
+				}
+			}else{
+				$this->sendConfirmationEmail($user['User']['id']);
+				$this->Session->SetFlash('You account is not confirmed and activated yet, confirmatoin link is sent to your email, please check you email for confirmation link!','warning');
+			}
+			$this->redirect('/users/forgetPassword');
+		}
+	}
+
 }
 ?>

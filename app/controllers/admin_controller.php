@@ -2,12 +2,13 @@
 class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers');
 	var $helpers = array('Form','Number');
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl');
+	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
+	
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->authorize = 'actions';
-		//$this->Auth->allow('index');
-		//$this->Auth->allow('CompaniesList');
+		$this->Auth->allow('index');
+		$this->Auth->allow('companiesList');
 		//$this->Auth->allow('acceptCompanyRequest');
 		$this->Auth->allow('Code');
 		$this->Auth->allow('paymentInformation');
@@ -15,13 +16,19 @@ class AdminController extends AppController {
 		$this->Auth->allow('paymentDetails');
 		$this->Auth->allow('updatePaymentStatus');
 		$this->layout = "admin";
+		$roleInfo = $this->TrackUser->getCurrentUserRole();
+		if($roleInfo['role_id']!=5){
+			$this->redirect("/users/firstTime");
+		}
 	}
+	
+	/****	Admin default view	***/
 	function index(){
 
 	}
-	
-	
-	function CompaniesList() {
+
+	/****	listing companies to accept/decline registration request	***/
+	function companiesList() {
 		$Companies = $this->Companies->find('all', array(
 		'fields' => array('Companies.id','Companies.user_id','Companies.contact_name','Companies.contact_phone','Companies.company_name','Companies.act_as','User.account_email'),
 		'joins' => array(
@@ -36,6 +43,7 @@ class AdminController extends AppController {
 		$this->set('Companies',$Companies);		
 	}
 
+	/****	Accept company request	***/
 	function acceptCompanyRequest() {
 		$id = $this->params['id'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
@@ -48,78 +56,71 @@ class AdminController extends AppController {
 			$arosAcosData['_read'] = 1;						
 			$arosAcosData['_update'] = 1;
 			$arosAcosData['_delete'] = 1;	
-			
+			// activate user's account
 			if($this->ArosAcos->save($arosAcosData) && $this->User->save($user['User'])){
-				$this->sendAcceptCompanyRequestEmail($id);			
+				$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
+				$to = $user['User']['account_email'];
+				$subject = 'Hire Routes : Accept Account Request';
+				$template = 'company_account_accept';
+				$message = $user['User'];
+				$this->sendEmail($to,$subject,$template,$message);			
 				$this->Session->setFlash('Successfully activated user.', 'success');
 			}else{
 				$this->Session->setFlash('Internal error.', 'error');
+				$this->redirect("/admin/companiesList");
 			}
 		}
 		else{
-			$this->Session->setFlash('Company not exits.May be you click on old link.', 'success');
+			$this->Session->setFlash('Company not exit. OR you maybe clickd on old link.', 'error');
 		}
-		$this->redirect("/admin/CompaniesList");
+		$this->redirect("/admin/companiesList");
 	}
 
-
+	/****	Decline company request	***/
 	function declineCompanyRequest() {
 		$id = $this->params['id'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 		if($user){
 			$user['User']['is_active'] = '2';
+			// deactivate user's account	
 			if($this->User->save($user['User'])){
-				$this->Session->setFlash('Successfully declined user.', 'success');
-				$this->sendDeclineCompanyRequestEmail($id);
+			
+				$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
+				$to = $user['User']['account_email'];
+				$subject = 'Hire Routes : Decline Account Request';
+				$template = 'company_account_decline';
+				$message = $user['User'];
+				$this->sendEmail($to,$subject,$template,$message);		
+				$this->Session->setFlash('User has been declined.', 'success');				
 			}else{
 				$this->Session->setFlash('Internal error.', 'error');
+				$this->redirect("/admin/companiesList");
 			}
 		}
 		else{
-			$this->Session->setFlash('Company not exits.May be you click on old link.', 'success');
+			$this->Session->setFlash('Company not exit. OR you maybe clickd on old link.', 'error');
 		}
-		$this->redirect("/admin/CompaniesList");
+		$this->redirect("/admin/companiesList");
 	}
-
-	function sendAcceptCompanyRequestEmail($id){
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-		try{
-			$this->Email->to = $user['User']['account_email'];
-			$this->Email->subject = 'Hire Routes : Accept Account Request';
-			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
-			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
-			$this->Email->template = 'company_account_accept';
-			$this->Email->sendAs = 'html';
-			$this->set('user', $user['User']);
-			$this->Email->send();
-		}catch(Exception $e){
-			echo 'Message: ' .$e->getMessage();
-		}
-	}
-	function sendDeclineCompanyRequestEmail($id){
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-		try{
-			$this->Email->to = $user['User']['account_email'];
-			$this->Email->subject = 'Hire Routes : Decline Account Request';
-			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
-			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
-			$this->Email->template = 'company_account_decline';
-			$this->Email->sendAs = 'html';
-			$this->set('user', $user['User']);
-			$this->Email->send();
-		}catch(Exception $e){
-			echo 'Message: ' .$e->getMessage();
-		}
-	}
-	function Code() {
-
-	}
-
+	
 	/**
 	 * For payment information 
 	 */
 	function paymentInformation()
 	{
+		if(!empty($this->data['paymentInformation']['status'])){
+			$conditions[]='payment_status ='.$this->data['paymentInformation']['status'];
+	 		$this->set('status',$this->data['paymentInformation']['status']);
+	 	}
+	 	if(!empty($this->data['paymentInformation']['from_date'])){
+	 		$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($this->data['paymentInformation']['from_date']))."'";
+	 		$this->set('from_date',$this->data['paymentInformation']['from_date']);
+	 	}
+	 	if(!empty($this->data['paymentInformation']['to_date'])){
+	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($this->data['paymentInformation']['to_date']))."'";
+	 		$this->set('to_date',$this->data['paymentInformation']['to_date']);
+	 	}
+	 		 	
 		$this->paginate = array(
 			'fields'=>'PaymentHistory.id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 			'recursive'=>-1,
@@ -154,82 +155,17 @@ class AdminController extends AppController {
 					'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id'
 				)
 			),
-			'limit'=>10
+			'limit'=>10,
+			'conditions'=>isset($conditions)?$conditions:true
 		);
-		$paymentHistories = $this->paginate('PaymentHistory');
-		$this->set('paymentHistories',$paymentHistories);	
+		try{
+			$paymentHistories=$this->paginate('PaymentHistory');
+			$this->set('paymentHistories',$paymentHistories);
+		}catch(Exception $e){
+			$this->Session->setFlash("Server Problem!",'ERROR');
+		}
 	}
 	
-	/**
-	 * For filter payment information
-	 */
-	function filterPayment()
-	{
-	 	if(!empty($this->data['filter']['status']))
-	 		$statusCondition='payment_status ='.$this->data['filter']['status'];
-	 	else
-	 		$statusCondition=true;
-	 	if(!empty($this->data['filter']['from_date']))
-	 		$from_date="date(paid_date) >='".$this->data['filter']['from_date']."'";
-	 	else
-	 		$from_date=true;
-	 	if(!empty($this->data['filter']['to_date']))
-	 		$to_date="date(paid_date) <='".$this->data['filter']['to_date']."'";
-	 	else
-	 		$to_date=true;
-	 		
-	 		$this->set('from_date',$this->data['filter']['from_date']);
-			$this->set('to_date',$this->data['filter']['to_date']);
-			$this->set('status',$this->data['filter']['status']);
-			
-			$this->paginate=array(
-				'fields'=>'PaymentHistory.id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
-				'recursive'=>-1,
-				'order' => array('paid_date' => 'desc'),
-				'joins'=>array(
-					array(
-						'table'=>'jobs',
-						'alias'=>'Job',
-						'type'=>'left',
-						'fields'=>'id, title',
-						'conditions'=>'Job.id = PaymentHistory.job_id'
-					),
-					array(
-						'table'=>'companies',
-						'alias'=>'Company',
-						'type'=>'left',
-						'fields'=>'id, company_name',
-						'conditions'=>'Job.company_id = Company.id'
-					),
-					array(
-						'table'=>'jobseeker_apply',
-						'alias'=>'JobseekerApply',
-						'type'=>'left',
-						'fields'=>'user_id',
-						'conditions'=>'Job.id = JobseekerApply.job_id'
-					),
-					array(
-						'table'=>'jobseekers',
-						'alias'=>'Jobseeker',
-						'type'=>'left',
-						'fields'=>'user_id, contact_name',
-						'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id'
-					)
-				),
-				'limit'=>10,
-				'conditions'=>array($from_date,$to_date,$statusCondition)
-			);
-			try
-			{
-				$paymentHistories=$this->paginate('PaymentHistory');
-				$this->set('paymentHistories',$paymentHistories);
-			}catch(Exception $e)
-			{
-				$this->Session->setFlash("Server Problem!");
-			}
-			$this->render('payment_information');
-	 }
-
 	/**
 	 * For payment details 
 	 */
@@ -301,15 +237,15 @@ class AdminController extends AppController {
 	}
 	
 	/**
-	 * For filter payment information
+	 * For Update payment information
 	 */
 	function updatePaymentStatus()
 	{
 		$this->PaymentHistory->set(array('id'=>$this->data['PaymentHistory']['id'],'payment_status'=>true));
 	 	if($this->PaymentHistory->save())
-	 		$this->Session->setFlash('Status updated successfully');
+	 		$this->Session->setFlash('Status updated successfully','success');
 	 	else
-	 		$this->Session->setFlash('Status update failure');
+	 		$this->Session->setFlash('Status update failure','error');
 	 	$this->redirect(array('controller' => 'admin','action'=>'paymentDetails',$this->data['PaymentHistory']['id']));
 	}
 }

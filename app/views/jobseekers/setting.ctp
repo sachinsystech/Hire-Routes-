@@ -1,3 +1,4 @@
+<?php ?>
 <script>
 	$(document).ready(function(){
 	    $("#JobseekersNotification").click(onCheckChange);
@@ -62,10 +63,11 @@
 																	     'label'=>'Industry 1:',
 																	     'options'=>$industries,
 																	     'empty' =>' -- Select Industry-- ',
-																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification1");',
+																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification1","specification_1_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
 						</div>
+						<div id="specification_1_loader" style="float:left;"></div>
 						<div style="float:left;width: 289px;">
 							<?php $industry_specification_array = array('1'=>'Industry specification 1',
 																		'2'=>'Industry specification 2',
@@ -80,17 +82,17 @@
 											                                           'selected'=>isset($jobseekerData['specification_1'])?explode(",",$jobseekerData['specification_1']):""));?>
 						</div>
 					</div>
-					<div id="loader" style="float:left;margin-left:50%;"></div>
 					<div>
 						<div style="float:left;margin-left: -7px;clear: both;">
 							<?php echo $form -> input('industry_2',array('type'=>'select',
 																	     'label'=>'Industry 2:',
 																	     'options'=>$industries,
 																	     'empty' =>' -- Select Industry-- ',
-																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification2");',
+																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification2","specification_2_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:""));?>
 						</div>
+						<div id="specification_2_loader" style="float:left;"></div>
 						<div style="float:left;width: 289px;">
 							<?php echo $form -> input('industry_specification_2',array('type'=>'select',
 																	                   'label'=>'',
@@ -111,18 +113,20 @@
 											'options'=>$states,
 											'empty' =>' -- All States-- ',
 											'class'=>'js_select_ls required',
-											'onchange'=>'return fillCities(this.value);',
+											'onchange'=>'return fillCities(this.value,"JobseekersCity","city_loader");',
 											'selected' => isset($jobseekerData['state'])?$jobseekerData['state']:""
 									)
 						);
 ?>
 </div>
+<div id="city_loader" style="float:left;">&nbsp;</div>
 <div style="float:left;">
 <?php echo $form -> input('city',array(
 											'type'=>'select',
 											'label'=>'',
 											'empty' =>' -- All Cities-- ',
 											'class'=>'js_select_city',
+											'selected' => isset($jobseekerData['city'])?$jobseekerData['city']:""
 									)
 						);
 ?>							
@@ -194,67 +198,39 @@
 	<!-- middle section end -->
 </div>
 <script>
+$("#JobseekersAddForm").validate();
+</script>
+<?php $industry_1 = isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:1;?>
+<?php $industry_2 = isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:1;?>
+<?php $state = $jobseekerData['state'];?>
+<script>
 $(document).ready(function(){
-	fillCities(<?php echo $jobseekerData['state'];?>);
-	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
-	fillSpecification(<?php echo $jobseekerData['industry_1'];?>,'JobseekersIndustrySpecification1');
-	fillSpecification(<?php echo $jobseekerData['industry_2'];?>,'JobseekersIndustrySpecification2');
+	<?php if(isset($jobseekerData['industry_1'])){?>
+		fillSpecification(<?php echo $industry_1;?>, 'JobseekersIndustrySpecification1', 'specification_1_loader');
 	<?php $specification_1=explode(",",$jobseekerData['specification_1']);
 		foreach($specification_1 as $key=>$specification_id)
 		{
 	?>
 	$("select#JobseekersIndustrySpecification1 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
-	<?php }$specification_2=explode(",",$jobseekerData['specification_2']);
+	<?php
+		}
+	}
+	?>
+	<?php if(isset($jobseekerData['industry_2'])){?>
+	fillSpecification(<?php echo $industry_2;?>, 'JobseekersIndustrySpecification2', 'specification_2_loader');
+	<?php $specification_2=explode(",",$jobseekerData['specification_2']);
 		foreach($specification_2 as $key=>$specification_id)
 		{?>
 	$("select#JobseekersIndustrySpecification2 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
-	<?php }?>
-	$("#JobseekersAddForm").validate();
+	<?php 
+		}
+	}
+	?>
+	<?php if(isset($jobseekerData['industry_2'])){?>
+	fillCities(<?php echo $state;?>,'JobseekersCity','city_loader');
+	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
+	<?php 
+	}
+	?>
 });
-
-
-function fillSpecification($industry_id, specification_field)
-{
-	$('#'+specification_field+' option').each(function(i, option){ $(option).remove(); });
-	$.ajax({
-		url: "/utilities/getSpecificationOfIndustry/"+$industry_id,
-	 	dataType:'json',
-	 	async:false,
-	 	beforeSend: function(){
-     		$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
-   		},
-		complete: function(){
-   	    	$('#loader').html("");
-   		},
-  		success: function(response){
-	 		document.getElementById(specification_field).options[0]=new Option("--All Specification--",'');
-			$.each(response, function(index, specification) {
-				document.getElementById(specification_field).options[document.getElementById(specification_field).options.length] = new Option(specification, index);
-            });
-  		}
-	});
-}
-
-function fillCities($state_id)
-{
-	$.ajax({
-		url: "/utilities/getCitiesOfState/"+$state_id,
-	 	dataType:'json',
-		async:false,
-	 	beforeSend: function(){
-    	 	$('#loader').html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
-   		},
-		complete: function(){
-   	    	$('#loader').html("");
-   		},
-  		success: function(response){
-	 		var options = '<option value=""> -- All Cities-- </option>';
-			$.each(response, function(index, item) {
-                options += '<option value="' + index + '">' + item + '</option>';
-            });
-			$("select#JobseekersCity").html(options);
-  		}
-	});	
-}
-
 </script>

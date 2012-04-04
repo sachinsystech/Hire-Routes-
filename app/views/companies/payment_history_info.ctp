@@ -24,8 +24,8 @@
 							<div style="float:left"><?php echo $PaymentDetail['PaymentHistory']['transaction_id']; ?></div>
 						</div>
 						<div style="clear:both">							
-							<div style="float:left;font-weight: bold;width: 130px;">Date:</div>
-							<div style="float:left"><?php echo $PaymentDetail['PaymentHistory']['paid_date']; ?></div>
+							<div style="float:left;font-weight: bold;width: 130px;">Date & Time:</div>
+							<div style="float:left"><?php echo $this->Time->format('m/d/Y H:i:s',$PaymentDetail['PaymentHistory']['paid_date']); ?></div>
 						</div>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Reward(Amout):</div>
