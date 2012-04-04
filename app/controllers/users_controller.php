@@ -209,6 +209,7 @@ class UsersController extends AppController {
 
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
+                //echo "<pre>"; print_r($this->User);exit;
                 unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
    			    $this->render("jobseeker_signup");
@@ -737,15 +738,64 @@ class UsersController extends AppController {
 		}
  	}
 
+/**
+ * To change users account password
+ */
+
+	public function changePassword(){
+		if(isset($this->data['User'])){
+		
+			//check for blank or empty field
+			if(empty($this->data['User']['oldPassword'])){
+				$this->set("old_password_error","Old Password Required");
+				return;
+			}
+			
+			// Password hashing
+			$this->data['User']['id'] = $this->TrackUser->getCurrentUserId();
+			$this->data['User']['password']=$this->Auth->password($this->data['User']['password']);
+			$this->data['User']['oldPassword']=$this->Auth->password($this->data['User']['oldPassword']);
+			
+			
+			//Check old password match
+			if(!$this->User->find('first',array('conditions'=>array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword'])))){
+			unset($this->data['User']);
+			$this->Session->setFlash("Old password not matched!.","error");
+			return;
+			}
+			
+			//set User data
+			$this->User->set($this->data['User']);
+			
+			//Validate user data
+			if($this->User->validates(array('fieldList'=>array('password','repeat_password')))){
+				$this->User->updateAll(array('password'=>"'".$this->data['User']['password']."'"),array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword']));
+				
+				//check row update or not
+				if(mysql_affected_rows()>0){
+					unset($this->data['User']);
+					$this->Session->setFlash("Password changed successfully.","success");
+				}
+				elseif(mysql_affected_rows()==0){
+					unset($this->data['User']);
+					$this->Session->setFlash("Change password process failed, Try again!.","error");
+				}elseif(mysql_affected_rows()<0){	//check for server problem
+					unset($this->data['User']);
+					$this->Session->setFlash("Server problem!","error");
+				}
+			}
+			else{
+				unset($this->data['User']);
+			}
+		}
+	}
 
 /**
  * To store before Authenticate URL
  */	
-	private function setRedirectionUrl()
-	{
+	private function setRedirectionUrl(){
 		$redirect_url=$this->referer();
-		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url))
-		{
+		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url)){
 			$this->Session->write('redirection_url',$redirect_url);
 		}
 		return true;

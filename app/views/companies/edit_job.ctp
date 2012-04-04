@@ -201,17 +201,24 @@
 	</div>
 	<!-- middle section end -->
 </div>
-
+<script>
+	$("#JobEditJobForm").validate();
+</script>
 <script>
 	
 $(document).ready(function(){
-
+	<?php if(isset($job['industry'])){?>
 	fillSpecification(<?php echo $job['industry'];?>,"JobSpecification","specification_loader");
 	$("select#JobSpecification option[value=<?php echo $job['specification'];?>]").attr('selected', 'selected');
-	var city_id = <?php echo $job['city'];?>;
+	<?php 
+	}
+	?>
+	<?php if(isset($job['state'])){?>
 	fillCities(<?php echo $job['state'];?>,"JobCity","city_loader");
 	$("select#JobCity option[value=<?php echo $job['city'];?>]").attr('selected', 'selected');
-	$("#JobEditJobForm").validate();
+	<?php
+	}
+	?>
 });
 </script>
 
