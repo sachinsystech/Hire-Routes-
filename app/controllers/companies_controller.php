@@ -351,7 +351,7 @@ list archive jobs..
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
 			$this->Companies->save($this->data['Company']);
-			$this->Session->write('userName',$this->data['Company']['contact_name']);		
+			$this->Session->write('welcomeUserName',$this->data['Company']['contact_name']);
 			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
 			$this->redirect('/companies');						
 		}
@@ -1112,19 +1112,16 @@ function paymentHistoryInfo(){
 /**
  * For test view share_email
  */
-	function share_render()
-	{
+	function share_render(){
 		$this->render('share_email');
 	}
 
 /**
  * For test send_email
  */
-	function shareJobByEmail()
-	{
+	function shareJobByEmail(){
 		$this->autoRender= false ;
-		if(isset($this->params['form']['toEmail'])&&!empty($this->params['form']['toEmail']))
-		{
+		if(isset($this->params['form']['toEmail'])&&!empty($this->params['form']['toEmail'])){
 			$from='traineest@gmail.com';
 			$to=trim($this->params['form']['toEmail']);
 			$subject=$this->params['form']['subject'];
@@ -1157,13 +1154,10 @@ function paymentHistoryInfo(){
 			else
 				return "Job not selected!";
 		}
-		else
-		{
+		else{
 			return "Email address not specified!";
 		}
-
 	}
-    
 /*
 	send congratulation email to selected applicant.
 */

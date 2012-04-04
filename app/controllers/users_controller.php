@@ -63,7 +63,8 @@ class UsersController extends AppController {
 		$this->Auth->allow('facebookUser');
 		$this->Auth->allow('facebookUserSelection');
 		$this->Auth->allow('accountConfirmation');		
-		$this->Auth->allow('myAccount');		
+		$this->Auth->allow('myAccount');	
+		$this->Auth->allow('forgetPassword');	
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -208,6 +209,7 @@ class UsersController extends AppController {
 
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
+                //echo "<pre>"; print_r($this->User);exit;
                 unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
    			    $this->render("jobseeker_signup");
@@ -347,6 +349,7 @@ class UsersController extends AppController {
  * e-mail contains account confirmation link.
  * @access private
  */
+
 	private function sendConfirmationEmail($userId){		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$userRole = $user['UserRoles'][0]['role_id'];
@@ -604,7 +607,7 @@ class UsersController extends AppController {
  */
 	function login() {
 		if($this->TrackUser->isHRUserLoggedIn()){
-			$this->redirect("/users/firstTime");				
+			$this->redirect("/users/myaccount");				
 			return;
 		}
 		if(isset($this->data['User'])){
@@ -707,21 +710,115 @@ class UsersController extends AppController {
 			case 3:
 					$this->redirect(array('controller'=>'networkers'));
 					break;
+			case 5:
+					$this->redirect(array('controller'=>'admin'));
+					break;
+			default:
+					$this->Session->SetFlash('Internal Error!','error');
+					$this->redirect('/');
 		}
  	}
 
+/**
+ * To change users account password
+ */
+
+	public function changePassword(){
+		if(isset($this->data['User'])){
+		
+			//check for blank or empty field
+			if(empty($this->data['User']['oldPassword'])){
+				$this->set("old_password_error","Old Password Required");
+				return;
+			}
+			
+			// Password hashing
+			$this->data['User']['id'] = $this->TrackUser->getCurrentUserId();
+			$this->data['User']['password']=$this->Auth->password($this->data['User']['password']);
+			$this->data['User']['oldPassword']=$this->Auth->password($this->data['User']['oldPassword']);
+			
+			
+			//Check old password match
+			if(!$this->User->find('first',array('conditions'=>array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword'])))){
+			unset($this->data['User']);
+			$this->Session->setFlash("Old password not matched!.","error");
+			return;
+			}
+			
+			//set User data
+			$this->User->set($this->data['User']);
+			
+			//Validate user data
+			if($this->User->validates(array('fieldList'=>array('password','repeat_password')))){
+				$this->User->updateAll(array('password'=>"'".$this->data['User']['password']."'"),array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword']));
+				
+				//check row update or not
+				if(mysql_affected_rows()>0){
+					unset($this->data['User']);
+					$this->Session->setFlash("Password changed successfully.","success");
+				}
+				elseif(mysql_affected_rows()==0){
+					unset($this->data['User']);
+					$this->Session->setFlash("Change password process failed, Try again!.","error");
+				}elseif(mysql_affected_rows()<0){	//check for server problem
+					unset($this->data['User']);
+					$this->Session->setFlash("Server problem!","error");
+				}
+			}
+			else{
+				unset($this->data['User']);
+			}
+		}
+	}
 
 /**
  * To store before Authenticate URL
  */	
-	private function setRedirectionUrl()
-	{
+	private function setRedirectionUrl(){
 		$redirect_url=$this->referer();
-		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url))
-		{
+		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url)){
 			$this->Session->write('redirection_url',$redirect_url);
 		}
 		return true;
 	}
+
+	function forgetPassword(){
+		
+		if($this->TrackUser->isHRUserLoggedIn()){
+			$this->redirect("/users/myAccount");				
+			return;
+		}
+
+		if(isset($this->data['User'])){
+			$userEmail = trim($this->data['User']['user_email']);
+			$user = $this->User->find('first',array('conditions'=>array('account_email'=>$userEmail)));
+			if(!$user['User']){
+				$this->Session->SetFlash('Account with this Email is not registered!','error');
+				return;
+			}
+			if($user['User']['is_active']==1 && $user['User']['is_active']){
+				$newPassword = substr(md5(uniqid(mt_rand(), true)), 0, 6);
+				$user['User']['password'] =$this->Auth->password($newPassword);
+				$to =$userEmail;
+				$subject = 'Hire-Routes :: Account Password';
+				$template = 'forget_password';
+					
+				if($this->User->save($user['User'])){
+					$user['User']['password'] = $newPassword;
+					if($this->sendEmail($to,$subject,$template,$user['User'])){
+						$this->Session->setFlash('Your password is send to your email address','success');
+						$this->redirect('/users/login');		
+					}
+				}else{
+					$this->Session->SetFlash('Internal Error!','error');
+				}
+			}else{
+				$this->sendConfirmationEmail($user['User']['id']);
+				$this->Session->SetFlash('You account is not confirmed and activated yet, confirmatoin link is sent to your email, please check you email for confirmation link!','warning');
+			}
+			$this->redirect('/users/forgetPassword');
+		}
+	}
+
 }
 ?>

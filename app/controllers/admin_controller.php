@@ -26,7 +26,7 @@ class AdminController extends AppController {
 	function index(){
 
 	}
-	
+
 	/****	listing companies to accept/decline registration request	***/
 	function companiesList() {
 		$Companies = $this->Companies->find('all', array(
@@ -103,9 +103,24 @@ class AdminController extends AppController {
 		$this->redirect("/admin/companiesList");
 	}
 	
-	/**** For payment information ****/
-	function paymentInformation(){
-
+	/**
+	 * For payment information 
+	 */
+	function paymentInformation()
+	{
+		if(!empty($this->data['paymentInformation']['status'])){
+			$conditions[]='payment_status ='.$this->data['paymentInformation']['status'];
+	 		$this->set('status',$this->data['paymentInformation']['status']);
+	 	}
+	 	if(!empty($this->data['paymentInformation']['from_date'])){
+	 		$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($this->data['paymentInformation']['from_date']))."'";
+	 		$this->set('from_date',$this->data['paymentInformation']['from_date']);
+	 	}
+	 	if(!empty($this->data['paymentInformation']['to_date'])){
+	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($this->data['paymentInformation']['to_date']))."'";
+	 		$this->set('to_date',$this->data['paymentInformation']['to_date']);
+	 	}
+	 		 	
 		$this->paginate = array(
 			'fields'=>'PaymentHistory.id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 			'recursive'=>-1,
@@ -140,83 +155,17 @@ class AdminController extends AppController {
 					'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id'
 				)
 			),
-			'limit'=>10
+			'limit'=>10,
+			'conditions'=>isset($conditions)?$conditions:true
 		);
-		$paymentHistories = $this->paginate('PaymentHistory');
-		$this->set('paymentHistories',$paymentHistories);	
+		try{
+			$paymentHistories=$this->paginate('PaymentHistory');
+			$this->set('paymentHistories',$paymentHistories);
+		}catch(Exception $e){
+			$this->Session->setFlash("Server Problem!",'ERROR');
+		}
 	}
 	
-	/**
-	 * For filter payment information
-	 */
-	function filterPayment()
-	{
-	 	if(!empty($this->data['filter']['status']))
-	 		$statusCondition='payment_status ='.$this->data['filter']['status'];
-	 	else
-	 		$statusCondition=true;
-	 	if(!empty($this->data['filter']['from_date'])){
-	 		$from_date="date(paid_date) >='".date("Y-m-d",strtotime($this->data['filter']['from_date']))."'";
-	 	}
-	 	else
-	 		$from_date=true;
-	 	if(!empty($this->data['filter']['to_date']))
-	 		$to_date="date(paid_date) <='".date("Y-m-d",strtotime($this->data['filter']['to_date']))."'";
-	 	else
-	 		$to_date=true;
-	 		
-	 		$this->set('from_date',$this->data['filter']['from_date']);
-			$this->set('to_date',$this->data['filter']['to_date']);
-			$this->set('status',$this->data['filter']['status']);
-			
-			$this->paginate=array(
-				'fields'=>'PaymentHistory.id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
-				'recursive'=>-1,
-				'order' => array('paid_date' => 'desc'),
-				'joins'=>array(
-					array(
-						'table'=>'jobs',
-						'alias'=>'Job',
-						'type'=>'left',
-						'fields'=>'id, title',
-						'conditions'=>'Job.id = PaymentHistory.job_id'
-					),
-					array(
-						'table'=>'companies',
-						'alias'=>'Company',
-						'type'=>'left',
-						'fields'=>'id, company_name',
-						'conditions'=>'Job.company_id = Company.id'
-					),
-					array(
-						'table'=>'jobseeker_apply',
-						'alias'=>'JobseekerApply',
-						'type'=>'left',
-						'fields'=>'user_id',
-						'conditions'=>'Job.id = JobseekerApply.job_id'
-					),
-					array(
-						'table'=>'jobseekers',
-						'alias'=>'Jobseeker',
-						'type'=>'left',
-						'fields'=>'user_id, contact_name',
-						'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id'
-					)
-				),
-				'limit'=>10,
-				'conditions'=>array($from_date,$to_date,$statusCondition)
-			);
-			try
-			{
-				$paymentHistories=$this->paginate('PaymentHistory');
-				$this->set('paymentHistories',$paymentHistories);
-			}catch(Exception $e)
-			{
-				$this->Session->setFlash("Internal Error!");
-			}
-			$this->render('payment_information');
-	 }
-
 	/**
 	 * For payment details 
 	 */
@@ -288,7 +237,7 @@ class AdminController extends AppController {
 	}
 	
 	/**
-	 * For filter payment information
+	 * For Update payment information
 	 */
 	function updatePaymentStatus()
 	{
