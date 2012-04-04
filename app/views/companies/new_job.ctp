@@ -103,7 +103,8 @@
 						echo $this->Html->image("/img/icon/ok.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
 						'url' => "/companies/archiveJob/".$job['Job']['id'],
-                        'title'=>'Archive'
+                        'title'=>'Archive',
+						'onclick'=>"return confirm('Do you want to Archive  it ?');"
 						));
 						echo $this->Html->image("/img/icon/person.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
