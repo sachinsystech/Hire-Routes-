@@ -17,15 +17,6 @@
 $(document).ready(function(){
 
 	$("#UserLoginForm").validate();	
-	// Check user login page redirect again or not.
-	if($("#UserUsername").val()==='' || $("#UserUsername").val()===null ){
-		var data=getCookie();
-		if(data!=undefined){
-			$("#UserUsername").val(data[0]);
-			$("#UserPassword").val(data[1]);
-			$("#UserRememberMe").attr('checked',true);		
-		}
-	}
 	// On submit create cookie.
 	$("#UserLoginForm").submit(function(){ 
 		if($("#UserRememberMe").is(':checked')){		
@@ -36,6 +27,16 @@ $(document).ready(function(){
 			document.cookie = "password"+ "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		}
 	});
+
+	// Check user login page redirect again or not.
+	if($("#UserUsername").val()==='' || $("#UserUsername").val()===null ){
+		var data=getCookie();
+		if(data!=undefined){
+			$("#UserUsername").val(data[0]);
+			$("#UserPassword").val(data[1]);
+			$("#UserRememberMe").attr('checked',true);		
+		}
+	}
 });     
 
 function getCookie(){
@@ -62,7 +63,7 @@ function saveCookie(){
 	var username=$("#UserUsername").val();
 	var password=$("#UserPassword").val();
 	var exDate=new Date();
-	exDate.setDate(exDate.getDate()+7);
+	exDate.setDate(exDate.getDate()+2);
 	document.cookie="username="+escape(username)+(";expires="+exDate.toUTCString()+";security=true;");
 	document.cookie="password="+escape(password)+(";expires="+exDate.toUTCString()+";security=true;");
 	return ;

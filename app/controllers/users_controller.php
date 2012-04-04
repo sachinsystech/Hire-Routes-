@@ -360,8 +360,6 @@ class UsersController extends AppController {
 			$this->set('user', $user['User']);
 			$this->Email->send();
 		}catch(Exception $e){
-			//echo 'Message: ' .$e->getMessage();
-			//$this->Session->setFlash('Server busy, please try after some Time.', 'error');
 			$this->redirect("/");
 			return;
 		}		
@@ -627,7 +625,7 @@ class UsersController extends AppController {
  */
 	function login() {
 		if($this->TrackUser->isHRUserLoggedIn()){
-			$this->redirect("/users/firstTime");				
+			$this->redirect("/users/myaccount");				
 			return;
 		}
 		if(isset($this->data['User'])){
@@ -730,6 +728,12 @@ class UsersController extends AppController {
 			case 3:
 					$this->redirect(array('controller'=>'networkers'));
 					break;
+			case 5:
+					$this->redirect(array('controller'=>'admin'));
+					break;
+			default:
+					$this->Session->SetFlash('Internal Error!','error');
+					$this->redirect('/');
 		}
  	}
 
@@ -747,34 +751,39 @@ class UsersController extends AppController {
 		return true;
 	}
 
-	public function forgetPassword(){
+	function forgetPassword(){
 		
-	if(isset($this->data['User'])){
+		if($this->TrackUser->isHRUserLoggedIn()){
+			$this->redirect("/users/myAccount");				
+			return;
+		}
+
+		if(isset($this->data['User'])){
 			$userEmail = trim($this->data['User']['user_email']);
-			$user = $this->User->find('first',array('conditions'=>array('account_email'=>$userEmail,
-																			 'is_active'=>1)));
-			if(isset($user['User'])){
-				try{
-					$newPassword=substr(md5(uniqid(mt_rand(), true)), 0, 6);
-					$user['User']['password'] =$this->Auth->password($newPassword);
-					$to =$userEmail;
-					$subject = 'Hire-Routes:: account password';
-					$template = 'forget_password';
-						
-					if($this->User->save($user['User'])){
-						$user['User']['password'] = $newPassword;
-						if($this->sendEmail($to,$subject,$template,$user['User'])){
-							$this->Session->setFlash('Your password is send to your email address','success');
-							$this->redirect('/users/login');		
-						}
-					}else{
-						$this->Session->SetFlash('Internal Error!','error');
+			$user = $this->User->find('first',array('conditions'=>array('account_email'=>$userEmail)));
+			if(!$user['User']){
+				$this->Session->SetFlash('Account with this Email is not registered!','error');
+				return;
+			}
+			if($user['User']['is_active']==1 && $user['User']['is_active']){
+				$newPassword = substr(md5(uniqid(mt_rand(), true)), 0, 6);
+				$user['User']['password'] =$this->Auth->password($newPassword);
+				$to =$userEmail;
+				$subject = 'Hire-Routes :: Account Password';
+				$template = 'forget_password';
+					
+				if($this->User->save($user['User'])){
+					$user['User']['password'] = $newPassword;
+					if($this->sendEmail($to,$subject,$template,$user['User'])){
+						$this->Session->setFlash('Your password is send to your email address','success');
+						$this->redirect('/users/login');		
 					}
-				}catch(Exception $e){
+				}else{
 					$this->Session->SetFlash('Internal Error!','error');
 				}
 			}else{
-				$this->Session->SetFlash('Account with this Email is not found','error');
+				$this->sendConfirmationEmail($user['User']['id']);
+				$this->Session->SetFlash('You account is not confirmed and activated yet, confirmatoin link is sent to your email, please check you email for confirmation link!','warning');
 			}
 			$this->redirect('/users/forgetPassword');
 		}
