@@ -16,9 +16,21 @@
 			{
 		?>
 			<ul>
-				<li <?php if($this->action=='newJob') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob">Jobs - <?php if($this->action=='newJob'){ echo count($jobs);}else{echo $activejobCount;}?></a></li>
-				<li <?php if($this->action=='showArchiveJobs') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showArchiveJobs">Archive - <?php if($this->action=='showArchiveJobs'){echo count($jobs);}else{echo $archJobCount;}?></a></li>
-				<li <?php if($this->action=='companyData') echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="companyData">Data</a></li>
+				<li <?php if($this->action=='newJob') echo "class='active'";?>>
+					<a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob">
+						Jobs - <?php echo $activejobCount;?>					
+					</a>
+				</li>
+				<li <?php if($this->action=='showArchiveJobs') echo "class='active'";?>>
+					<a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/showArchiveJobs">
+						Archive - <?php echo $archJobCount; ?>
+					</a>
+				</li>
+				<li <?php if($this->action=='companyData') echo "class='active'";?>>
+					<a style="color: #000000;text-decoration: none;font-weight: normal;" href="companyData">
+					Data
+					</a>
+				</li>
 			</ul>
 			<?php
 			}elseif($this->action=='index'||$this->action=='accountProfile'||$this->action=='paymentInfo'||$this->action=='paymentHistory'||$this->action=='paymentHistoryInfo'||$this->action=='editProfile'||$this->action=='changePassword')
