@@ -35,7 +35,14 @@
 							<td style="text-align:center;"><?php echo $sn++; ?></td>
 							<td style="text-align:center;"><?php echo$this->Html->link($PH['PaymentHistory']['transaction_id'], '/companies/paymentHistoryInfo/'.$PH['PaymentHistory']['id']."/".$PH['PaymentHistory']['transaction_id']); ?></td>
 							<td style="text-align:center;"><?php echo $this->Time->format('m/d/Y',$PH['PaymentHistory']['paid_date']); ?></td>
-							<td><span style="float: right; margin-right: 30px;"><?php echo number_format($PH['PaymentHistory']['amount'],'2','.',''); ?><b>$</b></span></td>
+							<td><span style="float: right; margin-right: 30px;"><?php echo $this->Number->format(
+										$PH['PaymentHistory']['amount'],
+										array(
+											'places' => 2,
+											'before' => '$',
+											'decimals' => '.',
+											'thousands' => ',')
+										);?></span></td>
 						</tr>
 						<?php endforeach; ?>
 					</table>

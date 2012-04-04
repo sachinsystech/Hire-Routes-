@@ -269,7 +269,14 @@
 							<td>
 								<div>
 									<div style="float:left"> <?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>
-									<div style="float:right"> Reward : <?php	echo $job['Job']['reward'];?>$</div>
+									<div style="float:right"> Reward : <?php echo $this->Number->format(
+										$job['Job']['reward'],
+										array(
+											'places' => 2,
+											'before' => '$',
+											'decimals' => '.',
+											'thousands' => ',')
+										);?></div>
 								</div>
 								<div style="clear:both">		
 								<div>

@@ -180,7 +180,7 @@ list archive jobs..
 												 'fields'=>array('SUM(Job.reward) as jobs_reward, count(Job.id) as jobs_posted'), ));
 
 		if($jobPosted){
-			$rewardPosted = "$ ".$jobPosted[0][0]['jobs_reward'];
+			$rewardPosted = $jobPosted[0][0]['jobs_reward'];
 			$jobPosted	  = $jobPosted[0][0]['jobs_posted'];
 		}else{
 			$rewardPosted = 0;
@@ -208,7 +208,7 @@ list archive jobs..
 																				'PaymentHistory.payment_status' =>1),
 													 'fields'=>array('SUM(PaymentHistory.amount) as paid_reward'),));
 		if($paidReward){
-			$rewardPaid = "$ ".$paidReward[0][0]['paid_reward'];
+			$rewardPaid = $paidReward[0][0]['paid_reward'];
 		}else{
 			$rewardPaid = 0;
 		}

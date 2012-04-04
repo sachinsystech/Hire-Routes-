@@ -132,20 +132,20 @@
 										$job['Job']['reward'],
 										array(
 											'places' => 2,
-											'before' => '',
+											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										)."$";?>
+										);?>
 			</div>
 			<div>
 				Your reward is up to <?php echo $this->Number->format(
 										$job['Job']['reward'],
 										array(
 											'places' => 2,
-											'before' => '',
+											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										)."$";?>
+										);?>
 			</div>
 		</div>
 		<div style="font-size:1.2em;">
