@@ -26,7 +26,7 @@ class AdminController extends AppController {
 	function index(){
 
 	}
-	
+
 	/****	listing companies to accept/decline registration request	***/
 	function companiesList() {
 		$Companies = $this->Companies->find('all', array(

@@ -341,7 +341,7 @@ list archive jobs..
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
 			$this->Companies->save($this->data['Company']);
-			$this->Session->write('userName',$this->data['Company']['contact_name']);		
+			$this->Session->write('welcomeUserName',$this->data['Company']['contact_name']);
 			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
 			$this->redirect('/companies');						
 		}
@@ -1154,7 +1154,7 @@ function paymentHistoryInfo(){
 
 	}
 
-	private function sendEmail($to,$from,$subject,$message,$job_details)
+	protected function sendEmail($to,$from,$subject,$message,$job_details)
 	{
 		$this->autoRender= false ;
 		if(isset($to) && $to!="" && isset($from) && $from!="")
@@ -1174,7 +1174,6 @@ function paymentHistoryInfo(){
 				}catch(Exception $e)
 				{
 					pr($e);
-					//exit;
 				}
 			}
 			else
