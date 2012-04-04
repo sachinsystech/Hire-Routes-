@@ -82,7 +82,7 @@ class UsersController extends AppController {
     }
 /**
  * Displays a view to choose which type of user you want to register if user is not logged-in, 
- * Redirecting respactive my-account page otherwise(If user logged-in). 
+ * Redirecting respactive my-account page (If user logged-in). 
 **/
 	function userSelection(){
 		if($this->TrackUser->isHRUserLoggedIn()){
@@ -119,14 +119,14 @@ class UsersController extends AppController {
 				$company['user_id'] = $userId;
 				$company['act_as'] = $this->data['Companies']['role'];
 				if($this->Companies->save($company) ){			
-					$this->sendCompanyAccountEmail($userId);
+					$this->sendConfirmationEmail($userId);
 					$this->redirect("confirmation/".$userId);
 					return;
 				}
 				else{
 					$this->User->rollback();
 					$this->UserRoles->rollback();
-					$this->Session->setFlash('111Server busy, please try after some Time.', 'error');
+					$this->Session->setFlash('Internal Error!', 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -174,12 +174,12 @@ class UsersController extends AppController {
 						$code = $this->findCodeFor('Networker');
 						$code['remianing_signups']--;
 						if(!$this->Code->save($code)){
-							$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+							$this->Session->setFlash('Internal Error!', 'error');
 							$this->redirect("/");return;
 						}
 						if($code['remianing_signups']<1){
 							if(!$this->Code->delete($code)){
-								$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+								$this->Session->setFlash('Internal Error!', 'error');
 								$this->redirect("/");return;
 							}
 						}
@@ -187,7 +187,7 @@ class UsersController extends AppController {
 					$this->redirect("confirmation/".$userId);return;
 				}
 				else{
-					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					$this->Session->setFlash('Internal Error!', 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -231,7 +231,7 @@ class UsersController extends AppController {
 				$userRoleId = 2;
 				if(!$this->saveUserRoles($userId,$userRoleId))
 				{
-					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					$this->Session->setFlash('Internal Error!', 'error');
 					return;
 				}
 				$jobseeker = array();
@@ -242,12 +242,12 @@ class UsersController extends AppController {
 						$code = $this->findCodeFor('Jobseeker');
 						$code['remianing_signups']--;
 						if(!$this->Code->save($code)){
-							$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+							$this->Session->setFlash('Internal Error!', 'error');
 							return;
 						}
 						if($code['remianing_signups']<1){
 							if(!$this->Code->delete($code)){
-								$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+								$this->Session->setFlash('Internal Error!', 'error');
 								return;
 							}
 						}	
@@ -255,7 +255,7 @@ class UsersController extends AppController {
 					$this->redirect("confirmation/".$userId);
 				}
 				else{
-					$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+					$this->Session->setFlash('Internal Error!', 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -319,7 +319,7 @@ class UsersController extends AppController {
             $userData['User']['parent_user_id'] = $parent;
 		}
 		if(!$this->User->save($userData)){
-			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			$this->Session->setFlash('Internal Error!', 'error');
 			$this->redirect("/");
 			return;
 		}
@@ -336,57 +336,35 @@ class UsersController extends AppController {
 		$roles['role_id'] = $userRoleId;
 		$roles['permission'] = "allow";
 		if(!$this->UserRoles->save($roles)){
-			$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+			$this->Session->setFlash('Internal Error!', 'error');
 			$this->redirect("/");
 			return false;
 		}
 		return true;
 	}
 /**
- * send comfirmation email for jobseeker and networker, if signed-up successfully.
+ * send comfirmation email for acivating account.
  * e-mail contains account confirmation link.
  * @access private
  */
-	private function sendConfirmationEmail($id){		
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-		try{
-			$this->Email->to = $user['User']['account_email'];
-			$this->Email->subject = 'Hire Routes : Account Confirmation';
-			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
-			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
-			$this->Email->template = 'user_account_confirmation';
-			$this->Email->sendAs = 'html';
-			$this->set('user', $user['User']);
-			$this->Email->send();
-		}catch(Exception $e){
-			//echo 'Message: ' .$e->getMessage();
-			//$this->Session->setFlash('Server busy, please try after some Time.', 'error');
-			$this->redirect("/");
-			return;
-		}		
+	private function sendConfirmationEmail($userId){		
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+		$userRole = $user['UserRoles'][0]['role_id'];
+		switch($userRole){
+			case 1:
+				$template = 'company_user_registration';
+				break;			
+			case 2:
+				$template = 'user_account_confirmation';
+				break;			
+			default:
+				$template = 'user_account_confirmation';			
+		}
+		$to = $user['User']['account_email'];
+		$subject = 'Hire Routes : Account Confirmation';
+		$message =  $user['User'];
+		$this->sendEmail($to,$subject,$template,$message);
 	}
-/**
- * send comfirmation email for company/recruiter, if signed-up successfully.
- * @access private
- */	
-	private function sendCompanyAccountEmail($id){		
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-		try{
-			$this->Email->to = $user['User']['account_email'];
-			$this->Email->subject = 'Hire Routes : Account Registration';
-			$this->Email->replyTo = USER_ACCOUNT_REPLY_EMAIL;
-			$this->Email->from = 'Hire Routes '.USER_ACCOUNT_SENDER_EMAIL;
-			$this->Email->template = 'company_user_registration';
-			$this->Email->sendAs = 'html';
-			$this->set('user', $user['User']);
-			$this->Email->send();
-		}catch(Exception $e){
-			//echo 'Message: ' .$e->getMessage();
-			//$this->Session->setFlash('Server busy, please try after some Time.', 'error');
-			$this->redirect("/");
-			return;
-		}		
-	}	
 	
 /**
  * Display account confirmaiton message after sigining-up.
@@ -465,7 +443,7 @@ class UsersController extends AppController {
 			}
 			else{
 				$this->ArosAcos->rollback();
-				$this->Session->setFlash('Server busy, please try after some Time.', 'error');
+				$this->Session->setFlash('Internal Error!', 'error');
 				$this->redirect("/");
 				return;
 			}	

@@ -2,11 +2,11 @@
 <div style='text-align:center'>
 
 	<div style='border:1px solid #000000;overflow:auto;' >
-		<?php if(isset($message)&&!is_null($message))echo $message; ?>
+		<?php if(isset($message['message'])&&!is_null($message['message']))echo $message['message']; ?>
 	</div>
 
 	<p>
-		TAKE THE HIREROUTES SIMPLY BY SHARING THIS JOB POST WITH YOUR TRUSTED NETWORK AND EARN UPTO THE ENTIRE REWARD OF <b>$<?php echo $job_details['Job']['reward']?></b><br/><b>-OR-</b><br/>APPLY FOR THE JOB YOURSELF!
+		TAKE THE HIREROUTES SIMPLY BY SHARING THIS JOB POST WITH YOUR TRUSTED NETWORK AND EARN UPTO THE ENTIRE REWARD OF <b>$<?php echo $message['Job']['reward']?></b><br/><b>-OR-</b><br/>APPLY FOR THE JOB YOURSELF!
 	</p>
 
 	<div class='clear:both'></div>
@@ -19,18 +19,18 @@
 			<strong>REWARD</strong>
 		</div>
 		<div style='float:left;width:250px;text-align:left;background-color:green;'>
-			<?php echo"<a href='hireroutes/jobs/jobDetail/".$job_details['Job']['id']."'  style='decoration:none;'>";?>
+			<?php echo"<a href='hireroutes/jobs/jobDetail/".$message['Job']['id']."'  style='decoration:none;'>";?>
 				<font size='4px' color='black'><b>
-				<?php echo $job_details['Job']['title'];?><br/>
-				<?php echo $job_details['Company']['company_name'];?>,&nbsp;
-				<?php echo $job_details['Job']['city'];?>,&nbsp;
-				<?php echo $job_details['Job']['state'];?>
+				<?php echo $message['Job']['title'];?><br/>
+				<?php echo $message['Company']['company_name'];?>,&nbsp;
+				<?php echo $message['Job']['city'];?>,&nbsp;
+				<?php echo $message['Job']['state'];?>
 				</b></font>
 			</a><br/>
 		</div>
 		<div style='float:right;width:150px;text-align:left;background-color:green;'>
 			<font size='16px'>
-				<b>$<?php echo $job_details['Job']['reward'];?></b>
+				<b>$<?php echo $message['Job']['reward'];?></b>
 			</font>
 		</div>
 	</div>
@@ -47,7 +47,7 @@
 			2. Find a Job for Yourself<br/>
 			3. Charity!<br/>
 			4. Help Hire Routes to grow so we can help more people!<br/>
-			5. Make upto <b><?php echo $job_details['Job']['reward'];?></b> if you are a connector that helps the candidate get hired for the job posted above!
+			5. Make upto <b><?php echo $message['Job']['reward'];?></b> if you are a connector that helps the candidate get hired for the job posted above!
 		</p>
 	</div>
 	<div>

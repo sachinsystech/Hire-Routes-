@@ -855,7 +855,13 @@ label.error{
 	color:red;
 }
 
-
+.warning {
+    background: url("../img/message-warn.png") no-repeat scroll 7px 7px lightyellow;
+    border: 1px solid #DAA520;
+    margin: 1em 0;
+    padding: 10px 10px 10px 35px;
+    text-align: center;
+}
 
 /* JOB PAGE*/
 
