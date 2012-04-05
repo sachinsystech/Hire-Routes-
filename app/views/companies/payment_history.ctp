@@ -18,6 +18,19 @@
 			<div class="middleBox">
 				<div class="job_data">
 					<table style="width:100%">
+						<tr >
+							<td colspan="100%">
+								<div style="float:right;width:50%;text-align: right;">
+								<?php if($this->Paginator->numbers()){?>
+								<?php echo $paginator->first(' << ', null, null, array("class"=>"disableText"));?>
+								<?php echo $this->Paginator->prev(' < ', null, null, array("class"=>"disableText")); ?>
+								<?php echo $this->Paginator->numbers(); ?>
+								<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>		
+								<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
+								<?php }?>
+						</div>
+					</td>
+					</tr>
 						<tr>
 							<td style="text-align:center;"><strong>#</strong></td>
 							<td style="text-align:center;"><strong>Transication-Id</strong></td>

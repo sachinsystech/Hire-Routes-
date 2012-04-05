@@ -506,14 +506,14 @@ function paymentHistoryInfo(){
 																 	) 
 																); 		
 			if(!$PaymentDetail){
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered  manually.', 'error');				
 				$this->redirect('/companies/paymentHistory');
 			}														
 			$this->set('PaymentDetail',$PaymentDetail);	
 			$this->set('jobInfo',$this->getJob($PaymentDetail['job']['id']));	
 		}
 		else{
-			$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+			$this->Session->setFlash('You may be clicked on old link or entered  manually.', 'error');				
 			$this->redirect('/companies/paymentHistory');
 		}
 	}
@@ -662,7 +662,7 @@ function paymentHistoryInfo(){
 					$this->Session->setFlash('File does not exist.', 'error');				
 				}				
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');				
 			}
 		}		
 	}

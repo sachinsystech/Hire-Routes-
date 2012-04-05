@@ -724,11 +724,14 @@ class UsersController extends AppController {
  */
 
 	public function changePassword(){
+		$user_role=$this->Session->read('user_role');
 		if(isset($this->data['User'])){
-		
 			//check for blank or empty field
 			if(empty($this->data['User']['oldPassword'])){
 				$this->set("old_password_error","Old Password Required");
+				if($user_role['role_id']==ADMIN){
+					$this->render("change_password","admin");
+				}
 				return;
 			}
 			
@@ -740,9 +743,12 @@ class UsersController extends AppController {
 			
 			//Check old password match
 			if(!$this->User->find('first',array('conditions'=>array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword'])))){
-			unset($this->data['User']);
-			$this->Session->setFlash("Old password not matched!.","error");
-			return;
+				unset($this->data['User']);
+				$this->Session->setFlash("Old password not matched!.","error");
+				if($user_role['role_id']==ADMIN){
+					$this->render("change_password","admin");
+				}
+				return;
 			}
 			
 			//set User data
@@ -756,18 +762,48 @@ class UsersController extends AppController {
 				if(mysql_affected_rows()>0){
 					unset($this->data['User']);
 					$this->Session->setFlash("Password changed successfully.","success");
+					switch($user_role['role_id']){
+						case COMPANY:
+							$this->redirect(array('controller'=>'Companies','action'=>'accountProfile'));
+							break;	
+						case JOBSEEKER:
+								$this->redirect(array('controller'=>'jobseekers'));
+								break;
+						case NETWORKER:
+								$this->redirect(array('controller'=>'networkers'));
+								break;
+						case ADMIN:
+								$this->redirect(array('controller'=>'admin'));
+								break;
+						default:
+								$this->Session->SetFlash('Internal Error!','error');
+								$this->redirect('/');
+					}
 				}
 				elseif(mysql_affected_rows()==0){
 					unset($this->data['User']);
 					$this->Session->setFlash("Change password process failed, Try again!.","error");
+					if($user_role['role_id']==ADMIN){
+						$this->render("change_password","admin");
+					}
 				}elseif(mysql_affected_rows()<0){	//check for server problem
 					unset($this->data['User']);
 					$this->Session->setFlash("Server problem!","error");
+					if($user_role['role_id']==ADMIN){
+						$this->render("change_password","admin");
+					}
+					return;
+				}
+			}else{
+				unset($this->data['User']);
+				if($user_role['role_id']==ADMIN){
+					$this->render("change_password","admin");
+				return;
 				}
 			}
-			else{
-				unset($this->data['User']);
-			}
+		}
+		if($user_role['role_id']==ADMIN){
+			$this->render("change_password","admin");
 		}
 	}
 

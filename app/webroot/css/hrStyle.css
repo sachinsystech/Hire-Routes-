@@ -1985,3 +1985,18 @@ border: 1px solid #000000;
 	margin-left:40px;
 	border:1px solid #000000;
 }
+
+/****  change password   ***/
+.change_password{
+    margin: 15px 40px;
+    padding: 11px;
+    width: 400px;
+}
+
+/****	menu elements	***/
+
+ul a.menu_item{
+	color:#000000;
+	text-decoration:none;
+	font-weight:normal;
+}

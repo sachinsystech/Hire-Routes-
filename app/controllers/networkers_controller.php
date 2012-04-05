@@ -670,9 +670,9 @@ class NetworkersController extends AppController {
 														  )
 											 );
 		if($payment[0][0]['networker_reward']!=""){
-			$total_reward = "$ ".$payment[0][0]['networker_reward'];
+			$total_reward = $payment[0][0]['networker_reward'];
 		}else{
-			$total_reward = "";
+			$total_reward = 0;
 		}
 		$this->set('TotalReward',$total_reward);
 		$this->set('NewJobs',$newjobs);
