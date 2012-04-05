@@ -885,7 +885,7 @@ function paymentHistoryInfo(){
         }else{
             $linkedin->getRequestToken();
             $this->Session->write('requestToken',serialize($linkedin->request_token));
-            echo json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$linkedin->generateAuthorizeUrl()));
+            echo json_encode(array('error'=>1,'message'=>'User not authenticate from linkedin.','URL'=>$linkedin->generateAuthorizeUrl()));
         }
     }
    
@@ -924,6 +924,7 @@ function paymentHistoryInfo(){
                 try{
 
                     $linkedin->access_token =unserialize($user['User']['linkedin_token']);
+                    $subject = "Hire Routes";
                     $xml_response = $linkedin->sendMessage($id,$subject,$message);
                     return json_encode(array('error'=>0));
                     
