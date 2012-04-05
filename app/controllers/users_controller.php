@@ -64,7 +64,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('facebookUserSelection');
 		$this->Auth->allow('accountConfirmation');		
 		$this->Auth->allow('myAccount');	
-		$this->Auth->allow('forgetPassword');	
+		$this->Auth->allow('forgotPassword');	
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -751,7 +751,7 @@ class UsersController extends AppController {
 		return true;
 	}
 
-	function forgetPassword(){
+	function forgotPassword(){
 		
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/myAccount");				
@@ -770,7 +770,7 @@ class UsersController extends AppController {
 				$user['User']['password'] =$this->Auth->password($newPassword);
 				$to =$userEmail;
 				$subject = 'Hire-Routes :: Account Password';
-				$template = 'forget_password';
+				$template = 'forgot_password';
 					
 				if($this->User->save($user['User'])){
 					$user['User']['password'] = $newPassword;
@@ -785,7 +785,7 @@ class UsersController extends AppController {
 				$this->sendConfirmationEmail($user['User']['id']);
 				$this->Session->SetFlash('You account is not confirmed and activated yet, confirmatoin link is sent to your email, please check you email for confirmation link!','warning');
 			}
-			$this->redirect('/users/forgetPassword');
+			$this->redirect('/users/forgotPassword');
 		}
 	}
 
