@@ -14,7 +14,7 @@
   function checkform() {
     var isAgreeCondition = $('input:checkbox[id=UserAgreeCondition]:checked').val();
     if(!isAgreeCondition){
-      $("#agree_condition_error").removeClass().addClass("terms-condition-error").html("This is required field.");
+      $("#agree_condition_error").removeClass().addClass("error").html("This is required field.");
       return false;
     }
     if(isAgreeCondition){

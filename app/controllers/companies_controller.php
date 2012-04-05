@@ -607,7 +607,6 @@ function paymentHistoryInfo(){
 							
 							);
 				
-
 				$applicants = $this->paginate("JobseekerApply");
 				//echo "<pre>";  print_r($applicants);
 				$this->set('NoOfApplicants',count($applicants));

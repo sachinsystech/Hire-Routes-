@@ -636,8 +636,7 @@ class UsersController extends AppController {
 			);
 			
 			if(!$this->Auth->login($data)){
-				$this->Session->setFlash('Username or password not matched.', 'error');	
-			
+				$this->Session->setFlash('Username or password not matched.', 'error');				
 			}else{
 
 				$userData=$this->User->find('first',array('conditions'=>array("id"=>$this->TrackUser->getCurrentUserId())));
