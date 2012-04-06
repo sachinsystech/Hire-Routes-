@@ -129,10 +129,10 @@ class NetworkersController extends AppController {
 			if($this->User->save($this->data['User'])){
 				if($this->Networkers->save($this->data['Networkers'])){
 					$this->Session->write('welcomeUserName',$this->data['Networkers']['contact_name']);
-					$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+					$this->Session->setFlash('Profile has been updated successfuly.', 'success');
+					$this->redirect('/networkers');
 				}	
 			}
-			$this->redirect('/networkers');						
 		}
 		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));

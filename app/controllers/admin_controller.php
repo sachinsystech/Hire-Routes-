@@ -46,7 +46,7 @@ class AdminController extends AppController {
 					'conditions'=> array('User.id = Companies.user_id',"User.is_active=0")
 					),
 				),
-			'limit'=>1,
+			'limit'=>10,
 			);
 		$Companies = $this->paginate('Companies');
 		$this->set('Companies',$Companies);		

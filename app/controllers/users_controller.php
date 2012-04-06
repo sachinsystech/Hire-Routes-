@@ -169,7 +169,7 @@ class UsersController extends AppController {
 				$this->saveUserRoles($userId,$userRoleId);
 				$networker = array();
 				$networker['user_id'] = $userId;
-				if($this->Networkers->save($networker) ){			
+				if($this->Networkers->save($networker,false) ){			
 					$this->sendConfirmationEmail($userId);
 					if($codeFlag){
 						$code = $this->findCodeFor('Networker');
@@ -238,7 +238,7 @@ class UsersController extends AppController {
 				}
 				$jobseeker = array();
 				$jobseeker['user_id'] = $userId;
-				if($this->Jobseekers->save($jobseeker) ){			
+				if($this->Jobseekers->save($jobseeker,false)){
 					$this->sendConfirmationEmail($userId);
 					if($codeFlag){
 						$code = $this->findCodeFor('Jobseeker');
