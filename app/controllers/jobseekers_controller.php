@@ -47,6 +47,7 @@ class JobseekersController extends AppController {
 			if(!isset($jobseeker['contact_name']) || empty($jobseeker['contact_name'])){
 				$this->redirect("/jobseekers/editProfile");						
 			}
+			$this->set('user',$user['User']);
 			$this->set('jobseeker',$jobseeker);
 		}
 		else{		

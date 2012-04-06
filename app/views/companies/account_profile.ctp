@@ -42,7 +42,11 @@
 						<div class="cr_setting_profile_field">Contact Phone:</div>
 						<div class="setting_profile_value"><?php echo $company['contact_phone'];?></div>
 					</div>
-				
+					
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Email:</div>
+						<div class="setting_profile_value"><?php echo $user['account_email'];?></div>
+					</div>
 				</div>
 			</div>			
 			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>

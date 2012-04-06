@@ -249,7 +249,7 @@
 					<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
 					<?php echo $form -> input('switch_display',array(
 												'type'=>'select',
-												'label'=>"< < <".$this->Paginator->numbers()."> > > DISPLAYING </span>",
+												'label'=>"".($this->Paginator->numbers()) ?$paginator->first(' << ', null, null, array("class"=>"disableText"))." ".$this->Paginator->prev(' < ', null, null, array("class"=>"disableText"))." ".$this->Paginator->numbers()." ".$this->Paginator->next(' > ', null, null, array("class"=>"disableText"))." ".$paginator->last(' >> ', null, null, array("class"=>"disableText")):''." DISPLAYING </span>",
 												'options'=>$display_page_no,
 												'class'=>'job_select_diplay',
 												'selected'=>isset($displayPageNo)?$displayPageNo:5,

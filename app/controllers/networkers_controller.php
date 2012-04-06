@@ -47,6 +47,7 @@ class NetworkersController extends AppController {
 			if(!isset($networkers['contact_name']) || empty($networkers['contact_name'])){
 				$this->redirect("/Networkers/editProfile");						
 			}
+			$this->set('user',$user['User']);
 			$this->set('networker',$networkers);
 		}
 		else{		
