@@ -44,8 +44,8 @@
 	Router::connect('/howItWorks', array('controller' => 'home', 'action' => 'howItWorks'));	
 	
 	
-	Router::connect('/companies/archiveJob/:id', array('controller' => 'Companies','action' => 'archiveJob'),array('id' => '[0-9]+')); 
-	Router::connect('/companies/showApplicant/:id', array('controller' => 'Companies','action' => 'showApplicant'),array('id' => '[0-9]+')); 
+	Router::connect('/companies/archiveJob/:id', array('controller' => 'companies','action' => 'archiveJob'),array('id' => '[0-9]+')); 
+	Router::connect('/companies/showApplicant/:id/*', array('controller' => 'companies','action' => 'showApplicant'),array('id' => '[0-9]+')); 
 	Router::connect('/companies/rejectApplicant/:id/:jobId', array('controller' => 'Companies','action' => 'deleteJob'),array('id' => '[0-9]+','jobId' => '[0-9]+')); 
 
 	Router::connect('/companies/viewResume/:ftype/:id', array('controller' => 'Companies','action' => 'viewResume')); 

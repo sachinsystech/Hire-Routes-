@@ -147,7 +147,7 @@
 							  //										   'options'=>$salary_array,
 							  //										   'class'=>'jobseeker_select_salary',
 							  //										   'selected' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>
-						<?php echo $form->input('salary_range', array('label' => 'Annual Salary Range:',
+						<?php echo $form->input('salary_range', array('label' => 'Annual Salary Range ($):',
 																  'type'  => 'text',
 																  'class' => 'jobseekers_text_salary_range required number',
 																  'min' =>1000,

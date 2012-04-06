@@ -29,7 +29,14 @@
 						</div>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Reward(Amout):</div>
-							<div style="float:left"><?php echo number_format($PaymentDetail['PaymentHistory']['amount'],'2','.',''); ?><b>$</b></div>
+							<div style="float:left"><?php echo $this->Number->format(
+										$PaymentDetail['PaymentHistory']['amount'],
+										array(
+											'places' => 2,
+											'before' => '$',
+											'decimals' => '.',
+											'thousands' => ',')
+										);?></div>
 						</div>
 					</div>
 					<div style="clear:both;margin-left: 45px;margin-top: 35px;width: 410px;"><hr/></div>

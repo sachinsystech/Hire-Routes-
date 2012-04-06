@@ -55,6 +55,11 @@
 						<div class="setting_profile_value"><?php echo $jobseeker['contact_phone'];?></div>
 					</div>
 					<?php endif;?>
+					
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">Email:</div>
+						<div class="setting_profile_value"><?php echo $user['account_email'];?></div>
+					</div>
 				</div>
 			</div>
 			

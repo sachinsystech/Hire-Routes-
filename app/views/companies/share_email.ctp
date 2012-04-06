@@ -1,12 +1,39 @@
+<script>
+$(function() {
+        $( "#dialog:ui-dialog" ).dialog( "destroy" );
+		$( "#dialog" ).dialog({
+			autoOpen: false,
+			show: "blind",
+			hide: "explode",
+            width:900
+		});
+		$( "#opener" ).click(function() {
+			$( "#dialog" ).dialog( "open" );
+			return false;
+		});
+
+        $( "#dialog-message" ).dialog({
+			modal: true,
+            autoOpen: false,
+			buttons: {
+				Ok: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+	});
+</script>
+<div id="dialog-message"></div>
 <div class="page">
+<div id ="dialog">
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
 			<ul>
-				<li id='liFacebook'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='return setView("Facebook");'>Facebook</a></li>
-				<li id='liLinkedIn'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='return setView("LinkedIn");'>LinkedIn</a></li>
-				<li id='liTwitter'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='return setView("Twitter");'>Twitter</a></li>
-				<li id='liEmail'class="active" ><a style="text-decoration: none;font-weight: normal;" href=# onclick='return setView("Email");'>Email</a></li>
+				<li id='liFacebook'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='showView(1);'>Facebook</a></li>
+				<li id='liLinkedIn'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='showView(2);'>LinkedIn</a></li>
+				<li id='liTwitter'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='showView(3);'>Twitter</a></li>
+				<li id='liEmail'class="active" ><a style="text-decoration: none;font-weight: normal;" href=# onclick='showView(4);'>Email</a></li>
 				<li id='liOther'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='return setView("Other");'>Other</a></li>
 			</ul>
 		</div>
@@ -36,9 +63,9 @@
 					</div>
 					<div style="">
 						<?php echo $form->button('Share', array('label' => '',
+                                                                'id' =>'share',
 																'type'  => 'button',
 																'value' => 'Share',
-																'onclick'=> 'return facebookComment();',
 																'style' => 'float:right;'
 						));?>
 						<?php echo $form->button('Cancel', array('label' => '',
@@ -54,10 +81,34 @@
 
 	</div>
 	<!-- middle section end -->
-
 </div>
+</div>
+<button id="opener">Open Dialog</button>
 <script>
-setView('Facebook');
+function showView(type){
+    $("#share").unbind();
+    switch(type){
+        case 1:
+            setView('Facebook');
+            fillFacebookFriend();
+            $("#share").click(facebookComment);
+            break;
+        case 2:
+            setView('LinkedIn');
+            fillLinkedinFriend();
+            $("#share").click(linkedInComment);
+            break;
+        case 3:
+            setView('Twitter');
+            $("#share").click();
+            break;
+        case 4:
+            setView('Email');
+            break;
+
+    }
+}
+
 function setView(value)
 {
 	$('#message').hide();
@@ -119,7 +170,7 @@ function validateEmail(elementValue){
 
 /*************************************************************/
        function fillLinkedinFriend(){
-            //get list of facebook friend from ajax request
+            //get list of linkedin friends from ajax request
             $("#facebook").html("<img src='/img/loading.gif'>");
             $.ajax({
                 type: 'POST',
@@ -131,11 +182,13 @@ function validateEmail(elementValue){
                             createHTMLforFacebookFriends(response.data);
                             break;
                         case 1: // we don't have user's facebook token
-                            alert(response.message);
+                            $( "#dialog-message" ).html(response.message);
+                            $( "#dialog-message" ).dialog("open");
                             window.open(response.URL);
                             break;
                         case 2: // something went wrong when we connect with facebook.Need to login by facebook 
-                            alert(response.message);
+                            $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
+                            $( "#dialog-message" ).dialog("open");
                             break;
                    }
             
@@ -155,14 +208,17 @@ function validateEmail(elementValue){
                 type: 'POST',
                 url: '/companies/commentAtFacebook',
                 dataType: 'json',
-                data: "usersId="+usersId+"&message="+$("#message").val(),
+                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val(),
                 success: function(response){
                    switch(response.error){
                         case 0: // success
                             // show success message
+                            $( "#dialog-message" ).html("Successfully sent a message to facebook users.");
+                            $( "#dialog-message" ).dialog("open");
                             break;
-                        case 1: // we don't have user's facebook token
-                            // show error message
+                        case 1:  
+                                $( "#dialog-message" ).html("Something went wrong.Please contact to site admin.");
+                                $( "#dialog-message" ).dialog("open");
                             break;
                    }
             
@@ -183,14 +239,16 @@ function validateEmail(elementValue){
                 type: 'POST',
                 url: '/companies/sendMessagetoLinkedinUser',
                 dataType: 'json',
-                data: "usersId="+usersId+"&message="+$("#message").val(),
+                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val(),
                 success: function(response){
                    switch(response.error){
                         case 0: // success
-                            // show success message
+                            $( "#dialog-message" ).html("Successfully sent a message to Linkedin users.");
+                            $( "#dialog-message" ).dialog("open");
                             break;
-                        case 1: // we don't have user's facebook token
-                            // show error message
+                        case 1:  
+                            $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
+                            $( "#dialog-message" ).dialog("open");
                             break;
                    }
             
@@ -217,11 +275,13 @@ function validateEmail(elementValue){
                             createHTMLforFacebookFriends(response.data);
                             break;
                         case 1: // we don't have user's facebook token
-                            alert(response.message);
+                            $( "#dialog-message" ).html(response.message);
+                            $( "#dialog-message" ).dialog("open");
                             window.open(response.URL);
                             break;
                         case 2: // something went wrong when we connect with facebook.Need to login by facebook 
-                            alert(response.message);
+                            $( "#dialog-message" ).html("Something went wrong. Please contact to site admin");
+                            $( "#dialog-message" ).dialog("open");
                             break;
                    }
             
@@ -243,7 +303,7 @@ function validateEmail(elementValue){
        $("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox' onclick='var flag=this.checked; $(\".facebookfriend\").each(function(){ this.checked = flag; });'/></div><div id='imageDiv' style='border: 1px solid #000000;width:400px;height:220px;overflow:auto;'>"+html+"</div>");
     }
 
-        fillFacebookFriend();
+        //fillFacebookFriend();
         //fillLinkedinFriend();
     </script>
 

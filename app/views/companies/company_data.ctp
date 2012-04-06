@@ -28,11 +28,25 @@
 						</tr>
 						<tr>
 							<td><strong>Rewards Posted</strong></td>
-							<td><?php echo $RewardsPosted;?></td>
+							<td><?php echo $this->Number->format(
+										$RewardsPosted,
+										array(
+											'places' => 2,
+											'before' => '$',
+											'decimals' => '.',
+											'thousands' => ',')
+										);?></td>
 						</tr>
 						<tr>
 							<td><strong>Rewards Paid</strong></td>
-							<td><?php echo $RewardsPaid;?></td>
+							<td><?php echo $this->Number->format(
+										$RewardsPaid,
+										array(
+											'places' => 2,
+											'before' => '$',
+											'decimals' => '.',
+											'thousands' => ',')
+										);?></td>
 						</tr>
 						<tr>
 							<td><strong>Applicants</strong></td>

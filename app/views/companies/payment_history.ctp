@@ -18,6 +18,19 @@
 			<div class="middleBox">
 				<div class="job_data">
 					<table style="width:100%">
+						<tr >
+							<td colspan="100%">
+								<div style="float:right;width:50%;text-align: right;">
+								<?php if($this->Paginator->numbers()){?>
+								<?php echo $paginator->first(' << ', null, null, array("class"=>"disableText"));?>
+								<?php echo $this->Paginator->prev(' < ', null, null, array("class"=>"disableText")); ?>
+								<?php echo $this->Paginator->numbers(); ?>
+								<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>		
+								<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
+								<?php }?>
+						</div>
+					</td>
+					</tr>
 						<tr>
 							<td style="text-align:center;"><strong>#</strong></td>
 							<td style="text-align:center;"><strong>Transication-Id</strong></td>
@@ -35,7 +48,14 @@
 							<td style="text-align:center;"><?php echo $sn++; ?></td>
 							<td style="text-align:center;"><?php echo$this->Html->link($PH['PaymentHistory']['transaction_id'], '/companies/paymentHistoryInfo/'.$PH['PaymentHistory']['id']."/".$PH['PaymentHistory']['transaction_id']); ?></td>
 							<td style="text-align:center;"><?php echo $this->Time->format('m/d/Y',$PH['PaymentHistory']['paid_date']); ?></td>
-							<td><span style="float: right; margin-right: 30px;"><?php echo number_format($PH['PaymentHistory']['amount'],'2','.',''); ?><b>$</b></span></td>
+							<td><span style="float: right; margin-right: 30px;"><?php echo $this->Number->format(
+										$PH['PaymentHistory']['amount'],
+										array(
+											'places' => 2,
+											'before' => '$',
+											'decimals' => '.',
+											'thousands' => ',')
+										);?></span></td>
 						</tr>
 						<?php endforeach; ?>
 					</table>

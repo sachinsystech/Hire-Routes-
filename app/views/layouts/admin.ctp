@@ -15,6 +15,7 @@
 	
 	echo $html->script('jquery_min.js');	
 	echo $html->script('jquery-ui.min.js');
+	echo $html->script('jquery.validate.js');
 ?>
 
 </head>
@@ -94,6 +95,10 @@
 			<li><a href="/admin/paymentInformation"><b>Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
 		
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+			<li><a href="/users/changePassword"><b>Change password</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+		</ul>
+		
 		<div class="clear"></div>
 		</div>
 		<div class="clear"></div>
@@ -104,6 +109,7 @@
 		<!-- start content-outer --><div id="content-outer">
 		<!-- start content -->
 		<div id="content">
+		<?php echo $this->Session->flash(); ?>
 		<?php echo $content_for_layout; ?>
 		</div>
 		<!--  end content -->
