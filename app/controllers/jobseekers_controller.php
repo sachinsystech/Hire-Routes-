@@ -1,7 +1,7 @@
 <?php
 class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
-	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles','FacebookUsers','Company',
+	var $uses = array('JobseekerSettings','Jobseekers','User','UserRoles','FacebookUsers','Company',
 					  'Job','Industry','State','Specification','Companies','City','JobseekerApply',
 					  'JobseekerProfile');
 	var $components = array('Email','Session','TrackUser','Utility');
@@ -47,6 +47,7 @@ class JobseekersController extends AppController {
 			if(!isset($jobseeker['contact_name']) || empty($jobseeker['contact_name'])){
 				$this->redirect("/jobseekers/editProfile");						
 			}
+			$this->set('user',$user['User']);
 			$this->set('jobseeker',$jobseeker);
 		}
 		else{		
@@ -75,17 +76,17 @@ class JobseekersController extends AppController {
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
 
-			$this->Jobseeker->save($this->data['Jobseeker']);
-			$this->Session->write('welcomeUserName',$this->data['Jobseeker']['contact_name']);
-			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
-			$this->redirect('/jobseekers');						
-
-			if($this->Session->check('redirect_url')){
+			if($this->Jobseekers->save($this->data['Jobseekers'])){
+				$this->Session->write('welcomeUserName',$this->data['Jobseekers']['contact_name']);
+				$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+				//$this->redirect('/jobseekers');
+				if($this->Session->check('redirect_url')){
 				$redirect_to = $this->Session->read('redirect_url');
 				$this->redirect($redirect_to);
-			}else{
-				$this->redirect('/jobseekers');	
-			}					
+				}else{
+					$this->redirect('/jobseekers');	
+				}
+			}
 		}
 		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));

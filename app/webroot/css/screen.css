@@ -1751,7 +1751,6 @@ a:hover.back-login	{
     text-align: center;
     width: 112px;
 }
-    
  .usertableHeading th{
     background-color:#FEAEAE;
     color: #FFFFFF;
@@ -1768,4 +1767,31 @@ a:hover.back-login	{
 	padding-left:5px;
 	border-collapse:collapse;
 	
+}
+/***	Change password	****/
+.change_password{
+    margin: auto;
+    padding: 11px;
+    width: 400px;
+}
+
+.change_password label{
+	width:140px;
+	float:left;
+	font-size:15px;
+	margin:5px;
+}
+
+.change_password label.error{
+	width:300px;
+	clear:left;
+}
+.change_password input{
+	float:left;
+	margin-left:10px;
+	text-align:left;
+}
+.change_password button{
+	float:right;
+	margin-right:20px;
 }

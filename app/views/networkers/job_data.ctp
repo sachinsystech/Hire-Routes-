@@ -32,7 +32,14 @@
 						</tr>
 						<tr>
 							<td><strong>Rewards</strong></td>
-							<td><?php echo $TotalReward;?></td>
+							<td><?php echo $this->Number->format(
+										$TotalReward,
+										array(
+											'places' => 2,
+											'before' => '$',
+											'decimals' => '.',
+											'thousands' => ',')
+										);?></td>
 						</tr>													
 					</table>
 				</div>
