@@ -44,7 +44,7 @@
 				<div>Welcome back, <?php echo $jobseekerData['name'];?>!</div>
 			<?php endif;?>
 			<div class="form_content"  style="margin:auto;">
-				<?php echo $form->create('JobseekerSettings', array('id'=>'JobseekerSettingsAddForm','url' => '/jobseekers/setting','onsubmit'=>'return check_email_subs();')); ?>
+				<?php echo $form->create('JobseekerSettings', array('id'=>'JobseekerSettingsForm','url' => '/jobseekers/setting','onsubmit'=>'return check_email_subs();')); ?>
 					<?php echo $form->input('id', array('label' => 'Your Name',
 														'type'  => 'hidden',
 														'value' => isset($jobseekerData['id'])?$jobseekerData['id']:""
@@ -198,7 +198,7 @@
 	<!-- middle section end -->
 </div>
 <script>
-$("#JobseekerSettingsAddForm").validate();
+$("#JobseekerSettingsForm").validate();
 </script>
 <?php $industry_1 = isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:1;?>
 <?php $industry_2 = isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:1;?>
