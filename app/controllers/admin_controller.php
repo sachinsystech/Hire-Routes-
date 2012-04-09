@@ -61,6 +61,7 @@ class AdminController extends AppController {
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 		if($user){
 			$user['User']['is_active'] = '1';
+			$user['User']['confirm_code']="";
 			$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$id)));
 			$arosAcosData['aro_id'] = $aros['Aros']['id'];
 			$arosAcosData['aco_id'] = 47;
@@ -263,36 +264,42 @@ class AdminController extends AppController {
 	}
 	
 	function userList(){
-		$userArray = array();
+		
+		$filterRoleCond = null;
+		$userFilter = 'Companies.*,Jobseekers.*,Networkers.*';
 		if(isset($this->params['named']['filter'])){
 			$filter = $this->params['named']['filter'];
-			$this->set('filter',$filter);
-		}
-		if(isset($filter)){
 			switch($filter){
-				case COMPANY:
-						$filterRoleid = 1;
-						$filter = 'Companies';
+				case 'company':
+						$userFilter = 'Companies.*';
+						$filterRoleCond = array('UserRoles.role_id'=>COMPANY);
 						break;
-				case JOBSEEKER:
-						$filterRoleid = 2;
-						$filter = 'Jobseekers';
+				case 'jobseeker':
+						$userFilter = 'Jobseekers.*';
+						$filterRoleCond = array('UserRoles.role_id'=>JOBSEEKER);
 						break;
-				case NETWORKER:
-						$filterRoleid = 3;
-						$filter = 'Networkers';
+				case 'networker':
+						$userFilter = 'Networkers.*';
+						$filterRoleCond = array('UserRoles.role_id'=>NETWORKER);
 						break;
+				default:
+					$this->Session->setFlash('You click on old link or enter manully.','error');
+					$this->redirect('/admin/userList');
 			}
-			$this->paginate =array('limit' =>10,
-		   						   'conditions' => array('UserRoles.role_id'=>$filterRoleid),
-								   'fields' => array("UserList.*,UserRoles.*,$filter.*"),
-								  );	
-		}else{
-			$this->paginate =array('limit'=>10,);
 		}
-		
+		$this->set('filter',isset($filter)?$filter:null);		
+		$this->paginate =array('limit' =>10,
+	   						   'conditions' => array($filterRoleCond,
+	   						   						'NOT'=>array('UserList.id'=>array(1,2),'UserRoles.role_id'=>5),	
+	   						   						'UserList.confirm_code'=>'',
+	   						   	    				'OR'=>array('UserList.is_active'=>array(0,1)), 
+	   						   						 ),
+							   'fields' => array("UserList.account_email,UserList.id,
+							   					UserList.created,UserList.fb_user_id,UserList.is_active,
+							   					UserRoles.*,$userFilter"),
+							  );	
 		$users= $this->paginate('UserList');
-		
+		$userArray = array();
 		foreach($users as $key=>$value){
 			$role_id = isset($value['UserRoles']['role_id'])?$value['UserRoles']['role_id']:false;
 			if($role_id ){
@@ -316,10 +323,11 @@ class AdminController extends AppController {
 				$userArray[$key]['id'] = $value['UserList']['id'];
 				$userArray[$key]['role_id'] = $role_id;
 				$userArray[$key]['role'] = $role;
-				if($value['UserList']['fb_user_id'] == 0){
+				if($value['UserList']['fb_user_id']==0){
 					$userArray[$key]['account_email'] = $value['UserList']['account_email'];
 				}else
-					$userArray[$key]['account_email'] = "Facebook User";	
+					$userArray[$key]['account_email'] = "fb";
+					
 				$userArray[$key]['created'] = date("d M Y h:m:s", strtotime($value['UserList']['created']));
 				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
 				
@@ -338,33 +346,32 @@ class AdminController extends AppController {
 	function userAction(){
 		if(isset($this->params['named']['active'])){
 			$userId=$this->params['named']['active'];
-			$is_active=1;
+			$is_active='1';
 		}			
 		if(isset($this->params['named']['deactive'])){
 			$userId=$this->params['named']['deactive'];
-			$is_active=0;
+			$is_active='0';
+			$this->Session->setFlash('User Activated successfully','success');
 		}
 		if(isset($userId)){
 			$userData =$this->User->find('first',array('conditions'=>"User.id=$userId"));
 			if(isset($userData)){
 				$userData['User']['is_active'] =$is_active;
-				$this->User->save($userData);
-			}
-		}
-		$this->redirect("userList");
+				if($this->User->save($userData)){
+					if($is_active==0){
+						$this->Session->setFlash('User De-activated successfully','success');
+					}else{
+						$this->Session->setFlash('User Activated successfully','success');
+					}
+				}	
+			}else
+				$this->Session->setFlash('Internal error occurs..','error');
+		}else
+			$this->Session->setFlash('Internal error occurs..','error');
+			$this->redirect("userList");
 		
 	}
 	
-	function userDetail(){
-		if(isset($this->params['named']['role_id'])){
-			$role_id=$this->params['named']['role_id'];
-			$user_id=$this->params['named']['id'];
-			$userData= $this->UserList->find('first',array("conditions"=>"UserList.id=$user_id"));
-			pr($userData);exit;
-		}	
-	
-	
-	}
 	
 }
 ?>

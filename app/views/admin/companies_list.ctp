@@ -47,7 +47,7 @@
                     	$class = $sno%2?"odd":"even";
                 ?>
 				<tr class="<?php echo $class; ?>"> 
-				<td align="center" width="20%"><?php echo $company["Companies"]["company_name"]; ?></td> 
+				<td align="center" width="20%" style="padding:10px;"><?php echo $company["Companies"]["company_name"]; ?></td> 
 				<td align="center" width="20%"><?php echo $company["Companies"]["contact_name"]; ?></td> 
 				<td align="center" width="20%"><?php echo $company["Companies"]["contact_phone"]; ?></td> 
 				<td align="center" width="40%"><?php echo $company["User"]["account_email"]; ?></td> 
@@ -55,6 +55,7 @@
 				<td align="center" width="10%"><?php echo $html->link("Accept", array('action' => 'acceptCompanyRequest',$company['Companies']['user_id']), array('escape' => false)); ?>/<?php echo $html->link("Decline", array('action' => 'declineCompanyRequest',$company['Companies']['user_id']), array('escape' => false)); ?></td>
 			    </tr> 
       	<?php 
+      		$sno++;
 	    endforeach; 
 	    }else{
 			?>

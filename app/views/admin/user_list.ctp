@@ -30,29 +30,30 @@
 			<?php echo $form -> input('short_by',array(
 									  'type'=>'select',
 									  'label'=>'',
-									  'options'=>array('0'=>'Filter By',COMPANY=>'Company', NETWORKER=> 'Networker', JOBSEEKER => 'Jobseeker'),
+									  'options'=>array('0'=>'Filter By','company'=>'Company', 'networker'=> 'Networker', 'jobseeker' => 'Jobseeker'),
 									  'class'=>'job_select_shortby',
 									  'selected'=>isset($filter)?$filter:'All',));?>
+		</div>
     	<td id="tbl-border-left"></td>
     	<td>
 			<div class="content-table-inner">
-				<div class="clearBoth">&nbsp;</div>
+				<div style="float:right;margin:15px;">
+					<?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
+					<?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
+					<?php echo "< < ".$this->Paginator->numbers()."  > >"; ?>
+					<?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
+					<?php echo $paginator->last(' Last'); }?>
+				</div>
 				    <table width ="100%" cellspacing='0' class='userTable'>
 				    	<tr>
 				    		<th COLSPAN="8">
-								<div class="code_pagination">
-								<?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
-								<?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
-								<?php echo "< < ".$this->Paginator->numbers()."  > >"; ?>
-								<?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
-								<?php echo $paginator->last(' Last'); }?>
-								</div>
+								
 							</th>
 				    	</tr>
 					    <tr class="usertableHeading"> 
-						    <th style="width=5%;">SN</th> 
-						    <th width="15%">Name</th>				    
-						    <th width="28%">E-Mail</th>
+						    <th width="5%">SN</th> 
+						    <th width="12%">Name</th>				    
+						    <th width="25%">E-Mail</th>
 						    <th width="12%">User Group</th>
 						    <th width="15%">Telephone</th>
 						    <th width="20%"><?php echo $this->Paginator->sort('User Since','UserList.created')?></th>
@@ -67,23 +68,28 @@
 						<tr class="<?php echo $class; ?>" > 
 							<td style="padding:10px;text-align:center;" ><?php echo $sno++; ?></td> 
 							<td><?php echo $user['contact_name'];?></td> 
+							<?php if($user['account_email']=='fb'):
+											echo "<td title='Facebook User'> </td>";
+								  else:
+							?>
 							<td>
-								<a href="/admin/userDetail/id:<?echo $user['id'];?>">
-									<?php echo $user['account_email'];?>
-								</a>
+								
+								<?php echo $user['account_email']?>
+								
 							</td>
-							<td style="text-align:center;"><?php echo $user['role'];?></td> 
-							<td style="text-align:center;"><?php echo $user['contact_phone'];?></td>
-							<td style="text-align:center;"><?php echo $user['created'];?></td>
+							<? endif;?>
+							<td style="text-align:center;"> <?php echo $user['role'];?> </td> 
+							<td style="text-align:center;"> <?php echo $user['contact_phone'];?> </td>
+							<td style="text-align:center;"> <?php echo $user['created'];?> </td>
 							<?php if($user['is_active']==1 ):?>
 								<td style="text-align:center;">Yes</td>
 								<td>
-								<?php  echo $html->link($html->image("activate.png"),  array( 'action' => 'userAction','deactive:'.$user['id']), array('escape' => false)); ?>
+								<?php  echo $html->link($html->image("de-activate.jpg"),  array( 'action' => 'userAction','deactive:'.$user['id']), array('escape' => false,'title'=>'De-Activate','onclick'=>"return confirm('Do you want to De-Activate this account ?');")); ?>
 								</td>
 								<?php else:?>
 								<td style="text-align:center;">No</td>
 								<td>
-								<?php	echo $html->link($html->image("de-activate.jpg"), array('action' => 'userAction','active:'.$user['id']), array('escape' => false)); ?>
+								<?php	echo $html->link($html->image("activate.png"), array('action' => 'userAction','active:'.$user['id']), array('escape' => false,'title'=>'Activate','onclick'=>"return confirm('Do you want to Activate this account ?');")); ?>
 								</td>
 							<?php endif; ?>
 			    		</tr> 
@@ -97,15 +103,7 @@
 					<?php
 				    }
 					?>
-				<tr>
-				    <td colspan="8" style ="padding:10px;text-align:center">
-	    	    	<?php
-			  			echo $this->Paginator->numbers();
-					?>	
-	    			</td>
-				</tr>
 		    </table>
-		</div>
 		</div>
     </td>
     <td id="tbl-border-right"></td>

@@ -428,7 +428,7 @@ class UsersController extends AppController {
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId,'User.confirm_code'=>$confirmCode)));
 		if(isset($user['User']['confirm_code']) && isset($user['User']['id'])){
 			$user['User']['is_active'] = '1';
-			
+			$user['User']['confirm_code']="";
 			$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$userId)));
 			
 			$arosAcosData['aro_id'] = $aros['Aros']['id'];
@@ -437,15 +437,12 @@ class UsersController extends AppController {
 			$arosAcosData['_read'] = 1;						
 			$arosAcosData['_update'] = 1;
 			$arosAcosData['_delete'] = 1;	
-			$this->ArosAcos->begin();
 			if($this->ArosAcos->save($arosAcosData)){
 				if($this->User->save($user['User'])){
 					$this->setUserAsLoggedIn($user['User']);
-					$this->ArosAcos->commit();
 				}
 			}
 			else{
-				$this->ArosAcos->rollback();
 				$this->Session->setFlash('Internal Error!', 'error');
 				$this->redirect("/");
 				return;
@@ -625,11 +622,14 @@ class UsersController extends AppController {
 					$this->Session->setFlash('Your account is not confirmed, please check you email for confirmation link.', 'error');
 					$this->redirect("/users/login");
 				}
+				if($active_user['User']['is_active']==2){
+					$this->Session->setFlash('User with this email does not exist.', 'error');
+					$this->redirect("/users/login");
+				}
 			}else{
 				$this->Session->setFlash('User with this email does not exist.', 'error');
 				$this->redirect("/users/login");
 			}
-			
 			$this->Auth->fields = array(
 				'username' => 'account_email',
 				'password' => 'password'
@@ -639,7 +639,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Username or password not matched.', 'error');	
 			
 			}else{
-
+			
 				$userData=$this->User->find('first',array('conditions'=>array("id"=>$this->TrackUser->getCurrentUserId())));
 				$welcomeUserName = 'User';				
 				switch($userData['UserRoles'][0]['role_id']){
@@ -657,7 +657,6 @@ class UsersController extends AppController {
 							break;
 				}
 				$this->Session->write('welcomeUserName',$welcomeUserName);
-
 				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
 				/*if($this->Session->check('redirection_url'))
 				{
@@ -666,9 +665,11 @@ class UsersController extends AppController {
 					$this->redirect($redirect_to);					
 				}*/
 				$this->redirect("/users/firstTime");		
-			}
+				
+				}
+				
 		}
-		//$this->setRedirectionUrl();
+			//$this->setRedirectionUrl();
 	}
 
 /**
