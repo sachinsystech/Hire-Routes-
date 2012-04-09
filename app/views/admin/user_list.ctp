@@ -84,12 +84,12 @@
 							<?php if($user['is_active']==1 ):?>
 								<td style="text-align:center;">Yes</td>
 								<td>
-								<?php  echo $html->link($html->image("de-activate.jpg"),  array( 'action' => 'userAction','deactive:'.$user['id']), array('escape' => false,'title'=>'De-Activate','onclick'=>"return confirm('Do you want to De-Activate this account ?');")); ?>
+								<?php  echo $html->link($html->image("de-activate.jpg"),  array( 'action' => 'userAction','deactive:'.$user['id']), array('escape' => false,'title'=>'De-Activate','onclick'=>"return confirm('Do you want to de-activate this account ?');")); ?>
 								</td>
 								<?php else:?>
 								<td style="text-align:center;">No</td>
 								<td>
-								<?php	echo $html->link($html->image("activate.png"), array('action' => 'userAction','active:'.$user['id']), array('escape' => false,'title'=>'Activate','onclick'=>"return confirm('Do you want to Activate this account ?');")); ?>
+								<?php	echo $html->link($html->image("activate.png"), array('action' => 'userAction','active:'.$user['id']), array('escape' => false,'title'=>'Activate','onclick'=>"return confirm('Do you want to activate this account ?');")); ?>
 								</td>
 							<?php endif; ?>
 			    		</tr> 

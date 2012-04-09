@@ -263,6 +263,9 @@ class AdminController extends AppController {
 	 	$this->redirect(array('controller' => 'admin','action'=>'paymentDetails',$this->data['PaymentHistory']['id']));
 	}
 	
+	/*
+	* Show all types of user list
+	*/
 	function userList(){
 		
 		$filterRoleCond = null;
@@ -283,8 +286,8 @@ class AdminController extends AppController {
 						$filterRoleCond = array('UserRoles.role_id'=>NETWORKER);
 						break;
 				default:
-					$this->Session->setFlash('You click on old link or enter manully.','error');
-					$this->redirect('/admin/userList');
+						$this->Session->setFlash('You click on old link or enter manully.','error');
+						$this->redirect('/admin/userList');
 			}
 		}
 		$this->set('filter',isset($filter)?$filter:null);		
@@ -302,7 +305,7 @@ class AdminController extends AppController {
 		$userArray = array();
 		foreach($users as $key=>$value){
 			$role_id = isset($value['UserRoles']['role_id'])?$value['UserRoles']['role_id']:false;
-			if($role_id ){
+			if($role_id){
 				switch($role_id){
 					case 1:
 							$role = 'Company';
@@ -331,7 +334,7 @@ class AdminController extends AppController {
 				$userArray[$key]['created'] = date("d M Y h:m:s", strtotime($value['UserList']['created']));
 				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
 				
-				if(isset($value[$table]) && $value[$table]['contact_name']!=null ){
+				if(isset($value[$table])){
 					$userArray[$key]['contact_name'] = $value[$table]['contact_name'];
 					$userArray[$key]['contact_phone'] = $value[$table]['contact_phone'];
 				}else{
@@ -371,7 +374,5 @@ class AdminController extends AppController {
 			$this->redirect("userList");
 		
 	}
-	
-	
 }
 ?>

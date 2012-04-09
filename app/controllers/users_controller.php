@@ -616,30 +616,24 @@ class UsersController extends AppController {
 										  ));
 
 			/** check if user is activated **/
-			$active_user = $this->User->find('first',array('conditions'=>array('account_email'=>$username)));
-			if($active_user ){
-				if($active_user['User']['is_active']==0 && $active_user['User']['account_email']!='admin'){
-					$this->Session->setFlash('Your account is not confirmed, please check you email for confirmation link.', 'error');
-					$this->redirect("/users/login");
-				}
-				if($active_user['User']['is_active']==2){
-					$this->Session->setFlash('User with this email does not exist.', 'error');
-					$this->redirect("/users/login");
-				}
-			}else{
-				$this->Session->setFlash('User with this email does not exist.', 'error');
+			$active_user = $this->User->find('first',array('conditions'=>array(
+																		'account_email'=>$username,
+																		'is_active'=>1,
+																		)
+															)
+													);
+			if(!$active_user ){
+				$this->Session->setFlash('Username or password not matched.', 'error');	
 				$this->redirect("/users/login");
 			}
 			$this->Auth->fields = array(
 				'username' => 'account_email',
 				'password' => 'password'
 			);
-			
+	
 			if(!$this->Auth->login($data)){
 				$this->Session->setFlash('Username or password not matched.', 'error');	
-			
 			}else{
-			
 				$userData=$this->User->find('first',array('conditions'=>array("id"=>$this->TrackUser->getCurrentUserId())));
 				$welcomeUserName = 'User';				
 				switch($userData['UserRoles'][0]['role_id']){
@@ -658,18 +652,9 @@ class UsersController extends AppController {
 				}
 				$this->Session->write('welcomeUserName',$welcomeUserName);
 				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
-				/*if($this->Session->check('redirection_url'))
-				{
-					$redirect_to=$this->Session->read('redirection_url');
-					$this->Session->delete('redirection_url');
-					$this->redirect($redirect_to);					
-				}*/
 				$this->redirect("/users/firstTime");		
-				
-				}
-				
+			}		
 		}
-			//$this->setRedirectionUrl();
 	}
 
 /**
