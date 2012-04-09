@@ -16,47 +16,49 @@
 		<!-- middle conyent list -->
 
 			<div class="middleBox">
-				<div class="job_data">
-					<table>							
-						<tr>
-							<td><strong>Job Posted</strong></td>
-							<td><?php echo $JobPosted;?></td>
-						</tr>
-						<tr>
-							<td><strong>Job Filled</strong></td>
-							<td><?php echo $JobFilled;?></td>
-						</tr>
-						<tr>
-							<td><strong>Rewards Posted</strong></td>
-							<td><?php echo $this->Number->format(
+				<div class="setting_profile">
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Job Posted:</div>
+						<div class="setting_profile_value"><?php echo $JobPosted;?></div>
+					</div>
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Job Filled:</div>
+						<div class="setting_profile_value"><?php echo $JobFilled;?></div>
+					</div>
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Rewards Posted:</div>
+						<div class="setting_profile_value">
+							<?php echo $this->Number->format(
 										$RewardsPosted,
 										array(
 											'places' => 2,
 											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										);?></td>
-						</tr>
-						<tr>
-							<td><strong>Rewards Paid</strong></td>
-							<td><?php echo $this->Number->format(
+							);?>
+						</div>
+					</div>
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Rewards Paid:</div>
+						<div class="setting_profile_value">
+							<?php echo $this->Number->format(
 										$RewardsPaid,
 										array(
 											'places' => 2,
 											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										);?></td>
-						</tr>
-						<tr>
-							<td><strong>Applicants</strong></td>
-							<td><?php echo $Applicants;?></td>
-						</tr>
-						<tr>
-							<td><strong>Views</strong></td>
-							<td><?php echo $Views;?></td>
-						</tr>										
-					</table>
+							);?>
+						</div>
+					</div>
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Applicants:</div>
+						<div class="setting_profile_value"><?php echo $Applicants;?></div>
+					</div>
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Views:</div>
+						<div class="setting_profile_value"><?php echo $Views;?></div>
+					</div>
 				</div>
 			</div>	
 		<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
