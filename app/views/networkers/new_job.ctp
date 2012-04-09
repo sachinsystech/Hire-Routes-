@@ -47,17 +47,17 @@
 					?>
 				</div>
 				
-				<div style="float: right;margin-right: 100px;">
+				<div style="float: right;">
 					<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
-					<?php if($this->Paginator->numbers()){
-							echo $form -> input('switch_display',array(
+					<?php
+						echo $form -> input('switch_display',array(
 												'type'=>'select',
-												'label'=>"< < <".$this->Paginator->numbers()."> > > DISPLAYING </span>",
+												'label'=>"".($this->Paginator->numbers()) ?$paginator->first(' << ', null, null, array("class"=>"disableText"))." ".$this->Paginator->prev(' < ', null, null, array("class"=>"disableText"))." ".$this->Paginator->numbers()." ".$this->Paginator->next(' > ', null, null, array("class"=>"disableText"))." ".$paginator->last(' >> ', null, null, array("class"=>"disableText"))." DISPLAYING":" DISPLAYING",
 												'options'=>$display_page_no,
 												'class'=>'job_select_diplay',
 												'selected'=>isset($displayPageNo)?$displayPageNo:5,
 												));
-						}?>
+					?>
 				</div>
 			</div>	
 		</div>
@@ -71,7 +71,14 @@
 							<td>
 								<div>
 									<div style="float:left"> <?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>
-									<div style="float:right"><b>Reward : </b><?php echo $job['Job']['reward'];?>$</div>									
+									<div style="float:right"><b>Reward : </b><?php echo $this->Number->format(
+										$job['Job']['reward'],
+										array(
+											'places' => 2,
+											'before' => '$',
+											'decimals' => '.',
+											'thousands' => ',')
+										);?></div>									
 								</div>
 								<div style="clear:both"></div>
                                 <div>

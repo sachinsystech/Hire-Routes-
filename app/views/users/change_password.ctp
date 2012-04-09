@@ -32,7 +32,7 @@
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		<div class="middleBox">                                 
-			<div class="setting_profile">
+			<div class="change_password">
                	<?php echo $form->create('User',array('action'=>'changePassword'))?>
 				<div class="required">
 					<?php echo $form->input('User.oldPassword',array(

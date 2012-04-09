@@ -31,7 +31,7 @@
 														 );
 							?>
 							<?php	if(isset($jobseeker)){ $id = $jobseeker['id']; } else { $id = "";}
-                                    echo $form->input('Jobseeker.id', array('label' => '',
+                                    echo $form->input('Jobseekers.id', array('label' => '',
 																	'type'  => 'hidden',
 																	'value' => $id
 																	)
@@ -44,7 +44,7 @@
 							<?php	$name = "";
                                     if(isset($fbinfo)){ $name = $fbinfo['first_name']." ".$fbinfo['last_name']; }
                                     if(isset($jobseeker) && $jobseeker['contact_name']!=""){ $name = $jobseeker['contact_name']; } 
-                                    echo $form->input('Jobseeker.contact_name', array('label' => 'Contact Name:',
+                                    echo $form->input('Jobseekers.contact_name', array('label' => 'Contact Name:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $name,
@@ -56,7 +56,7 @@
 						
 						<div>
 							<?php	if(isset($jobseeker)){ $address = $jobseeker['address']; } else { $address = "";}
-                                    echo $form->input('Jobseeker.address', array('label' => 'Address:',
+                                    echo $form->input('Jobseekers.address', array('label' => 'Address:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $address,
@@ -69,7 +69,7 @@
 												
 						<div>
 							<?php	if(isset($jobseeker)){ $city = $jobseeker['city']; } else { $city = "";}
-                                    echo $form->input('Jobseeker.city', array('label' => 'City:',
+                                    echo $form->input('Jobseekers.city', array('label' => 'City:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $city,
@@ -81,7 +81,7 @@
 
                         <div>
 							<?php	if(isset($jobseeker)){ $state = $jobseeker['state']; } else { $state = "";}
-                                    echo $form->input('Jobseeker.state', array('label' => 'State:',
+                                    echo $form->input('Jobseekers.state', array('label' => 'State:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $state,
@@ -93,7 +93,7 @@
 
 						<div>
 							<?php	if(isset($jobseeker)){ $phone = $jobseeker['contact_phone']; } else { $phone = "";}
-                                    echo $form->input('Jobseeker.contact_phone', array('label' => 'Contact Phone:',
+                                    echo $form->input('Jobseekers.contact_phone', array('label' => 'Contact Phone:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required number',
 												'minlength' => '10',

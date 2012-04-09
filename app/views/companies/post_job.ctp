@@ -20,7 +20,7 @@
 												
 <div style="width:600px;margin: auto;">
 <div class="sigup_heading">Post  New Job </div>
-<?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'save'))); ?>
+<?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'postJob'))); ?>
 	<?php	echo $form->input('title', array('label' => 'Title:',
 													'type'  => 'text',
 													'class' => 'text_field_job_title required'
@@ -62,7 +62,7 @@
 		  <?php echo $form -> input('specification',array(
 													  'type'=>'select',
 													  'label'=>'',
-													  'empty' =>' -- Select Industry-- ',
+													  'empty' =>' -- Select Specifications-- ',
 													 // 'options'=>$specifications,
 													  'class'=>'job_select__i_s required',
 											  )
@@ -129,8 +129,8 @@
 	  <div style=" clear :both;">
 	  
 	<div class="salary_range">				
-		<div style="width: 130px;float:left">Annual salary Range</div>
-		<div style="width: 130px;float:left">	
+		<div style="width: 130px;float:left;padding:0;margin:0;"><label>Annual salary Range ($):</label></div>
+		<div style="width: 150px;float:left;padding:0;margin:0;">	
 			<?php	echo $form->input('salary_from', array('label' => 'From',
 													'type'  => 'text',
 													'class' => 'job_text_field_from required number',
@@ -138,7 +138,8 @@
 								 );
 			?>
 		</div>
-		<div style="width: 130px;float:left">	
+		<div style="float:left;width:55px;">a year</div>
+		<div style="width: 130px;float:left;padding:0;margin:0;">	
 			<?php	echo $form->input('salary_to', array('label' => 'To',
 													'type'  => 'text',
 													'class' => 'job_text_field_from required number',
@@ -146,6 +147,7 @@
 								 );
 			?>
 		</div>
+		<div style="float:left;width:55px;">a year</div>
 	</div>
 	  <div style="clear: both;"></div>
 	<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>

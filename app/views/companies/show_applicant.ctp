@@ -170,6 +170,18 @@ function clear_div(val){
 			<?php echo $form->end();?>
 			<table style="width:100%">
 				<tr>
+					<td colspan="100%">
+						<div style="float:right;width:50%;text-align: right;">
+						<?php $this->Paginator->options(array('url' =>$jobId));?>
+						<?php echo $paginator->first(' << ', null, null, array("class"=>"disableText"));?>
+						<?php echo $this->Paginator->prev(' < ', null, null, array("class"=>"disableText")); ?>
+						<?php echo $this->Paginator->numbers(); ?>
+						<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>
+						<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
+						</div>
+					</td>
+				</tr>
+				<tr>
 					<th style="width:35%">Name</th>
 					<th style="width:25%">Degree of Separation</th>
 					<th style="width:20%">Networker</th>

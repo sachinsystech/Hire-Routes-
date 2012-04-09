@@ -45,7 +45,7 @@
 			<div class="setting_sub_middleBox">
 				<div class="form_content"  style="margin:auto;">
 					<div><b>Add Subscriptions:</b></div>
-					<?php echo $form->create('Networkers', array('action' => 'add')); ?>
+					<?php echo $form->create('NetworkerSettings', array('id'=>'NetworkerSettingsForm','url' => '/networkers/setting')); ?>
 					<div>
 						<div style="float:left">
 						<?php echo $form -> input('industry',array(
@@ -53,8 +53,9 @@
 																	'label'=>'',
 																	'options'=>$industries,
 																	'empty' =>' -- Select Industry-- ',
+																	'style'=>'margin-left:0px;',
 																	'class'=>'networker_select_bg required',
-																	'onchange'=>'return fillSpecification(this.value,"NetworkersSpecification","specification_loader");'
+																	'onchange'=>'return fillSpecification(this.value,"NetworkerSettingsSpecification","specification_loader");'
 															)
 												);
 						?>
@@ -78,7 +79,7 @@
 																		'label'=>'Location: ',
 																		'options'=>array('-1'=>' -- All States-- ',$states),
 																		'class'=>'networker_select_state',
-																		'onchange'=>'return fillCities(this.value,"NetworkersCity","city_loader");'
+																		'onchange'=>'return fillCities(this.value,"NetworkerSettingsCity","city_loader");'
 																)
 													);
 							?>
@@ -145,7 +146,7 @@
 				
 					<div>
 						<?php	if(isset($SubscriptionData)){ $id = $SubscriptionData['id']; } else { $id = "";}
-                                    echo $form->input('Networkers.id', array('label' => '',
+                                    echo $form->input('NetworkerSettings.id', array('label' => '',
 																	'type'  => 'hidden',
 																	'value' => $id
 																	)
@@ -188,7 +189,7 @@
 </div>
 <script>
 $(document).ready(function(){
-	$("#NetworkersAddForm").validate();
+	$("#NetworkerSettingsForm").validate();
 	$("#accordion").accordion();
 }); 
 

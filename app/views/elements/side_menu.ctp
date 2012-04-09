@@ -9,9 +9,9 @@
 			$my_employees_actions=array('employees','#','#');
 ?>
 			<ul>
-				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/newJob"><span>My Jobs</span></a></li>
-				<li <?php if(in_array($this->action,$my_accounts_actions)) echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies">My Account</a></li>
-				<li <?php if(in_array($this->action,$my_employees_actions)) echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/companies/employees">My Employees</a></li>
+				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a class="menu_item" href="/companies/newJob"><span>My Jobs</span></a></li>
+				<li <?php if(in_array($this->action,$my_accounts_actions)) echo "class='active'";?>><a class="menu_item" href="/companies">My Account</a></li>
+				<li <?php if(in_array($this->action,$my_employees_actions)) echo "class='active'";?>><a class="menu_item" href="/companies/employees">My Employees</a></li>
 			</ul>
 		<?php 
 		}
@@ -22,8 +22,8 @@
 		?>
 			<ul>
 
-				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers/newJob"><span>My Jobs</span></a></li>
- 				<li <?php if(in_array($this->action,$my_accounts_actions)) echo "class='active'";?>><span><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/jobseekers">My Account</a></span></li>
+				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a class="menu_item" href="/jobseekers/newJob"><span>My Jobs</span></a></li>
+ 				<li <?php if(in_array($this->action,$my_accounts_actions)) echo "class='active'";?>><span><a class="menu_item" href="/jobseekers">My Account</a></span></li>
 
 			</ul>
 		<?php 
@@ -35,9 +35,9 @@
 			$my_networks_actions=array('personal','addContacts','networkerData');
 		?>
 			<ul>
-				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/newJob"><span>My Jobs</span></a></li>
-				<li <?php if(in_array($this->action,$my_networks_actions)) echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>My Network</span></a></li>
-				<li <?php if(in_array($this->action,$my_accounts_actions)) echo "class='active'";?>><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers">My Account</a></li>
+				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers/newJob"><span>My Jobs</span></a></li>
+				<li <?php if(in_array($this->action,$my_networks_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers/personal"><span>My Network</span></a></li>
+				<li <?php if(in_array($this->action,$my_accounts_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers">My Account</a></li>
 
 			</ul>
 		<?php

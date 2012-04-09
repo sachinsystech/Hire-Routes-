@@ -24,7 +24,7 @@
 			<table style="width:100%">
 				<tr >
 					<td colspan="100%">
-						<div style="float:right;width:50%;text-align: right;">
+						<div style="float:right;width:50%;text-align:right;">
 							<?php echo $paginator->first(' << ',null, null, array("class"=>"disableText"));?>
 							<?php echo $this->Paginator->prev(' < ',null, null, array("class"=>"disableText")); ?>
 							<?php echo $this->Paginator->numbers(); ?>

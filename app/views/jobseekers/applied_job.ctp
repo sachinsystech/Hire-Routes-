@@ -34,15 +34,15 @@
 												  'class'=>'job_select_shortby',
 												  'selected'=>isset($shortBy)?$shortBy:'date-added',));?>
 					</div>
-					<div style="padding-left:250px;">
+					<div style="float:right">
 						<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
-						<?php if($this->Paginator->numbers()){
-													echo $form -> input('switch_display',array(
+						<?php 
+							echo $form -> input('switch_display',array(
 												  'type'=>'select',
-												  'label'=>"< < <".$this->Paginator->numbers()."> > > DISPLAYING </span>",
+												  'label'=>"".($this->Paginator->numbers()) ?$paginator->first(' << ', null, null, array("class"=>"disableText"))." ".$this->Paginator->prev(' < ', null, null, array("class"=>"disableText"))." ".$this->Paginator->numbers()." ".$this->Paginator->next(' > ', null, null, array("class"=>"disableText"))." ".$paginator->last(' >> ', null, null, array("class"=>"disableText"))." DISPLAYING":" DISPLAYING",
 												  'options'=>$display_page_no,
 												  'class'=>'job_select_diplay',
-												  'selected'=>isset($displayPageNo)?$displayPageNo:5,)); }?>
+												  'selected'=>isset($displayPageNo)?$displayPageNo:5,)); ?>
 					</div>
 				</div>	
 			</div>		

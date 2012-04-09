@@ -29,17 +29,26 @@ class AdminController extends AppController {
 
 	/****	listing companies to accept/decline registration request	***/
 	function companiesList() {
-		$Companies = $this->Companies->find('all', array(
-		'fields' => array('Companies.id','Companies.user_id','Companies.contact_name','Companies.contact_phone','Companies.company_name','Companies.act_as','User.account_email'),
-		'joins' => array(
-																		array(
-																			'table' => 'users',
-																			'alias' => 'User',
-																			'type' => 'inner',
-																			'foreignKey' => false,
-																			'conditions'=> array('User.id = Companies.user_id',"User.is_active=0")
-																		),
-																											)));
+		$this->paginate=array(
+			'fields' => array('Companies.id',
+				'Companies.user_id',
+				'Companies.contact_name',
+				'Companies.contact_phone',
+				'Companies.company_name',
+				'Companies.act_as',
+				'User.account_email'
+				),
+			'joins' => array(
+				array('table' => 'users',
+					'alias' => 'User',
+					'type' => 'inner',
+					'foreignKey' => false,
+					'conditions'=> array('User.id = Companies.user_id',"User.is_active=0")
+					),
+				),
+			'limit'=>10,
+			);
+		$Companies = $this->paginate('Companies');
 		$this->set('Companies',$Companies);		
 	}
 

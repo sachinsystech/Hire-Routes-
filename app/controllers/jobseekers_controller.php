@@ -1,7 +1,7 @@
 <?php
 class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
-	var $uses = array('JobseekerSettings','Jobseeker','User','UserRoles','FacebookUsers','Company',
+	var $uses = array('JobseekerSettings','Jobseekers','User','UserRoles','FacebookUsers','Company',
 					  'Job','Industry','State','Specification','Companies','City','JobseekerApply',
 					  'JobseekerProfile');
 	var $components = array('Email','Session','TrackUser','Utility');
@@ -13,16 +13,6 @@ class JobseekersController extends AppController {
 			$this->redirect("/users/firstTime");
 		}
 		$this->Auth->allow('jobseekerSetting');
-	}
-	
-	function add() {
-		$userId = $this->TrackUser->getCurrentUserId();
-		$this->data['Jobseekers']['user_id'] = $userId;
-		$this->data['Jobseekers']['specification_1'] = implode(',',$this->data['Jobseekers']['industry_specification_1']);
-		$this->data['Jobseekers']['specification_2'] = implode(',',$this->data['Jobseekers']['industry_specification_2']);		
-		$this->JobseekerSettings->save($this->data['Jobseekers']);		
-		$this->Session->setFlash('Your Setting has been saved successfuly.', 'success');				
-		$this->redirect('/jobseekers/setting');
 	}
 	
 	function sendNotifyEmail(){
@@ -47,6 +37,7 @@ class JobseekersController extends AppController {
 			if(!isset($jobseeker['contact_name']) || empty($jobseeker['contact_name'])){
 				$this->redirect("/jobseekers/editProfile");						
 			}
+			$this->set('user',$user['User']);
 			$this->set('jobseeker',$jobseeker);
 		}
 		else{		
@@ -58,12 +49,23 @@ class JobseekersController extends AppController {
 	/* 	Setting and Subscriptoin page*/
 	function setting(){
 		$userId = $this->TrackUser->getCurrentUserId();		
-
+		if(isset($this->data['JobseekerSettings']))
+		{
+			$this->data['JobseekerSettings']['user_id'] = $userId;
+			$this->data['JobseekerSettings']['specification_1'] = implode(',',!empty($this->data['JobseekerSettings']['industry_specification_1'])?$this->data['JobseekerSettings']['industry_specification_1']:array());
+			$this->data['JobseekerSettings']['specification_2'] = implode(',',!empty($this->data['JobseekerSettings']['industry_specification_2'])?$this->data['JobseekerSettings']['industry_specification_2']:array());
+			$this->JobseekerSettings->set($this->data['JobseekerSettings']);
+			if($this->JobseekerSettings->validates()){
+				if($this->JobseekerSettings->save()){
+					$this->Session->setFlash('Your Setting has been saved successfuly.', 'success');
+				}else{
+					$this->Session->setFlash('Server problem! try again', 'error');
+				}
+			}
+		}
 		$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$userId)));
-		$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);
-		
+		$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);	
 		$this->set('industries',$this->Utility->getIndustry());
-		//$this->set('specifications',$this->Utility->getSpecification());
 		$this->set('states',$this->Utility->getState());
 	}
 
@@ -75,17 +77,17 @@ class JobseekersController extends AppController {
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
 
-			$this->Jobseeker->save($this->data['Jobseeker']);
-			$this->Session->write('welcomeUserName',$this->data['Jobseeker']['contact_name']);
-			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
-			$this->redirect('/jobseekers');						
-
-			if($this->Session->check('redirect_url')){
+			if($this->Jobseekers->save($this->data['Jobseekers'])){
+				$this->Session->write('welcomeUserName',$this->data['Jobseekers']['contact_name']);
+				$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+				//$this->redirect('/jobseekers');
+				if($this->Session->check('redirect_url')){
 				$redirect_to = $this->Session->read('redirect_url');
 				$this->redirect($redirect_to);
-			}else{
-				$this->redirect('/jobseekers');	
-			}					
+				}else{
+					$this->redirect('/jobseekers');	
+				}
+			}
 		}
 		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));

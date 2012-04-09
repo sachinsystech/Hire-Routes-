@@ -25,7 +25,7 @@
 																	)
 														 );
 							?>
-							<?php	echo $form->input('Company.id', array('label' => '',
+							<?php	echo $form->input('Companies.id', array('label' => '',
 																	'type'  => 'hidden',
 																	'value' => $company['id']
 																	)
@@ -34,20 +34,20 @@
 						</div>						
 						<div style="clear:both"></div>
 						
-						<div>
-							<?php	echo $form->input('Company.company_name', array('label' => 'Company:',
+						<div class='required'>
+							<?php	echo $form->input('Companies.company_name', array('label' => 'Company:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $company['company_name'],
-
 												)
 								 );
 							?>
-						</div>		
+						</div>
+						<label class="error"><?php echo isset($company_error)?$company_error:null;?></label>	
 						<div style="clear:both"></div>
 												
 						<div>
-							<?php	echo $form->input('Company.contact_name', array('label' => 'Company Name:',
+							<?php	echo $form->input('Companies.contact_name', array('label' => 'Company Name:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $company['contact_name'],
@@ -58,7 +58,7 @@
 						<div style="clear:both"></div>
 
 						<div>
-							<?php	echo $form->input('Company.contact_phone', array('label' => 'Contact Phone:',
+							<?php	echo $form->input('Companies.contact_phone', array('label' => 'Contact Phone:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required number',
 												'minlength' => '10',

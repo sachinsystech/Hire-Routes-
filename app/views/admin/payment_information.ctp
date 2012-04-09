@@ -196,10 +196,10 @@
 										$paymentHistory['PaymentHistory']['amount'],
 										array(
 											'places' => 2,
-											'before' => '',
+											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										)."$";?>
+										);?>
 							</td>
 							<td align="center" width="15%">
 								<?php echo date('m/d/Y',strtotime($paymentHistory['PaymentHistory']['paid_date']))."&nbsp;";?>
