@@ -15,16 +15,6 @@ class JobseekersController extends AppController {
 		$this->Auth->allow('jobseekerSetting');
 	}
 	
-	function add() {
-		$userId = $this->TrackUser->getCurrentUserId();
-		$this->data['Jobseekers']['user_id'] = $userId;
-		$this->data['Jobseekers']['specification_1'] = implode(',',$this->data['Jobseekers']['industry_specification_1']);
-		$this->data['Jobseekers']['specification_2'] = implode(',',$this->data['Jobseekers']['industry_specification_2']);		
-		$this->JobseekerSettings->save($this->data['Jobseekers']);		
-		$this->Session->setFlash('Your Setting has been saved successfuly.', 'success');				
-		$this->redirect('/jobseekers/setting');
-	}
-	
 	function sendNotifyEmail(){
 		if (!defined('CRON_DISPATCHER')){ 
 			//$this->redirect('/'); 
@@ -59,12 +49,23 @@ class JobseekersController extends AppController {
 	/* 	Setting and Subscriptoin page*/
 	function setting(){
 		$userId = $this->TrackUser->getCurrentUserId();		
-
+		if(isset($this->data['JobseekerSettings']))
+		{
+			$this->data['JobseekerSettings']['user_id'] = $userId;
+			$this->data['JobseekerSettings']['specification_1'] = implode(',',$this->data['JobseekerSettings']['industry_specification_1']);
+			$this->data['JobseekerSettings']['specification_2'] = implode(',',$this->data['JobseekerSettings']['industry_specification_2']);
+			$this->JobseekerSettings->set($this->data['JobseekerSettings']);
+			if($this->JobseekerSettings->validates()){
+				if($this->JobseekerSettings->save()){
+					$this->Session->setFlash('Your Setting has been saved successfuly.', 'success');
+				}else{
+					$this->Session->setFlash('Server problem! try again', 'error');
+				}
+			}
+		}
 		$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$userId)));
-		$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);
-		
+		$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);	
 		$this->set('industries',$this->Utility->getIndustry());
-		//$this->set('specifications',$this->Utility->getSpecification());
 		$this->set('states',$this->Utility->getState());
 	}
 

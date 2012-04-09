@@ -1,23 +1,23 @@
 <?php ?>
 <script>
 	$(document).ready(function(){
-	    $("#JobseekersNotification").click(onCheckChange);
+	    $("#JobseekerSettingsNotification").click(onCheckChange);
 	});
 	
 	function onCheckChange(){
-		if ($('#JobseekersNotification').attr('checked')) {
+		if ($('#JobseekerSettingsNotification').attr('checked')) {
 			$("#subs_div").show();
 		}else{
     		$("#subs_div").hide();
-			$("select#JobseekersSubscribeEmail").val('0');
+			$("select#JobseekerSettingsSubscribeEmail").val('0');
 			$("#email_setting").html(""); 
 		}
 
 	}
 
 	function check_email_subs(){
-		var sel_val = $("#JobseekersSubscribeEmail").val();
-		if ($('#JobseekersNotification').attr('checked') && sel_val=='') {
+		var sel_val = $("#JobseekerSettingsSubscribeEmail").val();
+		if ($('#JobseekerSettingsNotification').attr('checked') && sel_val=='') {
 			$("#email_setting").removeClass().addClass("js_terms-condition-error").html("Please Select Email Settings for Job Notifications*");
 			return false;
 		}
@@ -44,7 +44,7 @@
 				<div>Welcome back, <?php echo $jobseekerData['name'];?>!</div>
 			<?php endif;?>
 			<div class="form_content"  style="margin:auto;">
-				<?php echo $form->create('Jobseekers', array('action' => 'add','onsubmit'=>'return check_email_subs();')); ?>
+				<?php echo $form->create('JobseekerSettings', array('id'=>'JobseekerSettingsForm','url' => '/jobseekers/setting','onsubmit'=>'return check_email_subs();')); ?>
 					<?php echo $form->input('id', array('label' => 'Your Name',
 														'type'  => 'hidden',
 														'value' => isset($jobseekerData['id'])?$jobseekerData['id']:""
@@ -63,12 +63,12 @@
 																	     'label'=>'Industry 1:',
 																	     'options'=>$industries,
 																	     'empty' =>' -- Select Industry-- ',
-																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification1","specification_1_loader");',
+																	     'onchange'=>'return fillSpecification(this.value,"JobseekerSettingsIndustrySpecification1","specification_1_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
 						</div>
 						<div id="specification_1_loader" style="float:left;"></div>
-						<div style="float:left;width: 289px;">
+						<div style="float:left;width: 270px;">
 							<?php $industry_specification_array = array('1'=>'Industry specification 1',
 																		'2'=>'Industry specification 2',
 																		'3'=>'Industry specification 3',
@@ -88,12 +88,12 @@
 																	     'label'=>'Industry 2:',
 																	     'options'=>$industries,
 																	     'empty' =>' -- Select Industry-- ',
-																	     'onchange'=>'return fillSpecification(this.value,"JobseekersIndustrySpecification2","specification_2_loader");',
+																	     'onchange'=>'return fillSpecification(this.value,"JobseekerSettingsIndustrySpecification2","specification_2_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:""));?>
 						</div>
 						<div id="specification_2_loader" style="float:left;"></div>
-						<div style="float:left;width: 289px;">
+						<div style="float:left;width: 270px;">
 							<?php echo $form -> input('industry_specification_2',array('type'=>'select',
 																	                   'label'=>'',
 																	                   'multiple'=>'multiple',
@@ -113,7 +113,7 @@
 											'options'=>$states,
 											'empty' =>' -- All States-- ',
 											'class'=>'js_select_ls required',
-											'onchange'=>'return fillCities(this.value,"JobseekersCity","city_loader");',
+											'onchange'=>'return fillCities(this.value,"JobseekerSettingsCity","city_loader");',
 											'selected' => isset($jobseekerData['state'])?$jobseekerData['state']:""
 									)
 						);
@@ -198,7 +198,7 @@
 	<!-- middle section end -->
 </div>
 <script>
-$("#JobseekersAddForm").validate();
+$("#JobseekerSettingsForm").validate();
 </script>
 <?php $industry_1 = isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:1;?>
 <?php $industry_2 = isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:1;?>
@@ -206,29 +206,29 @@ $("#JobseekersAddForm").validate();
 <script>
 $(document).ready(function(){
 	<?php if(isset($jobseekerData['industry_1'])){?>
-		fillSpecification(<?php echo $industry_1;?>, 'JobseekersIndustrySpecification1', 'specification_1_loader');
+		fillSpecification(<?php echo $industry_1;?>, 'JobseekerSettingsIndustrySpecification1', 'specification_1_loader');
 	<?php $specification_1=explode(",",$jobseekerData['specification_1']);
 		foreach($specification_1 as $key=>$specification_id)
 		{
 	?>
-	$("select#JobseekersIndustrySpecification1 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
+	$("select#JobseekerSettingsIndustrySpecification1 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
 	<?php
 		}
 	}
 	?>
 	<?php if(isset($jobseekerData['industry_2'])){?>
-	fillSpecification(<?php echo $industry_2;?>, 'JobseekersIndustrySpecification2', 'specification_2_loader');
+	fillSpecification(<?php echo $industry_2;?>, 'JobseekerSettingsIndustrySpecification2', 'specification_2_loader');
 	<?php $specification_2=explode(",",$jobseekerData['specification_2']);
 		foreach($specification_2 as $key=>$specification_id)
 		{?>
-	$("select#JobseekersIndustrySpecification2 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
+	$("select#JobseekerSettingsIndustrySpecification2 option[value=<?php echo $specification_id;?>]").attr('selected', 'selected');
 	<?php 
 		}
 	}
 	?>
 	<?php if(isset($jobseekerData['industry_2'])){?>
-	fillCities(<?php echo $state;?>,'JobseekersCity','city_loader');
-	$("select#JobseekersCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
+	fillCities(<?php echo $state;?>,'JobseekerSettingsCity','city_loader');
+	$("select#JobseekerSettingsCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
 	<?php 
 	}
 	?>

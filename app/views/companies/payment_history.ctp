@@ -21,13 +21,11 @@
 						<tr >
 							<td colspan="100%">
 								<div style="float:right;width:50%;text-align: right;">
-								<?php if($this->Paginator->numbers()){?>
 								<?php echo $paginator->first(' << ', null, null, array("class"=>"disableText"));?>
 								<?php echo $this->Paginator->prev(' < ', null, null, array("class"=>"disableText")); ?>
 								<?php echo $this->Paginator->numbers(); ?>
 								<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>		
 								<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
-								<?php }?>
 						</div>
 					</td>
 					</tr>
