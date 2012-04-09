@@ -94,6 +94,10 @@
 			<li><a href="/admin/paymentInformation"><b>Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
 		
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+			<li><a href="/admin/userList"><b>Usera</b></a></li>
+		</ul>
+		
 		<div class="clear"></div>
 		</div>
 		<div class="clear"></div>

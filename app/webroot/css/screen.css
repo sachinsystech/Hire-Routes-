@@ -1751,3 +1751,21 @@ a:hover.back-login	{
     text-align: center;
     width: 112px;
 }
+    
+ .usertableHeading th{
+    background-color:#FEAEAE;
+    color: #FFFFFF;
+    font-size:18px;
+    border: 1px solid #ccc;
+	padding-left:5px;
+	border-collapse:collapse;
+	line-height: 20px;
+
+}
+
+.userTable tr td{
+	border: 1px solid #ccc;
+	padding-left:5px;
+	border-collapse:collapse;
+	
+}
