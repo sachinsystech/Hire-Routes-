@@ -1985,3 +1985,17 @@ border: 1px solid #000000;
 	margin-left:40px;
 	border:1px solid #000000;
 }
+
+/*****	Sharing...	****/
+
+.msg_txtarear{
+	height: 45px;
+}
+.share_rightBox{
+   float: left;
+   width: 690px;
+}
+.share_middle_setting{
+	margin: 0 50px;
+	width: 444px;
+}

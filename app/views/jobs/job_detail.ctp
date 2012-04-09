@@ -125,7 +125,7 @@
 		<!-- middle conyent list -->
 	</div>
 
-	<div style="font-size:1.2em;float:right;width:200px;text-align:center;margin-right:30px;">
+	<div style="font-size:1.2em;float:right;width:215px;text-align:center;margin-right:30px;">
 		<div style="font-weight:bold;">
 			<div style="font-size:1.4em;">
 				Total Reward <?php echo $this->Number->format(
@@ -183,18 +183,26 @@
 				<div> Share your unique URL </div>
 <div><input type="" value="<?php echo Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/'; echo isset($code)?'?code='.$code:'' ?>"></div>
 
-	<div>Mail It</div>
-
-	<div>Share It on Facebook</div>
-
-	<div>Post on LinkedIn</div>
-
-	<div>Tweet It</div>
+	<div style="clear:both;margin-top:5px;padding: 5px;">
+		<img src="/img/mail_it.png" style="float: left;cursor:pointer" />
+		<span>Mail It</span>
 	</div>
-		<?php
-			}
-		
-		?>
+
+	<div style="clear:both;margin-top: 5px;padding: 5px;">
+		<img src="/img/facebook_post.png" style="float: left;cursor:pointer" />
+		<span>Share It on Facebook</span>
+	</div>
+
+	<div style="clear:both;margin-top: 5px;padding: 5px;">
+		<img src="/img/linkedin_post.png" style="float: left;cursor:pointer" />
+		<span>	Post on LinkedIn</span>
+	</div>
+
+	<div style="clear:both;margin-top: 5px;padding: 5px;">
+		<img src="/img/tweeter_post.png" style="float: left;cursor:pointer" />
+		<span>Tweet It</span>
+	</div>
+	<?php	} ?>
 	</div>
 	<!-- middle section end -->
 </div>

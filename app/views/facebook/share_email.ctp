@@ -40,12 +40,12 @@ $(function() {
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
-	<div class="share_rightBox" >
+	<div class="rightBox" >
 		<!-- middle conyent list -->
 
 			<div class="middleBox">
-				<div id='message'></div>
-				<div class="share_middle_setting">
+				<div class='message' id='message'></div>
+				<div class="setting_profile">
 					<?php echo $form->create('Companies', array('action' => 'tst_share_job', 'onsubmit'=>'return validateEmail(CompaniesToEmail.value);')); ?>
 					<div id='to'>
 					</div>
@@ -54,10 +54,9 @@ $(function() {
 																'type'  => 'text'
 						));?>
 					</div>
-					<div style="padding-bottom:0px"><strong>Message:</strong>
+					<div style="padding-bottom:20px"><strong>Message:</strong>
 						<?php echo $form->input('message', array('label' => '',
-																'type'  => 'textarea',
-																'class'=> 'msg_txtarear'
+																'type'  => 'textarea'
 						));?>
 					</div>
 					<div id='other'>
@@ -102,7 +101,7 @@ function showView(type){
         case 3:
             setView('Twitter');
 			fillTwitterFriend();
-            $("#share").click(TwitterComment);
+            $("#share").click();
             break;
         case 4:
             setView('Email');
@@ -221,11 +220,10 @@ function validateEmail(elementValue){
                         case 1: // we don't have user's linked token
                             $( "#dialog-message" ).html(response.message);
                             $( "#dialog-message" ).dialog("open");
-							alert(response.URL);
                             window.open(response.URL);
                             break;
                         case 2: // something went wrong when we connect with facebook.Need to login by facebook 
-                            $( "#dialog-message" ).html(" something went wrong. Please contact to site admin");
+                            $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
                             $( "#dialog-message" ).dialog("open");
                             break;
                    }
@@ -266,8 +264,10 @@ function validateEmail(elementValue){
                 }
             });
         }
-		
+
+
 /****** linked in comment ******/
+
 
         function linkedInComment(){
             usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
@@ -280,34 +280,6 @@ function validateEmail(elementValue){
                    switch(response.error){
                         case 0: // success
                             $( "#dialog-message" ).html("Successfully sent a message to Linkedin users.");
-                            $( "#dialog-message" ).dialog("open");
-                            break;
-                        case 1:  
-                            $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
-                            $( "#dialog-message" ).dialog("open");
-                            break;
-                   }
-            
-                },
-                error: function(message){
-                    alert(message);
-                }
-            });
-        }
-
-/****** Twitter comment ******/
-
-        function TwitterComment(){
-            usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
-            $.ajax({
-                type: 'POST',
-                url: '/companies/sendMessageToTwitterFollwer',
-                dataType: 'json',
-                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val(),
-                success: function(response){
-                   switch(response.error){
-                        case 0: // success
-                            $( "#dialog-message" ).html("Successfully sent a message to Twitter follower.");
                             $( "#dialog-message" ).dialog("open");
                             break;
                         case 1:  

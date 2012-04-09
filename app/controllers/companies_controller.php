@@ -802,7 +802,7 @@ function paymentHistoryInfo(){
         }else{
 
             $this->autoRender = false;
-            $user = $this->User->find('first',array('fields'=>'facebook_token','conditions'=>array('id'=>$userId,'facebook_token !='=>'NULL')));
+            $user = $this->User->find('first',array('fields'=>'facebook_token','conditions'=>array('id'=>$userId,'facebook_token !='=>'')));
             //get token from table other wise send for login.
             if($user){
                 try{
@@ -821,6 +821,7 @@ function paymentHistoryInfo(){
                             $i++;
                         }
                     }
+                    
                     return json_encode(array('error'=>0,'data'=>$users));
                 }catch(Exception $e){
                     return json_encode(array('error'=>2,'message'=>'Error in facebook connection.Please try after some time.'));
@@ -880,8 +881,8 @@ function paymentHistoryInfo(){
                 }             
             }
             return json_encode(array('error'=>0,'data'=>$users));
-//            if($response->status == '404') echo "Not found11";
- //               echo json_encode(array('error'=>1,'message'=>'User id is not valid'));
+            if($response->status == '404') echo "Not found11";
+               echo json_encode(array('error'=>1,'message'=>'User id is not valid'));
         }else{
             $linkedin->getRequestToken();
             $this->Session->write('requestToken',serialize($linkedin->request_token));
@@ -935,15 +936,11 @@ function paymentHistoryInfo(){
             }
         }
 
-
-
         if($user){
             
          }
 
     }
-
-
 
     private function getLinkedinObject(){
         return  new LinkedIn(LINKEDIN_ACCESS, LINKEDIN_SECRET, LINKEDIN_CALLBACK_URL);    
@@ -1113,6 +1110,7 @@ function paymentHistoryInfo(){
  * For test view share_email
  */
 	function share_render(){
+	
 		$this->render('share_email');
 	}
 
@@ -1292,6 +1290,32 @@ function paymentHistoryInfo(){
 		return $twitterObj;
 	}
 
+	function sendMessageToTwitterFollwer(){
+        $this->autoRender = false;
+        $userIds = $this->params['form']['usersId'];
+        $userIds = explode(",", $userIds);
+        $message = $this->params['form']['message'];
+        $userId = $this->Session->read('Auth.User.id');
+        $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+
+		$twitterObj = $this->getTwitterObject();
+		$twitterObj->setToken($this->Session->read('Twitter.twitter_token'),$this->Session->read('Twitter.twitter_token_secret'));
+
+        if(!empty($userIds) && $message &&  $User){
+            foreach($userIds as $useId){
+                try{
+                    $result = $twitterObj->post_direct_messagesNew( array('user' => $useId, 'text' => $message));
+                    $resp = $result->response;
+                }catch(Exception $e){
+                    return json_encode(array('error'=>1));      
+                }
+
+            }
+        }
+        return json_encode(array('error'=>0));
+
+    }
+
 	private function connectTwitter(){
 		$this->redirect($this->getTwitterObject()->getAuthorizationUrl());
 	}
@@ -1316,11 +1340,13 @@ function paymentHistoryInfo(){
 	function postTweet(){
 		$user = $user = $this->data['Twitter']['SendTo'];
 		$msg = $this->data['Twitter']['msg'];
+		
 		$twitterObj = $this->getTwitterObject();
 		$twitterObj->setToken($this->Session->read('Twitter.twitter_token'),$this->Session->read('Twitter.twitter_token_secret'));
 		$myArray = array('user' => $user, 'text' => $msg);
         $resp = $twitterObj->post_direct_messagesNew( $myArray);
         $temp = $resp->response;
+        
 		$this->Session->setFlash('Your message has been posted successfuly.', 'success');
 		$this->redirect("/companies/getTwitterFriendList");
 	}
@@ -1330,8 +1356,11 @@ function paymentHistoryInfo(){
 		$user = $this->User->find('first',array('fields'=>array('twitter_token','twitter_token_secret'),'conditions'=>array('id'=>$userId,
 																								'twitter_token !='=>'',
 																								'twitter_token_secret !='=>'')));
+		
 		if(!$user){
-			$this->connectTwitter();
+			$twitterLoginUrl = $this->getTwitterObject()->getAuthorizationUrl();
+			echo json_encode(array('error'=>1,'message'=>'User not authenticate from Twitter.','URL'=>$twitterLoginUrl));
+			exit;
 		}
 		else{
 			$twitterObj = $this->getTwitterObject();
@@ -1356,7 +1385,19 @@ function paymentHistoryInfo(){
 			$this->set('url',$twitterObj->getAuthorizationUrl());
 			$this->set('username',$username);
 			$this->set('profilepic',$profilepic);
-			$this->set('response',$response);
+			$users = array();
+			if(count($response)){
+                foreach($response as $person){ //print_r($person->$a);
+                    $users[] = array(
+                    					'name'=>$person['name'],
+                    					'id'=>"".$person['id'],
+                    					'url'=>"".$person['profile_image_url']
+                    				);                
+                }             
+            }
+            $this->autoRender = false;
+            //echo "<pre>";print_r($response); exit;
+			return json_encode(array('error'=>0,'data'=>$users));
 		}		
     }
    /**		*****	End of Twitter :: Handling	*****	**/  
