@@ -52,8 +52,8 @@ class JobseekersController extends AppController {
 		if(isset($this->data['JobseekerSettings']))
 		{
 			$this->data['JobseekerSettings']['user_id'] = $userId;
-			$this->data['JobseekerSettings']['specification_1'] = implode(',',$this->data['JobseekerSettings']['industry_specification_1']);
-			$this->data['JobseekerSettings']['specification_2'] = implode(',',$this->data['JobseekerSettings']['industry_specification_2']);
+			$this->data['JobseekerSettings']['specification_1'] = implode(',',!empty($this->data['JobseekerSettings']['industry_specification_1'])?$this->data['JobseekerSettings']['industry_specification_1']:array());
+			$this->data['JobseekerSettings']['specification_2'] = implode(',',!empty($this->data['JobseekerSettings']['industry_specification_2'])?$this->data['JobseekerSettings']['industry_specification_2']:array());
 			$this->JobseekerSettings->set($this->data['JobseekerSettings']);
 			if($this->JobseekerSettings->validates()){
 				if($this->JobseekerSettings->save()){
