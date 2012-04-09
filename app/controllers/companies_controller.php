@@ -605,19 +605,36 @@ function paymentHistoryInfo(){
 												  'alias' => 'networkers',
 												  'type' => 'LEFT',
 												  'conditions' => array('SUBSTRING_INDEX(JobseekerApply.intermediate_users, ",", -1) = networkers.user_id')
-											     )
+											     ),
+											array(
+												'table'=>'jobs',
+												'alias'=>'Job',
+												'fields'=>'Job.user_id',
+												'type'=>'left',
+												'conditions'=>'JobseekerApply.job_id=Job.id'
+											),
+											array(
+												'table'=>'users',
+												'alias'=>'User',
+												'type'=>'left',
+												'fields'=>'parent_user_id',
+												'conditions'=>'User.id=substring(`intermediate_users` , 1, locate( \',\',`intermediate_users`)-1 )'
+											)
 									      ),
 							'limit' => 10, // put display fillter here
 							'order' => array('JobseekerApply.id' => 'desc'), // put sort fillter here
 							'recursive'=>0,
-							'fields'=>array('JobseekerApply.*,
-											jobseekers.contact_name,networkers.contact_name'),
-							
+							'fields'=>array('JobseekerApply.*, 
+											jobseekers.contact_name,
+											networkers.contact_name,
+											User.parent_user_id,
+											Job.user_id',
+									),
 							);
 				
 
 				$applicants = $this->paginate("JobseekerApply");
-				//echo "<pre>";  print_r($applicants);
+				//echo "<pre>";  print_r($applicants);exit;
 				$this->set('NoOfApplicants',count($applicants));
 				$this->set('applicants',$applicants);
 				$this->set('jobId',$jobId);

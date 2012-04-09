@@ -25,7 +25,7 @@
 					</a>
 				</li>
 				<li <?php if($this->action=='companyData') echo "class='active'";?>>
-					<a class="menu_item" href="companyData">
+					<a class="menu_item" href="/companies/companyData">
 					Data
 					</a>
 				</li>
@@ -103,7 +103,7 @@
 			<ul style="float:left">
 				<li <?php if($this->action=='newJob') echo "class='active'";?>><a class="menu_item"  href="/jobseekers/newJob">Inbox - <?php echo $NewJobs;?></a></li>	
 				<li <?php if($this->action=='appliedJob') echo "class='active'";?>><a class="menu_item" href='/jobseekers/appliedJob'>Applied - <?php echo $AppliedJobs;?></a></li>	
-                <li <?php if($this->action=='archivedJob') echo "class='active'";?>><a class="menu_item" href="archivedJob">Archive - <?php echo $Archivedjobs;?></a></li>
+                <li <?php if($this->action=='archivedJob') echo "class='active'";?>><a class="menu_item" href="/jobseekers/archivedJob">Archive - <?php echo $Archivedjobs;?></a></li>
 			</ul>
 			<?php
 			}elseif($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'||$this->action=='changePassword')
@@ -145,16 +145,16 @@
 		?>
 				<ul>
 					<li <?php if($this->action=='newJob'||$this->action=='#') echo "class='active'";  ?>>
-						<a class="menu_item" href="newJob">Inbox - <?php echo $NewJobs;?></a>
+						<a class="menu_item" href="/networkers/newJob">Inbox - <?php echo $NewJobs;?></a>
 					</li>	
 					<li <?php if($this->action=='#') echo "class='active'";  ?>>
 						<a class="menu_item" href="#">Shared - 10</a>
 					</li>
 					<li <?php if($this->action=='archiveJob') echo "class='active'";  ?>>
-						<a class="menu_item" href="archiveJob">Archive - <?php echo $ArchiveJobs;?></a>
+						<a class="menu_item" href="/networkers/archiveJob">Archive - <?php echo $ArchiveJobs;?></a>
 					</li>
 					<li <?php if($this->action=='jobData') echo "class='active'";  ?>>
-						<a class="menu_item" href="jobData"> Data </a>
+						<a class="menu_item" href="/networkers/jobData"> Data </a>
 					</li>			
             </ul>
 			<?php
