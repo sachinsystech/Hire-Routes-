@@ -184,12 +184,22 @@
 <script>
 	$(document).ready(function(){
 		$("#JobPostJobForm").validate();
-		$("#JobSalaryTo").blur(function(){ 
-			if(parseInt($("#JobSalaryFrom").val()) >= parseInt($("#JobSalaryTo").val()))
-			{	
-				$("#JobSalaryTo").after("<label class='error' for='JobSalaryTo' >Must greter than 'From' field value..</label>");
-			} 
+		$("#JobPostJobForm").submit(function(){ 
+			if(!validateSalary()) return false;
 		});
+
+
+		$("#JobSalaryTo").blur(function(){ //alert("hiiiiiiiii");
+			validateSalary();
+		});
+	
 	});
+
+	function validateSalary(){
+		if(parseInt($("#JobSalaryFrom").val()) >= parseInt($("#JobSalaryTo").val()) ) {	
+				$("#JobSalaryTo").after("<label class='error' for='JobSalaryTo' >Must greter than 'From' field value..</label>");
+				return false;
+	}
+} 
 </script>
 

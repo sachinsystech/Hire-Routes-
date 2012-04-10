@@ -429,7 +429,7 @@ class NetworkersController extends AppController {
 								$order		 = 'desc';
 			    				break;	
 			    	case 'company-name':
-			    				$shortByItem = 'company_name';
+			    				$shortByItem = 'comp.company_name';
 								$order		 = 'asc'; 
 			    				break;
 			    	case 'industry':
@@ -538,19 +538,19 @@ class NetworkersController extends AppController {
 			    $this->set('shortBy',$shortBy);
 			    switch($shortBy){
 			    	case 'date-added':
-			    				$shortByItem = 'created'; 
+			    				$shortByItem = 'Job.created'; 
 								$order		 = 'desc';
 			    				break;	
 			    	case 'company-name':
-			    				$shortByItem = 'company_name';
+			    				$shortByItem = 'comp.company_name';
 								$order		 = 'asc'; 
 			    				break;
 			    	case 'industry':
-			    				$shortByItem = 'industry';
+			    				$shortByItem = 'Job.industry';
 								$order		 = 'asc'; 
 			    				break;
 			    	case 'salary':
-			    				$shortByItem = 'salary_from';
+			    				$shortByItem = 'Job.salary_from';
 								$order		 = 'asc'; 
 			    				break;
 			    	default:
@@ -586,7 +586,7 @@ class NetworkersController extends AppController {
 												         'type' => 'LEFT',
 												         'conditions' => array('Job.state = state.id',)
 											        )),
-		                            'order' => array("Job.$shortByItem" => $order,),
+		                            'order' => array("$shortByItem" => $order,),
 									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
 		    
 		    $jobs = $this->paginate('Job');	

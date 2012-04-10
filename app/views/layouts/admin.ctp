@@ -96,6 +96,10 @@
 		</ul>
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+
+			<li><a href="/admin/userList"><b>Users</b></a></li>
+		</ul>
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a href="/users/changePassword"><b>Change password</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
 		
