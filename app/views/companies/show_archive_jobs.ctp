@@ -94,11 +94,11 @@
 						'url' =>  '/jobs/jobDetail/'.$job['Job']['id'],
                         'title'=> 'Detail'
 						));
-						echo $this->Html->image("/img/icon/edit.png", array(
+						/*echo $this->Html->image("/img/icon/edit.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
 						'url' =>  '/companies/editJob/'.$job['Job']['id'],
                         'title'=> 'Edit'
-						));
+						));*/
 
 						echo $this->Html->image("/img/icon/delete.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
