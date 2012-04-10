@@ -9,7 +9,7 @@
 	echo "<div class='required'>".$this->Form->input('password',array("class"=>'text_field_bg required'))."</div>";
 	echo $this->Form->input('rememberMe', array('label' => 'Remember me next time', 'type' => 'checkbox', )); 
 	echo $this->Form->end('Login');
-	echo $this->Html->link('Forget password',array('controller'=>'users','action'=>'forgetPassword'),
+	echo $this->Html->link('Forgot password',array('controller'=>'users','action'=>'forgotPassword'),
 											 array('style'=>'color: #1E7EC8;'));
 ?>
 </div>
@@ -17,18 +17,15 @@
 $(document).ready(function(){
 
 	$("#UserLoginForm").validate();	
-	// On submit create cookie.
 	$("#UserLoginForm").submit(function(){ 
 		if($("#UserRememberMe").is(':checked')){		
 			saveCookie(); 
 		}else{
-			// Delete cookie if not check the check box.
 			document.cookie = "username"+ "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 			document.cookie = "password"+ "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		}
 	});
 
-	// Check user login page redirect again or not.
 	if($("#UserUsername").val()==='' || $("#UserUsername").val()===null ){
 		var data=getCookie();
 		if(data!=undefined){

@@ -136,7 +136,7 @@ function check_expdate() {
 												'type'  => 'text',
 												'class' => 'payment_text_field required number',
 												'value' => $payment['ccv_code'],
-												'minlength'=>4,
+												'minlength'=>3,
 												'maxlength'=>4,
 												)
 								 );

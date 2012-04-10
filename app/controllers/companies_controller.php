@@ -396,7 +396,7 @@ list archive jobs..
 		$this->set('submit_txt',$submit_txt);
 		if(isset($this->data['PaymentInfo'])){
 			
-			/*** 
+		
 			require_once(APP.'vendors'.DS."paypalpro/paypal_pro.inc.php");
 				
 		    $firstName =urlencode($this->data['PaymentInfo']['cardholder_name']);
@@ -415,7 +415,7 @@ list archive jobs..
 		    $zip = urlencode($this->data['PaymentInfo']['zip']);
 		    $amount = urlencode('1');
 		    $currencyCode="USD";
-		    $paymentAction = urlencode("Sale");
+		    $paymentAction = urlencode("Authorization");
 	
 		    $nvpRecurring = '';
 			$methodToCall = 'doDirectPayment';
@@ -425,36 +425,43 @@ list archive jobs..
 			$paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE, '', '', FALSE, FALSE );
 		    $resArray = $paypalPro->hash_call($methodToCall,$nvpstr);
 		    $ack = strtoupper($resArray["ACK"]);
-			print_r($resArray);
-			exit;
-		   
-			$authorizationID = urlencode('');
-			$note = urlencode('');
+            if($ack =="SUCCESS"){
+                    // card is valid		   
+			        $authorizationID = urlencode($resArray['TRANSACTIONID']);
+			        $note = urlencode('valid credit card');
 
-			// Add request-specific fields to the request string.
-			$nvpstr.="&AUTHORIZATIONID=$authorizationID&NOTE=$note";		
+			        // Add request-specific fields to the request string.
+			        $nvpstr.="&AUTHORIZATIONID=$authorizationID&NOTE=$note";		
 
-			// Execute the API operation; see the PPHttpPost function above.
-			$httpParsedResponseAr = $this->PPHttpPost('DoVoid', $nvpstr);
+			        // Execute the API operation; see the PPHttpPost function above.
+			        $httpParsedResponseAr = $this->PPHttpPost('DoVoid', $nvpstr);
 
-			if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
-				exit('Void Completed Successfully: '.print_r($httpParsedResponseAr, true));
-			} else  {
-				exit('DoVoid failed: ' . print_r($httpParsedResponseAr, true));
-			}
-			exit;
-			/*** end test code***/
-            
-			if( !$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
-				$this->render("payment_info");
-				return;				
-			}else{
-				if(isset($this->data['PaymentInfo']['applied_job_id'])&& $this->data['PaymentInfo']['applied_job_id']!=""){
-					$this->redirect('/companies/checkout/'.$this->data['PaymentInfo']['applied_job_id']);
-				}
-				$this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
-				$this->redirect('/companies/paymentInfo');
-			}		
+			        if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+				        exit('Void Completed Successfully: '.print_r($httpParsedResponseAr, true));
+			        } else  {
+				        exit('DoVoid failed: ' . print_r($httpParsedResponseAr, true));
+			        }
+			        if( !$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
+				        $this->render("payment_info");
+				        return;				
+			        }else{
+				        if(isset($this->data['PaymentInfo']['applied_job_id'])&& $this->data['PaymentInfo']['applied_job_id']!=""){
+					        $this->redirect('/companies/checkout/'.$this->data['PaymentInfo']['applied_job_id']);
+				        }
+				        $this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
+				        $this->redirect('/companies/paymentInfo');
+			        }		
+            }else{
+                // card is not valid
+                $error_msg = "Invalid Data";
+	            if(isset($resArray['L_LONGMESSAGE0'])) {
+	                $error_msg = $resArray['L_LONGMESSAGE0'];
+	            }elseif(isset($resArray['L_SHORTMESSAGE0'])) {
+	                $error_msg = $resArray['L_SHORTMESSAGE0'];
+	            }
+	            $this->Session->setFlash($error_msg, 'error');
+	            $this->redirect("/companies/paymentInfo/");
+            }
 		}		
 	}
 
@@ -1058,19 +1065,16 @@ function paymentHistoryInfo(){
 			$methodToCall = 'doDirectPayment';
 		    
 		    $nvpstr='&PAYMENTACTION='.$paymentAction.'&AMT='.$amount.'&CREDITCARDTYPE='.$creditCardType.'&ACCT='.$creditCardNumber.'&EXPDATE='.$padDateMonth.$expDateYear.'&CVV2='.$cvv2Number.'&FIRSTNAME='.$firstName.'&LASTNAME='.$lastName.'&STREET='.$address.'&CITY='.$city.'&STATE='.$state.'&ZIP='.$zip.'&COUNTRYCODE=US&CURRENCYCODE='.$currencyCode.$nvpRecurring;
-
-		    $paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE, '', '', FALSE, FALSE );
+		    $paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE,null,null);echo "<pre>";
+           // print_r($nvpstr);
 		    $resArray = $paypalPro->hash_call($methodToCall,$nvpstr);
 		    $ack = strtoupper($resArray["ACK"]);
-		    
+		    //print_r($resArray);exit;
 		    if($ack == "SUCCESS") {
 		        if(isset($resArray['TRANSACTIONID'])) {
-		        	echo "SUCCESS : ".$resArray['TRANSACTIONID']; exit;
+		        	//echo "SUCCESS : ".$resArray['TRANSACTIONID']; exit;
 		        	// Here change status of applied job from applied to selected in jobseeker_apply table....
-		        	/*	
-		        	
 		        	 if($this->JobseekerApply->updateAll(array('is_active'=>1), array('JobseekerApply.id'=>$appliedJobId))){
-						
 						$paymentHistory = array();
 						$paymentHistory['user_id'] = $userId;
 						$paymentHistory['job_id'] = $appliedJob['Job']['id'];
@@ -1086,9 +1090,6 @@ function paymentHistoryInfo(){
 						$this->redirect("/companies/showApplicant/".$appliedJob['Job']['id']);
 						return;
 					}	        	
-		        	
-		        	*/
-		        	
 		            $this->redirect("/companies/newJob/".$resArray['TRANSACTIONID']);
 		        }else {
 		            $this->Session->setFlash("Due To Unknown Paypal Response, We Cannot Procced.", 'error');
@@ -1097,34 +1098,13 @@ function paymentHistoryInfo(){
 		        
 		    } else {
 		        $error_msg = "Invalid Data";
-		        
-		        /*	here we comes with error but for testing purpose make this success......	*/
-		        if($this->JobseekerApply->updateAll(array('is_active'=>1), array('JobseekerApply.id'=>$appliedJobId))){
-						
-						$paymentHistory = array();
-						$paymentHistory['user_id'] = $userId;
-						$paymentHistory['job_id'] = $appliedJob['Job']['id'];
-						$paymentHistory['applied_job_id'] = $appliedJob['JobseekerapplyJob']['id'];
-						$paymentHistory['jobseeker_user_id'] = $appliedJob['JobseekerapplyJob']['user_id'];
-						$paymentHistory['amount'] = $appliedJob['Job']['reward'];
-						$paymentHistory['transaction_id'] = $resArray['CORRELATIONID'];//TRANSACTIONID
-						
-						if($this->PaymentHistory->save($paymentHistory)){
-							$this->sendCongratulationEmail($appliedJob);	
-							$this->Session->setFlash('Applicant has been selected successfully.', 'success');	
-							$this->redirect("/companies/showApplicant/".$appliedJob['Job']['id']);
-							return;
-						}						
-					}
-		        
-		        //echo "<pre>"; print_r($resArray); exit;
 		        if(isset($resArray['L_LONGMESSAGE0'])) {
 		            $error_msg = $resArray['L_LONGMESSAGE0'];
 		        }elseif(isset($resArray['L_SHORTMESSAGE0'])) {
 		            $error_msg = $resArray['L_SHORTMESSAGE0'];
 		        }
 		        $this->Session->setFlash($error_msg, 'error');
-		        $this->redirect("/companies/checkout");
+		        $this->redirect("/companies/checkout/".$appliedJob['JobseekerapplyJob']['id']);
 		    }
 		}
 		else{
