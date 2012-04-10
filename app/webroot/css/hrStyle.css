@@ -1989,7 +1989,12 @@ border: 1px solid #000000;
 /*****	Sharing...	****/
 
 .msg_txtarear{
-	height: 45px;
+    border: 1px solid;
+    float: right;
+    height: 45px;
+    margin-right: 5px;
+    margin-top: -20px;
+    width: 385px;
 }
 .share_rightBox{
    float: left;
@@ -1997,7 +2002,7 @@ border: 1px solid #000000;
 }
 .share_middle_setting{
 	margin: 0 50px;
-	width: 444px;
+	width: 550px;
 }
 /****  change password   ***/
 .change_password{
@@ -2012,4 +2017,28 @@ ul a.menu_item{
 	color:#000000;
 	text-decoration:none;
 	font-weight:normal;
+}
+
+.subject_txt{
+	float:right;
+    border: 1px solid;
+    float: right;
+    height: 14px;
+    margin-top: -7px;
+    width: 387px;
+}
+.sharejob_ajax_loader{
+	margin-top:80px;
+	margin-left:50px;
+}
+.email_msg_txtarear{
+    border: 1px solid;
+    float: right;
+    height: 45px;
+    margin-right: 5px;
+    margin-top: 0px;
+    width: 385px;
+}
+.s_j_email label.error{
+	margin-left: 100px;
 }
