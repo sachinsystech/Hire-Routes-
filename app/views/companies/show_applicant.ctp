@@ -254,7 +254,7 @@ function goTo(){
 }
 
 function deleteItem(id,jobid){
-	if (confirm("Are you sure to delete this?")){
+	if (confirm("Are you sure to Reject?")){
 		window.location.href="/companies/rejectApplicant/"+id+"/"+jobid;
 	}
 	return false;
