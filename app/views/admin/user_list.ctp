@@ -1,4 +1,5 @@
 <?php echo $this->Session->flash();?>
+
 <script>
 	$(document).ready(function(){
 		$("#short_by").change(onSelectShortByChange);
@@ -43,6 +44,10 @@
 					<?php echo "< < ".$this->Paginator->numbers()."  > >"; ?>
 					<?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
 					<?php echo $paginator->last(' Last'); }?>
+					<?php 
+						isset($this->params['named']['page'])?$page="page:".$this->params['named']['page']:$page="";
+						isset($this->params['named']['filter'])?$filter="filter:".$this->params['named']['filter']:$filter="";
+					?>
 				</div>
 				    <table width ="100%" cellspacing='0' class='userTable'>
 				    	<tr>
@@ -84,12 +89,12 @@
 							<?php if($user['is_active']==1 ):?>
 								<td style="text-align:center;">Yes</td>
 								<td>
-								<?php  echo $html->link($html->image("de-activate.jpg"),  array( 'action' => 'userAction','deactive:'.$user['id']), array('escape' => false,'title'=>'De-Activate','onclick'=>"return confirm('Do you want to de-activate this account ?');")); ?>
+								<?php  echo $html->link($html->image("de-activate.jpg"),  array( 'action' => 'userAction','deactive:'.$user['id'],$page,$filter), array('escape' => false,'title'=>'De-Activate','onclick'=>"return confirm('Do you want to de-activate this account ?');")); ?>
 								</td>
 								<?php else:?>
 								<td style="text-align:center;">No</td>
 								<td>
-								<?php	echo $html->link($html->image("activate.png"), array('action' => 'userAction','active:'.$user['id']), array('escape' => false,'title'=>'Activate','onclick'=>"return confirm('Do you want to activate this account ?');")); ?>
+								<?php	echo $html->link($html->image("activate.png"), array('action' => 'userAction','active:'.$user['id'],$page,$filter), array('escape' => false,'title'=>'Activate','onclick'=>"return confirm('Do you want to activate this account ?');")); ?>
 								</td>
 							<?php endif; ?>
 			    		</tr> 

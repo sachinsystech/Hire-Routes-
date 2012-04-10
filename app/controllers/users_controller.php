@@ -835,8 +835,7 @@ class UsersController extends AppController {
 					$this->Session->SetFlash('Internal Error!','error');
 				}
 			}else{
-				$this->sendConfirmationEmail($user['User']['id']);
-				$this->Session->SetFlash('You account is not confirmed and activated yet, confirmatoin link is sent to your email, please check you email for confirmation link!','warning');
+				$this->Session->SetFlash('Please contact to side admin!.','error');
 			}
 			$this->redirect('/users/forgotPassword');
 		}

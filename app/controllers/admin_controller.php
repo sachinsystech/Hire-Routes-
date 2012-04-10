@@ -267,7 +267,6 @@ class AdminController extends AppController {
 	* Show all types of user list
 	*/
 	function userList(){
-		
 		$filterRoleCond = null;
 		$userFilter = 'Companies.*,Jobseekers.*,Networkers.*';
 		if(isset($this->params['named']['filter'])){
@@ -347,6 +346,10 @@ class AdminController extends AppController {
 	}
 		
 	function userAction(){
+
+		isset($this->params['named']['page'])?$page="page:".$this->params['named']['page']:$page="";
+		isset($this->params['named']['filter'])?$filter="filter:".$this->params['named']['filter']:$filter="";
+		
 		if(isset($this->params['named']['active'])){
 			$userId=$this->params['named']['active'];
 			$is_active='1';
@@ -354,25 +357,26 @@ class AdminController extends AppController {
 		if(isset($this->params['named']['deactive'])){
 			$userId=$this->params['named']['deactive'];
 			$is_active='0';
-			$this->Session->setFlash('User Activated successfully','success');
 		}
 		if(isset($userId)){
-			$userData =$this->User->find('first',array('conditions'=>"User.id=$userId"));
+			$userData =$this->User->find('first',array('conditions'=>array("User.id"=>$userId,
+																			'AND'=>array("User.id",array(1,2)))));
 			if(isset($userData)){
 				$userData['User']['is_active'] =$is_active;
 				if($this->User->save($userData)){
-					if($is_active==0){
-						$this->Session->setFlash('User De-activated successfully','success');
-					}else{
-						$this->Session->setFlash('User Activated successfully','success');
-					}
+					$is_active==0?$this->Session->setFlash('User De-activated successfully','success'):
+					$this->Session->setFlash('User Activated successfully','success');
+					
+				}else{
+					$this->Session->setFlash('Internal error occurs.','error');
 				}	
 			}else
-				$this->Session->setFlash('Internal error occurs..','error');
+				$this->Session->setFlash('Internal error occurs.','error');
 		}else
-			$this->Session->setFlash('Internal error occurs..','error');
-			$this->redirect("userList");
+			$this->Session->setFlash('Internal error occurs.','error');
 		
+		$this->redirect(array('controller'=>'admin','action'=>'userList',$filter,$page,)); 
+
 	}
 }
 ?>
