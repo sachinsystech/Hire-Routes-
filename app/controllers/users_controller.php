@@ -64,7 +64,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('facebookUserSelection');
 		$this->Auth->allow('accountConfirmation');		
 		$this->Auth->allow('myAccount');	
-		$this->Auth->allow('forgetPassword');	
+		$this->Auth->allow('forgotPassword');	
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -428,7 +428,7 @@ class UsersController extends AppController {
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId,'User.confirm_code'=>$confirmCode)));
 		if(isset($user['User']['confirm_code']) && isset($user['User']['id'])){
 			$user['User']['is_active'] = '1';
-			
+			$user['User']['confirm_code']="";
 			$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$userId)));
 			
 			$arosAcosData['aro_id'] = $aros['Aros']['id'];
@@ -437,15 +437,12 @@ class UsersController extends AppController {
 			$arosAcosData['_read'] = 1;						
 			$arosAcosData['_update'] = 1;
 			$arosAcosData['_delete'] = 1;	
-			$this->ArosAcos->begin();
 			if($this->ArosAcos->save($arosAcosData)){
 				if($this->User->save($user['User'])){
 					$this->setUserAsLoggedIn($user['User']);
-					$this->ArosAcos->commit();
 				}
 			}
 			else{
-				$this->ArosAcos->rollback();
 				$this->Session->setFlash('Internal Error!', 'error');
 				$this->redirect("/");
 				return;
@@ -619,26 +616,24 @@ class UsersController extends AppController {
 										  ));
 
 			/** check if user is activated **/
-			$active_user = $this->User->find('first',array('conditions'=>array('account_email'=>$username)));
-			if($active_user ){
-				if($active_user['User']['is_active']==0 && $active_user['User']['account_email']!='admin'){
-					$this->Session->setFlash('Your account is not confirmed, please check you email for confirmation link.', 'error');
-					$this->redirect("/users/login");
-				}
-			}else{
-				$this->Session->setFlash('User with this email does not exist.', 'error');
+			$active_user = $this->User->find('first',array('conditions'=>array(
+																		'account_email'=>$username,
+																		'is_active'=>1,
+																		)
+															)
+													);
+			if(!$active_user ){
+				$this->Session->setFlash('Username or password not matched.', 'error');	
 				$this->redirect("/users/login");
 			}
-			
 			$this->Auth->fields = array(
 				'username' => 'account_email',
 				'password' => 'password'
 			);
-			
+	
 			if(!$this->Auth->login($data)){
 				$this->Session->setFlash('Username or password not matched.', 'error');				
 			}else{
-
 				$userData=$this->User->find('first',array('conditions'=>array("id"=>$this->TrackUser->getCurrentUserId())));
 				$welcomeUserName = 'User';				
 				switch($userData['UserRoles'][0]['role_id']){
@@ -656,18 +651,10 @@ class UsersController extends AppController {
 							break;
 				}
 				$this->Session->write('welcomeUserName',$welcomeUserName);
-
 				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
-				/*if($this->Session->check('redirection_url'))
-				{
-					$redirect_to=$this->Session->read('redirection_url');
-					$this->Session->delete('redirection_url');
-					$this->redirect($redirect_to);					
-				}*/
 				$this->redirect("/users/firstTime");		
-			}
+			}		
 		}
-		//$this->setRedirectionUrl();
 	}
 
 /**
@@ -817,7 +804,7 @@ class UsersController extends AppController {
 		return true;
 	}
 
-	function forgetPassword(){
+	function forgotPassword(){
 		
 		if($this->TrackUser->isHRUserLoggedIn()){
 			$this->redirect("/users/myAccount");				
@@ -836,7 +823,7 @@ class UsersController extends AppController {
 				$user['User']['password'] =$this->Auth->password($newPassword);
 				$to =$userEmail;
 				$subject = 'Hire-Routes :: Account Password';
-				$template = 'forget_password';
+				$template = 'forgot_password';
 					
 				if($this->User->save($user['User'])){
 					$user['User']['password'] = $newPassword;
@@ -851,7 +838,7 @@ class UsersController extends AppController {
 				$this->sendConfirmationEmail($user['User']['id']);
 				$this->Session->SetFlash('You account is not confirmed and activated yet, confirmatoin link is sent to your email, please check you email for confirmation link!','warning');
 			}
-			$this->redirect('/users/forgetPassword');
+			$this->redirect('/users/forgotPassword');
 		}
 	}
 

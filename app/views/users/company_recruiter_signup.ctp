@@ -100,12 +100,13 @@
 	<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
                                            			'type'  => 'checkbox',
 													'name'  => "data[User][agree_condition]",
+											
                                            			)
                                  );
     ?>
     <div id="agree_condition_error"></div>
     <?php if(isset($errors)): ?>
-      <div class="error-message"><?php echo $errors;?></div>
+      <div class="error-message" ><?php echo $errors;?></div>
     <?php endif; ?>
     <?php echo $form->submit('Send A Request',array('div'=>false,)); ?>
     <?php echo $form->end(); ?>	
