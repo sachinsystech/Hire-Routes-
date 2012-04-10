@@ -200,6 +200,7 @@
 				$("#JobSalaryTo").after("<label class='error' for='JobSalaryTo' >Must greter than 'From' field value..</label>");
 				return false;
 	}
+	return true;
 } 
 </script>
 
