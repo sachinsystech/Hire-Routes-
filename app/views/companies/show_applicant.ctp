@@ -170,6 +170,18 @@ function clear_div(val){
 			<?php echo $form->end();?>
 			<table style="width:100%">
 				<tr>
+					<td colspan="100%">
+						<div style="float:right;width:50%;text-align: right;">
+						<?php $this->Paginator->options(array('url' =>$jobId));?>
+						<?php echo $paginator->first(' << ', null, null, array("class"=>"disableText"));?>
+						<?php echo $this->Paginator->prev(' < ', null, null, array("class"=>"disableText")); ?>
+						<?php echo $this->Paginator->numbers(); ?>
+						<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>
+						<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
+						</div>
+					</td>
+				</tr>
+				<tr>
 					<th style="width:35%">Name</th>
 					<th style="width:25%">Degree of Separation</th>
 					<th style="width:20%">Networker</th>
@@ -194,13 +206,17 @@ function clear_div(val){
 						</span>
 					</td>
 					<td><?php if($applicant['JobseekerApply']['intermediate_users']!=''){
-								$degree = count(explode(",",$applicant['JobseekerApply']['intermediate_users']))+1;
+								$degree = count(explode(",",$applicant['JobseekerApply']['intermediate_users']));
+								$degree = $degree==0?1:$degree;
 							  }else{
 								$degree = $applicant['JobseekerApply']['intermediate_users']+1;
 							  } echo $degree;?></td>
 					<td><?php // echo $applicant['networkers']['contact_name'];
-							if($degree==1){ echo "Personal";} 
-							if($degree>1){ echo "Hireroutes";} ?></td>
+							if($applicant['User']['parent_user_id']==$applicant['Job']['user_id']||$degree==1){
+							 echo "Personal";
+							 }else{
+							 	echo "Hireroutes";
+							 } ?></td>
 					<td align="center" width="10%">
 						<?php
 							

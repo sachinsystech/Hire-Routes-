@@ -181,7 +181,7 @@
         			            		$class = $sno++%2?"odd":"even";
         			        ?>
 						<tr class="<?php echo $class; ?>"> 
-							<td align="center" width="15%">
+							<td align="center" width="15%" style="padding:10px;">
 								<?php echo $paymentHistory['Company']['company_name'];?>
 							</td> 
 							<td align="center" width="15%">
@@ -196,10 +196,10 @@
 										$paymentHistory['PaymentHistory']['amount'],
 										array(
 											'places' => 2,
-											'before' => '',
+											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										)."$";?>
+										);?>
 							</td>
 							<td align="center" width="15%">
 								<?php echo date('m/d/Y',strtotime($paymentHistory['PaymentHistory']['paid_date']))."&nbsp;";?>

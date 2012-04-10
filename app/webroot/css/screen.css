@@ -1580,13 +1580,13 @@ a:hover.back-login	{
 .even{
         background-color:#FCF8F1;
         font-size:17px;
-        line-height:25px;
+        line-height:13px;
     }
 
-.odd{
+.odd td{
         background-color:#F5F5F5;
         font-size:17px;
-        line-height:25px;
+        line-height:13px;
     }
     
  .tableHeading{
@@ -1750,4 +1750,57 @@ a:hover.back-login	{
     height: 23px;
     text-align: center;
     width: 112px;
+}
+ .usertableHeading th{
+    background-color:#FEAEAE;
+    color: #0000FF;
+    font-size:18px;
+    border: 1px solid #ccc;
+	padding-left:5px;
+	border-collapse:collapse;
+	line-height: 20px;
+	
+
+}
+ .usertableHeading a{
+   color: #0000ff;
+ }
+
+.userTable tr td{
+	border: 1px solid #ccc;
+	padding-left:5px;
+	border-collapse:collapse;
+	
+}
+
+.userDetail th{
+	text-align: left;
+	padding:10px;
+}
+/***	Change password	****/
+.change_password{
+    margin: auto;
+    padding: 11px;
+    width: 400px;
+}
+
+.change_password label{
+	width:140px;
+	float:left;
+	font-size:15px;
+	margin:5px;
+}
+
+.change_password label.error{
+	width:300px;
+	clear:left;
+}
+.change_password input{
+	float:left;
+	margin-left:10px;
+	text-align:left;
+}
+.change_password button{
+	float:right;
+	margin-right:20px;
 }

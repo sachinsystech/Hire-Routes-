@@ -22,9 +22,33 @@ class CompaniesController extends AppController {
 		if($userId){
 			$this->set('states',$this->Utility->getState());
 			$this->set('industries',$this->Utility->getIndustry());
-			//$this->set('specifications',$this->Utility->getSpecification());
-		}	
-	
+
+			if(isset($this->data['Job'])){
+				$company = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
+				$this->data['Job']['user_id']= $userId;
+				$this->data['Job']['company_id']= $company['Companies']['id'];
+				$this->data['Job']['company_name']= $company['Companies']['company_name'];
+				$this->Job->set($this->data['Job']);
+				if($this->Job->validates()){
+					if($this->Job->save()){
+    		    	    switch($this->params['form']['save']){
+    		    	        case 'Post and Share Job with Network':
+    		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');
+    		    	            $this->redirect('/companies/shareJob/'.$this->Job->id);
+    		    	            break;
+    		    	        case 'Save for Later':
+    		    	        default:
+    		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');	
+								$this->redirect('/companies/newJob');
+        		            break;
+	    		        }
+    			    }else{
+    			        $this->Session->setFlash('Internal error while save job.', 'error');	
+    			        $this->redirect('/companies/newJob/');
+    			    }
+				}
+			}
+		}
 	}
 	
 	function getCurrentUserRole(){
@@ -181,7 +205,7 @@ list archive jobs..
 												 'fields'=>array('SUM(Job.reward) as jobs_reward, count(Job.id) as jobs_posted'), ));
 
 		if($jobPosted){
-			$rewardPosted = "$ ".$jobPosted[0][0]['jobs_reward'];
+			$rewardPosted = $jobPosted[0][0]['jobs_reward'];
 			$jobPosted	  = $jobPosted[0][0]['jobs_posted'];
 		}else{
 			$rewardPosted = 0;
@@ -209,7 +233,7 @@ list archive jobs..
 																				'PaymentHistory.payment_status' =>1),
 													 'fields'=>array('SUM(PaymentHistory.amount) as paid_reward'),));
 		if($paidReward){
-			$rewardPaid = "$ ".$paidReward[0][0]['paid_reward'];
+			$rewardPaid = $paidReward[0][0]['paid_reward'];
 		}else{
 			$rewardPaid = 0;
 		}
@@ -248,36 +272,11 @@ list archive jobs..
 		return $archJobCount;
 	}
 
-/*****	Posting new Job by company	*********/
-	function save(){
-        $userId = $this->TrackUser->getCurrentUserId();
-		$company = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
-		$this->data['Job']['user_id']= $userId;
-		$this->data['Job']['company_id']= $company['Companies']['id'];
-		$this->data['Job']['company_name']= $company['Companies']['company_name'];
-		if($this->Job->save($this->data['Job'])){
-            switch($this->params['form']['save']){
-                case 'Post and Share Job with Network':
-                    $this->Session->setFlash('Job has been saved successfuly.', 'success');
-                    $this->redirect('/companies/shareJob/'.$this->Job->id);
-                    break;
-                case 'Save for Later':
-                default:
-                    $this->Session->setFlash('Job has been saved successfuly.', 'success');	
-                    //$this->redirect('/companies/editJob/'.$this->Job->id);
-					$this->redirect('/companies/newJob');
-                    break;
-        
-            }
-        }else{
-            $this->Session->setFlash('Internal error while save job.', 'error');	
-            $this->redirect('/companies/newJob/');
-        }		
-	}
 	
 /*****	Companies edit their own Job :: 	*********/
 	function editJob(){
 		$userId = $this->TrackUser->getCurrentUserId();
+	//	pr($this->params);exit;
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
 	
@@ -320,9 +319,14 @@ list archive jobs..
 		}
 		if(isset($this->data['Job'])){
 			$this->data['Job']['user_id'] = $userId;
-			$this->Job->save($this->data['Job']);
-			$this->Session->setFlash('Job has been updated successfuly.', 'success');				
-			$this->redirect('/companies/newJob');
+			$this->Job->set($this->data['Job']);
+			if($this->Job->validates()){
+				$this->Job->save();
+				$this->Session->setFlash('Job has been updated successfuly.', 'success');
+				$this->redirect('/companies/newJob');
+			}else{
+				$this->Session->setFlash('Job data Invalid.', 'error');
+			}
 		}
 		if(!isset($userId) || !isset($jobId)){
 			$this->Session->setFlash('You may be clicked on old link.', 'error');				
@@ -349,13 +353,17 @@ list archive jobs..
 		}
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
-			$this->User->save($this->data['User']);
-			$this->Companies->save($this->data['Company']);
-			$this->Session->write('welcomeUserName',$this->data['Company']['contact_name']);
-			$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
-			$this->redirect('/companies');						
+			if(!empty($this->data['Companies']['company_name'])){
+				$this->User->save($this->data['User']);
+				if($this->Companies->save($this->data['Companies'])){
+					$this->Session->write('welcomeUserName',$this->data['Companies']['contact_name']);
+					$this->Session->setFlash('Profile has been updated successfuly.', 'success');
+					$this->redirect('/companies');
+				}
+			}else{
+			$this->set('company_error','Company required');			
+			}
 		}
-		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
 		$this->set('company',$user['Companies'][0]);
@@ -513,14 +521,14 @@ function paymentHistoryInfo(){
 																 	) 
 																); 		
 			if(!$PaymentDetail){
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered  manually.', 'error');				
 				$this->redirect('/companies/paymentHistory');
 			}														
 			$this->set('PaymentDetail',$PaymentDetail);	
 			$this->set('jobInfo',$this->getJob($PaymentDetail['job']['id']));	
 		}
 		else{
-			$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+			$this->Session->setFlash('You may be clicked on old link or entered  manually.', 'error');				
 			$this->redirect('/companies/paymentHistory');
 		}
 	}
@@ -604,19 +612,36 @@ function paymentHistoryInfo(){
 												  'alias' => 'networkers',
 												  'type' => 'LEFT',
 												  'conditions' => array('SUBSTRING_INDEX(JobseekerApply.intermediate_users, ",", -1) = networkers.user_id')
-											     )
+											     ),
+											array(
+												'table'=>'jobs',
+												'alias'=>'Job',
+												'fields'=>'Job.user_id',
+												'type'=>'left',
+												'conditions'=>'JobseekerApply.job_id=Job.id'
+											),
+											array(
+												'table'=>'users',
+												'alias'=>'User',
+												'type'=>'left',
+												'fields'=>'parent_user_id',
+												'conditions'=>'User.id=substring(`intermediate_users` , 1, locate( \',\',`intermediate_users`)-1 )'
+											)
 									      ),
 							'limit' => 10, // put display fillter here
 							'order' => array('JobseekerApply.id' => 'desc'), // put sort fillter here
 							'recursive'=>0,
-							'fields'=>array('JobseekerApply.*,
-											jobseekers.contact_name,networkers.contact_name'),
-							
+							'fields'=>array('JobseekerApply.*, 
+											jobseekers.contact_name,
+											networkers.contact_name,
+											User.parent_user_id,
+											Job.user_id',
+									),
 							);
 				
 
 				$applicants = $this->paginate("JobseekerApply");
-				//echo "<pre>";  print_r($applicants);
+				//echo "<pre>";  print_r($applicants);exit;
 				$this->set('NoOfApplicants',count($applicants));
 				$this->set('applicants',$applicants);
 				$this->set('jobId',$jobId);
@@ -669,7 +694,7 @@ function paymentHistoryInfo(){
 					$this->Session->setFlash('File does not exist.', 'error');				
 				}				
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');				
 			}
 		}		
 	}

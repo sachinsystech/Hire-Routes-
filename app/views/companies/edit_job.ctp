@@ -23,14 +23,14 @@
 <div style="width:300px; margin: 4px 0;">Job URL <input type="text" class='text_field_bg' value="<?php echo Configure::read('httpRootURL')."job/".$job['id']."/"; ?>"></div>
 <div style="clear:both"></div>
 <div class="sigup_heading">Edit Posted Job </div>
-<?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'editJob'))); ?>
-	<?php	echo $form->input('id', array('label' => '',
+<?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'editJob',$job['id']))); ?>
+	<?php	echo $form->input('Job.id', array('label' => '',
 											'type'  => 'hidden',
 											'value' => $job['id']
 											)
                                  );
     ?>
-	<?php	echo $form->input('title', array('label' => 'Title:',
+	<?php	echo $form->input('Job.title', array('label' => 'Title:',
                                            			'type'  => 'text',
 													'class' => 'text_field_job_title required',
                                                     'value' => isset($job['title'])?$job['title']:""
@@ -130,7 +130,7 @@
 						);
 ?>	
 </div>
-<div id="city_loader" style="float:left;width:20px;"></div>
+<div id="city_loader" style="float:left;"></div>
 <div style="float:left;">
 <?php echo $form -> input('city',array(
 											'type'=>'select',
@@ -150,8 +150,8 @@
 	
 	
 	<div class="salary_range">
-		<div style="width: 130px;float:left">Annual salary Range</div>
-		<div style="width: 130px;float:left">	
+		<div style="width: 130px;float:left"><label>Annual salary Range ($):</label></div>
+		<div style="width: 150px;float:left;padding:0;margin:0;">	
 			<?php	echo $form->input('salary_from', array('label' => 'From',
                                            			'type'  => 'text',
 													'class' => 'job_text_field_from required number',
@@ -160,7 +160,8 @@
                                  );
     		?>
     	</div>
-		<div style="width: 130px;float:left">	
+    	<div style="float:left;width:55px;">a year</div>
+		<div style="width: 130px;float:left;padding:0;margin:0;">	
 			<?php	echo $form->input('salary_to', array('label' => 'To',
                                            			'type'  => 'text',
 													'class' => 'job_text_field_from required number',
@@ -169,6 +170,7 @@
                                  );
     		?>
     	</div>
+    	<div style="float:left;width:55px;">a year</div>
 	</div>
       <div style="clear: both;"></div>
     <?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>

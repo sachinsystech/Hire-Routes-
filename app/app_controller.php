@@ -10,7 +10,7 @@
 
 class AppController extends Controller {
 	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','TrackUser');
-	public $helpers = array('Session','Html', 'Form', 'Javascript','Bcp.DatabaseMenus');
+	public $helpers = array('Session','Html', 'Form', 'Javascript','Bcp.DatabaseMenus','Number');
 	function beforeFilter(){
         //here we get intermidiate user id from URLs
         $this->setIntermidiateUser();

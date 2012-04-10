@@ -17,16 +17,6 @@ class NetworkersController extends AppController {
 		}
 	}
 	
-	/* Save New Networking-Setting */
-	function add() {
-		$userId = $this->TrackUser->getCurrentUserId();	
-		$this->data['Networkers']['user_id'] = $userId;
-		if($this->NetworkerSettings->save($this->data['Networkers'])){
-			$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
-		}
-		$this->redirect('/networkers/setting');
-	}
-	
 	/* Delete Subscription */
 	function delete(){
 		$id = $this->params['id'];
@@ -47,6 +37,7 @@ class NetworkersController extends AppController {
 			if(!isset($networkers['contact_name']) || empty($networkers['contact_name'])){
 				$this->redirect("/Networkers/editProfile");						
 			}
+			$this->set('user',$user['User']);
 			$this->set('networker',$networkers);
 		}
 		else{		
@@ -69,8 +60,18 @@ class NetworkersController extends AppController {
 	
 	/* 	Setting and Subscriptoin page*/
 	function setting() {
-		$userId = $this->TrackUser->getCurrentUserId();		
-		
+		$userId = $this->TrackUser->getCurrentUserId();
+		if(isset($this->data['NetworkerSettings'])){
+			$this->data['NetworkerSettings']['user_id'] = $userId;
+			$this->NetworkerSettings->set($this->data['NetworkerSettings']);
+			if($this->NetworkerSettings->validates()){
+				if($this->NetworkerSettings->save($this->data['NetworkerSettings'])){
+					$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');
+				}else{
+					$this->Session->setFlash('Server problem! try again.', 'error');
+				}
+			}
+		}
 		$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId),
 												  'joins'=>array(array('table' => 'industry',
 										                               'alias' => 'ind',
@@ -128,10 +129,10 @@ class NetworkersController extends AppController {
 			if($this->User->save($this->data['User'])){
 				if($this->Networkers->save($this->data['Networkers'])){
 					$this->Session->write('welcomeUserName',$this->data['Networkers']['contact_name']);
-					$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+					$this->Session->setFlash('Profile has been updated successfuly.', 'success');
+					$this->redirect('/networkers');
 				}	
 			}
-			$this->redirect('/networkers');						
 		}
 		
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
@@ -428,7 +429,7 @@ class NetworkersController extends AppController {
 								$order		 = 'desc';
 			    				break;	
 			    	case 'company-name':
-			    				$shortByItem = 'company_name';
+			    				$shortByItem = 'comp.company_name';
 								$order		 = 'asc'; 
 			    				break;
 			    	case 'industry':
@@ -537,19 +538,19 @@ class NetworkersController extends AppController {
 			    $this->set('shortBy',$shortBy);
 			    switch($shortBy){
 			    	case 'date-added':
-			    				$shortByItem = 'created'; 
+			    				$shortByItem = 'Job.created'; 
 								$order		 = 'desc';
 			    				break;	
 			    	case 'company-name':
-			    				$shortByItem = 'company_name';
+			    				$shortByItem = 'comp.company_name';
 								$order		 = 'asc'; 
 			    				break;
 			    	case 'industry':
-			    				$shortByItem = 'industry';
+			    				$shortByItem = 'Job.industry';
 								$order		 = 'asc'; 
 			    				break;
 			    	case 'salary':
-			    				$shortByItem = 'salary_from';
+			    				$shortByItem = 'Job.salary_from';
 								$order		 = 'asc'; 
 			    				break;
 			    	default:
@@ -585,7 +586,7 @@ class NetworkersController extends AppController {
 												         'type' => 'LEFT',
 												         'conditions' => array('Job.state = state.id',)
 											        )),
-		                            'order' => array("Job.$shortByItem" => $order,),
+		                            'order' => array("$shortByItem" => $order,),
 									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
 		    
 		    $jobs = $this->paginate('Job');	
@@ -670,9 +671,9 @@ class NetworkersController extends AppController {
 														  )
 											 );
 		if($payment[0][0]['networker_reward']!=""){
-			$total_reward = "$ ".$payment[0][0]['networker_reward'];
+			$total_reward = $payment[0][0]['networker_reward'];
 		}else{
-			$total_reward = "";
+			$total_reward = 0;
 		}
 		$this->set('TotalReward',$total_reward);
 		$this->set('NewJobs',$newjobs);

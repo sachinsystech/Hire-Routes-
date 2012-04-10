@@ -1,6 +1,6 @@
 <?php
 class AdminController extends AppController {
-    var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers');
+    var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers','UserList');
 	var $helpers = array('Form','Number');
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
 	
@@ -15,6 +15,9 @@ class AdminController extends AppController {
 		$this->Auth->allow('filterPayment');
 		$this->Auth->allow('paymentDetails');
 		$this->Auth->allow('updatePaymentStatus');
+		$this->Auth->allow('userList');
+		$this->Auth->allow('userAction');
+		$this->Auth->allow('userDetail');
 		$this->layout = "admin";
 		$roleInfo = $this->TrackUser->getCurrentUserRole();
 		if($roleInfo['role_id']!=5){
@@ -29,17 +32,26 @@ class AdminController extends AppController {
 
 	/****	listing companies to accept/decline registration request	***/
 	function companiesList() {
-		$Companies = $this->Companies->find('all', array(
-		'fields' => array('Companies.id','Companies.user_id','Companies.contact_name','Companies.contact_phone','Companies.company_name','Companies.act_as','User.account_email'),
-		'joins' => array(
-																		array(
-																			'table' => 'users',
-																			'alias' => 'User',
-																			'type' => 'inner',
-																			'foreignKey' => false,
-																			'conditions'=> array('User.id = Companies.user_id',"User.is_active=0")
-																		),
-																											)));
+		$this->paginate=array(
+			'fields' => array('Companies.id',
+				'Companies.user_id',
+				'Companies.contact_name',
+				'Companies.contact_phone',
+				'Companies.company_name',
+				'Companies.act_as',
+				'User.account_email'
+				),
+			'joins' => array(
+				array('table' => 'users',
+					'alias' => 'User',
+					'type' => 'inner',
+					'foreignKey' => false,
+					'conditions'=> array('User.id = Companies.user_id',"User.is_active=0")
+					),
+				),
+			'limit'=>10,
+			);
+		$Companies = $this->paginate('Companies');
 		$this->set('Companies',$Companies);		
 	}
 
@@ -49,6 +61,7 @@ class AdminController extends AppController {
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
 		if($user){
 			$user['User']['is_active'] = '1';
+			$user['User']['confirm_code']="";
 			$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$id)));
 			$arosAcosData['aro_id'] = $aros['Aros']['id'];
 			$arosAcosData['aco_id'] = 47;
@@ -239,6 +252,7 @@ class AdminController extends AppController {
 	/**
 	 * For Update payment information
 	 */
+	 
 	function updatePaymentStatus()
 	{
 		$this->PaymentHistory->set(array('id'=>$this->data['PaymentHistory']['id'],'payment_status'=>true));
@@ -247,6 +261,118 @@ class AdminController extends AppController {
 	 	else
 	 		$this->Session->setFlash('Status update failure','error');
 	 	$this->redirect(array('controller' => 'admin','action'=>'paymentDetails',$this->data['PaymentHistory']['id']));
+	}
+	
+	/*
+	* Show all types of user list
+	*/
+	function userList(){
+		
+		$filterRoleCond = null;
+		$userFilter = 'Companies.*,Jobseekers.*,Networkers.*';
+		if(isset($this->params['named']['filter'])){
+			$filter = $this->params['named']['filter'];
+			switch($filter){
+				case 'company':
+						$userFilter = 'Companies.*';
+						$filterRoleCond = array('UserRoles.role_id'=>COMPANY);
+						break;
+				case 'jobseeker':
+						$userFilter = 'Jobseekers.*';
+						$filterRoleCond = array('UserRoles.role_id'=>JOBSEEKER);
+						break;
+				case 'networker':
+						$userFilter = 'Networkers.*';
+						$filterRoleCond = array('UserRoles.role_id'=>NETWORKER);
+						break;
+				default:
+						$this->Session->setFlash('You click on old link or enter manully.','error');
+						$this->redirect('/admin/userList');
+			}
+		}
+		$this->set('filter',isset($filter)?$filter:null);		
+		$this->paginate =array('limit' =>10,
+	   						   'conditions' => array($filterRoleCond,
+	   						   						'NOT'=>array('UserList.id'=>array(1,2),'UserRoles.role_id'=>5),	
+	   						   						'UserList.confirm_code'=>'',
+	   						   	    				'OR'=>array('UserList.is_active'=>array(0,1)), 
+	   						   						 ),
+							   'fields' => array("UserList.account_email,UserList.id,
+							   					UserList.created,UserList.fb_user_id,UserList.is_active,
+							   					UserRoles.*,$userFilter"),
+							  );	
+		$users= $this->paginate('UserList');
+		$userArray = array();
+		foreach($users as $key=>$value){
+			$role_id = isset($value['UserRoles']['role_id'])?$value['UserRoles']['role_id']:false;
+			if($role_id){
+				switch($role_id){
+					case 1:
+							$role = 'Company';
+							$table= "Companies";
+							break;
+					case 2:
+							$role = 'Jobseeker';
+							$table= "Jobseekers";
+							break;
+					case 3:
+							$role = 'Networker';
+							$table= "Networkers";
+							break;
+					default:
+							$table="";
+							$role="";
+				}
+				$userArray[$key]['id'] = $value['UserList']['id'];
+				$userArray[$key]['role_id'] = $role_id;
+				$userArray[$key]['role'] = $role;
+				if($value['UserList']['fb_user_id']==0){
+					$userArray[$key]['account_email'] = $value['UserList']['account_email'];
+				}else
+					$userArray[$key]['account_email'] = "fb";
+					
+				$userArray[$key]['created'] = date("d M Y h:m:s", strtotime($value['UserList']['created']));
+				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
+				
+				if(isset($value[$table])){
+					$userArray[$key]['contact_name'] = $value[$table]['contact_name'];
+					$userArray[$key]['contact_phone'] = $value[$table]['contact_phone'];
+				}else{
+					$userArray[$key]['contact_name'] = "";
+					$userArray[$key]['contact_phone'] = "";
+				}
+			}
+		}
+		$this->set('userArray',$userArray);	
+	}
+		
+	function userAction(){
+		if(isset($this->params['named']['active'])){
+			$userId=$this->params['named']['active'];
+			$is_active='1';
+		}			
+		if(isset($this->params['named']['deactive'])){
+			$userId=$this->params['named']['deactive'];
+			$is_active='0';
+			$this->Session->setFlash('User Activated successfully','success');
+		}
+		if(isset($userId)){
+			$userData =$this->User->find('first',array('conditions'=>"User.id=$userId"));
+			if(isset($userData)){
+				$userData['User']['is_active'] =$is_active;
+				if($this->User->save($userData)){
+					if($is_active==0){
+						$this->Session->setFlash('User De-activated successfully','success');
+					}else{
+						$this->Session->setFlash('User Activated successfully','success');
+					}
+				}	
+			}else
+				$this->Session->setFlash('Internal error occurs..','error');
+		}else
+			$this->Session->setFlash('Internal error occurs..','error');
+			$this->redirect("userList");
+		
 	}
 }
 ?>

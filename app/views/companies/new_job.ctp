@@ -68,7 +68,7 @@
 						<?php echo $this->Paginator->numbers(); ?>
 						<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>
 						<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
-						 DISPLAYING 
+						DISPLAYING 
 						<select id="switch_display">
 							<option <?php echo $displayPageNo=="10"?"selected":"" ?>>10</option>
 							<option <?php echo $displayPageNo=="20"?"selected":"" ?>>20</option>

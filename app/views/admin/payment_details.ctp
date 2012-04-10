@@ -57,10 +57,10 @@
 										$payment_detail['PaymentHistory']['amount']*0.25,
 										array(
 											'places' => 2,
-											'before' => '',
+											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										)."$";?>
+										);?>
 							</span>
 						</div>
 						<div style="clear:both"></div>
@@ -73,10 +73,10 @@
 										$payment_detail['PaymentHistory']['amount']*0.25,
 										array(
 											'places' => 2,
-											'before' => '',
+											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										)."$";?>
+										);?>
 							</span>
 						</div>
 						<div style="clear:both"></div>
@@ -89,10 +89,10 @@
 										$payment_detail['PaymentHistory']['amount']*0.75,
 										array(
 											'places' => 2,
-											'before' => '',
+											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										)."$";?>
+										);?>
 							</span>
 						</div>
 						<div style="clear:both"></div>
@@ -183,10 +183,10 @@
 										$payment_detail['PaymentHistory']['amount']*0.75,
 										array(
 											'places' => 2,
-											'before' => '',
+											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										)."$";
+										);
 								?>
 							</span>
 						<?php
@@ -239,10 +239,10 @@
 										$payment_detail['PaymentHistory']['amount']*0.75/($networker_count),
 										array(
 											'places' => 2,
-											'before' => '',
+											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										)."$";?>
+										);?>
 							</span>
 						</td>
 					</tr>
