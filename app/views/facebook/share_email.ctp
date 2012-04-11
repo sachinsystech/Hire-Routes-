@@ -100,6 +100,7 @@ function showView(type){
             break;
         case 3:
             setView('Twitter');
+			fillTwitterFriend();
             $("#share").click();
             break;
         case 4:
@@ -166,7 +167,42 @@ function validateEmail(elementValue){
  }  
 </script>
 
-    <script>
+<script>
+
+
+/****************************	Fill Twitter Friends	******************************/
+       function fillTwitterFriend(){
+            //get list of twitter friends from ajax request
+            $("#facebook").html("<img src='/img/loading.gif'>");
+            $.ajax({
+                type: 'POST',
+                url: '/companies/getTwitterFriendList',
+                dataType: 'json',
+                success: function(response){
+                   switch(response.error){
+                        case 0: // success
+                            createHTMLforFacebookFriends(response.data);
+                            break;
+                        case 1: // we don't have user's linked token
+                            $( "#dialog-message" ).html(response.message);
+                            $( "#dialog-message" ).dialog("open");
+                            window.open(response.URL);
+                            break;
+                        case 2: // something went wrong when we connect with facebook.Need to login by facebook 
+                            $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
+                            $( "#dialog-message" ).dialog("open");
+                            break;
+                   }
+            
+                },
+                error: function(message){
+                    alert(message);
+                }
+            });
+            
+        }
+/**************************************************************/
+
 
 /*************************************************************/
        function fillLinkedinFriend(){
@@ -181,7 +217,7 @@ function validateEmail(elementValue){
                         case 0: // success
                             createHTMLforFacebookFriends(response.data);
                             break;
-                        case 1: // we don't have user's facebook token
+                        case 1: // we don't have user's linked token
                             $( "#dialog-message" ).html(response.message);
                             $( "#dialog-message" ).dialog("open");
                             window.open(response.URL);
@@ -277,7 +313,7 @@ function validateEmail(elementValue){
                         case 1: // we don't have user's facebook token
                             $( "#dialog-message" ).html(response.message);
                             $( "#dialog-message" ).dialog("open");
-                            window.open(response.URL);
+							window.open(response.URL);
                             break;
                         case 2: // something went wrong when we connect with facebook.Need to login by facebook 
                             $( "#dialog-message" ).html("Something went wrong. Please contact to site admin");

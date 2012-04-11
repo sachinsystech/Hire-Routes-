@@ -9,10 +9,8 @@ class NetworkersController extends AppController {
 	var $helpers = array('Time','Form');
 	
 	public function beforeFilter(){
-		$userId = $this->TrackUser->getCurrentUserId();		
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
-		if($roleInfo['role_id']!=3){
+		$role = $this->Session->read('user_role.role_id'); 
+		if($role!=NETWORKER){
 			$this->redirect("/users/firstTime");
 		}
 	}
@@ -24,9 +22,7 @@ class NetworkersController extends AppController {
 		$this->Session->setFlash('Your Subscription has been deleted successfuly.', 'success');				
 		$this->redirect('/networkers/setting');
 	}
-	
-	
-	
+		
 	/* 	Networker's Account-Profile page*/
 	function index(){
 		$userId = $this->TrackUser->getCurrentUserId();		
@@ -380,9 +376,7 @@ class NetworkersController extends AppController {
 		  
 	function archiveJob(){
 		$userId = $this->TrackUser->getCurrentUserId();		
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
-        
+		    
     	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
 		
         if(count($networker_settings)>0){
@@ -412,9 +406,7 @@ class NetworkersController extends AppController {
 			
 			}
 		
-				   
-			$shortByItem = 'created';
-			$order		 = 'desc';
+			$shortByItem = array('Job.created'=> 'desc');
 		    
 		    if(isset($this->params['named']['display'])){
 			    $displayPageNo = $this->params['named']['display'];
@@ -425,20 +417,16 @@ class NetworkersController extends AppController {
 			    $this->set('shortBy',$shortBy);
 			    switch($shortBy){
 			    	case 'date-added':
-			    				$shortByItem = 'created'; 
-								$order		 = 'desc';
-			    				break;	
+	        				$shortByItem = array('Job.created'=> 'desc'); 
+	        				break;	
 			    	case 'company-name':
-			    				$shortByItem = 'comp.company_name';
-								$order		 = 'asc'; 
+			    				$shortByItem = array('comp.company_name'=> 'asc'); 
 			    				break;
 			    	case 'industry':
-			    				$shortByItem = 'industry';
-								$order		 = 'asc'; 
+			    				$shortByItem = array('ind.name'=> 'asc');  
 			    				break;
 			    	case 'salary':
-			    				$shortByItem = 'salary_from';
-								$order		 = 'asc'; 
+			    				$shortByItem = array('Job.salary_from'=> 'asc'); 
 			    				break;
 			    	default:
 			    			$this->redirect("/jobs");	        		        	
@@ -474,12 +462,13 @@ class NetworkersController extends AppController {
 												         'type' => 'LEFT',
 												         'conditions' => array('Job.state = state.id',)
 											        )),
-		                            'order' => array("Job.$shortByItem" => $order,),
+		                            'order' => $shortByItem,
 									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
 		    
 		    $jobs = $this->paginate('Job');	
 
-			$archivejobs = $this->Job->find('count',array('conditions'=>$cond));	
+			$archivejobs = $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
+						   											'AND' => array('is_active' => 0)) ));
 			$newjobs     = $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
 						   											'AND' => array('is_active' => 1)) ));
 		}else{
@@ -493,9 +482,7 @@ class NetworkersController extends AppController {
 
 	function newJob(){
 		$userId = $this->TrackUser->getCurrentUserId();		
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
-        
+		        
     	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
 		
         if(count($networker_settings)>0){
@@ -524,37 +511,31 @@ class NetworkersController extends AppController {
 				$job_cond[$n] =  array('AND' =>$tempCond);
 			
 			}
-		
-				   
-			$shortByItem = 'created';
-			$order		 = 'desc';
-		    
+
 		    if(isset($this->params['named']['display'])){
 			    $displayPageNo = $this->params['named']['display'];
 			    $this->set('displayPageNo',$displayPageNo);
 			}
+			
+			$shortByItem = array('Job.created'=> 'desc');
 			if(isset($this->params['named']['shortby'])){
 			    $shortBy = $this->params['named']['shortby'];
 			    $this->set('shortBy',$shortBy);
 			    switch($shortBy){
 			    	case 'date-added':
-			    				$shortByItem = 'Job.created'; 
-								$order		 = 'desc';
-			    				break;	
+	        				$shortByItem = array('Job.created'=> 'desc'); 
+	        				break;	
 			    	case 'company-name':
-			    				$shortByItem = 'comp.company_name';
-								$order		 = 'asc'; 
+			    				$shortByItem = array('comp.company_name'=> 'asc'); 
 			    				break;
 			    	case 'industry':
-			    				$shortByItem = 'Job.industry';
-								$order		 = 'asc'; 
+			    				$shortByItem = array('ind.name'=> 'asc');  
 			    				break;
 			    	case 'salary':
-			    				$shortByItem = 'Job.salary_from';
-								$order		 = 'asc'; 
+			    				$shortByItem = array('Job.salary_from'=> 'asc'); 
 			    				break;
 			    	default:
-			    			$this->redirect("/jobs");	        		        	
+			    				$this->redirect('/networkers/newJob');        		        	
 			    }
 			}
 			$cond = array('OR' => $job_cond,
@@ -586,7 +567,7 @@ class NetworkersController extends AppController {
 												         'type' => 'LEFT',
 												         'conditions' => array('Job.state = state.id',)
 											        )),
-		                            'order' => array("$shortByItem" => $order,),
+		                            'order' => $shortByItem,
 									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
 		    
 		    $jobs = $this->paginate('Job');	
@@ -598,7 +579,7 @@ class NetworkersController extends AppController {
 			$this->set('NewJobs',$newjobs);
 			$this->set('jobs',$jobs);	
 		}else{
-			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'error');				
+			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'warning');				
 			$this->redirect('/networkers/setting');
 		}
 		
@@ -606,9 +587,7 @@ class NetworkersController extends AppController {
 
 	function jobData(){
 		$userId = $this->TrackUser->getCurrentUserId();		
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
-        
+		
     	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
 		
         if(count($networker_settings)>0){

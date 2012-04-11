@@ -95,7 +95,7 @@ class User extends AppModel {
             if(Security::hash(Configure::read('Security.salt') . $v1) !== $v2) {
                unset($this->data[$this->name][ $compare_field ]);
                unset($this->data[$this->name][ $key]);
-                return FALSE;
+               return FALSE;
             } else {
                 continue;
             }
