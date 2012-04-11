@@ -282,10 +282,12 @@ class JobsController extends AppController {
                 		}
                 		$type_arr = explode(".",$resume['name']);
                 		$type = $type_arr[1];
-               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
+               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx'){
 							$this->Session->setFlash('File type not supported.', 'error');
                 			$this->data['JobseekerApply']['resume'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->set('job',$job['Job']);
+							$this->set('jobCompany',$job['comp']['company_name']);
 							$this->render("apply_job"); 
 							return;
                 		}
@@ -310,10 +312,12 @@ class JobsController extends AppController {
                			}
                 		$type_arr1 = explode(".",$cover_letter['name']);
                 		$type1 = $type_arr1[1];
-                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
+                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type!='docx'){
 							$this->Session->setFlash('File type not supported.', 'error');
                 			$this->data['JobseekerApply']['cover_letter'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->set('job',$job['Job']);
+							$this->set('jobCompany',$job['comp']['company_name']);
 							$this->render("apply_job"); 
 							return;
                 		}
@@ -364,11 +368,11 @@ class JobsController extends AppController {
 
 				if($file_type=='resume'){
 					$file = $jobprofile['JobseekerProfile']['resume'];
-					$fl = BASEPATH."webroot/files/resume/".$file;
+					$fl = APP."webroot/files/resume/".$file;
 				}
 				if($file_type=='cover_letter'){
 					$file = $jobprofile['JobseekerProfile']['cover_letter'];
-					$fl = BASEPATH."webroot/files/cover_letter/".$file;
+					$fl = APP."webroot/files/cover_letter/".$file;
 				}				
 				
 				if (file_exists($fl)){
