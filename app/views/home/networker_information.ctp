@@ -41,6 +41,7 @@ Sed	ut perspicia-s unde	omnis iste natus error sit .........
 		<?php echo $this->Html->image('/../img/network_info.png', array('style'=>'width:600px;height:510px;','usemap'=>'#network_info'));?>
 		<map name="network_info">
 			<area shape="rect" coords="215,475,400,510" href="/users/userSelection">
+			<area shape="rect" coords="25,445,200,480" href="home/howItWorks">
 		</map>
 	</div>
 </div>

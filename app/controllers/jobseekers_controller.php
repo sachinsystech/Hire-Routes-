@@ -471,8 +471,8 @@ class JobseekersController extends AppController {
                  $oldresume = $deljob['JobseekerApply']['resume'];
                  $oldcoverletter = $deljob['JobseekerApply']['cover_letter'];
                  $this->JobseekerApply->delete($deljob['JobseekerApply']['id']);
-                 @unlink(BASEPATH."webroot/files/resume/".$oldresume);
-                 @unlink(BASEPATH."webroot/files/cover_letter/".$oldcoverletter);
+                 @unlink(APP."webroot/files/resume/".$oldresume);
+                 @unlink(APP."webroot/files/cover_letter/".$oldcoverletter);
               }
                 $this->Session->setFlash('Job successfully deleted.', 'success'); 
            }
@@ -507,7 +507,7 @@ class JobseekersController extends AppController {
                 $type_arr = explode(".",$resume['name']);
 				
                 $type = $type_arr[1];
-                if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
+                if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx'){
                 	$this->Session->setFlash('File type not supported.', 'error');        
                     $this->data['JobseekerProfile']['resume'] = ""; 
 					$this->set('jobprofile',$this->data['JobseekerProfile']);  
@@ -516,8 +516,7 @@ class JobseekersController extends AppController {
                 }
                 $randomNumber = rand(1,100000000000);            
                 $uploadedFileName=$randomNumber.$resume['name'];
-                
-                if(move_uploaded_file($resume['tmp_name'],BASEPATH."webroot/files/resume/".$uploadedFileName)){
+                if(move_uploaded_file($resume['tmp_name'],APP."webroot/files/resume/".$uploadedFileName)){
                 	$this->data['JobseekerProfile']['resume'] = $uploadedFileName;
                 }
 			}else{
@@ -536,7 +535,7 @@ class JobseekersController extends AppController {
                 $type_arr1 = explode(".",$cover_letter['name']);				
                 $type1 = $type_arr1[1];
 				
-                if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
+                if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type!='docx'){
                 	$this->Session->setFlash('File type not supported.', 'error'); 
 					$this->data['JobseekerProfile']['cover_letter'] = ""; 
 					$this->set('jobprofile',$this->data['JobseekerProfile']);  
@@ -545,12 +544,12 @@ class JobseekersController extends AppController {
                 }
                 $randomNumber2 = rand(1,100000000000);            
                 $uploadedFileName2=$randomNumber2.$cover_letter['name'];
-                
-                if(move_uploaded_file($cover_letter['tmp_name'],BASEPATH."webroot/files/cover_letter/".$uploadedFileName2)){
+
+                if(move_uploaded_file($cover_letter['tmp_name'],APP."webroot/files/cover_letter/".$uploadedFileName2)){
                 	$this->data['JobseekerProfile']['cover_letter'] = $uploadedFileName2;
                 }
 			}else{
-				$this->data['JobseekerProfile']['cover_letter']=$jobprofile['JobseekerApply']['cover_letter'];
+				$this->data['JobseekerProfile']['cover_letter']=$jobprofile['JobseekerProfile']['cover_letter'];
 			}            
 			
 			if($this->JobseekerProfile->save($this->data['JobseekerProfile'])){
@@ -575,11 +574,11 @@ class JobseekersController extends AppController {
 
 				if($file_type=='resume'){
 					$file = $jobprofile['JobseekerProfile']['resume'];
-					$fl = BASEPATH."webroot/files/resume/".$file;
+					$fl = APP."webroot/files/resume/".$file;
 				}
 				if($file_type=='cover_letter'){
 					$file = $jobprofile['JobseekerProfile']['cover_letter'];
-					$fl = BASEPATH."webroot/files/cover_letter/".$file;
+					$fl = APP."webroot/files/cover_letter/".$file;
 				}				
 				
 				if (file_exists($fl)){
