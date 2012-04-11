@@ -86,7 +86,7 @@ class UsersController extends AppController {
  * Redirecting respactive my-account page (If user logged-in). 
 **/
 	function userSelection(){
-		if($this->TrackUser->isHRUserLoggedIn()){
+		if($this->TrackUser->isUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
 		}
 	}
@@ -635,7 +635,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Username or password not matched.', 'error');				
 			}else{
 				$userData=$this->User->find('first',array('conditions'=>array("id"=>$this->TrackUser->getCurrentUserId())));
-				$welcomeUserName = 'User';				
+				$welcomeUserName = 'User';	
 				switch($userData['UserRoles'][0]['role_id']){
 					case 1:
 							if(isset($userData['Companies'][0]['contact_name']))
@@ -652,9 +652,15 @@ class UsersController extends AppController {
 				}
 				$this->Session->write('welcomeUserName',$welcomeUserName);
 				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
-				$this->redirect("/users/firstTime");		
-			}		
+				$redirectTo=$this->Session->read('redirection_url');
+				$this->Session->delete('redirection_url');
+				if(isset($redirectTo)&&!empty($redirectTo)){
+					$this->redirect($redirectTo);
+				}
+				$this->redirect("/users/firstTime");
+			}
 		}
+		$this->setRedirectionUrl();
 	}
 
 /**
@@ -818,7 +824,7 @@ class UsersController extends AppController {
 				$this->Session->SetFlash('Account with this Email is not registered!','error');
 				return;
 			}
-			if($user['User']['is_active']==1 && $user['User']['is_active']){
+			if($user['User']['is_active']===1 && $user['User']['is_active']){
 				$newPassword = substr(md5(uniqid(mt_rand(), true)), 0, 6);
 				$user['User']['password'] =$this->Auth->password($newPassword);
 				$to =$userEmail;
@@ -835,8 +841,7 @@ class UsersController extends AppController {
 					$this->Session->SetFlash('Internal Error!','error');
 				}
 			}else{
-				$this->sendConfirmationEmail($user['User']['id']);
-				$this->Session->SetFlash('You account is not confirmed and activated yet, confirmatoin link is sent to your email, please check you email for confirmation link!','warning');
+				$this->Session->SetFlash('Please contact to side admin!.','error');
 			}
 			$this->redirect('/users/forgotPassword');
 		}

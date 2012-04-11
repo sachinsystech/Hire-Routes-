@@ -188,8 +188,7 @@
 			if(!validateSalary()) return false;
 		});
 
-
-		$("#JobSalaryTo").blur(function(){ //alert("hiiiiiiiii");
+		$("#JobSalaryTo").blur(function(){ 
 			validateSalary();
 		});
 	
@@ -200,6 +199,7 @@
 				$("#JobSalaryTo").after("<label class='error' for='JobSalaryTo' >Must greter than 'From' field value..</label>");
 				return false;
 	}
+	return true;
 } 
 </script>
 

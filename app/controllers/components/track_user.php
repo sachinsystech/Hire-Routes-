@@ -73,6 +73,16 @@ class TrackUserComponent extends Object
 		}
 	}
 	
+	function isUserLoggedIn(){
+		if($this->Session->read('Auth.User.id')>0 && $this->Session->read('Auth.User.id')!=2){
+			return true;
+		}
+		else{
+			return false;		
+		}
+	}
+
+	
 /**
  * Get authenticated user's role info 
  *

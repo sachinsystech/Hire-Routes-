@@ -3,7 +3,7 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory');
+   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse');
 	var $components = array('TrackUser','Utility','RequestHandler');
 
 	var $helpers = array('Form','Paginator','Time');
@@ -226,8 +226,10 @@ list archive jobs..
 
 		
 
-		$paidReward = $this->PaymentHistory->find('all',array('conditions'=>array('PaymentHistory.user_id'=>$userId,
-																				'PaymentHistory.payment_status' =>1),
+		$paidReward = $this->PaymentHistory->find('all',array('conditions'=>array(
+																'PaymentHistory.user_id'=>$userId,
+//																'PaymentHistory.payment_status' =>1
+																),
 													 'fields'=>array('SUM(PaymentHistory.amount) as paid_reward'),));
 		if($paidReward){
 			$rewardPaid = $paidReward[0][0]['paid_reward'];
@@ -422,23 +424,31 @@ list archive jobs..
 			$paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE, '', '', FALSE, FALSE );
 		    $resArray = $paypalPro->hash_call($methodToCall,$nvpstr);
 		    $ack = strtoupper($resArray["ACK"]);
-            if($ack =="SUCCESS"){
-                    // card is valid		   
-			        $authorizationID = urlencode($resArray['TRANSACTIONID']);
-			        $note = urlencode('valid credit card');
+            if($ack =="SUCCESS"){            
+            	//To store Paypal response
+            	$resArray['transaction_type']='card_authorization';
+            	$this->PaypalResponse->save(array('paypal_string'=>serialize($resArray)));
+                // card is valid
+			    $authorizationID = urlencode($resArray['TRANSACTIONID']);
+			    $note = urlencode('valid credit card');
 
-			        // Add request-specific fields to the request string.
-			        $nvpstr.="&AUTHORIZATIONID=$authorizationID&NOTE=$note";		
-
-			        // Execute the API operation; see the PPHttpPost function above.
-			        $httpParsedResponseAr = $this->PPHttpPost('DoVoid', $nvpstr);
-
-			        if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
-				        exit('Void Completed Successfully: '.print_r($httpParsedResponseAr, true));
-			        } else  {
-				        exit('DoVoid failed: ' . print_r($httpParsedResponseAr, true));
+			    // Add request-specific fields to the request string.
+			    $nvpstr.="&AUTHORIZATIONID=$authorizationID&NOTE=$note";		
+		        // Execute the API operation; see the PPHttpPost function above.
+		        $httpParsedResponseAr = $this->PPHttpPost('DoVoid', $nvpstr);
+		        $msg="";
+		        if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+		        	$msg="Payment information Authorized";
+		        	if(isset($resArray['L_SHORTMESSAGE0'])){
+		                $msg = $resArray['L_SHORTMESSAGE0'];
+	           		}
+				        //exit('Void Completed Successfully: '.print_r($httpParsedResponseAr, true));
+			        }else{
+			        	$this->render("payment_info");
+			        	return;
+				        //exit('DoVoid failed: ' . print_r($httpParsedResponseAr, true));
 			        }
-			        if( !$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
+			        if(!$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
 				        $this->render("payment_info");
 				        return;				
 			        }else{
@@ -667,11 +677,11 @@ function paymentHistoryInfo(){
 
 				if($file_type=='resume'){
 					$file = $jobprofile['JobseekerApply']['resume'];
-					$fl = BASEPATH."webroot/files/resume/".$file;
+					$fl = APP."webroot/files/resume/".$file;
 				}
 				if($file_type=='cover_letter'){
 					$file = $jobprofile['JobseekerApply']['cover_letter'];
-					$fl = BASEPATH."webroot/files/cover_letter/".$file;
+					$fl = APP."webroot/files/cover_letter/".$file;
 				}				
 				
 				if (file_exists($fl)){
@@ -690,7 +700,8 @@ function paymentHistoryInfo(){
 					$this->Session->setFlash('File does not exist.', 'error');				
 				}				
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+				$this->redirect("/companies/newJob");				
 			}
 		}		
 	}
@@ -794,6 +805,7 @@ function paymentHistoryInfo(){
 				}
 			}
 			else{
+				$this->Session->setFlash('First fill your Payment Informatoin.', 'error');
 				$this->redirect("/companies/paymentInfo/$appliedJobId");
 			}			
 		}else{
@@ -852,12 +864,17 @@ function paymentHistoryInfo(){
 			$methodToCall = 'doDirectPayment';
 		    
 		    $nvpstr='&PAYMENTACTION='.$paymentAction.'&AMT='.$amount.'&CREDITCARDTYPE='.$creditCardType.'&ACCT='.$creditCardNumber.'&EXPDATE='.$padDateMonth.$expDateYear.'&CVV2='.$cvv2Number.'&FIRSTNAME='.$firstName.'&LASTNAME='.$lastName.'&STREET='.$address.'&CITY='.$city.'&STATE='.$state.'&ZIP='.$zip.'&COUNTRYCODE=US&CURRENCYCODE='.$currencyCode.$nvpRecurring;
-		    $paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE,null,null);echo "<pre>";
+		    $paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE,null,null);
            // print_r($nvpstr);
 		    $resArray = $paypalPro->hash_call($methodToCall,$nvpstr);
 		    $ack = strtoupper($resArray["ACK"]);
 		    //print_r($resArray);exit;
 		    if($ack == "SUCCESS") {
+		    
+		    	//To store Paypal response
+            	$resArray['transaction_type']='payment';
+            	$this->PaypalResponse->save(array('paypal_string'=>serialize($resArray)));
+		    	
 		        if(isset($resArray['TRANSACTIONID'])) {
 		        	//echo "SUCCESS : ".$resArray['TRANSACTIONID']; exit;
 		        	// Here change status of applied job from applied to selected in jobseeker_apply table....
@@ -883,11 +900,9 @@ function paymentHistoryInfo(){
 		            $this->redirect("/companies/checkout");
 		        }
 		        
-		    } else {
+		    }else {
 		        $error_msg = "Invalid Data";
-		        if(isset($resArray['L_LONGMESSAGE0'])) {
-		            $error_msg = $resArray['L_LONGMESSAGE0'];
-		        }elseif(isset($resArray['L_SHORTMESSAGE0'])) {
+				if(isset($resArray['L_SHORTMESSAGE0'])) {
 		            $error_msg = $resArray['L_SHORTMESSAGE0'];
 		        }
 		        $this->Session->setFlash($error_msg, 'error');
@@ -1057,9 +1072,9 @@ function paymentHistoryInfo(){
 
 		// Get response from the server.
 		$httpResponse = curl_exec($ch);
-
 		if(!$httpResponse) {
-			exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
+			$this->Session->setFlash('Internal error!Please try again', 'error');
+			//exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
 		}
 
 		// Extract the response details.
@@ -1074,7 +1089,8 @@ function paymentHistoryInfo(){
 		}
 
 		if((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr)) {
-			exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
+			$this->Session->setFlash('Internal Error! Try again', 'error');
+			//exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
 		}
 
 		return $httpParsedResponseAr;
