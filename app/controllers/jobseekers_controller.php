@@ -224,39 +224,32 @@ class JobseekersController extends AppController {
 		$state 			= $jobseeker_settings['JobseekerSettings']['state'];
 		$salary_range   = $jobseeker_settings['JobseekerSettings']['salary_range'];
         
-       
-		$shortByItem = 'created';
-		$order		 = 'desc';
-        
         if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
 	        $this->set('displayPageNo',$displayPageNo);
 		}
+		       
+		$shortByItem = array('Job.created'=> 'desc');
 		if(isset($this->params['named']['shortby'])){
-	        $shortBy = $this->params['named']['shortby'];
-	        $this->set('shortBy',$shortBy);
-	        switch($shortBy){
-	        	case 'date-added':
-	        				$shortByItem = 'created'; 
-							$order		 = 'desc';
-	        				break;	
-	        	case 'company-name':
-	        				$shortByItem = 'company_name'; 
-							$order		 = 'asc';
-	        				break;
-	        	case 'industry':
-	        				$shortByItem = 'industry';
-							$order		 = 'asc'; 
-	        				break;
-	        	case 'salary':
-	        				$shortByItem = 'salary_from'; 
-							$order		 = 'asc';
-	        				break;
-	        	default:
-	        			$this->redirect("/jobs");	        		        	
-	        }
+			$shortBy = $this->params['named']['shortby'];
+			$this->set('shortBy',$shortBy);
+			switch($shortBy){
+				case 'date-added':
+						$shortByItem = array('Job.created'=> 'desc'); 
+						break;	
+				case 'company-name':
+							$shortByItem = array('comp.company_name'=> 'asc'); 
+							break;
+				case 'industry':
+							$shortByItem = array('ind.name'=> 'asc');  
+							break;
+				case 'salary':
+							$shortByItem = array('Job.salary_from'=> 'asc'); 
+							break;
+				default:
+							$this->redirect('/jobseekers/newJob');        		        	
+			}
 		}
-
 		/* $cond = array('OR' => array(array('Job.industry' => $industry),
                                     array('Job.specification' => $specification),
                                     array('Job.city ' => $city),
@@ -308,7 +301,7 @@ class JobseekersController extends AppController {
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.state = state.id',)
 									            )),
-                                'order' => array("Job.$shortByItem" => $order,),
+                                'order' => $shortByItem,
 								'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);		
            
 
@@ -370,29 +363,26 @@ class JobseekersController extends AppController {
 	        $displayPageNo = $this->params['named']['display'];
 	        $this->set('displayPageNo',$displayPageNo);
 		}
+		$shortByItem = array('Job.created'=> 'desc');
 		if(isset($this->params['named']['shortby'])){
-	        $shortBy = $this->params['named']['shortby'];
-	        $this->set('shortBy',$shortBy);
-	        switch($shortBy){
-	        	case 'date-added':
-	        				$shortByItem = 'created'; 
-							$order		 = 'desc';
-	        				break;	
-	        	case 'company-name':
-	        				$shortByItem = 'company_name'; 
-							$order		 = 'asc';
-	        				break;
-	        	case 'industry':
-	        				$shortByItem = 'industry';
-							$order		 = 'asc'; 
-	        				break;
-	        	case 'salary':
-	        				$shortByItem = 'salary_from'; 
-							$order		 = 'asc';
-	        				break;
-	        	default:
-	        			$this->redirect("/jobs");	        		        	
-	        }
+			$shortBy = $this->params['named']['shortby'];
+			$this->set('shortBy',$shortBy);
+			switch($shortBy){
+				case 'date-added':
+						$shortByItem = array('Job.created'=> 'desc'); 
+						break;	
+				case 'company-name':
+							$shortByItem = array('comp.company_name'=> 'asc'); 
+							break;
+				case 'industry':
+							$shortByItem = array('ind.name'=> 'asc');  
+							break;
+				case 'salary':
+							$shortByItem = array('Job.salary_from'=> 'asc'); 
+							break;
+				default:
+							$this->redirect('/jobseekers/archivedJob');        		        	
+			}
 		}
 
 		 $cond = array('Job.specification' => $specification,
@@ -436,11 +426,10 @@ class JobseekersController extends AppController {
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.state = state.id',)
 									            )),
-                                'order' => array("Job.$shortByItem" => $order,),
+                                'order' => $shortByItem,
 								'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
   
 		$newjobs = $this->Job->find('count',array('conditions'=>$cond));     
-	
            
 		$jobs = $this->paginate('Job');
 		
