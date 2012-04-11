@@ -704,7 +704,8 @@ function paymentHistoryInfo(){
 					$this->Session->setFlash('File does not exist.', 'error');				
 				}				
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+				$this->redirect("/companies/newJob");				
 			}
 		}		
 	}
