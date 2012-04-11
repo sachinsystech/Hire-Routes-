@@ -1,5 +1,4 @@
 <?php echo $this->Session->flash();?>
-
 <script>
 	$(document).ready(function(){
 		$("#short_by").change(onSelectShortByChange);
@@ -32,6 +31,7 @@
 									  'type'=>'select',
 									  'label'=>'',
 									  'options'=>array('0'=>'Filter By','company'=>'Company', 'networker'=> 'Networker', 'jobseeker' => 'Jobseeker'),
+									  'style'=>"width:115px",
 									  'class'=>'job_select_shortby',
 									  'selected'=>isset($filter)?$filter:'All',));?>
 		</div>

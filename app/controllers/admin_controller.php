@@ -285,7 +285,7 @@ class AdminController extends AppController {
 						$filterRoleCond = array('UserRoles.role_id'=>NETWORKER);
 						break;
 				default:
-						$this->Session->setFlash('You click on old link or enter manully.','error');
+						$this->Session->setFlash('You click on old link or entered manually.','error');
 						$this->redirect('/admin/userList');
 			}
 		}
@@ -347,8 +347,8 @@ class AdminController extends AppController {
 		
 	function userAction(){
 
-		isset($this->params['named']['page'])?$page="page:".$this->params['named']['page']:$page="";
-		isset($this->params['named']['filter'])?$filter="filter:".$this->params['named']['filter']:$filter="";
+		$page = isset($this->params['named']['page'])?"page:".$this->params['named']['page']:"";
+		$filter = isset($this->params['named']['filter'])?"filter:".$this->params['named']['filter']:"";
 		
 		if(isset($this->params['named']['active'])){
 			$userId=$this->params['named']['active'];
@@ -370,10 +370,12 @@ class AdminController extends AppController {
 				}else{
 					$this->Session->setFlash('Internal error occurs.','error');
 				}	
-			}else
-				$this->Session->setFlash('Internal error occurs.','error');
-		}else
-			$this->Session->setFlash('Internal error occurs.','error');
+			}else{
+				$this->Session->setFlash('You maby be ccccccc.........','error');
+			}
+		}else{
+			$this->Session->setFlash('You maby be ccccccc..........','error');
+		}
 		
 		$this->redirect(array('controller'=>'admin','action'=>'userList',$filter,$page,)); 
 

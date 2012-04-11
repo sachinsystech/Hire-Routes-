@@ -38,6 +38,7 @@ Sed	ut perspicia-s unde	omnis iste natus error sit .........
 		<?php echo $this->Html->image('/../img/company_info.png', array('style'=>'width:600px;height:510px;','usemap'=>'#network_info'));?>
 		<map name="network_info">
 			<area shape="rect" coords="180,455,380,490" href="/users/userSelection">
+			<area shape="rect" coords="410,455,570,500" href="home/howItWorks">
 		</map>
 	</div>
 </div>

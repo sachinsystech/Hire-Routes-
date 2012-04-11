@@ -86,7 +86,7 @@ class UsersController extends AppController {
  * Redirecting respactive my-account page (If user logged-in). 
 **/
 	function userSelection(){
-		if($this->TrackUser->isHRUserLoggedIn()){
+		if($this->TrackUser->isUserLoggedIn()){
 			$this->redirect("/users/firstTime");	
 		}
 	}
@@ -818,7 +818,7 @@ class UsersController extends AppController {
 				$this->Session->SetFlash('Account with this Email is not registered!','error');
 				return;
 			}
-			if($user['User']['is_active']==1 && $user['User']['is_active']){
+			if($user['User']['is_active']===1 && $user['User']['is_active']){
 				$newPassword = substr(md5(uniqid(mt_rand(), true)), 0, 6);
 				$user['User']['password'] =$this->Auth->password($newPassword);
 				$to =$userEmail;
