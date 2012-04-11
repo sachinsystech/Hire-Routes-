@@ -1,10 +1,17 @@
-<?php
-
+<?php	
+	/***	Include facebook api authentication files.	***/
 	require_once(APP_DIR.'/vendors/facebook/facebook.php');
+?>
+
+
+<?php	
 	class FacebookController extends AppController {
 
     var $uses = array('User');
-    
+	var $components = array('TrackUser','Utility','RequestHandler');    
+	
+	/******	Facebook Handling	******/
+	
 	private function facebookObject() {
 		$facebook = new Facebook(array(
 		  'appId'  => FB_API_KEY,
@@ -13,8 +20,8 @@
 		));
 		return $facebook;
 	}
-	
-	function getFaceBookLoginURL(){ 
+
+    function getFaceBookLoginURL(){ 
         $loginUrl = $this->facebookObject()->getLoginUrl(array(
                                                                 'canvas' => 1,
                                                                 'fbconnect' => 0,
@@ -23,7 +30,8 @@
         return $loginUrl;
     }
 
-	function getFaceBookFriendList(){
+
+    function getFaceBookFriendList(){
         $userId = $this->Session->read('Auth.User.id');
         if(!$this->RequestHandler->isAjax()){
             $user = $this->facebookObject()->getUser();
@@ -34,14 +42,14 @@
                 $saveUser['User']['facebook_token'] = $this->facebookObject()->getAccessToken();
                 $this->User->save($saveUser);
                 $this->set('error',false);
-                
+                return;
             }else{
                 //this would be call when user decline permission            
             }
         }else{
 
             $this->autoRender = false;
-            $user = $this->User->find('first',array('fields'=>'facebook_token','conditions'=>array('id'=>$userId,'facebook_token !='=>'NULL')));
+            $user = $this->User->find('first',array('fields'=>'facebook_token','conditions'=>array('id'=>$userId,'facebook_token !='=>'')));
             //get token from table other wise send for login.
             if($user){
                 try{
@@ -71,6 +79,7 @@
         }
     }
 
+
     function commentAtFacebook(){
         $this->autoRender = false;
         $userIds = $this->params['form']['usersId'];
@@ -81,7 +90,6 @@
         if(!empty($userIds) && $message &&  $User){
             foreach($userIds as $id){
                 try{
-
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array('message'=>$message,'access_token' =>$User['User']['facebook_token']));
                     
                 }catch(Exception $e){
@@ -91,8 +99,9 @@
             }
         }
         return json_encode(array('error'=>0));
-
+        
     }
+
 
 
 }

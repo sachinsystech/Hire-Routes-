@@ -1,8 +1,9 @@
 <?php
 class TwitterController extends AppController {
 	var $uses = array('User');
-
-	/**		*****	Twitter :: Handling	*****	**/
+	var $components = array('TrackUser','Utility','RequestHandler');
+	
+/**		*****	Twitter :: Handling	*****	**/
 
 	private function getTwitterObject(){
 		require_once(APP_DIR.'/vendors/twitter/EpiCurl.php'); 
@@ -19,12 +20,14 @@ class TwitterController extends AppController {
         $userIds = explode(",", $userIds);
         $message = $this->params['form']['message'];
         $userId = $this->Session->read('Auth.User.id');
-        $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+        $user = $this->User->find('first',array('fields'=>array('twitter_token','twitter_token_secret'),'conditions'=>array('id'=>$userId,
+																								'twitter_token !='=>'',
+																								'twitter_token_secret !='=>'')));
 
 		$twitterObj = $this->getTwitterObject();
-		$twitterObj->setToken($this->Session->read('Twitter.twitter_token'),$this->Session->read('Twitter.twitter_token_secret'));
+		$twitterObj->setToken($user['User']['twitter_token'],$user['User']['twitter_token_secret']);
 
-        if(!empty($userIds) && $message &&  $User){
+        if(!empty($userIds) && $message &&  $user){
             foreach($userIds as $useId){
                 try{
                     $result = $twitterObj->post_direct_messagesNew( array('user' => $useId, 'text' => $message));
@@ -32,10 +35,8 @@ class TwitterController extends AppController {
                 }catch(Exception $e){
                     return json_encode(array('error'=>1));      
                 }
-
             }
         }
-        echo 
         return json_encode(array('error'=>0));
 
     }
@@ -56,7 +57,7 @@ class TwitterController extends AppController {
             $currentUser['User']['twitter_token'] = $token->oauth_token;
             $currentUser['User']['twitter_token_secret'] = $token->oauth_token_secret;
             if($this->User->save($currentUser)){
-            	$this->redirect("/companies/getTwitterFriendList");
+            	$this->redirect("/twitter/getTwitterFriendList");
             }            
 		}
 	}	
@@ -68,11 +69,11 @@ class TwitterController extends AppController {
 		$twitterObj = $this->getTwitterObject();
 		$twitterObj->setToken($this->Session->read('Twitter.twitter_token'),$this->Session->read('Twitter.twitter_token_secret'));
 		$myArray = array('user' => $user, 'text' => $msg);
-        $resp = $twitterObj->post_direct_messagesNew( $myArray);
+        $resp = $twitterObj->post_direct_messagesNew( $myArray);// change this for tweet
         $temp = $resp->response;
         
 		$this->Session->setFlash('Your message has been posted successfuly.', 'success');
-		$this->redirect("/companies/getTwitterFriendList");
+		$this->redirect("/twitter/getTwitterFriendList");
 	}
 	
 	function getTwitterFriendList(){
@@ -89,6 +90,7 @@ class TwitterController extends AppController {
 		        $currentUser['User']['twitter_token_secret'] = $token->oauth_token_secret;
 		        if($this->User->save($currentUser)){
 		        	$this->set('error',false);
+		        	return;
 		        }            
 			}else{
                 //this would be call when user decline permission            
@@ -138,10 +140,8 @@ class TwitterController extends AppController {
             }
         }
     }
-   /**		*****	End of Twitter :: Handling	*****	**/  
-
-
-	
+    
+   /**		*****	End of Twitter :: Handling	*****	**/  	
 
 }
 ?>

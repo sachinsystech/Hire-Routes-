@@ -1,5 +1,5 @@
 <?php ?>
 <script>
-    window.opener.fillTwitterFriend();
+    window.opener.fillLinkedinFriend();
     window.close();
 </script>

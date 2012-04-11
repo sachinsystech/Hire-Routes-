@@ -180,7 +180,12 @@
 		?>
 			<div style="text-align:left">
 				<div> Share your unique URL </div>
-				<?php $job_url = Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/'; echo isset($code)?'?code='.$code:'' ?>						
+				<?php $jobId = $job['Job']['id'];?>
+				<?php $job_url = Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/';
+					  if(isset($code)){
+							$job_url = $job_url.'?code='.$code;
+					  }
+				?>						
 			<div><input type="" value="<?php echo  $job_url ?>"></div>
 
 	<div style="clear:both;margin-top:5px;padding: 5px;">
@@ -237,7 +242,7 @@ $(function() {
 </script>
 <div id="dialog-message"></div>
 <div class="page">
-<div id ="dialog">
+<div id ="dialog" >
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
@@ -257,8 +262,12 @@ $(function() {
 			<div class="middleBox">
 				<div id='message'></div>
 				<div class="share_middle_setting">
-					<?php echo $form->create('Companies', array('action' => 'shareJob', 'onsubmit'=>'return validateEmail(CompaniesToEmail.value);')); ?>
+					<?php echo $form->create('Companies', array('action' => 'shareJobByEmail', 'onsubmit'=>'return validateEmail(CompaniesToEmail.value);')); ?>
 					<div id='to' style="padding-bottom:0px; clear:both"></div>
+						<?php echo $form->input('jobId', array('label' => '',
+																'type'  => 'hidden',
+																'value'=>$jobId
+						));?>
 					<div style="padding-bottom:0px; clear:both">
 						<div  style="float:left"><strong>Subjet:</strong></div>
 						<div style="float:right">
@@ -280,16 +289,23 @@ $(function() {
 					<div id='other' style="padding-bottom:0px; clear:both">
 					</div>
 					<div style="padding-bottom:0px; clear:both">
-						<?php echo $form->button('Share', array('label' => '',
-                                                                'id' =>'share',
-																'type'  => 'submit',
-																'value' => 'Share',
-																'style' => 'float:right;'
-						));?>
-						<?php echo $form->button('Clear', array('label' => '',
-																'type'  => 'reset',
-																'value' => 'Clear'
-						));?>
+
+						<div style='float:left;'>
+							<?php echo $form->button('Clear', array('label' => '',
+																	'type'  => 'reset',
+																	'value' => 'Clear'
+							));?>
+						</div>	
+						<div style='float:right;'>
+							<div style='float:left;'>
+							<?php echo $form->button('Share', array('label' => '',
+																	'id' =>'share',
+																	'type'  => 'submit',
+																	'value' => 'Share',
+							));?>
+							<div id='submitLoaderImg' style='float:right;'></div>
+						</div>
+						
 					</div>
 					<?php echo $form->end(); ?>
 					</div>
@@ -324,8 +340,8 @@ function showView(type){
             break;
         case 4:
             setView('Email');
+			$("#share").click(shareEmail);
             break;
-
     }
 }
 
@@ -338,7 +354,7 @@ function setView(value)
 	if(value=='Email')
 	{
 		$('#other').html("");
-		$('#to').html("<div style='padding-bottom:10px;' class='s_j_email'><strong>Email:</strong><textarea id='CompaniesToEmail' name='toEmail' class='email_msg_txtarear required' rows='1'></textarea></div>");
+		$('#to').html("<div style='padding-bottom:10px;' class='s_j_email'><strong>Email:</strong><textarea id='CompaniesToEmail' name='toEmail' class='email_msg_txtarear' rows='1'></textarea></div>");
 	}
 	else
 	{	
@@ -346,28 +362,6 @@ function setView(value)
 		$('#other').html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>");
 		$('#imageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="sharejob_ajax_loader"/></p>');
 	}
-	return false;
-}
-
-function share()
-{
-	var to_email=$('#CompaniesToEmail').val();
-	if(to_email!=undefined)
-		validateEmail(to_email);
-	
-	$.ajax({
-		url: "/companies/shareJobByEmail",
-		type: "post",
-		data: {toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
-  		success: function(response){
-  				$('#message').show();
-				$('#message').html(response);		
-			},
-		error:function(response)
-		{
-			$('#message').html("ERROR:");
-		}
-	});
 	return false;
 }
 
@@ -382,6 +376,35 @@ function validateEmail(elementValue){
 	}
 	return true;  
  }  
+
+function validateCheckedUser(){
+	var flag = false;
+	$(".facebookfriend").each( function() {
+		if($(this).attr("checked")){
+			flag  = true;
+		}
+	})
+	if(!flag){
+		alert("You did not select any friend.");
+		return false;
+	}
+	return true;
+}
+
+function validateFormField(){
+	if($('#CompaniesSubject').val()==""){
+		alert('Subject cant be empty.');
+		return false;
+	}
+	if($('#CompaniesMessage').val()==""){
+		alert('Please enter message.');
+		return false;
+	}
+	return true;
+}
+
+
+
 </script>
 
 <script>
@@ -393,20 +416,21 @@ function validateEmail(elementValue){
             $("#facebook").html("<img src='/img/loading.gif'>");
             $.ajax({
                 type: 'POST',
-                url: '/companies/getTwitterFriendList',
+                url: '/twitter/getTwitterFriendList',
                 dataType: 'json',
                 success: function(response){
                    switch(response.error){
                         case 0: // success
                             createHTMLforFacebookFriends(response.data);
                             break;
-                        case 1: // we don't have user's linked token
+                        case 1: // we don't have user's twitter token
                             alert(response.message);
                             window.open(response.URL);
                             break;
                         case 2: // something went wrong when we connect with facebook.Need to login by facebook 
                             $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
                             $( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
                             break;
                    }
             
@@ -417,7 +441,6 @@ function validateEmail(elementValue){
             });
             
         }
-/**************************************************************/
 
 
 /*************************************************************/
@@ -426,7 +449,7 @@ function validateEmail(elementValue){
             $("#facebook").html("<img src='/img/loading.gif'>");
             $.ajax({
                 type: 'POST',
-                url: '/companies/getLinkedinFriendList',
+                url: '/linkedin/getLinkedinFriendList',
                 dataType: 'json',
                 success: function(response){
                    switch(response.error){
@@ -438,26 +461,75 @@ function validateEmail(elementValue){
                             window.open(response.URL);
                             break;
                         case 2: // something went wrong when we connect with facebook.Need to login by facebook 
-                            $( "#dialog-message" ).html(" something went wrong. Please contact to site admin");
+                            $( "#dialog-message" ).html(" something went wrong. Please try later or contact to site admin");
                             $( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
                             break;
+						default :
+							$( "#dialog-message" ).html(" something went wrong. Please try later or contact to site admin");
+							$( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
+							break;
                    }
             
                 },
                 error: function(message){
-                    alert(message);
+                    alert('something went wrong. Please try later or  contact to site admin');
+					$( "#dialog" ).dialog( "close" );
                 }
             });
             
         }
-/**************************************************************/
-
+/***************	Email Sharing ,,,,,,,,,********************************/
+		function shareEmail(){
+			
+				var to_email=$('#CompaniesToEmail').val();
+				if(!validateEmail(to_email)){
+					return false;
+				}
+				if(!validateFormField()){
+					return false;				
+				}
+				$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
+				$.ajax({
+				url: "/jobsharing/shareJobByEmail",
+				type: "post",
+				dataType: 'json',
+				data: {jobId : $('#CompaniesJobId').val(), toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
+				success: function(response){
+					switch(response.error){
+						case 0:
+							$( "#dialog-message" ).html(" E-mail send successfully.");
+							$( "#dialog-message" ).dialog("open");
+							setView('Email');
+							$('#submitLoaderImg').html('');
+							break;
+						case 1:
+							$( "#dialog-message" ).html("Something went wromg please try later or contact to site admin.");
+							$( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
+							break;		
+					}
+				},
+				error:function(response){
+					$('#message').html("ERROR:");
+				}
+			});
+			return false;
+		}
         
         function facebookComment(){
+			if(!validateCheckedUser()){
+				return false;
+			}
+			if(!validateFormField()){
+					return false;				
+			}
             usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+			$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
             $.ajax({
                 type: 'POST',
-                url: '/companies/commentAtFacebook',
+                url: '/facebook/commentAtFacebook',
                 dataType: 'json',
                 data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val(),
                 success: function(response){
@@ -466,10 +538,12 @@ function validateEmail(elementValue){
                             // show success message
                             $( "#dialog-message" ).html("Successfully sent a message to facebook users.");
                             $( "#dialog-message" ).dialog("open");
+							$('#submitLoaderImg').html('');
                             break;
                         case 1:  
-                                $( "#dialog-message" ).html("Something went wrong.Please contact to site admin.");
+                                $( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin.");
                                 $( "#dialog-message" ).dialog("open");
+								$( "#dialog" ).dialog( "close" );
                             break;
                    }
             
@@ -478,15 +552,24 @@ function validateEmail(elementValue){
                     alert(message);
                 }
             });
+			fillFacebookFriend();
+			return false;
         }
 		
 /****** linked in comment ******/
 
         function linkedInComment(){
+			if(!validateCheckedUser()){
+				return false;
+			}
+			if(!validateFormField()){
+					return false;				
+			}
             usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+			$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
             $.ajax({
                 type: 'POST',
-                url: '/companies/sendMessagetoLinkedinUser',
+                url: '/Linkedin/sendMessagetoLinkedinUser',
                 dataType: 'json',
                 data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val(),
                 success: function(response){
@@ -494,10 +577,12 @@ function validateEmail(elementValue){
                         case 0: // success
                             $( "#dialog-message" ).html("Successfully sent a message to Linkedin users.");
                             $( "#dialog-message" ).dialog("open");
+							$('#submitLoaderImg').html('');
                             break;
                         case 1:  
-                            $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
+                            $( "#dialog-message" ).html(" something went wrong.Please try later or contact to site admin");
                             $( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
                             break;
                    }
             
@@ -506,15 +591,24 @@ function validateEmail(elementValue){
                     alert(message);
                 }
             });
+			fillLinkedinFriend();
+			return false;
         }
 
 /****** Twitter comment ******/
 
         function TwitterComment(){
-            usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+			if(!validateCheckedUser()){
+				return false;
+			}
+			if(!validateFormField()){
+					return false;				
+			}
+			usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+			$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
             $.ajax({
                 type: 'POST',
-                url: '/companies/sendMessageToTwitterFollwer',
+                url: '/twitter/sendMessageToTwitterFollwer',
                 dataType: 'json',
                 data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val(),
                 success: function(response){
@@ -522,10 +616,12 @@ function validateEmail(elementValue){
                         case 0: // success
                             $( "#dialog-message" ).html("Successfully sent a message to Twitter follower.");
                             $( "#dialog-message" ).dialog("open");
+							$('#submitLoaderImg').html('');
                             break;
                         case 1:  
-                            $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
+                            $( "#dialog-message" ).html(" something went wrong.Please try later or contact to site admin");
                             $( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
                             break;
                    }
             
@@ -534,6 +630,8 @@ function validateEmail(elementValue){
                     alert(message);
                 }
             });
+			fillTwitterFriend();
+			return false;
         }
 
 /**********************/
@@ -544,7 +642,7 @@ function validateEmail(elementValue){
             $("#facebook").html("<img src='/img/loading.gif'>");
             $.ajax({
                 type: 'POST',
-                url: '/companies/getFaceBookFriendList',
+                url: '/facebook/getFaceBookFriendList',
                 dataType: 'json',
                 success: function(response){
                    switch(response.error){
@@ -556,8 +654,9 @@ function validateEmail(elementValue){
 							window.open(response.URL);
                             break;
                         case 2: // something went wrong when we connect with facebook.Need to login by facebook 
-                            $( "#dialog-message" ).html("Something went wrong. Please contact to site admin");
+                            $( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin");
                             $( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
                             break;
                    }
             
@@ -584,6 +683,6 @@ function validateEmail(elementValue){
     </script>
 
 <script>
-	$("#CompaniesShareJobForm").validate();
+	$("#CompaniesShareJobByEmailForm").validate();
 </script>
 
