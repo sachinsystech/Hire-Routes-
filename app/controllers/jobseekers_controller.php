@@ -448,25 +448,25 @@ class JobseekersController extends AppController {
     
    function delete(){
         
-        $deleteID = $this->params['id'];
+        $deleteID = is_numeric($this->params['id'])?$this->params['id']:null;
         $userId = $this->TrackUser->getCurrentUserId();
-
-       if($this->params['id']){
+		if($deleteID){
             $jobseekerapply = $this->JobseekerApply->find('all',array('conditions' => array('job_id' =>$deleteID,'user_id'=>$userId))); 
-            
-
-            foreach($jobseekerapply as $deljob)
-              {
-                 $oldresume = $deljob['JobseekerApply']['resume'];
-                 $oldcoverletter = $deljob['JobseekerApply']['cover_letter'];
-                 $this->JobseekerApply->delete($deljob['JobseekerApply']['id']);
-                 @unlink(APP."webroot/files/resume/".$oldresume);
-                 @unlink(APP."webroot/files/cover_letter/".$oldcoverletter);
-              }
-                $this->Session->setFlash('Job successfully deleted.', 'success'); 
-           }
-            else{
+        	if(isset($jobseekerapply) && $jobseekerapply != null){
+				foreach($jobseekerapply as $deljob)
+				{
+				 $oldresume = $deljob['JobseekerApply']['resume'];
+				 $oldcoverletter = $deljob['JobseekerApply']['cover_letter'];
+				 $this->JobseekerApply->delete($deljob['JobseekerApply']['id']);
+				 @unlink(APP."webroot/files/resume/".$oldresume);
+				 @unlink(APP."webroot/files/cover_letter/".$oldcoverletter);
+				}
+			    $this->Session->setFlash('Job successfully deleted.', 'success'); 
+			}else
                 $this->Session->setFlash('May be you click on old link or manually enter URL.', 'error'); 
+			
+        }else{
+        	$this->Session->setFlash('May be you click on old link or manually enter URL.', 'error'); 
         }	
         $this->redirect('/jobseekers/appliedJob');	  
    }
@@ -524,7 +524,7 @@ class JobseekersController extends AppController {
                 $type_arr1 = explode(".",$cover_letter['name']);				
                 $type1 = $type_arr1[1];
 				
-                if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type!='docx'){
+                if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx'){
                 	$this->Session->setFlash('File type not supported.', 'error'); 
 					$this->data['JobseekerProfile']['cover_letter'] = ""; 
 					$this->set('jobprofile',$this->data['JobseekerProfile']);  
