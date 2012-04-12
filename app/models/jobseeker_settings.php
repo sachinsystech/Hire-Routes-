@@ -41,13 +41,13 @@ class JobseekerSettings extends AppModel {
 				'last'=>true,
 			),
         ),
-		'state' => array(
+		/*'state' => array(
 			'notEmpty'=> array(
 				'rule'=>'notEmpty',
 				'message'=>'state can not be blank.',
 				'last'=>true,
 			)
-		),
+		),*/
 		'salary_range' => array(
 			'notEmpty'=> array(
 				'rule' => 'notEmpty',

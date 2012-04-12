@@ -77,7 +77,8 @@
 							<?php echo $form -> input('state',array(
 																		'type'=>'select',
 																		'label'=>'Location: ',
-																		'options'=>array('-1'=>' -- All States-- ',$states),
+																		'empty' =>' -- All States-- ',
+																		'options'=>array($states),
 																		'class'=>'networker_select_state',
 																		'onchange'=>'return fillCities(this.value,"NetworkerSettingsCity","city_loader");'
 																)

@@ -93,6 +93,7 @@
 				</div>
 		<!-- middle conyent list -->
 			</div>
+			<?php //echo $this->element('sql_dump');?>
 	<!-- middle section end -->
 		</div>
 	</div>
