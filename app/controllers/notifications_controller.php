@@ -395,27 +395,48 @@ class NotificationsController extends AppController {
 			
 			$industry1 		= $settings['JobseekerSettings']['industry_1'];
 			$industry2 		= $settings['JobseekerSettings']['industry_2'];
-        	$industry = array();
-			if($industry1 != 1)
-				$industry[] = $industry1;
-			if($industry2 != 1)
-				$industry[] = $industry2;
+        	
 			$specification1 = explode(",",$settings['JobseekerSettings']['specification_1']);
 	    	$specification2 = explode(",",$settings['JobseekerSettings']['specification_2']);
-			$specification  = array_merge($specification1, $specification2);
+			
 	   	 	$city 			= $settings['JobseekerSettings']['city'];
 			$state 			= $settings['JobseekerSettings']['state'];
 			$salary_range   = $settings['JobseekerSettings']['salary_range'];
 
-			$cond = array('Job.specification' => $specification,
-                          'Job.salary_from <=' => $salary_range,
-					      'Job.salary_to >=' => $salary_range,
-					      'Job.is_active'  => 1,
-						  $setting_cond,
+			if($industry1>1){
+				if(!empty($specification1[0])){
+					$industry1_cond=array('Job.industry' =>$industry1,'Job.specification' =>$specification1);
+				}else{
+					$industry1_cond=array('Job.industry' =>$industry1);
+				}
+			}else{
+				if(!empty($specification1[0])){
+					$industry1_cond=array('Job.specification' =>$specification1);
+				}else{
+					$industry1_cond=true;
+				}
+			}
+		
+			if($industry2>1){
+				if(!empty($specification2[0])){
+					$industry2_cond=array('Job.industry' =>$industry2,'Job.specification' =>$specification2);
+				}else{
+					$industry2_cond=array('Job.industry' =>$industry2);
+				}
+			}else{
+				if(!empty($specification2[0])){
+					$industry2_cond=array('Job.specification' =>$specification2);
+				}else{
+					$industry2_cond=true;
+				}
+			}
+
+			$cond = array('OR'=>array($industry1_cond,$industry2_cond),
+	                       'Job.salary_from >=' => $salary_range,
+						  'Job.is_active'  => 1,
+						 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 						);
 			
-			if(count($industry)>0)
-				$cond['Job.industry'] = $industry;
 			if($city)
 				$cond['Job.city']  = $city;                      
         	if($state)

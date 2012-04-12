@@ -268,7 +268,7 @@ class JobsController extends AppController {
                			}
                 		$type_arr1 = explode(".",$cover_letter['name']);
                 		$type1 = $type_arr1[1];
-                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type!='docx'){
+                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx'){
 							$this->Session->setFlash('File type not supported.', 'error');
                 			$this->data['JobseekerApply']['cover_letter'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  

@@ -361,7 +361,7 @@ class AdminController extends AppController {
 		if(isset($userId)){
 			$userData =$this->User->find('first',array('conditions'=>array("User.id"=>$userId,
 																			'AND'=>array("User.id",array(1,2)))));
-			if(isset($userData)){
+			if(isset($userData) && $userData != null){ 
 				$userData['User']['is_active'] =$is_active;
 				if($this->User->save($userData)){
 					$is_active==0?$this->Session->setFlash('User De-activated successfully','success'):
@@ -371,14 +371,13 @@ class AdminController extends AppController {
 					$this->Session->setFlash('Internal error occurs.','error');
 				}	
 			}else{
-				$this->Session->setFlash('You maby be ccccccc.........','error');
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
 			}
 		}else{
-			$this->Session->setFlash('You maby be ccccccc..........','error');
+			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
 		}
 		
 		$this->redirect(array('controller'=>'admin','action'=>'userList',$filter,$page,)); 
-
 	}
 }
 ?>
