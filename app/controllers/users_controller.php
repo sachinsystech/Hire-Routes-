@@ -318,7 +318,7 @@ class UsersController extends AppController {
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
         if($parent = $this->Utility->getRecentUserIdFromCode()){
-            $userData['User']['parent_user_id'] = $parent;
+            $userData['parent_user_id'] = $parent;
 		}
 		if(!$this->User->save($userData)){
 			$this->Session->setFlash('Internal Error!', 'error');
@@ -416,39 +416,54 @@ class UsersController extends AppController {
  * after click on confirmation link display intermediate view performing some account handling after account confirmation.
  */
 	function account() {
-		$userId = $this->params['id'];
-		$confirmCode = $this->params['code'];
-		$this->set('userId', $userId);
-		$this->set('confirmCode', $confirmCode);
+		$userId = isset($this->params['id'])?$this->params['id']:null;
+		$confirmCode =isset($this->params['code'])?$this->params['code']:null;
+		if($userId!=null && $confirmCode!= null ){
+			$this->set('userId', $userId);
+			$this->set('confirmCode', $confirmCode);
+		}else{
+			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');	
+			$this->redirect("/users/login");
+		}
 	}
 /**
  * after click on confirmation link match confirm code and activate user.
  */
 	function confirmAccount($userId,$confirmCode){
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId,'User.confirm_code'=>$confirmCode)));
-		if(isset($user['User']['confirm_code']) && isset($user['User']['id'])){
-			$user['User']['is_active'] = '1';
-			$user['User']['confirm_code']="";
-			$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$userId)));
-			
-			$arosAcosData['aro_id'] = $aros['Aros']['id'];
-			$arosAcosData['aco_id'] = 47;
-			$arosAcosData['_create'] = 1;
-			$arosAcosData['_read'] = 1;						
-			$arosAcosData['_update'] = 1;
-			$arosAcosData['_delete'] = 1;	
-			if($this->ArosAcos->save($arosAcosData)){
-				if($this->User->save($user['User'])){
-					$this->setUserAsLoggedIn($user['User']);
+		$user = $this->User->find('first',array('conditions'=>array(
+																	array('User.id'=>$userId,
+																	      'User.confirm_code'=>$confirmCode,
+																   ))));
+		if(isset($user) && $user!= null ){
+			if($user['User']['is_active']!=2 && $user['User']['is_active']==0){
+				$user['User']['is_active'] = '1';
+				$user['User']['confirm_code']="";
+				$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$userId)));
+				$arosAcosData['aro_id'] = $aros['Aros']['id'];
+				$arosAcosData['aco_id'] = 47;
+				$arosAcosData['_create'] = 1;
+				$arosAcosData['_read'] = 1;
+				$arosAcosData['_update'] = 1;
+				$arosAcosData['_delete'] = 1;	
+				if($this->ArosAcos->save($arosAcosData)){
+					if($this->User->save($user['User'])){
+						$this->setUserAsLoggedIn($user['User']);
+					}
 				}
+				else{
+					$this->Session->setFlash('Internal Error!', 'error');
+					$this->redirect("/");
+					return;
+				}
+			}else{
+				$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');		
 			}
-			else{
-				$this->Session->setFlash('Internal Error!', 'error');
-				$this->redirect("/");
-				return;
-			}	
-		} 
-	}		
+		}else{
+			$this->Session->setFlash('Your account is confiremd and activated. Please login!', 'warning');
+			$this->redirect("login");		
+		}
+	}
+		
 /**
  * after click on confirmation link  authenticate user and set as logged-in.
  */
@@ -618,20 +633,42 @@ class UsersController extends AppController {
 			/** check if user is activated **/
 			$active_user = $this->User->find('first',array('conditions'=>array(
 																		'account_email'=>$username,
-																		'is_active'=>1,
+																		'is_active'=>array(0,1),
 																		)
-															)
-													);
+															));								
+
+			/**	@user not registered account(OR for company user ==>> declined by admin)	**/			
 			if(!$active_user ){
 				$this->Session->setFlash('Username or password not matched.', 'error');	
 				$this->redirect("/users/login");
 			}
+			
+			
+			/**	@user not acitvated (AND deactivated by Admin)	**/			
+			if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']=="" ){
+				$this->Session->setFlash('You are not activated, Please contact to side admin', 'error');
+				$this->redirect("/users/login");
+			}
+			
+			/**	@user not acitvated (AND not confirmed account by clicking on link in email)	**/
+			if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']!="" ){
+				$this->sendConfirmationEmail($active_user['User']['id']);
+				$this->Session->setFlash('Your account is not activated/confirmed, we have sent an email, please check your email for confirmaotion link!', 'warning');
+				$this->redirect("/users/login");
+			}
+			
+			/**	@user not acitvated	**/			
+			if($active_user['User']['is_active']==0){
+				$this->Session->setFlash('Username or password not matched....', 'error');	
+				$this->redirect("/users/login");
+			}
+			
 			$this->Auth->fields = array(
 				'username' => 'account_email',
 				'password' => 'password'
 			);
-	
-			if(!$this->Auth->login($data)){
+			
+			if(!$this->Auth->login($data) ){
 				$this->Session->setFlash('Username or password not matched.', 'error');				
 			}else{
 				$userData=$this->User->find('first',array('conditions'=>array("id"=>$this->TrackUser->getCurrentUserId())));
@@ -821,11 +858,11 @@ class UsersController extends AppController {
 		if(isset($this->data['User'])){
 			$userEmail = trim($this->data['User']['user_email']);
 			$user = $this->User->find('first',array('conditions'=>array('account_email'=>$userEmail)));
-			if(!$user['User']){
+			if(!$user['User'] || !isset($user['User'])){
 				$this->Session->SetFlash('Account with this Email is not registered!','error');
 				return;
 			}
-			if($user['User']['is_active']===1 && $user['User']['is_active']){
+			if($user['User']['is_active']==1 && $user['User']['is_active']){
 				$newPassword = substr(md5(uniqid(mt_rand(), true)), 0, 6);
 				$user['User']['password'] =$this->Auth->password($newPassword);
 				$to =$userEmail;

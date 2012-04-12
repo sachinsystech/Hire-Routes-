@@ -23,7 +23,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<?php echo $this->Html->charset(); ?>
+	<?php //echo $this->Html->charset(); ?>
 	<title>
 		<?php __('Hire Routes'); ?>
 		<?php echo $title_for_layout; ?>
@@ -77,9 +77,9 @@
 		<div id="content">
 			<!-- ******		welcome User **** -->
 			<?php if($this->Session->read('Auth.User.id')):?>
-				<?php if($this->Session->read('welcomeUserName')):?>
+				<?php if($this->Session->read('welcomeUserName') && ($this->Session->read('user_role.role'))):?>
 					<div style=" margin-left:10px">
-						Welcome <?php echo ucfirst($this->Session->read('welcomeUserName'));?>,
+						Welcome <span title="<?php echo ucfirst($this->Session->read('user_role.role'));?>"><?php echo ucfirst($this->Session->read('welcomeUserName'));?>,</span>
 					</div>
 				<?php endif; ?>
 			<?php endif; ?>

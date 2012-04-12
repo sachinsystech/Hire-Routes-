@@ -64,7 +64,7 @@ class NetworkersController extends AppController {
 				if($this->NetworkerSettings->save($this->data['NetworkerSettings'])){
 					$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');
 				}else{
-					$this->Session->setFlash('Server problem! try again.', 'error');
+					$this->Session->setFlash('Internal Error! try again.', 'error');
 				}
 			}
 		}
@@ -579,7 +579,7 @@ class NetworkersController extends AppController {
 			$this->set('NewJobs',$newjobs);
 			$this->set('jobs',$jobs);	
 		}else{
-			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'warning');				
+			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile!', 'warning');				
 			$this->redirect('/networkers/setting');
 		}
 		
