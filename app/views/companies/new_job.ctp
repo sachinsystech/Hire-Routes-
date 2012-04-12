@@ -100,7 +100,7 @@
 						'url' =>  '/companies/editJob/'.$job['Job']['id'],
                         'title'=> 'Edit'
 						));
-						echo $this->Html->image("/img/icon/ok.png", array(
+						echo $this->Html->image("/img/icon/archive_remove.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
 						'url' => "/companies/archiveJob/".$job['Job']['id'],
                         'title'=>'Archive',
