@@ -318,7 +318,7 @@ class UsersController extends AppController {
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
         if($parent = $this->Utility->getRecentUserIdFromCode()){
-            $userData['User']['parent_user_id'] = $parent;
+            $userData['parent_user_id'] = $parent;
 		}
 		if(!$this->User->save($userData)){
 			$this->Session->setFlash('Internal Error!', 'error');
@@ -688,10 +688,11 @@ class UsersController extends AppController {
 							break;
 				}
 				$this->Session->write('welcomeUserName',$welcomeUserName);
-				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
+				$user_role=$this->TrackUser->getCurrentUserRole();
+				$this->Session->write('user_role',$user_role);
 				$redirectTo=$this->Session->read('redirection_url');
 				$this->Session->delete('redirection_url');
-				if(isset($redirectTo)&&!empty($redirectTo)){
+				if(isset($redirectTo)&&!empty($redirectTo)&&$user_role['role_id']!=ADMIN){
 					$this->redirect($redirectTo);
 				}
 				$this->redirect("/users/firstTime");

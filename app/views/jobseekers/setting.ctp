@@ -112,7 +112,7 @@
 											'label'=>'Location: ',
 											'options'=>$states,
 											'empty' =>' -- All States-- ',
-											'class'=>'js_select_ls required',
+											'class'=>'js_select_ls',
 											'onchange'=>'return fillCities(this.value,"JobseekerSettingsCity","city_loader");',
 											'selected' => isset($jobseekerData['state'])?$jobseekerData['state']:""
 									)
@@ -226,7 +226,7 @@ $(document).ready(function(){
 		}
 	}
 	?>
-	<?php if(isset($jobseekerData['industry_2'])){?>
+	<?php if(isset($jobseekerData['city'])&&!empty($jobseekerData['city'])){?>
 	fillCities(<?php echo $state;?>,'JobseekerSettingsCity','city_loader');
 	$("select#JobseekerSettingsCity option[value=<?php echo $jobseekerData['city'];?>]").attr('selected', 'selected');
 	<?php 

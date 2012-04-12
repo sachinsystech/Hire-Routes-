@@ -1,3 +1,8 @@
+<?php
+	/*
+	 * Archived Job for Jobseeker
+	 */
+?>
 <script>
     $(document).ready(function(){
 	    $("#switch_display").change(onSelectChange);
@@ -62,23 +67,23 @@
 							<td>
 								<div>
 									<div>
-										<?php	echo $this->Html->link($job['job']['title'], '/jobs/jobDetail/'.$job['job']['id']); ?>
+										<?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?>
 									</div>									
 								</div>
 								<div style="clear:both"></div>
-                                <div style="float:right"> <?php echo $job_status[$job['JobseekerApply']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['job']['id']); ?></div>		
+                                <div style="float:right"><?php if(!is_null($job['JobseekerApply']['is_active'])):?><?php echo $job_status[$job['JobseekerApply']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['Job']['id']); ?><?php endif;?></div>		
 								<div>
-									<?php	echo $job['job']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
+									<?php	echo $job['comp']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
 											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
-											echo $job_array[$job['job']['job_type']]."<br>";
-											echo $job['job']['short_description']."<br>";?>
+											echo $job_array[$job['Job']['job_type']]."<br>";
+											echo $job['Job']['short_description']."<br>";?>
                                  </div>                                 
                                  <div style="float:left">
 									Posted 
-                                    <?php  echo $time->timeAgoInWords($job['job']['created'])." <br><br>";?>							
+                                    <?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>							
 								 </div>	
                                  <div style="padding-left:550px;">
-                                    <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['job']['id']); ?>
+                                    <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['Job']['id']); ?>
                                  </div>                                	
 							</td>
 						</tr>
