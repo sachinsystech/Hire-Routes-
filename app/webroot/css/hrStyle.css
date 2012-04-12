@@ -862,6 +862,7 @@ label.error{
     margin: 1em 0;
     padding: 10px 10px 10px 35px;
     text-align: center;
+    color: #8B4513;
 }
 
 /* JOB PAGE*/
@@ -2023,7 +2024,7 @@ ul a.menu_item{
 	float:right;
     border: 1px solid;
     float: right;
-    height: 14px;
+    height: 20px;
     margin-top: -7px;
     width: 387px;
 }

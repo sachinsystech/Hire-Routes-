@@ -318,7 +318,7 @@ class UsersController extends AppController {
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
         if($parent = $this->Utility->getRecentUserIdFromCode()){
-            $userData['User']['parent_user_id'] = $parent;
+            $userData['parent_user_id'] = $parent;
 		}
 		if(!$this->User->save($userData)){
 			$this->Session->setFlash('Internal Error!', 'error');
