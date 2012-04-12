@@ -267,7 +267,6 @@ class AdminController extends AppController {
 	* Show all types of user list
 	*/
 	function userList(){
-		
 		$filterRoleCond = null;
 		$userFilter = 'Companies.*,Jobseekers.*,Networkers.*';
 		if(isset($this->params['named']['filter'])){
@@ -286,7 +285,7 @@ class AdminController extends AppController {
 						$filterRoleCond = array('UserRoles.role_id'=>NETWORKER);
 						break;
 				default:
-						$this->Session->setFlash('You click on old link or enter manully.','error');
+						$this->Session->setFlash('You click on old link or entered manually.','error');
 						$this->redirect('/admin/userList');
 			}
 		}
@@ -347,6 +346,10 @@ class AdminController extends AppController {
 	}
 		
 	function userAction(){
+
+		$page = isset($this->params['named']['page'])?"page:".$this->params['named']['page']:"";
+		$filter = isset($this->params['named']['filter'])?"filter:".$this->params['named']['filter']:"";
+		
 		if(isset($this->params['named']['active'])){
 			$userId=$this->params['named']['active'];
 			$is_active='1';
@@ -354,25 +357,27 @@ class AdminController extends AppController {
 		if(isset($this->params['named']['deactive'])){
 			$userId=$this->params['named']['deactive'];
 			$is_active='0';
-			$this->Session->setFlash('User Activated successfully','success');
 		}
 		if(isset($userId)){
-			$userData =$this->User->find('first',array('conditions'=>"User.id=$userId"));
-			if(isset($userData)){
+			$userData =$this->User->find('first',array('conditions'=>array("User.id"=>$userId,
+																			'AND'=>array("User.id",array(1,2)))));
+			if(isset($userData) && $userData != null){ 
 				$userData['User']['is_active'] =$is_active;
 				if($this->User->save($userData)){
-					if($is_active==0){
-						$this->Session->setFlash('User De-activated successfully','success');
-					}else{
-						$this->Session->setFlash('User Activated successfully','success');
-					}
+					$is_active==0?$this->Session->setFlash('User De-activated successfully','success'):
+					$this->Session->setFlash('User Activated successfully','success');
+					
+				}else{
+					$this->Session->setFlash('Internal error occurs.','error');
 				}	
-			}else
-				$this->Session->setFlash('Internal error occurs..','error');
-		}else
-			$this->Session->setFlash('Internal error occurs..','error');
-			$this->redirect("userList");
+			}else{
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			}
+		}else{
+			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+		}
 		
+		$this->redirect(array('controller'=>'admin','action'=>'userList',$filter,$page,)); 
 	}
 }
 ?>

@@ -94,26 +94,27 @@ class JobsController extends AppController {
 		$userId = $this->TrackUser->getCurrentUserId();
 		$roleInfo = $this->getCurrentUserRole();
 
-    	$shortByItem = 'created';
-        if(isset($this->params['named']['display'])){
+    	if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
 	        $this->set('displayPageNo',$displayPageNo);
 		}
+		
+		$shortByItem = array('Job.created'=> 'desc');
 		if(isset($this->params['named']['shortby'])){
 	        $shortBy = $this->params['named']['shortby'];
 	        $this->set('shortBy',$shortBy);
 	        switch($shortBy){
 	        	case 'date-added':
-	        				$shortByItem = 'created'; 
+	        				$shortByItem = array('Job.created'=> 'desc'); 
 	        				break;	
 	        	case 'company-name':
-	        				$shortByItem = 'company_name'; 
+	        				$shortByItem = array('company.company_name'=> 'asc'); 
 	        				break;
 	        	case 'industry':
-	        				$shortByItem = 'industry'; 
+	        				$shortByItem = array('ind.name'=> 'asc');  
 	        				break;
 	        	case 'salary':
-	        				$shortByItem = 'salary_from'; 
+	        				$shortByItem = array('Job.salary_from'=> 'asc'); 
 	        				break;
 	        	default:
 	        			$this->redirect("/jobs");	        		        	
@@ -146,7 +147,7 @@ class JobsController extends AppController {
 	                                       'type' => 'left',
 	                                       'conditions' => array('Job.state = state.id',))
 							),
-				    'order' => array($shortByItem => 'desc'),
+				    'order' => $shortByItem,
 				    'recursive'=>0,
 				    'fields'=>array('company.company_name,city.city,state.state,ind.name as industry,spec.name as specification,job_type,short_description,Job.created,Job.title,Job.reward,Job.id')
 				    );
@@ -164,67 +165,22 @@ class JobsController extends AppController {
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
 		$roleName  = null;
 		switch($userRole['UserRoles']['role_id']){
-			case 1:
+			case COMPANY:
 					$roleName = 'company';
 					break;
-			case 2:
+			case JOBSEEKER:
 					$roleName = 'jobseeker';	
-					break;			
-			case 3:
+					break;	
+			case NETWORKER:
 					$roleName = 'networker';		
-					break;			
+					break;	
 		}
 		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
 		return $currentUserRole;
 	}   
-      
-/*	function narrowByItems($filterParams){
-		$params_array = array();
-		$flag = false;
-		foreach($filterParams as $FPKey=>$FPValue){
-			if($FPKey == '_Token'){
-				continue;
-			}
-			$temp_array = array();
-			foreach($FPValue as $key=>$value){
-				if($value){
-					if($key=='amount'){
-					
-						$temp_array = intval($value)*1000;
-					}
-					else{
-						$temp_array[]= $key;
-					}
-					$flag = true;
-				}
-			}
-			if(!$flag){
-				continue;
-			}
-
-			if($FPKey == "salary_from")
-			{
-				$params_array[$FPKey." >= "] = $temp_array;
-			}elseif($FPKey == "salary_to")
-			{
-				$params_array[$FPKey." <= "] = $temp_array;
-			}  else {
-			$params_array[$FPKey] = $temp_array;
-			}
-			$temp_array = null;
-			$flag = false;
-		}
-	
-	//echo "<pre>"; print_r($params_array); exit;
-		return $params_array;
-	}
-<<<<<<< HEAD
-*/
-
-
+     
+/****	Applying job	******/     
 	function applyJob(){	
-
-
 		$userId = $this->TrackUser->getCurrentUserId();
         $roleInfo = $this->getCurrentUserRole();
         $this->set('userrole',$roleInfo);
@@ -282,10 +238,12 @@ class JobsController extends AppController {
                 		}
                 		$type_arr = explode(".",$resume['name']);
                 		$type = $type_arr[1];
-               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
+               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx'){
 							$this->Session->setFlash('File type not supported.', 'error');
                 			$this->data['JobseekerApply']['resume'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->set('job',$job['Job']);
+							$this->set('jobCompany',$job['comp']['company_name']);
 							$this->render("apply_job"); 
 							return;
                 		}
@@ -310,10 +268,12 @@ class JobsController extends AppController {
                			}
                 		$type_arr1 = explode(".",$cover_letter['name']);
                 		$type1 = $type_arr1[1];
-                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
+                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx'){
 							$this->Session->setFlash('File type not supported.', 'error');
                 			$this->data['JobseekerApply']['cover_letter'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->set('job',$job['Job']);
+							$this->set('jobCompany',$job['comp']['company_name']);
 							$this->render("apply_job"); 
 							return;
                 		}
@@ -364,11 +324,11 @@ class JobsController extends AppController {
 
 				if($file_type=='resume'){
 					$file = $jobprofile['JobseekerProfile']['resume'];
-					$fl = BASEPATH."webroot/files/resume/".$file;
+					$fl = APP."webroot/files/resume/".$file;
 				}
 				if($file_type=='cover_letter'){
 					$file = $jobprofile['JobseekerProfile']['cover_letter'];
-					$fl = BASEPATH."webroot/files/cover_letter/".$file;
+					$fl = APP."webroot/files/cover_letter/".$file;
 				}				
 				
 				if (file_exists($fl)){
@@ -388,7 +348,7 @@ class JobsController extends AppController {
 					$this->redirect('/jobs/applyJob/'.$job_id); 
 				}				
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/applyJob/'.$job_id); 
 			}
 		}		
@@ -441,7 +401,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 			    }
 				$this->set('job',$job);
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/');
 			}	
 
@@ -460,7 +420,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
             }
             /**** end code ***/			
 		}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/');
 		}       
                        

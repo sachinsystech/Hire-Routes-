@@ -219,37 +219,31 @@ class JobseekersController extends AppController {
 		$state 			= $jobseeker_settings['JobseekerSettings']['state'];
 		$salary_range   = $jobseeker_settings['JobseekerSettings']['salary_range'];
         
-       
-		$shortByItem = 'created';
-		$order		 = 'desc';
-        
         if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
 	        $this->set('displayPageNo',$displayPageNo);
 		}
+		       
+		$shortByItem = array('Job.created'=> 'desc');
 		if(isset($this->params['named']['shortby'])){
-	        $shortBy = $this->params['named']['shortby'];
-	        $this->set('shortBy',$shortBy);
-	        switch($shortBy){
-	        	case 'date-added':
-	        				$shortByItem = 'created'; 
-							$order		 = 'desc';
-	        				break;	
-	        	case 'company-name':
-	        				$shortByItem = 'company_name'; 
-							$order		 = 'asc';
-	        				break;
-	        	case 'industry':
-	        				$shortByItem = 'industry';
-							$order		 = 'asc'; 
-	        				break;
-	        	case 'salary':
-	        				$shortByItem = 'salary_from'; 
-							$order		 = 'asc';
-	        				break;
-	        	default:
-	        			$this->redirect("/jobs");	        		        	
-	        }
+			$shortBy = $this->params['named']['shortby'];
+			$this->set('shortBy',$shortBy);
+			switch($shortBy){
+				case 'date-added':
+						$shortByItem = array('Job.created'=> 'desc'); 
+						break;	
+				case 'company-name':
+							$shortByItem = array('comp.company_name'=> 'asc'); 
+							break;
+				case 'industry':
+							$shortByItem = array('ind.name'=> 'asc');  
+							break;
+				case 'salary':
+							$shortByItem = array('Job.salary_from'=> 'asc'); 
+							break;
+				default:
+							$this->redirect('/jobseekers/newJob');        		        	
+			}
 		}
 
 		if($industry1>1){
@@ -318,7 +312,7 @@ class JobseekersController extends AppController {
 										             'type' => 'LEFT',
 										             'conditions' => array('Job.state = state.id',)
 									            )),
-                                'order' => array("Job.$shortByItem" => $order,),
+                                'order' => $shortByItem,
 								'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);		
            
 
@@ -385,29 +379,26 @@ class JobseekersController extends AppController {
 	        $displayPageNo = $this->params['named']['display'];
 	        $this->set('displayPageNo',$displayPageNo);
 		}
+		$shortByItem = array('Job.created'=> 'desc');
 		if(isset($this->params['named']['shortby'])){
-	        $shortBy = $this->params['named']['shortby'];
-	        $this->set('shortBy',$shortBy);
-	        switch($shortBy){
-	        	case 'date-added':
-	        				$shortByItem = 'created'; 
-							$order		 = 'desc';
-	        				break;	
-	        	case 'company-name':
-	        				$shortByItem = 'company_name'; 
-							$order		 = 'asc';
-	        				break;
-	        	case 'industry':
-	        				$shortByItem = 'industry';
-							$order		 = 'asc'; 
-	        				break;
-	        	case 'salary':
-	        				$shortByItem = 'salary_from'; 
-							$order		 = 'asc';
-	        				break;
-	        	default:
-	        			$this->redirect("/jobs");	        		        	
-	        }
+			$shortBy = $this->params['named']['shortby'];
+			$this->set('shortBy',$shortBy);
+			switch($shortBy){
+				case 'date-added':
+						$shortByItem = array('Job.created'=> 'desc'); 
+						break;	
+				case 'company-name':
+							$shortByItem = array('comp.company_name'=> 'asc'); 
+							break;
+				case 'industry':
+							$shortByItem = array('ind.name'=> 'asc');  
+							break;
+				case 'salary':
+							$shortByItem = array('Job.salary_from'=> 'asc'); 
+							break;
+				default:
+							$this->redirect('/jobseekers/archivedJob');        		        	
+			}
 		}
 
 		if($industry1>1){
@@ -491,11 +482,10 @@ class JobseekersController extends AppController {
 													'conditions'=> array('JobseekerApply.job_id=Job.id','JobseekerApply.user_id='.$userId)
 												),
 											),
-                                'order' => array("Job.$shortByItem" => $order,),
-								'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name,JobseekerApply.is_active'),);
-  
+                                'order' => $shortByItem,
+								'fields'=>array('Job.id, Job.user_id, Job.title, comp.company_name, city.city, state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name,JobseekerApply.is_active'),);
+ 
 		$newjobs = $this->Job->find('count',array('conditions'=>$cond));     
-	
            
 		$jobs = $this->paginate('Job');
 		
@@ -515,25 +505,25 @@ class JobseekersController extends AppController {
     
    function delete(){
         
-        $deleteID = $this->params['id'];
+        $deleteID = is_numeric($this->params['id'])?$this->params['id']:null;
         $userId = $this->TrackUser->getCurrentUserId();
-
-       if($this->params['id']){
+		if($deleteID){
             $jobseekerapply = $this->JobseekerApply->find('all',array('conditions' => array('job_id' =>$deleteID,'user_id'=>$userId))); 
-            
-
-            foreach($jobseekerapply as $deljob)
-              {
-                 $oldresume = $deljob['JobseekerApply']['resume'];
-                 $oldcoverletter = $deljob['JobseekerApply']['cover_letter'];
-                 $this->JobseekerApply->delete($deljob['JobseekerApply']['id']);
-                 @unlink(BASEPATH."webroot/files/resume/".$oldresume);
-                 @unlink(BASEPATH."webroot/files/cover_letter/".$oldcoverletter);
-              }
-                $this->Session->setFlash('Job successfully deleted.', 'success'); 
-           }
-            else{
+        	if(isset($jobseekerapply) && $jobseekerapply != null){
+				foreach($jobseekerapply as $deljob)
+				{
+				 $oldresume = $deljob['JobseekerApply']['resume'];
+				 $oldcoverletter = $deljob['JobseekerApply']['cover_letter'];
+				 $this->JobseekerApply->delete($deljob['JobseekerApply']['id']);
+				 @unlink(APP."webroot/files/resume/".$oldresume);
+				 @unlink(APP."webroot/files/cover_letter/".$oldcoverletter);
+				}
+			    $this->Session->setFlash('Job successfully deleted.', 'success'); 
+			}else
                 $this->Session->setFlash('May be you click on old link or manually enter URL.', 'error'); 
+			
+        }else{
+        	$this->Session->setFlash('May be you click on old link or manually enter URL.', 'error'); 
         }	
         $this->redirect('/jobseekers/appliedJob');	  
    }
@@ -563,7 +553,7 @@ class JobseekersController extends AppController {
                 $type_arr = explode(".",$resume['name']);
 				
                 $type = $type_arr[1];
-                if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc'){
+                if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx'){
                 	$this->Session->setFlash('File type not supported.', 'error');        
                     $this->data['JobseekerProfile']['resume'] = ""; 
 					$this->set('jobprofile',$this->data['JobseekerProfile']);  
@@ -572,8 +562,7 @@ class JobseekersController extends AppController {
                 }
                 $randomNumber = rand(1,100000000000);            
                 $uploadedFileName=$randomNumber.$resume['name'];
-                
-                if(move_uploaded_file($resume['tmp_name'],BASEPATH."webroot/files/resume/".$uploadedFileName)){
+                if(move_uploaded_file($resume['tmp_name'],APP."webroot/files/resume/".$uploadedFileName)){
                 	$this->data['JobseekerProfile']['resume'] = $uploadedFileName;
                 }
 			}else{
@@ -592,7 +581,7 @@ class JobseekersController extends AppController {
                 $type_arr1 = explode(".",$cover_letter['name']);				
                 $type1 = $type_arr1[1];
 				
-                if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc'){
+                if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx'){
                 	$this->Session->setFlash('File type not supported.', 'error'); 
 					$this->data['JobseekerProfile']['cover_letter'] = ""; 
 					$this->set('jobprofile',$this->data['JobseekerProfile']);  
@@ -601,12 +590,12 @@ class JobseekersController extends AppController {
                 }
                 $randomNumber2 = rand(1,100000000000);            
                 $uploadedFileName2=$randomNumber2.$cover_letter['name'];
-                
-                if(move_uploaded_file($cover_letter['tmp_name'],BASEPATH."webroot/files/cover_letter/".$uploadedFileName2)){
+
+                if(move_uploaded_file($cover_letter['tmp_name'],APP."webroot/files/cover_letter/".$uploadedFileName2)){
                 	$this->data['JobseekerProfile']['cover_letter'] = $uploadedFileName2;
                 }
 			}else{
-				$this->data['JobseekerProfile']['cover_letter']=$jobprofile['JobseekerApply']['cover_letter'];
+				$this->data['JobseekerProfile']['cover_letter']=$jobprofile['JobseekerProfile']['cover_letter'];
 			}            
 			
 			if($this->JobseekerProfile->save($this->data['JobseekerProfile'])){
@@ -631,11 +620,11 @@ class JobseekersController extends AppController {
 
 				if($file_type=='resume'){
 					$file = $jobprofile['JobseekerProfile']['resume'];
-					$fl = BASEPATH."webroot/files/resume/".$file;
+					$fl = APP."webroot/files/resume/".$file;
 				}
 				if($file_type=='cover_letter'){
 					$file = $jobprofile['JobseekerProfile']['cover_letter'];
-					$fl = BASEPATH."webroot/files/cover_letter/".$file;
+					$fl = APP."webroot/files/cover_letter/".$file;
 				}				
 				
 				if (file_exists($fl)){

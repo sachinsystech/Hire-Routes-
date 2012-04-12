@@ -188,8 +188,7 @@
 			if(!validateSalary()) return false;
 		});
 
-
-		$("#JobSalaryTo").blur(function(){ //alert("hiiiiiiiii");
+		$("#JobSalaryTo").blur(function(){ 
 			validateSalary();
 		});
 	

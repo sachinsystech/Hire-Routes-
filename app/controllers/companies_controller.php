@@ -1,7 +1,4 @@
 <?php
-require_once(APP_DIR.'/vendors/facebook/facebook.php');
-require_once(APP_DIR.'/vendors/linkedin/linkedin.php');
-require_once(APP_DIR.'/vendors/linkedin/OAuth.php');
 
 class CompaniesController extends AppController {
 
@@ -649,7 +646,6 @@ function paymentHistoryInfo(){
 									),
 							);
 				
-
 				$applicants = $this->paginate("JobseekerApply");
 				//echo "<pre>";  print_r($applicants);exit;
 				$this->set('NoOfApplicants',count($applicants));
@@ -681,11 +677,11 @@ function paymentHistoryInfo(){
 
 				if($file_type=='resume'){
 					$file = $jobprofile['JobseekerApply']['resume'];
-					$fl = BASEPATH."webroot/files/resume/".$file;
+					$fl = APP."webroot/files/resume/".$file;
 				}
 				if($file_type=='cover_letter'){
 					$file = $jobprofile['JobseekerApply']['cover_letter'];
-					$fl = BASEPATH."webroot/files/cover_letter/".$file;
+					$fl = APP."webroot/files/cover_letter/".$file;
 				}				
 				
 				if (file_exists($fl)){
@@ -704,7 +700,8 @@ function paymentHistoryInfo(){
 					$this->Session->setFlash('File does not exist.', 'error');				
 				}				
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+				$this->redirect("/companies/newJob");				
 			}
 		}		
 	}
@@ -760,15 +757,6 @@ function paymentHistoryInfo(){
 	}
 
 
-	function facebookObject() {
-		$facebook = new Facebook(array(
-		  'appId'  => FB_API_KEY,
-		  'secret' => FB_SECRET_KEY,
-          'cookie' => true,
-		));
-		return $facebook;
-	}
-	
 	/****** Reject Applicant for company Job *******/
 	function rejectApplicant(){
 		$userId = $this->TrackUser->getCurrentUserId();
@@ -790,207 +778,7 @@ function paymentHistoryInfo(){
 		}
 	}
 
-
-    function getFaceBookLoginURL(){ 
-        $loginUrl = $this->facebookObject()->getLoginUrl(array(
-                                                                'canvas' => 1,
-                                                                'fbconnect' => 0,
-                                                                'scope' => 'offline_access,publish_stream'
-                    ));
-        return $loginUrl;
-    }
-
-    /***** shareJob *********/
-    function shareJob(){
-        /*$this->getFaceBookLoginURL();
-        $user = $this->facebookObject()->getUser();
-        if($user){
-            echo $this->facebookObject()->getAccessToken();exit;
-        }*/
-        
-      /*  $token =  array(
-                        'access_token' => 'AAAE1rdcxV8YBADnh8x5tmdYatIHJ0yJTug10lLYH8PuzCGDOXk174jTH1DbTcL5qAdZAMCUfYAHCHx0lsUcigfILSDMSMDiGS36eDaQZDZD'
-
-                    );
-        $userdata = $this->facebookObject()->api('/me/friends', 'GET', $token);
-        //print_r($userdata);
-        foreach ($userdata as $key=>$value) {
-    echo count($value) . ' Friends';
-    echo '<hr />';
-    echo '<ul id="friends">';
-    foreach ($value as $fkey=>$fvalue) {
-        echo '<li><img src="https://graph.facebook.com/' . $fvalue['id'] . '/picture" title="' . $fvalue['name'] . '"/>'.$fvalue['name'].'</li>';
-    }
-    echo '</ul>';} */
-    //$result = $this->facebookObject()->api("/me/feed",'post',array('message'=>'Testing','access_token' =>'AAAE1rdcxV8YBADnh8x5tmdYatIHJ0yJTug10lLYH8PuzCGDOXk174jTH1DbTcL5qAdZAMCUfYAHCHx0lsUcigfILSDMSMDiGS36eDaQZDZD'));
-    //print_r($result);exit;
-    //}
-    }
-
-    function getFaceBookFriendList(){
-        $userId = $this->Session->read('Auth.User.id');
-        if(!$this->RequestHandler->isAjax()){
-            $user = $this->facebookObject()->getUser();
-            if($user){
-                
-                // save users facebook token
-                $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
-                $saveUser['User']['facebook_token'] = $this->facebookObject()->getAccessToken();
-                $this->User->save($saveUser);
-                $this->set('error',false);
-                
-            }else{
-                //this would be call when user decline permission            
-            }
-        }else{
-
-            $this->autoRender = false;
-            $user = $this->User->find('first',array('fields'=>'facebook_token','conditions'=>array('id'=>$userId,'facebook_token !='=>'NULL')));
-            //get token from table other wise send for login.
-            if($user){
-                try{
-                    $token =  array(
-                                'access_token' =>$user['User']['facebook_token']
-
-                            );
-                    $userdata = $this->facebookObject()->api('/me/friends', 'GET', $token);
-                    $users = array();
-                    $i =0 ;
-                    foreach ($userdata as $key=>$value) {
-                        foreach ($value as $fkey=>$fvalue) {
-                            $users[$i]['name'] = $fvalue['name'] ;
-                            $users[$i]['id'] = $fvalue['id'];
-                            $users[$i]['url'] = 'https://graph.facebook.com/'.$fvalue['id'].'/picture';
-                            $i++;
-                        }
-                    }
-                    return json_encode(array('error'=>0,'data'=>$users));
-                }catch(Exception $e){
-                    return json_encode(array('error'=>2,'message'=>'Error in facebook connection.Please try after some time.'));
-                }
-            }else{
-                echo json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$this->getFaceBookLoginURL()));
-            }   
-        }
-    }
-
-
-    function commentAtFacebook(){
-        $this->autoRender = false;
-        $userIds = $this->params['form']['usersId'];
-        $userIds = explode(",", $userIds);
-        $message = $this->params['form']['message'];
-        $userId = $this->Session->read('Auth.User.id');
-        $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
-        if(!empty($userIds) && $message &&  $User){
-            foreach($userIds as $id){
-                try{
-
-                    $result = $this->facebookObject()->api("/".$id."/feed",'post',array('message'=>$message,'access_token' =>$User['User']['facebook_token']));
-                    
-                }catch(Exception $e){
-                    return json_encode(array('error'=>1));      
-                }
-
-            }
-        }
-        return json_encode(array('error'=>0));
-
-    }
-
-
-   function getLinkedinFriendList(){
-        $linkedin = $this->getLinkedinObject();
-        $userId = $this->Session->read('Auth.User.id');
-        $this->autoRender = false;
-        //$this->autoRender = false;
-        $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'NULL')));
-        if($user){
-            
-           // $linkedin = new LinkedIn($config['linkedin_access'], $config['linkedin_secret'], $config['callback_url'] );
-            $linkedin->access_token =unserialize($user['User']['linkedin_token']);
-            $xml_response = $linkedin->getProfile("~/connections:(headline,first-name,last-name,picture-url,id)");
-            $response=simplexml_load_string($xml_response);
-            $users = array();
-            
-            if(count($response->person)){
-                $firstName = 'first-name';
-                $lastName = 'last-name';
-                $id = 'id';
-                $picURL = 'picture-url';
-                foreach($response->person as $person){ //print_r($person->$a);
-                    $users[] = array('name'=>$person->$firstName." ".$person->$lastName,'id'=>"".$person->$id,'url'=>"".$person->$picURL);                
-                }             
-            }
-            return json_encode(array('error'=>0,'data'=>$users));
-//            if($response->status == '404') echo "Not found11";
- //               echo json_encode(array('error'=>1,'message'=>'User id is not valid'));
-        }else{
-            $linkedin->getRequestToken();
-            $this->Session->write('requestToken',serialize($linkedin->request_token));
-            echo json_encode(array('error'=>1,'message'=>'User not authenticate from linkedin.','URL'=>$linkedin->generateAuthorizeUrl()));
-        }
-    }
-   
-
-    function linkedinCallback(){
-        $linkedin = $this->getLinkedinObject();
-        $userId = $this->Session->read('Auth.User.id');
-        if (isset($_REQUEST['oauth_verifier'])){
-            //$_SESSION['oauth_verifier']     = $_REQUEST['oauth_verifier'];
-            $linkedin->request_token    =   unserialize($this->Session->read("requestToken"));
-            $verifier = $this->params['url']['oauth_verifier'];
-            $linkedin->oauth_verifier = $verifier;
-            $linkedin->getAccessToken($verifier);
-            $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
-            $saveUser['User']['linkedin_token'] = serialize($linkedin->access_token);
-            $this->User->save($saveUser);
-            $this->set('error',false);
-        }
-
-    }
-
-//sendMessage($ids,$subject,$message)
-    function sendMessagetoLinkedinUser(){
-        $userIds = $this->params['form']['usersId'];
-        $userIds = explode(",", $userIds);
-        $message = $this->params['form']['message'];
-        $linkedin = $this->getLinkedinObject();
-        $userId = $this->Session->read('Auth.User.id');
-        $this->autoRender = false;
-        //$this->autoRender = false;
-        $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'NULL')));
-
-
-        if(!empty($userIds) && $message &&  $user){
-            foreach($userIds as $id){
-                try{
-
-                    $linkedin->access_token =unserialize($user['User']['linkedin_token']);
-                    $subject = "Hire Routes";
-                    $xml_response = $linkedin->sendMessage($id,$subject,$message);
-                    return json_encode(array('error'=>0));
-                    
-                }catch(Exception $e){
-                    return json_encode(array('error'=>1));      
-                }
-
-            }
-        }
-
-
-
-        if($user){
-            
-         }
-
-    }
-
-
-
-    private function getLinkedinObject(){
-        return  new LinkedIn(LINKEDIN_ACCESS, LINKEDIN_SECRET, LINKEDIN_CALLBACK_URL);    
-    } 
+ 
 
 	/** accept applicant for given applied job **/
 	function checkout(){
@@ -1128,56 +916,6 @@ function paymentHistoryInfo(){
 		}  		      
     }
 
-
-/**
- * For test view share_email
- */
-	function share_render(){
-		$this->render('share_email');
-	}
-
-/**
- * For test send_email
- */
-	function shareJobByEmail(){
-		$this->autoRender= false ;
-		if(isset($this->params['form']['toEmail'])&&!empty($this->params['form']['toEmail'])){
-			$from='traineest@gmail.com';
-			$to=trim($this->params['form']['toEmail']);
-			$subject=$this->params['form']['subject'];
-			$job_details=$this->Job->find('first',array('fields'=>array(
-														'Job.id','title','reward','Company.company_name','city','state'
-														),
-														'recursive'=>-1,
-														'joins'=>array(
-															array(
-															'table'=>'companies',
-															'alias'=>'Company',
-															'type'=>'inner',
-															'fields'=>'Company.id,Company.company_name',
-															'conditions'=>array(
-																'Job.company_id = Company.id'
-																)
-															)
-														),
-														'conditions'=>array('Job.id'=>5, 'is_active'=>1)
-													)
-												);
-			$message=$this->params['form']['message'];
-			if(!isset($from)||empty($job_details))
-				return "Email address not found";
-			if(isset($job_details)&&!empty($job_details)){
-				$job_details['message'] = $message;
-				$template = 'shared_job_details';
-				return $this->sendEmail($to,$subject,$template,$job_details);
-			}	
-			else
-				return "Job not selected!";
-		}
-		else{
-			return "Email address not specified!";
-		}
-	}
 /*
 	send congratulation email to selected applicant.
 */
@@ -1300,88 +1038,6 @@ function paymentHistoryInfo(){
 		$this->set('employees',$employees);
 		// end for job fetching...
     }
-
-/**		*****	Twitter :: Handling	*****	**/
-
-	private function getTwitterObject(){
-		require_once(APP_DIR.'/vendors/twitter/EpiCurl.php'); 
-		require_once(APP_DIR.'/vendors/twitter/EpiOAuth.php'); 
-		require_once(APP_DIR.'/vendors/twitter/EpiTwitter.php'); 
-		require_once(APP_DIR.'/vendors/twitter/secret.php');
-		$twitterObj = new EpiTwitter(CONSUMER_KEY, CONSUMER_SECRET);
-		return $twitterObj;
-	}
-
-	private function connectTwitter(){
-		$this->redirect($this->getTwitterObject()->getAuthorizationUrl());
-	}
-
-	function twitterCallback(){
-	 	$userId = $this->Session->read('Auth.User.id');
-		$oauth_token = isset($this->params['url']['oauth_token'])?$this->params['url']['oauth_token']:'';
-		if($oauth_token){
-			$twitterObj = $this->getTwitterObject();
-			$twitterObj->setToken($oauth_token);
-			$token = $twitterObj->getAccessToken();			
-			
-			$currentUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
-            $currentUser['User']['twitter_token'] = $token->oauth_token;
-            $currentUser['User']['twitter_token_secret'] = $token->oauth_token_secret;
-            if($this->User->save($currentUser)){
-            	$this->redirect("/companies/getTwitterFriendList");
-            }            
-		}
-	}	
-	
-	function postTweet(){
-		$user = $user = $this->data['Twitter']['SendTo'];
-		$msg = $this->data['Twitter']['msg'];
-		$twitterObj = $this->getTwitterObject();
-		$twitterObj->setToken($this->Session->read('Twitter.twitter_token'),$this->Session->read('Twitter.twitter_token_secret'));
-		$myArray = array('user' => $user, 'text' => $msg);
-        $resp = $twitterObj->post_direct_messagesNew( $myArray);
-        $temp = $resp->response;
-		$this->Session->setFlash('Your message has been posted successfuly.', 'success');
-		$this->redirect("/companies/getTwitterFriendList");
-	}
-	
-	function getTwitterFriendList(){
-        $userId = $this->Session->read('Auth.User.id');
-		$user = $this->User->find('first',array('fields'=>array('twitter_token','twitter_token_secret'),'conditions'=>array('id'=>$userId,
-																								'twitter_token !='=>'',
-																								'twitter_token_secret !='=>'')));
-		if(!$user){
-			$this->connectTwitter();
-		}
-		else{
-			$twitterObj = $this->getTwitterObject();
-			
-			$this->Session->write('Twitter.twitter_token',$user['User']['twitter_token']);
-			$this->Session->write('Twitter.twitter_token_secret',$user['User']['twitter_token_secret']);
-			
-			$twitterObj->setToken($user['User']['twitter_token'],$user['User']['twitter_token_secret']);
-			$twitterInfo= $twitterObj->get_accountVerify_credentials();
-			$twitterInfo->response;
-
-			$username = $twitterInfo->screen_name;
-			$profilepic = $twitterInfo->profile_image_url;
-			
-			$trends_url = "http://api.twitter.com/1/statuses/followers/$username.json";
-			$ch = curl_init(); 
-			curl_setopt($ch, CURLOPT_URL, $trends_url);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			$curlout = curl_exec($ch);
-			curl_close($ch);
-			$response = json_decode($curlout, true);			
-			$this->set('url',$twitterObj->getAuthorizationUrl());
-			$this->set('username',$username);
-			$this->set('profilepic',$profilepic);
-			$this->set('response',$response);
-		}		
-    }
-   /**		*****	End of Twitter :: Handling	*****	**/  
-    
-
 
 	private function PPHttpPost($methodName_, $nvpStr_) {
 		$environment = 'sandbox';
