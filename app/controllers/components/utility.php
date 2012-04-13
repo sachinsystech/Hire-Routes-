@@ -64,25 +64,28 @@ class UtilityComponent extends Object
 
     /** it will return job code for current user **/
     function getCode($passJobId,$userId){
-        $saveCode = $this->Session->read('code');
-        if($saveCode){
-            $str = base64_decode($saveCode);
-	    echo $str;
-            $code="";
-            $data = explode("^",$str);
-            $jobId = $data[0];
-            $ids = split(":",$data[1]);
-            if($jobId == $passJobId && $ids!=false && count($ids)>0){
-                if(in_array($userId,$ids)){
-                    $code = $saveCode;                    
-                }else{
-	                $ids[] = $userId;
-	                $str = implode(":",$ids);
-                    $str = $jobId."^".$str;
-	                $code = base64_encode($str);
-                }
-                return $code;
-            }
+    	$userRole=$this->Session->read('user_role');
+    	if($userRole['role_id']!=COMPANY){
+	        $saveCode = $this->Session->read('code');
+    	    if($saveCode){
+    	        $str = base64_decode($saveCode);
+		    //echo $str;
+    	        $code="";
+    	        $data = explode("^",$str);
+    	        $jobId = $data[0];
+    	        $ids = split(":",$data[1]);
+    	        if($jobId == $passJobId && $ids!=false && count($ids)>0){
+    	            if(in_array($userId,$ids)){
+    	                $code = $saveCode;                    
+    	            }else{
+		                $ids[] = $userId;
+		                $str = implode(":",$ids);
+    	                $str = $jobId."^".$str;
+		                $code = base64_encode($str);
+    	            }
+    	            return $code;
+            	}
+        	}
         }
         return base64_encode($passJobId."^".$userId);
     }
@@ -110,16 +113,18 @@ class UtilityComponent extends Object
         $saveCode = $this->Session->read('code');
         if($saveCode){
             $str = base64_decode($saveCode);
-            echo $str;
             $code="";
             $data = explode("^",$str);
-            if(count($data)>1){
-                if($jobId == $data[0]){
-                    $ids = split(":",$data[1]);
-                    return implode(",",$ids);
-                }
-            }
-            
+             if(count($data)>1){
+				if($jobId == $data[0]){
+					$ids = split(":",$data[1]);
+					$userRole=$this->getUserRole($ids[0]);
+					if($userRole['UserRoles']['role_id']==COMPANY){
+						unset($ids[0]);
+					}
+                   return implode(",",$ids);
+               }
+        	}
         }
         return null;
     }
@@ -138,7 +143,7 @@ class UtilityComponent extends Object
 					$roleName = 'networker';		
 					break;			
 		}
-		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
+		//$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
 		return $userRole;
 	}
 

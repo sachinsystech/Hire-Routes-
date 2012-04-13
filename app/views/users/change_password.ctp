@@ -49,7 +49,7 @@
 				</label>
 				<div style="clear:both"></div>
 				<div>
-					<?php echo $form->input('password', array('label' => 'Password',
+					<?php echo $form->input('password', array('label' => 'New Password:',
 												'type'  => 'password',
 												'name'  => "data[User][password]",
 												'class' => 'text_field_bg password',
@@ -60,7 +60,7 @@
     			</div>
     			<div style="clear:both"></div>
     			<div>
-					<?php echo $form->input('repeat_password', array('label' => 'Repeat Password',
+					<?php echo $form->input('repeat_password', array('label' => 'Repeat Password:',
                                        			'type'  => 'password',
 												'name'  => "data[User][repeat_password]",
 												'class' => 'text_field_bg required',
