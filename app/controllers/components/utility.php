@@ -4,7 +4,7 @@ class UtilityComponent extends Object
 {
 	var $controller = true;
 	var $components = array('Session','Auth','Email');
-	var $uses = array('Industry','State','City','Specification','FacebookUsers','Companies','UserRoles');
+	var $uses = array('Industry','State','City','Specification','FacebookUsers','Companies','UserRoles','Job');
 	
 	function initialize(&$controller) {
 		if ($this->uses !== false) {
@@ -145,6 +145,62 @@ class UtilityComponent extends Object
 		}
 		//$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
 		return $userRole;
+	}
+
+/**
+ * Retrieves all activated jobs as default OR particular job by given job-id
+ * passed $jobId param to get particular job.
+ *
+ * @param int $jobId : optional
+ * @return  job(s) if found, otherwise null
+ * @access public
+ */	
+	function getJob($jobId=null){
+		$type = 'all'; 
+		$condition = array('Job.is_active'=>1);
+		if(isset($jobId)){
+			$type = 'first';
+			$condition['Job.id'] = $jobId;
+		}
+		$job = $this->Job->find($type,array('conditions'=>$condition,
+			  'joins'=>array(array('table' => 'industry',
+	                               'alias' => 'ind',
+	             				   'type' => 'INNER',
+	             				   'conditions' => array('Job.industry = ind.id',)),
+		   			         array('table' => 'specification',
+	             				   'alias' => 'spec',
+	                               'type' => 'INNER',
+	                               'conditions' => array('Job.specification = spec.id',)),
+							 array('table' => 'cities',
+	            				   'alias' => 'city',
+	                               'type' => 'INNER',
+	                               'conditions' => array('Job.city = city.id',)),
+		                     array('table' => 'states',
+	                               'alias' => 'state',
+	                               'type' => 'INNER',
+	                               'conditions' => array('Job.state = state.id',)),
+		                     array('table' => 'companies',
+	                               'alias' => 'comp',
+	                               'type' => 'INNER',
+	                               'conditions' => array('Job.company_id = comp.id',)),
+	                               
+							),
+			 'order'=>array('Job.id'=>'asc'),				
+			 'fields'=>array('Job.*, ind.name, city.city, state.state, spec.name, comp.company_name' ), ));
+		if(!$job){
+			return null;
+		}
+		$job['Job']['industry'] = $job['ind']['name'];
+		$job['Job']['specification'] = $job['spec']['name'];
+		$job['Job']['city'] = $job['city']['city'];
+		$job['Job']['state'] = $job['state']['state'];
+		$job['Job']['company_name'] = $job['comp']['company_name'];
+		unset($job['ind']);
+		unset($job['spec']);
+		unset($job['city']);
+		unset($job['state']);
+		unset($job['comp']);
+		return $job;										 
 	}
 }
 ?>

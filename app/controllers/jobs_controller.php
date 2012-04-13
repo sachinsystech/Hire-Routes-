@@ -384,7 +384,7 @@ class JobsController extends AppController {
 		if(isset($this->params['jobId'])){
 
 			$id = $this->params['jobId'];
-			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id),
+			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id,'Job.is_active'=>1),
 												  'joins'=>array(array('table' => 'industry',
 										                               'alias' => 'ind',
 										             				   'type' => 'LEFT',

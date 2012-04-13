@@ -1,6 +1,6 @@
 <?php
 class TwitterController extends AppController {
-	var $uses = array('User');
+	var $uses = array('User','SharedJob');
 	var $components = array('TrackUser','Utility','RequestHandler');
 	
 /**		*****	Twitter :: Handling	*****	**/
@@ -17,6 +17,7 @@ class TwitterController extends AppController {
 	function sendMessageToTwitterFollwer(){
         $this->autoRender = false;
         $userIds = $this->params['form']['usersId'];
+        $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $userIds);
         $message = $this->params['form']['message'];
         $userId = $this->Session->read('Auth.User.id');
@@ -32,6 +33,18 @@ class TwitterController extends AppController {
                 try{
                     $result = $twitterObj->post_direct_messagesNew( array('user' => $useId, 'text' => $message));
                     $resp = $result->response;
+                    if(isset($resp['recipient'])){
+                    	//save here job sharing details..
+                    	$shareJobData['job_id'] = $jobId;
+                    	$shareJobData['user_id'] = $userId;
+                    	$this->SharedJob->save($shareJobData);
+                    	return json_encode(array('error'=>0));
+                    }else{
+				        if($resp['error'] || !empty($resp['error'])){
+				        		$errorMessage = $resp['error'];
+					        	return json_encode(array('error'=>2,'message'=>$errorMessage));      
+					    }
+					}
                 }catch(Exception $e){
                     return json_encode(array('error'=>1));      
                 }
