@@ -130,10 +130,11 @@ class LinkedIn {
       echo $data . "\n";
     }
     curl_close($curl);
+    //print_r($data); exit;
     return $data; 
   }
 
-  function sendMessage($ids,$subject="aaaaaa",$message){
+  function sendMessage($ids,$subject='Hire Routes',$message){
      $body ="<?xml version='1.0' encoding='UTF-8'?><mailbox-item>";
      $recipients = "";
      if(is_array($ids)){

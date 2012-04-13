@@ -225,6 +225,7 @@ $(function() {
             width:900,
 		});
 		$( "#opener" ).click(function() {
+			$( "#dialog" ).css( "top" ,'20');
 			$( "#dialog" ).dialog( "open" );			
 			return false;
 		});
@@ -232,6 +233,7 @@ $(function() {
         $( "#dialog-message" ).dialog({
 			modal: true,
             autoOpen: false,
+			width:500,
 			buttons: {
 				Ok: function() {
 					$( this ).dialog( "close" );
@@ -242,7 +244,7 @@ $(function() {
 </script>
 <div id="dialog-message"></div>
 <div class="page">
-<div id ="dialog" >
+<div id ="dialog" title="<?php echo ucfirst($job['Job']['title']); ?>" >
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
@@ -497,21 +499,28 @@ function validateFormField(){
 				dataType: 'json',
 				data: {jobId : $('#CompaniesJobId').val(), toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
 				success: function(response){
+					$('#submitLoaderImg').html('');
 					switch(response.error){
 						case 0:
 							$( "#dialog-message" ).html(" E-mail send successfully.");
 							$( "#dialog-message" ).dialog("open");
 							setView('Email');
-							$('#submitLoaderImg').html('');
+							
 							break;
 						case 1:
 							$( "#dialog-message" ).html("Something went wromg please try later or contact to site admin.");
 							$( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
-							break;		
+							break;
+						case 2:
+							$( "#dialog-message" ).html(response.message);
+							$( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
+							break;	
 					}
 				},
 				error:function(response){
+					$('#submitLoaderImg').html('');
 					$('#message').html("ERROR:");
 				}
 			});
@@ -531,24 +540,26 @@ function validateFormField(){
                 type: 'POST',
                 url: '/facebook/commentAtFacebook',
                 dataType: 'json',
-                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val(),
+                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val()+"&jobId="+$("#CompaniesJobId").val(),
                 success: function(response){
-                   switch(response.error){
+				    $('#submitLoaderImg').html('');
+                    switch(response.error){
                         case 0: // success
                             // show success message
                             $( "#dialog-message" ).html("Successfully sent a message to facebook users.");
                             $( "#dialog-message" ).dialog("open");
-							$('#submitLoaderImg').html('');
+							
                             break;
                         case 1:  
                                 $( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin.");
                                 $( "#dialog-message" ).dialog("open");
 								$( "#dialog" ).dialog( "close" );
                             break;
-                   }
+                    }
             
                 },
                 error: function(message){
+					$('#submitLoaderImg').html('');
                     alert(message);
                 }
             });
@@ -571,16 +582,22 @@ function validateFormField(){
                 type: 'POST',
                 url: '/Linkedin/sendMessagetoLinkedinUser',
                 dataType: 'json',
-                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val(),
+                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val()+"&jobId="+$("#CompaniesJobId").val(),
                 success: function(response){
-                   switch(response.error){
+					$('#submitLoaderImg').html('');
+                    switch(response.error){
                         case 0: // success
                             $( "#dialog-message" ).html("Successfully sent a message to Linkedin users.");
                             $( "#dialog-message" ).dialog("open");
 							$('#submitLoaderImg').html('');
                             break;
-                        case 1:  
+                        case 1:
                             $( "#dialog-message" ).html(" something went wrong.Please try later or contact to site admin");
+                            $( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
+                            break;
+						case 2:
+                            $( "#dialog-message" ).html(response.message);
                             $( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
                             break;
@@ -588,7 +605,8 @@ function validateFormField(){
             
                 },
                 error: function(message){
-                    alert(message);
+					$('#submitLoaderImg').html('');
+                    alert(" something went wrong. Please try later or contact to site admin");
                 }
             });
 			fillLinkedinFriend();
@@ -610,26 +628,35 @@ function validateFormField(){
                 type: 'POST',
                 url: '/twitter/sendMessageToTwitterFollwer',
                 dataType: 'json',
-                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val(),
+                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val()+"&jobId="+$("#CompaniesJobId").val(),
                 success: function(response){
-                   switch(response.error){
+				    $('#submitLoaderImg').html('');
+                    switch(response.error){
                         case 0: // success
                             $( "#dialog-message" ).html("Successfully sent a message to Twitter follower.");
                             $( "#dialog-message" ).dialog("open");
-							$('#submitLoaderImg').html('');
+							
                             break;
-                        case 1:  
+                        case 1:
                             $( "#dialog-message" ).html(" something went wrong.Please try later or contact to site admin");
                             $( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
                             break;
+						case 2:
+							$( "#dialog-message" ).html(response.message);
+                            $( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
+                            break;
+
                    }
             
                 },
                 error: function(message){
+					$('#submitLoaderImg').html('');
                     alert(message);
                 }
             });
+			
 			fillTwitterFriend();
 			return false;
         }

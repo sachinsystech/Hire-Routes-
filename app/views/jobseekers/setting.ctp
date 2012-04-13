@@ -12,7 +12,6 @@
 			$("select#JobseekerSettingsSubscribeEmail").val('0');
 			$("#email_setting").html(""); 
 		}
-
 	}
 
 	function check_email_subs(){
@@ -41,7 +40,7 @@
 		<!-- middle conyent list -->
 		<div class="jobseeker_setting_middleBox">
 			<?php if($jobseekerData):?>
-				<div>Welcome back, <?php echo $jobseekerData['name'];?>!</div>
+				<div>Welcome back, <?php echo $jobseekerData['contact_name'];?>!</div>
 			<?php endif;?>
 			<div class="form_content"  style="margin:auto;">
 				<?php echo $form->create('JobseekerSettings', array('id'=>'JobseekerSettingsForm','url' => '/jobseekers/setting','onsubmit'=>'return check_email_subs();')); ?>
@@ -49,10 +48,11 @@
 														'type'  => 'hidden',
 														'value' => isset($jobseekerData['id'])?$jobseekerData['id']:""
 																	));?>
-					<?php echo $form->input('name', array('label' => 'Your Name',
+					<?php echo $form->input('Jobseekers.contact_name', array('label' => 'Your Name',
 														  'type'  => 'text',
 														  'class' => 'jobseekers_text required',
-														  'value' => isset($jobseekerData['name'])?$jobseekerData['name']:""));?>
+														  'name' => 'data[Jobseekers][contact_name]',
+														  'value' => isset($jobseekerData['contact_name'])?$jobseekerData['contact_name']:""));?>
 					<div id="industry_specification_1">
 						<div style="float:left;margin-left: -7px;clear: both;">
 							<?php $industry_array = array('1'=>'Industry1',

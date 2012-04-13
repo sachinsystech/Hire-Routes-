@@ -300,6 +300,7 @@ class AdminController extends AppController {
 							   'fields' => array("UserList.account_email,UserList.id,
 							   					UserList.created,UserList.fb_user_id,UserList.is_active,
 							   					UserRoles.*,$userFilter"),
+							   'order' => array('UserList.created' => 'desc'),
 							  );	
 		$users= $this->paginate('UserList');
 		$userArray = array();

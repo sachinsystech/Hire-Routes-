@@ -24,7 +24,7 @@ class JobseekersController extends AppController {
 		$this->layout = null; // turn off the layout    
     	$userId = $this->TrackUser->getCurrentUserId();
 		$jobseekerData = $this->JobseekerSettings->find('all',array('conditions'=>array('notification'=>1)));
-		echo "<pre>"; print_r($jobseekerData); exit;
+		//echo "<pre>"; print_r($jobseekerData); exit;
 	}
 
 	/* 	Jobseeker's Account-Profile page*/
@@ -49,21 +49,36 @@ class JobseekersController extends AppController {
 	/* 	Setting and Subscriptoin page*/
 	function setting(){
 		$userId = $this->TrackUser->getCurrentUserId();		
+		$jobseeker = $this->Jobseekers->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$jobseekerId =$jobseeker['Jobseekers']['id'];
 		if(isset($this->data['JobseekerSettings']))
 		{
+			$this->data['JobseekerSettings']['jobseeker_id'] = $jobseekerId;
 			$this->data['JobseekerSettings']['user_id'] = $userId;
 			$this->data['JobseekerSettings']['specification_1'] = implode(',',!empty($this->data['JobseekerSettings']['industry_specification_1'])?$this->data['JobseekerSettings']['industry_specification_1']:array());
 			$this->data['JobseekerSettings']['specification_2'] = implode(',',!empty($this->data['JobseekerSettings']['industry_specification_2'])?$this->data['JobseekerSettings']['industry_specification_2']:array());
 			$this->JobseekerSettings->set($this->data['JobseekerSettings']);
-			if($this->JobseekerSettings->validates()){
-				if($this->JobseekerSettings->save()){
+			if( $this->JobseekerSettings->validates()  && $this->JobseekerSettings->save()){
+				$this->Jobseekers->id =$jobseekerId;
+				if($this->Jobseekers->saveField('contact_name', $this->data['Jobseekers']['contact_name'],true)){
+					$this->Session->write('welcomeUserName',$this->data['Jobseekers']['contact_name']);
 					$this->Session->setFlash('Your Setting has been saved successfully.', 'success');
-				}else{
-					$this->Session->setFlash('Server problem! try again', 'error');
 				}
 			}
+		
 		}
-		$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('JobseekerSettings.user_id'=>$userId)));
+		$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>
+																	array('JobseekerSettings.user_id'=>$userId),
+																	 'joins'=>array(array(
+																	 	'table'=>'jobseekers',
+																	 	'type'=>'inner',
+																		'conditions'=>array(
+																				'JobseekerSettings.user_id=jobseekers.user_id',
+																			))
+																 	 ),
+															 		'fields'=>'JobseekerSettings.*, jobseekers.contact_name',
+														));
+		$jobseekerData['JobseekerSettings']['contact_name'] =$jobseekerData['jobseekers']['contact_name'];
 		$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);	
 		$this->set('industries',$this->Utility->getIndustry());
 		$this->set('states',$this->Utility->getState());
@@ -80,7 +95,6 @@ class JobseekersController extends AppController {
 			if($this->Jobseekers->save($this->data['Jobseekers'])){
 				$this->Session->write('welcomeUserName',$this->data['Jobseekers']['contact_name']);
 				$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
-				//$this->redirect('/jobseekers');
 				if($this->Session->check('redirect_url')){
 				$redirect_to = $this->Session->read('redirect_url');
 				$this->redirect($redirect_to);
@@ -542,7 +556,7 @@ class JobseekersController extends AppController {
 		if(isset($this->data['JobseekerProfile'])){
 
 			if(is_uploaded_file($this->data['JobseekerProfile']['resume']['tmp_name'])){
-        		$resume = $this->data['JobseekerProfile']['resume'];                 
+				$resume = $this->data['JobseekerProfile']['resume'];                 
             	if($resume['error']!=0 ){
                 	$this->Session->setFlash('Uploaded File is corrupted.', 'error');    
                     $this->data['JobseekerProfile']['resume'] = ""; 
@@ -550,11 +564,17 @@ class JobseekersController extends AppController {
 					$this->render("job_profile"); 
 					return;         
                 }
+                if($resume['size'] >307251){
+					$this->Session->setFlash('File size exceed. Resume size upto 300 KB', 'error'); 
+					$this->data['JobseekerProfile']['resume'] = ""; 
+					$this->set('jobprofile',$this->data['JobseekerProfile']); 
+					return;   	
+				}
                 $type_arr = explode(".",$resume['name']);
 				
                 $type = $type_arr[1];
-                if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx'){
-                	$this->Session->setFlash('File type not supported.', 'error');        
+                if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx' && $type!='odt'){
+                	$this->Session->setFlash('File type not supported.', 'error');
                     $this->data['JobseekerProfile']['resume'] = ""; 
 					$this->set('jobprofile',$this->data['JobseekerProfile']);  
 					$this->render("job_profile"); 
@@ -578,10 +598,16 @@ class JobseekersController extends AppController {
 					$this->render("job_profile"); 
 					return;        
                 }
+                if($cover_letter['size'] >307251){
+					$this->Session->setFlash('File size exceed. Cover letter size upto 300 KB', 'error'); 
+					$this->data['JobseekerProfile']['cover_letter'] = ""; 
+					$this->set('jobprofile',$this->data['JobseekerProfile']); 
+					return;   	
+				}
                 $type_arr1 = explode(".",$cover_letter['name']);				
                 $type1 = $type_arr1[1];
 				
-                if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx'){
+                if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx' && $type1!='odt'){
                 	$this->Session->setFlash('File type not supported.', 'error'); 
 					$this->data['JobseekerProfile']['cover_letter'] = ""; 
 					$this->set('jobprofile',$this->data['JobseekerProfile']);  

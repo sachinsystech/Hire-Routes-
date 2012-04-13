@@ -7,7 +7,7 @@
 <?php	
 	class FacebookController extends AppController {
 
-    var $uses = array('User');
+    var $uses = array('User','SharedJob');
 	var $components = array('TrackUser','Utility','RequestHandler');    
 	
 	/******	Facebook Handling	******/
@@ -83,6 +83,7 @@
     function commentAtFacebook(){
         $this->autoRender = false;
         $userIds = $this->params['form']['usersId'];
+        $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $userIds);
         $message = $this->params['form']['message'];
         $userId = $this->Session->read('Auth.User.id');
@@ -91,15 +92,17 @@
             foreach($userIds as $id){
                 try{
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array('message'=>$message,'access_token' =>$User['User']['facebook_token']));
-                    
+                    $shareJobData['job_id'] = $jobId;
+                	$shareJobData['user_id'] = $userId;
+                	$this->SharedJob->save($shareJobData);
+                	return json_encode(array('error'=>0));
                 }catch(Exception $e){
                     return json_encode(array('error'=>1));      
                 }
 
             }
         }
-        return json_encode(array('error'=>0));
-        
+        return json_encode(array('error'=>0));        
     }
 
 

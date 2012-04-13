@@ -228,17 +228,28 @@ class JobsController extends AppController {
 					$this->data['JobseekerApply']['file_id'] = $jobprofile['JobseekerProfile']['id'];			
             
 					if(is_uploaded_file($this->data['JobseekerApply']['resume']['tmp_name'])){
-        				$resume = $this->data['JobseekerApply']['resume'];                 
-            			if($resume['error']!=0 ){
+        				$resume = $this->data['JobseekerApply']['resume'];  
+        				if($resume['error']!=0 ){
                 			$this->Session->setFlash('Uploaded File is corrupted.', 'error');
 							$this->data['JobseekerApply']['resume'] = ""; 
-							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->set('jobprofile',$this->data['JobseekerApply']); 
+							$this->set('job',$job['Job']);
+							$this->set('jobCompany',$job['comp']['company_name']);
 							$this->render("apply_job"); 
 							return;          
                 		}
+                		if($resume['size'] >307251){
+							$this->Session->setFlash('File size exceed. Resume size upto 300 KB', 'error'); 
+							$this->data['JobseekerApply']['resume'] = ""; 
+							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->set('job',$job['Job']);
+							$this->set('jobCompany',$job['comp']['company_name']);
+							$this->render("apply_job");  
+							return;   	
+						}
                 		$type_arr = explode(".",$resume['name']);
                 		$type = $type_arr[1];
-               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx'){
+               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx' && $type!='odt'){
 							$this->Session->setFlash('File type not supported.', 'error');
                 			$this->data['JobseekerApply']['resume'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
@@ -263,12 +274,23 @@ class JobsController extends AppController {
 							$this->Session->setFlash('Uploaded File is corrupted.', 'error');   
                 			$this->data['JobseekerApply']['cover_letter'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->set('job',$job['Job']);
+							$this->set('jobCompany',$job['comp']['company_name']);
 							$this->render("apply_job"); 
 							return;          
                			}
+               			 if($cover_letter['size']>307251){
+							$this->Session->setFlash('File size exceed. Cover letter size upto 300 KB', 'error'); 
+							$this->data['JobseekerApply']['cover_letter'] = ""; 
+							$this->set('jobprofile',$this->data['JobseekerApply']);  
+							$this->set('job',$job['Job']);
+							$this->set('jobCompany',$job['comp']['company_name']);
+							$this->render("apply_job"); 
+							return;   	
+						}
                 		$type_arr1 = explode(".",$cover_letter['name']);
                 		$type1 = $type_arr1[1];
-                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx'){
+                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx' && $type1!='odt'){
 							$this->Session->setFlash('File type not supported.', 'error');
                 			$this->data['JobseekerApply']['cover_letter'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
@@ -362,7 +384,7 @@ class JobsController extends AppController {
 		if(isset($this->params['jobId'])){
 
 			$id = $this->params['jobId'];
-			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id),
+			$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id,'Job.is_active'=>1),
 												  'joins'=>array(array('table' => 'industry',
 										                               'alias' => 'ind',
 										             				   'type' => 'LEFT',
