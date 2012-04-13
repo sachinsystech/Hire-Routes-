@@ -207,12 +207,11 @@ function clear_div(val){
 					</td>
 					<td><?php if($applicant['JobseekerApply']['intermediate_users']!=''){
 								$degree = count(explode(",",$applicant['JobseekerApply']['intermediate_users']));
-								$degree = $degree==0?1:$degree;
 							  }else{
-								$degree = $applicant['JobseekerApply']['intermediate_users']+1;
-							  } echo $degree;?></td>
+								$degree = 0;
+							  } echo $degree+1;?></td>
 					<td><?php // echo $applicant['networkers']['contact_name'];
-							if($applicant['User']['parent_user_id']==$applicant['Job']['user_id']||$degree==1){
+							if($applicant['User']['parent_user_id']==$applicant['Job']['user_id']||$degree==0){
 							 echo "Personal";
 							 }else{
 							 	echo "Hireroutes";
@@ -242,7 +241,6 @@ function clear_div(val){
 			
 			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
 		<!-- middle conyent list -->
-
 	</div>
 	<!-- middle section end -->
 
