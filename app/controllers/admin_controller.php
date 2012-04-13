@@ -121,6 +121,7 @@ class AdminController extends AppController {
 	 */
 	function paymentInformation()
 	{
+		$conditions[]='JobseekerApply.is_active=1';
 		if(!empty($this->data['paymentInformation']['status'])){
 			$conditions[]='payment_status ='.$this->data['paymentInformation']['status'];
 	 		$this->set('status',$this->data['paymentInformation']['status']);
@@ -157,7 +158,7 @@ class AdminController extends AppController {
 					'table'=>'jobseeker_apply',
 					'alias'=>'JobseekerApply',
 					'type'=>'left',
-					'fields'=>'user_id',
+					'fields'=>'user_id, is_active',
 					'conditions'=>'Job.id = JobseekerApply.job_id'
 				),
 				array(
@@ -207,7 +208,7 @@ class AdminController extends AppController {
 					'table'=>'jobseeker_apply',
 					'alias'=>'JobseekerApply',
 					'type'=>'left',
-					'fields'=>'user_id, intermediate_users',
+					'fields'=>'user_id, intermediate_users, is_active',
 					'conditions'=>'Job.id = JobseekerApply.job_id'
 				),
 				array(
@@ -226,7 +227,7 @@ class AdminController extends AppController {
 				)
 			),
 			'limit'=>10,			
-			'conditions'=>array('PaymentHistory.id'=>$this->params['payment_history_id'])
+			'conditions'=>array('PaymentHistory.id'=>$this->params['payment_history_id'],'JobseekerApply.is_active'=>'1')
 		));
 		$networker_ids=explode(',',$payment_detail['JobseekerApply']['intermediate_users']);
 		$this->paginate=array(

@@ -54,7 +54,7 @@
 						<div style="float:left;">
 							<span class='reward'>
 								<?php echo $this->Number->format(
-										$payment_detail['PaymentHistory']['amount']*0.25,
+										$payment_detail['PaymentHistory']['amount'],
 										array(
 											'places' => 2,
 											'before' => '$',
