@@ -5,7 +5,7 @@
 	
 	class LinkedinController extends AppController {
 
-    var $uses = array('User');
+    var $uses = array('User','SharedJob');
 	var $components = array('TrackUser','Utility','RequestHandler');  
 
        function getLinkedinFriendList(){
@@ -69,6 +69,7 @@
         $userIds = $this->params['form']['usersId'];
         $userIds = explode(",", $userIds);
         $message = $this->params['form']['message'];
+        $jobId = $this->params['form']['jobId'];
         $linkedin = $this->getLinkedinObject();
         $userId = $this->Session->read('Auth.User.id');
         $this->autoRender = false;
@@ -79,22 +80,27 @@
         if(!empty($userIds) && $message &&  $user){
             foreach($userIds as $id){
                 try{
-
                     $linkedin->access_token =unserialize($user['User']['linkedin_token']);
                     $subject = "Hire Routes";
                     $xml_response = $linkedin->sendMessage($id,$subject,$message);
-                    return json_encode(array('error'=>0));
+                    $xml_response = simplexml_load_string($xml_response);
                     
+                    if($xml_response){
+                    	$errorMessage = $xml_response->message;
+                    	$errorMessage = convert_uudecode(convert_uuencode($errorMessage));
+                    	return json_encode(array('error'=>2,'message'=>$errorMessage));      
+                    }
+                    //save here job sharing details..
+                	$shareJobData['job_id'] = $jobId;
+                	$shareJobData['user_id'] = $userId;
+                	$this->SharedJob->save($shareJobData);
+                	return json_encode(array('error'=>0));					
                 }catch(Exception $e){
                     return json_encode(array('error'=>1));      
                 }
 
             }
         }
-
-        if($user){
-            
-         }
 
     }
 
