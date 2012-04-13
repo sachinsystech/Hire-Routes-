@@ -22,7 +22,7 @@
 			<?php echo"<a href='hireroutes/jobs/jobDetail/".$message['Job']['id']."'  style='decoration:none;'>";?>
 				<font size='4px' color='black'><b>
 				<?php echo $message['Job']['title'];?><br/>
-				<?php echo $message['Company']['company_name'];?>,&nbsp;
+				<?php echo $message['Job']['company_name'];?>,&nbsp;
 				<?php echo $message['Job']['city'];?>,&nbsp;
 				<?php echo $message['Job']['state'];?>
 				</b></font>
