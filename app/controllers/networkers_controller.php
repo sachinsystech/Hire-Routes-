@@ -4,7 +4,7 @@ class NetworkersController extends AppController {
 
 	var $uses = array('Networkers','NetworkerContact','NetworkerCsvcontact','NetworkerSettings',
 						'User','UserRoles','Industry','State','City','Specification',
-						'FacebookUsers','Companies','Job','PaymentHistory','JobseekerApply');
+						'FacebookUsers','Companies','Job','PaymentHistory','JobseekerApply','SharedJob');
 	var $components = array('Email','Session','TrackUser','Utility');	
 	var $helpers = array('Time','Form');
 	
@@ -465,18 +465,15 @@ class NetworkersController extends AppController {
 		                            'order' => $shortByItem,
 									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
 		    
-		    $jobs = $this->paginate('Job');	
-
-			$archivejobs = $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
-						   											'AND' => array('is_active' => 0)) ));
-			$newjobs     = $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
-						   											'AND' => array('is_active' => 1)) ));
+		    $jobs = $this->paginate('Job');
 		}else{
 			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'error');				
 			$this->redirect('/networkers/setting');
 		}
-		$this->set('ArchiveJobs',$archivejobs);
-		$this->set('NewJobs',$newjobs);
+		$jobCounts=$this->jobCounts();
+		$this->set('SharedJobs',$jobCounts['sharedJobs']);
+		$this->set('ArchiveJobs',$jobCounts['archivejobs']);
+		$this->set('NewJobs',$jobCounts['newJobs']);
 		$this->set('jobs',$jobs);
 	}
 
@@ -484,6 +481,16 @@ class NetworkersController extends AppController {
 		$userId = $this->TrackUser->getCurrentUserId();		
 		        
     	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
+    	
+    	$shared_job = $this->SharedJob->find('all',array('conditions'=>array('user_id'=>$userId),
+															   'fields'=>'SharedJob.job_id',
+															   'group'=>'SharedJob.job_id'
+															   )
+															);
+		$jobIds = array();
+		for($a=0;$a<count($shared_job);$a++){
+			$jobIds[$a] = $shared_job[$a]['SharedJob']['job_id'];
+		}
 		
         if(count($networker_settings)>0){
 			for($n=0;$n<count($networker_settings);$n++){
@@ -539,7 +546,8 @@ class NetworkersController extends AppController {
 			    }
 			}
 			$cond = array('OR' => $job_cond,
-						   'AND' => array(array('is_active' => 1))); 
+						   'AND' => array(array('is_active' => 1),'NOT'=>array(array('Job.id'=> $jobIds))),
+						 ); 
 
 			$this->paginate = array('conditions'=>$cond,
 		                            'limit' => isset($displayPageNo)?$displayPageNo:5,
@@ -570,13 +578,12 @@ class NetworkersController extends AppController {
 		                            'order' => $shortByItem,
 									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
 		    
-		    $jobs = $this->paginate('Job');	
-
-			$newjobs = $this->Job->find('count',array('conditions'=>$cond));
-			$archivejobs = $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
-						   									'AND' => array('is_active' => 0))));
-			$this->set('ArchiveJobs',$archivejobs);
-			$this->set('NewJobs',$newjobs);
+		    $jobs = $this->paginate('Job');
+		    
+			$jobCounts=$this->jobCounts();
+			$this->set('SharedJobs',$jobCounts['sharedJobs']);
+			$this->set('ArchiveJobs',$jobCounts['archivejobs']);
+			$this->set('NewJobs',$jobCounts['newJobs']);
 			$this->set('jobs',$jobs);	
 		}else{
 			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile!', 'warning');				
@@ -588,47 +595,6 @@ class NetworkersController extends AppController {
 	function jobData(){
 		$userId = $this->TrackUser->getCurrentUserId();		
 		
-    	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
-		
-        if(count($networker_settings)>0){
-			for($n=0;$n<count($networker_settings);$n++){
-				$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
-				$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
-				$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
-				$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
-
-				$tempCond = array();
-				if($industry[$n]>1){
-					$tempCond[] = array('Job.industry' => $industry[$n]);
-				
-				}
-				if($specification[$n])
-						$tempCond[] = array('Job.specification' => $specification[$n]);
-				if($city[$n])
-					$tempCond[] = array('Job.city ' => $city[$n]);
-		        if($state[$n])
-		        	$tempCond[] = array('Job.state' => $state[$n]);
-				  
-			
-				if(!$tempCond){
-					$tempCond = array(1);
-				}
-				$job_cond[$n] =  array('AND' =>$tempCond);
-			
-			}			
-			
-			$cond = array('OR' => $job_cond,
-						   'AND' => array(array('is_active' => 1))); 			
-
-			$newjobs = $this->Job->find('count',array('conditions'=>$cond));
-			$archivejobs = $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
-						   'AND' => array(array('is_active' => 0)))));
-				
-		}else{
-			$newjobs = 0;
-			$archivejobs = 0;
-		}
-
 		$payment = $this->PaymentHistory->find('all',array('conditions'=>array('PaymentHistory.payment_status'=>1,
 																			   'jobseeker_apply.intermediate_users LIKE' => "%$userId%"),
 														   'joins'=>array(
@@ -655,9 +621,152 @@ class NetworkersController extends AppController {
 			$total_reward = 0;
 		}
 		$this->set('TotalReward',$total_reward);
-		$this->set('NewJobs',$newjobs);
-		$this->set('ArchiveJobs',$archivejobs);
+		$jobCounts=$this->jobCounts();
+		$this->set('SharedJobs',$jobCounts['sharedJobs']);
+		$this->set('ArchiveJobs',$jobCounts['archivejobs']);
+		$this->set('NewJobs',$jobCounts['newJobs']);
 	}
+	
+	/**
+	 *	shared Job
+	 */
+	 function sharedJob(){
+		$userId = $this->TrackUser->getCurrentUserId();		
+		        	
+		    if(isset($this->params['named']['display'])){
+			    $displayPageNo = $this->params['named']['display'];
+			    $this->set('displayPageNo',$displayPageNo);
+			}
+			
+			$shortByItem = array('Job.created'=> 'desc');
+			if(isset($this->params['named']['shortby'])){
+			    $shortBy = $this->params['named']['shortby'];
+			    $this->set('shortBy',$shortBy);
+			    switch($shortBy){
+			    	case 'date-added':
+	        				$shortByItem = array('Job.created'=> 'desc'); 
+	        				break;	
+			    	case 'company-name':
+			    				$shortByItem = array('comp.company_name'=> 'asc'); 
+			    				break;
+			    	case 'industry':
+			    				$shortByItem = array('ind.name'=> 'asc');  
+			    				break;
+			    	case 'salary':
+			    				$shortByItem = array('Job.salary_from'=> 'asc'); 
+			    				break;
+			    	default:
+			    				$this->redirect('/networkers/sharedJob');        		        	
+			    }
+			}
+			
+			$cond = array('SharedJob.user_id'=>$userId); 
+
+			$this->paginate = array('conditions'=>$cond,
+		                            'limit' => isset($displayPageNo)?$displayPageNo:5,
+									'joins'=>array(array('table' => 'jobs',
+												         'alias' => 'Job',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.id = SharedJob.job_id')
+											        ),
+											        array('table' => 'industry',
+												         'alias' => 'ind',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.industry = ind.id',)
+											        ),
+												   array('table' => 'specification',
+												         'alias' => 'spec',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.specification = spec.id',)
+											        ),
+												   array('table' => 'cities',
+												         'alias' => 'city',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.city = city.id',)
+											        ),
+                                                    array('table' => 'companies',
+						             				   'alias' => 'comp',
+						                               'type' => 'LEFT',
+    				                               'conditions' => array('Job.company_id = comp.id',)),
+												   array('table' => 'states',
+												         'alias' => 'state',
+												         'type' => 'LEFT',
+												         'conditions' => array('Job.state = state.id',)
+											        )),
+		                            'order' => $shortByItem,
+		                            'group'=>'Job.id',
+									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
+		    
+		    $jobs = $this->paginate('SharedJob');	
+			$jobCounts=$this->jobCounts();
+			$this->set('SharedJobs',$jobCounts['sharedJobs']);
+			$this->set('ArchiveJobs',$jobCounts['archivejobs']);
+			$this->set('NewJobs',$jobCounts['newJobs']);
+			$this->set('jobs',$jobs);			
+	}
+
+	/*
+	 * To find job counts
+	 *
+	 */
+	private function jobCounts(){
+		$userId = $this->TrackUser->getCurrentUserId();		
+		        
+    	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
+		
+        if(count($networker_settings)>0){
+			for($n=0;$n<count($networker_settings);$n++){
+				$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
+				$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
+				$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
+				$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
+
+				$tempCond = array();
+				if($industry[$n]>1){
+					$tempCond[] = array('Job.industry' => $industry[$n]);
+				
+				}
+				if($specification[$n])
+						$tempCond[] = array('Job.specification' => $specification[$n]);
+				if($city[$n])
+					$tempCond[] = array('Job.city ' => $city[$n]);
+		        if($state[$n])
+		        	$tempCond[] = array('Job.state' => $state[$n]);
+				  
+			
+				if(!$tempCond){
+					$tempCond = array(1);
+				}
+				$job_cond[$n] =  array('AND' =>$tempCond);
+			}
+			
+			$jobCounts['newJobs']= $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
+						   									'AND' => array('is_active' => 1))));
+			$jobCounts['archivejobs']= $this->Job->find('count',array('conditions'=>array('OR' => $job_cond,
+						   									'AND' => array('is_active' => 0))));
+		}else{
+			$jobCounts['newJobs']=0;
+			$jobCounts['archivejobs']=0;
+		}
+		$jobCounts['sharedJobs']= $this->SharedJob->find('count',array('joins'=>array(
+													array(
+														'table'=>'jobs',
+														'alias'=>'Job',
+														'type'=>'left',
+														'fields'=>'Job.is_active',
+														'conditions'=>'Job.id=SharedJob.job_id AND Job.is_active = 1'
+													),
+												),
+												'fields'=>'distinct SharedJob.job_id',
+												'conditions'=>array(
+													'SharedJob.user_id'=>$userId
+												)
+											)
+										);
+		$jobCounts['newJobs']=($jobCounts['newJobs']==0)?0:$jobCounts['newJobs']-$jobCounts['sharedJobs'];
+		return $jobCounts;
+	}
+	
  
 }
 ?>

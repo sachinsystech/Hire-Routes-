@@ -30,7 +30,7 @@
 		}
 		elseif(isset($user_role) && $user_role['role_id']==3)
 		{
-			$my_jobs_actions=array('newJob','jobDetail','archiveJob','jobData','#');
+			$my_jobs_actions=array('newJob','jobDetail','archiveJob','jobData','sharedJob');
 			$my_accounts_actions=array('index','setting','editProfile','changePassword');
 			$my_networks_actions=array('personal','addContacts','networkerData');
 		?>
