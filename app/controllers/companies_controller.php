@@ -613,13 +613,9 @@ function paymentHistoryInfo(){
 											array('table' => 'jobseekers',
 												  'alias' => 'jobseekers',
 												  'type' => 'LEFT',
+												  'fields'=>'jobseekers.contact_name',
 												  'conditions' => array('JobseekerApply.user_id = jobseekers.user_id ')
-											     ),
-											array('table' => 'networkers',
-												  'alias' => 'networkers',
-												  'type' => 'LEFT',
-												  'conditions' => array('SUBSTRING_INDEX(JobseekerApply.intermediate_users, ",", -1) = networkers.user_id')
-											     ),
+											),
 											array(
 												'table'=>'jobs',
 												'alias'=>'Job',
@@ -632,7 +628,7 @@ function paymentHistoryInfo(){
 												'alias'=>'User',
 												'type'=>'left',
 												'fields'=>'parent_user_id',
-												'conditions'=>'User.id=substring(`intermediate_users` , 1, locate( \',\',`intermediate_users`)-1 )'
+												'conditions'=>array('SUBSTRING_INDEX(JobseekerApply.intermediate_users, ",", 1) = User.id')
 											)
 									      ),
 							'limit' => 10, // put display fillter here
@@ -640,7 +636,6 @@ function paymentHistoryInfo(){
 							'recursive'=>0,
 							'fields'=>array('JobseekerApply.*, 
 											jobseekers.contact_name,
-											networkers.contact_name,
 											User.parent_user_id,
 											Job.user_id',
 									),

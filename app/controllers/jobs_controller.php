@@ -413,9 +413,9 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
     			$this->set('jobapply',$jobapply);
 			}
             /*** code for networker trac **/
-            if($userId ){
+            if($userId){
                 $role = $this->TrackUser->getCurrentUserRole();
-                if($role['role_id'] == 3)
+                if($role['role_id'] == NETWORKER||$role['role_id'] == COMPANY)
                     $this->set('code',$this->Utility->getCode($id,$userId));
             }
             /**** end code ***/			

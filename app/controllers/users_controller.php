@@ -366,6 +366,8 @@ class UsersController extends AppController {
 		$to = $user['User']['account_email'];
 		$subject = 'Hire Routes : Account Confirmation';
 		$message =  $user['User'];
+		$code=$this->Session->read('code');
+		$message['code'] =  '?code='.$code;
 		$this->sendEmail($to,$subject,$template,$message);
 	}
 	
@@ -452,8 +454,10 @@ class UsersController extends AppController {
 /**
  * after click on confirmation link  authenticate user and set as logged-in.
  */
+ 
 	function setUserAsLoggedIn($user){
 		if(isset($user)){
+			
 			$data = array('User' => array('account_email' => $user['account_email'],
 										  'password' => $user['password']
 										  ));
@@ -461,7 +465,6 @@ class UsersController extends AppController {
 				'username' => 'account_email',
 				'password' => 'password'
 			);
-			
 			if($this->Auth->login($data)){
 				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
 			}
@@ -805,7 +808,7 @@ class UsersController extends AppController {
  */	
 	private function setRedirectionUrl(){
 		$redirect_url=$this->referer();
-		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+$/',$redirect_url)){
+		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+\/?[.*]?/',$redirect_url)){
 			$this->Session->write('redirection_url',$redirect_url);
 		}
 		return true;
