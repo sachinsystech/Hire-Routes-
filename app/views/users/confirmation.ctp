@@ -16,7 +16,7 @@ else{
 
 	<div style="margin-top:20px">
 	<center>
-		Thank you for signing up with us. We’ve sent you a confirmation email at <u><?php echo $confirmation_email;?></u>
+		Thank you for signing up with us. We&rsquo;ve sent you a confirmation email at <u><?php echo $confirmation_email;?></u>
 	</center>
 	</div>
 	<div style="margin-top:20px">
