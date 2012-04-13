@@ -434,7 +434,7 @@ class UsersController extends AppController {
 																	array('User.id'=>$userId,
 																	      'User.confirm_code'=>$confirmCode,
 																   ))));
-		if(isset($user) && $user!= null ){
+		if(isset($user) && $user!= null){
 			if($user['User']['is_active']!=2 && $user['User']['is_active']==0){
 				$user['User']['is_active'] = '1';
 				$user['User']['confirm_code']="";
@@ -459,7 +459,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');		
 			}
 		}else{
-			$this->Session->setFlash('Your account is confiremd and activated. Please login!', 'warning');
+			$this->Session->setFlash('Your account is confirmed and activated. Please login!', 'warning');
 			$this->redirect("login");		
 		}
 	}
@@ -642,8 +642,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Username or password not matched.', 'error');	
 				$this->redirect("/users/login");
 			}
-			
-			
+						
 			/**	@user not acitvated (AND deactivated by Admin)	**/			
 			if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']=="" ){
 				$this->Session->setFlash('You are not activated, Please contact to side admin', 'error');
@@ -653,7 +652,7 @@ class UsersController extends AppController {
 			/**	@user not acitvated (AND not confirmed account by clicking on link in email)	**/
 			if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']!="" ){
 				$this->sendConfirmationEmail($active_user['User']['id']);
-				$this->Session->setFlash('Your account is not activated/confirmed, we have sent an email, please check your email for confirmaotion link!', 'warning');
+				$this->Session->setFlash('Your account is not activated/confirmed, we have sent an email, please check your email for confirmation link!', 'warning');
 				$this->redirect("/users/login");
 			}
 			
@@ -879,7 +878,7 @@ class UsersController extends AppController {
 					$this->Session->SetFlash('Internal Error!','error');
 				}
 			}else{
-				$this->Session->SetFlash('Please contact to side admin!.','error');
+				$this->Session->SetFlash('Please contact your system administrator.','error');
 			}
 			$this->redirect('/users/forgotPassword');
 		}
