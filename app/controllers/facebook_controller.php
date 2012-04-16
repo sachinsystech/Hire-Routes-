@@ -33,6 +33,10 @@
 
     function getFaceBookFriendList(){
         $userId = $this->Session->read('Auth.User.id');
+        if(!$this->TrackUser->isUserLoggedIn()){       
+        	$this->autoRender = false;
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }
         if(!$this->RequestHandler->isAjax()){
             $user = $this->facebookObject()->getUser();
             if($user){
@@ -82,6 +86,9 @@
 
     function commentAtFacebook(){
         $this->autoRender = false;
+        if(!$this->TrackUser->isUserLoggedIn()){       
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }
         $userIds = $this->params['form']['usersId'];
         $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $userIds);
@@ -99,7 +106,6 @@
                 }catch(Exception $e){
                     return json_encode(array('error'=>1));      
                 }
-
             }
         }
         return json_encode(array('error'=>0));        
