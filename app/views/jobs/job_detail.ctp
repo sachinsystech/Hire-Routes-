@@ -186,7 +186,7 @@
 							$job_url = $job_url.'?code='.$code;
 					  }
 				?>						
-			<div><input type="" value="<?php echo  $job_url ?>"></div>
+			<div><input type="" id="jobUrl" value="<?php echo  $job_url ?>"></div>
 
 	<div style="clear:both;margin-top:5px;padding: 5px;">
 		<img src="/img/mail_it.png" style="float: left;cursor:pointer" onclick='showView(4);'/>
@@ -405,35 +405,47 @@ function validateFormField(){
 	return true;
 }
 
-
+function createHTMLforFillingFriends(friends){
+   
+   length = friends.length;
+   html="";        
+   for(i=0;i<length;i++){
+	   html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img width="50" height="50" src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox"></div></div></div>';
+   }
+   $("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox' onclick='var flag=this.checked; $(\".facebookfriend\").each(function(){ this.checked = flag; });'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>"+html+"</div>");
+}
 
 </script>
 
 <script>
 
+/****************************	1).Fill facebook Friends	******************************/
 
-/****************************	Fill Twitter Friends	******************************/
-       function fillTwitterFriend(){
-            //get list of twitter friends from ajax request
+        function fillFacebookFriend(){
+            //get list of facebook friend from ajax request
             $("#facebook").html("<img src='/img/loading.gif'>");
             $.ajax({
                 type: 'POST',
-                url: '/twitter/getTwitterFriendList',
+                url: '/facebook/getFaceBookFriendList',
                 dataType: 'json',
                 success: function(response){
                    switch(response.error){
                         case 0: // success
-                            createHTMLforFacebookFriends(response.data);
+                            createHTMLforFillingFriends(response.data);
                             break;
-                        case 1: // we don't have user's twitter token
+                        case 1: // we don't have user's facebook token
                             alert(response.message);
-                            window.open(response.URL);
+							window.open(response.URL);
                             break;
                         case 2: // something went wrong when we connect with facebook.Need to login by facebook 
-                            $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
+                            $( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin");
                             $( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
                             break;
+						case 3:
+                            alert(response.message);
+							location.reload();	
+							break;
                    }
             
                 },
@@ -444,11 +456,9 @@ function validateFormField(){
             
         }
 
-
-/*************************************************************/
-       function fillLinkedinFriend(){
-            //get list of linkedin friends from ajax request
-            $("#facebook").html("<img src='/img/loading.gif'>");
+/****************************	2). Fill Linkedin Friends	******************************/
+       
+	   function fillLinkedinFriend(){
             $.ajax({
                 type: 'POST',
                 url: '/linkedin/getLinkedinFriendList',
@@ -456,7 +466,7 @@ function validateFormField(){
                 success: function(response){
                    switch(response.error){
                         case 0: // success
-                            createHTMLforFacebookFriends(response.data);
+                            createHTMLforFillingFriends(response.data);
                             break;
                         case 1: // we don't have user's linked token
                             alert(response.message);
@@ -467,6 +477,10 @@ function validateFormField(){
                             $( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
                             break;
+						case 3:
+                            alert(response.message);
+							location.reload();	
+							break;
 						default :
 							$( "#dialog-message" ).html(" something went wrong. Please try later or contact to site admin");
 							$( "#dialog-message" ).dialog("open");
@@ -476,13 +490,51 @@ function validateFormField(){
             
                 },
                 error: function(message){
-                    alert('something went wrong. Please try later or  contact to site admin');
+                    $('#submitLoaderImg').html('');
+					$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
                 }
             });
-            
         }
-/***************	Email Sharing ,,,,,,,,,********************************/
+		
+/****************************	3). Fill Twitter Friends	******************************/
+      
+	   function fillTwitterFriend(){
+            $.ajax({
+                type: 'POST',
+                url: '/twitter/getTwitterFriendList',
+                dataType: 'json',
+                success: function(response){
+                   switch(response.error){
+                        case 0: // success
+                            createHTMLforFillingFriends(response.data);
+							break;
+                        case 1: // we don't have user's twitter token
+                            alert(response.message);
+                            window.open(response.URL);
+                            break;
+                        case 2: // something went wrong when we connect with facebook.Need to login by facebook 
+                            $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
+                            $( "#dialog-message" ).dialog("open");
+							$( "#dialog" ).dialog( "close" );
+                            break;
+						case 3:
+                            alert(response.message);
+							location.reload();	
+							break;
+                   }
+            
+                },
+                error: function(message){
+                    $('#submitLoaderImg').html('');
+					$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+					$( "#dialog-message" ).dialog("open");
+					$( "#dialog" ).dialog( "close" );
+                }
+            });
+        }		
+/*************************	Email Sharing ***********************/
 		function shareEmail(){
 			
 				var to_email=$('#CompaniesToEmail').val();
@@ -497,7 +549,7 @@ function validateFormField(){
 				url: "/jobsharing/shareJobByEmail",
 				type: "post",
 				dataType: 'json',
-				data: {jobId : $('#CompaniesJobId').val(), toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
+				data: {jobId : $('#CompaniesJobId').val(), jobUrl: $('#jobUrl').val(), toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
 				success: function(response){
 					$('#submitLoaderImg').html('');
 					switch(response.error){
@@ -508,7 +560,7 @@ function validateFormField(){
 							
 							break;
 						case 1:
-							$( "#dialog-message" ).html("Something went wromg please try later or contact to site admin.");
+							$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
 							$( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
 							break;
@@ -516,12 +568,18 @@ function validateFormField(){
 							$( "#dialog-message" ).html(response.message);
 							$( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
-							break;	
+							break;
+						case 3:
+                            alert(response.message);
+							location.reload();	
+							break;
 					}
 				},
 				error:function(response){
 					$('#submitLoaderImg').html('');
-					$('#message').html("ERROR:");
+					$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+					$( "#dialog-message" ).dialog("open");
+					$( "#dialog" ).dialog( "close" );
 				}
 			});
 			return false;
@@ -548,13 +606,17 @@ function validateFormField(){
                             // show success message
                             $( "#dialog-message" ).html("Successfully sent a message to facebook users.");
                             $( "#dialog-message" ).dialog("open");
-							
+							fillFacebookFriend();
                             break;
                         case 1:  
                                 $( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin.");
                                 $( "#dialog-message" ).dialog("open");
 								$( "#dialog" ).dialog( "close" );
                             break;
+						case 3:
+                            alert(response.message);
+							location.reload();	
+							break;
                     }
             
                 },
@@ -563,7 +625,6 @@ function validateFormField(){
                     alert(message);
                 }
             });
-			fillFacebookFriend();
 			return false;
         }
 		
@@ -585,11 +646,12 @@ function validateFormField(){
                 data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val()+"&jobId="+$("#CompaniesJobId").val(),
                 success: function(response){
 					$('#submitLoaderImg').html('');
-                    switch(response.error){
+					switch(response.error){
                         case 0: // success
-                            $( "#dialog-message" ).html("Successfully sent a message to Linkedin users.");
+							$( "#dialog-message" ).html("Successfully sent a message to Linkedin users.");
                             $( "#dialog-message" ).dialog("open");
 							$('#submitLoaderImg').html('');
+							fillLinkedinFriend();
                             break;
                         case 1:
                             $( "#dialog-message" ).html(" something went wrong.Please try later or contact to site admin");
@@ -601,6 +663,10 @@ function validateFormField(){
                             $( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
                             break;
+						case 3:
+                            alert(response.message);
+							location.reload();	
+							break;
                    }
             
                 },
@@ -609,7 +675,6 @@ function validateFormField(){
                     alert(" something went wrong. Please try later or contact to site admin");
                 }
             });
-			fillLinkedinFriend();
 			return false;
         }
 
@@ -635,7 +700,8 @@ function validateFormField(){
                         case 0: // success
                             $( "#dialog-message" ).html("Successfully sent a message to Twitter follower.");
                             $( "#dialog-message" ).dialog("open");
-							
+							$('#submitLoaderImg').html('');
+							fillTwitterFriend();							
                             break;
                         case 1:
                             $( "#dialog-message" ).html(" something went wrong.Please try later or contact to site admin");
@@ -647,66 +713,26 @@ function validateFormField(){
                             $( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
                             break;
-
+						case 3:
+                            alert(response.message);
+							location.reload();	
+							break;
                    }
             
                 },
                 error: function(message){
 					$('#submitLoaderImg').html('');
-                    alert(message);
+					$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+					$( "#dialog-message" ).dialog("open");
+					$( "#dialog" ).dialog( "close" );
                 }
             });
-			
-			fillTwitterFriend();
 			return false;
         }
 
 /**********************/
 
 
-        function fillFacebookFriend(){
-            //get list of facebook friend from ajax request
-            $("#facebook").html("<img src='/img/loading.gif'>");
-            $.ajax({
-                type: 'POST',
-                url: '/facebook/getFaceBookFriendList',
-                dataType: 'json',
-                success: function(response){
-                   switch(response.error){
-                        case 0: // success
-                            createHTMLforFacebookFriends(response.data);
-                            break;
-                        case 1: // we don't have user's facebook token
-                            alert(response.message);
-							window.open(response.URL);
-                            break;
-                        case 2: // something went wrong when we connect with facebook.Need to login by facebook 
-                            $( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin");
-                            $( "#dialog-message" ).dialog("open");
-							$( "#dialog" ).dialog( "close" );
-                            break;
-                   }
-            
-                },
-                error: function(message){
-                    alert(message);
-                }
-            });
-            
-        }
-
-    function createHTMLforFacebookFriends(friends){
-       
-       length = friends.length;
-       html="";        
-       for(i=0;i<length;i++){
-           html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img width="50" height="50" src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox"></div></div></div>';
-       }
-       $("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox' onclick='var flag=this.checked; $(\".facebookfriend\").each(function(){ this.checked = flag; });'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>"+html+"</div>");
-    }
-
-        //fillFacebookFriend();
-        //fillLinkedinFriend();
     </script>
 
 <script>

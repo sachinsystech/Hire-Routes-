@@ -141,14 +141,14 @@
 		if(isset($user_role) && $user_role['role_id']==NETWORKER):
 ?>
 		<?php
-			if($this->action=='newJob'||$this->action=='#'||$this->action=='archiveJob'||$this->action=='jobData'){
+			if($this->action=='newJob'||$this->action=='sharedJob'||$this->action=='archiveJob'||$this->action=='jobData'){
 		?>
 				<ul>
 					<li <?php if($this->action=='newJob'||$this->action=='#') echo "class='active'";  ?>>
 						<a class="menu_item" href="/networkers/newJob">Inbox - <?php echo $NewJobs;?></a>
 					</li>	
-					<li <?php if($this->action=='#') echo "class='active'";  ?>>
-						<a class="menu_item" href="#">Shared - 10</a>
+					<li <?php if($this->action=='sharedJob') echo "class='active'";  ?>>
+						<a class="menu_item" href="/networkers/sharedJob">Shared - <?php echo $SharedJobs;?></a>
 					</li>
 					<li <?php if($this->action=='archiveJob') echo "class='active'";  ?>>
 						<a class="menu_item" href="/networkers/archiveJob">Archive - <?php echo $ArchiveJobs;?></a>

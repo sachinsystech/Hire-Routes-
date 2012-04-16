@@ -22,21 +22,20 @@
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
-		
-			<div class="network_contact_middleBox">
-			  <div class="job_data">
-					<table>	
-						<?php if(count($networkerData)>0){ ?>
-						<tr>
-							<td colspan="2">All Networkers</td>
-						</tr>						
-						<tr>
-							<td><strong>Total</strong></td>
-							<td><?php echo array_sum($networkerData);?></td>
-						</tr>
-						<?php foreach($networkerData as $degree=>$totalNetworkers){?>
-						<tr>
-							<td><?php	$networkDegree = $degree+1;
+			<div class="middleBox">
+				<div class="setting_profile">
+					<?php if(count($networkerData)>0){ ?>
+					<div class="setting_profile_row">
+						<div class="nr_data_field">All Networkers:</div>
+						<div class="nr_data_value"></div>
+					</div>
+					<div class="setting_profile_row">
+						<div class="nr_data_field">Total:</div>
+						<div class="nr_data_value"><?php echo array_sum($networkerData);?></div>
+					</div>
+					<?php foreach($networkerData as $degree=>$totalNetworkers){?>
+					<div class="setting_profile_row">
+						<div class="nr_data_field"><?php	$networkDegree = $degree+1;
 									  	if($networkDegree==1){
 											$suffix = "st";
 									  	}elseif($networkDegree==2){
@@ -46,13 +45,14 @@
 									  	}else{
 											$suffix = "th";
 									  	}
-										echo $networkDegree.$suffix;?></td>
-							<td><?php echo $totalNetworkers;?></td>
-						</tr>
-						<?php }} else{?>
+										echo $networkDegree."<sup>".$suffix."<sup>&omicron;</sup></sup>:";?></div>
+						<div class="nr_data_value" style="margin-top:10px">
+							<?php echo $totalNetworkers;?>
+						</div>
+					</div>
+					<?php }} else{?>
 							<div class="empty_concats_msg"> No Data To Show..</div>
-			  			<?php }?>						
-					</table>
+			  		<?php }?>
 				</div>
 			</div>
 		<!-- middle conyent list -->
