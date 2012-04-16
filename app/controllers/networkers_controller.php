@@ -484,7 +484,7 @@ class NetworkersController extends AppController {
     	
     	$shared_job = $this->SharedJob->find('all',array('conditions'=>array('user_id'=>$userId),
 															   'fields'=>'SharedJob.job_id',
-															   'group'=>'SharedJob.job_id'
+															   'group'=>array('SharedJob.job_id')
 															   )
 															);
 		$jobIds = array();
@@ -661,7 +661,7 @@ class NetworkersController extends AppController {
 			}
 			
 			$cond = array('SharedJob.user_id'=>$userId); 
-
+			$jobCounts=$this->jobCounts();
 			$this->paginate = array('conditions'=>$cond,
 		                            'limit' => isset($displayPageNo)?$displayPageNo:5,
 									'joins'=>array(array('table' => 'jobs',
@@ -694,11 +694,11 @@ class NetworkersController extends AppController {
 												         'conditions' => array('Job.state = state.id',)
 											        )),
 		                            'order' => $shortByItem,
-		                            'group'=>'Job.id',
+		                            'group'=>array('SharedJob.job_id'),
+		                            'myCount'=>$jobCounts['sharedJobs'],
 									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
 		    
 		    $jobs = $this->paginate('SharedJob');	
-			$jobCounts=$this->jobCounts();
 			$this->set('SharedJobs',$jobCounts['sharedJobs']);
 			$this->set('ArchiveJobs',$jobCounts['archivejobs']);
 			$this->set('NewJobs',$jobCounts['newJobs']);
