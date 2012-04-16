@@ -2,6 +2,11 @@
 class TwitterController extends AppController {
 	var $uses = array('User','SharedJob');
 	var $components = array('TrackUser','Utility','RequestHandler');
+
+	function beforeFilter(){
+    	$this->Auth->allow('sendMessageToTwitterFollwer');
+    	$this->Auth->allow('getTwitterFriendList');
+	}
 	
 /**		*****	Twitter :: Handling	*****	**/
 

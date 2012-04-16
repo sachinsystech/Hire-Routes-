@@ -4,10 +4,13 @@ class JobsharingController extends AppController {
 	var $uses = array('User','Companies','Company','Job','SharedJob');
 	var $components = array('TrackUser','Utility','RequestHandler');
 	
+	function beforeFilter(){
+    	$this->Auth->allow('shareJobByEmail');
+	}
+	
 	function shareJobByEmail(){
 		$this->autoRender= false;
         if(!$this->TrackUser->isUserLoggedIn()){       
-        	$this->autoRender = false;
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
         }		
 		$userId = $this->Session->read('Auth.User.id');
