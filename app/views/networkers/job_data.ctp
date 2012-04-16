@@ -14,34 +14,34 @@
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
-		
-			<div class="network_contact_middleBox">
-			  <div class="job_data">
-					<table>	
-						<tr>
-							<td><strong>Job Received</strong></td>
-							<td><?php echo $NewJobs;?></td>
-						</tr>
-						<tr>
-							<td><strong>Job Shared</strong></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><strong>Job Filled</strong></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><strong>Rewards</strong></td>
-							<td><?php echo $this->Number->format(
+		<div class="middleBox">
+			<div class="setting_profile">
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Job Received:</div>
+						<div class="setting_profile_value"><?php echo $NewJobs;?></div>
+					</div>
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Job Shared:</div>
+						<div class="setting_profile_value"><?php echo $SharedJobs;?></div>
+					</div>
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Job Filled:</div>
+						<div class="setting_profile_value">
+						</div>
+					</div>
+					<div class="setting_profile_row">
+						<div class="cr_setting_profile_field">Rewards:</div>
+						<div class="setting_profile_value">
+							<?php echo $this->Number->format(
 										$TotalReward,
 										array(
 											'places' => 2,
 											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										);?></td>
-						</tr>													
-					</table>
+							);?>
+						</div>
+					</div>
 				</div>
 			</div>
 		<!-- middle conyent list -->
