@@ -65,6 +65,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('accountConfirmation');		
 		$this->Auth->allow('myAccount');	
 		$this->Auth->allow('forgotPassword');	
+
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -625,6 +626,11 @@ class UsersController extends AppController {
 			$this->redirect("/users/myaccount");				
 			return;
 		}
+		if ($this->TrackUser->isUserLoggedIn()){
+			$this->redirect("/admin");
+			return;
+		}
+		
 		if(isset($this->data['User'])){
 			$username = trim($this->data['User']['username']);
 			$password = trim($this->data['User']['password']);
@@ -648,7 +654,7 @@ class UsersController extends AppController {
 						
 			/**	@user not acitvated (AND deactivated by Admin)	**/			
 			if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']=="" ){
-				$this->Session->setFlash('You are not activated, Please contact to side admin', 'error');
+				$this->Session->setFlash('You are not activated, Please contact your system administrator', 'error');
 				$this->redirect("/users/login");
 			}
 			
@@ -856,11 +862,15 @@ class UsersController extends AppController {
 			$this->redirect("/users/myAccount");				
 			return;
 		}
+		if ($this->TrackUser->isUserLoggedIn()){
+			$this->redirect("/admin");
+			return;
+		}
 
 		if(isset($this->data['User'])){
 			$userEmail = trim($this->data['User']['user_email']);
 			$user = $this->User->find('first',array('conditions'=>array('account_email'=>$userEmail)));
-			if(!$user['User'] || !isset($user['User'])){
+			if(!$user['User'] && !isset($user['User'])){
 				$this->Session->SetFlash('Account with this Email is not registered!','error');
 				return;
 			}
@@ -880,12 +890,17 @@ class UsersController extends AppController {
 				}else{
 					$this->Session->SetFlash('Internal Error!','error');
 				}
-			}else{
-				$this->Session->SetFlash('Please contact your system administrator.','error');
 			}
-			$this->redirect('/users/forgotPassword');
+			if($user['User']['is_active']==0 && $user['User']['confirm_code']=="" ){
+				$this->Session->setFlash('You are not activated, Please contact your system administrator', 'warning');
+			}
+			if($user['User']['is_active']==0 && $user['User']['confirm_code']!="" ){
+				$this->Session->setFlash('Your account is not activated/confirmed, please check your email for confirmation link!', 'warning');
+			}
+//			$this->redirect('/users/forgotPassword');
 		}
 	}
 
 }
+
 ?>
