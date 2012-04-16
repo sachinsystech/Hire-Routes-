@@ -90,6 +90,17 @@ class UtilityComponent extends Object
         return base64_encode($passJobId."^".$userId);
     }
     /*** end ****/
+    
+    /** Get jobId from code if valid **/
+    function validateCode($passJobId,$code){
+    	$str = base64_decode($code);
+		$data = explode("^",$str);
+    	$jobId = $data[0];
+    	if($jobId == $passJobId)
+    		return $jobId;
+    	return false;
+    }
+    /*** end ***/
 
     /** It returns recent user id from Code which is set by URL  **/ 
     function getRecentUserIdFromCode(){

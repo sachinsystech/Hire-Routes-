@@ -2043,3 +2043,15 @@ ul a.menu_item{
 .s_j_email label.error{
 	margin-left: 100px;
 }
+
+
+/********Networker Data**************/
+.nr_data_field{
+	float: left; 
+	width: 102px;	
+	font-weight: bold;
+}
+
+.nr_data_value{
+	float:left;
+}
