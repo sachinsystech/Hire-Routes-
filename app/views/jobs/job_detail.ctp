@@ -186,7 +186,7 @@
 							$job_url = $job_url.'?code='.$code;
 					  }
 				?>						
-			<div><input type="" value="<?php echo  $job_url ?>"></div>
+			<div><input type="" id="jobUrl" value="<?php echo  $job_url ?>"></div>
 
 	<div style="clear:both;margin-top:5px;padding: 5px;">
 		<img src="/img/mail_it.png" style="float: left;cursor:pointer" onclick='showView(4);'/>
@@ -549,7 +549,7 @@ function createHTMLforFillingFriends(friends){
 				url: "/jobsharing/shareJobByEmail",
 				type: "post",
 				dataType: 'json',
-				data: {jobId : $('#CompaniesJobId').val(), toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
+				data: {jobId : $('#CompaniesJobId').val(), jobUrl: $('#jobUrl').val(), toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
 				success: function(response){
 					$('#submitLoaderImg').html('');
 					switch(response.error){

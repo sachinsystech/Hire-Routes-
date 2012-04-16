@@ -952,7 +952,7 @@ label.error{
 .topMenu ul li{
     float: left;
     list-style: none outside none;
-	padding: 10px 15px;
+	padding: 10px;
 	margin-left:5px;
 	border:1px solid #000000;
 	-moz-border-radius: 15px;
