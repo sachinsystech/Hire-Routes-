@@ -9,9 +9,17 @@
 	var $components = array('TrackUser','Utility','RequestHandler');  
 
        function getLinkedinFriendList(){
+        $this->autoRender = false;
         $linkedin = $this->getLinkedinObject();
         $userId = $this->Session->read('Auth.User.id');
-        $this->autoRender = false;
+        if(!$this->TrackUser->isUserLoggedIn()){       
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }
+        
+        if(!$this->TrackUser->isUserLoggedIn()){
+        	return json_encode(array('error'=>1,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }
+
         $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'')));
         if($user){
             
@@ -66,14 +74,17 @@
 
 //sendMessage($ids,$subject,$message)
     function sendMessagetoLinkedinUser(){
+        $this->autoRender = false;
+        $userId = $this->Session->read('Auth.User.id');
+        if(!$this->TrackUser->isUserLoggedIn()){       
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }
         $userIds = $this->params['form']['usersId'];
         $userIds = explode(",", $userIds);
         $message = $this->params['form']['message'];
         $jobId = $this->params['form']['jobId'];
         $linkedin = $this->getLinkedinObject();
-        $userId = $this->Session->read('Auth.User.id');
-        $this->autoRender = false;
-        //$this->autoRender = false;
+       
         $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'NULL')));
 
 

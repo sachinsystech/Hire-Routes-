@@ -16,6 +16,9 @@ class TwitterController extends AppController {
 
 	function sendMessageToTwitterFollwer(){
         $this->autoRender = false;
+         if(!$this->TrackUser->isUserLoggedIn()){       
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }
         $userIds = $this->params['form']['usersId'];
         $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $userIds);
@@ -91,6 +94,10 @@ class TwitterController extends AppController {
 	
 	function getTwitterFriendList(){
         $userId = $this->Session->read('Auth.User.id');
+        if(!$this->TrackUser->isUserLoggedIn()){       
+        	$this->autoRender = false;
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }
 		if(!$this->RequestHandler->isAjax()){
             $oauth_token = isset($this->params['url']['oauth_token'])?$this->params['url']['oauth_token']:'';
 			if($oauth_token){

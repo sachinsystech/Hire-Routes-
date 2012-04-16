@@ -6,6 +6,10 @@ class JobsharingController extends AppController {
 	
 	function shareJobByEmail(){
 		$this->autoRender= false;
+        if(!$this->TrackUser->isUserLoggedIn()){       
+        	$this->autoRender = false;
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }		
 		$userId = $this->Session->read('Auth.User.id');
 		if(isset($this->params['form']['toEmail'])){
 			$jobId=trim($this->params['form']['jobId']);
