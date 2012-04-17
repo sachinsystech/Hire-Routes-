@@ -136,9 +136,7 @@
       <!-- 	End of Location fields...	-->
 	  
 	  <div style=" clear :both;">
-	
-					
-					
+
 					
 					<div style=" clear :both;">
 						<?php $salary_array = array('25'=>'20K-30K','35'=>'30K-40K','45'=>'40K-50K','55'=>'50K-60K'); ?>
@@ -202,7 +200,7 @@ $("#JobseekerSettingsForm").validate();
 </script>
 <?php $industry_1 = isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:1;?>
 <?php $industry_2 = isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:1;?>
-<?php $state = $jobseekerData['state'];?>
+<?php $state = isset($jobseekerData['state'])?$jobseekerData['state']:null;?>
 <script>
 $(document).ready(function(){
 	<?php if(isset($jobseekerData['industry_1'])){?>
