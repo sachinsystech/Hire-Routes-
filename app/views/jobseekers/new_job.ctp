@@ -48,7 +48,7 @@
 						<?php 
 							echo $form -> input('switch_display',array(
 												  'type'=>'select',
-												  'label'=>"".($this->Paginator->numbers()) ?$paginator->first(' << ', null, null, array("class"=>"disableText"))." ".$this->Paginator->prev(' < ', null, null, array("class"=>"disableText"))." ".$this->Paginator->numbers()." ".$this->Paginator->next(' > ', null, null, array("class"=>"disableText"))." ".$paginator->last(' >> ', null, null, array("class"=>"disableText"))."DISPLAYING":"DISPLAYING",
+												  'label'=>"".($this->Paginator->numbers()) ?$paginator->first(' << ', null, null, array("class"=>"disableText"))." ".$this->Paginator->prev(' < ', null, null, array("class"=>"disableText"))." ".$this->Paginator->numbers(array('modulus'=>4))." ".$this->Paginator->next(' > ', null, null, array("class"=>"disableText"))." ".$paginator->last(' >> ', null, null, array("class"=>"disableText"))."DISPLAYING":"DISPLAYING",
 												  'options'=>$display_page_no,
 												  'class'=>'job_select_diplay',
 												  'selected'=>isset($displayPageNo)?$displayPageNo:5,));
