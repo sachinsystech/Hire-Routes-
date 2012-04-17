@@ -6,6 +6,7 @@ class HomeController extends AppController {
 	var $helpers = array('Form','Paginator');
 	
 	public function beforeFilter(){
+		$this->Auth->allow('index');
 		$this->Auth->allow('contactUs');
 		$this->Auth->allow('howItWorks');
 		$this->Auth->allow('jobseekerInformation');
