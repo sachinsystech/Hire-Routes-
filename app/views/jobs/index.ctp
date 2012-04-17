@@ -280,11 +280,21 @@
 								</div>
 								<div style="clear:both">		
 								<div>
-									<?php	echo $job['company']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
+									<?php 
+										if(!empty($job['company']['company_name']))
+											echo $job['company']['company_name']."&nbsp;-&nbsp;";
+									?>
+									<?php
+										if(!empty($job['city']['city']))
+											echo $job['city']['city'].",&nbsp;";
+									?>
+									<?php
+											echo $job['state']['state']."<br>";
 											echo $job['ind']['industry'].", ".$job['spec']['specification']."<br>";
 											echo $job_array[$job['Job']['job_type']]."<br>";
 											echo $job['Job']['short_description']."<br>";
-                                            echo "Posted : ".$time->timeAgoInWords($job['Job']['created']);?>
+                                            echo "Posted : ".$time->timeAgoInWords($job['Job']['created']);
+                                    ?>
 																
 								</div>			
 							</td>
