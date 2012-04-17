@@ -752,7 +752,7 @@ class UsersController extends AppController {
 					$this->redirect(array('controller'=>'admin'));
 					break;
 			default:
-					$this->Session->SetFlash('Internal Error!','error');
+					//$this->Session->SetFlash('Internal Error!','error');
 					$this->redirect('/');
 		}
  	}
