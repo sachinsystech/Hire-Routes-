@@ -7,8 +7,13 @@
 
     var $uses = array('User','SharedJob');
 	var $components = array('TrackUser','Utility','RequestHandler');  
-
-       function getLinkedinFriendList(){
+	
+	function beforeFilter(){
+    	$this->Auth->allow('getLinkedinFriendList');
+    	$this->Auth->allow('sendMessagetoLinkedinUser');
+	}
+    
+    function getLinkedinFriendList(){
         $this->autoRender = false;
         $linkedin = $this->getLinkedinObject();
         $userId = $this->Session->read('Auth.User.id');

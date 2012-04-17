@@ -47,8 +47,13 @@ class AppController extends Controller {
 
     function setIntermidiateUser(){
        /****************  genrate code for traking user ****************/
-        if(isset($this->params['url']['code'])){
-            $this->Session->write('code',$this->params['url']['code']);        
+        if(isset($this->params['url']['code'])&&isset($this->params['jobId'])){
+        	if($this->Utility->validateCode($this->params['jobId'],$this->params['url']['code'])){
+            	$this->Session->write('code',$this->params['url']['code']);
+            }else{
+            	$this->Session->setFlash('You may be clicked on old link or entered menually.','error');
+            	$this->redirect("/jobs/jobDetail/".$this->params['jobId']);
+            }
         }
 		
 	/************************** end *********************************/ 
