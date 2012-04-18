@@ -493,7 +493,8 @@ class UsersController extends AppController {
 				'password' => 'password'
 			);
 			if($this->Auth->login($data)){
-				$this->Session->write('user_role',$this->TrackUser->getCurrentUserRole());
+				$user_role=$this->TrackUser->getCurrentUserRole();
+				$this->Session->write('user_role',$user_role);
 			}
 			
 		}	
@@ -548,13 +549,13 @@ class UsersController extends AppController {
 		$fbUserProfile = $facebook->api('/me');
 		$FBUserId = $facebook->getUser();
 		if($FBUserId){
-			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$facebookUser)));
+			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$FBUserId)));
 			if(!$FBUser){
 				$this->redirect("/users/facebookUserSelection");
 			}
 			if($FBUser){
-				$this->setUserAsLoggedIn($FBUser);
-				$this->redirect("/users");
+				$this->setUserAsLoggedIn($FBUser['User']);
+				$this->redirect("/users/firstTime");
 			}
 		}
 	}
@@ -604,7 +605,6 @@ class UsersController extends AppController {
 	function saveFacebookUser(){
 		$facebook = $this->facebookObject();
 		$fb_user_profile = $facebook->api('/me');
-		
 		$userData = array();
 		$userData['account_email'] = isset($fb_user_profile['email'])?'FB_'.$fb_user_profile['email']:$fb_user_profile['id']."_fbuser@dummy.mail";
 		$userData['password'] = $fb_user_profile['id'];	
@@ -612,18 +612,22 @@ class UsersController extends AppController {
 		if($userId = $this->saveUser($userData)){
 			$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
 			$this->saveUserRoles($userId,$userRole);
-			$user = array();
+			$userConfirmCode = $this->User->find('first',array('conditions'=>array('User.id'=>$userId),'fields'=>'User.confirm_code',));
+			$userData['confirm_code'] = $userConfirmCode['User']['confirm_code'];
 			$user['user_id'] = $userId;
 			$user['contact_name'] = $fb_user_profile['name'];			
 			switch($userRole){
 				case JOBSEEKER:
 								if($this->Jobseekers->save($user,false) ){
-									$this->setUserAsLoggedIn($user);			
+									$this->confirmAccount($userId,$userData['confirm_code']);
+									$this->setUserAsLoggedIn($userData);	
 									$this->redirect("/users/firstTime");
 								}
 								break;
 				case NETWORKER:
-								if($this->Networkers->save($user,false) ){			
+								if($this->Networkers->save($user,false) ){	
+									$this->confirmAccount($userId,$userData['confirm_code']);
+									$this->setUserAsLoggedIn($userData);	
 									$this->redirect("/users/firstTime");
 								}
 								break;					
