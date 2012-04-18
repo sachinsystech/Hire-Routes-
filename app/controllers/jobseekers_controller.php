@@ -66,7 +66,7 @@ class JobseekersController extends AppController {
 				}
 			}
 		
-		}//echo $userId ;
+		}
 		$jobseekerData = $this->Jobseekers->find('first',array('conditions'=>
 																	array('Jobseekers.user_id'=>$userId),
 																	 'joins'=>array(array(

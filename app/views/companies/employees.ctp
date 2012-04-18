@@ -58,7 +58,7 @@
 					<td><?php echo $employee['users']['account_email'];?></td>
 					<td><?php echo $employee['js']['contact_phone'];?></td>
 					<td><?php echo $this->Time->format('m/d/Y', $employee['PaymentHistory']['paid_date']);?></td>
-					<td><?php echo $this->Html->image("/img/icon/delete.png",
+					<td><?php /*echo $this->Html->image("/img/icon/delete.png",
 														array(
 															"alt" => "image",
 															"width"=>"24","height"=>"24",
@@ -66,7 +66,7 @@
 														    'title'=>'Delete',
 															)
 													);
- 						?>
+ 						*/?>
 					</td>
 				</tr>
 			
