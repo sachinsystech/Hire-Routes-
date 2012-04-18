@@ -19,10 +19,15 @@ class AdminController extends AppController {
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('userDetail');
 		$this->layout = "admin";
+		if(!$this->TrackUser->isUserLoggedIn()){
+			$this->redirect("/home/index");	
+			return;
+		}
 		$roleInfo = $this->TrackUser->getCurrentUserRole();
 		if($roleInfo['role_id']!=5){
 			$this->redirect("/users/firstTime");
 		}
+		
 	}
 	
 	/****	Admin default view	***/
@@ -32,6 +37,7 @@ class AdminController extends AppController {
 
 	/****	listing companies to accept/decline registration request	***/
 	function companiesList() {
+		
 		$this->paginate=array(
 			'fields' => array('Companies.id',
 				'Companies.user_id',

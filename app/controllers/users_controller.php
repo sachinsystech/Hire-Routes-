@@ -840,6 +840,9 @@ class UsersController extends AppController {
 				}
 			}
 		}
+		$facebookUser=$this->User->find('first',array('conditions'=>array('id'=>$this->TrackUser->getCurrentUserId(), 'password'=>"")));
+		$facebookUserData=(isset($facebookUser))?$facebookUser['Users'][0]['facebook_token']:null;
+		$this->set('facebookUserData',$facebookUserData);
 		if($user_role['role_id']==ADMIN){
 			$this->render("change_password","admin");
 		}

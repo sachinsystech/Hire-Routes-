@@ -1,4 +1,5 @@
 <?php 
+
 /*
  * Change Password
  */
@@ -37,7 +38,7 @@
 				<div class="required">
 					<?php echo $form->input('User.oldPassword',array(
 											'label' => 'Old Password:',
-											'type'  => 'password',
+											'type'  => ($facebookUserData!=null)?'hidden':'password',
 											'class' => 'text_field_bg required',
 											'minlength' => '6',
 											)
@@ -76,6 +77,7 @@
 												'type'=>'submit',
 												'value'=>'Change',
 												'style'=>'float:left;',
+												//'disabled'=>($facebookUserData!=null)?"true":"false",
 												)
 											);
 						?>
