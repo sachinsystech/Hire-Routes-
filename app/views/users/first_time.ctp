@@ -16,11 +16,11 @@
 
 <?php
 switch($roleName) {
-	case '2':
+	case JOBSEEKER:
 		$setting_page_title = 'MY JOBSEEKER SETTINGS';
 		$setting_page_url = '/jobseekers/editProfile';
 		break;
-	case '3':
+	case NETWORKER:
 		$setting_page_title = 'MY NETWORKER SETTINGS';
 		$setting_page_url = '/networkers/editProfile';
 		break;

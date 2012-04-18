@@ -182,8 +182,7 @@ class NotificationsController extends AppController {
 				}
 				
 				$jobData  = $this->getAllNetworkerJobs($cond,$send_job);		
-				$total_job     = count($jobData);	
-				//echo "<pre>"; print_r($jobData);	
+				$total_job     = count($jobData);		
 				if($total_job==$send_job){								
 					$last_job_id = $jobData[$send_job-1]['Job']['id'];
 			
@@ -312,7 +311,6 @@ class NotificationsController extends AppController {
 		$userId = 0;
 		$job_cond = array();
 		$mycon = array();
-		// echo "<pre>total".count($networker_settings);
 		foreach($networker_settings as $networker_setting){
 			if($userId != $networker_setting['NetworkerSettings']['user_id'] && ($userId != 0 ) ){
 				$mycon[$userId] = array('OR' => $job_cond,

@@ -149,7 +149,7 @@ class TwitterController extends AppController {
 					$this->set('profilepic',$profilepic);
 					$users = array();
 					if(count($response)){
-						foreach($response as $person){ //print_r($person->$a);
+						foreach($response as $person){ 
 						    $users[] = array(
 						    					'name'=>$person['name'],
 						    					'id'=>"".$person['id'],

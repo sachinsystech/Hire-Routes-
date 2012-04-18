@@ -33,7 +33,7 @@
                                 </div>
 							</div>
 						</div>
-						<?php if(isset($userrole) && $userrole['role_id']==2){ ?>
+						<?php if(isset($userRole) && $userRole==JOBSEEKER){ ?>
 						<div style="padding:20px;">
 							<div>           
 								<?php echo $form->create('JobseekerApply', array('url' => array('controller' => 'jobs', 'action' => 'applyJob/'.$job['id']), 'type' => 'file'));?>

@@ -1,4 +1,4 @@
-<?php //echo "<pre>"; print_r($this->Paginator); exit;?>
+<?php ?>
 
 <div class="page">
 	<!-- left section start -->	

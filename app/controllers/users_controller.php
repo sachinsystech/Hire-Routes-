@@ -66,8 +66,6 @@ class UsersController extends AppController {
 		$this->Auth->allow('myAccount');	
 		$this->Auth->allow('forgotPassword');	
 
-		//$this->Auth->allow('jobseekerSetting');						
-		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
 
 /**
@@ -114,7 +112,7 @@ class UsersController extends AppController {
 				return;
 			}
 			if( $userId = $this->saveUser($this->data['User']) ){
-				$userRoleId = 1;
+				$userRoleId = COMPANY;
 				$this->saveUserRoles($userId,$userRoleId);				
 				$company = array();
 				$company = $this->data['Companies'];
@@ -177,7 +175,7 @@ class UsersController extends AppController {
 			}			
 	
 			if($userId = $this->saveUser($this->data['User']) ){
-				$userRoleId = 3;
+				$userRoleId = NETWORKER;
 				$this->saveUserRoles($userId,$userRoleId);
 				$networker = array();
 				$networker['user_id'] = $userId;
@@ -221,7 +219,6 @@ class UsersController extends AppController {
 
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
-                //echo "<pre>"; print_r($this->User);exit;
                 unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
    			    $this->render("jobseeker_signup");
@@ -242,7 +239,7 @@ class UsersController extends AppController {
 				return;
 			}
 			if($userId = $this->saveUser($this->data['User']) ){
-				$userRoleId = 2;
+				$userRoleId = JOBSEEKER;
 				if(!$this->saveUserRoles($userId,$userRoleId))
 				{
 					$this->Session->setFlash('Internal Error!', 'error');
@@ -362,15 +359,12 @@ class UsersController extends AppController {
  * @access private
  */
 
-	private function sendConfirmationEmail($userId){		
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-		$userRole = $user['UserRoles'][0]['role_id'];
-		switch($userRole){
-			case 1:
+	private function sendConfirmationEmail($userId){
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));	
+		$userRole = $this->Utility->getUserRole($userId);
+		switch($userRole['id']){
+			case COMPANY:
 				$template = 'company_user_registration';
-				break;			
-			case 2:
-				$template = 'user_account_confirmation';
 				break;			
 			default:
 				$template = 'user_account_confirmation';			
@@ -397,9 +391,9 @@ class UsersController extends AppController {
 		if($user){
 			if(!$user['User']['is_active']){
 				$this->set('confirmation_email', $user['User']['account_email']);
-				$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$id)));
-				if($userRole['UserRoles']['role_id']==1){
-					$this->set('roleId',1);
+				$userRole = $this->Utility->getUserRole($id);
+				if($userRole['id']==COMPANY){
+					$this->set('roleId',COMPANY);
 					$this->Session->setFlash('Your Account created successfully.', 'success');		
 				}
 				else{
@@ -493,8 +487,7 @@ class UsersController extends AppController {
 				'password' => 'password'
 			);
 			if($this->Auth->login($data)){
-				$user_role=$this->TrackUser->getCurrentUserRole();
-				$this->Session->write('user_role',$user_role);
+				$this->Session->write('userRole',$this->TrackUser->getCurrentUserRole());
 			}
 			
 		}	
@@ -506,28 +499,28 @@ class UsersController extends AppController {
 	function firstTime() {
 		
 		$id = $this->TrackUser->getCurrentUserId();
-		$role = $this->TrackUser->getCurrentUserRole();
-		switch($role['role_id']){
-			case 1:
+//		$roleId = $this->Session->read('userRole.id');
+		switch($this->userRole){
+			case COMPANY:
 					$this->redirect("/companies/newJob");
 					break;	
-			case 2:
+			case JOBSEEKER:
 					$jobseekerData = $this->Jobseekers->find('first',array('conditions'=>array('Jobseekers.user_id'=>$id)));
 					if(isset($jobseekerData['Jobseekers']['contact_name'])){
 						$this->redirect("/jobseekers/newJob");						
 					}
 					break;			
-			case 3:
+			case NETWORKER:
 					$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$id)));
 					if(isset($networkerData['Networkers']['contact_name'])){
 						$this->redirect("/networkers/newJob");						
 					}
 					break;		
-			case 5:
+			case ADMIN:
 					$this->redirect("/admin");
 					break;	
 		}
-		$this->set('roleName', $role['role_id']);
+		$this->set('roleName', $this->userRole);
 	}
 /**
  * create facebook object.
@@ -573,11 +566,11 @@ class UsersController extends AppController {
 			    
 				$user_account = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$user)));
 				$this->setUserAsLoggedIn($user_account['User']);
-				if($user_account['UserRoles']['0']['role_id']== 2){
+				if($user_account['UserRoles']['0']['role_id']== JOBSEEKER){
 					$this->redirect("/users/jobseekerSetting");				
 					return;
 				}
-				if($user_account['UserRoles']['0']['role_id']== 3){
+				if($user_account['UserRoles']['0']['role_id']== NETWORKER){
 					$this->redirect("/users/networkerSetting");				
 					return;
 				}				    
@@ -634,6 +627,7 @@ class UsersController extends AppController {
 			}	
 		}	
 	}		
+
 /**	
  * check FB-User exist or not
  * @return FB-User info OR Null
@@ -707,28 +701,28 @@ class UsersController extends AppController {
 			if(!$this->Auth->login($data) ){
 				$this->Session->setFlash('Username or password not matched.', 'error');				
 			}else{
+				$userRole=$this->TrackUser->getCurrentUserRole();
+				$this->Session->write('userRole',$userRole);
 				$userData=$this->User->find('first',array('conditions'=>array("id"=>$this->TrackUser->getCurrentUserId())));
 				$welcomeUserName = 'User';	
-				switch($userData['UserRoles'][0]['role_id']){
-					case 1:
+				switch($userRole['id']){
+					case COMPANY:
 							if(isset($userData['Companies'][0]['contact_name']))
 								$welcomeUserName = $userData['Companies'][0]['contact_name'];
 							break;
-					case 2:
+					case JOBSEEKER:
 							if(isset($userData['Jobseekers'][0]['contact_name']))
 								$welcomeUserName = $userData['Jobseekers'][0]['contact_name'];
 							break;
-					case 3:
+					case NETWORKER:
 							if(isset($userData['Networkers'][0]['contact_name']))
 								$welcomeUserName = $userData['Networkers'][0]['contact_name'];
 							break;
 				}
 				$this->Session->write('welcomeUserName',$welcomeUserName);
-				$user_role=$this->TrackUser->getCurrentUserRole();
-				$this->Session->write('user_role',$user_role);
 				$redirectTo=$this->Session->read('redirection_url');
 				$this->Session->delete('redirection_url');
-				if(isset($redirectTo)&&!empty($redirectTo)&&$user_role['role_id']!=ADMIN){
+				if(isset($redirectTo)&&!empty($redirectTo)&&$userRole['id']!=ADMIN){
 					$this->redirect($redirectTo);
 				}
 				$this->redirect("/users/firstTime");
@@ -746,7 +740,7 @@ class UsersController extends AppController {
 
         $this->Session->delete('code');
 		$this->Session->delete('welcomeUserName');
-		$this->Session->delete('user_role');
+		$this->Session->delete('userRole');
 		$this->Session->delete('Twitter');
 
 		$this->redirect("/home/index");		
@@ -769,22 +763,21 @@ class UsersController extends AppController {
  	public function myAccount()
  	{
  		$id = $this->TrackUser->getCurrentUserId();
-		$role = $this->TrackUser->getCurrentUserRole();
-		switch($role['role_id']){
-			case 1:
+//		$role = $this->Session->read('userRole.id');
+		switch($this->userRole){
+			case COMPANY:
 					$this->redirect(array('controller'=>'Companies','action'=>'accountProfile'));
 					break;	
-			case 2:
+			case JOBSEEKER:
 					$this->redirect(array('controller'=>'jobseekers'));
 					break;
-			case 3:
+			case NETWORKER:
 					$this->redirect(array('controller'=>'networkers'));
 					break;
-			case 5:
+			case ADMIN:
 					$this->redirect(array('controller'=>'admin'));
 					break;
 			default:
-					//$this->Session->SetFlash('Internal Error!','error');
 					$this->redirect('/');
 		}
  	}
@@ -794,12 +787,11 @@ class UsersController extends AppController {
  */
 
 	public function changePassword(){
-		$user_role=$this->Session->read('user_role');
 		if(isset($this->data['User'])){
 			//check for blank or empty field
 			if(empty($this->data['User']['oldPassword'])){
 				$this->set("old_password_error","Old Password Required");
-				if($user_role['role_id']==ADMIN){
+				if($this->userRole==ADMIN){
 					$this->render("change_password","admin");
 				}
 				return;
@@ -815,7 +807,7 @@ class UsersController extends AppController {
 			if(!$this->User->find('first',array('conditions'=>array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword'])))){
 				unset($this->data['User']);
 				$this->Session->setFlash("Old password not matched!.","error");
-				if($user_role['role_id']==ADMIN){
+				if($this->userRole==ADMIN){
 					$this->render("change_password","admin");
 				}
 				return;
@@ -832,10 +824,10 @@ class UsersController extends AppController {
 				if(mysql_affected_rows()>0){
 					unset($this->data['User']);
 					$this->Session->setFlash("Password changed successfully.","success");
-					switch($user_role['role_id']){
+					switch($this->userRole){
 						case COMPANY:
-							$this->redirect(array('controller'=>'Companies','action'=>'accountProfile'));
-							break;	
+								$this->redirect(array('controller'=>'Companies','action'=>'accountProfile'));
+								break;	
 						case JOBSEEKER:
 								$this->redirect(array('controller'=>'jobseekers'));
 								break;
@@ -853,26 +845,26 @@ class UsersController extends AppController {
 				elseif(mysql_affected_rows()==0){
 					unset($this->data['User']);
 					$this->Session->setFlash("Change password process failed, Try again!.","error");
-					if($user_role['role_id']==ADMIN){
+					if($this->userRole==ADMIN){
 						$this->render("change_password","admin");
 					}
 				}elseif(mysql_affected_rows()<0){	//check for server problem
 					unset($this->data['User']);
 					$this->Session->setFlash("Server problem!","error");
-					if($user_role['role_id']==ADMIN){
+					if($this->userRole==ADMIN){
 						$this->render("change_password","admin");
 					}
 					return;
 				}
 			}else{
 				unset($this->data['User']);
-				if($user_role['role_id']==ADMIN){
+				if($this->userRole==ADMIN){
 					$this->render("change_password","admin");
 				return;
 				}
 			}
 		}
-		if($user_role['role_id']==ADMIN){
+		if($this->userRole==ADMIN){
 			$this->render("change_password","admin");
 		}
 	}
@@ -929,7 +921,6 @@ class UsersController extends AppController {
 			if($user['User']['is_active']==0 && $user['User']['confirm_code']!="" ){
 				$this->Session->setFlash('Your account is not activated/confirmed, please check your email for confirmation link!', 'warning');
 			}
-//			$this->redirect('/users/forgotPassword');
 		}
 	}
 

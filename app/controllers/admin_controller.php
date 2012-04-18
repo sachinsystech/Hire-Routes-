@@ -19,8 +19,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('userDetail');
 		$this->layout = "admin";
-		$roleInfo = $this->TrackUser->getCurrentUserRole();
-		if($roleInfo['role_id']!=5){
+		if($this->userRole!=ADMIN){
 			$this->redirect("/users/firstTime");
 		}
 	}
@@ -157,9 +156,9 @@ class AdminController extends AppController {
 				array(
 					'table'=>'jobseeker_apply',
 					'alias'=>'JobseekerApply',
-					'type'=>'left',
+					'type'=>'inner',
 					'fields'=>'user_id, is_active',
-					'conditions'=>'Job.id = JobseekerApply.job_id'
+					'conditions'=>'PaymentHistory.job_id = JobseekerApply.job_id AND PaymentHistory.jobseeker_user_id=JobseekerApply.user_id'
 				),
 				array(
 					'table'=>'jobseekers',
@@ -209,7 +208,7 @@ class AdminController extends AppController {
 					'alias'=>'JobseekerApply',
 					'type'=>'left',
 					'fields'=>'user_id, intermediate_users, is_active',
-					'conditions'=>'Job.id = JobseekerApply.job_id'
+					'conditions'=>'PaymentHistory.applied_job_id = JobseekerApply.id'
 				),
 				array(
 					'table'=>'jobseekers',
@@ -308,15 +307,15 @@ class AdminController extends AppController {
 			$role_id = isset($value['UserRoles']['role_id'])?$value['UserRoles']['role_id']:false;
 			if($role_id){
 				switch($role_id){
-					case 1:
+					case COMPANY:
 							$role = 'Company';
 							$table= "Companies";
 							break;
-					case 2:
+					case JOBSEEKER:
 							$role = 'Jobseeker';
 							$table= "Jobseekers";
 							break;
-					case 3:
+					case NETWORKER:
 							$role = 'Networker';
 							$table= "Networkers";
 							break;
