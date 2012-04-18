@@ -10,10 +10,8 @@ class CompaniesController extends AppController {
 	
 	/*	display a form to post new Job by company		*/
 	function postJob(){
-
 		$userId = $this->TrackUser->getCurrentUserId();
-		$roleInfo = $this->getCurrentUserRole();
-		if($roleInfo['role_id']!=1){
+		if($this->userRole!=COMPANY){
 			$this->redirect("/users/firstTime");
 		}
 		if($userId){
@@ -48,25 +46,6 @@ class CompaniesController extends AppController {
 		}
 	}
 	
-	function getCurrentUserRole(){
-		$userId = $this->Session->read('Auth.User.id');			
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleName  = null;
-		switch($userRole['UserRoles']['role_id']){
-			case 1:
-					$roleName = 'company';
-					break;
-			case 2:
-					$roleName = 'jobseeker';	
-					break;			
-			case 3:
-					$roleName = 'networker';		
-					break;			
-		}
-		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
-		return $currentUserRole;
-	}
-
 	function newJob(){
 		
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
@@ -94,9 +73,8 @@ class CompaniesController extends AppController {
 			$shortByItem = 'created'; 
 		}
 
-		$userId = $this->TrackUser->getCurrentUserId();	
-		$roleInfo = $this->getCurrentUserRole();
-		if($roleInfo['role_id']!=1){
+		$userId = $this->TrackUser->getCurrentUserId();
+		if($this->userRole!=COMPANY){
 			$this->redirect("/users/firstTime");
 		}
 		
@@ -137,8 +115,7 @@ list archive jobs..
 	function showArchiveJobs(){
 		
 		$userId = $this->TrackUser->getCurrentUserId();	
-		$roleInfo = $this->getCurrentUserRole();
-		if($roleInfo['role_id']!=1){
+		if($this->userRole!=COMPANY){
 			$this->redirect("/users/firstTime");
 		}
 		
@@ -275,7 +252,6 @@ list archive jobs..
 /*****	Companies edit their own Job :: 	*********/
 	function editJob(){
 		$userId = $this->TrackUser->getCurrentUserId();
-	//	pr($this->params);exit;
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
 	
@@ -285,7 +261,6 @@ list archive jobs..
 			
 				$this->set('states',$this->Utility->getState());
 				$this->set('industries',$this->Utility->getIndustry());
-				//$this->set('specifications',$this->Utility->getSpecification());
 				
 				/****************  genrate code for traking user ****************/
 					$str = "11:12";
@@ -335,8 +310,7 @@ list archive jobs..
 	
 	function accountProfile() {
 		$userId = $this->TrackUser->getCurrentUserId();
-		$roleInfo = $this->getCurrentUserRole();
-		if($roleInfo['role_id']!=1){
+		if($this->userRole!=COMPANY){
 			$this->redirect("/users/firstTime");
 		}
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
@@ -346,8 +320,7 @@ list archive jobs..
 
 	function editProfile() {
 		$userId = $this->TrackUser->getCurrentUserId();
-		$roleInfo = $this->getCurrentUserRole();
-		if($roleInfo['role_id']!=1){
+		if($this->userRole!=COMPANY){
 			$this->redirect("/users/firstTime");
 		}
 		if(isset($this->data['User'])){
@@ -370,15 +343,12 @@ list archive jobs..
 
 	function paymentInfo() {
 		$userId = $this->TrackUser->getCurrentUserId();		
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
         $user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
 		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('payment',$payment['PaymentInfo']);
 		$appliedJobId = isset($this->params['id'])?$this->params['id']:null;
-		if(isset($appliedJobId)){			
-			
+		if(isset($appliedJobId)){
 			$appliedJob = $this->appliedJob($appliedJobId);
 		    if(!isset($appliedJob) || !isset($appliedJob['JobseekerapplyJob'])){
 				$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
@@ -442,19 +412,17 @@ list archive jobs..
 		        	if(isset($resArray['L_SHORTMESSAGE0'])){
 		                $msg = $resArray['L_SHORTMESSAGE0'];
 	           		}
-				        //exit('Void Completed Successfully: '.print_r($httpParsedResponseAr, true));
-			        }else{
-			        	$this->render("payment_info");
-			        	return;
-				        //exit('DoVoid failed: ' . print_r($httpParsedResponseAr, true));
-			        }
-			        if(!$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
-				        $this->render("payment_info");
-				        return;				
-			        }else{
-				        if(isset($this->data['PaymentInfo']['applied_job_id'])&& $this->data['PaymentInfo']['applied_job_id']!=""){
-					        $this->redirect('/companies/checkout/'.$this->data['PaymentInfo']['applied_job_id']);
-				        }
+				}else{
+			       	$this->render("payment_info");
+			       	return;
+				}
+		        if(!$this->PaymentInfo->save($this->data['PaymentInfo'],array('validate'=>'only')) ){	
+			        $this->render("payment_info");
+			        return;				
+		        }else{
+			        if(isset($this->data['PaymentInfo']['applied_job_id'])&& $this->data['PaymentInfo']['applied_job_id']!=""){
+				        $this->redirect('/companies/checkout/'.$this->data['PaymentInfo']['applied_job_id']);
+				    }
 				        $this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
 				        $this->redirect('/companies/paymentInfo');
 			        }		
@@ -475,8 +443,7 @@ list archive jobs..
 	function paymentHistory() {
 		$userId = $this->TrackUser->getCurrentUserId();	
 		$tid = isset($this->params['tid'])?$this->params['tid']:"";
-		$roleInfo = $this->TrackUser->getCurrentUserRole();
-		if($roleInfo['role_id']!=1){
+		if($this->userRole!=COMPANY){
 			$this->redirect("/users/firstTime");
 		}
 		if($userId){
@@ -496,8 +463,7 @@ function paymentHistoryInfo(){
 		$userId = $this->TrackUser->getCurrentUserId();
 		$id = isset($this->params['id'])?$this->params['id']:"";
 		$tid = isset($this->params['tid'])?$this->params['tid']:"";
-		$roleInfo = $this->TrackUser->getCurrentUserRole();
-		if($roleInfo['role_id']!=1){
+		if($this->userRole!=COMPANY){
 			$this->redirect("/users/firstTime");
 		}
 		
@@ -642,7 +608,6 @@ function paymentHistoryInfo(){
 							);
 				
 				$applicants = $this->paginate("JobseekerApply");
-				//echo "<pre>";  print_r($applicants);exit;
 				$this->set('NoOfApplicants',count($applicants));
 				$this->set('applicants',$applicants);
 				$this->set('jobId',$jobId);
@@ -655,7 +620,6 @@ function paymentHistoryInfo(){
 			$this->redirect("/companies/newJob");
 		}
 		$this->set('jobId',$jobId);
-				//echo "<pre>"; print_r($applicants);  exit;
 	}
 
 	
@@ -808,7 +772,6 @@ function paymentHistoryInfo(){
 			$this->redirect("/companies/newJob");
 			return;
 		}
-				//echo "<pre>"; print_r($applicants);  exit;
 	}
 
 	/*	Do payment of reward amount for given applied-job...*/
@@ -822,7 +785,6 @@ function paymentHistoryInfo(){
 		    $companyInfo = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
 		    
 		    $appliedJob = $this->appliedJob($appliedJobId);
-		    //echo "<pre>";  print_r($appliedJob);exit;
 		    if(!isset($appliedJob) || !isset($appliedJob['JobseekerapplyJob'])){
 				$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
 				$this->redirect("/companies/newJob");
@@ -860,10 +822,8 @@ function paymentHistoryInfo(){
 		    
 		    $nvpstr='&PAYMENTACTION='.$paymentAction.'&AMT='.$amount.'&CREDITCARDTYPE='.$creditCardType.'&ACCT='.$creditCardNumber.'&EXPDATE='.$padDateMonth.$expDateYear.'&CVV2='.$cvv2Number.'&FIRSTNAME='.$firstName.'&LASTNAME='.$lastName.'&STREET='.$address.'&CITY='.$city.'&STATE='.$state.'&ZIP='.$zip.'&COUNTRYCODE=US&CURRENCYCODE='.$currencyCode.$nvpRecurring;
 		    $paypalPro = new paypal_pro(API_USERNAME, API_PASSWORD, API_SIGNATURE,null,null);
-           // print_r($nvpstr);
 		    $resArray = $paypalPro->hash_call($methodToCall,$nvpstr);
 		    $ack = strtoupper($resArray["ACK"]);
-		    //print_r($resArray);exit;
 		    if($ack == "SUCCESS") {
 		    
 		    	//To store Paypal response
@@ -871,7 +831,6 @@ function paymentHistoryInfo(){
             	$this->PaypalResponse->save(array('paypal_string'=>serialize($resArray)));
 		    	
 		        if(isset($resArray['TRANSACTIONID'])) {
-		        	//echo "SUCCESS : ".$resArray['TRANSACTIONID']; exit;
 		        	// Here change status of applied job from applied to selected in jobseeker_apply table....
 		        	 if($this->JobseekerApply->updateAll(array('is_active'=>1), array('JobseekerApply.id'=>$appliedJobId))){
 						$paymentHistory = array();
@@ -1069,7 +1028,6 @@ function paymentHistoryInfo(){
 		$httpResponse = curl_exec($ch);
 		if(!$httpResponse) {
 			$this->Session->setFlash('Internal error!Please try again', 'error');
-			//exit("$methodName_ failed: ".curl_error($ch).'('.curl_errno($ch).')');
 		}
 
 		// Extract the response details.
@@ -1085,7 +1043,6 @@ function paymentHistoryInfo(){
 
 		if((0 == sizeof($httpParsedResponseAr)) || !array_key_exists('ACK', $httpParsedResponseAr)) {
 			$this->Session->setFlash('Internal Error! Try again', 'error');
-			//exit("Invalid HTTP Response for POST request($nvpreq) to $API_Endpoint.");
 		}
 
 		return $httpParsedResponseAr;

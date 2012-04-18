@@ -64,8 +64,8 @@ class UtilityComponent extends Object
 
     /** it will return job code for current user **/
     function getCode($passJobId,$userId){
-    	$userRole=$this->Session->read('user_role');
-    	if($userRole['role_id']!=COMPANY){
+    	$userRole=$this->Session->read('userRole');
+    	if($userRole!=COMPANY){
 	        $saveCode = $this->Session->read('code');
     	    if($saveCode){
     	        $str = base64_decode($saveCode);
@@ -130,7 +130,7 @@ class UtilityComponent extends Object
 				if($jobId == $data[0]){
 					$ids = split(":",$data[1]);
 					$userRole=$this->getUserRole($ids[0]);
-					if($userRole['UserRoles']['role_id']==COMPANY){
+					if($userRole['id']==COMPANY){
 						unset($ids[0]);
 					}
                    return implode(",",$ids);
@@ -154,8 +154,8 @@ class UtilityComponent extends Object
 					$roleName = 'networker';		
 					break;			
 		}
-		//$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
-		return $userRole;
+		$thisUserRole = array('id'=>$userRole['UserRoles']['role_id'],'name'=>$roleName);
+		return $thisUserRole;
 	}
 
 /**
