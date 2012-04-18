@@ -1412,7 +1412,7 @@ span.ui-radio-state-checked-hover	{
 	background-position: 0 -17px;
 	}
 label	{
-	color: red;
+	color: #000000;
 	line-height: 20px;
 	}
 .ui-helper-hidden-accessible	{
@@ -1794,6 +1794,8 @@ a:hover.back-login	{
 .change_password label.error{
 	width:300px;
 	clear:left;
+	margin-left:165px;
+	text-align:left;
 }
 .change_password input{
 	float:left;

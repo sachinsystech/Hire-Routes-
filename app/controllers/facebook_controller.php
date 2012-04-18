@@ -11,6 +11,7 @@
 	var $components = array('TrackUser','Utility','RequestHandler');    
 	
 	function beforeFilter(){
+		parent::beforeFilter();	
     	$this->Auth->allow('getFaceBookFriendList');
     	$this->Auth->allow('commentAtFacebook');
 	}

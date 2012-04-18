@@ -87,7 +87,7 @@
 					
 				 <?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
 				 <?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
-				 < <  <?php echo $this->Paginator->numbers(array('class'=>'numbers')); ?>  > >
+				 < <  <?php echo $this->Paginator->numbers(array('class'=>'numbers','modulus'=>4)); ?>  > >
 				 <?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
 				 <?php echo $paginator->last(' Last'); ?>
 				 <?php }?>

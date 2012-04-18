@@ -9,6 +9,7 @@ class NetworkersController extends AppController {
 	var $helpers = array('Time','Form');
 	
 	public function beforeFilter(){
+		parent::beforeFilter();	
 		$role = $this->Session->read('user_role.role_id'); 
 		if($role!=NETWORKER){
 			$this->redirect("/users/firstTime");

@@ -175,7 +175,7 @@ function clear_div(val){
 						<?php $this->Paginator->options(array('url' =>$jobId));?>
 						<?php echo $paginator->first(' << ', null, null, array("class"=>"disableText"));?>
 						<?php echo $this->Paginator->prev(' < ', null, null, array("class"=>"disableText")); ?>
-						<?php echo $this->Paginator->numbers(); ?>
+						<?php echo $this->Paginator->numbers(array('modulus'=>4)); ?>
 						<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>
 						<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
 						</div>

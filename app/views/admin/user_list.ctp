@@ -41,7 +41,7 @@
 				<div style="float:right;margin:15px;">
 					<?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
 					<?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
-					<?php echo "< < ".$this->Paginator->numbers()."  > >"; ?>
+					<?php echo "< < ".$this->Paginator->numbers(array('modulus'=>4))."  > >"; ?>
 					<?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
 					<?php echo $paginator->last(' Last'); }?>
 					<?php 

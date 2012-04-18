@@ -65,6 +65,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('accountConfirmation');		
 		$this->Auth->allow('myAccount');	
 		$this->Auth->allow('forgotPassword');	
+
 		//$this->Auth->allow('jobseekerSetting');						
 		//$this->Auth->allow('changePassword'); // if the user is anonymous he should not be allowed to change password
 	}
@@ -137,7 +138,18 @@ class UsersController extends AppController {
 /**
  * Display Networker registration view also validate by asking restrict code for signup process.
 **/ 
+
+
 	function networkerSignup() {
+
+		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
+			$facebook = $this->facebookObject();
+			$FBUserId = $facebook->getUser();
+			if($FBUserId){
+				$this->manageFBUser();
+			}
+		}
+
 		
 		$codeFlag=true;
 		if($this->TrackUser->isHRUserLoggedIn()){
@@ -530,6 +542,24 @@ class UsersController extends AppController {
 /**	
  * Tracking facebook users, whether he/she is first-time or existing user.... 
  */
+ 
+ 	private function manageFBUser(){
+		$facebook = $this->facebookObject();
+		$fbUserProfile = $facebook->api('/me');
+		$FBUserId = $facebook->getUser();
+		if($FBUserId){
+			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$facebookUser)));
+			if(!$FBUser){
+				$this->redirect("/users/facebookUserSelection");
+			}
+			if($FBUser){
+				$this->setUserAsLoggedIn($FBUser);
+				$this->redirect("/users");
+			}
+		}
+	}
+ 
+ 
 	function facebookUser() {
 		$facebook = $this->facebookObject();
 		$user = $facebook->getUser();
@@ -574,36 +604,31 @@ class UsersController extends AppController {
 	function saveFacebookUser(){
 		$facebook = $this->facebookObject();
 		$fb_user_profile = $facebook->api('/me');
+		
 		$userData = array();
-		$userData['account_email'] = $fb_user_profile['id']."_fbuser@dummy.mail";
+		$userData['account_email'] = isset($fb_user_profile['email'])?'FB_'.$fb_user_profile['email']:$fb_user_profile['id']."_fbuser@dummy.mail";
 		$userData['password'] = $fb_user_profile['id'];	
 		$userData['fb_user_id'] = $fb_user_profile['id'];
 		if($userId = $this->saveUser($userData)){
-			$userRoleId = $this->params['userType']; // 2=>Jobseeker,3=>Networker
-			$this->saveUserRoles($userId,$userRoleId);
-			$fb_user_profile['facebook_id'] = $fb_user_profile['id'];
-			$fb_user_profile['user_id'] = $userId;
-
-			if($this->FacebookUsers->save($fb_user_profile)){
-				$user_account = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-				$confirmCode = $user_account['User']['confirm_code'];
-				if($this->confirmAccount($userId,$confirmCode)){ //this will confirm account and set user as logged-in.
-					if($userRoleId== 2){						//ask to become Networker or Jobseeker.
-						$this->redirect("/users/jobseekerSetting");					
-						return;
-					}
-					if($userRoleId== 3){
-						$this->redirect("/users/networkerSetting");				
-						return;
-					}
-				}		
-			}
-			else{
-				$this->Session->setFlash('An Internal Error has been occured...', 'error');
-				$this->redirect("/");
-				return;
+			$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
+			$this->saveUserRoles($userId,$userRole);
+			$user = array();
+			$user['user_id'] = $userId;
+			$user['contact_name'] = $fb_user_profile['name'];			
+			switch($userRole){
+				case JOBSEEKER:
+								if($this->Jobseekers->save($user,false) ){
+									$this->setUserAsLoggedIn($user);			
+									$this->redirect("/users/firstTime");
+								}
+								break;
+				case NETWORKER:
+								if($this->Networkers->save($user,false) ){			
+									$this->redirect("/users/firstTime");
+								}
+								break;					
 			}	
-		}		
+		}	
 	}		
 /**	
  * check FB-User exist or not
@@ -625,6 +650,11 @@ class UsersController extends AppController {
 			$this->redirect("/users/myaccount");				
 			return;
 		}
+		if ($this->TrackUser->isUserLoggedIn()){
+			$this->redirect("/admin");
+			return;
+		}
+		
 		if(isset($this->data['User'])){
 			$username = trim($this->data['User']['username']);
 			$password = trim($this->data['User']['password']);
@@ -648,7 +678,7 @@ class UsersController extends AppController {
 						
 			/**	@user not acitvated (AND deactivated by Admin)	**/			
 			if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']=="" ){
-				$this->Session->setFlash('You are not activated, Please contact to side admin', 'error');
+				$this->Session->setFlash('You are not activated, Please contact your system administrator', 'error');
 				$this->redirect("/users/login");
 			}
 			
@@ -722,7 +752,11 @@ class UsersController extends AppController {
  * @access public
  */	
 	function facebookUserSelection(){
-		
+		$facebook = $this->facebookObject();
+		$FBUserId = $facebook->getUser();
+		if(!$FBUserId){
+			$this->redirect('/users');;
+		}
 	}
 
 /**
@@ -746,7 +780,7 @@ class UsersController extends AppController {
 					$this->redirect(array('controller'=>'admin'));
 					break;
 			default:
-					$this->Session->SetFlash('Internal Error!','error');
+					//$this->Session->SetFlash('Internal Error!','error');
 					$this->redirect('/');
 		}
  	}
@@ -856,11 +890,15 @@ class UsersController extends AppController {
 			$this->redirect("/users/myAccount");				
 			return;
 		}
+		if ($this->TrackUser->isUserLoggedIn()){
+			$this->redirect("/admin");
+			return;
+		}
 
 		if(isset($this->data['User'])){
 			$userEmail = trim($this->data['User']['user_email']);
 			$user = $this->User->find('first',array('conditions'=>array('account_email'=>$userEmail)));
-			if(!$user['User'] || !isset($user['User'])){
+			if(!$user['User'] && !isset($user['User'])){
 				$this->Session->SetFlash('Account with this Email is not registered!','error');
 				return;
 			}
@@ -880,12 +918,17 @@ class UsersController extends AppController {
 				}else{
 					$this->Session->SetFlash('Internal Error!','error');
 				}
-			}else{
-				$this->Session->SetFlash('Please contact your system administrator.','error');
 			}
-			$this->redirect('/users/forgotPassword');
+			if($user['User']['is_active']==0 && $user['User']['confirm_code']=="" ){
+				$this->Session->setFlash('You are not activated, Please contact your system administrator', 'warning');
+			}
+			if($user['User']['is_active']==0 && $user['User']['confirm_code']!="" ){
+				$this->Session->setFlash('Your account is not activated/confirmed, please check your email for confirmation link!', 'warning');
+			}
+//			$this->redirect('/users/forgotPassword');
 		}
 	}
 
 }
+
 ?>
