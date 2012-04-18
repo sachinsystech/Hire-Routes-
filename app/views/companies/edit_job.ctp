@@ -76,7 +76,6 @@
                                                       'type'=>'select',
                                                       'label'=>'',
                                                       'empty' =>' -- Select Specifications-- ',
-                                                      //'options'=>$specifications,
                                                       'class'=>'job_select__i_s required',
 													  'selected'=>isset($job['specification'])?$job['specification']:""
                                               )
@@ -84,35 +83,6 @@
           ?>
       </div>
     </div>
-
-<?php /*?>
-    <div style=" clear :both;">
-      <div style="float: left; width: 302px;">
-          <?php echo $form->input('city', array('label' => 'Location:',
-                                                      'type'  => 'text',
-                                                      'class' => 'job_text_location required',
-                                                      'value' => isset($job['city'])?$job['city']:""
-                                                      )
-                                   );
-          ?>
-      </div>
-      <div style="float:left">
-          <?php echo $form -> input('state',array(
-                                                    'type'=>'select',
-                                                    'label'=>'',
-                                                    'options'=>$states,
-                                                    'empty' =>' -- Select state-- ',
-                                                    'class'=>'job_select_state required',
-                                                    'selected' => isset($job['state'])?$job['state']:""
-                                            )
-                                );
-          ?>
-      </div> 
-    </div>
-    <div style="clear: both;"></div>
-	
-	<?php */?>
-	
 	<?php $state_val = $job['state']; ?>
 	
 		  <!-- 	Location :: State wise cities....	-->

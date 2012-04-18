@@ -112,7 +112,7 @@
 									</div>
 								<div>
 							</div>
-							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
+							<?php if(isset($userRole) && $userRole==JOBSEEKER && !isset($jobapply)){?>
                             	
 
                             <div id="apply" style="padding:20px;">
@@ -159,7 +159,7 @@
 			<a href='/howItWorks'>See how it works >></a>
 		</div>
 
-		<?php if(empty($userrole['role'])){?>
+		<?php if(empty($userRole)){?>
 			<div style="margin-top:20px;">
 				<div >
 					Know the perfact candidate for this job?

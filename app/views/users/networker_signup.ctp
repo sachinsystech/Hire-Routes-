@@ -9,7 +9,7 @@
 <div style="width:480px; margin-top:20px;">
 <?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkUserForm()')); ?>
 
-	<?php	echo $form->input('role', array('type' => 'hidden','value'=>'networker'));    ?>
+	<?php	//echo $form->input('role', array('type' => 'hidden','value'=>'networker'));    ?>
 
 	<?php	echo $form->input('account_email', array('label' => 'Account Email',
                                            			'type'  => 'text',
