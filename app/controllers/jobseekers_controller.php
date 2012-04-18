@@ -8,6 +8,7 @@ class JobseekersController extends AppController {
 	var $helpers = array('Time','Html','Javascript');	
 
 	public function beforeFilter(){
+		parent::beforeFilter();	
 		$roleInfo = $this->TrackUser->getCurrentUserRole();
 		if($roleInfo['role_id']!=2){
 			$this->redirect("/users/firstTime");

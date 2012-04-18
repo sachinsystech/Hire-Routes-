@@ -9,6 +9,7 @@
 	var $components = array('TrackUser','Utility','RequestHandler');  
 	
 	function beforeFilter(){
+		parent::beforeFilter();	
     	$this->Auth->allow('getLinkedinFriendList');
     	$this->Auth->allow('sendMessagetoLinkedinUser');
 	}
