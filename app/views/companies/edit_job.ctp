@@ -20,7 +20,9 @@
 
 
 <div style="width:600px;margin: auto;">
-<div style="width:300px; margin: 4px 0;">Job URL <input type="text" class='text_field_bg' value="<?php echo Configure::read('httpRootURL')."job/".$job['id']."/"; ?>"></div>
+<?php if($job['is_active']==1):?>
+<div style="width:300px; margin: 4px 0;">Job URL <input type="text" class='text_field_bg' value="<?php echo $jobUrl; ?>"></div>
+<?php endif;?>
 <div style="clear:both"></div>
 <div class="sigup_heading">Edit Posted Job </div>
 <?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'editJob',$job['id']))); ?>
@@ -171,8 +173,31 @@
 	
 		<!-- middle conyent list -->
 	</div>
+	
+	<div style="text-align:left;float:left;width:100px;margin-top:40px;">
+		<div style="clear:both;margin-top:5px;padding:5px;">
+			<span><b>Share Job</b></span>
+		</div>
+		<div style="clear:both;margin-top:5px;padding: 5px;">
+			<img src="/img/mail_it.png" style="float: left;cursor:pointer" onclick='showView(4);'/>
+		</div>
+	
+		<div style="clear:both;margin-top: 5px;padding: 5px;">
+			<img src="/img/facebook_post.png" style="float: left;cursor:pointer" onclick='showView(1);'/>
+		</div>
+	
+		<div style="clear:both;margin-top: 5px;padding: 5px;">
+			<img src="/img/linkedin_post.png" style="float: left;cursor:pointer" onclick='showView(2);'/>
+		</div>
+	
+		<div style="clear:both;margin-top: 5px;padding: 5px;">
+			<img src="/img/tweeter_post.png" style="float: left;cursor:pointer" onclick='showView(3);'/>
+		</div>
+	
+	
 	<!-- middle section end -->
 </div>
+<?php echo $this->element('share_job');?>
 <script>
 	$("#JobEditJobForm").validate();
 </script>
