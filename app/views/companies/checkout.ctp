@@ -45,7 +45,7 @@ function check_expdate() {
 
 					<div class="setting_profile_row">
 						<div class="cr_setting_profile_field">Reward:</div>
-						<div class="setting_profile_value"><?php echo number_format($job['reward'],2,'.','');?><b>$</b></div>
+						<div class="setting_profile_value"><?php echo "<b>$</b>".number_format($job['reward'],2,'.','');?></div>
 					</div>
 			
 					<div class="setting_profile_row">

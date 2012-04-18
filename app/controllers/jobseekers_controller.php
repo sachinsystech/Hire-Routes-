@@ -7,9 +7,9 @@ class JobseekersController extends AppController {
 	var $components = array('Email','Session','TrackUser','Utility');
 	var $helpers = array('Time','Html','Javascript');	
 
-	public function beforeFilter(){
-		$roleInfo = $this->TrackUser->getCurrentUserRole();
-		if($roleInfo['role_id']!=2){
+	function beforeFilter(){
+		parent::beforeFilter();
+		if($this->userRole!=JOBSEEKER){
 			$this->redirect("/users/firstTime");
 		}
 		$this->Auth->allow('jobseekerSetting');
@@ -24,7 +24,6 @@ class JobseekersController extends AppController {
 		$this->layout = null; // turn off the layout    
     	$userId = $this->TrackUser->getCurrentUserId();
 		$jobseekerData = $this->JobseekerSettings->find('all',array('conditions'=>array('notification'=>1)));
-		//echo "<pre>"; print_r($jobseekerData); exit;
 	}
 
 	/* 	Jobseeker's Account-Profile page*/
@@ -209,11 +208,7 @@ class JobseekersController extends AppController {
 	function newJob(){
 		$userId = $this->TrackUser->getCurrentUserId();	
 	
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
-        
-
-        $jobseeker_settings = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$jobseeker_settings = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
 
 		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId),
 															   'fields'=>array('job_id'),));
@@ -348,11 +343,7 @@ class JobseekersController extends AppController {
 	function archivedJob(){
 		$userId = $this->TrackUser->getCurrentUserId();	
 	
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
-        
-
-        $jobseeker_settings = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$jobseeker_settings = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
 
 		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('JobseekerApply.user_id'=>$userId,'Job.is_active' =>1),
 															   'fields'=>array('job_id'),
@@ -545,10 +536,7 @@ class JobseekersController extends AppController {
 	function jobProfile(){
 		$userId = $this->TrackUser->getCurrentUserId();
 		
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleInfo = $this->TrackUser->getCurrentUserRole($userRole);
-
-        $jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
 		$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
 		$this->set('is_cover_letter', $jobprofile['JobseekerProfile']['cover_letter']);

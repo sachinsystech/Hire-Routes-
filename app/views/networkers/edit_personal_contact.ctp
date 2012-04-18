@@ -1,4 +1,8 @@
-<?php //echo "<pre>"; print_r($this->Paginator); exit;?>
+<?php 
+	/**
+	  * Edit personal contacts
+	  */
+?>
 
 <div class="page">
 	<!-- left section start -->	

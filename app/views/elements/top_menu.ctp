@@ -4,11 +4,11 @@
  */
 ?>
 <?php 
-	if($this->Session->check('user_role')) :
-		$user_role=$this->Session->read('user_role');
+	if($this->Session->check('userRole')) :
+		$userRoleId=$this->Session->read('userRole.id');
 		
 		/****	Adding top menu for Company User	****/
-		if(isset($user_role) && $user_role['role_id']==COMPANY):
+		if(isset($userRoleId) && $userRoleId==COMPANY):
 
 			if($this->action=='newJob'||$this->action=='showArchiveJobs'||$this->action=='companyData')
 			{
@@ -94,7 +94,7 @@
 		
 		
 	<?php		/****	Adding top menu for Jobseeker User	****/
-		if(isset($user_role) && $user_role['role_id']==JOBSEEKER):
+		if(isset($userRoleId) && $userRoleId==JOBSEEKER):
 	?>
 		<?php
 			if($this->action=='newJob'||$this->action=='appliedJob'||$this->action=='archivedJob')
@@ -138,7 +138,7 @@
 <!-- ******************************************************************************************* -->
 		<?php
 		/****	Adding top menu for Networker User	****/	
-		if(isset($user_role) && $user_role['role_id']==NETWORKER):
+		if(isset($userRoleId) && $userRoleId==NETWORKER):
 ?>
 		<?php
 			if($this->action=='newJob'||$this->action=='sharedJob'||$this->action=='archiveJob'||$this->action=='jobData'){

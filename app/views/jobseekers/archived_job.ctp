@@ -73,7 +73,16 @@
 								<div style="clear:both"></div>
                                 <div style="float:right"><?php if(!is_null($job['JobseekerApply']['is_active'])):?><?php echo $job_status[$job['JobseekerApply']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['Job']['id']); ?><?php endif;?></div>		
 								<div>
-									<?php	echo $job['comp']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
+									<?php	
+										if(!empty($job['comp']['company_name']))
+											echo $job['comp']['company_name']."&nbsp;-&nbsp;";
+									?>
+									<?php
+										if(!empty($job['city']['city']))
+											echo $job['city']['city'].",&nbsp;";
+									?>
+									<?php
+											echo $job['state']['state']."<br>";
 											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
 											echo $job_array[$job['Job']['job_type']]."<br>";
 											echo $job['Job']['short_description']."<br>";?>

@@ -72,11 +72,21 @@
 									</div>
 									<div style="clear:both"></div>			
                                 	<div>
-										<?php	echo $job['comp']['company_name']."- ".$job['city']['city'].",".$job['state']['state']."<br>";
-												echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
-												echo $job_array[$job['Job']['job_type']]."<br>";
-												echo $job['Job']['short_description']."<br>";?>
-                                 	</div>
+										<?php	
+											if(!empty($job['comp']['company_name']))
+												echo $job['comp']['company_name']."&nbsp;-&nbsp;";
+										?>
+										<?php
+											if(!empty($job['city']['city']))
+												echo $job['city']['city'].",&nbsp;";
+										?>
+										<?php
+											echo $job['state']['state']."<br>";
+											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
+											echo $job_array[$job['Job']['job_type']]."<br>";
+											echo $job['Job']['short_description']."<br>";
+										?>
+                                	</div>
                                  	<div style="float:left"> Posted 
                							<?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>									
 									</div>	

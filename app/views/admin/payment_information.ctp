@@ -57,7 +57,6 @@
 		}
 	}
 </script>
-<?php //echo $this->element('sql_dump');?>
 <?php echo $this->Session->flash();?>
 <div id="page-heading"><h1>Payment Information</h1></div>
 <div class="table_seperator"></div>

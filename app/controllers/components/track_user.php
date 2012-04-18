@@ -104,7 +104,7 @@ class TrackUserComponent extends Object
 					$roleName = 'networker';		
 					break;			
 		}
-		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
+		$currentUserRole = array('id'=>$userRole['UserRoles']['role_id'],'name'=>$roleName);
 		return $currentUserRole;
 	}
 }

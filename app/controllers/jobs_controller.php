@@ -92,7 +92,6 @@ class JobsController extends AppController {
 
         $conditions[] = array('Job.is_active'=>1);
 		$userId = $this->TrackUser->getCurrentUserId();
-		$roleInfo = $this->getCurrentUserRole();
 
     	if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
@@ -158,32 +157,11 @@ class JobsController extends AppController {
 		$this->set('companies',$this->Utility->getCompany());
 	}
 
-
-
-    function getCurrentUserRole(){
-		$userId = $this->TrackUser->getCurrentUserId();		
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));
-		$roleName  = null;
-		switch($userRole['UserRoles']['role_id']){
-			case COMPANY:
-					$roleName = 'company';
-					break;
-			case JOBSEEKER:
-					$roleName = 'jobseeker';	
-					break;	
-			case NETWORKER:
-					$roleName = 'networker';		
-					break;	
-		}
-		$currentUserRole = array('role_id'=>$userRole['UserRoles']['role_id'],'role'=>$roleName);
-		return $currentUserRole;
-	}   
      
 /****	Applying job	******/     
 	function applyJob(){	
 		$userId = $this->TrackUser->getCurrentUserId();
-        $roleInfo = $this->getCurrentUserRole();
-        $this->set('userrole',$roleInfo);
+        $this->set('userRole',$this->userRole);
 		if($this->Session->check('redirect_url')){
 			$this->Session->delete('redirect_url');	
 		}
@@ -191,7 +169,6 @@ class JobsController extends AppController {
 		// Job information
 		if(isset($this->params['jobId'])){
 			$id = $this->params['jobId'];
-			//$job = $this->Job->find('first',array('conditions'=>array('Job.id'=>$id)));
 			
 			$job = $this->Job->find('first',	array('limit'=>3,
 											 'joins'=>array(   
@@ -379,7 +356,6 @@ class JobsController extends AppController {
 	function jobDetail(){
 
 		$userId = $this->TrackUser->getCurrentUserId();
-		$roleInfo = $this->getCurrentUserRole();  
 		
 		if(isset($this->params['jobId'])){
 
@@ -411,7 +387,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 
 			if($job){
 	
-				if($roleInfo['role_id']!=1){
+				if($this->userRole!=COMPANY){
 					$this->data['JobViews']['job_id'] = $id;
 					if(isset($userId)){
 						$this->data['JobViews']['user_id'] = $userId;
@@ -429,15 +405,15 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 
              // job role            
             
-            $this->set('userrole',$roleInfo);
+            $this->set('userRole',$this->userRole);
 			$jobapply = $this->JobseekerApply->find('first',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
 			if($jobapply){
     			$this->set('jobapply',$jobapply);
 			}
             /*** code for networker trac **/
             if($userId){
-                $role = $this->TrackUser->getCurrentUserRole();
-                if($role['role_id'] == NETWORKER||$role['role_id'] == COMPANY)
+                //$role = $this->TrackUser->getCurrentUserRole();
+                if($this->userRole == NETWORKER||$this->userRole == COMPANY)
                     $this->set('code',$this->Utility->getCode($id,$userId));
             }
             /**** end code ***/			
