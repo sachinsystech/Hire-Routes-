@@ -67,20 +67,20 @@ class JobseekersController extends AppController {
 				}
 			}
 		
-		}
-		$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>
-																	array('JobseekerSettings.user_id'=>$userId),
+		}//echo $userId ;
+		$jobseekerData = $this->Jobseekers->find('first',array('conditions'=>
+																	array('Jobseekers.user_id'=>$userId),
 																	 'joins'=>array(array(
-																	 	'table'=>'jobseekers',
-																	 	'type'=>'inner',
+																	 	'table'=>'jobseeker_settings',
+																	 	'type'=>'left',
 																		'conditions'=>array(
-																				'JobseekerSettings.user_id=jobseekers.user_id',
+																				'jobseeker_settings.user_id=Jobseekers.user_id',
 																			))
 																 	 ),
-															 		'fields'=>'JobseekerSettings.*, jobseekers.contact_name',
+															 		'fields'=>'jobseeker_settings.*,Jobseekers.*',
 														));
-		$jobseekerData['JobseekerSettings']['contact_name'] =$jobseekerData['jobseekers']['contact_name'];
-		$this->set('jobseekerData',$jobseekerData['JobseekerSettings']);	
+		$jobseekerData['jobseeker_settings']['contact_name'] =$jobseekerData['Jobseekers']['contact_name'];
+		$this->set('jobseekerData',$jobseekerData['jobseeker_settings']);	
 		$this->set('industries',$this->Utility->getIndustry());
 		$this->set('states',$this->Utility->getState());
 	}

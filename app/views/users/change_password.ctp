@@ -44,9 +44,11 @@
 							 );
 					?>
 				</div>
+				<?php if(isset($old_password_error)):?>
 				<label class="error">
-					<?php if(isset($old_password_error)) echo $old_password_error;?>
+					<?php echo $old_password_error;?>
 				</label>
+				<?php endif;?>
 				<div style="clear:both"></div>
 				<div>
 					<?php echo $form->input('password', array('label' => 'New Password:',
