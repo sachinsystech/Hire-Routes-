@@ -4,6 +4,7 @@ class TwitterController extends AppController {
 	var $components = array('TrackUser','Utility','RequestHandler');
 
 	function beforeFilter(){
+		parent::beforeFilter();
     	$this->Auth->allow('sendMessageToTwitterFollwer');
     	$this->Auth->allow('getTwitterFriendList');
 	}

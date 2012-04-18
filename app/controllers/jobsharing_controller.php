@@ -29,7 +29,7 @@ class JobsharingController extends AppController {
 			$messageBody['jobUrl'] = $jobUrl; 
 			$messageBody['message'] = $this->params['form']['message'];
 			if($this->sendEmail($to,$subject,$template,$messageBody)){
-				$shareJobData['job_id'] = $jobId;
+				echo $shareJobData['job_id'] = $jobId; exit;
                	$shareJobData['user_id'] = $userId;
                	$this->SharedJob->save($shareJobData);
 				return json_encode(array('error'=>0));
