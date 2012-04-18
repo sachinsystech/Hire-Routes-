@@ -159,7 +159,7 @@
 								<div class="code_pagination">
 								<?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
 								<?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
-								<?php echo "< < ".$this->Paginator->numbers()."  > >"; ?>
+								<?php echo "< < ".$this->Paginator->numbers(array('modulus'=>4))."  > >"; ?>
 								<?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
 								<?php echo $paginator->last(' Last'); }?>
 								</div>
@@ -224,7 +224,7 @@
 						<tr>
 	    					<td colspan="7" align="center">
 								<?php
-									echo $this->Paginator->numbers(); 
+									echo $this->Paginator->numbers(array('modulus'=>4)); 
 								 ?>
 		    				</td>
 						</tr>
