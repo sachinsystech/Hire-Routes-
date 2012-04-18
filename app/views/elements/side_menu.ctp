@@ -1,8 +1,8 @@
 <?php
-	if($this->Session->check('user_role'))
+	if($this->Session->check('userRole'))
 	{
-		$user_role=$this->Session->read('user_role');
-		if(isset($user_role) && $user_role['role_id']==1)
+		$userRoleId=$this->Session->read('userRole.id');
+		if(isset($userRoleId) && $userRoleId==COMPANY)
 		{
 			$my_jobs_actions=array('newJob','postJob','jobDetail','applyJob','showArchiveJobs','editJob','showApplicant','checkout','jobStats','companyData');
 			$my_accounts_actions=array('index','accountProfile','editProfile','paymentInfo','paymentHistory','paymentHistoryInfo','changePassword');
@@ -15,7 +15,7 @@
 			</ul>
 		<?php 
 		}
-		elseif(isset($user_role) && $user_role['role_id']==2)
+		elseif(isset($userRoleId) && $userRoleId==JOBSEEKER)
 		{
 			$my_jobs_actions=array('newJob','appliedJob','jobDetail','applyJob','archivedJob');
 			$my_accounts_actions=array('index','editProfile','setting','jobProfile','changePassword');
@@ -28,7 +28,7 @@
 			</ul>
 		<?php 
 		}
-		elseif(isset($user_role) && $user_role['role_id']==3)
+		elseif(isset($userRoleId) && $userRoleId==NETWORKER)
 		{
 			$my_jobs_actions=array('newJob','jobDetail','archiveJob','jobData','sharedJob');
 			$my_accounts_actions=array('index','setting','editProfile','changePassword');

@@ -63,19 +63,24 @@
 						</div>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Location:</div>
-							<div style="float:left"><?php echo $jobInfo['state']['state'].", ".$jobInfo['city']['city']; ?></div>
+								<div style="float:left">
+									<?php 
+										if(!empty($jobInfo['city']['city'])) 
+											echo $jobInfo['city']['city'].",&nbsp;";
+									?>
+									<?php 
+										echo $jobInfo['state']['state'];
+									?>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>	
-		<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
-		<!-- middle conyent list -->
-
+				</div>	
+			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
+			<!-- middle conyent list -->
 	</div>
 	<!-- middle section end -->
-
 </div>
-
 <script>
 function goTo(){
 	window.location.href="/companies/postJob";			

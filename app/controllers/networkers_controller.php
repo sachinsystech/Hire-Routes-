@@ -9,9 +9,8 @@ class NetworkersController extends AppController {
 	var $helpers = array('Time','Form');
 	
 	public function beforeFilter(){
-		parent::beforeFilter();	
-		$role = $this->Session->read('user_role.role_id'); 
-		if($role!=NETWORKER){
+		parent::beforeFilter();
+		if($this->userRole!=NETWORKER){
 			$this->redirect("/users/firstTime");
 		}
 	}
@@ -316,7 +315,6 @@ class NetworkersController extends AppController {
 				$duplicate_emails = array();
 				$added_count = 0;
 				$duplicate_count = 0;
-				//echo "<pre>"; print_r($contacts); exit;
 				foreach($contacts as $contact){
 					if ($this->NetworkerCsvcontact->create($contact)) {
 						$matchEmail = $this->NetworkerCsvcontact->find('first',array('conditions'=>array(

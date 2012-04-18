@@ -44,8 +44,8 @@
 								<div>
 									<div class="title"><?php echo ucfirst($job['Job']['title']); ?></div>
 									<div class="detail">
-										<strong>By Company :</strong> <?php echo $job['comp']['company_name']."<br>"; ?>
-
+										<strong>By Company :</strong> 
+										<?php echo $job['comp']['company_name']."<br>";?>
                                         <strong>Website : </strong><?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?>
                                         <br>
 
@@ -58,7 +58,11 @@
 									<div class="about_job"><strong>About the Job</strong></div>
                                     <div class="other_detail">
                                     	<strong>Location :</strong> 
-											<?php echo $job['city']['city'].", ".$job['state']['state']."<br>"; ?>
+										<?php
+											if(!empty($job['city']['city']))
+												echo $job['city']['city'].",&nbsp;";
+										?>
+										<?php echo $job['state']['state']."<br>"; ?>
 										<strong>Annual Salary Range ($):</strong> 
 											<?php echo "<b>".number_format($job['Job']['salary_from']/(1000),1)."K - ".number_format($job['Job']['salary_to']/(1000),1)."K</b><br>"; ?>
 										<strong>Type :</strong> 
@@ -71,7 +75,11 @@
 								<div class="company_detail">
 									<span>
 										<strong><?php echo $job['comp']['company_name']; ?></strong></span> - 
-												<?php echo $job['city']['city'].", ".$job['state']['state']."<br>"; ?>
+												<?php
+													if(!empty($job['city']['city']))
+														echo $job['city']['city'].",&nbsp;";
+												?>
+												<?php echo $job['state']['state']."<br>"; ?>
                                                 <?php echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?><br><br>
 											<div class="description" id="short_description">
 											<?php $desc = $job['Job']['description'];
@@ -104,7 +112,7 @@
 									</div>
 								<div>
 							</div>
-							<?php if(isset($userrole) && $userrole['role_id']==2 && !isset($jobapply)){?>
+							<?php if(isset($userRole) && $userRole==JOBSEEKER && !isset($jobapply)){?>
                             	
 
                             <div id="apply" style="padding:20px;">
@@ -151,7 +159,7 @@
 			<a href='/howItWorks'>See how it works >></a>
 		</div>
 
-		<?php if(empty($userrole['role'])){?>
+		<?php if(empty($userRole)){?>
 			<div style="margin-top:20px;">
 				<div >
 					Know the perfact candidate for this job?

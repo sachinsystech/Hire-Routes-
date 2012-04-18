@@ -11,6 +11,9 @@
 class AppController extends Controller {
 	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','TrackUser');
 	public $helpers = array('Session','Html', 'Form', 'Javascript','Bcp.DatabaseMenus','Number');
+	
+	protected $userRole;
+	
 	function beforeFilter(){
         //here we get intermidiate user id from URLs
         $this->setIntermidiateUser();
@@ -26,6 +29,12 @@ class AppController extends Controller {
 
 	   	/* Set delivery method */
 	   	$this->Email->delivery = 'smtp';
+	
+		//Set user role
+		if($this->Session->check('userRole'))
+		{
+			$this->userRole=$this->Session->read('userRole.id');
+		}
 	
 		$this->Auth->fields = array(
 			'username' => 'account_email',

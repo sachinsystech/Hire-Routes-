@@ -73,30 +73,7 @@
 
 
 	<div style=" clear :both;">
-												<?php /* ?>
-	  <div style="float: left; width: 302px;">
-		  <?php echo $form->input('city', array('label' => 'Location:',
-													  'type'  => 'text',
-													  'class' => 'job_text_location required',
-													  //'value' => isset($jobseekerData['city'])?$jobseekerData['city']:""
-													  )
-								   );
-		  ?>
-	  </div>
-	  <div style="float:left">
-		  <?php echo $form -> input('state',array(
-													'type'=>'select',
-													'label'=>'',
-													'options'=>$states,
-													'empty' =>' -- Select state-- ',
-													'class'=>'job_select_state required',
-											)
-								);
-		  ?>
-	  </div> 
-	</div>
-	  <div style="clear: both;"></div>
-	  <?php */?>
+												
 	  <!-- 	Location :: State wise cities....	-->
 	  
  <div style="float:left;margin-left: -7px;clear: both;">
