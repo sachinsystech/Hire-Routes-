@@ -787,9 +787,15 @@ class UsersController extends AppController {
  */
 
 	public function changePassword(){
-	
-		$facebookUser=$this->User->find('first',array('conditions'=>array('id'=>$this->TrackUser->getCurrentUserId(), 'password'=>"")));//print_r($facebookUser);exit;
-		$facebookUserData=isset($facebookUser)?$facebookUser['User']['facebook_token']:null;
+		
+		$facebookUser=$this->User->find('first',array('conditions'=>
+													array('id'=>$this->TrackUser->getCurrentUserId(),
+													'password'=>0),
+													'fields'=>'password,id,fb_user_id,',
+													)
+																
+										);
+		$facebookUserData=isset($facebookUser)?$facebookUser['User']['fb_user_id']:null;
 		$this->set('facebookUserData',$facebookUserData);
 		if(isset($this->data['User'])){
 			//check for blank or empty field
@@ -804,7 +810,7 @@ class UsersController extends AppController {
 			// Password hashing
 			$this->data['User']['id'] = $this->TrackUser->getCurrentUserId();
 			if(empty($this->data['User']['oldPassword']) && $facebookUser!=null ){
-				$this->data['User']['oldPassword']="";
+				$this->data['User']['oldPassword']=0;
 			}else{
 				$this->data['User']['oldPassword']=$this->Auth->password($this->data['User']['oldPassword']);
 			}
@@ -874,6 +880,7 @@ class UsersController extends AppController {
 		}
 		
 		if($this->userRole==ADMIN){
+			unset($this->data['User']);
 			$this->render("change_password","admin");
 		}
 	}

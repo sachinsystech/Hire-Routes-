@@ -53,7 +53,7 @@
 				<?php endif;?>
 				<div style="clear:both"></div>
 				<div>
-					<?php echo $form->input('password', array('label' => 'New Password:',
+					<?php echo $form->input('User.password', array('label' => 'New Password:',
 												'type'  => 'password',
 												'name'  => "data[User][password]",
 												'class' => 'text_field_bg password',

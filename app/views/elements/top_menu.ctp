@@ -8,7 +8,7 @@
 		$userRoleId=$this->Session->read('userRole.id');
 		$passwordLable='Change password';
 		if(isset($facebookUserData)){		
-			$passwordLable= ($facebookUserData!=null)?'Set password':'Change password';
+			$passwordLable= ($facebookUserData!=null)?"Set password":"Change password";
 		}
 		/****	Adding top menu for Company User	****/
 		if(isset($userRoleId) && $userRoleId==COMPANY):
