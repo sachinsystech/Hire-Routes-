@@ -787,9 +787,13 @@ class UsersController extends AppController {
  */
 
 	public function changePassword(){
+	
+		$facebookUser=$this->User->find('first',array('conditions'=>array('id'=>$this->TrackUser->getCurrentUserId(), 'password'=>"")));//print_r($facebookUser);exit;
+		$facebookUserData=isset($facebookUser)?$facebookUser['User']['facebook_token']:null;
+		$this->set('facebookUserData',$facebookUserData);
 		if(isset($this->data['User'])){
 			//check for blank or empty field
-			if(empty($this->data['User']['oldPassword'])){
+			if(empty($this->data['User']['oldPassword']) && $facebookUserData==null ){
 				$this->set("old_password_error","Old Password Required");
 				if($this->userRole==ADMIN){
 					$this->render("change_password","admin");
@@ -799,9 +803,12 @@ class UsersController extends AppController {
 			
 			// Password hashing
 			$this->data['User']['id'] = $this->TrackUser->getCurrentUserId();
-			$this->data['User']['password']=$this->Auth->password($this->data['User']['password']);
-			$this->data['User']['oldPassword']=$this->Auth->password($this->data['User']['oldPassword']);
-			
+			if(empty($this->data['User']['oldPassword']) && $facebookUser!=null ){
+				$this->data['User']['oldPassword']="";
+			}else{
+				$this->data['User']['oldPassword']=$this->Auth->password($this->data['User']['oldPassword']);
+			}
+			$this->data['User']['password']=$this->Auth->password($this->data['User']['password']);			
 			
 			//Check old password match
 			if(!$this->User->find('first',array('conditions'=>array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword'])))){
@@ -848,6 +855,7 @@ class UsersController extends AppController {
 					if($this->userRole==ADMIN){
 						$this->render("change_password","admin");
 					}
+					return;
 				}elseif(mysql_affected_rows()<0){	//check for server problem
 					unset($this->data['User']);
 					$this->Session->setFlash("Server problem!","error");
@@ -864,12 +872,8 @@ class UsersController extends AppController {
 				}
 			}
 		}
-		$facebookUser=$this->User->find('first',array('conditions'=>array('id'=>$this->TrackUser->getCurrentUserId(), 'password'=>"")));
-		$facebookUserData=(isset($facebookUser))?$facebookUser['Users'][0]['facebook_token']:null;
-		$this->set('facebookUserData',$facebookUserData);
-
+		
 		if($this->userRole==ADMIN){
-
 			$this->render("change_password","admin");
 		}
 	}

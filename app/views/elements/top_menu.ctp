@@ -6,7 +6,10 @@
 <?php 
 	if($this->Session->check('userRole')) :
 		$userRoleId=$this->Session->read('userRole.id');
-		
+		$passwordLable='Change password';
+		if(isset($facebookUserData)){		
+			$passwordLable= ($facebookUserData!=null)?'Set password':'Change password';
+		}
 		/****	Adding top menu for Company User	****/
 		if(isset($userRoleId) && $userRoleId==COMPANY):
 
@@ -45,7 +48,7 @@
 						<a class="menu_item" href="/companies/paymentHistory">Payment History</a>
 					</li>
 					<li <?php if($this->action=='changePassword') echo "class='active'";?>>
-						<a class="menu_item" href="/users/changePassword">Change Password</a>
+						<a class="menu_item" href="/users/changePassword"><?php echo $passwordLable; ?></a>
 					</li>
 				</ul>
 				<ul style="float:right">
@@ -120,7 +123,7 @@
                 		<a class="menu_item" href="/jobseekers">Profile</a>
                 	</li>
                 	<li <?php if($this->action=='changePassword') echo "class='active'";?>>
-                		<a class="menu_item" href="/users/changePassword">Change Password</a>
+                		<a class="menu_item" href="/users/changePassword"><?php echo $passwordLable; ?></a>
                 	</li>
 				</ul>
 				<ul style="float:right">
@@ -168,7 +171,7 @@
 						<a class="menu_item" href="/networkers">Profile</a>
 					</li>
 					<li <?php if($this->action=='changePassword') echo "class='active'";?>>
-						<a class="menu_item" href="/users/changePassword">Change Password</a>
+						<a class="menu_item" href="/users/changePassword"><?php echo $passwordLable; ?></a>
 					</li>			
                 </ul>
 				<ul style="float:right">
