@@ -54,7 +54,7 @@ $(function() {
 			<div class="middleBox">
 				<div id='message'></div>
 				<div class="share_middle_setting">
-					<?php echo $form->create('Companies', array('action' => 'shareJobByEmail', 'onsubmit'=>'return validateEmail(CompaniesToEmail.value);')); ?>
+					<?php echo $form->create('Share', array('action'=>'job', 'onsubmit'=>'return validateEmail(ShareToEmail.value);')); ?>
 					<div id='to' style="padding-bottom:0px; clear:both"></div>
 						<?php echo $form->input('jobId', array('label' => '',
 																'type'  => 'hidden',
@@ -147,13 +147,13 @@ function setView(value)
 	if(value=='Email')
 	{
 		$('#other').html("");
-		$('#to').html("<div style='padding-bottom:10px;' class='s_j_email'><strong>Email:</strong><textarea id='CompaniesToEmail' name='toEmail' class='email_msg_txtarear' rows='1'></textarea></div>");
+		$('#to').html("<div style='padding-bottom:10px;' class='s_j_email'><strong>Email:</strong><textarea id='ShareToEmail' name='toEmail' class='email_msg_txtarear' rows='1'></textarea></div>");
 	}
 	else
 	{	
 		$('#to').html("");
 		$('#other').html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>");
-		$('#imageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="sharejob_ajax_loader"/></p>');
+		$('#imageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="Share_ajax_loader"/></p>');
 	}
 	return false;
 }
@@ -185,11 +185,11 @@ function validateCheckedUser(){
 }
 
 function validateFormField(){
-	if($('#CompaniesSubject').val()==""){
+	if($('#ShareSubject').val()==""){
 		alert('Subject cant be empty.');
 		return false;
 	}
-	if($('#CompaniesMessage').val()==""){
+	if($('#ShareMessage').val()==""){
 		alert('Please enter message.');
 		return false;
 	}
@@ -306,7 +306,7 @@ function createHTMLforFillingFriends(friends){
                             window.open(response.URL);
                             break;
                         case 2: // something went wrong when we connect with facebook.Need to login by facebook 
-                            $( "#dialog-message" ).html(" something went wrong.Please contact to site admin");
+                            $( "#dialog-message" ).html("something went wrong.Please contact to site admin");
                             $( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
                             break;
@@ -328,7 +328,7 @@ function createHTMLforFillingFriends(friends){
 /*************************	Email Sharing ***********************/
 		function shareEmail(){
 			
-				var to_email=$('#CompaniesToEmail').val();
+				var to_email=$('#ShareToEmail').val();
 				if(!validateEmail(to_email)){
 					return false;
 				}
@@ -340,7 +340,7 @@ function createHTMLforFillingFriends(friends){
 				url: "/jobsharing/shareJobByEmail",
 				type: "post",
 				dataType: 'json',
-				data: {jobId : $('#CompaniesJobId').val(), jobUrl: $('#jobUrl').val(), toEmail : $('#CompaniesToEmail').val(), subject : $('#CompaniesSubject').val(), message : $('#CompaniesMessage').val()},
+				data: {jobId : $('#ShareJobId').val(), jobUrl: $('#jobUrl').val(), toEmail : $('#ShareToEmail').val(), subject : $('#ShareSubject').val(), message : $('#ShareMessage').val()},
 				success: function(response){
 					$('#submitLoaderImg').html('');
 					switch(response.error){
@@ -389,7 +389,7 @@ function createHTMLforFillingFriends(friends){
                 type: 'POST',
                 url: '/facebook/commentAtFacebook',
                 dataType: 'json',
-                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val()+"&jobId="+$("#CompaniesJobId").val(),
+                data: "usersId="+usersId+"&message="+$("#ShareMessage").val()+"&jobId="+$("#ShareJobId").val(),
                 success: function(response){
 				    $('#submitLoaderImg').html('');
                     switch(response.error){
@@ -434,7 +434,7 @@ function createHTMLforFillingFriends(friends){
                 type: 'POST',
                 url: '/Linkedin/sendMessagetoLinkedinUser',
                 dataType: 'json',
-                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val()+"&jobId="+$("#CompaniesJobId").val(),
+                data: "usersId="+usersId+"&message="+$("#ShareMessage").val()+"&jobId="+$("#ShareJobId").val(),
                 success: function(response){
 					$('#submitLoaderImg').html('');
 					switch(response.error){
@@ -484,7 +484,7 @@ function createHTMLforFillingFriends(friends){
                 type: 'POST',
                 url: '/twitter/sendMessageToTwitterFollwer',
                 dataType: 'json',
-                data: "usersId="+usersId+"&message="+$("#CompaniesMessage").val()+"&jobId="+$("#CompaniesJobId").val(),
+                data: "usersId="+usersId+"&message="+$("#ShareMessage").val()+"&jobId="+$("#ShareJobId").val(),
                 success: function(response){
 				    $('#submitLoaderImg').html('');
                     switch(response.error){
@@ -527,6 +527,6 @@ function createHTMLforFillingFriends(friends){
     </script>
 
 <script>
-	$("#CompaniesShareJobByEmailForm").validate();
+	$("#ShareJobForm").validate();
 </script>
 
