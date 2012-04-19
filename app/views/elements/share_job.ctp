@@ -30,6 +30,7 @@ $(function() {
 		});
 	});
 </script>
+<?php if(isset($jobUrl)):?>
 <div><input type="hidden" id="jobUrl" value="<?php echo  $jobUrl ?>"></div>
 <div id="dialog-message"></div>
 <div class="page">
@@ -109,6 +110,7 @@ $(function() {
 </div>
 </div>
 <div id="opener" ></div>
+<?php endif;?>
 <script>
 function showView(type){
     $("#share").unbind();
