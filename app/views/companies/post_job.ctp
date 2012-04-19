@@ -145,7 +145,7 @@
 	  <div style="clear: both;"></div>
 <div style="text-align:center">
 	<?php echo $form->submit('Save for Later',array('div'=>false,'name'=>'save','value'=>'later')); ?>
-	<?php //echo $form->submit('Post and Share Job with Network',array('div'=>false,'name'=>'save','value'=>'share')); ?>
+	<?php echo $form->submit('Post and Share',array('div'=>false,'name'=>'save','value'=>'share')); ?>
 </div>
  <?php echo $form->end(); ?>
  </div>

@@ -398,6 +398,8 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 				    $this->JobViews->save($this->data['JobViews']);
 			    }
 				$this->set('job',$job);
+				$this->set('jobId',$job['Job']['id']);
+				$this->set('jobTitle',$job['Job']['title']);
 			}else{
 				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/');
@@ -413,8 +415,15 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
             /*** code for networker trac **/
             if($userId){
                 //$role = $this->TrackUser->getCurrentUserRole();
-                if($this->userRole == NETWORKER||$this->userRole == COMPANY)
-                    $this->set('code',$this->Utility->getCode($id,$userId));
+                if($this->userRole == NETWORKER||$this->userRole == COMPANY){
+                	$code=$this->Utility->getCode($id,$userId);
+                    $this->set('code',$code);
+                }
+                if(isset($code)&&!empty($code))
+                	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/?code='.$code;
+                else
+	                $jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/';
+                $this->set('jobUrl',$jobUrl);
             }
             /**** end code ***/			
 		}else{
