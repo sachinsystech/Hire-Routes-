@@ -18,11 +18,11 @@
 switch($roleName) {
 	case JOBSEEKER:
 		$setting_page_title = 'MY JOBSEEKER SETTINGS';
-		$setting_page_url = '/jobseekers/editProfile';
+		$setting_page_url = '/jobseekers/setting';
 		break;
 	case NETWORKER:
 		$setting_page_title = 'MY NETWORKER SETTINGS';
-		$setting_page_url = '/networkers/editProfile';
+		$setting_page_url = '/networkers/setting';
 		break;
 	default:
 		$setting_page_title = 'MY SETTINGS';
