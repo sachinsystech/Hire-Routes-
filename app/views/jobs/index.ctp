@@ -223,6 +223,7 @@
 			</div>
 			
 			<div>
+				<?php echo $form->submit('Reset',array('div'=>false,'name'=>'save'));?>
 				<?php echo $form->submit('Go',array('div'=>false,'name'=>'save','value'=>'fillter')); ?>
 				<?php echo $form->end(); ?>
 				<div style="clear:both"></div>

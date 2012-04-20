@@ -376,7 +376,7 @@ class NetworkersController extends AppController {
 	function archiveJob(){
 		$userId = $this->TrackUser->getCurrentUserId();		
 		    
-    	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
+    	$networker_settings = $this->getNetworkerSettings($userId);
 		
         if(count($networker_settings)>0){
 			for($n=0;$n<count($networker_settings);$n++){
@@ -465,21 +465,18 @@ class NetworkersController extends AppController {
 									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
 		    
 		    $jobs = $this->paginate('Job');
-		}else{
-			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'error');				
-			$this->redirect('/networkers/setting');
+		    $this->set('jobs',$jobs);
 		}
 		$jobCounts=$this->jobCounts();
 		$this->set('SharedJobs',$jobCounts['sharedJobs']);
 		$this->set('ArchiveJobs',$jobCounts['archivejobs']);
 		$this->set('NewJobs',$jobCounts['newJobs']);
-		$this->set('jobs',$jobs);
 	}
 
 	function newJob(){
 		$userId = $this->TrackUser->getCurrentUserId();		
 		        
-    	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
+    	$networker_settings = $this->getNetworkerSettings($userId);
     	
     	$shared_job = $this->SharedJob->find('all',array('conditions'=>array('user_id'=>$userId),
 															   'fields'=>'SharedJob.job_id',
@@ -579,15 +576,16 @@ class NetworkersController extends AppController {
 		    
 		    $jobs = $this->paginate('Job');
 		    
-			$jobCounts=$this->jobCounts();
-			$this->set('SharedJobs',$jobCounts['sharedJobs']);
-			$this->set('ArchiveJobs',$jobCounts['archivejobs']);
-			$this->set('NewJobs',$jobCounts['newJobs']);
+//			$jobCounts=$this->jobCounts();
+	//		$this->set('SharedJobs',$jobCounts['sharedJobs']);
+		//	$this->set('ArchiveJobs',$jobCounts['archivejobs']);
+			//$this->set('NewJobs',$jobCounts['newJobs']);
 			$this->set('jobs',$jobs);	
-		}else{
-			$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile!', 'warning');				
-			$this->redirect('/networkers/setting');
 		}
+		$jobCounts=$this->jobCounts();
+		$this->set('SharedJobs',$jobCounts['sharedJobs']);
+		$this->set('ArchiveJobs',$jobCounts['archivejobs']);
+		$this->set('NewJobs',$jobCounts['newJobs']);
 		
 	}
 
@@ -711,7 +709,9 @@ class NetworkersController extends AppController {
 	private function jobCounts(){
 		$userId = $this->TrackUser->getCurrentUserId();		
 		        
-    	$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
+    	$networker_settings = $this->getNetworkerSettings($userId);
+    	if(!(count($networker_settings)>0))
+    		$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'warning');
     	
     	$shared_job = $this->SharedJob->find('all',array('conditions'=>array('user_id'=>$userId),
 															   'fields'=>'SharedJob.job_id',
@@ -782,7 +782,11 @@ class NetworkersController extends AppController {
 										);
 		return $jobCounts;
 	}
-	
- 
+	/**
+	 * To get Networker Settings
+	 */
+	 private function getNetworkerSettings($userId){
+	 	return $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
+	 }
 }
 ?>

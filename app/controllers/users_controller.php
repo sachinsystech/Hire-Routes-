@@ -505,14 +505,14 @@ class UsersController extends AppController {
 					$this->redirect("/companies/newJob");
 					break;	
 			case JOBSEEKER:
-					$jobseekerData = $this->Jobseekers->find('first',array('conditions'=>array('Jobseekers.user_id'=>$id)));
-					if(isset($jobseekerData['Jobseekers']['contact_name'])){
+					$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$id)));
+					if($jobseekerData){
 						$this->redirect("/jobseekers/newJob");						
 					}
 					break;			
 			case NETWORKER:
-					$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$id)));
-					if(isset($networkerData['Networkers']['contact_name'])){
+					$networkerData = $this->NetworkerSettings->find('first',array('conditions'=>array('user_id'=>$id)));
+					if($networkerData){
 						$this->redirect("/networkers/newJob");						
 					}
 					break;		
@@ -542,13 +542,13 @@ class UsersController extends AppController {
 		$fbUserProfile = $facebook->api('/me');
 		$FBUserId = $facebook->getUser();
 		if($FBUserId){
-			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$facebookUser)));
+			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$FBUserId)));
 			if(!$FBUser){
 				$this->redirect("/users/facebookUserSelection");
 			}
 			if($FBUser){
-				$this->setUserAsLoggedIn($FBUser);
-				$this->redirect("/users");
+				$this->setUserAsLoggedIn($FBUser['User']);
+				$this->redirect("/users/firstTime");
 			}
 		}
 	}
@@ -590,43 +590,44 @@ class UsersController extends AppController {
 			$this->redirect("/");
 		}		
 	}	
-
-/**        
-* save FB-User if not exist.....
-* first ask to become Networker or Jobseeker.
-*/
-   function saveFacebookUser(){
-       $facebook = $this->facebookObject();
-       $fb_user_profile = $facebook->api('/me');
-       $userData = array();
-       $userData['account_email'] = isset($fb_user_profile['email'])?'FB_'.$fb_user_profile['email']:$fb_user_profile['id']."_fbuser@dummy.mail";
-       $userData['password'] = $fb_user_profile['id'];        
-       $userData['fb_user_id'] = $fb_user_profile['id'];
-       if($userId = $this->saveUser($userData)){
-           $userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
-           $this->saveUserRoles($userId,$userRole);
-           $userConfirmCode = $this->User->find('first',array('conditions'=>array('User.id'=>$userId),'fields'=>'User.confirm_code',));
-           $userData['confirm_code'] = $userConfirmCode['User']['confirm_code'];
-           $user['user_id'] = $userId;
-           $user['contact_name'] = $fb_user_profile['name'];                        
-           switch($userRole){
-           		case JOBSEEKER:
-						       if($this->Jobseekers->save($user,false) ){
-						               $this->confirmAccount($userId,$userData['confirm_code']);
-						               $this->setUserAsLoggedIn($userData);        
-						               $this->redirect("/users/firstTime");
-						       }
-						       break;
+	
+/**	
+ * save FB-User if not exist.....
+ * first ask to become Networker or Jobseeker.
+ */
+	function saveFacebookUser(){
+		$facebook = $this->facebookObject();
+		$fb_user_profile = $facebook->api('/me');
+		$userData = array();
+		$userData['account_email'] = isset($fb_user_profile['email'])?'FB_'.$fb_user_profile['email']:$fb_user_profile['id']."_fbuser@dummy.mail";
+		$userData['password'] = $fb_user_profile['id'];	
+		$userData['fb_user_id'] = $fb_user_profile['id'];
+		if($userId = $this->saveUser($userData)){
+			$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
+			$this->saveUserRoles($userId,$userRole);
+			$userConfirmCode = $this->User->find('first',array('conditions'=>array('User.id'=>$userId),'fields'=>'User.confirm_code',));
+			$userData['confirm_code'] = $userConfirmCode['User']['confirm_code'];
+			$user['user_id'] = $userId;
+			$user['contact_name'] = $fb_user_profile['name'];			
+			switch($userRole){
+				case JOBSEEKER:
+								if($this->Jobseekers->save($user,false) ){
+									$this->confirmAccount($userId,$userData['confirm_code']);
+									$this->setUserAsLoggedIn($userData);	
+									$this->redirect("/users/firstTime");
+								}
+								break;
 				case NETWORKER:
-						       if($this->Networkers->save($user,false) ){        
-						               $this->confirmAccount($userId,$userData['confirm_code']);
-						               $this->setUserAsLoggedIn($userData);        
-						               $this->redirect("/users/firstTime");
-						       }
-						       break;                                        
-           }        
-       }        
-   }
+								if($this->Networkers->save($user,false) ){	
+									$this->confirmAccount($userId,$userData['confirm_code']);
+									$this->setUserAsLoggedIn($userData);	
+									$this->redirect("/users/firstTime");
+								}
+								break;					
+			}	
+		}	
+	}		
+
 /**	
  * check FB-User exist or not
  * @return FB-User info OR Null
@@ -724,7 +725,7 @@ class UsersController extends AppController {
 				if(isset($redirectTo)&&!empty($redirectTo)&&$userRole['id']!=ADMIN){
 					$this->redirect($redirectTo);
 				}
-				$this->redirect("/users/firstTime");
+				$this->loginRedirect($userRole['id']);
 			}
 		}
 		$this->setRedirectionUrl();
@@ -920,6 +921,23 @@ class UsersController extends AppController {
 			if($user['User']['is_active']==0 && $user['User']['confirm_code']!="" ){
 				$this->Session->setFlash('Your account is not activated/confirmed, please check your email for confirmation link!', 'warning');
 			}
+		}
+	}
+	
+	function loginRedirect($userRole){
+		switch($userRole){
+			case COMPANY:
+					$this->redirect("/companies/newJob");
+					break;	
+			case JOBSEEKER:
+					$this->redirect("/jobseekers/newJob");						
+					break;			
+			case NETWORKER:
+					$this->redirect("/networkers/newJob");						
+					break;		
+			case ADMIN:
+					$this->redirect("/admin");
+					break;	
 		}
 	}
 

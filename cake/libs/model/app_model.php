@@ -47,6 +47,11 @@ class AppModel extends Model {
 
 	public function paginateCount($conditions = null, $recursive = 0, $extra = array())
 	{
+		if(isset($extra['myCount'])){
+			$count = $extra['myCount'];
+			unset($extra['myCount']);
+			return $count;
+		}
 	    if ( isset($extra['group']) )
 	    {
 		$parameters = compact('conditions', 'recursive');
