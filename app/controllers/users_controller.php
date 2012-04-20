@@ -495,9 +495,11 @@ class UsersController extends AppController {
 		if($id==2){
 			$this->redirect("/");
 		}
-//		$roleId = $this->Session->read('userRole.id');
+
 		switch($this->userRole){
 			case COMPANY:
+					$jobseekerData = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$id)));
+					$this->saveWelcomeUserName($networkerData['Companies']['contact_name']);
 					$this->redirect("/companies/newJob");
 					break;	
 			case JOBSEEKER:
@@ -516,6 +518,7 @@ class UsersController extends AppController {
 					$this->redirect("/admin");
 					break;	
 		}
+		$this->saveWelcomeUserName();
 		$this->set('roleName', $this->userRole);
 	}
 /**
@@ -598,12 +601,14 @@ class UsersController extends AppController {
 				case JOBSEEKER:
 								if($this->Jobseekers->save($user,false) ){
 									$this->confirmAccount($userId,$userData['confirm_code']);
+									$this->saveWelcomeUserName($fb_user_profile['name']);
 									$this->redirect("/users/firstTime");
 								}
 								break;
 				case NETWORKER:
 								if($this->Networkers->save($user,false) ){	
 									$this->confirmAccount($userId,$userData['confirm_code']);
+									$this->saveWelcomeUserName($fb_user_profile['name']);
 									$this->redirect("/users/firstTime");
 								}
 								break;					
@@ -684,7 +689,7 @@ class UsersController extends AppController {
 					case COMPANY:
 							if(isset($userData['Companies'][0]['contact_name']))
 								$welcomeUserName = $userData['Companies'][0]['contact_name'];
-							break;
+								break;
 					case JOBSEEKER:
 							if(isset($userData['Jobseekers'][0]['contact_name']))
 								$welcomeUserName = $userData['Jobseekers'][0]['contact_name'];
@@ -694,10 +699,10 @@ class UsersController extends AppController {
 								$welcomeUserName = $userData['Networkers'][0]['contact_name'];
 							break;
 				}
-				$this->Session->write('welcomeUserName',$welcomeUserName);
 				$redirectTo=$this->Session->read('redirection_url');
 				$this->Session->delete('redirection_url');
 				if(isset($redirectTo)&&!empty($redirectTo)&&$userRole['id']!=ADMIN){
+					$this->saveWelcomeUserName($welcomeUserName);
 					$this->redirect($redirectTo);
 				}
 				$this->loginRedirect($userRole['id']);
@@ -760,9 +765,19 @@ class UsersController extends AppController {
  */
 
 	public function changePassword(){
+		
+		$facebookUser=$this->User->find('first',array('conditions'=>
+													array('id'=>$this->TrackUser->getCurrentUserId(),
+													'password'=>0),
+													'fields'=>'password,id,fb_user_id,',
+													)
+																
+										);
+		$facebookUserData=isset($facebookUser)?$facebookUser['User']['fb_user_id']:null;
+		$this->set('facebookUserData',$facebookUserData);
 		if(isset($this->data['User'])){
 			//check for blank or empty field
-			if(empty($this->data['User']['oldPassword'])){
+			if(empty($this->data['User']['oldPassword']) && $facebookUserData==null ){
 				$this->set("old_password_error","Old Password Required");
 				if($this->userRole==ADMIN){
 					$this->render("change_password","admin");
@@ -772,9 +787,12 @@ class UsersController extends AppController {
 			
 			// Password hashing
 			$this->data['User']['id'] = $this->TrackUser->getCurrentUserId();
-			$this->data['User']['password']=$this->Auth->password($this->data['User']['password']);
-			$this->data['User']['oldPassword']=$this->Auth->password($this->data['User']['oldPassword']);
-			
+			if(empty($this->data['User']['oldPassword']) && $facebookUser!=null ){
+				$this->data['User']['oldPassword']=0;
+			}else{
+				$this->data['User']['oldPassword']=$this->Auth->password($this->data['User']['oldPassword']);
+			}
+			$this->data['User']['password']=$this->Auth->password($this->data['User']['password']);			
 			
 			//Check old password match
 			if(!$this->User->find('first',array('conditions'=>array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword'])))){
@@ -821,6 +839,7 @@ class UsersController extends AppController {
 					if($this->userRole==ADMIN){
 						$this->render("change_password","admin");
 					}
+					return;
 				}elseif(mysql_affected_rows()<0){	//check for server problem
 					unset($this->data['User']);
 					$this->Session->setFlash("Server problem!","error");
@@ -837,7 +856,9 @@ class UsersController extends AppController {
 				}
 			}
 		}
+		
 		if($this->userRole==ADMIN){
+			unset($this->data['User']);
 			$this->render("change_password","admin");
 		}
 	}
@@ -895,6 +916,11 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Your account is not activated/confirmed, please check your email for confirmation link!', 'warning');
 			}
 		}
+	}
+		
+	function saveWelcomeUserName($welcomeUserName="user"){
+		$this->Session->write('welcomeUserName',$welcomeUserName);
+		return;
 	}
 	
 	function loginRedirect($userRole){

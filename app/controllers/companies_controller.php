@@ -987,18 +987,19 @@ function paymentHistoryInfo(){
 								'limit'=>'10', 	
 								'joins'=>array(
 											array('table'=>'users',
-												  'type'=>'inner',
+												  'type'=>'LEFT',
 												  'conditions'=>array('users.id=PaymentHistory.jobseeker_user_id',
 																	  'users.is_active=1'),
 												 ),
 										 	array('table'=>'jobseekers',
 												  'alias'=> 'js',
-												  'type'=>'inner',
+												  'type'=>'LEFT',
 												  'conditions'=>array('js.user_id =PaymentHistory.jobseeker_user_id'),
 												 ),
 											   ),
 								'fields'=>array('PaymentHistory.user_id,PaymentHistory.paid_date,js.contact_name,
 												js.contact_phone,js.city,js.state,users.account_email'),
+								'order'=>'PaymentHistory.paid_date desc'
 								);
 		$employees = $this->paginate("PaymentHistory");
 		$this->set('employees',$employees);

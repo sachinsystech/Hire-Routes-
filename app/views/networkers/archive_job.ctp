@@ -95,7 +95,8 @@
                                  
                                  <div style="float:left">
 				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>							
-								</div>
+								</div>	
+                          
 							</td>
 						</tr>
 					<?php endforeach; ?>

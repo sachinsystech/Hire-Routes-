@@ -25,6 +25,7 @@ class AdminController extends AppController {
 		if($this->userRole!=ADMIN){
 			$this->redirect("/users/firstTime");
 		}
+		
 	}
 	
 	/****	Admin default view	***/
@@ -34,6 +35,7 @@ class AdminController extends AppController {
 
 	/****	listing companies to accept/decline registration request	***/
 	function companiesList() {
+		
 		$this->paginate=array(
 			'fields' => array('Companies.id',
 				'Companies.user_id',
@@ -334,7 +336,7 @@ class AdminController extends AppController {
 				}else
 					$userArray[$key]['account_email'] = "fb";
 					
-				$userArray[$key]['created'] = date("d M Y h:m:s", strtotime($value['UserList']['created']));
+				$userArray[$key]['created'] = date("m/d/Y h:m:s", strtotime($value['UserList']['created']));
 				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
 				
 				if(isset($value[$table])){

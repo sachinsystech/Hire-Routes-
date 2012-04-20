@@ -67,7 +67,7 @@
 							<td>
 								<div>
 									<div>
-										<?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?>
+										<?php	echo '<b>'.$job['Job']['title'].'</b>'; ?>
 									</div>									
 								</div>
 								<div style="clear:both"></div>
@@ -92,7 +92,7 @@
                                     <?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>							
 								 </div>	
                                  <div style="padding-left:550px;">
-                                    <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['Job']['id']); ?>
+                                    <?php	//echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['Job']['id']); ?>
                                  </div>                                	
 							</td>
 						</tr>
