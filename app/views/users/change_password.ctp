@@ -1,4 +1,5 @@
 <?php 
+
 /*
  * Change Password
  */
@@ -35,13 +36,14 @@
 			<div class="change_password">
                	<?php echo $form->create('User',array('action'=>'changePassword'))?>
 				<div class="required">
-					<?php echo $form->input('User.oldPassword',array(
+					<?php
+						echo $form->input('User.oldPassword',array(
 											'label' => 'Old Password:',
-											'type'  => 'password',
+											'type'  => ($facebookUserData!=null)?'hidden':'password',
 											'class' => 'text_field_bg required',
 											'minlength' => '6',
-											)
-							 );
+										)
+						);
 					?>
 				</div>
 				<?php if(isset($old_password_error)):?>
@@ -51,7 +53,7 @@
 				<?php endif;?>
 				<div style="clear:both"></div>
 				<div>
-					<?php echo $form->input('password', array('label' => 'New Password:',
+					<?php echo $form->input('User.password', array('label' => 'New Password:',
 												'type'  => 'password',
 												'name'  => "data[User][password]",
 												'class' => 'text_field_bg password',

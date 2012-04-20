@@ -87,14 +87,14 @@
 				<?php } ?>
 				<?php foreach($jobs as $job):?>	
 				<tr>
-					<td><?php echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); echo "<br>Posted ". $time->timeAgoInWords($job['Job']['created']) ?></td>
+					<td><?php echo "<b>".$job['Job']['title']."</b><br>Posted ".$time->timeAgoInWords($job['Job']['created']);?></td>
 					<td><?php echo $job[0]['submissions']; ?> submissions</td>
-					<td><?php echo $this->Html->image("/img/icon/detail.png", array(
+					<td><?php /*echo $this->Html->image("/img/icon/detail.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
 						'url' =>  '/jobs/jobDetail/'.$job['Job']['id'],
                         'title'=> 'Detail'
 						));
-						/*echo $this->Html->image("/img/icon/edit.png", array(
+						echo $this->Html->image("/img/icon/edit.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
 						'url' =>  '/companies/editJob/'.$job['Job']['id'],
                         'title'=> 'Edit'
