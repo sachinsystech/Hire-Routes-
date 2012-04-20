@@ -852,9 +852,10 @@ function paymentHistoryInfo(){
 						$paymentHistory['amount'] = $appliedJob['Job']['reward'];
 						$paymentHistory['transaction_id'] = $resArray['TRANSACTIONID'];
 						
-						$this->PaymentHistory->save($paymentHistory);
-												
-						//echo "<pre>"; print_r($paymentHistory); 	
+						if($this->PaymentHistory->save($paymentHistory)){
+						
+						}
+						$this->sendCongratulationEmail($appliedJob);
 						$this->Session->setFlash('Applicant has been selected successfully.', 'success');	
 						$this->redirect("/companies/showApplicant/".$appliedJob['Job']['id']);
 						return;
@@ -891,7 +892,7 @@ function paymentHistoryInfo(){
     	$JobseekerUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$appliedJob['JobseekerapplyJob']['user_id'])));
     	$jobDetails = $this->getJob($appliedJob['Job']['id']);    	
     	$interMeedUsers = count(explode(',',$appliedJob['JobseekerapplyJob']['intermediate_users']));
-    	$appliedOn = $appliedJob['JobseekerapplyJob']['created'];
+    	$appliedOn = date("m/d/Y",strtotime($appliedJob['JobseekerapplyJob']['created']));
     	$jobTyps = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
     	
     	$emailMsgInfo = array();

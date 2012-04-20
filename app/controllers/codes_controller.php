@@ -15,6 +15,12 @@ class CodesController extends AppController {
 		$this->Auth->allow('add');
 		$this->Auth->allow('delete');
 		$this->layout = "admin";
+		if($this->Session->read('Auth.User.id')!=1){
+			$this->redirect('/');
+		}
+		if($this->userRole!=ADMIN){
+			$this->redirect("/users/firstTime");
+		}
 	}
 	
 	/*	Display list of all codes and generate/add new code	*/

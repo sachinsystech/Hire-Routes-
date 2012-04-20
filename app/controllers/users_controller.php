@@ -499,6 +499,10 @@ class UsersController extends AppController {
 	function firstTime() {
 		
 		$id = $this->TrackUser->getCurrentUserId();
+		if($id==2){
+			$this->redirect("/");
+		}
+
 		switch($this->userRole){
 			case COMPANY:
 					$jobseekerData = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$id)));
@@ -741,7 +745,6 @@ class UsersController extends AppController {
  */	
 	function logout() {
 		$this->Auth->logout();
-
         $this->Session->delete('code');
 		$this->Session->delete('welcomeUserName');
 		$this->Session->delete('userRole');

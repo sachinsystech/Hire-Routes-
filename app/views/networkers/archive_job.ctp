@@ -71,8 +71,9 @@
 						<tr>
 							<td>
 								<div>
-									<div style="float:left"> <?php	echo '<b>'.$job['Job']['title'].'</b>'; ?></div>
-									<div style="float:right"><b>Reward : </b><?php echo $job['Job']['reward'];?>$</div>									
+									<div style="float:left">
+										<b><?php echo $job['Job']['title']?></b>
+									</div>									
 								</div>
 								<div style="clear:both"></div>
                                 <div>
@@ -95,9 +96,7 @@
                                  <div style="float:left">
 				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>							
 								</div>	
-                                <div style="float:right">
-                                    <?php //echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['Job']['id']); ?>
-                                </div>                                	
+                          
 							</td>
 						</tr>
 					<?php endforeach; ?>
