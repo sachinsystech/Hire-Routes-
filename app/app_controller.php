@@ -41,8 +41,6 @@ class AppController extends Controller {
 			'password' => 'password'
 		);
 	
-		//$this->Auth->authError = __('You do not have permission to access the page you just selected.', true);
-
 		$this->Auth->loginAction = array('plugin' => 'bcp', 'controller' => 'users', 'action' => 'login');
 
 		$this->Auth->logoutRedirect = array('plugin' => 'bcp', 'controller' => 'users', 'action' => 'login');
@@ -50,6 +48,7 @@ class AppController extends Controller {
 		$this->Auth->loginRedirect = array('plugin' => '', 'controller' => 'pages', 'action' => 'index');
 
 		$this->Auth->allow('logout');
+		
 	}
 
 
