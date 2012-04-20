@@ -104,8 +104,9 @@
 				</div>
 				
 				<div style="clear: both; margin:auto;" >
+					<?php if(!empty($NetworkerData)):?>
 					<b>Current Subscriptions:</b>
-					
+					<?php endif;?>
 					
 					<div id="accordion" style="width:620px">
 						<?php
@@ -162,23 +163,16 @@
 							<span>I would like to receive job notifications by email based on my information:<span>
 						</div>
 						<div>
-							<?php if(isset($SubscriptionData['notification']) && $SubscriptionData['notification']==1){
-									$style = '';
-								}else{
-									$style = 'style="display:none;"';
-							 	}?>
 							<?php $emil_post_array =array(''=>'Please Select','10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
-							<div id="subs_div" <?php echo $style;?>>
 								<?php echo $form -> input('subscribe_email',array('type'=>'select',
 																              'label'=>'',
 																              'options'=>$emil_post_array,
 																              'class'=>'networker_select_job_notify',
 																              'selected' => isset($SubscriptionData['subscribe_email'])?$SubscriptionData['subscribe_email']:""));?>
-							</div>
 							<div id="email_setting" style="padding-left:400px;"></div>
 						</div>
 						<div>
-							<?php echo $form ->submit('Save');?>
+							<?php echo $form->submit('Save Notification');?>
 						</div>				
 					<?php echo $form->end(); ?>	
 				</div>	

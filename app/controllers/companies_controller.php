@@ -19,6 +19,9 @@ class CompaniesController extends AppController {
 			$this->set('industries',$this->Utility->getIndustry());
 
 			if(isset($this->data['Job'])){
+				if(!(strtoupper(trim($this->params['form']['save']))=='POST AND SHARE')){
+					$this->data['Job']['is_active']=3;	//For 3=>unpublished, 1=>active job posts
+				}
 				$company = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
 				$this->data['Job']['user_id']= $userId;
 				$this->data['Job']['company_id']= $company['Companies']['id'];
@@ -27,19 +30,19 @@ class CompaniesController extends AppController {
 				if($this->Job->validates()){
 					if($this->Job->save()){
     		    	    switch($this->params['form']['save']){
-    		    	        case 'Post and Share Job with Network':
+    		    	        case 'Post and Share':
     		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');
-    		    	            $this->redirect('/companies/shareJob/'.$this->Job->id);
+    		    	            $this->redirect('/companies/editJob/'.$this->Job->id);
     		    	            break;
     		    	        case 'Save for Later':
     		    	        default:
     		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');	
-								$this->redirect('/companies/newJob');
+								$this->redirect('/companies/editJob/'.$this->Job->id);
         		            break;
 	    		        }
     			    }else{
     			        $this->Session->setFlash('Internal error while save job.', 'error');	
-    			        $this->redirect('/companies/newJob/');
+    			        $this->redirect('/companies/postJob/');
     			    }
 				}
 			}
@@ -258,7 +261,15 @@ list archive jobs..
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId)));
 			if($jobs['Job']){
 				$this->set('job',$jobs['Job']);	
-			
+				$this->set('jobId',$jobId);
+				$this->set('jobTitle',$jobs['Job']['title']);
+				$code=$this->Utility->getCode($jobId,$userId);
+                $this->set('code',$code);
+                if(isset($code)&&!empty($code))
+                	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/?code='.$code;
+                else
+	                $jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/';
+                $this->set('jobUrl',$jobUrl);
 				$this->set('states',$this->Utility->getState());
 				$this->set('industries',$this->Utility->getIndustry());
 				
@@ -841,9 +852,10 @@ function paymentHistoryInfo(){
 						$paymentHistory['amount'] = $appliedJob['Job']['reward'];
 						$paymentHistory['transaction_id'] = $resArray['TRANSACTIONID'];
 						
-						$this->PaymentHistory->save($paymentHistory);
-												
-						//echo "<pre>"; print_r($paymentHistory); 	
+						if($this->PaymentHistory->save($paymentHistory)){
+						
+						}
+						$this->sendCongratulationEmail($appliedJob);
 						$this->Session->setFlash('Applicant has been selected successfully.', 'success');	
 						$this->redirect("/companies/showApplicant/".$appliedJob['Job']['id']);
 						return;
@@ -880,7 +892,7 @@ function paymentHistoryInfo(){
     	$JobseekerUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$appliedJob['JobseekerapplyJob']['user_id'])));
     	$jobDetails = $this->getJob($appliedJob['Job']['id']);    	
     	$interMeedUsers = count(explode(',',$appliedJob['JobseekerapplyJob']['intermediate_users']));
-    	$appliedOn = $appliedJob['JobseekerapplyJob']['created'];
+    	$appliedOn = date("m/d/Y",strtotime($appliedJob['JobseekerapplyJob']['created']));
     	$jobTyps = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
     	
     	$emailMsgInfo = array();

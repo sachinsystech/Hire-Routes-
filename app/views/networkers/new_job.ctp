@@ -36,6 +36,7 @@
         <div class="jobs_topMenu">
 			<div>
 				<div style="float:left;">
+				<?php if(isset($jobs)):?>
 					<?php echo $form -> input('short_by',array(
 												'type'=>'select',
 												'label'=>'SORT BY ',
@@ -64,7 +65,7 @@
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
-			<div>
+			<div>			
 				<table>
 					<?php foreach($jobs as $job):?>	
 						<tr>
@@ -108,7 +109,7 @@
 						</tr>
 					<?php endforeach; ?>
 				</table>
-				<?php if(!$jobs):?>
+				<?php else:?>
 					<div><h4>There is no job found for this search.</h4></div>
 				<?php endif;?>
 			</div>			
