@@ -499,6 +499,9 @@ class UsersController extends AppController {
 	function firstTime() {
 		
 		$id = $this->TrackUser->getCurrentUserId();
+		if($id==2){
+			$this->redirect("/");
+		}
 //		$roleId = $this->Session->read('userRole.id');
 		switch($this->userRole){
 			case COMPANY:
@@ -737,12 +740,10 @@ class UsersController extends AppController {
  */	
 	function logout() {
 		$this->Auth->logout();
-
         $this->Session->delete('code');
 		$this->Session->delete('welcomeUserName');
 		$this->Session->delete('userRole');
 		$this->Session->delete('Twitter');
-
 		$this->redirect("/home/index");		
 	}	
 /**

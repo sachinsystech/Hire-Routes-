@@ -19,6 +19,9 @@ class AdminController extends AppController {
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('userDetail');
 		$this->layout = "admin";
+		if($this->Session->read('Auth.User.id')!=1){
+			$this->redirect('/');
+		}
 		if($this->userRole!=ADMIN){
 			$this->redirect("/users/firstTime");
 		}
