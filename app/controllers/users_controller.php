@@ -58,6 +58,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('accountConfirmation');		
 		$this->Auth->allow('myAccount');	
 		$this->Auth->allow('forgotPassword');	
+		$this->Auth->allow('saveFacebookUser');
 	}
 
 /**
@@ -585,7 +586,6 @@ class UsersController extends AppController {
 	
 		$userData['account_email'] = isset($fb_user_profile['email'])?$fb_user_profile['email']:$fb_user_profile['id']."_fbuser@dummy.mail";
 		$userData['password'] = 'NULL';			
-		
 		if($userId = $this->saveUser($userData)){
 			$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
 			$this->saveUserRoles($userId,$userRole);
