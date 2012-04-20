@@ -42,14 +42,9 @@ class UsersController extends AppController {
 **/
 	public function beforeFilter(){
 		parent::beforeFilter();
-		//Configure AuthComponent
 		$this->Auth->authorize = 'actions';
-		//$this->Auth->authError = __('You do not have permission to access the page you just selected.', true);
-		$this->Auth->loginAction = array('plugin' => 'bcp', 'controller' => 'users', 'action' => 'login');
-		$this->Auth->logoutRedirect = array('plugin' => 'bcp', 'controller' => 'users', 'action' => 'login');
-		$this->Auth->loginRedirect = array('plugin' => '', 'controller' => 'pages', 'action' => 'index');
-		$this->Auth->autoRedirect = false; // Set to false in order to save last_login time
-		$this->Auth->allow('logout'); // Allow logout to everybody
+				
+		$this->Auth->allow('logout'); 
 		$this->Auth->allow('login');
 		$this->Auth->allow('index');
 		
@@ -59,13 +54,11 @@ class UsersController extends AppController {
 		$this->Auth->allow('userSelection');
 		$this->Auth->allow('account');		
 		$this->Auth->allow('confirmation');		
-		$this->Auth->allow('saveFacebookUser');
-		$this->Auth->allow('facebookUser');
 		$this->Auth->allow('facebookUserSelection');
 		$this->Auth->allow('accountConfirmation');		
 		$this->Auth->allow('myAccount');	
 		$this->Auth->allow('forgotPassword');	
-
+		$this->Auth->allow('saveFacebookUser');
 	}
 
 /**
@@ -140,6 +133,7 @@ class UsersController extends AppController {
 
 	function networkerSignup() {
 
+		/***	manage facebook user ***/
 		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
 			$facebook = $this->facebookObject();
 			$FBUserId = $facebook->getUser();
@@ -147,7 +141,6 @@ class UsersController extends AppController {
 				$this->manageFBUser();
 			}
 		}
-
 		
 		$codeFlag=true;
 		if($this->TrackUser->isHRUserLoggedIn()){
@@ -329,6 +322,7 @@ class UsersController extends AppController {
         if($parent = $this->Utility->getRecentUserIdFromCode()){
             $userData['parent_user_id'] = $parent;
 		}
+		
 		if(!$this->User->save($userData)){
 			$this->Session->setFlash('Internal Error!', 'error');
 			$this->redirect("/");
@@ -486,10 +480,10 @@ class UsersController extends AppController {
 				'username' => 'account_email',
 				'password' => 'password'
 			);
-			if($this->Auth->login($data)){
+			
+			if($this->Auth->login($data,false)){
 				$this->Session->write('userRole',$this->TrackUser->getCurrentUserRole());
 			}
-			
 		}	
 	}	
 /**
@@ -532,17 +526,17 @@ class UsersController extends AppController {
  * create facebook object.
  * @return an array of facebook object 
  */	
-	function facebookObject() {
+	private function facebookObject() {
 		$facebook = new Facebook(array(
 		  'appId'  => FB_API_KEY,
 		  'secret' => FB_SECRET_KEY,
 		));
 		return $facebook;
 	}
+	
 /**	
  * Tracking facebook users, whether he/she is first-time or existing user.... 
- */
- 
+ */ 
  	private function manageFBUser(){
 		$facebook = $this->facebookObject();
 		$fbUserProfile = $facebook->api('/me');
@@ -550,7 +544,27 @@ class UsersController extends AppController {
 		if($FBUserId){
 			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$FBUserId)));
 			if(!$FBUser){
-				$this->redirect("/users/facebookUserSelection");
+				$fbUserMail = isset($fbUserProfile['email'])?$fbUserProfile['email']:''; // Retrieve mail from FB
+				$getUser = $this->User->find('first',array(	
+										'conditions'=>array('User.account_email'=>$fbUserMail), 
+										'fields'=>'User.account_email,User.password'
+										)
+									);
+				if($getUser['User']){			
+					$userData['id'] = $getUser['User']['id'];
+					$userData['fb_user_id'] = $fbUserProfile['id'];
+					$userData['facebook_token'] = $facebook->getAccessToken();
+					if($this->User->save($userData)){
+						$setUserAsLoggedIn['account_email'] = $getUser['User']['account_email'];
+						$setUserAsLoggedIn['password'] = $getUser['User']['password'];
+						$this->setUserAsLoggedIn($setUserAsLoggedIn);
+						$this->redirect("/users/firstTime");
+						return;
+					}		
+				}
+				else{
+					$this->redirect("/users/facebookUserSelection");
+				}	
 			}
 			if($FBUser){
 				$this->setUserAsLoggedIn($FBUser['User']);
@@ -558,45 +572,6 @@ class UsersController extends AppController {
 			}
 		}
 	}
- 
- 
-	function facebookUser() {
-		$facebook = $this->facebookObject();
-		$user = $facebook->getUser();
-		if($user){
-			try {
-				if(!$faceBookUserData = $this->isExistFBUser($user)){
-					$this->redirect("/users/facebookUserSelection");
-				}
-			    // for login current facebook user.
-			    
-				$user_account = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$user)));
-				$this->setUserAsLoggedIn($user_account['User']);
-				if($user_account['UserRoles']['0']['role_id']== JOBSEEKER){
-					$this->redirect("/users/jobseekerSetting");				
-					return;
-				}
-				if($user_account['UserRoles']['0']['role_id']== NETWORKER){
-					$this->redirect("/users/networkerSetting");				
-					return;
-				}				    
-				$this->redirect("/users/firstTime");				
-				$this->set('FBloginlogoutUrl',$facebook->getLogoutUrl());
-				$this->set('fbButtonClass','fb-logout');
-				$this->set('faceBookUserData',$faceBookUserData['FacebookUsers']);
-			} catch (FacebookApiException $e) {
-				error_log($e);
-				$user = null;
-				$this->redirect("/");
-				return;
-			}
-			
-		}
-		else{ 
-			$this->redirect("/");
-		}		
-	}	
-	
 /**	
  * save FB-User if not exist.....
  * first ask to become Networker or Jobseeker.
@@ -604,22 +579,28 @@ class UsersController extends AppController {
 	function saveFacebookUser(){
 		$facebook = $this->facebookObject();
 		$fb_user_profile = $facebook->api('/me');
+
 		$userData = array();
-		$userData['account_email'] = isset($fb_user_profile['email'])?'FB_'.$fb_user_profile['email']:$fb_user_profile['id']."_fbuser@dummy.mail";
-		$userData['password'] = $fb_user_profile['id'];	
 		$userData['fb_user_id'] = $fb_user_profile['id'];
+		$userData['facebook_token'] = $facebook->getAccessToken();
+	
+		$userData['account_email'] = isset($fb_user_profile['email'])?$fb_user_profile['email']:$fb_user_profile['id']."_fbuser@dummy.mail";
+		$userData['password'] = 'NULL';			
 		if($userId = $this->saveUser($userData)){
 			$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
 			$this->saveUserRoles($userId,$userRole);
-			$userConfirmCode = $this->User->find('first',array('conditions'=>array('User.id'=>$userId),'fields'=>'User.confirm_code',));
-			$userData['confirm_code'] = $userConfirmCode['User']['confirm_code'];
+			
+			$userCCode = $this->User->find('first',array(	
+															'conditions'=>array('User.id'=>$userId), 
+															'fields'=>'User.confirm_code'));
+			
+			$userData['confirm_code'] = $userCCode['User']['confirm_code'];
 			$user['user_id'] = $userId;
 			$user['contact_name'] = $fb_user_profile['name'];			
 			switch($userRole){
 				case JOBSEEKER:
 								if($this->Jobseekers->save($user,false) ){
 									$this->confirmAccount($userId,$userData['confirm_code']);
-									$this->setUserAsLoggedIn($userData);
 									$this->saveWelcomeUserName($fb_user_profile['name']);
 									$this->redirect("/users/firstTime");
 								}
@@ -627,7 +608,6 @@ class UsersController extends AppController {
 				case NETWORKER:
 								if($this->Networkers->save($user,false) ){	
 									$this->confirmAccount($userId,$userData['confirm_code']);
-									$this->setUserAsLoggedIn($userData);
 									$this->saveWelcomeUserName($fb_user_profile['name']);
 									$this->redirect("/users/firstTime");
 								}
@@ -636,14 +616,6 @@ class UsersController extends AppController {
 		}	
 	}		
 
-/**	
- * check FB-User exist or not
- * @return FB-User info OR Null
- */
-	function isExistFBUser($facebookUser){
-		$FB_USER = $this->FacebookUsers->find('first',array('conditions'=>array('FacebookUsers.facebook_id'=>$facebookUser)));
-		return $FB_USER;
-	}
 
 /**
  * Log-in a user with the given parameter account_email and password
@@ -706,7 +678,7 @@ class UsersController extends AppController {
 				'password' => 'password'
 			);
 			
-			if(!$this->Auth->login($data) ){
+			if(!$this->Auth->login($data)){
 				$this->Session->setFlash('Username or password not matched.', 'error');				
 			}else{
 				$userRole=$this->TrackUser->getCurrentUserRole();

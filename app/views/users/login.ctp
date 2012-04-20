@@ -1,5 +1,5 @@
-<?php echo $this->Session->flash(); ?>
-
+<?php //echo $this->Session->flash(); ?>
+<div class="page">
 <div style="width:350px;margin:auto;">
 <div class="sigup_heading"><u>Login</u></div>
 <?php
@@ -13,9 +13,9 @@
 											 array('style'=>'color: #1E7EC8;'));
 ?>
 </div>
+</div>
 <script type="text/javascript">
 $(document).ready(function(){
-
 	$("#UserLoginForm").validate();	
 	$("#UserLoginForm").submit(function(){ 
 		if($("#UserRememberMe").is(':checked')){		
