@@ -19,10 +19,6 @@ class AdminController extends AppController {
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('userDetail');
 		$this->layout = "admin";
-		if(!$this->TrackUser->isUserLoggedIn()){
-			$this->redirect("/home/index");	
-			return;
-		}
 		if($this->userRole!=ADMIN){
 			$this->redirect("/users/firstTime");
 		}
@@ -337,7 +333,7 @@ class AdminController extends AppController {
 				}else
 					$userArray[$key]['account_email'] = "fb";
 					
-				$userArray[$key]['created'] = date("d M Y h:m:s", strtotime($value['UserList']['created']));
+				$userArray[$key]['created'] = date("m/d/Y h:m:s", strtotime($value['UserList']['created']));
 				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
 				
 				if(isset($value[$table])){

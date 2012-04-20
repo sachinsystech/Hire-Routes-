@@ -499,20 +499,23 @@ class UsersController extends AppController {
 	function firstTime() {
 		
 		$id = $this->TrackUser->getCurrentUserId();
-//		$roleId = $this->Session->read('userRole.id');
 		switch($this->userRole){
 			case COMPANY:
+					$jobseekerData = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$id)));
+					$this->saveWelcomeUserName($networkerData['Companies']['contact_name']);
 					$this->redirect("/companies/newJob");
 					break;	
 			case JOBSEEKER:
 					$jobseekerData = $this->Jobseekers->find('first',array('conditions'=>array('Jobseekers.user_id'=>$id)));
 					if(isset($jobseekerData['Jobseekers']['contact_name'])){
-						$this->redirect("/jobseekers/newJob");						
+						$this->saveWelcomeUserName($jobseekerData['Jobseekers']['contact_name']);
+						$this->redirect("/jobseekers/newJob");							
 					}
 					break;			
 			case NETWORKER:
 					$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$id)));
 					if(isset($networkerData['Networkers']['contact_name'])){
+						$this->saveWelcomeUserName($networkerData['Networkers']['contact_name']);
 						$this->redirect("/networkers/newJob");						
 					}
 					break;		
@@ -520,6 +523,7 @@ class UsersController extends AppController {
 					$this->redirect("/admin");
 					break;	
 		}
+		$this->saveWelcomeUserName();
 		$this->set('roleName', $this->userRole);
 	}
 /**
@@ -613,14 +617,16 @@ class UsersController extends AppController {
 				case JOBSEEKER:
 								if($this->Jobseekers->save($user,false) ){
 									$this->confirmAccount($userId,$userData['confirm_code']);
-									$this->setUserAsLoggedIn($userData);	
+									$this->setUserAsLoggedIn($userData);
+									$this->saveWelcomeUserName($fb_user_profile['name']);
 									$this->redirect("/users/firstTime");
 								}
 								break;
 				case NETWORKER:
 								if($this->Networkers->save($user,false) ){	
 									$this->confirmAccount($userId,$userData['confirm_code']);
-									$this->setUserAsLoggedIn($userData);	
+									$this->setUserAsLoggedIn($userData);
+									$this->saveWelcomeUserName($fb_user_profile['name']);
 									$this->redirect("/users/firstTime");
 								}
 								break;					
@@ -709,7 +715,7 @@ class UsersController extends AppController {
 					case COMPANY:
 							if(isset($userData['Companies'][0]['contact_name']))
 								$welcomeUserName = $userData['Companies'][0]['contact_name'];
-							break;
+								break;
 					case JOBSEEKER:
 							if(isset($userData['Jobseekers'][0]['contact_name']))
 								$welcomeUserName = $userData['Jobseekers'][0]['contact_name'];
@@ -719,10 +725,10 @@ class UsersController extends AppController {
 								$welcomeUserName = $userData['Networkers'][0]['contact_name'];
 							break;
 				}
-				$this->Session->write('welcomeUserName',$welcomeUserName);
 				$redirectTo=$this->Session->read('redirection_url');
 				$this->Session->delete('redirection_url');
 				if(isset($redirectTo)&&!empty($redirectTo)&&$userRole['id']!=ADMIN){
+					$this->saveWelcomeUserName($welcomeUserName);
 					$this->redirect($redirectTo);
 				}
 				$this->redirect("/users/firstTime");
@@ -742,7 +748,6 @@ class UsersController extends AppController {
 		$this->Session->delete('welcomeUserName');
 		$this->Session->delete('userRole');
 		$this->Session->delete('Twitter');
-
 		$this->redirect("/home/index");		
 	}	
 /**
@@ -938,6 +943,11 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Your account is not activated/confirmed, please check your email for confirmation link!', 'warning');
 			}
 		}
+	}
+		
+	function saveWelcomeUserName($welcomeUserName="user"){
+		$this->Session->write('welcomeUserName',$welcomeUserName);
+		return;
 	}
 
 }
