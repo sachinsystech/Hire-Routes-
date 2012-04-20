@@ -506,16 +506,14 @@ class UsersController extends AppController {
 					$this->redirect("/companies/newJob");
 					break;	
 			case JOBSEEKER:
-					$jobseekerData = $this->Jobseekers->find('first',array('conditions'=>array('Jobseekers.user_id'=>$id)));
-					if(isset($jobseekerData['Jobseekers']['contact_name'])){
-						$this->saveWelcomeUserName($jobseekerData['Jobseekers']['contact_name']);
-						$this->redirect("/jobseekers/newJob");							
+					$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$id)));
+					if($jobseekerData){
+						$this->redirect("/jobseekers/newJob");						
 					}
 					break;			
 			case NETWORKER:
-					$networkerData = $this->Networkers->find('first',array('conditions'=>array('Networkers.user_id'=>$id)));
-					if(isset($networkerData['Networkers']['contact_name'])){
-						$this->saveWelcomeUserName($networkerData['Networkers']['contact_name']);
+					$networkerData = $this->NetworkerSettings->find('first',array('conditions'=>array('user_id'=>$id)));
+					if($networkerData){
 						$this->redirect("/networkers/newJob");						
 					}
 					break;		
@@ -731,7 +729,7 @@ class UsersController extends AppController {
 					$this->saveWelcomeUserName($welcomeUserName);
 					$this->redirect($redirectTo);
 				}
-				$this->redirect("/users/firstTime");
+				$this->loginRedirect($userRole['id']);
 			}
 		}
 		$this->setRedirectionUrl();
@@ -948,6 +946,23 @@ class UsersController extends AppController {
 	function saveWelcomeUserName($welcomeUserName="user"){
 		$this->Session->write('welcomeUserName',$welcomeUserName);
 		return;
+	}
+	
+	function loginRedirect($userRole){
+		switch($userRole){
+			case COMPANY:
+					$this->redirect("/companies/newJob");
+					break;	
+			case JOBSEEKER:
+					$this->redirect("/jobseekers/newJob");						
+					break;			
+			case NETWORKER:
+					$this->redirect("/networkers/newJob");						
+					break;		
+			case ADMIN:
+					$this->redirect("/admin");
+					break;	
+		}
 	}
 
 }

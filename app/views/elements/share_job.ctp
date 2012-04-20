@@ -153,7 +153,7 @@ function setView(value)
 	{	
 		$('#to').html("");
 		$('#other').html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>");
-		$('#imageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="Share_ajax_loader"/></p>');
+		$('#imageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="sharejob_ajax_loader"/></p>');
 	}
 	return false;
 }

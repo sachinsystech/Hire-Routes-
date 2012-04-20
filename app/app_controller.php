@@ -15,6 +15,10 @@ class AppController extends Controller {
 	protected $userRole;
 	
 	function beforeFilter(){
+		if(strtoupper($this->params['controller'])!='JOBS'){
+			if($this->Session->check('NarrowJob'))
+				$this->Session->delete('NarrowJob');
+		}
         //here we get intermidiate user id from URLs
         $this->setIntermidiateUser();
 		/* SMTP Options for GMAIL */

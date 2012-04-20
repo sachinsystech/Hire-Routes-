@@ -79,10 +79,10 @@
  <div style="float:left;margin-left: -7px;clear: both;">
 <?php echo $form -> input('state',array(
 											'type'=>'select',
-											'label'=>'Location: ',
+											'label'=>'Location:',
 											'options'=>$states,
 											'empty' =>' -- All States-- ',
-											'class'=>'pj_select_ls required',
+											'class'=>'jobseeker_select_i required',
 											'onchange'=>'return fillCities(this.value,"JobCity","city_loader");'
 									)
 						);
@@ -94,7 +94,8 @@
 											'type'=>'select',
 											'label'=>'',
 											'empty' =>' -- All Cities-- ',
-											'class'=>'job_select__i_s'
+											'class'=>'job_select__i_s',
+											'style'=>'margin-left:5px;'
 									)
 						);
 ?>							
@@ -143,9 +144,9 @@
 								 );
 	?>
 	  <div style="clear: both;"></div>
-<div style="text-align:center">
-	<?php echo $form->submit('Save for Later',array('div'=>false,'name'=>'save','value'=>'later')); ?>
-	<?php echo $form->submit('Post and Share',array('div'=>false,'name'=>'save','value'=>'share')); ?>
+<div style="text-align:left">
+	<?php echo $form->submit('Save for Later',array('div'=>false,'name'=>'save','value'=>'later','style'=>'margin-left:130px;')); ?>
+	<?php echo $form->submit('Post and Share',array('div'=>false,'name'=>'save','value'=>'share','style'=>'float:right;')); ?>
 </div>
  <?php echo $form->end(); ?>
  </div>

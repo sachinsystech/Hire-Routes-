@@ -51,7 +51,11 @@ class JobsController extends AppController {
 
             }
         }
-        if((isset($this->params['form']['save']) && $this->params['form']['save'] =="Go" ) || $this->Session->read("NarrowJob")){
+        if((isset($this->params['form']['save']) && $this->params['form']['save'] =="Reset")){
+        	unset($this->data['NarrowJob']);
+        	if($this->Session->check('NarrowJob'))
+				$this->Session->delete('NarrowJob');
+        }elseif((isset($this->params['form']['save']) && $this->params['form']['save'] =="Go" ) || $this->Session->read("NarrowJob")){
             if(!isset($this->data['NarrowJob'])){
                 $this->data['NarrowJob'] = $this->Session->read("NarrowJob");
             }else{
