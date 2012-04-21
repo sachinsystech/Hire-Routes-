@@ -16,7 +16,7 @@ class TrackUserComponent extends Object
 {
 	var $someVar = null;
 	var $controller = true;
-	var $uses = array('UserRoles');
+	var $uses = array('UserRoles','User');
 	
 	var $components = array('Session','Auth');
 
@@ -86,7 +86,7 @@ class TrackUserComponent extends Object
 /**
  * Get authenticated user's role info 
  *
- * @return array Associative array with: "roleid"=>"rolename"
+ * @return array Associative array with: {roleid,rolename}
  * @access public
  */	
 	function getCurrentUserRole(){
@@ -94,18 +94,53 @@ class TrackUserComponent extends Object
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$userId)));		
 		$roleName  = null;
 		switch($userRole['UserRoles']['role_id']){
-			case 1:
-					$roleName = 'company';
+			case COMPANY:
+					$roleName = 'Company';
 					break;
-			case 2:
-					$roleName = 'jobseeker';	
+			case JOBSEEKER:
+					$roleName = 'Jobseeker';	
 					break;			
-			case 3:
-					$roleName = 'networker';		
+			case NETWORKER:
+					$roleName = 'Networker';		
+					break;			
+			case ADMIN:
+					$roleName = 'Admin';		
 					break;			
 		}
 		$currentUserRole = array('id'=>$userRole['UserRoles']['role_id'],'name'=>$roleName);
 		return $currentUserRole;
 	}
+	
+	function setWelcomeUserName(){
+		$userId = $this->getCurrentUserId();
+		$userData=$this->User->find('first',array('conditions'=>array('id'=>$userId)));
+		$welcomeUserName = 'User';	
+		$role = $this->getCurrentUserRole();
+		switch($role['id']){			
+			case COMPANY:
+					if(isset($userData['Companies'][0]['contact_name']))
+						$welcomeUserName = $userData['Companies'][0]['contact_name'];
+						break;
+			case JOBSEEKER:
+					if(isset($userData['Jobseekers'][0]['contact_name']))
+						$welcomeUserName = $userData['Jobseekers'][0]['contact_name'];
+					break;
+			case NETWORKER:
+					if(isset($userData['Networkers'][0]['contact_name']))
+						$welcomeUserName = $userData['Networkers'][0]['contact_name'];
+					break;
+			case ADMIN:
+						$welcomeUserName = 'Admin';
+					break;
+			default:
+						$welcomeUserName = null;
+		}
+		$this->Session->write('welcomeUserName',$welcomeUserName);
+	}
+	
+	function setUserRole(){
+		$userRole=$this->getCurrentUserRole();
+		$this->Session->write('userRole',$userRole);
+	}			
 }
 ?>

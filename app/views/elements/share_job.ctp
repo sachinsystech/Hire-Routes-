@@ -201,7 +201,7 @@ function createHTMLforFillingFriends(friends){
    length = friends.length;
    html="";        
    for(i=0;i<length;i++){
-	   html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img width="50" height="50" src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox"></div></div></div>';
+	   html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img width="50" height="50" src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox"></div></div><div class="contactName">'+((friends[i].name.split(" ",2)).toString()).replace(","," ")+'</div></div>';
    }
    $("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox' onclick='var flag=this.checked; $(\".facebookfriend\").each(function(){ this.checked = flag; });'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>"+html+"</div>");
 }
@@ -214,7 +214,7 @@ function createHTMLforFillingFriends(friends){
 
         function fillFacebookFriend(){
             //get list of facebook friend from ajax request
-            $("#facebook").html("<img src='/img/loading.gif'>");
+			$('#imageDiv').html('<p><img src="/images/fbloader.gif" class="sharejob_ajax_loader"/></p>');
             $.ajax({
                 type: 'POST',
                 url: '/facebook/getFaceBookFriendList',
@@ -250,6 +250,7 @@ function createHTMLforFillingFriends(friends){
 /****************************	2). Fill Linkedin Friends	******************************/
        
 	   function fillLinkedinFriend(){
+		   	$('#imageDiv').html('<p><img src="/images/liloader.gif" width="50px" height="50px" class="sharejob_ajax_loader"/></p>');
             $.ajax({
                 type: 'POST',
                 url: '/linkedin/getLinkedinFriendList',
@@ -292,6 +293,7 @@ function createHTMLforFillingFriends(friends){
 /****************************	3). Fill Twitter Friends	******************************/
       
 	   function fillTwitterFriend(){
+		   	$('#imageDiv').html('<p><img src="/images/twitterLoader.gif" width="42px" height="60px" class="sharejob_ajax_loader"/></p>');
             $.ajax({
                 type: 'POST',
                 url: '/twitter/getTwitterFriendList',

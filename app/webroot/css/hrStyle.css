@@ -315,6 +315,7 @@ input[type=checkbox] {
 
 div.checkbox{
     margin-top:4px;
+    overflow:auto;
 }
 
 div.checkbox label {
@@ -1116,7 +1117,7 @@ label.error{
     border: medium none;
     color: #F6931F;
     font-weight: bold;
-    width: 40px;
+    width: 42px;
     margin-bottom: 5px;
 }
 .salary_range_seperator{
@@ -1404,9 +1405,10 @@ label.error{
 /*** CSS for share page ***/
 
 .contactBox{
-    width: 52px; 
+    width: 60px; 
     margin: 1px; 
-    height: 52px;
+    margin-bottom:3px;
+    height: 75px;
     float: left;
 }
 
@@ -1425,6 +1427,7 @@ label.error{
 
 .contactName{
     /*border:1px solid pink;*/
+    font-size:.7em;
     clear:both;
     text-align: center;
 }
@@ -1745,17 +1748,17 @@ border: 1px solid #000000;
     padding: 5px;
 }
 #FindJob{
-	float:left;
+	float:right;
 	width:88px;
-	height:26px;
-	padding:5px;
-	border: 1px solid #000000;
-	background-color: #3DB517;
+	height:30px;
+	padding:2px;
+	background: #3DB517;
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
 	text-align:center;
-	margin-top:-1px;
+	margin:6px;
+	border-radius:0px;
 }
 #Go{
 	float:right;
@@ -1797,8 +1800,7 @@ border: 1px solid #000000;
 }
 #SearchInput{
 	width:731px;
-	border-right:none;
-	float:left;
+	border:none;
 }
 .WhyHireRoutesData{
 	width:150px;
@@ -2034,8 +2036,7 @@ ul a.menu_item{
     width: 387px;
 }
 .sharejob_ajax_loader{
-	margin-top:80px;
-	margin-left:50px;
+	margin:80px 225px;
 }
 .email_msg_txtarear{
     border: 1px solid;

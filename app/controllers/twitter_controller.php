@@ -99,6 +99,11 @@ class TwitterController extends AppController {
 	}
 	
 	function getTwitterFriendList(){
+		
+		if(isset($this->params['url']['denied'])){
+			return;
+		}
+	
         $userId = $this->Session->read('Auth.User.id');
         if(!$this->TrackUser->isUserLoggedIn()){       
         	$this->autoRender = false;
