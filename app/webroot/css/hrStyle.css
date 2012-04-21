@@ -1405,9 +1405,10 @@ label.error{
 /*** CSS for share page ***/
 
 .contactBox{
-    width: 52px; 
+    width: 60px; 
     margin: 1px; 
-    height: 52px;
+    margin-bottom:3px;
+    height: 75px;
     float: left;
 }
 
@@ -1426,6 +1427,7 @@ label.error{
 
 .contactName{
     /*border:1px solid pink;*/
+    font-size:.7em;
     clear:both;
     text-align: center;
 }
@@ -2034,8 +2036,7 @@ ul a.menu_item{
     width: 387px;
 }
 .sharejob_ajax_loader{
-	margin-top:80px;
-	margin-left:50px;
+	margin:80px 225px;
 }
 .email_msg_txtarear{
     border: 1px solid;

@@ -174,7 +174,11 @@ class JobsController extends AppController {
 		// Job information
 		if(isset($this->params['jobId'])){
 			$id = $this->params['jobId'];
-			
+			$jobSeekerApplyCount= $this->JobseekerApply->find('count',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
+			if($jobSeekerApplyCount>0){
+				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');
+				$this->redirect('/jobseekers/newJob');
+			}
 			$job = $this->Job->find('first',	array('limit'=>3,
 											 'joins'=>array(   
 										            	array('table' => 'companies',
