@@ -5,7 +5,7 @@
 <div>Please submit the form below and you will receive an email confirmation to complete your registration.</div>
 
 <div class="facebook-login">
-	<div><a href="<?php echo $facebook->getLoginUrl(); ?>"><button class="facebook"></button></a></div>
+	<div><a href="<?php echo $facebook->getLoginUrl(array('scope' => 'email,read_stream')); ?>"><button class="facebook"></button></a></div>
 	<?php /*	if($facebookUser): ?>
 		<div><a href="<?php echo $FBlogoutUrl; ?>">Logout</a></div>
 	<?php else: ?>

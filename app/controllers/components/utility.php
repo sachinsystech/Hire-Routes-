@@ -213,5 +213,17 @@ class UtilityComponent extends Object
 		unset($job['comp']);
 		return $job;										 
 	}
+	
+/**
+ * To store before Authenticate URL
+ */	
+	function setRedirectionUrl(){
+		$redirect_url=$this->referer();
+		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+\/?[.*]?/',$redirect_url)){
+			$this->Session->write('redirection_url',$redirect_url);
+		}
+		return true;
+	}	
+	
 }
 ?>
