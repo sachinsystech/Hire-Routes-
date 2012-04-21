@@ -55,7 +55,7 @@
 					<th style="width:25%">Email</th>
 					<th style="width:20%">Contact no.</th>
 					<th style="width:20%"><?php echo $paginator->sort('Date', 'paid_date');?></th> 
-					<th style="width:10%">Action</th>
+					<!--<th style="width:10%">Action</th>-->
 				</tr>
 				<?php if(empty($employees)){ ?>
 				<tr>
@@ -73,7 +73,7 @@
 					<td><?php echo $employee['users']['account_email'];?></td>
 					<td><?php echo $employee['js']['contact_phone'];?></td>
 					<td><?php echo $this->Time->format('m/d/Y', $employee['PaymentHistory']['paid_date']);?></td>
-					<td><?php /*echo $this->Html->image("/img/icon/delete.png",
+					<!--<td><?php /*echo $this->Html->image("/img/icon/delete.png",
 														array(
 															"alt" => "image",
 															"width"=>"24","height"=>"24",
@@ -82,7 +82,7 @@
 															)
 													);
  						*/?>
-					</td>
+					</td>-->
 				</tr>
 			
 				<?php endforeach; ?>	

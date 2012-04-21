@@ -47,6 +47,7 @@
 		echo $html->script('jquery.validate.js');
 	
 		echo $scripts_for_layout;
+
 		if($session->check('Auth.User.id')){ 
 	?>
 	<script type="text/javascript" charset="utf-8">
@@ -66,8 +67,13 @@
   var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 </script>
 	<?php }?>
+<script>
+	function hideMessage(){
+		$('.message').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.message');
+	}
+</script>
 </head>
-<body>
+<body onload="hideMessage();">
 	<div id="container">
 		<div id="header">
 			<h1><?php //echo $this->Html->link(__('Hire Routes', true), '/'); ?></h1>
@@ -86,8 +92,6 @@
 			<?php endif; ?>
 
 			<!-- ******		End welcome User **** -->
-
-			
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $content_for_layout; ?>
 

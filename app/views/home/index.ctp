@@ -25,8 +25,23 @@
 </center>
 <div id="HomeContanier">
 	<div>
-		<input type=text id="SearchInput">
-		<div id="FindJob" onclick="">FIND JOB</div>
+		<?php
+			echo $this->Form->create('SearchJob', array('url' => array('controller' => 'Jobs', 'action' => 'searchJob')));
+		?>
+		<div style="border:1px solid;overflow:auto;padding:0px;">
+		<?php
+			echo $this->Form->input('what', array('label' => '',
+							                'type' => 'text',
+                                            'id' => 'SearchInput',
+                                            'div'=>false
+                                            )
+                                        );
+			echo $this->Form->submit('Find Job',array('id'=>'FindJob',
+												'div'=>false
+											)
+										);
+			echo $this->Form->end();
+		?>
 	</div>
 	<div id="HeadingHome">		
 		<div id="HeadingVedio">HOW IT WORKS VIDEO</div>
