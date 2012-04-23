@@ -28,7 +28,7 @@
 		<?php
 			echo $this->Form->create('SearchJob', array('url' => array('controller' => 'Jobs', 'action' => 'searchJob')));
 		?>
-		<div style="border:1px solid;overflow:auto;padding:0px;">
+		<div style="border:1px solid;overflow:auto;padding:0px;width:850px;">
 		<?php
 			echo $this->Form->input('what', array('label' => '',
 							                'type' => 'text',

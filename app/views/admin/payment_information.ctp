@@ -170,7 +170,7 @@
 							<th>Job title</th>
 						    <th>Payment</th>
 						    <th>Date</th>
-						    <th>Transection Id</th>
+						    <th>Transaction Id</th>
 						    <th>Action</th>
 					    </tr>
         			        <?php 
