@@ -946,7 +946,7 @@ label.error{
 
 
 .rightBox{
-	width:700px;
+	width:701px;
 	float:left;
 }
 
@@ -1195,6 +1195,7 @@ label.error{
 .setting_profile_row{
 	margin-top: 5px; 
 	height: 24px;
+	clear:both;
 }
 .setting_profile_field{
 	float: left; 
@@ -2060,4 +2061,10 @@ ul a.menu_item{
 
 .nr_data_value{
 	float:left;
+}
+
+/**********NoJobMEssage************/
+#NoJobMessage{
+	margin:auto;
+	text-align:center;
 }

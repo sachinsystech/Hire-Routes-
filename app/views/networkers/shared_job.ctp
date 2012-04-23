@@ -35,6 +35,7 @@
 <div class="middleBox">
         <div class="jobs_topMenu">
 			<div>
+				<?php if(isset($jobs) && !empty($jobs)):?>
 				<div style="float:left;">
 					<?php echo $form -> input('short_by',array(
 												'type'=>'select',
@@ -108,8 +109,8 @@
 						</tr>
 					<?php endforeach; ?>
 				</table>
-				<?php if(!$jobs):?>
-					<div><h4>There is no job found for this search.</h4></div>
+				<?php else:?>
+					<div id='NoJobMessage'><h4>There is no job shared by you.</h4></div>
 				<?php endif;?>
 			</div>			
 		<!-- middle conyent list -->
