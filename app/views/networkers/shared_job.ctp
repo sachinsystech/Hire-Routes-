@@ -100,7 +100,7 @@
                                  </div>
                                  
                                  <div style="float:left">
-				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>							
+				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'],'m/d/Y')." <br><br>";?>							
 								</div>	
                                 <div style="float:right">
                                     <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['Job']['id']); ?>

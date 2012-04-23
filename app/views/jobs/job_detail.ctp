@@ -51,7 +51,7 @@
 
                                         <strong>Published in :</strong> 
 											<?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name'].", "; ?>
-											<?php  echo $time->timeAgoInWords($job['Job']['created'])."<br><br>";?>
+											<?php  echo $time->timeAgoInWords($job['Job']['created'],'m/d/Y')."<br><br>";?>
 									</div>
 								</div>
 								<div>

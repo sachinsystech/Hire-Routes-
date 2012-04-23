@@ -94,7 +94,7 @@
                                  </div>
                                  
                                  <div style="float:left">
-				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>							
+				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'],'m/d/Y')." <br><br>";?>							
 								</div>	
                           
 							</td>

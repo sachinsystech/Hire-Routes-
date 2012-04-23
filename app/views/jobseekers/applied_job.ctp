@@ -85,7 +85,7 @@
                                  </div>                                 
                                  <div style="float:left">
 									Posted 
-                                    <?php  echo $time->timeAgoInWords($job['job']['created'])." <br><br>";?>							
+                                    <?php  echo $time->timeAgoInWords($job['job']['created'],'m/d/Y')." <br><br>";?>							
 								 </div>	
                                  <div style="padding-left:550px;">
                                     <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['job']['id']); ?>
