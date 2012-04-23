@@ -1,7 +1,7 @@
 <?php
 
 require_once "facebook.php";
-
+$FBloginUrl = null;
 $FB_user_profile = array(); 
 $faceBookUserData = array();
 $facebook = new Facebook(array(
