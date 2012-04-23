@@ -19,6 +19,9 @@ class AppController extends Controller {
 			if($this->Session->check('NarrowJob'))
 				$this->Session->delete('NarrowJob');
 		}
+		if($this->Session->check('SearchJob') && strtoupper($this->params['action'])!='SEARCHJOB'){
+				$this->Session->delete('SearchJob');
+		}
         //here we get intermidiate user id from URLs
         $this->setIntermidiateUser();
 		/* SMTP Options for GMAIL */
@@ -45,8 +48,6 @@ class AppController extends Controller {
 			'password' => 'password'
 		);
 	
-		//$this->Auth->authError = __('You do not have permission to access the page you just selected.', true);
-
 		$this->Auth->loginAction = array('plugin' => 'bcp', 'controller' => 'users', 'action' => 'login');
 
 		$this->Auth->logoutRedirect = array('plugin' => 'bcp', 'controller' => 'users', 'action' => 'login');
@@ -54,6 +55,7 @@ class AppController extends Controller {
 		$this->Auth->loginRedirect = array('plugin' => '', 'controller' => 'pages', 'action' => 'index');
 
 		$this->Auth->allow('logout');
+		
 	}
 
 

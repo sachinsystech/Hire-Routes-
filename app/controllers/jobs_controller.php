@@ -9,6 +9,7 @@ class JobsController extends AppController {
 		parent::beforeFilter();
 		$this->Auth->authorize = 'actions';
 		$this->Auth->allow('index');
+		$this->Auth->allow('searchJob');
 		$this->Auth->allow('apply');
 		$this->Auth->allow('applyJob');
 		$this->Auth->allow('jobDetail');
@@ -173,7 +174,11 @@ class JobsController extends AppController {
 		// Job information
 		if(isset($this->params['jobId'])){
 			$id = $this->params['jobId'];
-			
+			$jobSeekerApplyCount= $this->JobseekerApply->find('count',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
+			if($jobSeekerApplyCount>0){
+				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');
+				$this->redirect('/jobseekers/newJob');
+			}
 			$job = $this->Job->find('first',	array('limit'=>3,
 											 'joins'=>array(   
 										            	array('table' => 'companies',
@@ -435,6 +440,72 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 				$this->redirect('/jobs/');
 		}       
                        
+	}
+	
+	function searchJob(){
+		$conditions = array();
+		if(isset($this->data['SearchJob'])||$this->Session->check('SearchJob')){
+			if(!isset($this->data['SearchJob'])){
+                $this->data['SearchJob'] = $this->Session->read("SearchJob");
+            }else{
+                $this->Session->write("SearchJob",$this->data['SearchJob']);
+            }
+			if($this->data['SearchJob']['what']!=""){
+				$whats=explode(' ',$this->data['SearchJob']['what']);
+				foreach($whats as $what){
+					$whatArray[]="Job.title LIKE '%$what%'";
+                    $whatArray[]="company.company_name LIKE '%$what%'";
+                    $whatArray[]="spec.name LIKE '%$what%'";
+                    $whatArray[]="ind.name LIKE '%$what%'";
+                    $whatArray[]="city.city LIKE '%$what%'";
+                    $whatArray[]="state.state LIKE '%$what%'";
+				}
+    	        $conditions[] = array('OR'=>$whatArray);
+    		}
+    	}
+    	$conditions[] = array('Job.is_active'=>1);
+		$this->paginate = array(
+			'conditions' => $conditions,
+			'limit'=>5,
+			'joins'=>array(
+				array(
+					'table' => 'companies',
+		         	'alias' => 'company',
+		            'type' => 'left',
+		            'conditions' => array('Job.company_id = company.id',)),
+				array(
+					'table' => 'industry',
+		            'alias' => 'ind',
+		            'type' => 'left',
+					'conditions' => array('Job.industry = ind.id',)),
+				array(
+					'table' => 'specification',
+	                'alias' => 'spec',
+	                'type' => 'left',
+	                'conditions' => array('Job.specification = spec.id',)),
+				array(
+					'table' => 'cities',
+	            	'alias' => 'city',
+	                'type' => 'left',
+	                'conditions' => array('Job.city = city.id',)),
+				array(
+					'table' => 'states',
+	                'alias' => 'state',
+	                'type' => 'left',
+	                'conditions' => array('Job.state = state.id',))
+			),
+			'order' => 'Job.created desc',
+			'recursive'=>0,
+			'fields'=>array('company.company_name,city.city,state.state,ind.name as industry,spec.name as specification,job_type,short_description,Job.created,Job.title,Job.reward,Job.id')
+		);
+        $jobs = $this->paginate('Job');
+		$this->set('jobs',$jobs);
+		$this->set('salaryFrom',isset($salaryFrom)?$salaryFrom:1);      
+        $this->set('salaryTo',isset($salaryFrom)?$salaryTo:500);
+		$this->set('industries',$this->Utility->getIndustry());
+		$this->set('states',$this->Utility->getState());
+		$this->set('companies',$this->Utility->getCompany());
+		$this->render('/jobs/index');
 	}
 
 }

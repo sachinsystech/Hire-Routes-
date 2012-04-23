@@ -47,6 +47,7 @@
 		echo $html->script('jquery.validate.js');
 	
 		echo $scripts_for_layout;
+
 		if($session->check('Auth.User.id')){ 
 	?>
 	<script type="text/javascript" charset="utf-8">
@@ -66,8 +67,13 @@
   var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 </script>
 	<?php }?>
+<script>
+	function hideMessage(){
+		$('.message').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.message');
+	}
+</script>
 </head>
-<body>
+<body onload="hideMessage();">
 	<div id="container">
 		<div id="header">
 			<h1><?php //echo $this->Html->link(__('Hire Routes', true), '/'); ?></h1>
@@ -75,9 +81,10 @@
 
 		</div>
 		<div id="content">
+		<?php //echo "<pre>"; print_r($this->Session->read()); exit;?>
 			<!-- ******		welcome User **** -->
 			<?php if($this->Session->read('Auth.User.id')):?>
-				<?php if($this->Session->read('welcomeUserName') && ($this->Session->read('userRole.name'))):?>
+				<?php if($this->Session->read('welcomeUserName') && ($this->Session->read('userRole.id'))):?>
 					<div style=" margin-left:10px">
 						Welcome <span title="<?php echo ucfirst($this->Session->read('userRole.name'));?>"><?php echo ucfirst($this->Session->read('welcomeUserName'));?>,</span>
 					</div>
@@ -85,8 +92,6 @@
 			<?php endif; ?>
 
 			<!-- ******		End welcome User **** -->
-
-			
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $content_for_layout; ?>
 

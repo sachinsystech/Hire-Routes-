@@ -321,13 +321,11 @@ class JobseekersController extends AppController {
            
 
 		$jobs = $this->paginate('Job');
-
+		$this->set('jobs',$jobs);
 		$jobCounts=$this->jobCounts();
 		$this->set('AppliedJobs',$jobCounts['appliedJob']);
 		$this->set('NewJobs',$jobCounts['newJob']);
 		$this->set('Archivedjobs',$jobCounts['archiveJob']);
-
-		$this->set('jobs',$jobs);
 	}
 
 	function archivedJob(){

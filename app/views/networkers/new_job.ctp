@@ -35,8 +35,8 @@
 <div class="middleBox">
         <div class="jobs_topMenu">
 			<div>
+			<?php if(isset($jobs) && !empty($jobs)):?>
 				<div style="float:left;">
-				<?php if(isset($jobs)):?>
 					<?php echo $form -> input('short_by',array(
 												'type'=>'select',
 												'label'=>'SORT BY ',
@@ -100,7 +100,7 @@
                                  </div>
                                  
                                  <div style="float:left">
-				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'])." <br><br>";?>							
+				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'],'m/d/Y')." <br><br>";?>							
 								</div>	
                                 <div style="float:right">
                                     <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['Job']['id']); ?>
@@ -110,7 +110,7 @@
 					<?php endforeach; ?>
 				</table>
 				<?php else:?>
-					<div><h4>There is no job found for this search.</h4></div>
+					<div id='NoJobMessage'><h4>There is no job found for your setting.</h4></div>
 				<?php endif;?>
 			</div>			
 		<!-- middle conyent list -->

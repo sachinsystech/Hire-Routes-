@@ -80,7 +80,7 @@
                     
                     return json_encode(array('error'=>0,'data'=>$users));
                 }catch(Exception $e){
-                    return json_encode(array('error'=>2,'message'=>'Error in facebook connection.Please try after some time.'));
+                    return json_encode(array('error'=>2,'message'=>'Error in facebook connection. Please try after some time.'));
                 }
             }else{
                 echo json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$this->getFaceBookLoginURL()));

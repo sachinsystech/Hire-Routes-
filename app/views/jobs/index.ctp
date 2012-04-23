@@ -294,7 +294,7 @@
 											echo $job['ind']['industry'].", ".$job['spec']['specification']."<br>";
 											echo $job_array[$job['Job']['job_type']]."<br>";
 											echo $job['Job']['short_description']."<br>";
-                                            echo "Posted : ".$time->timeAgoInWords($job['Job']['created']);
+                                            echo "Posted : ".$time->timeAgoInWords($job['Job']['created'],'m/d/Y');
                                     ?>
 																
 								</div>			
