@@ -59,6 +59,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('myAccount');	
 		$this->Auth->allow('forgotPassword');	
 		$this->Auth->allow('saveFacebookUser');
+		$this->Auth->allow('facebookUser');
 	}
 
 /**
@@ -641,15 +642,7 @@ class UsersController extends AppController {
  * @access public
  */
 	function login() {
-		if($this->TrackUser->isHRUserLoggedIn()){
-			$this->redirect("/users/myaccount");				
-			return;
-		}
-		if ($this->TrackUser->isUserLoggedIn()){
-			$this->redirect("/admin");
-			return;
-		}
-		
+
 		if(isset($this->data['User'])){
 			$username = trim($this->data['User']['username']);
 			$password = trim($this->data['User']['password']);
@@ -742,6 +735,23 @@ class UsersController extends AppController {
 		if(!$FBUserId){
 			$this->redirect('/users');;
 		}
+	}
+
+	function facebookUser(){
+		/***	manage facebook user after success callback ***/
+		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
+			$facebook = $this->facebookObject();
+			print_r($facebook); exit;
+			$FBUserId = $facebook->getUser();
+			if($FBUserId){
+				$this->manageFBUser();
+			}
+		}
+
+		/***	manage facebook user after cancel callback(denied permission from FB-App) ***/		
+		if(isset($this->params['url']['error_reason'])){
+			$this->Session->setFlash('you can signup by email!', 'warning');
+		}	
 	}
 
 /**
