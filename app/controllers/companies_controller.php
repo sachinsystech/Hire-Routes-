@@ -983,7 +983,48 @@ function paymentHistoryInfo(){
 
 	public function employees(){
 		$userId = $this->TrackUser->getCurrentUserId();	
-		$this->paginate = array('conditions' => array('PaymentHistory.user_id'=>$userId),
+		$conditions[]="PaymentHistory.user_id=$userId";
+		$condition_phone=null;
+		$condition_name=null;
+		if(isset($this->params['named'])){
+			$data=$this->params['named'];
+			//echo "<pre>"; print_r($data);//exit;
+		}
+		if(isset($this->params['url']['from_date'])){
+			$data=$this->params['url'];
+			//echo "<pre>"; print_r($data);//exit;
+		}
+		if(isset($data)){
+			if(isset($data['contact_name']) && !empty($data['contact_name'])){			
+				$contact_name=trim($data['contact_name']);
+				$conditions[]=array('OR'=>array("js.contact_name LIKE\"".$contact_name."%\"",	));
+				$this->set('contact_name',$contact_name);	
+			}
+			if(isset($data['contact_phone']) && !empty($data['contact_phone'])){			
+				$contact_phone=trim($data['contact_phone']);
+				$conditions[]=array('OR'=>array("js.contact_phone LIKE\"".$contact_phone."%\"",));
+				$this->set('contact_phone',$contact_phone);	
+			}
+			if(isset($data['account_email']) && !empty($data['account_email'])){			
+				$conditions[]= "users.account_email LIKE \"".trim($data['account_email'])."%\"";
+				$this->set('account_email',$data['account_email']);	
+			}
+			if(isset($data['state']) &&   !empty($data['state'])){			
+				$conditions[]= "js.state LIKE\"%".$data['state']."%\"";
+				$conditions[]= "js.city LIKE\"".$data['state']."%\"";
+				$this->set('state',$data['state']);	
+			}
+			if(isset($data['from_date']) && !empty($data['from_date'])){
+	 			$conditions[]="date(PaymentHistory.paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+	 			$this->set('from_date',$data['from_date']);
+	 		}
+		 	if(isset($data['to_date']) && !empty($data['to_date'])){
+		 		$conditions[]="date(PaymentHistory.paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+		 		$this->set('to_date',$data['to_date']);
+		 	}
+		 }
+		
+		$this->paginate = array('conditions' =>isset($conditions)?$conditions:true,
 								'limit'=>'10', 	
 								'joins'=>array(
 											array('table'=>'users',

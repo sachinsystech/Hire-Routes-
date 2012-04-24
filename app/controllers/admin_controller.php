@@ -272,11 +272,66 @@ class AdminController extends AppController {
 	* Show all types of user list
 	*/
 	function userList(){
+
+		$conditions[]='UserList.confirm_code=""';
+		/*Retrive data form url on paginator click*/	
+		if(isset($this->params['named'])){
+			$data=$this->params['named'];
+		}
+		/*Retrive data on form submit */
+		if(isset($this->params['url']['find'])){
+			$data=$this->params['url'];
+		}
+		if(isset($data)){
+			if(isset($data['contact_name']) && !empty($data['contact_name'])){			
+				$contact_name=trim($data['contact_name']);
+				$conditions[]=array('OR'=>array("Jobseekers.contact_name LIKE\"".$contact_name."%\"",
+	   								 		    "Networkers.contact_name LIKE\"".$contact_name."%\"",
+    						   					"Companies.contact_name LIKE\"".$contact_name."%\"",
+	   								));
+				$this->set('contact_name',$contact_name);	
+			}
+			if(isset($data['contact_phone']) && !empty($data['contact_phone'])){			
+				$contact_phone=trim($data['contact_phone']);
+				$conditions[]=array('OR'=>array("Jobseekers.contact_phone LIKE\"".$contact_phone."%\"",
+	   						   					"Networkers.contact_phone LIKE\"".$contact_phone."%\"",
+	   						   					"Companies.contact_phone LIKE\"".$contact_phone."%\"",
+	   						   		));				
+				$this->set('contact_phone',$contact_phone);	
+			}
+			if(isset($data['account_email']) && !empty($data['account_email'])){			
+				$conditions[]= "UserList.account_email LIKE \"".trim($data['account_email'])."%\"";
+				$this->set('account_email',$data['account_email']);	
+			}
+			if(isset($data['from_date']) && !empty($data['from_date'])){
+	 			$conditions[]="date(UserList.created) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+	 			$this->set('from_date',$data['from_date']);
+	 		}
+		 	if(isset($data['to_date']) && !empty($data['to_date'])){
+		 		$conditions[]="date(UserList.created) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+		 		$this->set('to_date',$data['to_date']);
+		 	}
+		 	if(isset($data['isActivated'])){
+		 		switch($data['isActivated']){
+		 			case "deactivated":
+		 					$conditions[]="UserList.is_active=0";
+		 					break;
+		 			case "activated":
+					 		$conditions[]="UserList.is_active=1";		 				
+					 		break;
+					 default:
+					 		$conditions[]=array("UserList.is_active"=>array(1,0));					 
+	 		
+		 		}
+		 		$this->set('isActivated',$data['isActivated']);
+		 	}
+		 }
 		$filterRoleCond = null;
+		$filter=null;
 		$userFilter = 'Companies.*,Jobseekers.*,Networkers.*';
-		if(isset($this->params['named']['filter'])){
-			$filter = $this->params['named']['filter'];
-			switch($filter){
+
+		if(isset($data['filter']) && !empty($data['filter']) ){
+			switch($data['filter']){
 				case 'company':
 						$userFilter = 'Companies.*';
 						$filterRoleCond = array('UserRoles.role_id'=>COMPANY);
@@ -294,13 +349,12 @@ class AdminController extends AppController {
 						$this->redirect('/admin/userList');
 			}
 		}
-		$this->set('filter',isset($filter)?$filter:null);		
+		$this->set('filter',isset($data['filter'])?$data['filter']:null);		
 		$this->paginate =array('limit' =>10,
 	   						   'conditions' => array($filterRoleCond,
-	   						   						'NOT'=>array('UserList.id'=>array(1,2),'UserRoles.role_id'=>5),	
-	   						   						'UserList.confirm_code'=>'',
-	   						   	    				'OR'=>array('UserList.is_active'=>array(0,1)), 
-	   						   						 ),
+	   						   						"AND"=>array($conditions),	
+	   						   					    'NOT'=>array('UserList.id'=>array(1,2),'UserRoles.role_id'=>5),	
+	   						   						),
 							   'fields' => array("UserList.account_email,UserList.id,
 							   					UserList.created,UserList.fb_user_id,UserList.is_active,
 							   					UserRoles.*,$userFilter"),
@@ -352,38 +406,38 @@ class AdminController extends AppController {
 	}
 		
 	function userAction(){
-
-		$page = isset($this->params['named']['page'])?"page:".$this->params['named']['page']:"";
-		$filter = isset($this->params['named']['filter'])?"filter:".$this->params['named']['filter']:"";
-		
-		if(isset($this->params['named']['active'])){
-			$userId=$this->params['named']['active'];
+		$this->autoRender=false;
+		$userId = isset($this->params['form']['userId'])?$this->params['form']['userId']:"";
+		$action = isset($this->params['form']['action'])?$this->params['form']['action']:"";
+		if($action=="Activate"){
 			$is_active='1';
-		}			
-		if(isset($this->params['named']['deactive'])){
-			$userId=$this->params['named']['deactive'];
+		}elseif($action=="De-activate"){
 			$is_active='0';
 		}
 		if(isset($userId)){
 			$userData =$this->User->find('first',array('conditions'=>array("User.id"=>$userId,
-																			'AND'=>array("User.id",array(1,2)))));
-			if(isset($userData) && $userData != null){ 
+																		'NOT'=>array("User.group_id"=>array(1,2)))));
+			
+			if(isset($userData)){
+				$userData['User']['id']=$userId;
 				$userData['User']['is_active'] =$is_active;
 				if($this->User->save($userData)){
 					$is_active==0?$this->Session->setFlash('User De-activated successfully','success'):
 					$this->Session->setFlash('User Activated successfully','success');
-					
+					return "Succsess";
 				}else{
 					$this->Session->setFlash('Internal error occurs.','error');
+					return ;
 				}	
 			}else{
 				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+				return ;
 			}
 		}else{
-			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			$this->Session->setFlash('You may be clicked on old link or entered manually......', 'error');
+			return "error";
 		}
 		
-		$this->redirect(array('controller'=>'admin','action'=>'userList',$filter,$page,)); 
 	}
 }
 ?>
