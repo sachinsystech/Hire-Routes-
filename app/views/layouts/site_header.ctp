@@ -22,9 +22,12 @@
 		  <?php echo $databaseMenus->auth_links(); */?>
 	</div>
 </div>
-
 -->
-<?php $fb_url = "https://www.facebook.com/dialog/oauth?client_id=169752649798619&redirect_uri=http%3A%2F%2F192.168.1.28%2Fusers%2FfacebookUser&state=23c99978af8b661972ec79ac2f55fdd2";?>
+<?php /*$fb_url = "https://www.facebook.com/dialog/oauth?
+				 client_id=".FB_API_KEY."
+				 &redirect_uri=http%3A%2F%2F".Configure::read('fbRootURL')."%2Fusers%2FfacebookUser
+				 &state=".FB_STATE."
+				 &scope=email%2Cread_stream";*/?>
 
 
 	<?php $current_user = $this->Session->read('Auth.User'); ?>
@@ -40,7 +43,8 @@
 
 	  <ul style="float:right;">
 		<?php  if($current_user['id']==2 || !isset($current_user)):?>
-		<!-- li><a style="background: none; margin: -4px 3px;" href="<?php echo $fb_url; ?>"><button class="facebook"></button></a></li -->
+		<?php require_once(APP_DIR.'/vendors/facebook/hr_facebook.php'); ?>
+		<li><a href="<?php echo $facebook->getLoginUrl(array('scope' => 'email,read_stream')); ?>"><span>Facebook</span></a></li>
 		<li><a href="/users/login"><span>LOG IN</span></a></li>
 		<li><a href="/users"><span>SIGN UP</span></a></li>
 		<li><a href="/contactUs"><span>CONTACT US</span></a></li>

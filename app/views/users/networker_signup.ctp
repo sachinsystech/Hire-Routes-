@@ -1,10 +1,10 @@
 <div style="width:550px;margin:auto;">
-<?php require_once(APP_DIR.'/vendors/facebook/hr_facebook.php'); ?>
+<?php //require_once(APP_DIR.'/vendors/facebook/hr_facebook.php'); ?>
 <div class="sigup_heading"><u>Register</u></div>
 <div>You will be able to apply for jobs and share job posts with your network.</div>
 <div>Please submit the form below and you will receive an email confirmation to complete you registration.</div>
 
-<div class="fb"><a href="<?php echo $facebook->getLoginUrl(array('scope' => 'email,read_stream')); ?>"><button class="facebook"></button></a></div>
+<div class="fb"><a href="<?php echo $FBLoginUrl; ?>"><button class="facebook"></button></a></div>
 
 <div style="width:480px; margin-top:20px;">
 <?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkUserForm()')); ?>

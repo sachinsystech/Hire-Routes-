@@ -69,15 +69,10 @@
                     $userdata = $this->facebookObject()->api('/me/friends', 'GET', $token);
                     $users = array();
                     $i =0 ;
-                    foreach ($userdata as $key=>$value) {
-                        foreach ($value as $fkey=>$fvalue) {
-                            $users[$i]['name'] = $fvalue['name'] ;
-                            $users[$i]['id'] = $fvalue['id'];
-                            $users[$i]['url'] = 'https://graph.facebook.com/'.$fvalue['id'].'/picture';
+                    foreach ($userdata['data'] as $key=>$value){
+                            $users[] =array('name'=>$value['name'], 'id'=> $value['id'], 'url' => 'https://graph.facebook.com/'.$value['id'].'/picture');
                             $i++;
-                        }
                     }
-                    
                     return json_encode(array('error'=>0,'data'=>$users));
                 }catch(Exception $e){
                     return json_encode(array('error'=>2,'message'=>'Error in facebook connection. Please try after some time.'));
