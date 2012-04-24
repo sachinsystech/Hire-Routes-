@@ -33,8 +33,8 @@
 </script>
 <script>
 	$('document').ready(function(){
-		$("#from_date").datepicker({ minDate: new Date(2012,2,1), maxDate:'+0'});
-		$("#to_Date").datepicker({ minDate: new Date(2012,2,1), maxDate:'+0'});
+		$("#from_date").datepicker({ minDate: new Date(2012,0,1), maxDate:'+0'});
+		$("#to_Date").datepicker({ minDate: new Date(2012,0,1), maxDate:'+0'});
 	});
 </script>
 <script type='text/javascript'>	
@@ -107,7 +107,11 @@
 			<div class="content-table-inner">
 				<div style="float:right;margin:15px;">
 					<?php
-						$from_date=isset($from_date)?$from_date:'03/01/2012';
+						$date = new DateTime();
+						$date->modify(-30 . ' days');
+						$last_month= $date->format("m/d/Y");
+					
+						$from_date=isset($from_date)?$from_date:$last_month;
 						$to_date=isset($to_date)?$to_date:date('m/d/Y');
 						$findUrl=array("contact_name"=>isset($contact_name)?$contact_name:"",
 									   "contact_phone"=>isset($contact_phone)?$contact_phone:"",
@@ -208,7 +212,7 @@
 																'readonly'=>"true",
 																'class' => 'date_field_employee',
 																'title'=>'From Date',
-																'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):'03/01/2012'	
+																'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):$last_month	
 															));
 											?>
 										</div>
@@ -240,15 +244,15 @@
 												  				   'activated'=>'Activated',
 												  				   'deactivated'=> 'Deactivated',
 												  				   ),
-												  'style'=>"width:115px",
+												  'style'=>"width:125px",
 												  'class'=>'job_select_shortby',
 												  'selected'=>isset($isActivated)?$isActivated:'All',));
 								?>
 							</th>
 	   						<th width="5%">
 	   						    <?php
-									echo $form->submit("Find", array('name'=>'find',
-															 'style'=>'width:35px;')); 	
+									echo $form->submit("Find", array('name'=>'find','class'=>'button_field',
+															 'style'=>'width:40px;')); 	
 								?>
 	   						</th>
 						</tr>
@@ -276,17 +280,13 @@
 								<td>
 								<?php  echo $html->link($html->image("de-activate.jpg"), array(), array('escape' => false,'title'=>'De-Activate','onclick'=>"return onDelete($user[id],'De-activate')"));
 								?>
-							
-								<?php /* echo $html->link($html->image("de-activate.jpg"),  array( 'action' => 'userAction','deactive:'.$user['id'],$pageRedirect,$filterRedierct), array('escape' => false,'title'=>'De-Activate','onclick'=>"return confirm('Do you want to de-activate this account ?');"));
-								*/?>
+					
 								</td>
 								<?php else:?>
 								<td style="text-align:center;">No</td>
 								<td>
 								<?php	echo $html->link($html->image("activate.png"),array(),array('escape' => false,'title'=>'Activate','onclick'=>"return onDelete($user[id],'Activate')")); ?>
-								
-								<?php	/*echo $html->link($html->image("activate.png"), array('action' => 'userAction','active:'.$user['id'],$pageRedirect,$filterRedierct), array('escape' => false,'title'=>'Activate','onclick'=>"return confirm('Do you want to activate this account ?');")); */?>
-								</td>
+			
 							<?php endif; ?>
 			    		</tr> 
       					<?php

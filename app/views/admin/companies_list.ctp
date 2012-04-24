@@ -24,11 +24,11 @@
 		    		<td COLSPAN="6">
 						<div class="code_pagination">
 							<?php if($this->Paginator->numbers()){?>
-							<?php echo $paginator->first('First '); ?>	
-							<?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
-							< <  <?php echo $this->Paginator->numbers(array('modulus'=>4)); ?>  > >
-							<?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
-							<?php echo $paginator->last(' Last');?>
+							<?php echo $paginator->first('First  |  '); ?>	
+							<?php echo $paginator->prev('  '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
+							<  <?php echo $this->Paginator->numbers(array('modulus'=>4)); ?>  > 
+							<?php echo $paginator->next(__('Next Page', true).' ', array(), null, array('class'=>'disabled'));?>
+							<?php echo $paginator->last('  |  Last');?>
 							<?php } ?>
 						</div>
 					</td>

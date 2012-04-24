@@ -103,7 +103,7 @@
                                                       'id'    => 'where',
                                                       'class' => 'text_field_bg'));?></div>
            <div style="float:right;width: 100px;">
-			   <button style="float: right; width: 100px; background:rgb(0, 255, 0);" type="submit" name="search" value="Find Job" >Find Job</button>
+			   <button style="float: right; width:80 px; " type="submit" name="search" value="Find Job" >Find Job</button>
 		   </div>
 
      <?php echo $form->end();?>
@@ -143,7 +143,8 @@
 								<?php	echo $form->input('salary_from', array('label' => '',
 															'type'  => 'text',
 															'id' => 'from_amount',
-															'class'=> 'salary_range_slider'
+															'class'=> 'salary_range_slider',
+															'readonly'=>'true'
 															)
 										 );
 								?>
@@ -154,6 +155,7 @@
 															'type'  => 'text',
 															'id' => 'to_amount',
 															'class'=> 'salary_range_slider',
+															'readonly'=>'true'
 															)
 										 );
 								?>

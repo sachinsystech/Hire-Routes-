@@ -81,24 +81,32 @@
 					<div style="float:left;width:100px;margin: 2px;">
 						<?php echo "<font size='3px'>From :</font>";?>
 					</div>
-					<div style="float:left;width:300px;margin: 2px;">
+					<div style="float:left;width:150px;margin: 2px;">
 						<?php 
+							$date = new DateTime();
+							$date->modify(-30 . ' days');
 							echo $this->Form->input('from_date',array(
 								'label'=>'',
 								'type'=>'text',
-								'value'=>isset($from_date)?$from_date:'03/01/2012'
+								'class'=>'date_field_employee',
+								'readonly'=>'true',
+								'style'=>'width:75px;',
+								'value'=>isset($from_date)?$from_date:$date->format("m/d/Y")
 								)
 							);
 						?>
 					</div>
-					<div style="float:left;width:100px;margin: 2px;">
+					<div style="float:left;width:75px;margin: 2px;">
 						<?php echo "<font size='3px'>To :</font>";?>
 					</div>
-					<div style="float:left;width:300px;margin: 2px;">
+					<div style="float:left;width:150px;margin: 2px;">
 					<?php 
 						echo $this->Form->input('to_date',array(
 							'label'=>'',
 							'type'=>'text',
+							'readonly'=>'true',
+							'class'=>'date_field_employee',
+							'style'=>'width:75px;',
 							'value'=>isset($to_date)?$to_date:date('m/d/Y')
 							)
 						);
@@ -108,7 +116,7 @@
 					<div style="float:left;width:100px;margin: 2px;">
 						<font size='3px'>Status</font>
 					</div>
-					<div style="float:left;width:300px;margin: 2px;">
+					<div style="float:left;width:150px;margin: 2px;">
 					<?php 
 						echo $this->Form->input('status',
 							array(
@@ -122,7 +130,7 @@
 					?>
 					</div>
 					<div style="float:left;width:100px;margin: 2px;">
-						<?php echo $this->Form->submit('GO',array('style'=>'background:#1E90FF;color:#FFFFFF'));?>
+						<?php echo $this->Form->submit('GO',array('style'=>''));?>
 					</div>
 					<div style="clear:both"></div>
 					<?php echo $this->Form->end(); ?>
@@ -156,11 +164,11 @@
 						<tr>
 							<td COLSPAN="7">
 								<div class="code_pagination">
-								<?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
-								<?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
-								<?php echo "< < ".$this->Paginator->numbers(array('modulus'=>4))."  > >"; ?>
-								<?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
-								<?php echo $paginator->last(' Last'); }?>
+								<?php if($this->Paginator->numbers()){ echo $paginator->first('First  |  '); ?>	
+								<?php echo $paginator->prev('  '.__('Previous ', true), array(), null, array('class'=>'disabled'));?>
+								<?php echo " < ".$this->Paginator->numbers(array('modulus'=>4))." > "; ?>
+								<?php echo $paginator->next(__('Next ', true).' ', array(), null, array('class'=>'disabled'));?>
+								<?php echo $paginator->last('  |  Last'); }?>
 								</div>
 							</td>
 						</tr>	
