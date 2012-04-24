@@ -31,7 +31,7 @@
 					</tr>
 						<tr>
 							<td style="text-align:center;"><strong>#</strong></td>
-							<td style="text-align:center;"><strong>Transication-Id</strong></td>
+							<td style="text-align:center;"><strong>Transaction-Id</strong></td>
 							<td style="text-align:center;"><strong>Date</strong></td>
 							<td style="text-align:center;width: 25%;"><strong>Payment Amount</strong></td>
 						</tr>

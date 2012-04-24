@@ -132,10 +132,11 @@ class UsersController extends AppController {
 **/ 
 
 	function networkerSignup() {
-
+		$facebook = $this->facebookObject();
+		$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
+		
 		/***	manage facebook user after success callback ***/
-		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
-			$facebook = $this->facebookObject();
+		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){			
 			$FBUserId = $facebook->getUser();
 			if($FBUserId){
 				$this->manageFBUser();
@@ -209,7 +210,8 @@ class UsersController extends AppController {
  * Save Jobseeker info.
 **/ 
 	function jobseekerSignup(){
-
+		$facebook = $this->facebookObject();
+		$this->set('FBLoginUrl',$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
 		/***	manage facebook user after success callback ***/
 		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
 			$facebook = $this->facebookObject();
@@ -734,6 +736,17 @@ class UsersController extends AppController {
 		$FBUserId = $facebook->getUser();
 		if(!$FBUserId){
 			$this->redirect('/users');;
+		}
+	}
+	
+	function facebookUser(){
+		/***	manage facebook user after success callback ***/
+		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
+			$facebook = $this->facebookObject();
+			$FBUserId = $facebook->getUser();
+			if($FBUserId){
+				$this->manageFBUser();
+			}
 		}
 	}
 

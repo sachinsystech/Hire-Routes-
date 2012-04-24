@@ -22,11 +22,7 @@
 		  <?php echo $databaseMenus->auth_links(); */?>
 	</div>
 </div>
-
 -->
-<?php $fb_url = "https://www.facebook.com/dialog/oauth?client_id=340495732660166&redirect_uri=http%3A%2F%2F127.0.0.1%2Fusers%2FfacebookUser&state=1adcfd9fecdc132aeab2c1a9e68e98fe&scope=email%2Cread_stream";?>
-
-
 	<?php $current_user = $this->Session->read('Auth.User'); ?>
 
 
@@ -40,6 +36,8 @@
 
 	  <ul style="float:right;">
 		<?php  if($current_user['id']==2 || !isset($current_user)):?>
+		<?php require_once(APP_DIR.'/vendors/facebook/hr_facebook.php'); ?>
+		<li><a href="<?php echo $facebook->getLoginUrl(array('scope' => 'email,read_stream')); ?>"><span>Facebook</span></a></li>
 		<li><a href="/users/login"><span>LOG IN</span></a></li>
 		<li><a href="/users"><span>SIGN UP</span></a></li>
 		<li><a href="/contactUs"><span>CONTACT US</span></a></li>

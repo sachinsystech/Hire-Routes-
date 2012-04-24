@@ -946,7 +946,7 @@ label.error{
 
 
 .rightBox{
-	width:700px;
+	width:701px;
 	float:left;
 }
 
@@ -1195,6 +1195,7 @@ label.error{
 .setting_profile_row{
 	margin-top: 5px; 
 	height: 24px;
+	clear:both;
 }
 .setting_profile_field{
 	float: left; 
@@ -2061,3 +2062,25 @@ ul a.menu_item{
 .nr_data_value{
 	float:left;
 }
+
+/********   for employee list on company profile  ******/
+.text_field_employee {
+    border: 1px solid;
+	height: 16px;
+	width: 100px;
+}
+.date_field_employee{
+	border: 1px solid;
+    height: 12px;
+	width: 75px;
+	font-size:10px;
+	text-align:center;
+
+}
+
+/**********NoJobMEssage************/
+#NoJobMessage{
+	margin:auto;
+	text-align:center;
+}
+
