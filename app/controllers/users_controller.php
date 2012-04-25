@@ -644,7 +644,7 @@ class UsersController extends AppController {
  * @access public
  */
 	function login() {
-
+		
 		if(isset($this->data['User'])){
 			$username = trim($this->data['User']['username']);
 			$password = trim($this->data['User']['password']);
@@ -743,18 +743,6 @@ class UsersController extends AppController {
 		/***	manage facebook user after success callback ***/
 		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
 			$facebook = $this->facebookObject();
-			$FBUserId = $facebook->getUser();
-			if($FBUserId){
-				$this->manageFBUser();
-			}
-		}
-	}
-
-	function facebookUser(){
-		/***	manage facebook user after success callback ***/
-		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
-			$facebook = $this->facebookObject();
-			print_r($facebook); exit;
 			$FBUserId = $facebook->getUser();
 			if($FBUserId){
 				$this->manageFBUser();

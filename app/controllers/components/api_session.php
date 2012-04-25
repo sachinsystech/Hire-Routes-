@@ -14,9 +14,6 @@
 
 class ApiSessionComponent extends Object
 {
-	var $userId;
-	var $userRole;
-	var $welcomeName;
 	var $controller = true;
 	var $uses = array('UserRoles','User','UserList','UserRoles');
 	var $components = array('Session','Auth');
@@ -46,7 +43,8 @@ class ApiSessionComponent extends Object
 	{
 		$this->setUserId();
 		$this->setUserRole();	
-		$this->setWelcomeName();	
+		$this->setWelcomeName();
+		$this->setUser();		
 		// This method takes a reference to the controller which is loading it.
 		// Perform controller initialization here.
 	}
@@ -61,71 +59,79 @@ class ApiSessionComponent extends Object
 
 	function setUserId(){
 		if($this->Session->read('Auth.User.id')!=2){
-			$this->userId = $this->Session->read('Auth.User.id');
-			$this->Session->write('UserId',$this->userId);
+			$this->Session->write('API.UserId',$this->Session->read('Auth.User.id'));
 		}
 	}
 	
 	function getUserId(){
-		return $this->Session->read('UserId');
+		return $this->Session->read('API.UserId');
 	}
 
 	function setUserRole(){
-		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$this->userId)));		
-		$this->UserRole = $userRole['UserRoles']['role_id'];
-		$this->Session->write('UserRole',$this->UserRole);
+		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$this->getUserId())));		
+		$this->Session->write('API.UserRole',$userRole['UserRoles']['role_id']);
 	}
 	
 	function getUserRole(){
-		return $this->Session->read('UserRole');
+		return $this->Session->read('API.UserRole');
 	}
 
 	function setWelcomeName($name=null){
 		if(isset($name) || $name){
-			$this->welcomeName = $name;
-			$this->Session->write('welcomeName',$name);
+			$this->Session->write('API.welcomeName',$name);
 			return;
 		}
-		$user = $this->getUser();
-		$name = $user->info['contact_name'];
-		$this->welcomeName = $name;
-		$this->Session->write('welcomeName',$name);
+		if(isset($this->getUser()->info)){
+			$user = $this->getUser()->info;
+			$name = isset($user['contact_name'])?$user['contact_name']:null;
+			$this->Session->write('API.welcomeName',$name);
+		}	
 	}			
 
 	function getWelcomeName(){
-		return $this->Session->read('welcomeName');
+		return $this->Session->read('API.API.welcomeName');
 	}			
 
-	function getUser(){
+	function setUser(){
 		$userData = $this->UserList->find('first',array('conditions'=>array('UserList.id'=>$this->getUserId())));
-		$userData['User'] = $userData['UserList'];
-		$userData['User']['role'] = $userData['UserRoles']['role_id'];
-		switch($userData['User']['role']){
-			case COMPANY:
-				$userData['User']['info'] = $userData['Companies'];					
-				break;	
-			case JOBSEEKER:
-				$userData['User']['info'] = $userData['Jobseekers'];
-				break;					
-			case NETWORKER:
-				$userData['User']['info'] = $userData['Networkers'];					
-				break;
+		if($userData['UserList']){
+			$userData['User'] = $userData['UserList'];
+			$userData['User']['role'] = isset($userData['UserRoles']['role_id'])?$userData['UserRoles']['role_id']:null;
+			switch($userData['User']['role']){
+				case COMPANY:
+					$userData['User']['info'] = $userData['Companies'];					
+					break;	
+				case JOBSEEKER:
+					$userData['User']['info'] = $userData['Jobseekers'];
+					break;					
+				case NETWORKER:
+					$userData['User']['info'] = $userData['Networkers'];					
+					break;
+			}
+			unset($userData['Companies']);
+			unset($userData['Jobseekers']);
+			unset($userData['Networkers']);
+			unset($userData['UserList']);
+			unset($userData['UserRoles']);
+			$userData = (object) $userData['User'];
+			$this->Session->write('API.User',$userData);
 		}
-		unset($userData['Companies']);
-		unset($userData['Jobseekers']);
-		unset($userData['Networkers']);
-		unset($userData['UserList']);
-		unset($userData['UserRoles']);				
-		$userData = (object) $userData['User'];
-		return $userData;	
+	}
+	
+	function getUser(){
+		return $this->Session->read('API.API.User');
 	}
 	
 	function setBeforeAuthUrl($url){
-		$this->Session->Write('beforeAuthUrl',$url);
+		$this->Session->write('API.beforeAuthUrl',$url);
 	}
 	
 	function getBeforeAuthUrl(){
-		return $this->Session->read('beforeAuthUrl');	
+		return $this->Session->read('API.beforeAuthUrl');	
+	}
+	
+	function logout(){
+		$this->Session->Write('API',null);
 	}
 }
 ?>
