@@ -1,17 +1,88 @@
 <?php echo $this->Session->flash();?>
+<?php echo $html->css('datepicker');?>
 <script>
 	$(document).ready(function(){
-		$("#short_by").change(onSelectShortByChange);
-		
+		$("#UserListFilter").change(onSelectShortByChange);
 	});
 	function onSelectShortByChange(){
-	    var selected = $("#short_by option:selected");    
-	    if(selected.val() != 0){
-	    	window.location.href="/admin/userList/filter:"+selected.val();
-	    }else{
+	    var selected = $("#UserListFilter option:selected");    
+	    if(selected.val() == 0){
 	    	window.location.href="/admin/userList";
 	    }
 	}	
+	function onDelete(id,adminAction)
+	{
+	if(confirm('Do you want to '+adminAction+' it ?')){
+			$.ajax({
+				url: "/admin/userAction",
+				type: "post",
+				async: false,
+				data:{userId:id,action:adminAction},
+				success: function(response){
+					window.location.reload();
+				},
+				error:function(response)
+				{	alert("error");
+				
+				}
+			});
+		}
+		return false;
+	}
+
+</script>
+<script>
+	$('document').ready(function(){
+		$("#from_date").datepicker({ minDate: new Date(2012,2,1), maxDate:'+0'});
+		$("#to_Date").datepicker({ minDate: new Date(2012,2,1), maxDate:'+0'});
+	});
+</script>
+<script type='text/javascript'>	
+	function validateDate(datefield)
+	{
+		var date1=datefield.value.split('/');
+		if(date1.length==3&&date1[2].match('\^2[0-9]{3}\$')&&date1[0].match('\^[0-1]{1}[0-9]{1}\$')&&date1[1].match('\^[0-3]{1}[0-9]{1}\$'))
+		{
+			return true;
+		}
+		else
+		{
+			alert('Invalid Date');
+			datefield.value="";
+			datefield.focus();
+			return false;
+		}
+	}
+	
+	function validateDateRange(from,to)
+	{
+		date1=from.value.split('/');
+		date2=to.value.split('/');
+		var from_date=new Date(date1[2],date1[0],date1[1]);
+		var to_date= new Date(date2[2],date2[0],date2[1]);
+		if(from_date>to_date)
+		{
+			alert("Invalid period");
+			return false;
+		}
+		return true;
+	}
+
+	function validateForm()
+	{
+		var from_date=document.getElementById('from_date');
+		var to_date=document.getElementById('to_date');
+		if(from_date.value==""||to_date.value=="")
+		{
+		}
+		else
+		{
+			if(validateDate(from_date)&&validateDate(to_date)&&validateDateRange(from_date,to_date))
+				return true;
+			else
+				return false;
+		}
+	}
 </script>
 <div id="page-heading"><h1>User List </h1></div>
 <?php 
@@ -27,60 +98,174 @@
 	</tr>
 	<tr>
 		<div style="float:left;">
-			<?php echo $form -> input('short_by',array(
-									  'type'=>'select',
-									  'label'=>'',
-									  'options'=>array('0'=>'Filter By','company'=>'Company', 'networker'=> 'Networker', 'jobseeker' => 'Jobseeker'),
-									  'style'=>"width:115px",
-									  'class'=>'job_select_shortby',
-									  'selected'=>isset($filter)?$filter:'All',));?>
+			<?php echo $form->create('UserList',array('url'=>array('controller'=>'admin','action'=>'userList'),
+														'type'=>"get"),
+												array('onsubmit'=>'return validateForm();'))?>
 		</div>
     	<td id="tbl-border-left"></td>
     	<td>
 			<div class="content-table-inner">
 				<div style="float:right;margin:15px;">
-					<?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
-					<?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
-					<?php echo "< < ".$this->Paginator->numbers(array('modulus'=>4))."  > >"; ?>
-					<?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
-					<?php echo $paginator->last(' Last'); }?>
-					<?php 
-						isset($this->params['named']['page'])?$page="page:".$this->params['named']['page']:$page="";
-						isset($this->params['named']['filter'])?$filter="filter:".$this->params['named']['filter']:$filter="";
+					<?php
+						$from_date=isset($from_date)?$from_date:'03/01/2012';
+						$to_date=isset($to_date)?$to_date:date('m/d/Y');
+						$findUrl=array("contact_name"=>isset($contact_name)?$contact_name:"",
+									   "contact_phone"=>isset($contact_phone)?$contact_phone:"",
+									   "account_email"=>isset($account_email)?$account_email:"",
+									   "from_date"=>date("Ymd",strtotime($from_date)),
+									   "to_date"=>date("Ymd",strtotime($to_date)),
+									   "page"=>isset($this->params['named']['page'])?$this->params['named']['page']:"1",
+									   "isActivated"=>isset($isActivated)?$isActivated:"",
+									   "filter"=>isset($filter)?$filter:""
+									   );
+					
+						if($this->Paginator->numbers()){ 
+							$this->Paginator->options(array('url' =>$findUrl));
+							echo $paginator->first('First  |'); 
+							echo $paginator->prev('  '.__('Previous', true), array(), null, array('class'=>'disabled'));
+							echo " < ".$this->Paginator->numbers(array('modulus'=>4))."  > ";
+							echo $paginator->next(__('Next', true).' ', array(), null, array('class'=>'disabled'));
+							echo $paginator->last(' |  Last'); 
+						}
+						isset($this->params['named']['page'])?$pageRedirect="page:".$this->params['named']['page']:$pageRedirect="";	
+						isset($this->params['named']['filter'])?$filterRedierct="filter:".$this->params['named']['filter']:$filterRedierct="";
 					?>
 				</div>
 				    <table width ="100%" cellspacing='0' class='userTable'>
-				    	<tr>
-				    		<th COLSPAN="8">
-								
-							</th>
-				    	</tr>
 					    <tr class="usertableHeading"> 
 						    <th width="5%">SN</th> 
-						    <th width="12%">Name</th>				    
-						    <th width="25%">E-Mail</th>
-						    <th width="12%">User Group</th>
-						    <th width="15%">Telephone</th>
-						    <th width="20%"><?php echo $this->Paginator->sort('User Since','UserList.created')?></th>
-						    <th width="15%"><?php echo $this->Paginator->sort('User Activated','UserList.is_active')?></th>
-   						    <th width="5%"></th>
-					    </tr>
-    		            <?php 
-							if(count($userArray)>0){
-    		            		foreach($userArray as $user):
-    		                	$class = $sno%2?"odd":"even";
-    			        ?>
+						    <th width="12%">Name</th>
+						    <th width="25%">
+						    	<div><?php echo $this->Paginator->sort('E-Mail','UserList.account_email')?></div>
+						    </th>
+   						    <th width="12%">User Group</th>
+   						    <th width="15%">Telephone</th>
+						    <th width="20%">
+						    	<div><?php echo $this->Paginator->sort('User Since','UserList.created')?></div>
+						    </th>
+						    <th width="15%">
+						    	<?php echo $this->Paginator->sort('User Activated','UserList.is_active')?>
+						    </th>
+   						    <th></th>						    						    						    
+						</tr>
+						<tr class="usertableHeading">
+							<th></th>
+							<th>
+
+						   	<?php
+								echo $form->input(" ",array("name"=>"contact_name",
+														"value"=>isset($contact_name)?$contact_name:"",
+														"class"=>'text_field_employee',
+														"title"=>'Enter Name',
+												));
+							?>
+						    </th>				    
+						    <th width="25%">
+						    <?php
+						    echo $form->input("",array("name"=>"account_email",
+												   	   "value"=>isset($account_email)?$account_email:"",
+													   "class"=>'text_field_employee',
+													   "style"=>'width:200px;',
+													   "title"=>'Enter Email',	
+											));
+						    
+						    ?>
+						    </th>
+						    <th width="12%">
+						    	<?php echo $form -> input('',array(
+									  'type'=>'select',
+									  'label'=>'',
+									  'name'=>'filter',
+									  'options'=>array('0'=>' All',
+									  				   'company'=>'Company',
+									  				   'networker'=> 'Networker',
+									  				   'jobseeker' => 'Jobseeker'),
+									  'style'=>"width:115px",
+									  'class'=>'job_select_shortby',
+									  'selected'=>isset($filter)?$filter:'All',));
+								?>
+						    </th>
+						    <th width="15%">
+						    <?php
+								echo $form->input("",array("name"=>"contact_phone",
+												   	   "value"=>isset($contact_phone)?$contact_phone:"",
+													   "class"=>'text_field_employee',
+													   "title"=>'Enter Contact Number',
+											));
+							?>
+						    </th>
+						    <th width="20%">
+						    	<div>
+						    		<center>	
+							    		<div style="margin-left:10px;float:left;">
+											<font size='2px'>From:</font>
+										</div>
+										<div style="width:130px;">
+											<?php 
+												echo $this->Form->input('',array('name'=>'from_date',
+																'type'=>'text',
+																'id'=>'from_date',
+																'readonly'=>"true",
+																'class' => 'date_field_employee',
+																'title'=>'From Date',
+																'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):'03/01/2012'	
+															));
+											?>
+										</div>
+										<div style="margin-left:10px;float:left;clear:both;width:35px;">
+											<?php echo "<font size='2px'>To:</font>";?>
+										</div>
+										<div style="width:130px;">
+										<?php 
+											echo $this->Form->input('',array(
+															'id'=>'to_Date',
+															'name'=>'to_date',
+															'type'=>'text',
+															'readonly'=>"true",
+															'class' => 'date_field_employee',
+															'title'=>'To Date',
+															'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):date('m/d/Y'),
+																		)
+															);
+										?>
+										</div>
+									</center>
+								</div>  
+							</th>
+							<th>
+								<?php echo $form -> input('',array(
+												  'type'=>'select',
+												  'name'=>'isActivated',
+												  'options'=>array('0'=>' All',
+												  				   'activated'=>'Activated',
+												  				   'deactivated'=> 'Deactivated',
+												  				   ),
+												  'style'=>"width:115px",
+												  'class'=>'job_select_shortby',
+												  'selected'=>isset($isActivated)?$isActivated:'All',));
+								?>
+							</th>
+	   						<th width="5%">
+	   						    <?php
+									echo $form->submit("Find", array('name'=>'find',
+															 'style'=>'width:35px;')); 	
+								?>
+	   						</th>
+						</tr>
+	    		            <?php 
+								if(count($userArray)>0){
+	    		            		foreach($userArray as $user):
+	    		                	$class = $sno%2?"odd":"even";
+	    			        ?>
 						<tr class="<?php echo $class; ?>" > 
 							<td style="padding:10px;text-align:center;" ><?php echo $sno++; ?></td> 
 							<td><?php echo $user['contact_name'];?></td> 
 							<?php if($user['account_email']=='fb'):
-											echo "<td title='Facebook User'> </td>";
+									echo "<td title='Facebook User'> </td>";
 								  else:
 							?>
 							<td>
-								
 								<?php echo $user['account_email']?>
-								
 							</td>
 							<? endif;?>
 							<td style="text-align:center;"> <?php echo $user['role'];?> </td> 
@@ -89,12 +274,18 @@
 							<?php if($user['is_active']==1 ):?>
 								<td style="text-align:center;">Yes</td>
 								<td>
-								<?php  echo $html->link($html->image("de-activate.jpg"),  array( 'action' => 'userAction','deactive:'.$user['id'],$page,$filter), array('escape' => false,'title'=>'De-Activate','onclick'=>"return confirm('Do you want to de-activate this account ?');")); ?>
+								<?php  echo $html->link($html->image("de-activate.jpg"), array(), array('escape' => false,'title'=>'De-Activate','onclick'=>"return onDelete($user[id],'De-activate')"));
+								?>
+							
+								<?php /* echo $html->link($html->image("de-activate.jpg"),  array( 'action' => 'userAction','deactive:'.$user['id'],$pageRedirect,$filterRedierct), array('escape' => false,'title'=>'De-Activate','onclick'=>"return confirm('Do you want to de-activate this account ?');"));
+								*/?>
 								</td>
 								<?php else:?>
 								<td style="text-align:center;">No</td>
 								<td>
-								<?php	echo $html->link($html->image("activate.png"), array('action' => 'userAction','active:'.$user['id'],$page,$filter), array('escape' => false,'title'=>'Activate','onclick'=>"return confirm('Do you want to activate this account ?');")); ?>
+								<?php	echo $html->link($html->image("activate.png"),array(),array('escape' => false,'title'=>'Activate','onclick'=>"return onDelete($user[id],'Activate')")); ?>
+								
+								<?php	/*echo $html->link($html->image("activate.png"), array('action' => 'userAction','active:'.$user['id'],$pageRedirect,$filterRedierct), array('escape' => false,'title'=>'Activate','onclick'=>"return confirm('Do you want to activate this account ?');")); */?>
 								</td>
 							<?php endif; ?>
 			    		</tr> 
@@ -103,11 +294,12 @@
 	    			}else{
 					?>	
 					<tr class="odd">			
-					    <td colspan="8" align="center">Sorry no result.</td>
+					    <td colspan="8" align="center" style="line-height: 40px;">Sorry no result.</td>
 					</tr>
 					<?php
 				    }
 					?>
+					
 		    </table>
 		</div>
     </td>
@@ -120,3 +312,4 @@
 	</tr>
 	</tbody>
 </table>
+	<?php echo $form->end();?>	

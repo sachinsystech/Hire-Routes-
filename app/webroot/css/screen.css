@@ -1753,7 +1753,7 @@ a:hover.back-login	{
 }
  .usertableHeading th{
     background-color:#FEAEAE;
-    color: #0000FF;
+    color: #FFFFFF;
     font-size:18px;
     border: 1px solid #ccc;
 	padding-left:5px;
@@ -1763,8 +1763,13 @@ a:hover.back-login	{
 
 }
  .usertableHeading a{
-   color: #0000ff;
+   color: #FFFFFF;
  }
+
+ .usertableHeading a:hover{
+ 	color: #0000FF;
+}
+
 
 .userTable tr td{
 	border: 1px solid #ccc;
@@ -1805,4 +1810,18 @@ a:hover.back-login	{
 .change_password button{
 	float:right;
 	margin-right:20px;
+}
+
+/***********/
+.text_field_employee {
+    border: 1px solid;
+	height: 16px;
+	width: 100px;
+}
+.date_field_employee{
+	border: 1px solid;
+    height: 15px;
+	width: 85px;
+	font-size:12px;
+	text-align:center;
 }
