@@ -31,6 +31,7 @@ class CompaniesController extends AppController {
 					if($this->Job->save()){
     		    	    switch($this->params['form']['save']){
     		    	        case 'Post and Share':
+    		    	        	$this->Session->write('openShare','open');
     		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');
     		    	            $this->redirect('/companies/editJob/'.$this->Job->id);
     		    	            break;

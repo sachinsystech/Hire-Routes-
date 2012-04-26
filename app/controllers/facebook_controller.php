@@ -1,6 +1,6 @@
 <?php	
 	/***	Include facebook api authentication files.	***/
-	require_once(APP_DIR.'/vendors/facebook/facebook.php');
+
 ?>
 
 
@@ -18,6 +18,7 @@
 	/******	Facebook Handling	******/
 	
 	private function facebookObject() {
+	require_once(APP_DIR.'/vendors/facebook/facebook.php');
 		$facebook = new Facebook(array(
 		  'appId'  => FB_API_KEY,
 		  'secret' => FB_SECRET_KEY,
@@ -38,17 +39,21 @@
 
     function getFaceBookFriendList(){
         $userId = $this->Session->read('Auth.User.id');
+
         if(!$this->TrackUser->isUserLoggedIn()){       
         	$this->autoRender = false;
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
         }
-        if(!$this->RequestHandler->isAjax()){
-            $user = $this->facebookObject()->getUser();
+      	$facebook=$this->facebookObject();
+       	$facebook->setRequestUri('/facebook/getFaceBookFriendList');           
+
+        if(!$this->RequestHandler->isAjax()){ 
+            $user = $facebook->getUser();
             if($user){
                 
                 // save users facebook token
                 $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
-                $saveUser['User']['facebook_token'] = $this->facebookObject()->getAccessToken();
+                $saveUser['User']['facebook_token'] = $facebook->getAccessToken();
                 $this->User->save($saveUser);
                 $this->set('error',false);
                 return;
@@ -66,7 +71,7 @@
                                 'access_token' =>$user['User']['facebook_token']
 
                             );
-                    $userdata = $this->facebookObject()->api('/me/friends', 'GET', $token);
+                    $userdata = $facebook->api('/me/friends', 'GET', $token);
                     $users = array();
                     $i =0 ;
                     foreach ($userdata['data'] as $key=>$value){
@@ -78,7 +83,7 @@
                     return json_encode(array('error'=>2,'message'=>'Error in facebook connection. Please try after some time.'));
                 }
             }else{
-                echo json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$this->getFaceBookLoginURL()));
+                return json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$facebook->getLoginURL(array('canvas' => 1, 'fbconnect' => 0, 'scope' => 'offline_access,publish_stream'))));
             }   
         }
     }

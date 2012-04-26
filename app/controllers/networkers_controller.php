@@ -268,8 +268,34 @@ class NetworkersController extends AppController {
 		$userId = $this->TrackUser->getCurrentUserId();	
 		$networkerData = $this->getRecursiveData($userId);
 		$this->set('networkerData',$networkerData);
+		$this->paginate=array(
+			'fields'=>'User.id, Networker.contact_name, count(UserCount.id) as count',
+			'conditions'=>array('User.parent_user_id'=>$userId),
+			'recursive'=>-1,
+			'joins'=>array(
+				array(
+					'table'=>'networkers',
+					'alias'=>'Networker',
+					'type'=>'left',
+					'fields'=>'Networker.contact_name, Networker.user_id',
+					'conditions'=>'Networker.user_id = User.id',
+				),
+				array(
+					'table'=>'users',
+					'alias'=>'UserCount',
+					'type'=>'left',
+					'fields'=>'count(parent_user_id)',
+					'conditions'=>'UserCount.parent_user_id= Networker.user_id'
+				)
+				
+			),
+			'limit'=>10,
+			'group'=>'User.id'
+		);
+		$firstDegreeNetworkers=$this->paginate('User');
+		$this->set('firstDegreeNetworkers',$firstDegreeNetworkers);
 	}
-
+	
 	function getRecursiveData($userId){	
 		$Users   = $this->User->find('list',array('fields'=>'id','conditions'=>array('User.parent_user_id'=>$userId)));
 		
