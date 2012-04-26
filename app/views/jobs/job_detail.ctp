@@ -3,9 +3,9 @@
 <script type="text/javascript"> 
 	
     function showDescription(){
-	    $('#full_description').show();
-            $('#short_description').hide();
-            $('#more_info').hide();
+		$('#full_description').show();
+		$('#short_description').hide();
+		$('#more_info').hide();
 	}
 </script>
 		
@@ -132,7 +132,7 @@
 		<!-- middle conyent list -->
 	</div>
 
-	<div style="font-size:1.2em;float:right;width:215px;text-align:center;margin-right:30px;">
+	<div style="font-size:1.2em;float:right;width:200px;text-align:center;margin-right:30px;">
 		<div style="font-weight:bold;">
 			<div style="font-size:1.4em;">
 				Total Reward <?php echo $this->Number->format(

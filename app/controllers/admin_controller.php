@@ -9,7 +9,6 @@ class AdminController extends AppController {
 		$this->Auth->authorize = 'actions';
 		$this->Auth->allow('index');
 		$this->Auth->allow('companiesList');
-		//$this->Auth->allow('acceptCompanyRequest');
 		$this->Auth->allow('Code');
 		$this->Auth->allow('paymentInformation');
 		$this->Auth->allow('filterPayment');
@@ -17,7 +16,6 @@ class AdminController extends AppController {
 		$this->Auth->allow('updatePaymentStatus');
 		$this->Auth->allow('userList');
 		$this->Auth->allow('userAction');
-		$this->Auth->allow('userDetail');
 		$this->layout = "admin";
 		if($this->Session->read('Auth.User.id')!=1){
 			$this->redirect('/');

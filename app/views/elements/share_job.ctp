@@ -97,7 +97,11 @@ $(function() {
 							));?>
 							<div id='submitLoaderImg' style='float:right;'></div>
 						</div>
-						
+						<?php echo $form->input('code', array('label' => '',
+															  'id'=>'code',
+															  'type'  => 'hidden',
+															  'value'=>isset($code)?$code:"",
+						));?>
 					</div>
 					<?php echo $form->end(); ?>
 					</div>
@@ -342,7 +346,7 @@ function createHTMLforFillingFriends(friends){
 				url: "/jobsharing/shareJobByEmail",
 				type: "post",
 				dataType: 'json',
-				data: {jobId : $('#ShareJobId').val(), jobUrl: $('#jobUrl').val(), toEmail : $('#ShareToEmail').val(), subject : $('#ShareSubject').val(), message : $('#ShareMessage').val()},
+				data: {jobId : $('#ShareJobId').val(), jobUrl: $('#jobUrl').val(), toEmail : $('#ShareToEmail').val(), subject : $('#ShareSubject').val(), message : $('#ShareMessage').val(),code:$('#code').val()},
 				success: function(response){
 					$('#submitLoaderImg').html('');
 					switch(response.error){

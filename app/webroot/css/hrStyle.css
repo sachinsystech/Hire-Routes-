@@ -33,6 +33,7 @@ a {
 	color: #003d4c;
 	text-decoration: underline;
 	font-weight: bold;
+	font-size: 14px;
 }
 a:hover {
 	color: #367889;
@@ -205,6 +206,7 @@ div.paging span.current {
 span.current {
 	color: #CCCCCC;
 	font-weight:normal;
+	font-size: 15px;
 }
 div.paging span a {
 }
@@ -284,7 +286,7 @@ form div.submit {
 }
 label {
 	/*display: block;*/
-	font-size: 110%;
+	font-size: 105%;
 	margin-bottom:3px;
 }
 input, textarea {
@@ -339,17 +341,21 @@ input[type=submit] {
 	cursor:pointer;
 }
 form .submit input[type=submit] {
-	background:#62af56;
 	background: -webkit-gradient(linear, left top, left bottom, from(#a8ea9c), to(#62af56));
-	background-image: -moz-linear-gradient(top, #a8ea9c, #62af56);
-	border-color: #2d6324;
+	background: -moz-linear-gradient(center top , #A8EA9C, #62AF56) repeat scroll 0 0 #62AF56;
+	border: 1px solid #AAAC62;
 	color: #000;
 	text-shadow: #8cee7c 0px 1px 0px;
 }
 form .submit input[type=submit]:hover {
-	background:#4ca83d;
-	background: -webkit-gradient(linear, left top, left bottom, from(#85e573), to(#4ca83d));
-	background-image: -moz-linear-gradient(top, #85e573, #4ca83d);
+
+	color:#333;
+	border:1px solid #aaac62;
+	-webkit-border-radius:8px;
+	-moz-border-radius:8px;
+	border-radius:8px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#62AF56), to(#f7f7e1));
+	background: -moz-linear-gradient(center top, #62AF56,#f7f7e1) repeat scroll 0 0 #62AF56;
 }
 
 /** Notices and Errors **/
@@ -432,27 +438,33 @@ div.actions ul li a:hover {
 }
 
 input[type=submit],
+button,
 div.actions ul li a,
 td.actions a {
 	font-weight:normal;
 	padding: 4px 8px;
-	background:#e6e49f;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f1f1d4), to(#e6e49f));
-	background-image: -moz-linear-gradient(top, #f1f1d4, #e6e49f);
+	background: -webkit-gradient(linear, left top, left bottom, from(#A8EA9C), to(#62AF56));
+	background: -moz-linear-gradient(center top , #A8EA9C, #62AF56) repeat scroll 0 0 #62AF56;
 	color:#333;
 	border:1px solid #aaac62;
 	-webkit-border-radius:8px;
 	-moz-border-radius:8px;
 	border-radius:8px;
 	text-decoration:none;
-	text-shadow: #fff 0px 1px 0px;
 	min-width: 0;
+	cursor:pointer;
 }
 input[type=submit]:hover,
+button:hover,
+div.selection-button button:hover,
+#GetStart:hover,
+.postNewJob:hover,
+#FindJob:hover,
+#Go:hover,
 div.actions ul li a:hover,
 td.actions a:hover {
-	background: #f0f09a;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f7f7e1), to(#eeeca9));
+	background: -webkit-gradient(linear, left top, left bottom, from(#62AF56), to(#f7f7e1));
+	background: -moz-linear-gradient(center top, #62AF56,#f7f7e1) repeat scroll 0 0 #62AF56;
 }
 
 /** Related **/
@@ -572,7 +584,8 @@ div.code-coverage-results span.result-good {
   margin: 20px 0 0 21px;
 }
 .selection-button button{
-  padding:5px;background:#04B431;
+  padding:5px;
+  background: -moz-linear-gradient(center top , #A8EA9C, #62AF56) repeat scroll 0 0 #62AF56;
   cursor:pointer;
   width: 145px;
 }
@@ -856,7 +869,22 @@ label.error{
     height: 54px;
     width: 87px;
 }
-
+.left-button:hover{
+	background: url("../img/left.png") no-repeat scroll center center transparent;
+	border: medium none;
+    cursor: pointer;
+    height: 54px;
+    width: 87px;
+    opacity: 0.7;
+}
+.right-button:hover{
+	background: url("../img/right.png") no-repeat scroll center center transparent;
+    border: medium none;
+    cursor: pointer;
+    height: 54px;
+    width: 87px;
+	opacity: 0.7;
+}
 .error{
 	color:red;
 }
@@ -1054,7 +1082,7 @@ label.error{
     width: 745px;
 }
 .middleBox .jobs_topMenu {
-    border-style: solid solid solid none;
+    border-style: none none solid none;
     border-width: 1px 1px 1px medium;
     height: 40px;
     padding: 10px;
@@ -1469,7 +1497,10 @@ border: 1px solid #000000;
     margin: 15px 40px;
 }
 .checkout_pay_button{
-    background: none repeat scroll 0 0 lime;
+	background: -moz-linear-gradient(center top , #A8EA9C, #62AF56) repeat scroll 0 0 #62AF56;
+    -webkit-border-radius:8px;
+	-moz-border-radius:8px;
+	border-radius:8px;
     border: 1px solid green;
     cursor: pointer;
     height: 30px;
@@ -1740,12 +1771,13 @@ border: 1px solid #000000;
 	width:100px;
 	margin-left:50px;
 	margin-bottom:20px;
-    background-color: #3DB517;
-    border: 1px solid #000000;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-	text-align:center;
+	background: -webkit-gradient(linear, left top, left bottom, from(#a8ea9c), to(#62af56));
+    background: -moz-linear-gradient(center top , #A8EA9C, #62AF56) repeat scroll 0 0 #62AF56;
+	border: 1px solid #AAAC62;
+	-moz-border-radius:8px;
+	border-radius:8px;
+	cursor: pointer;
+    text-align:center;
     padding: 5px;
 }
 #FindJob{
@@ -1753,21 +1785,27 @@ border: 1px solid #000000;
 	width:88px;
 	height:30px;
 	padding:2px;
-	background: #3DB517;
+	background: -webkit-gradient(linear, left top, left bottom, from(#a8ea9c), to(#62af56));
+	background: -moz-linear-gradient(center top , #A8EA9C, #62AF56) repeat scroll 0 0 #62AF56;
+	border: 1px solid #AAAC62;
+	-moz-border-radius:8px;
+	border-radius:8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
 	text-align:center;
 	margin:6px;
-	border-radius:0px;
 }
 #Go{
 	float:right;
 	width:40px;
-	height:14px;
+	height:17px;
 	padding:5px;
-	background-color: #3DB517;
-    border: 1px solid #000000;
+	background: -webkit-gradient(linear, left top, left bottom, from(#a8ea9c), to(#62af56));
+	background: -moz-linear-gradient(center top , #A8EA9C, #62AF56) repeat scroll 0 0 #62AF56;
+  	border: 1px solid #AAAC62;
+	-moz-border-radius:8px;
+	border-radius:8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
@@ -1968,13 +2006,16 @@ border: 1px solid #000000;
 }
 
 .clear_button{
-	float:right;
+	margin-left:10px;
+	margin-top:-4px;
 	width:auto;
-	background: -moz-linear-gradient(center top , #F1F1D4, #E6E49F) repeat scroll 0 0 #E6E49F;
+	background:#62af56;
+	background: -webkit-gradient(linear, left top, left bottom, from(#a8ea9c), to(#62af56));
+	background-image: -moz-linear-gradient(top, #a8ea9c, #62af56);
+	border: 1px solid #AAAC62;
+	color: #000;
 	border-radius: 8px 8px 8px 8px;
-    border-color: #2D6324;
-    color: #000000;
-    text-shadow: 0 1px 0 #8CEE7C;
+	text-shadow: #8cee7c 0px 1px 0px;
     padding: 4px 8px;
     font-weight:normal;
     font-size:110%;

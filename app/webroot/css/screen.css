@@ -1715,7 +1715,7 @@ a:hover.back-login	{
     border: 1px solid;
     float: left;
     height: 20px;
-    margin-left: 1px;
+    margin-left: 5px;
     width: 117px;
 }
 .code_signups_txt{
@@ -1729,12 +1729,12 @@ a:hover.back-login	{
     border: 1px solid;
     float: left;
     height: 18px;
-    margin-left: 35px;
+    margin-left: 36px;
     width: 115px;
 }
 .code_pagination{
     font-size: 16px;
-    font-weight: bold;
+   
     margin-top: -29px;
     margin-top: 10px;
     padding: 10px;
@@ -1802,14 +1802,18 @@ a:hover.back-login	{
 	margin-left:165px;
 	text-align:left;
 }
-.change_password input{
+.change_password input[type=password] {
 	float:left;
 	margin-left:10px;
 	text-align:left;
+	border: 1px solid #000000;
 }
 .change_password button{
-	float:right;
-	margin-right:20px;
+	float:left;
+	margin-left:20px;
+	padding:0px 3px 0px 3px;
+	width:70px;
+	height:30px;
 }
 
 /***********/
@@ -1824,4 +1828,39 @@ a:hover.back-login	{
 	width: 85px;
 	font-size:12px;
 	text-align:center;
+	cursor:pointer;
+}
+
+input[type=submit],
+button{
+	background:  #1E90FF;
+	background: -moz-linear-gradient(center top , #1E90FF, #6384ff) repeat scroll 0 0 #222222;
+    border: 1px solid #AAAC62;
+    border-radius: 8px 8px 8px 8px;
+    color: #FFFFFF;
+    font-weight: normal;
+    min-width: 0;
+    padding: 4px 8px;
+    text-decoration: none;
+
+
+}
+input[type=submit]:hover,
+button:hover{
+	cursor:pointer;
+	background: #96acff;
+	background: -webkit-gradient(linear, left top, left bottom, from(#96acff), to(#96acff));
+}
+
+.submit input {
+	padding:0px 3px 0px 3px;
+	width:70px;
+	height:30px;
+}
+
+.button_field{
+	padding:0px 3px 0 3px;
+}
+select{
+	cursor:pointer;
 }
