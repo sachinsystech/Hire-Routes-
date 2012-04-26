@@ -9,7 +9,7 @@
 // +----------------------------------------------------------------------+
 
 class AppController extends Controller {
-	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','TrackUser');
+	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','TrackUser','Utility');
 	public $helpers = array('Session','Html', 'Form', 'Javascript','Bcp.DatabaseMenus','Number');
 	
 	protected $userRole;
