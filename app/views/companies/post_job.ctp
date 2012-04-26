@@ -146,7 +146,7 @@
 	  <div style="clear: both;"></div>
 <div style="text-align:left">
 	<?php echo $form->submit('Save for Later',array('div'=>false,'name'=>'save','value'=>'later','style'=>'margin-left:130px;')); ?>
-	<?php echo $form->submit('Post and Share',array('div'=>false,'name'=>'save','value'=>'share','style'=>'float:right;')); ?>
+	<?php echo $form->submit('Post and Share',array('div'=>false,'name'=>'save','value'=>'share')); ?>
 </div>
  <?php echo $form->end(); ?>
  </div>

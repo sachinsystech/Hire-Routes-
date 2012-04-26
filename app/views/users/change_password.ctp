@@ -77,7 +77,7 @@
 					<?php echo $form->submit('Change',array('lable'=>'',
 												'type'=>'submit',
 												'value'=>'Change',
-												'style'=>'float:left;',
+												'style'=>'float:left;margin-left:100px;',
 												)
 											);
 						?>
@@ -88,6 +88,7 @@
 													)
 												);
 						?>
+					
 				</div>
 				<div style="clear:both"></div>
 				<?php echo $form->end();?>

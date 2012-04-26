@@ -274,7 +274,7 @@ list archive jobs..
 				$this->set('states',$this->Utility->getState());
 				$this->set('industries',$this->Utility->getIndustry());
 				
-				/****************  genrate code for traking user ****************/
+				/****************  genrate code for traking user **************** /
 					$str = "11:12";
 					$temp = base64_encode($str);
 					//echo $temp;

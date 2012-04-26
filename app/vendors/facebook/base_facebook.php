@@ -973,12 +973,13 @@ abstract class BaseFacebook
     else {
       $protocol = 'http://';
     }
-    //$currentUrl = $protocol . $_SERVER['HTTP_HOST'] . "/users/facebookUser";
-    //$currentUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
     if(!isset($this->requestUri)||empty($this->requestUri)){
     	$this->setRequestUri();
     }
     $currentUrl = $protocol . $_SERVER['HTTP_HOST'] .$this->getRequestUri();
+    //$currentUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
     $parts = parse_url($currentUrl);
 
     $query = '';
