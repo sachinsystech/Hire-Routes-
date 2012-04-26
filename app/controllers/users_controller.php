@@ -756,6 +756,10 @@ class UsersController extends AppController {
 				$this->manageFBUser();
 			}
 		}
+		/***   manage facebook user after cancel callback(denied permission from FB-App) ***/                
+               if(isset($this->params['url']['error_reason'])){
+                       $this->Session->setFlash('you can signup by email!', 'warning');
+               }
 	}
 
 /**

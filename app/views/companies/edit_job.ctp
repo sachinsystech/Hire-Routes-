@@ -216,6 +216,14 @@ $(document).ready(function(){
 	<?php
 	}
 	?>
+	<?php
+		if($this->Session->check('openShare')):
+	?>
+	showView(4);
+	<?php
+		$this->Session->delete('openShare');
+		endif;
+	?>
 });
 </script>
 
