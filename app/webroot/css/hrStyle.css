@@ -1776,7 +1776,12 @@ border: 1px solid #000000;
     font-size: 18px;
     font-weight: bold;
 	text-align:center;
-	padding: 5px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#a8ea9c), to(#62af56));
+    background: -moz-linear-gradient(center top , #A8EA9C, #62AF56) repeat scroll 0 0 #62AF56;
+	border: 1px solid #AAAC62;
+	-moz-border-radius:8px;
+	border-radius:8px;
+    padding: 5px;
 }
 #FindJob{
 	float:right;
