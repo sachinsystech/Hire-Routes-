@@ -3,7 +3,8 @@
 	$(document).ready(function(){
 		$("#slider").slider();
 	    $("#switch_display").change(onSelectChange);
-		$("#short_by").change(onSelectChange);		
+		$("#short_by").change(onSelectChange);
+			
 	});
 	function onSelectChange(){
 	    var displaySelected = $("#switch_display option:selected");
@@ -19,10 +20,16 @@
 			slide: function( event, ui ) {
 				$( "#from_amount" ).val( ui.values[ 0 ] +"K");
 				$( "#to_amount" ).val( ui.values[ 1 ]+"K" );
+				/*
+				$( "#slider-range" ).mouseleave(function(){
+					document.forms["FilterJobIndexForm"].submit();			
+				});
+				*/				
 			}
 		});
 		$( "#from_amount" ).val( $( "#slider-range" ).slider( "values", 0 ) +"K");
 		$( "#to_amount" ).val( $( "#slider-range" ).slider( "values", 1 )+"K" );
+		
 		
 	});
 

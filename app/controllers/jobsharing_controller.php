@@ -28,6 +28,8 @@ class JobsharingController extends AppController {
 			$messageBody = $job;
 			$messageBody['jobUrl'] = $jobUrl; 
 			$messageBody['message'] = $this->params['form']['message'];
+			isset($this->params['form']['code'])?$messageBody['code'] = $this->params['form']['code']:"";			
+
 			if($this->sendEmail($to,$subject,$template,$messageBody)){
 				$shareJobData['job_id'] = $jobId;
                	$shareJobData['user_id'] = $userId;
