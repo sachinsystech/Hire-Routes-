@@ -21,13 +21,16 @@
 <div style="width:600px;margin: auto;">
 <div class="sigup_heading">Post  New Job </div>
 <?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'postJob'))); ?>
+	<div style="overflow:auto;">
 	<?php	echo $form->input('title', array('label' => 'Title:',
 													'type'  => 'text',
-													'class' => 'text_field_job_title required'
+													'class' => 'text_field_job_title required',
+													//'style'=>'overflow:auto;clear:both;',
 													)
 								 );
 	?>
-
+	</div>
+	<div style="overflow:auto;clear:both;margin:2px;">
 	<?php	echo $form->input('reward', array('label' => 'Reward$:',
 													'type'  => 'text',
 													'class' => 'text_field_bg required number',
@@ -35,15 +38,17 @@
 													)
 								 );
 	?>
+	</div>
+	<div style="overflow:auto;clear:both;">
 	<?php	echo $form->input('short_description', array('label' => 'Short_Description:',
 													'type'  => 'textarea',
 													'class' => 'textarea_bg_job required',
 													)
 								 );
 	?>
+	</div>
 
-
-	<div>
+	<div style="clear:both;overflow:auto;">
 	  <div style="float:left;margin-left: -7px;clear: both;">
 		  <?php $industry_array = array('1'=>'Industry1','2'=>'Industry2','3'=>'Industry3','4'=>'Industry4');?>
 		  <?php echo $form -> input('industry',array(
@@ -58,7 +63,7 @@
 		  ?>
 	  </div>
 	  <div id="specification_loader" style="float:left;"></div>
-	  <div style="float:left;">
+	  <div style="float:right;">
 		  <?php echo $form -> input('specification',array(
 													  'type'=>'select',
 													  'label'=>'',
@@ -76,21 +81,21 @@
 												
 	  <!-- 	Location :: State wise cities....	-->
 	  
- <div style="float:left;margin-left: -7px;clear: both;">
-<?php echo $form -> input('state',array(
-											'type'=>'select',
-											'label'=>'Location:',
-											'options'=>$states,
-											'empty' =>' -- All States-- ',
-											'class'=>'jobseeker_select_i required',
-											'onchange'=>'return fillCities(this.value,"JobCity","city_loader");'
+		<div style="float:left;margin-left: -7px;clear: both;">
+			<?php echo $form -> input('state',array(
+									  'type'=>'select',
+									  'label'=>'Location:',
+									  'options'=>$states,
+									  'empty' =>' -- All States-- ',
+									  'class'=>'jobseeker_select_i required',
+									  'onchange'=>'return fillCities(this.value,"JobCity","city_loader");'
 									)
 						);
-?>
-</div>
-<div id="city_loader" style="float:left;"></div>
-<div style="float:left;">
-<?php echo $form -> input('city',array(
+			?>
+		</div>
+		<div id="city_loader" style="float:left;"></div>
+		<div style="float:right;">
+			<?php echo $form -> input('city',array(
 											'type'=>'select',
 											'label'=>'',
 											'empty' =>' -- All Cities-- ',
@@ -98,16 +103,16 @@
 											'style'=>'margin-left:5px;'
 									)
 						);
-?>							
-</div>
+			?>							
+		</div>
 	  
 	  
       <!-- 	End of Location fields...	-->
 	  
-	  <div style=" clear :both;">
+	<div style=" clear :both;">
 	  
 	<div class="salary_range">				
-		<div style="width: 130px;float:left;padding:0;margin:0;"><label>Annual salary Range ($):</label></div>
+		<div style="width: 135px;float:left;padding:0;margin:0;"><label>Annual salary Range ($):</label></div>
 		<div style="width: 150px;float:left;padding:0;margin:0;">	
 			<?php	echo $form->input('salary_from', array('label' => 'From',
 													'type'  => 'text',
@@ -145,7 +150,7 @@
 	?>
 	  <div style="clear: both;"></div>
 <div style="text-align:left">
-	<?php echo $form->submit('Save for Later',array('div'=>false,'name'=>'save','value'=>'later','style'=>'margin-left:130px;')); ?>
+	<?php echo $form->submit('Save for Later',array('div'=>false,'name'=>'save','value'=>'later','style'=>'margin-left:140px;')); ?>
 	<?php echo $form->submit('Post and Share',array('div'=>false,'name'=>'save','value'=>'share')); ?>
 </div>
  <?php echo $form->end(); ?>

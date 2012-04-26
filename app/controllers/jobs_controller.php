@@ -225,19 +225,11 @@ class JobsController extends AppController {
 							$this->render("apply_job"); 
 							return;          
                 		}
-                		if($resume['size'] >307251){
-							$this->Session->setFlash('File size exceed. Resume size upto 300 KB', 'error'); 
-							$this->data['JobseekerApply']['resume'] = ""; 
-							$this->set('jobprofile',$this->data['JobseekerApply']);  
-							$this->set('job',$job['Job']);
-							$this->set('jobCompany',$job['comp']['company_name']);
-							$this->render("apply_job");  
-							return;   	
-						}
+                		
                 		$type_arr = explode(".",$resume['name']);
                 		$type = $type_arr[1];
-               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx' && $type!='odt'){
-							$this->Session->setFlash('File type not supported.', 'error');
+               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx' && $type!='odt' || $resume['size'] >307251){
+							$this->Session->setFlash('Please ensure that you are uploading a supported file format of max size 300 Kb', 'error'); 
                 			$this->data['JobseekerApply']['resume'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
 							$this->set('job',$job['Job']);
@@ -266,19 +258,11 @@ class JobsController extends AppController {
 							$this->render("apply_job"); 
 							return;          
                			}
-               			 if($cover_letter['size']>307251){
-							$this->Session->setFlash('File size exceed. Cover letter size upto 300 KB', 'error'); 
-							$this->data['JobseekerApply']['cover_letter'] = ""; 
-							$this->set('jobprofile',$this->data['JobseekerApply']);  
-							$this->set('job',$job['Job']);
-							$this->set('jobCompany',$job['comp']['company_name']);
-							$this->render("apply_job"); 
-							return;   	
-						}
+               		
                 		$type_arr1 = explode(".",$cover_letter['name']);
                 		$type1 = $type_arr1[1];
-                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx' && $type1!='odt'){
-							$this->Session->setFlash('File type not supported.', 'error');
+                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx' && $type1!='odt' ||$cover_letter['size']>307251){
+							$this->Session->setFlash('Please ensure that you are uploading a supported file format of max size 300 Kb', 'error'); 
                 			$this->data['JobseekerApply']['cover_letter'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
 							$this->set('job',$job['Job']);
