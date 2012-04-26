@@ -644,14 +644,6 @@ class UsersController extends AppController {
  * @access public
  */
 	function login() {
-		if($this->TrackUser->isHRUserLoggedIn()){
-			$this->redirect("/users/myaccount");				
-			return;
-		}
-		if ($this->TrackUser->isUserLoggedIn()){
-			$this->redirect("/admin");
-			return;
-		}
 		
 		if(isset($this->data['User'])){
 			$username = trim($this->data['User']['username']);
@@ -756,6 +748,11 @@ class UsersController extends AppController {
 				$this->manageFBUser();
 			}
 		}
+
+		/***	manage facebook user after cancel callback(denied permission from FB-App) ***/		
+		if(isset($this->params['url']['error_reason'])){
+			$this->Session->setFlash('you can signup by email!', 'warning');
+		}	
 	}
 
 /**

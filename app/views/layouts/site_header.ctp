@@ -23,13 +23,6 @@
 	</div>
 </div>
 -->
-<?php /*$fb_url = "https://www.facebook.com/dialog/oauth?
-				 client_id=".FB_API_KEY."
-				 &redirect_uri=http%3A%2F%2F".Configure::read('fbRootURL')."%2Fusers%2FfacebookUser
-				 &state=".FB_STATE."
-				 &scope=email%2Cread_stream";*/?>
-
-
 	<?php $current_user = $this->Session->read('Auth.User'); ?>
 
 

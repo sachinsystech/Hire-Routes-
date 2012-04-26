@@ -9,7 +9,9 @@
 // +----------------------------------------------------------------------+
 
 class AppController extends Controller {
-	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','TrackUser','Utility');
+
+	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','TrackUser','ApiSession','Utility');
+
 	public $helpers = array('Session','Html', 'Form', 'Javascript','Bcp.DatabaseMenus','Number');
 	
 	protected $userRole;
@@ -98,6 +100,10 @@ class AppController extends Controller {
 		return true; 
     }
     
+    protected function _getSession()
+    {
+        return $this->ApiSession;
+    }
 
 }
 
