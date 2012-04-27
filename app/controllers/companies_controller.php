@@ -3,7 +3,7 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse');
+   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse','JobseekerProfile');
 	var $components = array('TrackUser','Utility','RequestHandler');
 
 	var $helpers = array('Form','Paginator','Time');
@@ -989,11 +989,9 @@ function paymentHistoryInfo(){
 		$condition_name=null;
 		if(isset($this->params['named'])){
 			$data=$this->params['named'];
-			//echo "<pre>"; print_r($data);//exit;
 		}
 		if(isset($this->params['url']['from_date'])){
 			$data=$this->params['url'];
-			//echo "<pre>"; print_r($data);//exit;
 		}
 		if(isset($data)){
 			if(isset($data['contact_name']) && !empty($data['contact_name'])){			
@@ -1010,8 +1008,8 @@ function paymentHistoryInfo(){
 				$conditions[]= "users.account_email LIKE \"".trim($data['account_email'])."%\"";
 				$this->set('account_email',$data['account_email']);	
 			}
-			if(isset($data['state']) &&   !empty($data['state'])){			
-				$conditions[]= "js.state LIKE\"%".$data['state']."%\"";
+			if(isset($data['state']) && !empty($data['state'])){			
+				$conditions[]= "js.state LIKE\"".$data['state']."%\"";
 				$conditions[]= "js.city LIKE\"".$data['state']."%\"";
 				$this->set('state',$data['state']);	
 			}
@@ -1103,6 +1101,21 @@ function paymentHistoryInfo(){
 		return $httpParsedResponseAr;
 	}
 
+	function jobseekerFilledProfile(){
+		$jobseekerApplyProfile=array();
+		$this->autoRender= false ;
+		$jobseekerApplyId= $this->params['form']['jobseekerId'];
+		//echo $jobseekerApplyId;
+		if(isset($jobseekerApplyId)){
+			$jobseekerApplyProfile=$this->JobseekerApply->find('first',array('conditions'=>"id=$jobseekerApplyId"));
+			$jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
+			$jobseekerApplyProfile['JobseekerApply']['answer5']=$jobtypes[$jobseekerApplyProfile['JobseekerApply']['answer5']];
+			$jobseekerApplyProfile= json_encode($jobseekerApplyProfile['JobseekerApply']);
+			return $jobseekerApplyProfile;
+		}
+	
+	
+	}
 }
 ?>
 

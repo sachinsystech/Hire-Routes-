@@ -788,7 +788,7 @@ class UsersController extends AppController {
 		
 		$facebookUser=$this->User->find('first',array('conditions'=>
 													array('id'=>$this->TrackUser->getCurrentUserId(),
-													'password'=>0),
+													'password'=>'NULL'),
 													'fields'=>'password,id,fb_user_id,',
 													)
 																
