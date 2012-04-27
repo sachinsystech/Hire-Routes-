@@ -1,7 +1,22 @@
 <script> 	
     $(document).ready(function(){               
 		$("#PaymentInfoPaymentInfoForm").validate();
+				
+		$('button').click(function(){
+			$('button').attr('disable',true);
+			$( "#submit-dialog-modal" ).dialog({
+				height: 0,
+				modal: true
+			});
+			$("div").removeClass("ui-dialog-titlebar-close ui-corner-all ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-resizable-handle ui-resizable-e ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-diagonal-se ui-dialog-titlebar-close ui-corner-all ui-icon ui-icon-closethick ui-widget-content ui-resizable-n").
+			addClass('test');
+			//$( "#ui-dialog-title-submit-dialog-modal").html("<img src='/images/ajax-loader-tr.gif'>");
+			$(".ui-dialog-titlebar-close ui-corner-all").remove("a");
+			$(".ui-icon").remove("span");
+			//$("a").removeClass();
+		});
     });	
+
 
 function check_expdate() {
     var currentTime = new Date();
@@ -18,6 +33,7 @@ function check_expdate() {
     }
   }
 </script>
+
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -25,6 +41,10 @@ function check_expdate() {
 			<?php echo $this->element('side_menu');?>
 		</div>		
 	</div>
+
+<div id="submit-dialog-modal" role="dialog" >
+</div>
+
 	<!-- left section end -->
 	<!-- middle section start -->
 	<div class="rightBox" >
@@ -34,10 +54,9 @@ function check_expdate() {
 		</div>
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
-		
+			
 			<div class="middleBox">
 				<div class="checkout_setting_profile">
-
 					<div class="setting_profile_row">
 						<div class="cr_setting_profile_field">Job Title:</div>
 						<div class="setting_profile_value"><?php echo $job['title'];?></div>
@@ -72,5 +91,8 @@ function check_expdate() {
 <script>
 function paynow(){
 	window.location.href="/companies/paypalProPayment/<?php echo $appliedJobId;?>";			
+}
+function goTo(){
+	window.location.href="/companies/postJob";			
 }
 </script>

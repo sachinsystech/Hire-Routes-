@@ -20,6 +20,7 @@ class JobsController extends AppController {
         $conditions = array();
         $salaryFrom = null;
         $salaryTo = null;
+
         if( (isset($this->params['form']['search']) && $this->params['form']['search'] =="Find Job" ) || $this->Session->read("FilterJob")){
             if(!isset($this->data['FilterJob'])){
                 $this->data['FilterJob'] = $this->Session->read("FilterJob");
@@ -433,6 +434,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
                 	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/?code='.$code;
                 else
 	                $jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/';
+	  
                 $this->set('jobUrl',$jobUrl);
             }
             /**** end code ***/			

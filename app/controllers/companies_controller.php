@@ -60,6 +60,7 @@ class CompaniesController extends AppController {
 					if($this->Job->save()){
     		    	    switch($this->params['form']['save']){
     		    	        case 'Post and Share':
+    		    	        	$this->Session->write('openShare','open');
     		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');
     		    	            $this->redirect('/companies/editJob/'.$this->Job->id);
     		    	            break;
@@ -296,7 +297,7 @@ list archive jobs..
 				$this->set('states',$this->Utility->getState());
 				$this->set('industries',$this->Utility->getIndustry());
 				
-				/****************  genrate code for traking user ****************/
+				/****************  genrate code for traking user **************** /
 					$str = "11:12";
 					$temp = base64_encode($str);
 					//echo $temp;
