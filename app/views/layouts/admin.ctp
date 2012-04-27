@@ -17,9 +17,15 @@
 	echo $html->script('jquery-ui.min.js');
 	echo $html->script('jquery.validate.js');
 ?>
+<script>
+	function hideMessage(){
+		$('.message').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.message');
+		$('.success').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.success');
+	}
+</script>
 
 </head>
-<body> 
+<body onload="hideMessage();"> 
 <!-- Start: page-top-outer -->
 <div id="page-top-outer">    
 

@@ -151,7 +151,8 @@ abstract class BaseFacebook
    * @var string
    */
   protected $apiSecret;
-
+  
+  protected $requestUri;
   /**
    * The ID of the Facebook user, or 0 if the user is logged out.
    *
@@ -972,8 +973,13 @@ abstract class BaseFacebook
     else {
       $protocol = 'http://';
     }
-    //$currentUrl = $protocol . $_SERVER['HTTP_HOST'] . "/users/facebookUser";
-    $currentUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    if(!isset($this->requestUri)||empty($this->requestUri)){
+    	$this->setRequestUri();
+    }
+    $currentUrl = $protocol . $_SERVER['HTTP_HOST'] .$this->getRequestUri();
+    //$currentUrl = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
     $parts = parse_url($currentUrl);
 
     $query = '';
@@ -1137,4 +1143,12 @@ abstract class BaseFacebook
    * @return void
    */
   abstract protected function clearAllPersistentData();
+  
+  function getRequestUri(){
+  	return $this->requestUri;
+  }
+  
+  function setRequestUri($requestUri='/users/facebookUser'){
+  	$this->requestUri=$requestUri;
+  }
 }
