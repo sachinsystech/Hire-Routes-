@@ -4,8 +4,8 @@
  */
 ?>
 <?php 
-	if($this->Session->check('userRole')) :
-		$userRoleId=$this->Session->read('userRole.id');
+	if($this->Session->check('UserRole')) :
+		$userRoleId=$this->Session->read('UserRole');
 		$passwordLable='Change password';
 		if(isset($facebookUserData)){		
 			$passwordLable= ($facebookUserData!=null)?"Set password":"Change password";

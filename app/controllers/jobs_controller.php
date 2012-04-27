@@ -364,7 +364,8 @@ class JobsController extends AppController {
 
 	function jobDetail(){
 
-		$userId = $this->TrackUser->getCurrentUserId();
+		$session = $this->_getSession();		
+		$userId = $session->getUserId();
 		
 		if(isset($this->params['jobId'])){
 

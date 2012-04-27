@@ -15,8 +15,8 @@
 class ApiSessionComponent extends Object
 {
 	var $controller = true;
-	var $uses = array('UserRoles','User','UserList','UserRoles');
-	var $components = array('Session','Auth');
+	var $uses = array('UserList','UserRoles');
+	var $components = array('Session','Auth','TrackUser');
 
 /**
  * Initializes TrackUserComponent for use in the controller
@@ -40,13 +40,17 @@ class ApiSessionComponent extends Object
  * @access public
  */
 	function startup(&$controller)
-	{
-		$this->setUserId();
-		$this->setUserRole();	
-		$this->setWelcomeName();
-		$this->setUser();		
+	{		
 		// This method takes a reference to the controller which is loading it.
 		// Perform controller initialization here.
+	}
+	
+	function start(){
+		$this->setUserId();
+		$this->setUser();
+		$this->setUserRole();	
+		$this->setWelcomeName();	
+		$this->TrackUser->setUserRole();			
 	}
 	
 	function isLoggedIn(){
@@ -59,37 +63,37 @@ class ApiSessionComponent extends Object
 
 	function setUserId(){
 		if($this->Session->read('Auth.User.id')!=2){
-			$this->Session->write('API.UserId',$this->Session->read('Auth.User.id'));
+			$this->Session->write('UserId',$this->Session->read('Auth.User.id'));
 		}
 	}
 	
 	function getUserId(){
-		return $this->Session->read('API.UserId');
+		return $this->Session->read('UserId');
 	}
 
 	function setUserRole(){
 		$userRole = $this->UserRoles->find('first',array('conditions'=>array('UserRoles.user_id'=>$this->getUserId())));		
-		$this->Session->write('API.UserRole',$userRole['UserRoles']['role_id']);
+		$this->Session->write('UserRole',$userRole['UserRoles']['role_id']);
 	}
 	
 	function getUserRole(){
-		return $this->Session->read('API.UserRole');
+		return $this->Session->read('UserRole');
 	}
 
 	function setWelcomeName($name=null){
 		if(isset($name) || $name){
-			$this->Session->write('API.welcomeName',$name);
+			$this->Session->write('welcomeName',$name);
 			return;
 		}
 		if(isset($this->getUser()->info)){
 			$user = $this->getUser()->info;
 			$name = isset($user['contact_name'])?$user['contact_name']:null;
-			$this->Session->write('API.welcomeName',$name);
+			$this->Session->write('welcomeName',$name);
 		}	
 	}			
 
 	function getWelcomeName(){
-		return $this->Session->read('API.API.welcomeName');
+		return $this->Session->read('welcomeName');
 	}			
 
 	function setUser(){
@@ -114,24 +118,37 @@ class ApiSessionComponent extends Object
 			unset($userData['UserList']);
 			unset($userData['UserRoles']);
 			$userData = (object) $userData['User'];
-			$this->Session->write('API.User',$userData);
+			$this->Session->write('User',$userData);
 		}
 	}
 	
 	function getUser(){
-		return $this->Session->read('API.API.User');
+		return $this->Session->read('User');
 	}
 	
 	function setBeforeAuthUrl($url){
-		$this->Session->write('API.beforeAuthUrl',$url);
+		
+		if($this->isBeforeAuthUrlValid($url)){
+			$this->Session->write('beforeAuthUrl',$url);
+		}
 	}
 	
 	function getBeforeAuthUrl(){
-		return $this->Session->read('API.beforeAuthUrl');	
+		return $this->Session->read('beforeAuthUrl');	
+	}
+	
+	function isBeforeAuthUrlValid($referer){
+		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+\/?[.*]?/',$referer)){
+			return true;	
+		}
 	}
 	
 	function logout(){
-		$this->Session->Write('API',null);
+		$this->Session->delete('User');
+		$this->Session->delete('UserId');		
+		$this->Session->delete('UserRole');
+		$this->Session->delete('welcomeName');
+		$this->Session->delete('beforeAuthUrl');
 	}
 }
 ?>

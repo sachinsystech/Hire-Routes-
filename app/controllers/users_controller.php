@@ -60,15 +60,15 @@ class UsersController extends AppController {
 		$this->Auth->allow('forgotPassword');	
 		$this->Auth->allow('saveFacebookUser');
 		$this->Auth->allow('facebookUser');
+		$this->Auth->allow('loginSuccess');
 	}
 
 /**
  * Called as default action for UserController.
 **/	
 	function index(){
-		if($this->TrackUser->isHRUserLoggedIn()){
-			$this->redirect("/users/firstTime");				
-			
+		if($this->_getSession()->isLoggedIn()){
+			$this->loginSuccess();	
 		}
 		else{
 			$this->redirect("/users/userSelection");
@@ -79,8 +79,8 @@ class UsersController extends AppController {
  * Redirecting respactive my-account page (If user logged-in). 
 **/
 	function userSelection(){
-		if($this->TrackUser->isUserLoggedIn()){
-			$this->redirect("/users/firstTime");	
+		if($this->_getSession()->isLoggedIn()){
+			$this->loginSuccess();	
 		}
 	}
 
@@ -88,9 +88,10 @@ class UsersController extends AppController {
  * Display Company/Recruiter registration view.
 **/ 
 	function companyRecruiterSignup(){
-		if($this->TrackUser->isHRUserLoggedIn()){
-			$this->redirect("/users/firstTime");	
+		if($this->_getSession()->isLoggedIn()){
+			$this->loginSuccess();	
 		}
+
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
 				unset($this->data["User"]["password"]);
@@ -132,6 +133,11 @@ class UsersController extends AppController {
 **/ 
 
 	function networkerSignup() {
+		
+		if($this->_getSession()->isLoggedIn()){
+			$this->loginSuccess();	
+		}
+		
 		$facebook = $this->facebookObject();
 		$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
 		
@@ -149,9 +155,7 @@ class UsersController extends AppController {
 		}
 		
 		$codeFlag=true;
-		if($this->TrackUser->isHRUserLoggedIn()){
-			$this->loginRedirect();	
-		}
+		
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
 			    unset($this->data["User"]["password"]);
@@ -210,6 +214,11 @@ class UsersController extends AppController {
  * Save Jobseeker info.
 **/ 
 	function jobseekerSignup(){
+
+		if($this->_getSession()->isLoggedIn()){
+			$this->loginSuccess();	
+		}
+
 		$facebook = $this->facebookObject();
 		$this->set('FBLoginUrl',$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
 		/***	manage facebook user after success callback ***/
@@ -228,9 +237,6 @@ class UsersController extends AppController {
 			
 		$codeFlag=true;
 		$transaction_validity=false;
-		if($this->TrackUser->isHRUserLoggedIn()){
-			$this->redirect("/users/firstTime");	
-		}
 
 		if(isset($this->data['User'])){
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
@@ -504,7 +510,7 @@ class UsersController extends AppController {
 			);
 			
 			if($this->Auth->login($data,false)){
-				$this->Session->write('userRole',$this->TrackUser->getCurrentUserRole());
+				$this->_getSession->start();
 			}
 		}	
 	}	
@@ -513,16 +519,15 @@ class UsersController extends AppController {
  * redirect users to respective setting pages if they setting up their account.
  */
 	function firstTime() {
-		
-		$id = $this->TrackUser->getCurrentUserId();
-		if($id==2){
-			$this->redirect("/");
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
 		}
-		$this->TrackUser->setWelcomeUserName();
-		switch($this->userRole){
+		$session->start();
+		$id = $session->getUserId();
+		switch($session->getUserRole()){
 			case COMPANY:
-					$jobseekerData = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$id)));
-					$this->redirect("/companies/newJob");
+						$this->redirect("/companies/newJob");
 					break;	
 			case JOBSEEKER:
 					$jobseekerData = $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$id)));
@@ -540,7 +545,7 @@ class UsersController extends AppController {
 					$this->redirect("/admin");
 					break;	
 		}
-		$this->set('roleName', $this->userRole);
+		$this->set('role', $session->getUserRole());
 	}
 /**
  * create facebook object.
@@ -621,14 +626,12 @@ class UsersController extends AppController {
 				case JOBSEEKER:
 								if($this->Jobseekers->save($user,false) ){
 									$this->confirmAccount($userId,$userData['confirm_code']);
-									$this->TrackUser->setWelcomeUserName($fb_user_profile['name']);
 									$this->redirect("/users/firstTime");
 								}
 								break;
 				case NETWORKER:
 								if($this->Networkers->save($user,false) ){	
 									$this->confirmAccount($userId,$userData['confirm_code']);
-									$this->TrackUser->setWelcomeUserName($fb_user_profile['name']);
 									$this->redirect("/users/firstTime");
 								}
 								break;					
@@ -644,6 +647,12 @@ class UsersController extends AppController {
  * @access public
  */
 	function login() {
+		
+		$session = $this->_getSession();
+		if($session->isLoggedIn()){
+			$this->redirect('loginSuccess');
+		}
+		$session->setBeforeAuthUrl($this->referer());
 		
 		if(isset($this->data['User'])){
 			$username = trim($this->data['User']['username']);
@@ -693,34 +702,23 @@ class UsersController extends AppController {
 			if(!$this->Auth->login($data)){
 				$this->Session->setFlash('Username or password not matched.', 'error');				
 			}else{
-				$this->TrackUser->setUserRole();
-				$this->TrackUser->setWelcomeUserName();
-				$redirectTo=$this->Session->read('redirection_url');
-				$this->Session->delete('redirection_url');
-				$userRole = $this->Session->read('userRole');
-				if(isset($redirectTo) && !empty($redirectTo) && $userRole['id']!=ADMIN){
-					$this->redirect($redirectTo);
+				$session->start();
+				$referer = $session->getBeforeAuthUrl();  
+				if(isset($referer) && !empty($referer) && $session->getUserRole()!=ADMIN){
+					$this->redirect("/$referer");
 				}
-				$this->loginRedirect();
+				$this->redirect('loginSuccess');
 			}
-		}
-		$this->setRedirectionUrl();
+		}		
 	}
 
-	function setRedirectionUrl(){
-		$redirect_url=$this->referer();
-		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+\/?[.*]?/',$redirect_url)){
-			$this->Session->write('redirection_url',$redirect_url);
-		}
-		return true;
-	}	
-
 /**
- * Logs a user out, and returns the home page to redirect to.
+ * Logs a user out, with removing saved session and returns the home page to redirect to.
  * @access public
  */	
 	function logout() {
 		$this->Auth->logout();
+		$this->_getSession()->logout();
         $this->Session->delete('code');
 		$this->Session->delete('welcomeUserName');
 		$this->Session->delete('userRole');
@@ -760,9 +758,11 @@ class UsersController extends AppController {
  */
  	public function myAccount()
  	{
- 		$id = $this->TrackUser->getCurrentUserId();
-//		$role = $this->Session->read('userRole.id');
-		switch($this->userRole){
+ 		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
+		}
+		switch($session->getUserRole()){
 			case COMPANY:
 					$this->redirect(array('controller'=>'Companies','action'=>'accountProfile'));
 					break;	
@@ -885,13 +885,9 @@ class UsersController extends AppController {
 
 	function forgotPassword(){
 		
-		if($this->TrackUser->isHRUserLoggedIn()){
-			$this->redirect("/users/myAccount");				
-			return;
-		}
-		if ($this->TrackUser->isUserLoggedIn()){
-			$this->redirect("/admin");
-			return;
+		$session = $this->_getSession();
+		if($session->isLoggedIn()){
+			$this->redirect('loginSuccess');
 		}
 
 		if(isset($this->data['User'])){
@@ -927,9 +923,9 @@ class UsersController extends AppController {
 		}
 	}
 		
-	function loginRedirect(){
-		$userRole = $this->TrackUser->getCurrentUserRole();
-		switch($userRole['id']){
+	function loginSuccess(){
+		$userRole = $this->_getSession()->getUserRole();
+		switch($userRole){
 			case COMPANY:
 					$this->redirect("/companies/newJob");
 					break;	

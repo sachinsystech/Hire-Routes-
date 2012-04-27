@@ -8,12 +8,41 @@ class CompaniesController extends AppController {
 
 	var $helpers = array('Form','Paginator','Time');
 	
+	public function beforeFilter(){
+		parent::beforeFilter();
+		
+		$this->Auth->authorize = 'actions';
+		$this->Auth->allow('postJob');
+		$this->Auth->allow('editJob');		
+		$this->Auth->allow('newJob');
+		$this->Auth->allow('showArchiveJobs');
+		$this->Auth->allow('companyData');
+		$this->Auth->allow('checkout');
+		$this->Auth->allow('rejectApplicant');
+		$this->Auth->allow('jobStats');
+		$this->Auth->allow('viewResume');
+		$this->Auth->allow('showApplicant');
+		$this->Auth->allow('archiveJob');
+		$this->Auth->allow('paymentHistoryInfo');
+		$this->Auth->allow('paymentHistory');
+		$this->Auth->allow('paymentInfo');
+		$this->Auth->allow('editProfile');
+		$this->Auth->allow('accountProfile');
+		$this->Auth->allow('employees');
+						
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect('/users/login');
+		}
+		if($session->getUserRole()!=COMPANY){
+			$this->redirect("/users/loginSuccess");
+		}
+     }
+	
+	
 	/*	display a form to post new Job by company		*/
 	function postJob(){
-		$userId = $this->TrackUser->getCurrentUserId();
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
+		$userId = $this->_getSession()->getUserId();
 		if($userId){
 			$this->set('states',$this->Utility->getState());
 			$this->set('industries',$this->Utility->getIndustry());
@@ -50,6 +79,8 @@ class CompaniesController extends AppController {
 	}
 	
 	function newJob(){
+		$session = $this->_getSession();
+		$userId = $session->getUserId();
 		
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
 	    $this->set('displayPageNo',$displayPageNo);
@@ -76,11 +107,6 @@ class CompaniesController extends AppController {
 			$shortByItem = 'created'; 
 		}
 
-		$userId = $this->TrackUser->getCurrentUserId();
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
-		
 		//	fetching jobs with given condition
 		$conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
 		$this->paginate = array(
@@ -117,10 +143,7 @@ list archive jobs..
 
 	function showArchiveJobs(){
 		
-		$userId = $this->TrackUser->getCurrentUserId();	
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
+		$userId = $this->_getSession()->getUserId();
 		
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
 	    $this->set('displayPageNo',$displayPageNo);
@@ -176,7 +199,7 @@ list archive jobs..
 	/* Company data starts*/
 
 	function companyData(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 
 		$jobPosted = $this->Job->find('all',array('conditions'=>array('Job.user_id'=>$userId),
 												 'fields'=>array('SUM(Job.reward) as jobs_reward, count(Job.id) as jobs_posted'), ));
@@ -238,14 +261,14 @@ list archive jobs..
 	/* Company data ends */
 	
 	private function getCompanyActiveJobsCount(){
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();
 		$active_job_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
 		$activejobCount = $this->Job->find('count',array('conditions'=>$active_job_conditions));
 		return $activejobCount;
 	}
 
 	private function getCompanyArchiveJobsCount(){
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();	
 		$arch_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
 		$archJobCount = $this->Job->find('count',array('conditions'=>$arch_conditions));
 		return $archJobCount;
@@ -254,7 +277,7 @@ list archive jobs..
 	
 /*****	Companies edit their own Job :: 	*********/
 	function editJob(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
 	
@@ -320,20 +343,14 @@ list archive jobs..
 	}
 	
 	function accountProfile() {
-		$userId = $this->TrackUser->getCurrentUserId();
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
+		$userId = $this->_getSession()->getUserId();
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 			$this->set('user',$user['User']);
 			$this->set('company',$user['Companies'][0]);
 	}
 
 	function editProfile() {
-		$userId = $this->TrackUser->getCurrentUserId();
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
+		$userId = $this->_getSession()->getUserId();
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			if(!empty($this->data['Companies']['company_name'])){
@@ -353,7 +370,7 @@ list archive jobs..
 	}
 
 	function paymentInfo() {
-		$userId = $this->TrackUser->getCurrentUserId();		
+		$userId = $this->_getSession()->getUserId();		
         $user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
 		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
@@ -452,11 +469,9 @@ list archive jobs..
 	}
 
 	function paymentHistory() {
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();
 		$tid = isset($this->params['tid'])?$this->params['tid']:"";
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
+		
 		if($userId){
 
 			$conditions = array('PaymentHistory.user_id'=>$userId);
@@ -471,13 +486,10 @@ list archive jobs..
 	
 function paymentHistoryInfo(){
 		
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$id = isset($this->params['id'])?$this->params['id']:"";
 		$tid = isset($this->params['tid'])?$this->params['tid']:"";
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
-		
+				
 		if($userId && isset($tid) &&isset($id)){
 				$PaymentDetail = $this->PaymentHistory->find('first',
 																array('conditions'=>array(
@@ -679,7 +691,7 @@ function paymentHistoryInfo(){
 
 	/** Job Statistics/Data Details... **/
 	function jobStats(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
 			
@@ -729,7 +741,7 @@ function paymentHistoryInfo(){
 
 	/****** Reject Applicant for company Job *******/
 	function rejectApplicant(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$id = $this->params['id'];
 		$JobId = $this->params['jobId']; 
 		if($userId && $id){
@@ -752,7 +764,7 @@ function paymentHistoryInfo(){
 
 	/** accept applicant for given applied job **/
 	function checkout(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$appliedJobId = $this->params['id'];
 		if($userId && $appliedJobId){
 		
@@ -787,7 +799,7 @@ function paymentHistoryInfo(){
 
 	/*	Do payment of reward amount for given applied-job...*/
     function paypalProPayment() {
-        $userId = $this->TrackUser->getCurrentUserId();
+        $userId = $this->_getSession()->getUserId();
         $appliedJobId = $this->params['id'];        
         								
         if($userId && $appliedJobId){
@@ -887,7 +899,7 @@ function paymentHistoryInfo(){
 */
     private function sendCongratulationEmail($appliedJob){
     	
-    	$userId = $this->TrackUser->getCurrentUserId();
+    	$userId = $this->_getSession()->getUserId();
     	$companyUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
     	$JobseekerUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$appliedJob['JobseekerapplyJob']['user_id'])));
     	$jobDetails = $this->getJob($appliedJob['Job']['id']);    	
@@ -925,7 +937,7 @@ function paymentHistoryInfo(){
     }
 
     private function appliedJob($appliedJobId){
-   		$userId = $this->TrackUser->getCurrentUserId();
+   		$userId = $this->_getSession()->getUserId();
     	$appliedJob = $this->Job->find('first', array(
 										'joins' => array(
 														array(
@@ -959,7 +971,7 @@ function paymentHistoryInfo(){
 // =======================delete jobs=========
 	function deleteJob(){
 		$this->autoRender=false;
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$jobId=$this->params['form']['jobId'];
 		$action=$this->params['form']['action'];
 		if($action=='newJobs'){
@@ -982,7 +994,7 @@ function paymentHistoryInfo(){
 
 
 	public function employees(){
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();	
 		$conditions[]="PaymentHistory.user_id=$userId";
 		$condition_phone=null;
 		$condition_name=null;
