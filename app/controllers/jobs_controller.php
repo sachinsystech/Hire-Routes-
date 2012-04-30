@@ -1,6 +1,6 @@
 <?php
 class JobsController extends AppController {
-    var $uses = array('Company','Job','Industry','State','Specification' , 'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews','Jobseeker');
+    var $uses = array('Company','Companies','Job','JobseekerApply','JobseekerProfile','JobViews','Jobseeker');
 	var $helpers = array('Form','Paginator','Time','Number');
 	var $components = array('Session','TrackUser','Utility');
         
@@ -97,7 +97,6 @@ class JobsController extends AppController {
         }
 
         $conditions[] = array('Job.is_active'=>1);
-		$userId = $this->TrackUser->getCurrentUserId();
 
     	if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
@@ -166,11 +165,12 @@ class JobsController extends AppController {
      
 /****	Applying job	******/     
 	function applyJob(){	
-		$userId = $this->TrackUser->getCurrentUserId();
-        $this->set('userRole',$this->userRole);
-		if($this->Session->check('redirect_url')){
-			$this->Session->delete('redirect_url');	
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
 		}
+		$userId = $session->getUserId();
+        $this->set('userRole',$this->userRole);
 
 		// Job information
 		if(isset($this->params['jobId'])){
@@ -194,7 +194,7 @@ class JobsController extends AppController {
 				// If user doesnt have filled profile //
 				$Userinfo = $this->Jobseeker->find('first',array('conditions'=>array('user_id'=>$userId)));
 				if($Userinfo['Jobseeker']['contact_name']==""){				
-					$this->Session->write('redirect_url','/jobs/applyJob/'.$id);
+					$this->_getSession()->setBeforeApplyUrl('/jobs/applyJob/'.$id);
 					$this->Session->setFlash('Please fill your contact information first.', 'error');		
 					$this->redirect('/jobseekers/editProfile');
 				}
@@ -313,11 +313,14 @@ class JobsController extends AppController {
 				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/');
 			}
+		}else{
+			$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
+			$this->redirect('/jobs/');
 		}		
 	}
 
 	function viewResume(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $session->getUserId();
         		
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
@@ -425,7 +428,6 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 			}
             /*** code for networker trac **/
             if($userId){
-                //$role = $this->TrackUser->getCurrentUserRole();
                 if($this->userRole == NETWORKER||$this->userRole == COMPANY){
                 	$code=$this->Utility->getCode($id,$userId);
                     $this->set('code',$code);

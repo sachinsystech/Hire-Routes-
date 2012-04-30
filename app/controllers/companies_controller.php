@@ -3,13 +3,21 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse');
-	var $components = array('TrackUser','Utility','RequestHandler');
+   	var $uses = array('User', 'Companies', 'Job', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse','Config');
+	var $components = array('TrackUser','Utility','RequestHandler','Session');
 
 	var $helpers = array('Form','Paginator','Time');
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
+		
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect('/users/login');
+		}
+		if($session->getUserRole()!=COMPANY){
+			$this->redirect("/users/loginSuccess");
+		}
 		
 		$this->Auth->authorize = 'actions';
 		$this->Auth->allow('postJob');
@@ -29,14 +37,7 @@ class CompaniesController extends AppController {
 		$this->Auth->allow('editProfile');
 		$this->Auth->allow('accountProfile');
 		$this->Auth->allow('employees');
-						
-		$session = $this->_getSession();
-		if(!$session->isLoggedIn()){
-			$this->redirect('/users/login');
-		}
-		if($session->getUserRole()!=COMPANY){
-			$this->redirect("/users/loginSuccess");
-		}
+		$this->Auth->allow('paypalProPayment');
      }
 	
 	
@@ -351,13 +352,14 @@ list archive jobs..
 	}
 
 	function editProfile() {
-		$userId = $this->_getSession()->getUserId();
+		$session = $this->_getSession();
+		$userId = $session->getUserId();
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			if(!empty($this->data['Companies']['company_name'])){
 				$this->User->save($this->data['User']);
 				if($this->Companies->save($this->data['Companies'])){
-					$this->Session->write('welcomeUserName',$this->data['Companies']['contact_name']);
+					$session->start();
 					$this->Session->setFlash('Profile has been updated successfuly.', 'success');
 					$this->redirect('/companies');
 				}
@@ -534,19 +536,19 @@ function paymentHistoryInfo(){
 		$jobInfo = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId),
 			  'joins'=>array(array('table' => 'industry',
 	                               'alias' => 'ind',
-	             				   'type' => 'INNER',
+	             				   'type' => 'LEFT',
 	             				   'conditions' => array('Job.industry = ind.id',)),
 		   			         array('table' => 'specification',
 	             				   'alias' => 'spec',
-	                               'type' => 'INNER',
+	                               'type' => 'LEFT',
 	                               'conditions' => array('Job.specification = spec.id',)),
 							 array('table' => 'cities',
 	            				   'alias' => 'city',
-	                               'type' => 'INNER',
+	                               'type' => 'LEFT',
 	                               'conditions' => array('Job.city = city.id',)),
 		                     array('table' => 'states',
 	                               'alias' => 'state',
-	                               'type' => 'INNER',
+	                               'type' => 'LEFT',
 	                               'conditions' => array('Job.state = state.id',))
 							),
 			 'fields'=>array('Job.*, ind.name, city.city, state.state, spec.name' ), ));
@@ -865,11 +867,9 @@ function paymentHistoryInfo(){
 						$paymentHistory['amount'] = $appliedJob['Job']['reward'];
 						$paymentHistory['transaction_id'] = $resArray['TRANSACTIONID'];
 						
-						if($this->PaymentHistory->save($paymentHistory)){
-						
-						}
-						$this->sendCongratulationEmail($appliedJob);
+						$this->PaymentHistory->save($paymentHistory);
 						$this->Session->setFlash('Applicant has been selected successfully.', 'success');	
+						$this->sendCongratulationEmail($appliedJob);
 						$this->redirect("/companies/showApplicant/".$appliedJob['Job']['id']);
 						return;
 					}	        	
@@ -903,6 +903,8 @@ function paymentHistoryInfo(){
     	$userId = $this->_getSession()->getUserId();
     	$companyUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
     	$JobseekerUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$appliedJob['JobseekerapplyJob']['user_id'])));
+    	$rewardPercenatage = $this->Config->find('first',array('conditions'=>array('Config.key'=>'rewardPercent')));
+    	$rewardPercenatage = $rewardPercenatage['Config']['value'];
     	$jobDetails = $this->getJob($appliedJob['Job']['id']);    	
     	$interMeedUsers = count(explode(',',$appliedJob['JobseekerapplyJob']['intermediate_users']));
     	$appliedOn = date("m/d/Y",strtotime($appliedJob['JobseekerapplyJob']['created']));
@@ -913,7 +915,7 @@ function paymentHistoryInfo(){
     	$emailMsgInfo['company']['url'] = $companyUserInfo['Companies']['0']['company_url'];
     	$emailMsgInfo['jobseker']['name'] = $JobseekerUserInfo['Jobseekers']['0']['contact_name'];
     	$emailMsgInfo['job']['title'] = $jobDetails['Job']['title'];
-    	$emailMsgInfo['job']['reward'] = ($interMeedUsers===1)?"<b>Reward for you : </b>".(($jobDetails['Job']['reward']*75)/100)."<b>$</b>":"";
+    	$emailMsgInfo['job']['reward'] = ($interMeedUsers===1)?"<b>Reward for you : </b>".(($jobDetails['Job']['reward']*(100-$rewardPercenatage))/100). "<b>$</b>":"";
     	$emailMsgInfo['job']['description'] = $jobDetails['Job']['short_description'];
     	$emailMsgInfo['job']['industry'] = isset($jobDetails['ind']['name'])?$jobDetails['ind']['name']:"";
     	$emailMsgInfo['job']['specification'] = isset($jobDetails['spec']['name'])?$jobDetails['spec']['name']:"";
@@ -931,6 +933,7 @@ function paymentHistoryInfo(){
 			$this->Email->sendAs = 'html';
 			$this->set('emailMsgInfo', $emailMsgInfo);
 			$this->Email->send();
+			return true;
 		}catch(Exception $e){
 			$this->redirect("/");
 			return;

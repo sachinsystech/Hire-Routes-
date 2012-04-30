@@ -17,15 +17,12 @@
     function getLinkedinFriendList(){
         $this->autoRender = false;
         $linkedin = $this->getLinkedinObject();
-        $userId = $this->Session->read('Auth.User.id');
-        if(!$this->TrackUser->isUserLoggedIn()){       
+        $session = $this->_getSession();
+        if(!$session->isLoggedIn()){       
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
         }
+        $userId = $session->getUserId();
         
-        if(!$this->TrackUser->isUserLoggedIn()){
-        	return json_encode(array('error'=>1,'message'=>'You are not logged-in','URL'=>'/users/login'));
-        }
-
         $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'')));
         if($user){
             
@@ -63,7 +60,7 @@
 
     function linkedinCallback(){
         $linkedin = $this->getLinkedinObject();
-        $userId = $this->Session->read('Auth.User.id');
+        $userId = $this->_getSession()->getUserId();
         if (isset($_REQUEST['oauth_verifier'])){
             //$_SESSION['oauth_verifier']     = $_REQUEST['oauth_verifier'];
             $linkedin->request_token    =   unserialize($this->Session->read("requestToken"));
@@ -81,10 +78,11 @@
 //sendMessage($ids,$subject,$message)
     function sendMessagetoLinkedinUser(){
         $this->autoRender = false;
-        $userId = $this->Session->read('Auth.User.id');
-        if(!$this->TrackUser->isUserLoggedIn()){       
+        $session = $this->_getSession();
+        if(!$session->isLoggedIn()){       
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
         }
+        $userId = $session->getUserId();
         $userIds = $this->params['form']['usersId'];
         $userIds = explode(",", $userIds);
         $message = $this->params['form']['message'];

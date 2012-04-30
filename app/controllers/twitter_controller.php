@@ -22,14 +22,17 @@ class TwitterController extends AppController {
 
 	function sendMessageToTwitterFollwer(){
         $this->autoRender = false;
-         if(!$this->TrackUser->isUserLoggedIn()){       
+
+        $session = $this->_getSession();
+        if(!$session->isLoggedIn()){       
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
         }
+        $userId = $session->getUserId();
+        
         $userIds = $this->params['form']['usersId'];
         $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $userIds);
         $message = $this->params['form']['message'];
-        $userId = $this->Session->read('Auth.User.id');
         $user = $this->User->find('first',array('fields'=>array('twitter_token','twitter_token_secret'),'conditions'=>array('id'=>$userId,
 																								'twitter_token !='=>'',
 																								'twitter_token_secret !='=>'')));
@@ -68,8 +71,8 @@ class TwitterController extends AppController {
 	}
 
 	function twitterCallback(){
-	 	$userId = $this->Session->read('Auth.User.id');
-		$oauth_token = isset($this->params['url']['oauth_token'])?$this->params['url']['oauth_token']:'';
+        $userId = $this->_getSession()->getUserId();
+        $oauth_token = isset($this->params['url']['oauth_token'])?$this->params['url']['oauth_token']:'';
 		if($oauth_token){
 			$twitterObj = $this->getTwitterObject();
 			$twitterObj->setToken($oauth_token);
@@ -103,12 +106,14 @@ class TwitterController extends AppController {
 		if(isset($this->params['url']['denied'])){
 			return;
 		}
-	
-        $userId = $this->Session->read('Auth.User.id');
-        if(!$this->TrackUser->isUserLoggedIn()){       
-        	$this->autoRender = false;
+    
+        $session = $this->_getSession();
+        if(!$session->isLoggedIn()){  
+        	$this->autoRender = false;     
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
         }
+        $userId = $session->getUserId();
+
 		if(!$this->RequestHandler->isAjax()){
             $oauth_token = isset($this->params['url']['oauth_token'])?$this->params['url']['oauth_token']:'';
 			if($oauth_token){

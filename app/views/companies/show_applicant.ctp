@@ -1,3 +1,4 @@
+<?php echo $this->Session->flash();?>
 <script>
 function valid_form(){
 	answer1 = $("#UserAnswer1").val();

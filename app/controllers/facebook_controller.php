@@ -1,8 +1,3 @@
-<?php	
-	/***	Include facebook api authentication files.	***/
-
-?>
-
 
 <?php	
 	class FacebookController extends AppController {
@@ -38,12 +33,14 @@
 
 
     function getFaceBookFriendList(){
-        $userId = $this->Session->read('Auth.User.id');
-
-        if(!$this->TrackUser->isUserLoggedIn()){       
+      
+		$session = $this->_getSession();
+        if(!$session->isLoggedIn()){       
         	$this->autoRender = false;
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
         }
+        $userId = $session->getUserId();
+
       	$facebook=$this->facebookObject();
        	$facebook->setRequestUri('/facebook/getFaceBookFriendList');           
 
@@ -91,14 +88,16 @@
 
     function commentAtFacebook(){
         $this->autoRender = false;
-        if(!$this->TrackUser->isUserLoggedIn()){       
+        $session = $this->_getSession();
+        if(!$session->isLoggedIn()){       
+        	$this->autoRender = false;
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
         }
+        $userId = $session->getUserId();
         $userIds = $this->params['form']['usersId'];
         $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $userIds);
         $message = $this->params['form']['message'];
-        $userId = $this->Session->read('Auth.User.id');
         $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
         if(!empty($userIds) && $message &&  $User){
             foreach($userIds as $id){

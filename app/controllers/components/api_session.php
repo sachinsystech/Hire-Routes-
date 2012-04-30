@@ -127,9 +127,11 @@ class ApiSessionComponent extends Object
 	}
 	
 	function setBeforeAuthUrl($url){
-		
-		if($this->isBeforeAuthUrlValid($url)){
+		$match = '/^\/jobs\/jobDetail\/[0-9]+\/?[.*]?/';
+		if($this->isValidUrl($match,$url)){
 			$this->Session->write('beforeAuthUrl',$url);
+		}else{
+			$this->Session->delete('beforeAuthUrl');
 		}
 	}
 	
@@ -137,10 +139,23 @@ class ApiSessionComponent extends Object
 		return $this->Session->read('beforeAuthUrl');	
 	}
 	
-	function isBeforeAuthUrlValid($referer){
-		if(preg_match('/^\/jobs\/jobDetail\/[0-9]+\/?[.*]?/',$referer)){
-			return true;	
+	function setBeforeApplyUrl($url){
+		$match = '/^\/jobs\/applyJob\/[0-9]+\/?[.*]?/';
+		if($this->isValidUrl($match,$url)){
+			$this->Session->write('beforeApplyUrl',$url);
+		}else{
+			$this->Session->delete('beforeApplyUrl');
 		}
+	}
+	
+	function getBeforeApplyUrl(){
+		return $this->Session->read('beforeApplyUrl');	
+	}
+	
+	function isValidUrl($match,$referer){
+		if(preg_match($match,$referer)){
+			return true;
+		}	
 	}
 	
 	function logout(){

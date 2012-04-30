@@ -1,11 +1,19 @@
 <?php
 class AdminController extends AppController {
-    var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers','UserList');
+    var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers','UserList','Config');
 	var $helpers = array('Form','Number');
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
+		
+		if($this->Session->read('Auth.User.id')!=1){
+			$this->redirect('/');
+		}
+		if($this->userRole!=ADMIN){
+			$this->redirect("/users/loginSuccess");
+		}
+		
 		$this->Auth->authorize = 'actions';
 		$this->Auth->allow('index');
 		$this->Auth->allow('companiesList');
@@ -15,20 +23,15 @@ class AdminController extends AppController {
 		$this->Auth->allow('paymentDetails');
 		$this->Auth->allow('updatePaymentStatus');
 		$this->Auth->allow('userList');
+		$this->Auth->allow('config');
 		$this->Auth->allow('userAction');
-		$this->layout = "admin";
-		if($this->Session->read('Auth.User.id')!=1){
-			$this->redirect('/');
-		}
-		if($this->userRole!=ADMIN){
-			$this->redirect("/users/firstTime");
-		}
 		
+		$this->layout = "admin";
 	}
 	
 	/****	Admin default view	***/
 	function index(){
-
+		
 	}
 
 	/****	listing companies to accept/decline registration request	***/
@@ -434,8 +437,20 @@ class AdminController extends AppController {
 		}else{
 			$this->Session->setFlash('You may be clicked on old link or entered manually......', 'error');
 			return "error";
-		}
-		
+		}		
+	}
+	
+	function config(){
+		$configuration = $this->Config->find('first',array('conditions'=>array('Config.key'=>'rewardPercent')));
+		    if($this->data){
+		         if($this->data['Config']["rewardPercent"]){
+		             $configuration['Config']['value'] = $this->data['Config']["rewardPercent"];
+		             if($this->Config->save($configuration)){
+		             $this->Session->setFlash('The Configuration details have been updated.', 'success');
+					 }
+		         }
+		    }
+		$this->set('rewardPercent',$configuration['Config']['value']);
 	}
 }
 ?>
