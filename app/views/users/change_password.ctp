@@ -39,7 +39,7 @@
 					<?php
 						echo $form->input('User.oldPassword',array(
 											'label' => 'Old Password:',
-											'type'  => ($facebookUserData!=null)?'hidden':'password',
+											'type'  => ($facebookUserData!='NULL')?'hidden':'password',
 											'class' => 'text_field_bg required',
 											'minlength' => '6',
 										)

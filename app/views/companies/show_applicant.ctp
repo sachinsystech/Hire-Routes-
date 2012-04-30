@@ -1,5 +1,8 @@
+
 <?php echo $this->Session->flash();?>
+
 <script>
+	
 function valid_form(){
 	answer1 = $("#UserAnswer1").val();
 	answer2 = $("#UserAnswer2").val();
@@ -16,6 +19,49 @@ function valid_form(){
 		return false;
 	}
 }
+function jobseekersDetail(jobseekerId){
+	
+	$.ajax({
+		url:"/companies/jobseekerFilledProfile",
+		type:"post",
+	    dataType:"json",
+	 	async:false,
+		data: {jobseekerId:jobseekerId},
+	//	beforeSend:function(){
+	/*		$('#'+loader_id).html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." / >');
+		}
+		//complete:function(){
+			$('#'+loader_id).html("&nbsp;");
+		}*/
+		success:function(response){
+			$("#jobseekerApplyProfileElement").show(); 
+		
+			$("#jobseekerApplyProfile").dialog({
+				height:400,
+				width:850,
+				modal:true,
+				buttons: {
+				Ok: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+			});
+			
+				$("#qualification span.data").html(response['answer1']);
+				$("#workexp span.data").html(response['answer2']);				
+				$("#current_ctc span.data").html(response['answer3']);	
+				$("#expected_ctc span.data").html(response['answer4']);
+				$("#job_type span.data").html(response['answer5']);	
+				$("#ready_to_relocate span.data").html(response['answer6']);	
+				$("#shifts_availability span.data").html(response['answer7']);	
+				$("#passport_availability span.data").html(response['answer8']);	
+				$("#travel_ability span.data").html(response['answer9']);	
+				$("#training_needs span.data").html(response['answer10']);	
+		}		
+			
+	});
+}
+
 
 function clear_div(val){
 	if(val!=""){
@@ -24,6 +70,14 @@ function clear_div(val){
 }
 		
 </script>
+
+<div id="jobseekerApplyProfile" title="Jobseeker Apply Profile">
+<div id="jobseekerApplyProfileElement" style="display:none;">
+	<?php echo $this->element('jobseekerApplyJobProfile');?>
+</div>	
+</div>
+
+
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -38,6 +92,7 @@ function clear_div(val){
 		<div class="topMenu">
 			<?php echo $this->element('top_menu');?>
 		</div>
+
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		    <div class="middleBox">
@@ -162,10 +217,10 @@ function clear_div(val){
 															  'value'   => isset($filterOpt['answer10'])?$filterOpt['answer10']:"",
 															  'onChange'=>"return clear_div(this.value);"
 															 ));?>
-				</div> 				
+				</div>
+				<div id="error_div"></div> 				
 			</div>			
 			<div style="float:right;margin:20px">
-				<div id="error_div"></div>
 				<?php	echo $form->submit('Search',array('div'=>false,)); ?>	
 			</div>
 			<?php echo $form->end();?>
@@ -196,7 +251,7 @@ function clear_div(val){
 				<?php foreach($applicants as $applicant):?>	
 				<tr>
 					<td>
-						<span style="font-weight:bold"><?php echo $applicant['jobseekers']['contact_name']; ?></span>
+						<span style="font-weight:bold;cursor:pointer;" onclick="return jobseekersDetail(<?php echo $applicant['JobseekerApply']['id'] ?>)"><?php echo $applicant['jobseekers']['contact_name']; ?></span>
 						<span style="font-size:11px"><?php echo "<br>Submitted ". $time->timeAgoInWords($applicant['JobseekerApply']['created']); ?> </span><br>
 						<span>
 						<?php if($applicant['JobseekerApply']['resume']!=''){
@@ -258,5 +313,6 @@ function deleteItem(id,jobid){
 	}
 	return false;
 }
+
 </script>
 

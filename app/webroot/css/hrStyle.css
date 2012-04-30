@@ -270,6 +270,7 @@ form div {
 }
 form .input {
 	color: #444;
+	overflow:visible;
 }
 form .required {
 	/*font-weight: bold;*/
@@ -378,7 +379,7 @@ div.error-message {
     color: #FF0000;
     font-size: 13px;
     height: 14px;
-    margin: 0 14px;
+    margin: 3px 14px;
     width: 214px;
 }
 p.error {
@@ -447,6 +448,7 @@ div.actions ul li a,
 td.actions a {
 	font-weight:normal;
 	padding: 4px 8px;
+    background-color: #3DB517;
 	background: -webkit-gradient(linear, left top, left bottom, from(#A8EA9C), to(#62AF56));
 	background: -moz-linear-gradient(center top , #A8EA9C, #62AF56) repeat scroll 0 0 #62AF56;
 	color:#333;
@@ -470,6 +472,7 @@ div.selection-button button:hover,
 #Go:hover,
 div.actions ul li a:hover,
 td.actions a:hover {
+    background-color: #3DB517;
 	background: -webkit-gradient(linear, left top, left bottom, from(#62AF56), to(#f7f7e1));
 	background: -moz-linear-gradient(center top, #62AF56,#f7f7e1) repeat scroll 0 0 #62AF56;
 }
@@ -759,6 +762,7 @@ label.error{
     float: none;
     font-size: 13px;
     font-weight: normal !important;
+    padding-top:0.2em;
     padding-left: 1.5em;
     vertical-align: top; 
 }
@@ -768,10 +772,10 @@ label.error{
     display: block;
     float: none;
     font-size: 13.5px;
-    margin-left: -201px;
-    padding-left: 0.5em;
+    padding-top:5px;
+    margin-left: 155px;
     vertical-align: top;
-    width: 315px;
+    width: 335px;
 }
 .expry_date_error{
     clear: both;
@@ -910,26 +914,26 @@ label.error{
     border: 1px solid;
     float: right;
     height: 12px;
-    width: 400px;
+    width: 395px;
 }
 .textarea_bg_job{
     border: 1px solid;
     float: right;
     height: 50px;
-    width: 400px;
+    width: 395px;
 }
 .job_text_field_from{
     border: 1px solid;
     float: right;
     height: 16px;
-    width: 75px;
+    width: 80px;
 }
 .jobseeker_select_i{
     background-color: #FDFDFD;
     border: 1px solid #000000;
     height: 23px;
-    width: 196px;
-	margin-left: 75px;
+    width: 180px;
+	margin-left: 82px;
 }
 .job_select__i_s{
     background-color: #FDFDFD;
@@ -955,7 +959,7 @@ label.error{
     background-color: #FDFDFD;
     border: 1px solid #000000;
     height: 23px;
-    margin-left: 82px;
+    margin-left: 90px;
     width: 190px;
 }
 .job_middleBox{
@@ -1890,8 +1894,8 @@ border: 1px solid #000000;
     background-color: #FDFDFD;
     border: 1px solid #000000;
     height: 23px;
-    margin-left: 70px;
-    width: 196px;
+    margin-left: 77px;
+    width: 187px;
 }
 
 .js_select_ls{
@@ -2133,6 +2137,50 @@ ul a.menu_item{
 	text-align:center;
 }
 
+<<<<<<< HEAD
+.lable_error label.error{
+	margin-left:130px;
+}
+
+.lable_error_rewards label.error{
+	margin-left:320px;
+	
+}
+.jobseeker_select_i_error label.error{
+	margin-left:130px;
+}
+.job_text_field_to_error label.error{
+	margin-left:0px;
+	padding:0px;
+	width:150px;
+	overflow:visible
+}
+.leftContiner{
+	font-weight:normal;
+	margin:10px;
+	margin-left:30px;
+	width:300px;
+	float:left;
+}
+.leftContiner span,.rightContiner
+ span{
+	font-weight:bold;
+	font-size:14px;
+
+}
+.rightContiner{
+
+	margin:10px;
+	margin-left:80px;
+	width:300px;
+	float:left;
+
+}
+
+.data{
+	float:right;
+}
+=======
 /**********Networker Date**********/
 .networker_data{
 	margin: 15px;
@@ -2147,3 +2195,4 @@ ul a.menu_item{
 	height:24px;
 }
 
+>>>>>>> 5f7855601ac9648821bb3333d21b00769a893278
