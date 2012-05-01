@@ -51,7 +51,7 @@
 						<a class="menu_item" href="/users/changePassword"><?php echo $passwordLable; ?></a>
 					</li>
 				</ul>
-				<ul style="float:right"  class="top_mene_hover">
+				<ul style="float:right"  class="top_menu_hover1">
 					<li style="background-color: #3DB517;">
 						<a class="menu_item" href="/companies/editProfile">Edit Profile</a>
 					</li>
@@ -126,7 +126,7 @@
                 		<a class="menu_item" href="/users/changePassword"><?php echo $passwordLable; ?></a>
                 	</li>
 				</ul>
-				<ul style="float:right">
+				<ul style="float:right" class="top_menu_hover1" >
 					<li style="background-color: #3DB517;">
 						<a class="menu_item" href="/jobseekers/editProfile">Edit Profile</a>
 					</li>
@@ -174,7 +174,7 @@
 						<a class="menu_item" href="/users/changePassword"><?php echo $passwordLable; ?></a>
 					</li>			
                 </ul>
-				<ul style="float:right"  class="top_mene_hover">
+				<ul style="float:right"  class="top_menu_hover1">
 					<li style="background-color: #3DB517;">
 						<a class="menu_item" href="/networkers/editProfile">Edit Profile</a>
 					</li>
