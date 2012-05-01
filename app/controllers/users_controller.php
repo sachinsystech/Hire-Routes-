@@ -798,9 +798,11 @@ class UsersController extends AppController {
 													'password'=>'NULL'),
 													'fields'=>'password,id,fb_user_id,',
 													)
-																
 										);
-		$facebookUserData=isset($facebookUser)?$facebookUser['User']['fb_user_id']:null;
+		$facebookUserData=null;
+		if(isset($facebookUser) && $facebookUser['User']['fb_user_id']!=0){
+			$facebookUserData = $facebookUser['User']['fb_user_id'];
+		}		
 		$this->set('facebookUserData',$facebookUserData);
 		if(isset($this->data['User'])){
 			//check for blank or empty field

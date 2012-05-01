@@ -3,7 +3,7 @@
 
 <div style="clear:both"></div>
 <div class="configuration_content"> 
-	<div style="width:280px">
+	<div style="width:340px">
 		<?php echo $form->create('Config',array('url'=>array('controller'=>'admin','action'=>'config')))?>
 		<div class="required" style="float:left">
 			<?php
