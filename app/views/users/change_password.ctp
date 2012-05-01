@@ -84,7 +84,7 @@
 						<?php
 							echo $form->button('Clear',array(
 													'type'=>'Reset',
-													'class'=>'clear_button',
+													'class'=>'clear_button div_hover',
 													)
 												);
 						?>

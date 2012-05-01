@@ -11,16 +11,19 @@ class CodesController extends AppController {
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->authorize = 'actions';
-		$this->Auth->allow('add');
-		$this->Auth->allow('delete');
-		$this->layout = "admin";
+		
 		if($this->Session->read('Auth.User.id')!=1){
 			$this->redirect('/');
 		}
 		if($this->userRole!=ADMIN){
-			$this->redirect("/users/firstTime");
+			$this->redirect("/users/loginSuccess");
 		}
+		
+		$this->Auth->authorize = 'actions';
+		$this->Auth->allow('add');
+		$this->Auth->allow('delete');
+
+		$this->layout = "admin";
 	}
 	
 	/*	Display list of all codes and generate/add new code	*/

@@ -21,7 +21,7 @@
 		<span class="data"> </span>
 	</div>
 	
-	<div class="rightContiner" style="float:left;" id="ready_to_relocate">Ready to relocate
+	<div class="rightContiner" style="float:left;" id="ready_to_relocate">University/College
 		<span class="data"> </span>
 	</div> 
 	 

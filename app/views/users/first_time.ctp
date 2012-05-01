@@ -15,7 +15,7 @@
 </div>
 
 <?php
-switch($roleName) {
+switch($role) {
 	case JOBSEEKER:
 		$setting_page_title = 'MY JOBSEEKER SETTINGS';
 		$setting_page_url = '/jobseekers/setting';

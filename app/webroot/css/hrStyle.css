@@ -460,15 +460,21 @@ td.actions a {
 	min-width: 0;
 	cursor:pointer;
 }
+.active:hover{
+	background: -moz-linear-gradient(center top, #FBB917,#FFF380) repeat scroll 0 0 #62AF56;
+}
 input[type=submit]:hover,
 button:hover,
+
 div.selection-button button:hover,
 #GetStart:hover,
 .postNewJob:hover,
 #FindJob:hover,
 #Go:hover,
 div.actions ul li a:hover,
-td.actions a:hover {
+td.actions a:hover,
+
+.div_hover:hover {
     background-color: #3DB517;
 	background: -webkit-gradient(linear, left top, left bottom, from(#62AF56), to(#f7f7e1));
 	background: -moz-linear-gradient(center top, #62AF56,#f7f7e1) repeat scroll 0 0 #62AF56;
@@ -603,6 +609,7 @@ div.code-coverage-results span.result-good {
   float:right;
   font-size: 95%;
 }
+
 .agree_condition{
   font-size: 13px;
 }
@@ -1568,8 +1575,8 @@ border: 1px solid #000000;
     background-color: #FDFDFD;
     border: 1px solid #000000;
     height: 20px;
-    margin-left: 127px;
-    width: 68px;
+    margin-left: 174px;
+    width: 193px;
 }
 
 #JobseekerProfileJobProfileForm #JobseekerProfileAnswer7 {
@@ -1577,7 +1584,7 @@ border: 1px solid #000000;
     border: 1px solid #000000;
     height: 20px;
     margin-left: 86px;
-    width: 68px;
+    width: 193px;
 }
 
 #JobseekerProfileJobProfileForm #JobseekerProfileAnswer8 {
@@ -1681,8 +1688,8 @@ border: 1px solid #000000;
     background-color: #FDFDFD;
     border: 1px solid #000000;
     height: 20px;
-    margin-left: 127px;
-    width: 68px;
+    margin-left: 173px;
+    width: 192px;
 }
 
 #JobseekerApplyApplyJobForm #JobseekerApplyAnswer7 {
@@ -2000,7 +2007,7 @@ border: 1px solid #000000;
     background-color: #FDFDFD;
     border: 1px solid #000000;
     height: 21px;
-    width: 125px;
+    width: 140px;
 }
 .txt_bg_twiter_tweet{
     border: 1px solid;
@@ -2081,7 +2088,6 @@ ul a.menu_item{
 .subject_txt{
 	float:right;
     border: 1px solid;
-    float: right;
     height: 20px;
     margin-top: -7px;
     width: 387px;
@@ -2134,7 +2140,7 @@ ul a.menu_item{
 	text-align:center;
 }
 
-<<<<<<< HEAD
+
 .lable_error label.error{
 	margin-left:130px;
 }
@@ -2159,8 +2165,8 @@ ul a.menu_item{
 	width:300px;
 	float:left;
 }
-.leftContiner span,.rightContiner
- span{
+.leftContiner ,
+.rightContiner{
 	font-weight:bold;
 	font-size:14px;
 
@@ -2173,11 +2179,23 @@ ul a.menu_item{
 	float:left;
 
 }
+.employee_name{
+	color:#62AF56;
+	text-decoration: underline;
+    cursor:pointer;
+    text-shadow: #A8EA9C 0px 1px 0px;
+}
+.employee_name:hover{
+	color:#53d53b ;
+	text-decoration: none;
+	text-shadow: #62AF56 0px 1px 0px;
+}
 
 .data{
+	font-weight:normal;
+	font-size:14px;
 	float:right;
 }
-=======
 /**********Networker Date**********/
 .networker_data{
 	margin: 15px;
@@ -2192,4 +2210,11 @@ ul a.menu_item{
 	height:24px;
 }
 
->>>>>>> 5f7855601ac9648821bb3333d21b00769a893278
+.top_mene_hover .active:hover{
+	background: -moz-linear-gradient(center top, #FBB917,#FFF380) repeat scroll 0 0 #62AF56;
+}
+
+.top_mene_hover li:hover{
+	background: -moz-linear-gradient(center top, #FBB917,#FFF380) repeat scroll 0 0 #62AF56;
+}
+
