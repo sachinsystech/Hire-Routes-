@@ -73,7 +73,9 @@
 																			 'value' => $jobprofile['answer5']));?>
 								</div>
 								<div>
-								<?php $answer6_array = $universities;?>
+								<?php $answer6_array = $universities;
+									$answer6_array[""]= "--select--";
+								?>
 								<?php echo $form->input('answer6', array('label' => 'University',
 																			 'type'  => 'select',
                                                                              'class' => '',
