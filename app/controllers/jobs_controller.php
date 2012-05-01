@@ -205,9 +205,9 @@ class JobsController extends AppController {
 		
 				$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
 				$universities=$this->University->find('list',array('fields'=>'id,name'));
+				$this->set('universities',$universities);
 				if($jobprofile){
 					$jobprofile['JobseekerProfile']['file_id'] = $jobprofile['JobseekerProfile']['id'];		
-					$this->set('universities',$universities);
 					$this->set('jobprofile',$jobprofile['JobseekerProfile']);
 					$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
 					$this->set('is_cover_letter', $jobprofile['JobseekerProfile']['cover_letter']);
@@ -231,7 +231,7 @@ class JobsController extends AppController {
                 		}
                 		
                 		$type_arr = explode(".",$resume['name']);
-                		$type = $type_arr[1];
+                		$type = isset($type_arr[1])?$type_arr[1]:'';
                			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx' && $type!='odt' || $resume['size'] >307251){
 							$this->Session->setFlash('Please ensure that you are uploading a supported file format of max size 300 Kb', 'error'); 
                 			$this->data['JobseekerApply']['resume'] = ""; 

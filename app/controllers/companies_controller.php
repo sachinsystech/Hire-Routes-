@@ -1136,11 +1136,17 @@ function paymentHistoryInfo(){
 															));
 			$jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
 			
-			$jobseekerApplyProfile['JobseekerApply']['answer5']=$jobtypes[$jobseekerApplyProfile['JobseekerApply']['answer5']];
-			$jobseekerApplyProfile['JobseekerApply']['answer6']=$jobseekerApplyProfile['uns']['name'];
-			
-			$jobseekerApplyProfile= json_encode($jobseekerApplyProfile['JobseekerApply']);
-			return $jobseekerApplyProfile;
+			$jap['qualificaiton'] = $jobseekerApplyProfile['JobseekerApply']['answer1'];
+			$jap['experience'] = $jobseekerApplyProfile['JobseekerApply']['answer2'];
+			$jap['ctc_current'] = $jobseekerApplyProfile['JobseekerApply']['answer3'];
+			$jap['ctc_expected'] = $jobseekerApplyProfile['JobseekerApply']['answer4'];
+			$jap['job_type'] = $jobtypes[$jobseekerApplyProfile['JobseekerApply']['answer5']];
+			$jap['university'] = $jobseekerApplyProfile['uns']['name'];
+			$jap['shifts_available'] = $jobseekerApplyProfile['JobseekerApply']['answer7'];
+			$jap['passport_availability'] = $jobseekerApplyProfile['JobseekerApply']['answer8'];
+			$jap['travel_availability'] = $jobseekerApplyProfile['JobseekerApply']['answer9'];
+			$jap['training_needs'] = $jobseekerApplyProfile['JobseekerApply']['answer10'];
+			return json_encode($jap);
 		}
 	
 	
