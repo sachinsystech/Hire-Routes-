@@ -29,8 +29,8 @@ function jobseekersDetail(jobseekerId, jobseekerName){
 			$("#jobseekerApplyProfileElement").show(); 
 			
 			$("#jobseekerApplyProfile").dialog({
-				height:330,
-				width:770,
+				height:280,
+				width:725,
 				modal:true,
 				show: "slide",
 				hide: "slide",
@@ -42,16 +42,34 @@ function jobseekersDetail(jobseekerId, jobseekerName){
 				}
 			}
 			});
-				$("#qualification span.data").html(response['answer1']);
-				$("#workexp span.data").html(response['answer2']);				
-				$("#current_ctc span.data").html(response['answer3']);	
-				$("#expected_ctc span.data").html(response['answer4']);
-				$("#job_type span.data").html(response['answer5']);	
-				$("#ready_to_relocate span.data").html(response['answer6']);	
-				$("#shifts_availability span.data").html(response['answer7']);	
-				$("#passport_availability span.data").html(response['answer8']);	
-				$("#travel_ability span.data").html(response['answer9']);	
-				$("#training_needs span.data").html(response['answer10']);	
+				$("#japdiv").html('<table>'+
+											'<tr>'+
+												'<td><b>Qualification : </b></td><td>'+response['qualificaiton']+'</td>'+
+												'<td><b>Experience : </b></td><td>'+response['experience']+'</td>'+
+											'</tr>'+
+											
+											'<tr>'+
+												'<td><b>Current CTC : </b></td><td>'+response['ctc_current']+'</td>'+
+												'<td><b>Expected CTC : </b></td><td>'+response['ctc_expected']+'</td>'+
+											'</tr>'+
+											
+											'<tr>'+
+												'<td><b>Job Type : </b></td><td>'+response['job_type']+'</td>'+
+												'<td><b>University/College : </b></td><td>'+response['university']+'</td>'+
+											'</tr>'+
+											
+											'<tr>'+
+												'<td><b>Shifts Availability : </b></td><td>'+response['shifts_available']+'</td>'+
+												'<td><b>Passport Availability : </b></td><td>'+response['passport_availability']+'</td>'+
+											'</tr>'+
+											
+											'<tr>'+
+												'<td><b>Travel Ability : </b></td><td>'+response['travel_availability']+'</td>'+
+												'<td><b>Training Needs : </b></td><td>'+response['training_needs']+'</td>'+
+											'</tr>'+
+											
+										 '</table>'
+										);
 		}		
 			
 	});
@@ -67,7 +85,7 @@ function clear_div(val){
 
 <div id="jobseekerApplyProfile" >
 <div id="jobseekerApplyProfileElement" style="display:none;">
-	<?php echo $this->element('jobseekerApplyJobProfile');?>
+	<div id="japdiv"></div>
 </div>	
 </div>
 
@@ -247,7 +265,7 @@ function clear_div(val){
 				<?php foreach($applicants as $applicant):?>	
 				<tr>
 					<td>
-						<span class="employee_name" onclick="return jobseekersDetail(<?php echo $applicant['JobseekerApply']['id']; ?>, '<?php echo $applicant['jobseekers']['contact_name'] ;?>')"><?php echo ucFirst($applicant['jobseekers']['contact_name']); ?></span>
+						<span class="employee_name" onclick="return jobseekersDetail(<?php echo $applicant['JobseekerApply']['id']; ?>, '<?php echo ucfirst($applicant['jobseekers']['contact_name']) ;?>')"><?php echo ucFirst($applicant['jobseekers']['contact_name']); ?></span>
 						<span style="font-size:11px"><?php echo "<br>Submitted ". $time->timeAgoInWords($applicant['JobseekerApply']['created']); ?> </span><br>
 						<span>
 						<?php if($applicant['JobseekerApply']['resume']!=''){

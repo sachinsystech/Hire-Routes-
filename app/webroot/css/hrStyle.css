@@ -1057,6 +1057,7 @@ label.error{
     margin: 10px auto auto;
     padding: 24px;
     width: 160px;
+    border-radius:13px;
 }
 /*  JOB-LIST Page */
 .joblist_rightBox{
@@ -2218,3 +2219,10 @@ ul a.menu_item{
 	background: -moz-linear-gradient(center top, #FBB917,#FFF380) repeat scroll 0 0 #62AF56;
 }
 
+#japdiv tr td{
+	background:none !important;
+}
+
+#japdiv{
+	font-size:11px;
+}
