@@ -178,11 +178,11 @@ function clear_div(val){
 				<div style="float:left;" id="lbl">University/College</div>
 				<div style="float:left;" id="field">
 					<?php 
-						 $answer6_array=array(''=>'select'); $answer6_array[] = $universities; 
                     	  echo $form->input('answer6', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
-															 'options' =>$answer6_array,
+															 'options' =>$universities,
+															 'empty'=>"----select----",
 															 'value'   => isset($filterOpt['answer6'])?$filterOpt['answer6']:"",
 															 'onChange'=>"return clear_div(this.value);"
 															));?>
