@@ -39,6 +39,7 @@ class CompaniesController extends AppController {
 		$this->Auth->allow('accountProfile');
 		$this->Auth->allow('employees');
 		$this->Auth->allow('paypalProPayment');
+		$this->Auth->allow('jobseekerFilledProfile');
      }
 	
 	
