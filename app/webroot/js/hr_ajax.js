@@ -39,7 +39,7 @@ function fillCities(state_id, city_field_id, loader_id)
   		success: function(response){
 	 		//document.getElementById(city_field_id).options[0]=new Option("--All Cities--",'');
 			$.each(response, function(key, city) {
-				document.getElementById(city_field_id).options[document.getElementById(city_field_id).options.length] = new Option(city, index);
+				document.getElementById(city_field_id).options[document.getElementById(city_field_id).options.length] = new Option(city, key);
             });
 
   		}

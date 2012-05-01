@@ -1,7 +1,7 @@
 <?php
-	if($this->Session->check('userRole'))
+	if($this->Session->check('UserRole'))
 	{
-		$userRoleId=$this->Session->read('userRole.id');
+		$userRoleId=$this->Session->read('UserRole');
 		if(isset($userRoleId) && $userRoleId==COMPANY)
 		{
 			$my_jobs_actions=array('newJob','postJob','jobDetail','applyJob','showArchiveJobs','editJob','showApplicant','checkout','jobStats','companyData');

@@ -85,9 +85,9 @@
 		<?php //echo "<pre>"; print_r($this->Session->read()); exit;?>
 			<!-- ******		welcome User **** -->
 			<?php if($this->Session->read('Auth.User.id')):?>
-				<?php if($this->Session->read('welcomeUserName') && ($this->Session->read('userRole.id'))):?>
+				<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
 					<div style=" margin-left:10px">
-						Welcome <span title="<?php echo ucfirst($this->Session->read('userRole.name'));?>"><?php echo ucfirst($this->Session->read('welcomeUserName'));?>,</span>
+						Welcome <span><?php echo ucfirst($this->Session->read('welcomeName'));?>,</span>
 					</div>
 				<?php endif; ?>
 			<?php endif; ?>

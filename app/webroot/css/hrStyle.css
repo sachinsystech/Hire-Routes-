@@ -460,6 +460,9 @@ td.actions a {
 	min-width: 0;
 	cursor:pointer;
 }
+.active:hover{
+	background: -moz-linear-gradient(center top, #FBB917,#FFF380) repeat scroll 0 0 #62AF56;
+}
 input[type=submit]:hover,
 button:hover,
 

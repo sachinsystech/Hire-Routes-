@@ -1,18 +1,19 @@
 <?php
 class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
-	var $uses = array('JobseekerSettings','Jobseekers','User','UserRoles','FacebookUsers','Company',
-					  'Job','Industry','State','Specification','Companies','City','JobseekerApply',
-					  'JobseekerProfile','University');
+	var $uses = array('JobseekerSettings', 'Jobseekers', 'User', 'Job', 'JobseekerApply', 'JobseekerProfile', 'University');
 	var $components = array('Email','Session','TrackUser','Utility');
 	var $helpers = array('Time','Html','Javascript');	
 
 	function beforeFilter(){
 		parent::beforeFilter();
-		if($this->userRole!=JOBSEEKER){
-			$this->redirect("/users/firstTime");
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
 		}
-		$this->Auth->allow('jobseekerSetting');
+		if($this->userRole!=JOBSEEKER){
+			$this->redirect("/users/loginSuccess");
+		}
 	}
 	
 	function sendNotifyEmail(){
@@ -28,7 +29,7 @@ class JobseekersController extends AppController {
 
 	/* 	Jobseeker's Account-Profile page*/
 	function index(){
-		$userId = $this->TrackUser->getCurrentUserId();		
+		$userId = $this->_getSession()->getUserId();		
         if($userId){
         	/* User Info*/			
 			$user = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
@@ -47,7 +48,8 @@ class JobseekersController extends AppController {
 
 	/* 	Setting and Subscriptoin page*/
 	function setting(){
-		$userId = $this->TrackUser->getCurrentUserId();		
+		$session = $this->_getSession();
+		$userId = $session->getUserId();		
 		$jobseeker = $this->Jobseekers->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$jobseekerId =$jobseeker['Jobseekers']['id'];
 		if(isset($this->data['JobseekerSettings']))
@@ -60,7 +62,7 @@ class JobseekersController extends AppController {
 			if( $this->JobseekerSettings->validates()  && $this->JobseekerSettings->save()){
 				$this->Jobseekers->id =$jobseekerId;
 				if($this->Jobseekers->saveField('contact_name', $this->data['Jobseekers']['contact_name'],true)){
-					$this->Session->write('welcomeUserName',$this->data['Jobseekers']['contact_name']);
+					$session->start();
 					$this->Session->setFlash('Your Setting has been saved successfully.', 'success');
 				}
 			}
@@ -85,18 +87,20 @@ class JobseekersController extends AppController {
 
 	/* 	Edit Jobseeker's Account-Profile*/   
     function editProfile() {
-		$userId = $this->TrackUser->getCurrentUserId();
+		$session = $this->_getSession();
+		$userId = $session->getUserId();
 		
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
 
 			if($this->Jobseekers->save($this->data['Jobseekers'])){
-				$this->Session->write('welcomeUserName',$this->data['Jobseekers']['contact_name']);
+				$session->start();
 				$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
-				if($this->Session->check('redirect_url')){
-				$redirect_to = $this->Session->read('redirect_url');
-				$this->redirect($redirect_to);
+				if($this->_getSession()->getBeforeApplyUrl()){
+					$refrer = $this->_getSession()->getBeforeApplyUrl();
+					$this->_getSession()->setBeforeApplyUrl('');
+					$this->redirect($refrer);
 				}else{
 					$this->redirect('/jobseekers');	
 				}
@@ -109,17 +113,11 @@ class JobseekersController extends AppController {
         if(isset($user['Jobseekers'][0])){
         	$this->set('jobseeker',$user['Jobseekers'][0]);
         }
-
-        $fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
-        if(isset($fbinfos[0])){
-			$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
-        }
-
 	}
 
       function appliedJob() {
 
-        $userId = $this->TrackUser->getCurrentUserId();	
+        $userId = $this->_getSession()->getUserId();	
         $shortByItem = 'JobseekerApply.created';
 		$order		 = 'desc';
         
@@ -201,7 +199,7 @@ class JobseekersController extends AppController {
      }
 
 	function newJob(){
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();	
 	
 		$jobseeker_settings = $this->getJobseekerSettings($userId);
 
@@ -329,7 +327,7 @@ class JobseekersController extends AppController {
 	}
 
 	function archivedJob(){
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();	
 	
 		$jobseeker_settings = $this->getJobseekerSettings($userId);
 
@@ -495,7 +493,7 @@ class JobseekersController extends AppController {
    function delete(){
         
         $deleteID = is_numeric($this->params['id'])?$this->params['id']:null;
-        $userId = $this->TrackUser->getCurrentUserId();
+        $userId = $this->_getSession()->getUserId();
 		if($deleteID){
             $jobseekerapply = $this->JobseekerApply->find('all',array('conditions' => array('job_id' =>$deleteID,'user_id'=>$userId))); 
         	if(isset($jobseekerapply) && $jobseekerapply != null){
@@ -518,9 +516,7 @@ class JobseekersController extends AppController {
    }
 
 	function jobProfile(){
-	
-		$userId = $this->TrackUser->getCurrentUserId();
-	
+		$userId = $this->_getSession()->getUserId();
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId),
 																  'joins'=>array(
 																  			array(
@@ -532,7 +528,7 @@ class JobseekersController extends AppController {
 																'fields'=>'JobseekerProfile.*,uns.*',
 												));
 		$universities=$this->University->find('list',array('fields'=>'id,name'));
-		
+
 		$this->set('universities',$universities);
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
 		$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
@@ -605,7 +601,7 @@ class JobseekersController extends AppController {
 	}
 
 	function viewResume(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
         		
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
@@ -650,7 +646,7 @@ class JobseekersController extends AppController {
 	}
 
 	private function jobCounts(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$jobseeker_settings = $this->getJobseekerSettings($userId);
 		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('JobseekerApply.user_id'=>$userId,'Job.is_active' =>1),
 															   'fields'=>array('job_id'),

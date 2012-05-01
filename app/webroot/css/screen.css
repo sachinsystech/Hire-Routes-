@@ -1595,14 +1595,24 @@ a:hover.back-login	{
         color: #FFFFFF;
         font-size:18px;
         }
-        
+  /*      
  .error{
         color :red;
-        /*margin:0 0 0 20px;*/
-        font-size: 15px;
-        text-align: center;
+        margin:0 0 0 20px;
+        font-size: 12px;
+        text-align: left;
     }
-
+*/
+label.error {
+    clear: both;
+    color: red;
+    display: block;
+    float: none;
+    font-size: 13px;
+    font-weight: normal !important;
+    padding-left: 1.5em;
+    vertical-align: top;
+}
  .success{
 		background: none repeat scroll 0 0 #EFF5EA;
 		border: 1px solid #446423;
@@ -1709,6 +1719,11 @@ a:hover.back-login	{
 .code_page_error{
 	float: left;
     margin: 5px 10px;
+    color: red;
+}
+
+#ConfigConfigForm label.error{
+	margin-left:-18px;
 }
 .code_user_select_box{
     background: none repeat scroll 0 0 #FFFFFF;
@@ -1771,7 +1786,6 @@ a:hover.back-login	{
 	padding-left:5px;
 	border-collapse:collapse;
 	line-height: 20px;
-	
 
 }
  .usertableHeading a{
@@ -1875,4 +1889,16 @@ input[type=submit]:hover{
 }
 select{
 	cursor:pointer;
+}
+.reward_pc{
+    border: 1px solid;
+    width: 45px;
+}
+.configuration_content{
+	-moz-border-radius: 20px 20px 20px 20px;
+    border: 1px solid #CCCCCC;
+    height: 63px;
+    margin: 15px;
+    padding: 14px;
+    width: auto;
 }

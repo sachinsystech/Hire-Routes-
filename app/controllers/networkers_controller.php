@@ -1,17 +1,28 @@
 <?php
 class NetworkersController extends AppController {
 	var $name = 'Networkers';
-
-	var $uses = array('Networkers','NetworkerContact','NetworkerCsvcontact','NetworkerSettings',
-						'User','UserRoles','Industry','State','City','Specification',
-						'FacebookUsers','Companies','Job','PaymentHistory','JobseekerApply','SharedJob','University');
+	var $uses = array(	'Networkers',
+						'NetworkerContact', 
+						'NetworkerCsvcontact', 
+						'NetworkerSettings',
+						'PaymentHistory',
+						'JobseekerApply',
+						'University',
+						'SharedJob',
+						'User',
+						'Job',
+					);
 	var $components = array('Email','Session','TrackUser','Utility');	
 	var $helpers = array('Time','Form');
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
+		}
 		if($this->userRole!=NETWORKER){
-			$this->redirect("/users/firstTime");
+			$this->redirect("/users/loginSuccess");
 		}
 	}
 	
@@ -25,7 +36,7 @@ class NetworkersController extends AppController {
 		
 	/* 	Networker's Account-Profile page*/
 	function index(){
-		$userId = $this->TrackUser->getCurrentUserId();		
+		$userId = $this->_getSession()->getUserId();		
         if($userId){
         	/* User Info*/			
 			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId),
@@ -61,8 +72,6 @@ class NetworkersController extends AppController {
 	/* save email notifications setting*/
 	
 	function sendNotifyEmail(){
-		$userId = $this->TrackUser->getCurrentUserId();
-			
 		if($this->Networkers->save($this->data['Networkers'])){
 			$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
 		}
@@ -71,7 +80,7 @@ class NetworkersController extends AppController {
 	
 	/* 	Setting and Subscriptoin page*/
 	function setting() {
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		if(isset($this->data['NetworkerSettings'])){
 			$this->data['NetworkerSettings']['user_id'] = $userId;
 			$this->NetworkerSettings->set($this->data['NetworkerSettings']);
@@ -121,25 +130,21 @@ class NetworkersController extends AppController {
 		$this->set('specifications',$this->Utility->getSpecification());
 		$this->set('states',$this->Utility->getState());
 		
-		/* FB-User Info*/       		        
-        $fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
-        if(isset($fbinfos[0])){
-			$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
-        }
-        if(isset($networker) && $networker['Networkers']){
+		if(isset($networker) && $networker['Networkers']){
 			$this->set('networker',$networker['Networkers']);
 		}
 	}
    
 	/* 	Edit Networker's Account-Profile*/   
 	function editProfile() {
-		$userId = $this->TrackUser->getCurrentUserId();
+		$session = $this->_getSession();
+		$userId = $session->getUserId();
 		
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			if($this->User->save($this->data['User'])){
 				if($this->Networkers->save($this->data['Networkers'])){
-					$this->Session->write('welcomeUserName',$this->data['Networkers']['contact_name']);
+					$session->start();
 					$this->Session->setFlash('Profile has been updated successfuly.', 'success');
 					$this->redirect('/networkers');
 				}	
@@ -153,17 +158,12 @@ class NetworkersController extends AppController {
         if(isset($user['Networkers'][0])){
         	$this->set('networker',$user['Networkers'][0]);
         }
-
-        $fbinfos = $this->FacebookUsers->find('all',array('conditions'=>array('user_id'=>$userId)));
-        if(isset($fbinfos[0])){
-        	$this->set('fbinfo',$fbinfos[0]['FacebookUsers']);
-        }
 	}
 	
 	/*	Add contact by single entry	*/
 	function addContacts() {
 		if(isset($this->data['Contact'])){
-			$userId = $this->TrackUser->getCurrentUserId();
+			$userId = $this->_getSession()->getUserId();
 			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 			$this->data['Contact']['user_id'] = $userId;
 			$this->data['Contact']['networker_id'] = $user['Networkers'][0]['id'];
@@ -199,7 +199,7 @@ class NetworkersController extends AppController {
 	/*	Edit single contact	*/
 	function EditContact() {
 		if(isset($this->data['editContact'])){
-			$userId = $this->TrackUser->getCurrentUserId();
+			$userId = $this->_getSession()->getUserId();
 			$contactId = $this->data['editContact']['id'];
 			$contactEmail = $this->NetworkerContact->find('list', array(
 																	 'fields' => array('NetworkerContact.id', 'NetworkerContact.contact_email'),
@@ -229,7 +229,7 @@ class NetworkersController extends AppController {
 
 	/*	displaying all personal contacts	*/
 	function personal() {
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
 		
 		$paginateCondition = array(
@@ -262,7 +262,7 @@ class NetworkersController extends AppController {
 	
 	/*	show personal contact to Edit..	*/
 	function editPersonalContact(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		if(isset($this->params['id'])){
 			$contactId =$this->params['id'];
 			$contact = $this->NetworkerContact->find('first',array('conditions'=>array('NetworkerContact.id'=>$contactId,
@@ -281,7 +281,7 @@ class NetworkersController extends AppController {
 	/* to show network statistics*/
 	function networkerData(){
 		$parent_id = null;
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();
 		$networkerData = $this->getRecursiveData($userId);
 		$this->set('networkerData',$networkerData);
 		$this->paginate=array(
@@ -327,7 +327,7 @@ class NetworkersController extends AppController {
 	
 	/*	Adding contacts by Importing CSV	*/
 	function importCsv() {
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$file = fopen($this->data['networkers']['CSVFILE']['tmp_name'],'r');
 		$values = array();
@@ -416,7 +416,7 @@ class NetworkersController extends AppController {
 	}
 		  
 	function archiveJob(){
-		$userId = $this->TrackUser->getCurrentUserId();		
+		$userId = $this->_getSession()->getUserId();		
 		    
     	$networker_settings = $this->getNetworkerSettings($userId);
 		
@@ -516,7 +516,7 @@ class NetworkersController extends AppController {
 	}
 
 	function newJob(){
-		$userId = $this->TrackUser->getCurrentUserId();		
+		$userId = $this->_getSession()->getUserId();	
 		        
     	$networker_settings = $this->getNetworkerSettings($userId);
     	
@@ -632,7 +632,7 @@ class NetworkersController extends AppController {
 	}
 
 	function jobData(){
-		$userId = $this->TrackUser->getCurrentUserId();		
+		$userId = $this->_getSession()->getUserId();		
 		
 		$payment = $this->PaymentHistory->find('all',array('conditions'=>array('PaymentHistory.payment_status'=>1,
 																			   'jobseeker_apply.intermediate_users LIKE' => "%$userId%"),
@@ -670,7 +670,7 @@ class NetworkersController extends AppController {
 	 *	shared Job
 	 */
 	 function sharedJob(){
-		$userId = $this->TrackUser->getCurrentUserId();		
+		$userId = $this->_getSession()->getUserId();	
 		        	
 		    if(isset($this->params['named']['display'])){
 			    $displayPageNo = $this->params['named']['display'];
@@ -749,7 +749,7 @@ class NetworkersController extends AppController {
 	 *
 	 */
 	private function jobCounts(){
-		$userId = $this->TrackUser->getCurrentUserId();		
+		$userId = $this->_getSession()->getUserId();		
 		        
     	$networker_settings = $this->getNetworkerSettings($userId);
     	if(!(count($networker_settings)>0))
