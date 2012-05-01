@@ -2226,5 +2226,15 @@ ul a.menu_item{
 }
 
 #japdiv{
-	font-size:11px;
+	font-size:12px;
+}
+.phi_table {
+    font-size: 12px;
+    line-height: 8px;
+    margin-left: 70px;
+    width: 390px;
+}
+.phi_table tr td{
+	background:none !important;
+	border:none;
 }

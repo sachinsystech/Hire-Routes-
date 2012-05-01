@@ -26,14 +26,12 @@ function jobseekersDetail(jobseekerId, jobseekerName){
 	 	async:false,
 		data: {jobseekerId:jobseekerId},
 		success:function(response){
-			$("#jobseekerApplyProfileElement").show(); 
 			
 			$("#jobseekerApplyProfile").dialog({
 				height:280,
 				width:725,
 				modal:true,
-				show: "slide",
-				hide: "slide",
+				show: { effect: 'drop', direction: "up" },
 				resizable: false ,
 				title:jobseekerName,
 				buttons: {
@@ -83,10 +81,9 @@ function clear_div(val){
 		
 </script>
 
-<div id="jobseekerApplyProfile" >
-<div id="jobseekerApplyProfileElement" style="display:none;">
+
+<div id="jobseekerApplyProfile" style="display:none;">
 	<div id="japdiv"></div>
-</div>	
 </div>
 
 
