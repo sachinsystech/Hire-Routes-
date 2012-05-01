@@ -105,12 +105,12 @@
 						</div>
 						<div style="clear:both"></div>
 
-						<div><?php  $university_array=array(''=>'select');
-									$university_array[] = $universities;?>
+						<div>
 							<?php	if(isset($networker)){ $university = $networker['university']; } else { $university = "";}
                                     echo $form->input('Networkers.university', array('label' => 'University:',
 												'type'  => 'select',
-												'options'=>$university_array,
+												'options'=>$universities,
+												'empty'=>"----select----",
 												'class' => 'networker_select_bg required',
 												'style' => "float:right;width:208px;",
 												'value' => isset($networker['university'])?$networker['university']:"",
