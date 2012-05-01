@@ -3,7 +3,7 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse','JobseekerProfile');
+   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse','JobseekerProfile','University');
 	var $components = array('TrackUser','Utility','RequestHandler');
 
 	var $helpers = array('Form','Paginator','Time');
@@ -564,10 +564,11 @@ function paymentHistoryInfo(){
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fields"=>"id"));
-			//echo "<pre>"; print_r($jobs); exit;
+			$universities=$this->University->find('list',array('fields'=>'id,name'));
+			$this->set('universities',$universities);
 			if($jobs['Job']){
 				$conditions = array('JobseekerApply.job_id'=>$jobs['Job']['id'],"JobseekerApply.is_active"=>0);
-	
+				
 				if(isset($this->data['User'])){
 
 					$i=0;
@@ -581,10 +582,9 @@ function paymentHistoryInfo(){
 					$conditions = array('OR' => $ans,
 					                    'AND' => $conditions
 					                  );
-					
 					$this->set('filterOpt',$this->data['User']);
 				}
-
+				
 				$this->paginate = array(
 						    'conditions' => $conditions,
 							'joins'=>array(
@@ -1105,11 +1105,23 @@ function paymentHistoryInfo(){
 		$jobseekerApplyProfile=array();
 		$this->autoRender= false ;
 		$jobseekerApplyId= $this->params['form']['jobseekerId'];
-		//echo $jobseekerApplyId;
 		if(isset($jobseekerApplyId)){
-			$jobseekerApplyProfile=$this->JobseekerApply->find('first',array('conditions'=>"id=$jobseekerApplyId"));
+		
+		$jobseekerApplyProfile=$this->JobseekerApply->find('first',array('conditions'=>"JobseekerApply.id=$jobseekerApplyId",
+																			'joins'=>array(
+																  				array(
+																  					'table'=>'universities',
+																  		 			'type'=>'left',
+																  		 			'alias'=>'uns',
+															'conditions'=>'uns.id=JobseekerApply.answer6'
+																  )),
+																'fields'=>'JobseekerApply.*,uns.*',
+															));
 			$jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
+			
 			$jobseekerApplyProfile['JobseekerApply']['answer5']=$jobtypes[$jobseekerApplyProfile['JobseekerApply']['answer5']];
+			$jobseekerApplyProfile['JobseekerApply']['answer6']=$jobseekerApplyProfile['uns']['name'];
+			
 			$jobseekerApplyProfile= json_encode($jobseekerApplyProfile['JobseekerApply']);
 			return $jobseekerApplyProfile;
 		}

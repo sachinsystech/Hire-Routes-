@@ -16,7 +16,7 @@
 			if($this->action=='newJob'||$this->action=='showArchiveJobs'||$this->action=='companyData')
 			{
 		?>
-			<ul>
+			<ul class="top_mene_hover">
 				<li <?php if($this->action=='newJob') echo "class='active'";?>>
 					<a class="menu_item" href="/companies/newJob">
 						Jobs - <?php echo $activejobCount;?>					
@@ -37,7 +37,7 @@
 			}elseif($this->action=='index'||$this->action=='accountProfile'||$this->action=='paymentInfo'||$this->action=='paymentHistory'||$this->action=='paymentHistoryInfo'||$this->action=='editProfile'||$this->action=='changePassword')
 			{
 			?>
-				<ul style="float:left">
+				<ul style="float:left"  class="top_mene_hover">
 					<li <?php if($this->action=='accountProfile'||$this->action=='editProfile') echo "class='active'";?>>
 						<a class="menu_item" href="/companies">Profile</a>
 					</li>
@@ -51,7 +51,7 @@
 						<a class="menu_item" href="/users/changePassword"><?php echo $passwordLable; ?></a>
 					</li>
 				</ul>
-				<ul style="float:right">
+				<ul style="float:right"  class="top_mene_hover">
 					<li style="background-color: #3DB517;">
 						<a class="menu_item" href="/companies/editProfile">Edit Profile</a>
 					</li>
@@ -60,21 +60,21 @@
 			}elseif($this->action=='checkout')
 			{
 			?>
-				<ul style="float:left">
+				<ul style="float:left"  class="top_mene_hover">
 					<li class="active">Checkout</li>
 				</ul>
 			<?php
 			}elseif($this->action=='employees')
 			{
 			?>
-				<ul style="float:left">
+				<ul style="float:left"  class="top_mene_hover">
 					<li class="active">Employees</li>
 				</ul>
 			<?php
 			}elseif($this->action=='editJob'||$this->action=='showApplicant'||$this->action=='jobStats')
 			{
 			?>
-				<ul style="float:left">
+				<ul style="float:left"  class="top_mene_hover"> 
                 	<li <?php if($this->action=='editJob') echo "class='active'";?>>
                 		<a class="menu_item" href="/companies/editJob/<?php if(isset($jobId)) echo $jobId; elseif(isset($job['id'])) echo $job['id'];?>"> Edit </a>
                 		</li>
@@ -103,7 +103,7 @@
 			if($this->action=='newJob'||$this->action=='appliedJob'||$this->action=='archivedJob')
 			{
 		?>
-			<ul style="float:left">
+			<ul style="float:left"  class="top_mene_hover">
 				<li <?php if($this->action=='newJob') echo "class='active'";?>><a class="menu_item"  href="/jobseekers/newJob">Inbox - <?php echo $NewJobs;?></a></li>	
 				<li <?php if($this->action=='appliedJob') echo "class='active'";?>><a class="menu_item" href='/jobseekers/appliedJob'>Applied - <?php echo $AppliedJobs;?></a></li>	
                 <li <?php if($this->action=='archivedJob') echo "class='active'";?>><a class="menu_item" href="/jobseekers/archivedJob">Archive - <?php echo $Archivedjobs;?></a></li>
@@ -112,7 +112,7 @@
 			}elseif($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'||$this->action=='changePassword')
 			{
 			?>
-				<ul style="float:left">
+				<ul style="float:left"  class="top_mene_hover">
 					<li <?php if($this->action=='jobProfile') echo "class='active'";?>>
 						<a class="menu_item" href="/jobseekers/jobProfile">Job Profile</a>
 					</li>	
@@ -146,7 +146,7 @@
 		<?php
 			if($this->action=='newJob'||$this->action=='sharedJob'||$this->action=='archiveJob'||$this->action=='jobData'){
 		?>
-				<ul>
+				<ul class="top_mene_hover"  >
 					<li <?php if($this->action=='newJob'||$this->action=='#') echo "class='active'";  ?>>
 						<a class="menu_item" href="/networkers/newJob">Inbox - <?php echo $NewJobs;?></a>
 					</li>	
@@ -163,7 +163,7 @@
 			<?php
 			}elseif($this->action=='index'||$this->action=='setting'||$this->action=='editProfile'||$this->action=='changePassword'){
 			?>
-				<ul>
+				<ul  class="top_mene_hover">
 					<li <?php if($this->action=='setting') echo "class='active'";?>>
 						<a class="menu_item" href="/networkers/setting">Settings/Subscription</a>
 					</li>	
@@ -174,7 +174,7 @@
 						<a class="menu_item" href="/users/changePassword"><?php echo $passwordLable; ?></a>
 					</li>			
                 </ul>
-				<ul style="float:right">
+				<ul style="float:right"  class="top_mene_hover">
 					<li style="background-color: #3DB517;">
 						<a class="menu_item" href="/networkers/editProfile">Edit Profile</a>
 					</li>
@@ -182,7 +182,7 @@
 			<?php
 			}elseif($this->action=='personal'||$this->action=='addContacts'||$this->action=='networkerData'){
 			?>
-				<ul style="float:left">
+				<ul style="float:left"  class="top_mene_hover">
 					<li <?php if($this->action=='personal') echo "class='active'";?>>
 						<a class="menu_item" href="/networkers/personal">Personal</a>
 					</li>

@@ -73,39 +73,41 @@
 																			 'value' => $jobprofile['answer5']));?>
 								</div>
 								<div>
-								<?php $answer6_array = array('Yes'=>'Yes','No'=>'No'); ?>
-                      				<?php echo $form->input('answer6', array('label' => 'Ready to relocate',
+								<?php $answer6_array = $universities;?>
+								<?php echo $form->input('answer6', array('label' => 'University',
 																			 'type'  => 'select',
                                                                              'class' => '',
 																			 'options'=>$answer6_array,
 																			 'value' => isset($jobprofile['answer6'])?$jobprofile['answer6']:""));?>
+                      				
 								</div>
 								<div>
+								<?php $answer7_array = array('Yes'=>'Yes','No'=>'No'); ?>
 								<?php echo $form->input('answer7', array('label' => 'Ready to work on shifts',
 																			 'type'  => 'select',
                                                                              'class' => '',
-																			 'options'=>$answer6_array,
+																			 'options'=>$answer7_array,
 																			 'value' => isset($jobprofile['answer7'])?$jobprofile['answer7']:""));?>
 								</div>
 								<div>
                       				<?php echo $form->input('answer8', array('label' => 'Do you have passport',
 																			 'type'  => 'select',
                                                                              'class' => '',
-																			 'options'=>$answer6_array,
+																			 'options'=>$answer7_array,
 																			 'value' => isset($jobprofile['answer8'])?$jobprofile['answer8']:""));?>
 								</div>
 								<div>
                       				<?php echo $form->input('answer9', array('label' => 'Do You Have Any Restrictions On Your Ability To Travel?',
 																			 'type'  => 'select',
                                                                              'class' => '',
-																			 'options'=>$answer6_array,
+																			 'options'=>$answer7_array,
 																			 'value' => isset($jobprofile['answer9'])?$jobprofile['answer9']:""));?>
 								</div>
 								<div>
                       				<?php echo $form->input('answer10', array('label' => 'Do You Need Additional Training?',
 																			 'type'  => 'select',
                                                                              'class' => '',
-																			 'options'=>$answer6_array,
+																			 'options'=>$answer7_array,
 																			 'value' => isset($jobprofile['answer10'])?$jobprofile['answer10']:""));?>
 								</div>
 								<?php if($is_resume!=''){?>

@@ -1,6 +1,6 @@
 <?php
 class JobsController extends AppController {
-    var $uses = array('Company','Job','Industry','State','Specification' , 'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews','Jobseeker');
+    var $uses = array('Company','Job','Industry','State','Specification' , 'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews','Jobseeker','University');
 	var $helpers = array('Form','Paginator','Time','Number');
 	var $components = array('Session','TrackUser','Utility');
         
@@ -176,6 +176,7 @@ class JobsController extends AppController {
 		if(isset($this->params['jobId'])){
 			$id = $this->params['jobId'];
 			$jobSeekerApplyCount= $this->JobseekerApply->find('count',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
+				
 			if($jobSeekerApplyCount>0){
 				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');
 				$this->redirect('/jobseekers/newJob');
@@ -202,8 +203,10 @@ class JobsController extends AppController {
 				// Jobseeker's profile information
 		
 				$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
+				$universities=$this->University->find('list',array('fields'=>'id,name'));
 				if($jobprofile){
 					$jobprofile['JobseekerProfile']['file_id'] = $jobprofile['JobseekerProfile']['id'];		
+					$this->set('universities',$universities);
 					$this->set('jobprofile',$jobprofile['JobseekerProfile']);
 					$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
 					$this->set('is_cover_letter', $jobprofile['JobseekerProfile']['cover_letter']);

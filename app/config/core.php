@@ -128,8 +128,8 @@
  */
 	Configure::write('Session.save', 'php');
  
-    Configure::write('rootURL','192.168.1.28/');
-    Configure::write('httpRootURL','http://hireroutes/');	
+    Configure::write('rootURL','192.168.1.116/');
+    Configure::write('httpRootURL','http://192.168.1.116/');	
 
 
 
@@ -310,43 +310,72 @@
  */
 	Cache::config('default', array('engine' => 'File'));
 
+       /*                ******                */
 
-    define("FB_API_KEY","340495732660166");
-    define("FB_SECRET_KEY","465991fdcd75fb0fd64d98efaeab2f05");
-
-	/*		********		*/
-	define("BASEPATH","/var/www/staging-hr/Hire-Routes-/app/");
-
-
-    define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
-    define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
+   define("USER_ACCOUNT_REPLY_EMAIL","support@hireroutes.com");
+   define("USER_ACCOUNT_SENDER_EMAIL","hireroutes@hireroutes.com");
 
 
 /*** Linked in  ***/
 
-    define("LINKEDIN_BASE_URL","http://127.0.0.1/companies/getLinkedinFriendList");
-    define("LINKEDIN_CALLBACK_URL","http://127.0.0.1/companies/linkedinCallback");
-    define("LINKEDIN_ACCESS","341yzad2xife");
-    define("LINKEDIN_SECRET","jN3uF6HePfMLspcb");
+   define("LINKEDIN_BASE_URL","http://127.0.0.1/linkedin/getLinkedinFriendList");
+   define("LINKEDIN_CALLBACK_URL","http://127.0.0.1/linkedin/linkedinCallback");
+   define("LINKEDIN_ACCESS","341yzad2xife");
+   define("LINKEDIN_SECRET","jN3uF6HePfMLspcb");
 
-/****** end *****/
-  
+/**** end *****/
+ 
 
-	/*	Facebook API key	*/
-    define("FB_API_KEY","305849939456125");
-    define("FB_SECRET_KEY","e52a5d92d6429e4abd6408ca3a1fc710");
-	/*************/
-    
-	/*	Twitter API key	*/	
-		define('CONSUMER_KEY', 'piSyb0wl0ju8QFvnaZI5rw');
-		define('CONSUMER_SECRET','3XyJaN8UbVSx3kuxaAOxcV6Qpu08RuRPwbJEsltufTs');
-	/****************/	
+       /*        Facebook API key        */
+       /* Added by aa*/        
+   //define("FB_API_KEY","221345727972642");
+   //define("FB_SECRET_KEY","24a970fbfedb985c5d571667a5d01945");
+   
+   
+   /* Added by sachin*/
+   define("FB_API_KEY","340495732660166");
+   define("FB_SECRET_KEY","465991fdcd75fb0fd64d98efaeab2f05");
+       /*************/
+   
+       /*        Twitter API key        */        
+               define('CONSUMER_KEY', 'fEMVnhuHU9hGfoPFKG5zjA');
+               define('CONSUMER_SECRET','mWJt4MRN8rZMM6E4GYpX2KD5Ee8Zvxw0DxKJLNToumE');
+       /****************/        
 
-	/* Paypal Credentials */
-		define('API_USERNAME', 'amahes_1296472615_biz_api1.systematixtechnocrates.com');
-        define('API_PASSWORD', '1296472630');
-        define('API_SIGNATURE', 'A0yXjfWegGWSw36x2o1FMUR9fUN.AohzBaj78ZVz.0dMA3K0e0wL0SsH');
-        define('LIVEPAYPAL', '0'); //0 for sandbox, 1 for live .
+/* Paypal Credentials */
+      define('API_USERNAME', 'sanch_1333618503_biz_api1.mailinator.com');
+      define('API_PASSWORD', '1333618579');
+      define('API_SIGNATURE', 'AiPC9BjkCyDFQXbSkoZcgqH3hpacAhEpL9MTANQwzT35Evx3A8kbQiBc ');
+      define('LIVEPAYPAL', '0'); //0 for sandbox, 1 for live
+       /* *******  */
 
-	/* *********  */
+       /* User-Roles */
+      define('COMPANY',1);
+      define('JOBSEEKER',2);
+      define('NETWORKER',3);
+      define('ADMIN',5);
+   /* *****  */        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

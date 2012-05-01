@@ -4,7 +4,7 @@ class NetworkersController extends AppController {
 
 	var $uses = array('Networkers','NetworkerContact','NetworkerCsvcontact','NetworkerSettings',
 						'User','UserRoles','Industry','State','City','Specification',
-						'FacebookUsers','Companies','Job','PaymentHistory','JobseekerApply','SharedJob');
+						'FacebookUsers','Companies','Job','PaymentHistory','JobseekerApply','SharedJob','University');
 	var $components = array('Email','Session','TrackUser','Utility');	
 	var $helpers = array('Time','Form');
 	
@@ -28,8 +28,23 @@ class NetworkersController extends AppController {
 		$userId = $this->TrackUser->getCurrentUserId();		
         if($userId){
         	/* User Info*/			
-			$user = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
-			$networkers = $user['Networkers'][0];
+			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId),
+													'joins'=>array(
+																array(
+																	'table'=>'networkers',
+																	'type'=>'LEFT',
+																	'conditions'=>array("networkers.user_id"=>$userId) 
+																),
+																array(
+																'table'=>'universities',
+																'type'=>'LEFT',
+													'conditions'=>array('universities.id=networkers.university'),
+																)),
+													'fields'=>array('User.*, networkers.*,universities.*'),
+													)
+								);
+			$networkers = $user['networkers'];
+			$networkers['university']=$user['universities']['name'];
 			if(!isset($networkers['contact_name']) || empty($networkers['contact_name'])){
 				$this->redirect("/Networkers/editProfile");						
 			}
@@ -130,9 +145,10 @@ class NetworkersController extends AppController {
 				}	
 			}
 		}
-		
+		$universities =$this->University->find('list');
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
+		$this->set('universities',$universities);
 
         if(isset($user['Networkers'][0])){
         	$this->set('networker',$user['Networkers'][0]);

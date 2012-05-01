@@ -1,6 +1,5 @@
 <?php ?>
 <script>
-	
 function valid_form(){
 	answer1 = $("#UserAnswer1").val();
 	answer2 = $("#UserAnswer2").val();
@@ -17,34 +16,30 @@ function valid_form(){
 		return false;
 	}
 }
-function jobseekersDetail(jobseekerId){
-	
-	$.ajax({
+function jobseekersDetail(jobseekerId, jobseekerName){
+		$.ajax({
 		url:"/companies/jobseekerFilledProfile",
 		type:"post",
 	    dataType:"json",
 	 	async:false,
 		data: {jobseekerId:jobseekerId},
-	//	beforeSend:function(){
-	/*		$('#'+loader_id).html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." / >');
-		}
-		//complete:function(){
-			$('#'+loader_id).html("&nbsp;");
-		}*/
 		success:function(response){
 			$("#jobseekerApplyProfileElement").show(); 
-		
+			
 			$("#jobseekerApplyProfile").dialog({
-				height:400,
-				width:850,
+				height:330,
+				width:770,
 				modal:true,
+				show: "slide",
+				hide: "slide",
+				resizable: false ,
+				title:jobseekerName,
 				buttons: {
 				Ok: function() {
 					$( this ).dialog( "close" );
 				}
 			}
 			});
-			
 				$("#qualification span.data").html(response['answer1']);
 				$("#workexp span.data").html(response['answer2']);				
 				$("#current_ctc span.data").html(response['answer3']);	
@@ -60,7 +55,6 @@ function jobseekersDetail(jobseekerId){
 	});
 }
 
-
 function clear_div(val){
 	if(val!=""){
 		$("#error_div").html(""); 
@@ -69,7 +63,7 @@ function clear_div(val){
 		
 </script>
 
-<div id="jobseekerApplyProfile" title="Jobseeker Apply Profile">
+<div id="jobseekerApplyProfile" >
 <div id="jobseekerApplyProfileElement" style="display:none;">
 	<?php echo $this->element('jobseekerApplyJobProfile');?>
 </div>	
@@ -161,10 +155,11 @@ function clear_div(val){
 															 ));?>
 				</div>
  
-				<div style="float:left;" id="lbl">Ready to relocate</div>
+				<div style="float:left;" id="lbl">University/College</div>
 				<div style="float:left;" id="field">
-					<?php $answer6_array = array(''=>'Select','Yes'=>'Yes','No'=>'No'); 
-                      	  echo $form->input('answer6', array('label'   => '',
+					<?php 
+						 $answer6_array=array(''=>'select'); $answer6_array[] = $universities; 
+                    	  echo $form->input('answer6', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
 															 'options' =>$answer6_array,
@@ -175,10 +170,11 @@ function clear_div(val){
  
 				<div style="float:left;" id="lbl">Shifts Availability</div>
 				<div style="float:left;" id="field">
+					<?php $answer7_array = array(''=>'Select','Yes'=>'Yes','No'=>'No');  ?>
 					<?php echo $form->input('answer7', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
-									                         'options' =>$answer6_array,
+									                         'options' =>$answer7_array,
 															 'value'   => isset($filterOpt['answer7'])?$filterOpt['answer7']:"",
 															 'onChange'=>"return clear_div(this.value);"
 															 ));?>
@@ -189,7 +185,7 @@ function clear_div(val){
 					<?php echo $form->input('answer8', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
-															 'options' =>$answer6_array,
+															 'options' =>$answer7_array,
 															 'value'   => isset($filterOpt['answer8'])?$filterOpt['answer8']:"",
 															 'onChange'=>"return clear_div(this.value);"
 															 ));?>
@@ -200,7 +196,7 @@ function clear_div(val){
 					<?php echo $form->input('answer9', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
-															 'options' =>$answer6_array,
+															 'options' =>$answer7_array,
 															 'value'   => isset($filterOpt['answer9'])?$filterOpt['answer9']:"",
 														     'onChange'=>"return clear_div(this.value);"
 															 ));?>
@@ -211,7 +207,7 @@ function clear_div(val){
 					<?php echo $form->input('answer10', array('label'   => '',
 															  'type'    => 'select',
                                                               'class'   => 'show_appl_filter_select',
-															  'options' =>$answer6_array,
+															  'options' =>$answer7_array,
 															  'value'   => isset($filterOpt['answer10'])?$filterOpt['answer10']:"",
 															  'onChange'=>"return clear_div(this.value);"
 															 ));?>
@@ -249,7 +245,7 @@ function clear_div(val){
 				<?php foreach($applicants as $applicant):?>	
 				<tr>
 					<td>
-						<span style="font-weight:bold;cursor:pointer;" onclick="return jobseekersDetail(<?php echo $applicant['JobseekerApply']['id'] ?>)"><?php echo $applicant['jobseekers']['contact_name']; ?></span>
+						<span class="employee_name" onclick="return jobseekersDetail(<?php echo $applicant['JobseekerApply']['id']; ?>, '<?php echo $applicant['jobseekers']['contact_name'] ;?>')"><?php echo ucFirst($applicant['jobseekers']['contact_name']); ?></span>
 						<span style="font-size:11px"><?php echo "<br>Submitted ". $time->timeAgoInWords($applicant['JobseekerApply']['created']); ?> </span><br>
 						<span>
 						<?php if($applicant['JobseekerApply']['resume']!=''){

@@ -3,7 +3,7 @@ class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
 	var $uses = array('JobseekerSettings','Jobseekers','User','UserRoles','FacebookUsers','Company',
 					  'Job','Industry','State','Specification','Companies','City','JobseekerApply',
-					  'JobseekerProfile');
+					  'JobseekerProfile','University');
 	var $components = array('Email','Session','TrackUser','Utility');
 	var $helpers = array('Time','Html','Javascript');	
 
@@ -518,15 +518,28 @@ class JobseekersController extends AppController {
    }
 
 	function jobProfile(){
+	
 		$userId = $this->TrackUser->getCurrentUserId();
+	
+		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId),
+																  'joins'=>array(
+																  			array(
+																  			'table'=>'universities',
+																  		 	'type'=>'inner',
+																  		 	'alias'=>'uns',
+																	  	'conditions'=>'uns.id=JobseekerProfile.answer6'
+																  )),
+																'fields'=>'JobseekerProfile.*,uns.*',
+												));
+		$universities=$this->University->find('list',array('fields'=>'id,name'));
 		
-		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
+		$this->set('universities',$universities);
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
 		$this->set('is_resume', $jobprofile['JobseekerProfile']['resume']);
 		$this->set('is_cover_letter', $jobprofile['JobseekerProfile']['cover_letter']);
 
 		if(isset($this->data['JobseekerProfile'])){
-
+		
 			if(is_uploaded_file($this->data['JobseekerProfile']['resume']['tmp_name'])){
 				$resume = $this->data['JobseekerProfile']['resume'];                 
             	if($resume['error']!=0 ){
