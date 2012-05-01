@@ -2212,6 +2212,7 @@ ul a.menu_item{
 
 .top_mene_hover li:hover{
 	background: -moz-linear-gradient(center top, #FBB917,#FFF380) repeat scroll 0 0 #62AF56;
+	background: -webkit-gradient(linear, left top, left bottom, from( #FBB917), to(#FFF380));
 }
 
 .top_menu_hover1 li:hover{
