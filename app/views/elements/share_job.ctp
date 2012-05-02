@@ -216,7 +216,6 @@ function createHTMLforFillingFriends(friends){
 
 /************************** close**********************************/
 function close(){
-	alert('here');
 	$( "#dialog" ).dialog( "close" );
 }
 
