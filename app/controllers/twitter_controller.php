@@ -138,9 +138,12 @@ class TwitterController extends AppController {
             }
         }else{
         	$this->autoRender = false;
-            $user = $this->User->find('first',array('fields'=>array('twitter_token','twitter_token_secret'),'conditions'=>array('id'=>$userId,
-																								'twitter_token !='=>'',
-																								'twitter_token_secret !='=>'')));
+            $user = $this->User->find('first',array('fields'=>array('twitter_token','twitter_token_secret'), 											'conditions'=>array('id'=>$userId,
+            												'twitter_token !='=>'',
+            												'twitter_token_secret !='=>''
+            											)
+            										)
+            									);
             //get token from table other wise send for login.
             if($user){
                 try{
