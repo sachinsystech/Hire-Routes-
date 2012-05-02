@@ -3,17 +3,49 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-   	var $uses = array('User', 'Company', 'Companies', 'Job', 'Industry', 'State', 'Specification', 'UserRoles', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse');
-	var $components = array('TrackUser','Utility','RequestHandler');
+
+   	var $uses = array('User', 'Companies', 'Job', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse','Config','University');
+	var $components = array('TrackUser','Utility','RequestHandler','Session');
 
 	var $helpers = array('Form','Paginator','Time');
 	
+	public function beforeFilter(){
+		parent::beforeFilter();
+		
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect('/users/login');
+		}
+		if($session->getUserRole()!=COMPANY){
+			$this->redirect("/users/loginSuccess");
+		}
+		
+		$this->Auth->authorize = 'actions';
+		$this->Auth->allow('postJob');
+		$this->Auth->allow('editJob');		
+		$this->Auth->allow('newJob');
+		$this->Auth->allow('showArchiveJobs');
+		$this->Auth->allow('companyData');
+		$this->Auth->allow('checkout');
+		$this->Auth->allow('rejectApplicant');
+		$this->Auth->allow('jobStats');
+		$this->Auth->allow('viewResume');
+		$this->Auth->allow('showApplicant');
+		$this->Auth->allow('archiveJob');
+		$this->Auth->allow('paymentHistoryInfo');
+		$this->Auth->allow('paymentHistory');
+		$this->Auth->allow('paymentInfo');
+		$this->Auth->allow('editProfile');
+		$this->Auth->allow('accountProfile');
+		$this->Auth->allow('employees');
+		$this->Auth->allow('paypalProPayment');
+		$this->Auth->allow('jobseekerFilledProfile');
+     }
+	
+	
 	/*	display a form to post new Job by company		*/
 	function postJob(){
-		$userId = $this->TrackUser->getCurrentUserId();
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
+		$userId = $this->_getSession()->getUserId();
 		if($userId){
 			$this->set('states',$this->Utility->getState());
 			$this->set('industries',$this->Utility->getIndustry());
@@ -51,6 +83,8 @@ class CompaniesController extends AppController {
 	}
 	
 	function newJob(){
+		$session = $this->_getSession();
+		$userId = $session->getUserId();
 		
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
 	    $this->set('displayPageNo',$displayPageNo);
@@ -77,11 +111,6 @@ class CompaniesController extends AppController {
 			$shortByItem = 'created'; 
 		}
 
-		$userId = $this->TrackUser->getCurrentUserId();
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
-		
 		//	fetching jobs with given condition
 		$conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
 		$this->paginate = array(
@@ -118,10 +147,7 @@ list archive jobs..
 
 	function showArchiveJobs(){
 		
-		$userId = $this->TrackUser->getCurrentUserId();	
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
+		$userId = $this->_getSession()->getUserId();
 		
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
 	    $this->set('displayPageNo',$displayPageNo);
@@ -177,7 +203,7 @@ list archive jobs..
 	/* Company data starts*/
 
 	function companyData(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 
 		$jobPosted = $this->Job->find('all',array('conditions'=>array('Job.user_id'=>$userId),
 												 'fields'=>array('SUM(Job.reward) as jobs_reward, count(Job.id) as jobs_posted'), ));
@@ -239,14 +265,14 @@ list archive jobs..
 	/* Company data ends */
 	
 	private function getCompanyActiveJobsCount(){
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();
 		$active_job_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
 		$activejobCount = $this->Job->find('count',array('conditions'=>$active_job_conditions));
 		return $activejobCount;
 	}
 
 	private function getCompanyArchiveJobsCount(){
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();	
 		$arch_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
 		$archJobCount = $this->Job->find('count',array('conditions'=>$arch_conditions));
 		return $archJobCount;
@@ -255,7 +281,7 @@ list archive jobs..
 	
 /*****	Companies edit their own Job :: 	*********/
 	function editJob(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
 	
@@ -321,26 +347,21 @@ list archive jobs..
 	}
 	
 	function accountProfile() {
-		$userId = $this->TrackUser->getCurrentUserId();
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
+		$userId = $this->_getSession()->getUserId();
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 			$this->set('user',$user['User']);
 			$this->set('company',$user['Companies'][0]);
 	}
 
 	function editProfile() {
-		$userId = $this->TrackUser->getCurrentUserId();
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
+		$session = $this->_getSession();
+		$userId = $session->getUserId();
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			if(!empty($this->data['Companies']['company_name'])){
 				$this->User->save($this->data['User']);
 				if($this->Companies->save($this->data['Companies'])){
-					$this->Session->write('welcomeUserName',$this->data['Companies']['contact_name']);
+					$session->start();
 					$this->Session->setFlash('Profile has been updated successfuly.', 'success');
 					$this->redirect('/companies');
 				}
@@ -354,7 +375,7 @@ list archive jobs..
 	}
 
 	function paymentInfo() {
-		$userId = $this->TrackUser->getCurrentUserId();		
+		$userId = $this->_getSession()->getUserId();		
         $user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
 		$payment = $this->PaymentInfo->find('first',array('conditions'=>array('user_id'=>$userId)));
@@ -453,11 +474,9 @@ list archive jobs..
 	}
 
 	function paymentHistory() {
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();
 		$tid = isset($this->params['tid'])?$this->params['tid']:"";
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
+		
 		if($userId){
 
 			$conditions = array('PaymentHistory.user_id'=>$userId);
@@ -470,15 +489,13 @@ list archive jobs..
 		}
 	}
 	
-function paymentHistoryInfo(){
+	function paymentHistoryInfo(){
 		
-		$userId = $this->TrackUser->getCurrentUserId();
-		$id = isset($this->params['id'])?$this->params['id']:"";
-		$tid = isset($this->params['tid'])?$this->params['tid']:"";
-		if($this->userRole!=COMPANY){
-			$this->redirect("/users/firstTime");
-		}
-		
+		$userId = $this->_getSession()->getUserId();
+		$this->autoRender= false ;
+		$id = isset($this->params['form']['id'])?$this->params['form']['id']:"";
+		$tid = isset($this->params['form']['tid'])?$this->params['form']['tid']:"";
+				
 		if($userId && isset($tid) &&isset($id)){
 				$PaymentDetail = $this->PaymentHistory->find('first',
 																array('conditions'=>array(
@@ -506,15 +523,33 @@ function paymentHistoryInfo(){
 																 	) 
 																); 		
 			if(!$PaymentDetail){
-				$this->Session->setFlash('You may be clicked on old link or entered  manually.', 'error');				
-				$this->redirect('/companies/paymentHistory');
-			}														
-			$this->set('PaymentDetail',$PaymentDetail);	
-			$this->set('jobInfo',$this->getJob($PaymentDetail['job']['id']));	
+				$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
+				return json_encode($error);
+			}	
+			$jobInfo = $this->getJob($PaymentDetail['job']['id']);
+			$pd =array();
+			$pd['transaction_id']=$PaymentDetail['PaymentHistory']['transaction_id'];
+			$pd['paid_date']=$PaymentDetail['PaymentHistory']['paid_date'];	
+			$pd['amount']=$PaymentDetail['PaymentHistory']['amount'];
+			if(isset($PaymentDetail['js']['contact_name']) && !empty($PaymentDetail['js']['contact_name'])){
+				$pd['contact_name']= ucfirst($PaymentDetail['js']['contact_name']);
+			}
+			else{
+				$pd['contact_name']= "<i>Name Not Available</i>";
+			}
+			$pd['job_title']=$PaymentDetail['job']['title'];
+			$pd['description']=$PaymentDetail['job']['short_description'];	
+			$pd['industry']= $jobInfo['ind']['name'].", ".$jobInfo['spec']['name'];
+			$location =$jobInfo['state']['state'];
+			 if(!empty($jobInfo['city']['city'])) {
+				$location= $jobInfo['city']['city'].",&nbsp;".$location;
+			}
+			$pd['location']= $location;
+			return json_encode($pd);
 		}
 		else{
-			$this->Session->setFlash('You may be clicked on old link or entered  manually.', 'error');				
-			$this->redirect('/companies/paymentHistory');
+			$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
+			return json_encode($error);
 		}
 	}
 	
@@ -522,19 +557,19 @@ function paymentHistoryInfo(){
 		$jobInfo = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId),
 			  'joins'=>array(array('table' => 'industry',
 	                               'alias' => 'ind',
-	             				   'type' => 'INNER',
+	             				   'type' => 'LEFT',
 	             				   'conditions' => array('Job.industry = ind.id',)),
 		   			         array('table' => 'specification',
 	             				   'alias' => 'spec',
-	                               'type' => 'INNER',
+	                               'type' => 'LEFT',
 	                               'conditions' => array('Job.specification = spec.id',)),
 							 array('table' => 'cities',
 	            				   'alias' => 'city',
-	                               'type' => 'INNER',
+	                               'type' => 'LEFT',
 	                               'conditions' => array('Job.city = city.id',)),
 		                     array('table' => 'states',
 	                               'alias' => 'state',
-	                               'type' => 'INNER',
+	                               'type' => 'LEFT',
 	                               'conditions' => array('Job.state = state.id',))
 							),
 			 'fields'=>array('Job.*, ind.name, city.city, state.state, spec.name' ), ));
@@ -564,10 +599,11 @@ function paymentHistoryInfo(){
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fields"=>"id"));
-			//echo "<pre>"; print_r($jobs); exit;
+			$universities=$this->University->find('list',array('fields'=>'id,name'));
+			$this->set('universities',$universities);
 			if($jobs['Job']){
 				$conditions = array('JobseekerApply.job_id'=>$jobs['Job']['id'],"JobseekerApply.is_active"=>0);
-	
+				
 				if(isset($this->data['User'])){
 
 					$i=0;
@@ -581,10 +617,9 @@ function paymentHistoryInfo(){
 					$conditions = array('OR' => $ans,
 					                    'AND' => $conditions
 					                  );
-					
 					$this->set('filterOpt',$this->data['User']);
 				}
-
+				
 				$this->paginate = array(
 						    'conditions' => $conditions,
 							'joins'=>array(
@@ -680,7 +715,7 @@ function paymentHistoryInfo(){
 
 	/** Job Statistics/Data Details... **/
 	function jobStats(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
 			
@@ -730,7 +765,7 @@ function paymentHistoryInfo(){
 
 	/****** Reject Applicant for company Job *******/
 	function rejectApplicant(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$id = $this->params['id'];
 		$JobId = $this->params['jobId']; 
 		if($userId && $id){
@@ -753,7 +788,7 @@ function paymentHistoryInfo(){
 
 	/** accept applicant for given applied job **/
 	function checkout(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$appliedJobId = $this->params['id'];
 		if($userId && $appliedJobId){
 		
@@ -788,7 +823,7 @@ function paymentHistoryInfo(){
 
 	/*	Do payment of reward amount for given applied-job...*/
     function paypalProPayment() {
-        $userId = $this->TrackUser->getCurrentUserId();
+        $userId = $this->_getSession()->getUserId();
         $appliedJobId = $this->params['id'];        
         								
         if($userId && $appliedJobId){
@@ -853,11 +888,9 @@ function paymentHistoryInfo(){
 						$paymentHistory['amount'] = $appliedJob['Job']['reward'];
 						$paymentHistory['transaction_id'] = $resArray['TRANSACTIONID'];
 						
-						if($this->PaymentHistory->save($paymentHistory)){
-						
-						}
-						$this->sendCongratulationEmail($appliedJob);
+						$this->PaymentHistory->save($paymentHistory);
 						$this->Session->setFlash('Applicant has been selected successfully.', 'success');	
+						$this->sendCongratulationEmail($appliedJob);
 						$this->redirect("/companies/showApplicant/".$appliedJob['Job']['id']);
 						return;
 					}	        	
@@ -888,9 +921,11 @@ function paymentHistoryInfo(){
 */
     private function sendCongratulationEmail($appliedJob){
     	
-    	$userId = $this->TrackUser->getCurrentUserId();
+    	$userId = $this->_getSession()->getUserId();
     	$companyUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
     	$JobseekerUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$appliedJob['JobseekerapplyJob']['user_id'])));
+    	$rewardPercenatage = $this->Config->find('first',array('conditions'=>array('Config.key'=>'rewardPercent')));
+    	$rewardPercenatage = $rewardPercenatage['Config']['value'];
     	$jobDetails = $this->getJob($appliedJob['Job']['id']);    	
     	$interMeedUsers = count(explode(',',$appliedJob['JobseekerapplyJob']['intermediate_users']));
     	$appliedOn = date("m/d/Y",strtotime($appliedJob['JobseekerapplyJob']['created']));
@@ -901,7 +936,7 @@ function paymentHistoryInfo(){
     	$emailMsgInfo['company']['url'] = $companyUserInfo['Companies']['0']['company_url'];
     	$emailMsgInfo['jobseker']['name'] = $JobseekerUserInfo['Jobseekers']['0']['contact_name'];
     	$emailMsgInfo['job']['title'] = $jobDetails['Job']['title'];
-    	$emailMsgInfo['job']['reward'] = ($interMeedUsers===1)?"<b>Reward for you : </b>".(($jobDetails['Job']['reward']*75)/100)."<b>$</b>":"";
+    	$emailMsgInfo['job']['reward'] = ($interMeedUsers===1)?"<b>Reward for you : </b>".(($jobDetails['Job']['reward']*(100-$rewardPercenatage))/100). "<b>$</b>":"";
     	$emailMsgInfo['job']['description'] = $jobDetails['Job']['short_description'];
     	$emailMsgInfo['job']['industry'] = isset($jobDetails['ind']['name'])?$jobDetails['ind']['name']:"";
     	$emailMsgInfo['job']['specification'] = isset($jobDetails['spec']['name'])?$jobDetails['spec']['name']:"";
@@ -919,6 +954,7 @@ function paymentHistoryInfo(){
 			$this->Email->sendAs = 'html';
 			$this->set('emailMsgInfo', $emailMsgInfo);
 			$this->Email->send();
+			return true;
 		}catch(Exception $e){
 			$this->redirect("/");
 			return;
@@ -926,7 +962,7 @@ function paymentHistoryInfo(){
     }
 
     private function appliedJob($appliedJobId){
-   		$userId = $this->TrackUser->getCurrentUserId();
+   		$userId = $this->_getSession()->getUserId();
     	$appliedJob = $this->Job->find('first', array(
 										'joins' => array(
 														array(
@@ -960,7 +996,7 @@ function paymentHistoryInfo(){
 // =======================delete jobs=========
 	function deleteJob(){
 		$this->autoRender=false;
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$jobId=$this->params['form']['jobId'];
 		$action=$this->params['form']['action'];
 		if($action=='newJobs'){
@@ -983,17 +1019,15 @@ function paymentHistoryInfo(){
 
 
 	public function employees(){
-		$userId = $this->TrackUser->getCurrentUserId();	
+		$userId = $this->_getSession()->getUserId();	
 		$conditions[]="PaymentHistory.user_id=$userId";
 		$condition_phone=null;
 		$condition_name=null;
 		if(isset($this->params['named'])){
 			$data=$this->params['named'];
-			//echo "<pre>"; print_r($data);//exit;
 		}
 		if(isset($this->params['url']['from_date'])){
 			$data=$this->params['url'];
-			//echo "<pre>"; print_r($data);//exit;
 		}
 		if(isset($data)){
 			if(isset($data['contact_name']) && !empty($data['contact_name'])){			
@@ -1010,8 +1044,8 @@ function paymentHistoryInfo(){
 				$conditions[]= "users.account_email LIKE \"".trim($data['account_email'])."%\"";
 				$this->set('account_email',$data['account_email']);	
 			}
-			if(isset($data['state']) &&   !empty($data['state'])){			
-				$conditions[]= "js.state LIKE\"%".$data['state']."%\"";
+			if(isset($data['state']) && !empty($data['state'])){			
+				$conditions[]= "js.state LIKE\"".$data['state']."%\"";
 				$conditions[]= "js.city LIKE\"".$data['state']."%\"";
 				$this->set('state',$data['state']);	
 			}
@@ -1103,6 +1137,39 @@ function paymentHistoryInfo(){
 		return $httpParsedResponseAr;
 	}
 
+	function jobseekerFilledProfile(){
+		$jobseekerApplyProfile=array();
+		$this->autoRender= false ;
+		$jobseekerApplyId= $this->params['form']['jobseekerId'];
+		if(isset($jobseekerApplyId)){
+		
+		$jobseekerApplyProfile=$this->JobseekerApply->find('first',array('conditions'=>"JobseekerApply.id=$jobseekerApplyId",
+																			'joins'=>array(
+																  				array(
+																  					'table'=>'universities',
+																  		 			'type'=>'left',
+																  		 			'alias'=>'uns',
+															'conditions'=>'uns.id=JobseekerApply.answer6'
+																  )),
+																'fields'=>'JobseekerApply.*,uns.*',
+															));
+			$jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
+			
+			$jap['qualificaiton'] = $jobseekerApplyProfile['JobseekerApply']['answer1'];
+			$jap['experience'] = $jobseekerApplyProfile['JobseekerApply']['answer2'];
+			$jap['ctc_current'] = $jobseekerApplyProfile['JobseekerApply']['answer3'];
+			$jap['ctc_expected'] = $jobseekerApplyProfile['JobseekerApply']['answer4'];
+			$jap['job_type'] = $jobtypes[$jobseekerApplyProfile['JobseekerApply']['answer5']];
+			$jap['university'] = $jobseekerApplyProfile['uns']['name'];
+			$jap['shifts_available'] = $jobseekerApplyProfile['JobseekerApply']['answer7'];
+			$jap['passport_availability'] = $jobseekerApplyProfile['JobseekerApply']['answer8'];
+			$jap['travel_availability'] = $jobseekerApplyProfile['JobseekerApply']['answer9'];
+			$jap['training_needs'] = $jobseekerApplyProfile['JobseekerApply']['answer10'];
+			return json_encode($jap);
+		}
+	
+	
+	}
 }
 ?>
 

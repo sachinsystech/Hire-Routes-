@@ -61,11 +61,11 @@
 	Router::connect('/pages', array('controller' => 'home', 'action' => 'index', 'home'));
 	
 	Router::connect('/contactUs', array('controller'=> 'home', 'action'=>'contactUs'));
-	Router::connect('/contactUs/:jobId/', array('controller'=> 'home', 'action'=>'contactUs'));
+	Router::connect('/contactUs/:jobId', array('controller'=> 'home', 'action'=>'contactUs'));
 	
 	
 	Router::connect('/howItWorks',array('controller'=>'home','action'=>'howItWorks'));
-	Router::connect('/howItWorks/:jobId/',array('controller'=>'home','action'=>'howItWorks'));
+	Router::connect('/howItWorks/:jobId',array('controller'=>'home','action'=>'howItWorks'));
 	
 	Router::connect('/companies', array('controller' => 'companies', 'action' => 'accountProfile'));
 	Router::connect('/companies/editJob/:jobId', array('controller' => 'companies', 'action' => 'editJob'));

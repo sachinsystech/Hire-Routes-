@@ -1595,14 +1595,24 @@ a:hover.back-login	{
         color: #FFFFFF;
         font-size:18px;
         }
-        
+  /*      
  .error{
         color :red;
-        /*margin:0 0 0 20px;*/
-        font-size: 15px;
-        text-align: center;
+        margin:0 0 0 20px;
+        font-size: 12px;
+        text-align: left;
     }
-
+*/
+label.error {
+    clear: both;
+    color: red;
+    display: block;
+    float: none;
+    font-size: 13px;
+    font-weight: normal !important;
+    padding-left: 1.5em;
+    vertical-align: top;
+}
  .success{
 		background: none repeat scroll 0 0 #EFF5EA;
 		border: 1px solid #446423;
@@ -1709,6 +1719,11 @@ a:hover.back-login	{
 .code_page_error{
 	float: left;
     margin: 5px 10px;
+    color: red;
+}
+
+#ConfigConfigForm label.error{
+	margin-left:-18px;
 }
 .code_user_select_box{
     background: none repeat scroll 0 0 #FFFFFF;
@@ -1742,14 +1757,26 @@ a:hover.back-login	{
 }
 .flip{
     -moz-border-radius: 10px 10px 10px 10px;
-    background: none repeat scroll 0 0 #1E90FF;
+	background: none repeat scroll 0 0 #7E7E7E;
     border: -1px solid;
+    -webkit-border-radius:8px;
+	-moz-border-radius:8px;
+	border-radius:8px;
     color: #FFFFFF;
     cursor: pointer;
     font-weight: bold;
     height: 23px;
     text-align: center;
     width: 112px;
+}
+.flip:hover{
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
+	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
+}
+
+.div_hover:hover{
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
+	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
 }
  .usertableHeading th{
     background-color:#FEAEAE;
@@ -1759,7 +1786,6 @@ a:hover.back-login	{
 	padding-left:5px;
 	border-collapse:collapse;
 	line-height: 20px;
-	
 
 }
  .usertableHeading a{
@@ -1834,7 +1860,7 @@ a:hover.back-login	{
 input[type=submit],
 button{
 	background:  #1E90FF;
-	background: -moz-linear-gradient(center top , #1E90FF, #6384ff) repeat scroll 0 0 #222222;
+	background: none repeat scroll 0 0 #7E7E7E;
     border: 1px solid #AAAC62;
     border-radius: 8px 8px 8px 8px;
     color: #FFFFFF;
@@ -1845,11 +1871,11 @@ button{
 
 
 }
-input[type=submit]:hover,
-button:hover{
+input[type=submit]:hover{
 	cursor:pointer;
 	background: #96acff;
-	background: -webkit-gradient(linear, left top, left bottom, from(#96acff), to(#96acff));
+	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
 }
 
 .submit input {
@@ -1863,4 +1889,20 @@ button:hover{
 }
 select{
 	cursor:pointer;
+}
+.reward_pc{
+    border: 1px solid;
+    width: 45px;
+}
+.configuration_content{
+	-moz-border-radius: 20px 20px 20px 20px;
+    border: 1px solid #CCCCCC;
+    height: 63px;
+    margin: 15px;
+    padding: 14px;
+    width: auto;
+}
+select{
+	border:1px solid #000;
+	background:#fff;
 }

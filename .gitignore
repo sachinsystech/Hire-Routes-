@@ -1,0 +1,9 @@
+/app/config
+/app/tmp
+/plugins
+/vendors/
+/app/tmp/cache
+/app/webroot/files/cover_letter/
+/app/webroot/files/resume/
+/app/webroot/blog_/
+/app/webroot/blog/

@@ -251,7 +251,7 @@
 							</th>
 	   						<th width="5%">
 	   						    <?php
-									echo $form->submit("Find", array('name'=>'find','class'=>'button_field',
+									echo $form->submit("Find", array('name'=>'find','class'=>'button_field div_hover',
 															 'style'=>'width:40px;')); 	
 								?>
 	   						</th>

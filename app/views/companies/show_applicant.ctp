@@ -1,3 +1,6 @@
+
+<?php echo $this->Session->flash();?>
+
 <script>
 function valid_form(){
 	answer1 = $("#UserAnswer1").val();
@@ -15,6 +18,60 @@ function valid_form(){
 		return false;
 	}
 }
+function jobseekersDetail(jobseekerId, jobseekerName){
+		$.ajax({
+		url:"/companies/jobseekerFilledProfile",
+		type:"post",
+	    dataType:"json",
+	 	async:false,
+		data: {jobseekerId:jobseekerId},
+		success:function(response){
+			
+			$("#jobseekerApplyProfile").dialog({
+				height:280,
+				width:725,
+				modal:true,
+				show: { effect: 'drop', direction: "up" },
+				resizable: false ,
+				title:jobseekerName,
+				buttons: {
+				Ok: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+			});
+				$("#japdiv").html('<table>'+
+											'<tr>'+
+												'<td><b>Qualification : </b></td><td>'+response['qualificaiton']+'</td>'+
+												'<td><b>Experience : </b></td><td>'+response['experience']+'</td>'+
+											'</tr>'+
+											
+											'<tr>'+
+												'<td><b>Current CTC : </b></td><td>'+response['ctc_current']+'</td>'+
+												'<td><b>Expected CTC : </b></td><td>'+response['ctc_expected']+'</td>'+
+											'</tr>'+
+											
+											'<tr>'+
+												'<td><b>Job Type : </b></td><td>'+response['job_type']+'</td>'+
+												'<td><b>University/College : </b></td><td>'+response['university']+'</td>'+
+											'</tr>'+
+											
+											'<tr>'+
+												'<td><b>Shifts Availability : </b></td><td>'+response['shifts_available']+'</td>'+
+												'<td><b>Passport Availability : </b></td><td>'+response['passport_availability']+'</td>'+
+											'</tr>'+
+											
+											'<tr>'+
+												'<td><b>Travel Ability : </b></td><td>'+response['travel_availability']+'</td>'+
+												'<td><b>Training Needs : </b></td><td>'+response['training_needs']+'</td>'+
+											'</tr>'+
+											
+										 '</table>'
+										);
+		}		
+			
+	});
+}
 
 function clear_div(val){
 	if(val!=""){
@@ -23,6 +80,13 @@ function clear_div(val){
 }
 		
 </script>
+
+
+<div id="jobseekerApplyProfile" style="display:none;">
+	<div id="japdiv"></div>
+</div>
+
+
 <div class="page">
 	<!-- left section start -->	
 	<div class="leftPanel">
@@ -37,6 +101,7 @@ function clear_div(val){
 		<div class="topMenu">
 			<?php echo $this->element('top_menu');?>
 		</div>
+
 		<!-- middle conyent top menu end -->
 		<!-- middle conyent list -->
 		    <div class="middleBox">
@@ -107,13 +172,14 @@ function clear_div(val){
 															 ));?>
 				</div>
  
-				<div style="float:left;" id="lbl">Ready to relocate</div>
+				<div style="float:left;" id="lbl">University/College</div>
 				<div style="float:left;" id="field">
-					<?php $answer6_array = array(''=>'Select','Yes'=>'Yes','No'=>'No'); 
-                      	  echo $form->input('answer6', array('label'   => '',
+					<?php 
+                    	  echo $form->input('answer6', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
-															 'options' =>$answer6_array,
+															 'options' =>$universities,
+															 'empty'=>"----select----",
 															 'value'   => isset($filterOpt['answer6'])?$filterOpt['answer6']:"",
 															 'onChange'=>"return clear_div(this.value);"
 															));?>
@@ -121,10 +187,11 @@ function clear_div(val){
  
 				<div style="float:left;" id="lbl">Shifts Availability</div>
 				<div style="float:left;" id="field">
+					<?php $answer7_array = array(''=>'Select','Yes'=>'Yes','No'=>'No');  ?>
 					<?php echo $form->input('answer7', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
-									                         'options' =>$answer6_array,
+									                         'options' =>$answer7_array,
 															 'value'   => isset($filterOpt['answer7'])?$filterOpt['answer7']:"",
 															 'onChange'=>"return clear_div(this.value);"
 															 ));?>
@@ -135,7 +202,7 @@ function clear_div(val){
 					<?php echo $form->input('answer8', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
-															 'options' =>$answer6_array,
+															 'options' =>$answer7_array,
 															 'value'   => isset($filterOpt['answer8'])?$filterOpt['answer8']:"",
 															 'onChange'=>"return clear_div(this.value);"
 															 ));?>
@@ -146,7 +213,7 @@ function clear_div(val){
 					<?php echo $form->input('answer9', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
-															 'options' =>$answer6_array,
+															 'options' =>$answer7_array,
 															 'value'   => isset($filterOpt['answer9'])?$filterOpt['answer9']:"",
 														     'onChange'=>"return clear_div(this.value);"
 															 ));?>
@@ -157,14 +224,14 @@ function clear_div(val){
 					<?php echo $form->input('answer10', array('label'   => '',
 															  'type'    => 'select',
                                                               'class'   => 'show_appl_filter_select',
-															  'options' =>$answer6_array,
+															  'options' =>$answer7_array,
 															  'value'   => isset($filterOpt['answer10'])?$filterOpt['answer10']:"",
 															  'onChange'=>"return clear_div(this.value);"
 															 ));?>
-				</div> 				
+				</div>
+				<div id="error_div"></div> 				
 			</div>			
 			<div style="float:right;margin:20px">
-				<div id="error_div"></div>
 				<?php	echo $form->submit('Search',array('div'=>false,)); ?>	
 			</div>
 			<?php echo $form->end();?>
@@ -195,7 +262,7 @@ function clear_div(val){
 				<?php foreach($applicants as $applicant):?>	
 				<tr>
 					<td>
-						<span style="font-weight:bold;cursor:pointer;" onclick="getAnswerList();"><?php echo $applicant['jobseekers']['contact_name']; ?></span>
+						<span class="employee_name" onclick="return jobseekersDetail(<?php echo $applicant['JobseekerApply']['id']; ?>, '<?php echo ucfirst($applicant['jobseekers']['contact_name']) ;?>')"><?php echo ucFirst($applicant['jobseekers']['contact_name']); ?></span>
 						<span style="font-size:11px"><?php echo "<br>Submitted ". $time->timeAgoInWords($applicant['JobseekerApply']['created']); ?> </span><br>
 						<span>
 						<?php if($applicant['JobseekerApply']['resume']!=''){
@@ -270,10 +337,6 @@ function deleteItem(id,jobid){
 		window.location.href="/companies/rejectApplicant/"+id+"/"+jobid;
 	}
 	return false;
-}
-
-function getAnswerList(){
-
 }
 </script>
 

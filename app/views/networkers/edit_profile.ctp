@@ -105,6 +105,20 @@
 						</div>
 						<div style="clear:both"></div>
 
+						<div>
+							<?php	if(isset($networker)){ $university = $networker['university']; } else { $university = "";}
+                                    echo $form->input('Networkers.university', array('label' => 'University:',
+												'type'  => 'select',
+												'options'=>$universities,
+												'empty'=>"----select----",
+												'class' => 'networker_select_bg required',
+												'style' => "float:right;width:208px;",
+												'value' => isset($networker['university'])?$networker['university']:"",
+												)
+								 );
+							?>
+						</div>
+						
 						<div class="company_profile_field_row">
 							<div style="float:right;margin-top:20px">
 								<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>	

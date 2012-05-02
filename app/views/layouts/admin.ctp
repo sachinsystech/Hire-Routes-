@@ -76,13 +76,14 @@
 
 		<div class="nav-divider">&nbsp;</div>
 		                    
-		<ul class="<?php echo $this->params['controller']=='sliders' && $this->params['action']=='add'?'current':'select'; ?>"><li><a href="/admin/companiesList"><b>Companies Request</b><!--[if IE 7]><!--></a><!--<![endif]-->
+		<ul class="<?php echo $this->params['controller']=='sliders' && $this->params['action']=='add'?'current':'select'; ?>">
+			<li><a href="/admin/companiesList"><b>Companies Request</b><!--[if IE 7]><!--></a><!--<![endif]-->
 
 		</ul>
 		
 		<div class="nav-divider">&nbsp;</div>
 		
-		<ul class="<?php echo  $this->params['action']=='config'?'current':'select'; ?>"><li><a href="/admin/codes"><b>Code</b><!--[if IE 7]><!--></a><!--<![endif]-->
+		<ul class="<?php echo  $this->params['action']==''?'current':'select'; ?>"><li><a href="/admin/codes"><b>Code</b><!--[if IE 7]><!--></a><!--<![endif]-->
 	
 		</li>
 		</ul>
@@ -90,9 +91,8 @@
 	
 		<div class="nav-divider">&nbsp;</div>
 		
-		<ul class="<?php echo $this->params['controller']=='test' ?'current':'select'; ?>"><li><a href="#"><b>HR</b><!--[if IE 7]><!--></a><!--<![endif]-->
-	
-		</li>
+		<ul class="<?php echo $this->params['controller']=='' ?'current':'select'; ?>">
+			<li><a href="/admin/config"><b>Configuration</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
 		<div class="nav-divider">&nbsp;</div>
 		

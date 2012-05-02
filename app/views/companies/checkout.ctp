@@ -10,10 +10,10 @@
 			});
 			$("div").removeClass("ui-dialog-titlebar-close ui-corner-all ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-resizable-handle ui-resizable-e ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-diagonal-se ui-dialog-titlebar-close ui-corner-all ui-icon ui-icon-closethick ui-widget-content ui-resizable-n").
 			addClass('test');
-			//$( "#ui-dialog-title-submit-dialog-modal").html("<img src='/images/ajax-loader-tr.gif'>");
+		
 			$(".ui-dialog-titlebar-close ui-corner-all").remove("a");
 			$(".ui-icon").remove("span");
-			//$("a").removeClass();
+		
 		});
     });	
 

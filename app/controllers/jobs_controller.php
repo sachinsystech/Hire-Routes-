@@ -1,6 +1,7 @@
 <?php
 class JobsController extends AppController {
-    var $uses = array('Company','Job','Industry','State','Specification' , 'UserRoles','Companies','City','JobseekerApply','JobseekerProfile','JobViews','Jobseeker');
+
+    var $uses = array('Company','Companies','Job','JobseekerApply','JobseekerProfile','JobViews','Jobseeker','University');
 	var $helpers = array('Form','Paginator','Time','Number');
 	var $components = array('Session','TrackUser','Utility');
         
@@ -97,7 +98,6 @@ class JobsController extends AppController {
         }
 
         $conditions[] = array('Job.is_active'=>1);
-		$userId = $this->TrackUser->getCurrentUserId();
 
     	if(isset($this->params['named']['display'])){
 	        $displayPageNo = $this->params['named']['display'];
@@ -166,16 +166,18 @@ class JobsController extends AppController {
      
 /****	Applying job	******/     
 	function applyJob(){	
-		$userId = $this->TrackUser->getCurrentUserId();
-        $this->set('userRole',$this->userRole);
-		if($this->Session->check('redirect_url')){
-			$this->Session->delete('redirect_url');	
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
 		}
+		$userId = $session->getUserId();
+        $this->set('userRole',$this->userRole);
 
 		// Job information
 		if(isset($this->params['jobId'])){
 			$id = $this->params['jobId'];
 			$jobSeekerApplyCount= $this->JobseekerApply->find('count',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
+				
 			if($jobSeekerApplyCount>0){
 				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');
 				$this->redirect('/jobseekers/newJob');
@@ -194,7 +196,7 @@ class JobsController extends AppController {
 				// If user doesnt have filled profile //
 				$Userinfo = $this->Jobseeker->find('first',array('conditions'=>array('user_id'=>$userId)));
 				if($Userinfo['Jobseeker']['contact_name']==""){				
-					$this->Session->write('redirect_url','/jobs/applyJob/'.$id);
+					$this->_getSession()->setBeforeApplyUrl('/jobs/applyJob/'.$id);
 					$this->Session->setFlash('Please fill your contact information first.', 'error');		
 					$this->redirect('/jobseekers/editProfile');
 				}
@@ -202,6 +204,8 @@ class JobsController extends AppController {
 				// Jobseeker's profile information
 		
 				$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
+				$universities=$this->University->find('list',array('fields'=>'id,name'));
+				$this->set('universities',$universities);
 				if($jobprofile){
 					$jobprofile['JobseekerProfile']['file_id'] = $jobprofile['JobseekerProfile']['id'];		
 					$this->set('jobprofile',$jobprofile['JobseekerProfile']);
@@ -225,19 +229,11 @@ class JobsController extends AppController {
 							$this->render("apply_job"); 
 							return;          
                 		}
-                		if($resume['size'] >307251){
-							$this->Session->setFlash('File size exceed. Resume size upto 300 KB', 'error'); 
-							$this->data['JobseekerApply']['resume'] = ""; 
-							$this->set('jobprofile',$this->data['JobseekerApply']);  
-							$this->set('job',$job['Job']);
-							$this->set('jobCompany',$job['comp']['company_name']);
-							$this->render("apply_job");  
-							return;   	
-						}
+                		
                 		$type_arr = explode(".",$resume['name']);
-                		$type = $type_arr[1];
-               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx' && $type!='odt'){
-							$this->Session->setFlash('File type not supported.', 'error');
+                		$type = isset($type_arr[1])?$type_arr[1]:'';
+               			if($type!= 'pdf' && $type!= 'txt' && $type!= 'doc' && $type!='docx' && $type!='odt' || $resume['size'] >307251){
+							$this->Session->setFlash('Please ensure that you are uploading a supported file format of max size 300 Kb', 'error'); 
                 			$this->data['JobseekerApply']['resume'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
 							$this->set('job',$job['Job']);
@@ -266,19 +262,11 @@ class JobsController extends AppController {
 							$this->render("apply_job"); 
 							return;          
                			}
-               			 if($cover_letter['size']>307251){
-							$this->Session->setFlash('File size exceed. Cover letter size upto 300 KB', 'error'); 
-							$this->data['JobseekerApply']['cover_letter'] = ""; 
-							$this->set('jobprofile',$this->data['JobseekerApply']);  
-							$this->set('job',$job['Job']);
-							$this->set('jobCompany',$job['comp']['company_name']);
-							$this->render("apply_job"); 
-							return;   	
-						}
+               		
                 		$type_arr1 = explode(".",$cover_letter['name']);
                 		$type1 = $type_arr1[1];
-                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx' && $type1!='odt'){
-							$this->Session->setFlash('File type not supported.', 'error');
+                		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx' && $type1!='odt' ||$cover_letter['size']>307251){
+							$this->Session->setFlash('Please ensure that you are uploading a supported file format of max size 300 Kb', 'error'); 
                 			$this->data['JobseekerApply']['cover_letter'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
 							$this->set('job',$job['Job']);
@@ -313,11 +301,14 @@ class JobsController extends AppController {
 				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/');
 			}
+		}else{
+			$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
+			$this->redirect('/jobs/');
 		}		
 	}
 
 	function viewResume(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $session->getUserId();
         		
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
@@ -365,7 +356,8 @@ class JobsController extends AppController {
 
 	function jobDetail(){
 
-		$userId = $this->TrackUser->getCurrentUserId();
+		$session = $this->_getSession();		
+		$userId = $session->getUserId();
 		
 		if(isset($this->params['jobId'])){
 
@@ -424,7 +416,6 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 			}
             /*** code for networker trac **/
             if($userId){
-                //$role = $this->TrackUser->getCurrentUserRole();
                 if($this->userRole == NETWORKER||$this->userRole == COMPANY){
                 	$code=$this->Utility->getCode($id,$userId);
                     $this->set('code',$code);
