@@ -195,7 +195,7 @@ function clear_div(val){
 				<?php foreach($applicants as $applicant):?>	
 				<tr>
 					<td>
-						<span style="font-weight:bold"><?php echo $applicant['jobseekers']['contact_name']; ?></span>
+						<span style="font-weight:bold;cursor:pointer;" onclick="getAnswerList();"><?php echo $applicant['jobseekers']['contact_name']; ?></span>
 						<span style="font-size:11px"><?php echo "<br>Submitted ". $time->timeAgoInWords($applicant['JobseekerApply']['created']); ?> </span><br>
 						<span>
 						<?php if($applicant['JobseekerApply']['resume']!=''){
@@ -205,17 +205,31 @@ function clear_div(val){
 								echo $html->link('view cover letter',array('controller'=>'/companies/','action' => '/viewResume/cover_letter/'.$applicant['JobseekerApply']['id'])); }?>
 						</span>
 					</td>
-					<td><?php if($applicant['JobseekerApply']['intermediate_users']!=''){
+					<td>
+						<?php 
+							$degree = 0;
+							if($applicant['JobseekerApply']['intermediate_users']!=''){
 								$degree = count(explode(",",$applicant['JobseekerApply']['intermediate_users']));
-							  }else{
-								$degree = 0;
-							  } echo $degree+1;?></td>
-					<td><?php // echo $applicant['networkers']['contact_name'];
+							} 
+							echo $degree+1;
+						?>
+					</td>
+					<td>
+						<?php 
+							// Match first networkers i.e. $applicant['User'] parent user
 							if($applicant['User']['parent_user_id']==$applicant['Job']['user_id']||$degree==0){
-							 echo "Personal";
-							 }else{
-							 	echo "Hireroutes";
-							 } ?></td>
+								if($degree<1)
+									echo "<span title='Personal'>Personal</span>";
+								else
+									echo "<span title='Extended-Personal' >Extended-Personal</span>";
+							}else{
+								if($degree<=1)
+									echo "<span title='Hireroutes'>Hireroutes</span>";
+								else
+									echo "<span title='Extended-Hireroutes' >Extended-Hireroutes</span>";
+							} 
+						?>
+					</td>
 					<td align="center" width="10%">
 						<?php
 							
@@ -256,6 +270,10 @@ function deleteItem(id,jobid){
 		window.location.href="/companies/rejectApplicant/"+id+"/"+jobid;
 	}
 	return false;
+}
+
+function getAnswerList(){
+
 }
 </script>
 

@@ -68,6 +68,10 @@ class TwitterController extends AppController {
 	}
 
 	function twitterCallback(){
+		if(isset($this->params['url']['denied'])){
+			$this->render('denied_twitter');
+			return;
+		}
 	 	$userId = $this->Session->read('Auth.User.id');
 		$oauth_token = isset($this->params['url']['oauth_token'])?$this->params['url']['oauth_token']:'';
 		if($oauth_token){
@@ -101,6 +105,7 @@ class TwitterController extends AppController {
 	function getTwitterFriendList(){
 		
 		if(isset($this->params['url']['denied'])){
+			$this->render('denied_twitter');
 			return;
 		}
 	

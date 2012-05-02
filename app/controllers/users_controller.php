@@ -60,6 +60,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('forgotPassword');	
 		$this->Auth->allow('saveFacebookUser');
 		$this->Auth->allow('facebookUser');
+		$this->Auth->allow('firstTime');
 	}
 
 /**
@@ -539,6 +540,13 @@ class UsersController extends AppController {
 			case ADMIN:
 					$this->redirect("/admin");
 					break;	
+		}
+		if($this->userRole==NETWORKER){
+			if($this->Session->check('code')){
+				$code=$this->Session->read('code');
+				$jobId=$this->Utility->getJobIdFromCode('',$code);
+				$this->set('jobUrl','/jobs/jobDetail/'.$jobId.'?code='.$code);
+			}
 		}
 		$this->set('roleName', $this->userRole);
 	}
