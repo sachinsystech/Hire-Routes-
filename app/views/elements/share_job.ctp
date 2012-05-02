@@ -113,7 +113,7 @@ $(function() {
 	<!-- middle section end -->
 </div>
 </div>
-<div id="opener" ></div>
+<div id="opener"></div>
 <?php endif;?>
 <script>
 function showView(type){
@@ -213,6 +213,12 @@ function createHTMLforFillingFriends(friends){
 </script>
 
 <script>
+
+/************************** close**********************************/
+function close(){
+	alert('here');
+	$( "#dialog" ).dialog( "close" );
+}
 
 /****************************	1).Fill facebook Friends	******************************/
 

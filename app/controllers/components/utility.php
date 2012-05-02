@@ -92,10 +92,13 @@ class UtilityComponent extends Object
     /*** end ****/
     
     /** Get jobId from code if valid **/
-    function validateCode($passJobId,$code){
+    function getJobIdFromCode($passJobId=NULL,$code){
     	$str = base64_decode($code);
 		$data = explode("^",$str);
     	$jobId = $data[0];
+    	if(empty($passJobId)){
+    		return $jobId;
+    	}
     	if($jobId == $passJobId)
     		return $jobId;
     	return false;
@@ -131,7 +134,7 @@ class UtilityComponent extends Object
 					$ids = split(":",$data[1]);
 					$userRole=$this->getUserRole($ids[0]);
 					if($userRole['id']==COMPANY){
-						unset($ids[0]);
+						$ids[0]='';
 					}
                    return implode(",",$ids);
                }

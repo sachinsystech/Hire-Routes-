@@ -548,7 +548,14 @@ class UsersController extends AppController {
 			default:
 					$this->redirect('/');					
 		}
-		$this->set('role', $session->getUserRole());
+		if($this->userRole==NETWORKER){
+			if($this->Session->check('code')){
+				$code=$this->Session->read('code');
+				$jobId=$this->Utility->getJobIdFromCode('',$code);
+				$this->set('jobUrl','/jobs/jobDetail/'.$jobId.'?code='.$code);
+			}
+		}
+		$this->set('roleName', $this->userRole);
 	}
 /**
  * create facebook object.
