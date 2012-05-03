@@ -203,7 +203,9 @@
 	
 		<!-- middle section end -->
 			</div>
-<?php echo $this->element('share_job');?>
+			<div style="display:none;">
+				<?php echo $this->element('share_job');?>
+			</div>
 <script>
 	$("#JobEditJobForm").validate();
 </script>

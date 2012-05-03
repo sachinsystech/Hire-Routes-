@@ -1579,21 +1579,21 @@ a:hover.back-login	{
 
 .even{
         background-color:#FCF8F1;
-        font-size:17px;
-        line-height:13px;
+		font-size:14px;
+        line-height:11px;
     }
 
 .odd td{
         background-color:#F5F5F5;
-        font-size:17px;
-        line-height:13px;
+        font-size:14px;
+        line-height:11px;
     }
     
  .tableHeading{
         background-color:#FEAEAE;
         line-height: 25px;
         color: #FFFFFF;
-        font-size:18px;
+        font-size:16px;
         }
   /*      
  .error{
@@ -1748,19 +1748,18 @@ label.error {
     width: 115px;
 }
 .code_pagination{
-    font-size: 16px;
-   
-    margin-top: -29px;
-    margin-top: 10px;
+    font-size: 15px;
     padding: 10px;
-    text-align: center;
+    text-align: right;
 }
 .flip{
     -moz-border-radius: 10px 10px 10px 10px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to#7E7E7E));
+	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
 	background: none repeat scroll 0 0 #7E7E7E;
     border: -1px solid;
-    -webkit-border-radius:8px;
-	-moz-border-radius:8px;
+    -webkit-border-radius:10px;
+	-moz-border-radius:10px;
 	border-radius:8px;
     color: #FFFFFF;
     cursor: pointer;
@@ -1779,7 +1778,9 @@ label.error {
 	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
 }
  .usertableHeading th{
+ 	
     background-color:#FEAEAE;
+    border:none !important;
     color: #FFFFFF;
     font-size:18px;
     border: 1px solid #ccc;
@@ -1795,8 +1796,6 @@ label.error {
  .usertableHeading a:hover{
  	color: #0000FF;
 }
-
-
 .userTable tr td{
 	border: 1px solid #ccc;
 	padding-left:5px;
@@ -1834,14 +1833,14 @@ label.error {
 	text-align:left;
 	border: 1px solid #000000;
 }
-.change_password button{
-	float:left;
-	margin-left:20px;
-	padding:0px 3px 0px 3px;
-	width:70px;
-	height:30px;
+.change_password button {
+    float: left;
+    height: 25px;
+    margin-left: 20px;
+    margin-top:3px;
+    padding: 0 3px;
+    width: 70px;
 }
-
 /***********/
 .text_field_employee {
     border: 1px solid;
@@ -1859,29 +1858,30 @@ label.error {
 
 input[type=submit],
 button{
-	background:  #1E90FF;
-	background: none repeat scroll 0 0 #7E7E7E;
-    border: 1px solid #AAAC62;
-    border-radius: 8px 8px 8px 8px;
-    color: #FFFFFF;
+	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#7E7E7E));
+	background: #7E7E7E;
+    border: 1px solid #7E7E7E;
+ 	color: #FFFFFF;
     font-weight: normal;
     min-width: 0;
     padding: 4px 8px;
     text-decoration: none;
-
+	-moz-border-radius:10px;
+	-webkit-border-radius: 10px;
 
 }
 input[type=submit]:hover{
 	cursor:pointer;
-	background: #96acff;
+	background: #7E7E7E;
 	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
 	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
 }
-
 .submit input {
-	padding:0px 3px 0px 3px;
-	width:70px;
-	height:30px;
+    height: 25px;
+    margin: 2px;
+    padding: 0 3px;
+    width: 100px;
 }
 
 .button_field{

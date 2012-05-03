@@ -21,7 +21,7 @@
 			?>
 		</div>
 		<div style="float:right">
-			<?php echo $form->submit('Save');?>
+			<?php echo $form->submit('Save',array('style'=>'width:62px;'));?>
 		</div>
 		<?php echo $form->end();?>
 	</div>

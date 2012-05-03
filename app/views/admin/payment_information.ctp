@@ -56,6 +56,11 @@
 				return false;
 		}
 	}
+	
+	function resetFields(){
+	
+	
+	}
 </script>
 <?php echo $this->Session->flash();?>
 <div id="page-heading"><h1>Payment Information</h1></div>
@@ -76,7 +81,8 @@
 			<td>
 				<div style="float:left">
 					<?php
-						echo $this->Form->create('paymentInformation',array('url'=>array('controller'=>'admin','action'=>'paymentInformation'),'onsubmit'=>'return validateForm();'));
+						echo $this->Form->create('paymentInformation',array('url'=>array('controller'=>'admin','action'=>'paymentInformation'),'type'=>'get','onsubmit'=>'return validateForm();'));
+										
 					?>
 					<div style="float:left;width:100px;margin: 2px;">
 						<?php echo "<font size='3px'>From :</font>";?>
@@ -85,13 +91,21 @@
 						<?php 
 							$date = new DateTime();
 							$date->modify(-30 . ' days');
+							$last_month= $date->format("m/d/Y");
+							$from_date=isset($from_date)?$from_date:$last_month;
+							$to_date=isset($to_date)?$to_date:date('m/d/Y');
+							$findUrl=array(
+									   "from_date"=>date("Ymd",strtotime($from_date)),
+									   "to_date"=>date("Ymd",strtotime($to_date)),
+									   "status"=>isset($status)?$status:"",
+									   );
 							echo $this->Form->input('from_date',array(
 								'label'=>'',
 								'type'=>'text',
 								'class'=>'date_field_employee',
 								'readonly'=>'true',
 								'style'=>'width:75px;',
-								'value'=>isset($from_date)?$from_date:$date->format("m/d/Y")
+								'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):$date->format("m/d/Y")
 								)
 							);
 						?>
@@ -107,7 +121,7 @@
 							'readonly'=>'true',
 							'class'=>'date_field_employee',
 							'style'=>'width:75px;',
-							'value'=>isset($to_date)?$to_date:date('m/d/Y')
+							'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):date('m/d/Y')
 							)
 						);
 					?>
@@ -122,7 +136,8 @@
 							array(
 								'label'=>'',
 								'type'=>'select',
-								'empty'=>'All',
+								'empty'=>'--select--',
+								'value'=>isset($status)?$status:"",
 								'options'=>array('0'=>'Pending','1'=>'Done'),
 								'style'=>'background:none;scroll:0 0 #FFFFFF;color:#393939;border:1px solid;',
 							)
@@ -130,8 +145,15 @@
 					?>
 					</div>
 					<div style="float:left;width:100px;margin: 2px;">
-						<?php echo $this->Form->submit('GO',array('style'=>''));?>
+						<?php echo $this->Form->submit('GO',array('name'=>'find','style'=>'width:60px;'));?>
+						
 					</div>
+					<!--
+					<div style="float:left;">
+						<button class="clear_button div_hover"  style="margin-top:4px;height:25px;"type="Reset" onclick ="resetFields();">Clear</button>
+						
+					</div>
+					-->
 					<div style="clear:both"></div>
 					<?php echo $this->Form->end(); ?>
 				</div>
@@ -159,20 +181,20 @@
 			<td id="tbl-border-left"></td>
 		    <td>
 				<div class="content-table-inner">
-					<div class="clearBoth">&nbsp;</div>
-				    <table width ="100%" cellspacing='0'>
-						<tr>
-							<td COLSPAN="7">
-								<div class="code_pagination">
-								<?php if($this->Paginator->numbers()){ echo $paginator->first('First  |  '); ?>	
-								<?php echo $paginator->prev('  '.__('Previous ', true), array(), null, array('class'=>'disabled'));?>
-								<?php echo " < ".$this->Paginator->numbers(array('modulus'=>4))." > "; ?>
-								<?php echo $paginator->next(__('Next ', true).' ', array(), null, array('class'=>'disabled'));?>
-								<?php echo $paginator->last('  |  Last'); }?>
-								</div>
-							</td>
-						</tr>	
-						<tr class="tableHeading"> 
+					<div class="code_pagination">
+								<?php if($this->Paginator->numbers()){ echo $paginator->first('First  |  '); 
+										$this->Paginator->options(array('url' =>$findUrl));
+									
+										echo $paginator->prev('  '.__('Previous ', true), array(), null, array('class'=>'disabled'));	
+										echo " < ".$this->Paginator->numbers(array('modulus'=>4))." > ";
+										echo $paginator->next(__('Next ', true).' ', array(), null, array('class'=>'disabled'));
+										echo $paginator->last('  |  Last'); }
+								?>
+					</div>
+					
+				    <table width ="100%" cellspacing='0' class="userTable">
+						<tr class="tableHeading">
+							<th>SN</th> 
 						    <th>Company Name</th>
 						    <th>Employ Name</th>
 							<th>Job title</th>
@@ -187,8 +209,9 @@
         		        			foreach($paymentHistories as $paymentHistory):
         			            		$class = $sno++%2?"odd":"even";
         			        ?>
-						<tr class="<?php echo $class; ?>"> 
-							<td align="center" width="15%" style="padding:10px;">
+						<tr class="<?php echo $class; ?>">
+							<td align="center" width="4%"> <?php echo $sno;?></td> 
+							<td align="center" width="15%" style="padding:7px;">
 								<?php echo $paymentHistory['Company']['company_name'];?>
 							</td> 
 							<td align="center" width="15%">
@@ -197,7 +220,7 @@
 							<td align="center" width="20%">
 								<?php echo $paymentHistory['Job']['title'];?>
 							</td> 
-							<td align="right" width="10%">
+							<td align="right" width="10%" style="padding-right:5px;">
 								<?php
 									echo $this->Number->format(
 										$paymentHistory['PaymentHistory']['amount'],
@@ -208,13 +231,13 @@
 											'thousands' => ',')
 										);?>
 							</td>
-							<td align="center" width="15%">
+							<td align="center" width="12%">
 								<?php echo date('m/d/Y',strtotime($paymentHistory['PaymentHistory']['paid_date']))."&nbsp;";?>
 							</td>
 							<td align="center" width="15%">
 								<?php echo $paymentHistory['PaymentHistory']['transaction_id'];?>
 							</td>
-							<td align="center" width="10%">
+							<td align="center" width="10%" style="font-size:12px;">
 								<?php echo $html->link("View Details", array('controller' => 'admin','action'=>'paymentDetails', $paymentHistory['PaymentHistory']['id']));?>
 							</td>
 					    </tr>
@@ -223,18 +246,11 @@
 				    		}else{
 						?>
 						<tr class="odd">			
-				    		<td colspan="7" align="center">Sorry no result found.</td>
+				    		<td colspan="8" align="center" style="line-height: 25px;">Sorry no result found.</td>
 						</tr>
 						<?php
 				    		}
 						?>
-						<tr>
-	    					<td colspan="7" align="center">
-								<?php
-									echo $this->Paginator->numbers(array('modulus'=>4)); 
-								 ?>
-		    				</td>
-						</tr>
 					</table>
 				</div>
 			</td>

@@ -18,11 +18,7 @@
     <td id="tbl-border-left"></td>
     <td>
 	<div class="content-table-inner">
-		<div class="clearBoth">&nbsp;</div>
-		    <table width ="100%" cellspacing='0'>
-		    	<tr>
-		    		<td COLSPAN="6">
-						<div class="code_pagination">
+		<div class="code_pagination">
 							<?php if($this->Paginator->numbers()){?>
 							<?php echo $paginator->first('First  |  '); ?>	
 							<?php echo $paginator->prev('  '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
@@ -30,52 +26,43 @@
 							<?php echo $paginator->next(__('Next Page', true).' ', array(), null, array('class'=>'disabled'));?>
 							<?php echo $paginator->last('  |  Last');?>
 							<?php } ?>
-						</div>
-					</td>
-		    	</tr>
-			    <tr class="tableHeading"> 
-				    <th>Company/Recruiter name</th> 
-				    <th>Name</th>
-				    <th>Phone</th>
-				    <th>Email</th>
-				    <th>Company/Recruiter</th>
-				    <th>Action</th>
-			    </tr>
-                <?php 
-                	if(count($Companies)>0){
-                		foreach($Companies as $company):
-                    	$class = $sno%2?"odd":"even";
-                ?>
-				<tr class="<?php echo $class; ?>"> 
-				<td align="center" width="20%" style="padding:10px;"><?php echo $company["Companies"]["company_name"]; ?></td> 
-				<td align="center" width="20%"><?php echo $company["Companies"]["contact_name"]; ?></td> 
+		</div>
+	    <table width ="100%" cellspacing='0' class="userTable">
+		    <tr class="tableHeading"> 
+		    	<th>SN</th>
+			    <th>Company/Recruiter name</th> 
+			    <th>Name</th>
+			    <th>Phone</th>
+			    <th>Email</th>
+			    <th>Company/Recruiter</th>
+			    <th>Action</th>
+		    </tr>
+            <?php 
+               	if(count($Companies)>0){
+              		foreach($Companies as $company):
+            	       	$class = $sno%2?"odd":"even";
+            ?>
+			<tr class="<?php echo $class; ?>"> 
+				<td align="center" width="3%"><?php echo $sno;?></td>
+				<td width="20%" style="padding:7px;"><?php echo $company["Companies"]["company_name"]; ?></td> 
+				<td width="20%"><?php echo $company["Companies"]["contact_name"]; ?></td> 
 				<td align="center" width="20%"><?php echo $company["Companies"]["contact_phone"]; ?></td> 
-				<td align="center" width="40%"><?php echo $company["User"]["account_email"]; ?></td> 
+				<td width="40%"><?php echo $company["User"]["account_email"]; ?></td> 
 				<td align="center" width="10%"><?php echo $company["Companies"]["act_as"]; ?></td>
 				<td align="center" width="10%"><?php echo $html->link("Accept", array('action' => 'acceptCompanyRequest',$company['Companies']['user_id']), array('escape' => false)); ?>/<?php echo $html->link("Decline", array('action' => 'declineCompanyRequest',$company['Companies']['user_id']), array('escape' => false)); ?></td>
-			    </tr> 
+			</tr> 
       	<?php 
       		$sno++;
 	    endforeach; 
 	    }else{
 			?>
-			
-	<tr class="odd">			
-	    <td colspan="6" align="center">Sorry no result.</td>
-	</tr>
+		<tr class="odd">			
+		    <td colspan="7" align="center">Sorry no result.</td>
+		</tr>
 	<?php
 	    }
 	?>
-	<tr>
-	    <td colspan="6" align="center">
-	        <?php
-		    	echo $this->Paginator->numbers(array('modulus'=>4)); 
-		 	?>
-	    </td>
-	</tr>
-			       
-		    </table>
-		
+	</table>
 		</div>
 	</div>
     </td>
