@@ -30,6 +30,8 @@
 }
 </style>
 <?php echo $this->Session->flash();?>
+<?php $hrRewardPercent=(isset($payment_detail['PaymentHistory']['amount'])&&!empty($payment_detail['PaymentHistory']['hr_reward_percent']))?$payment_detail['PaymentHistory']['hr_reward_percent']:$hrRewardPercent;
+?>
 <div id="page-heading"><h1>Payment Details</h1></div>
 <div style="clear:both;display:block;"></din>
 <table class="content-table" border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -70,7 +72,7 @@
 						<div style="float:left;">
 							<span class='reward'>
 								<?php echo $this->Number->format(
-										$payment_detail['PaymentHistory']['amount']*0.25,
+										($payment_detail['PaymentHistory']['amount']*$hrRewardPercent)/100,
 										array(
 											'places' => 2,
 											'before' => '$',
@@ -86,7 +88,7 @@
 						<div style="float:left;">
 							<span class='reward'>
 								<?php echo $this->Number->format(
-										$payment_detail['PaymentHistory']['amount']*0.75,
+										($payment_detail['PaymentHistory']['amount']*(100-$hrRewardPercent))/100,
 										array(
 											'places' => 2,
 											'before' => '$',
@@ -106,6 +108,7 @@
 						<div class='sub_heading'>
 							<?php echo $this->Form->create('PaymentHistory',array('url'=>array('controller'=>'admin','action'=>'updatePaymentStatus')));?>
 							<?php echo $this->Form->input('id',array('type'=>'hidden','value'=>$payment_detail['PaymentHistory']['id']));?>
+							<?php echo $this->Form->input('hrRewardPercent',array('type'=>'hidden','value'=>$hrRewardPercent));?>
 						</div>
 						<div style="float:left;">
 							<?php if(!$payment_detail['PaymentHistory']['payment_status'])echo $this->Form->submit('Update status',array('style'=>'background:#1E90FF;color:#FFFFFF'));?>
@@ -180,7 +183,7 @@
 							<span class='reward'>
 								<?php
 									echo $this->Number->format(
-										$payment_detail['PaymentHistory']['amount']*0.75,
+										($payment_detail['PaymentHistory']['amount']*(100-$hrRewardPercent))/100,
 										array(
 											'places' => 2,
 											'before' => '$',
@@ -236,7 +239,7 @@
 						<td>
 							<span class='reward'>
 								<?php echo $this->Number->format(
-										$payment_detail['PaymentHistory']['amount']*0.75/($networker_count),
+										($payment_detail['PaymentHistory']['amount']*(100-$hrRewardPercent))/(($networker_count)*100),
 										array(
 											'places' => 2,
 											'before' => '$',

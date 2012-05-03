@@ -634,8 +634,10 @@ class NetworkersController extends AppController {
 	function jobData(){
 		$userId = $this->_getSession()->getUserId();		
 		
-		$payment = $this->PaymentHistory->find('all',array('conditions'=>array('PaymentHistory.payment_status'=>1,
-																			   'jobseeker_apply.intermediate_users LIKE' => "%$userId%"),
+		$payment = $this->PaymentHistory->find('all',array(
+												'conditions'=>array(
+													'PaymentHistory.payment_status'=>1,
+													'FIND_IN_SET('.$userId.',jobseeker_apply.intermediate_users)>0'),
 														   'joins'=>array(
 																		array('table' => 'jobseeker_apply',
 												  							  'alias' => 'jobseeker_apply',
@@ -649,7 +651,7 @@ class NetworkersController extends AppController {
 											     							)
 		
 																		),
-															'fields'=>array('SUM((jobs.reward)*0.75) as networker_reward'),
+															'fields'=>array('SUM(((jobs.reward)*(100-PaymentHistory.hr_reward_percent))/(substrCount(jobseeker_apply.intermediate_users,",")*100)) as networker_reward'),
 							
 							
 														  )
