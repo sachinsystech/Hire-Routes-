@@ -1,26 +1,27 @@
+<?php ?>
 <script> 	
     $(document).ready(function(){               
 		$("#PaymentInfoPaymentInfoForm").validate();
-				
-		$('button').click(function(){
-			$('button').attr('disable',true);
+		$('#payementButton').click(function(){
+			$('#payementButton').attr('disabled','disabled');
 			$( "#submit-dialog-modal" ).dialog({
-				height: 0,
-				modal: true
+				height: 100,
+				width: 400,
+				modal: true,
+				resizable: false,
 			});
-			$("div").removeClass("ui-dialog-titlebar-close ui-corner-all ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-resizable-handle ui-resizable-e ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-icon-grip-diagonal-se ui-dialog-titlebar-close ui-corner-all ui-icon ui-icon-closethick ui-widget-content ui-resizable-n").
-			addClass('test');
-		
-			$(".ui-dialog-titlebar-close ui-corner-all").remove("a");
-			$(".ui-icon").remove("span");
-		
+			
+			//$(".ui-dialog").css({'border':" none !important",'width':'400px','overflow':"visible",'z-index':"997"});
+			$(".ui-dialog-titlebar").hide();     
+			$("a.ui-dialog-titlebar-close").remove();
+			$('#submit-dialog-modal').css({'color':'#ff0000','text-align':'center'});
+			$('#submit-dialog-modal').html('Please wait..., don\'t press back or refresh page.\n Your transaction being proceed.');
 		});
     });	
 
 
 function check_expdate() {
     var currentTime = new Date();
-
 	var month = currentTime.getMonth();	
 	var month = parseInt(month)+1;
 	var year  = currentTime.getFullYear();
@@ -42,9 +43,9 @@ function check_expdate() {
 		</div>		
 	</div>
 
-<div id="submit-dialog-modal" role="dialog" >
+<div id="submit-dialog-modal" role="dialog" style="display:none;">
+	
 </div>
-
 	<!-- left section end -->
 	<!-- middle section start -->
 	<div class="rightBox" >
@@ -74,7 +75,8 @@ function check_expdate() {
 
 					<div class="setting_profile_row">
 						<div style="float:right;margin-right:50px">
-							<button class="checkout_pay_button" onclick="paynow();">Pay Now...</button>
+							<button id ="payementButton" class="checkout_pay_button" onclick="paynow();">Pay Now...
+							</button>
 						</div>
 					</div>
 				

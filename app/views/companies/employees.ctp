@@ -204,7 +204,7 @@
 						</div>
 					</th> 
 					<th style="width:10%">
-						<?php echo $form->submit("Find", array('name'=>'find','style'=>'width:40px;')); 	
+						<?php echo $form->submit("Find", array('name'=>'find','style'=>'width:48px;')); 	
 						?>
 					</th>
 				</tr>

@@ -879,7 +879,7 @@ list archive jobs..
 		    	
 		        if(isset($resArray['TRANSACTIONID'])) {
 		        	// Here change status of applied job from applied to selected in jobseeker_apply table....
-		        	 if($this->JobseekerApply->updateAll(array('is_active'=>1), array('JobseekerApply.id'=>$appliedJobId))){
+		        	 if( /*$this->JobseekerApply->updateAll(array('is_active'=>1), array('JobseekerApply.id'=>$appliedJobId))*/ 1){
 						$paymentHistory = array();
 						$paymentHistory['user_id'] = $userId;
 						$paymentHistory['job_id'] = $appliedJob['Job']['id'];
@@ -888,7 +888,7 @@ list archive jobs..
 						$paymentHistory['amount'] = $appliedJob['Job']['reward'];
 						$paymentHistory['transaction_id'] = $resArray['TRANSACTIONID'];
 						
-						$this->PaymentHistory->save($paymentHistory);
+						//$this->PaymentHistory->save($paymentHistory);
 						$this->Session->setFlash('Applicant has been selected successfully.', 'success');	
 						$this->sendCongratulationEmail($appliedJob);
 						$this->redirect("/companies/showApplicant/".$appliedJob['Job']['id']);

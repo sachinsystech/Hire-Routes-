@@ -400,6 +400,14 @@ class UsersController extends AppController {
 		$this->sendEmail($to,$subject,$template,$message);
 	}
 	
+	private function fbNewAccountEmail($fbData){
+		$template = 'fb_user_registration';
+		$to = $fbData['account_email'];
+		$subject = 'Hire Routes : Account Confirmation';
+		$message =  $fbData;
+		$this->sendEmail($to,$subject,$template,$message);
+	}
+	
 /**
  * Display account confirmaiton message after sigining-up.
 **/    
@@ -624,17 +632,24 @@ class UsersController extends AppController {
 			
 			$userData['confirm_code'] = $userCCode['User']['confirm_code'];
 			$user['user_id'] = $userId;
-			$user['contact_name'] = $fb_user_profile['name'];			
+			$user['contact_name'] = $fb_user_profile['name'];
+			
+			$fbData['contact_name']=$fb_user_profile['name'];
+			$fbData['account_email']=$userData['account_email'];
 			switch($userRole){
 				case JOBSEEKER:
 								if($this->Jobseekers->save($user,false) ){
 									$this->confirmAccount($userId,$userData['confirm_code']);
+									$fbData['userRole']='Jobseeker';
+									$this->fbNewAccountEmail($fbData);
 									$this->redirect("/users/firstTime");
 								}
 								break;
 				case NETWORKER:
 								if($this->Networkers->save($user,false) ){	
 									$this->confirmAccount($userId,$userData['confirm_code']);
+									$fbData['userRole']='Networker';									
+									$this->fbNewAccountEmail($fbData);									
 									$this->redirect("/users/firstTime");
 								}
 								break;					
@@ -805,8 +820,9 @@ class UsersController extends AppController {
 		}		
 		$this->set('facebookUserData',$facebookUserData);
 		if(isset($this->data['User'])){
+
 			//check for blank or empty field
-			if(empty($this->data['User']['oldPassword']) && $facebookUserData==null ){
+			if(empty($this->data['User']['oldPassword']) && $facebookUserData==null){
 				$this->set("old_password_error","Old Password Required");
 				if($session->getUserRole() == ADMIN){
 					$this->render("change_password","admin");
@@ -816,28 +832,43 @@ class UsersController extends AppController {
 			
 			// Password hashing
 			$this->data['User']['id'] = $session->getUserId();
-			if(empty($this->data['User']['oldPassword']) && $facebookUser!=null ){
+			if(empty($this->data['User']['oldPassword']) && isset($facebookUser) ){
 				$this->data['User']['oldPassword']='NULL';
 			}else{
 				$this->data['User']['oldPassword']=$this->Auth->password($this->data['User']['oldPassword']);
 			}
 			$this->data['User']['password']=$this->Auth->password($this->data['User']['password']);			
-			
+								
 			//Check old password match
-			if(!$this->User->find('first',array('conditions'=>array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword'])))){
-				unset($this->data['User']);
-				$this->Session->setFlash("Old password not matched!.","error");
-				if($session->getUserRole() == ADMIN){
-					$this->render("change_password","admin");
-				}
-				return;
-			}
+			$userData= $this->User->find('first',array('conditions'=>array('id'=>$this->data['User']['id'], 
+																	'password'=>$this->data['User']['oldPassword'])));
 			
 			//set User data
 			$this->User->set($this->data['User']);
 			
 			//Validate user data
 			if($this->User->validates(array('fieldList'=>array('password','repeat_password')))){
+			
+				if(!isset($userData['User'])){	
+					unset($this->data['User']);
+					$this->Session->setFlash("Old password not matched!.","error");
+					if($session->getUserRole() == ADMIN){
+						$this->render("change_password","admin");
+					}
+					return;
+				}			
+			
+				if(isset($userData['User']['password']) && $userData['User']['password']==$this->data['User']['password']){
+				$this->Session->setFlash("Old password and new password are same. Please try with different password","error");
+				unset($this->data['User']);
+				if($session->getUserRole() == ADMIN){
+					$this->render("change_password","admin");
+				}
+				return;			
+				}
+			
+			
+			
 				$this->User->updateAll(array('password'=>"'".$this->data['User']['password']."'"),array('id'=>$this->data['User']['id'], 'password'=>$this->data['User']['oldPassword']));
 				
 				//check row update or not

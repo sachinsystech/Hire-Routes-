@@ -16,6 +16,7 @@ function paymentHistoryInfo(user_id,transaction_id){
 				width:477,
 				modal:true,
 				resizable: false ,
+				draggable: false,
 				show: { 
 						effect: 'drop', 
 						direction: "up" 
@@ -26,7 +27,6 @@ function paymentHistoryInfo(user_id,transaction_id){
 				}
 			}
 			});
-			
 			if(response['error']===1){
 				$( "#paymentHistoryInfo" ).dialog({ height: 200 });
 				$("#paymentHistoryInfo").html(response['message']);
