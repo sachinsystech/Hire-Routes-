@@ -284,13 +284,13 @@ function clear_div(val){
 					<td>
 						<?php 
 							// Match first networkers i.e. $applicant['User'] parent user
-							if($applicant['User']['parent_user_id']==$applicant['Job']['user_id']||$degree==0){
+							if($applicant['User']['parent_user_id']==$applicant['Job']['user_id']){
 								if($degree<1)
 									echo "<span title='Personal'>Personal</span>";
 								else
 									echo "<span title='Extended-Personal' >Extended-Personal</span>";
 							}else{
-								if($degree<=1)
+								if($degree<1)
 									echo "<span title='Hireroutes'>Hireroutes</span>";
 								else
 									echo "<span title='Extended-Hireroutes' >Extended-Hireroutes</span>";
