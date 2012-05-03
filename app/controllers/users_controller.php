@@ -555,7 +555,7 @@ class UsersController extends AppController {
 				$this->set('jobUrl','/jobs/jobDetail/'.$jobId.'?code='.$code);
 			}
 		}
-		$this->set('roleName', $this->userRole);
+		$this->set('role', $this->userRole);
 	}
 /**
  * create facebook object.

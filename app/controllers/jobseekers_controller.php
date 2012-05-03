@@ -714,10 +714,10 @@ class JobseekersController extends AppController {
 					);
                 
 		if($city)
-			$cond['Job.city']  = $city;
+			$cond1['Job.city']  = $city;
                       
         if($state)
-            $cond['Job.state'] = $state;
+            $cond1['Job.state'] = $state;
 		
 		$jobCounts['newJob'] = $this->Job->find('count',array('conditions'=>$cond1));//New job count
 
@@ -728,10 +728,10 @@ class JobseekersController extends AppController {
 					);
 
 		if($city)
-			$cond['Job.city']  = $city;
+			$cond2['Job.city']  = $city;
                       
         if($state)
-            $cond['Job.state'] = $state;
+            $cond2['Job.state'] = $state;
 		
 		$jobCounts['archiveJob'] = $this->Job->find('count',array('conditions'=>$cond2));//Archive job count
 		
