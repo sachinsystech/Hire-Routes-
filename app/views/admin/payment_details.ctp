@@ -111,7 +111,7 @@
 							<?php echo $this->Form->input('hrRewardPercent',array('type'=>'hidden','value'=>$hrRewardPercent));?>
 						</div>
 						<div style="float:left;">
-							<?php if(!$payment_detail['PaymentHistory']['payment_status'])echo $this->Form->submit('Update status',array('style'=>'background:#1E90FF;color:#FFFFFF'));?>
+							<?php if(!$payment_detail['PaymentHistory']['payment_status'])echo $this->Form->submit('Update status');?>
 							<?php echo $this->Form->end();?>
 						</div>
 						<div style="clear:both"></div>
@@ -255,7 +255,7 @@
 							{
 						?>
 						<tr class="odd">			
-						    <td colspan="3" align="center">Sorry no result found.</td>
+						    <td colspan="3" align="center" style="line-height: 25px;">Sorry no result found.</td>
 						</tr>
 						<?php
 							}	

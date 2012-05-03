@@ -27,13 +27,13 @@
 			?>
 			<div class="content-table-inner panel" style="<?php echo $display; ?>" >
 				<div class="clearBoth">&nbsp;</div>
-					<table width ="100%" cellspacing='0'>
+					<table width ="100%" cellspacing='0' >
 						<tr>			
 							<td>
 								<div>
 									<div style="float:left">
 										<?php echo $form->create('Code', array('action' => '/add','onsubmit'=>'return checkSubmitForm();')); ?>
-										<div style="float:left;width:400px;margin: 2px;">
+										<div style="float:left;width:320px;margin: 2px;">
 											<?php 
 													$userType = array('Jobseeker'=>"Jobseeker",'Networker'=>"Networker");
 													echo $form->input( 'user_type', array
@@ -49,7 +49,7 @@
 											?>
 										</div>
 										<div style="clear:both"></div>
-										<div style="float:left;width:400px;margin: 2px;">
+										<div style="float:left;width:320px;margin: 2px;">
 											<?php 
 													echo $form->input( 'signups', array
 																							(
@@ -63,7 +63,7 @@
 											?>
 										</div>
 										<div style="clear:both"></div>
-										<div style="float:left;width:400px;margin: 2px;">
+										<div style="float:left;width:320px;margin: 2px;">
 											<?php 
 													echo $form->input( 'code', array
 																							(
@@ -117,20 +117,17 @@
     <td id="tbl-border-left"></td>
     <td>
 	<div class="content-table-inner">
-		<div class="clearBoth">&nbsp;</div>
-		    <table width ="100%" cellspacing='0'>
-				<tr>
-					<td COLSPAN="5">
-						<div class="code_pagination">
+		<div style="float:right;margin:5px;">
 							<?php if($this->Paginator->numbers()){ echo $paginator->first('First |  '); ?>	
 							<?php echo $paginator->prev('  '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
 							 <  <?php echo $this->Paginator->numbers(array('modulus'=>4)); ?>  >
 							<?php echo $paginator->next(__('Next Page', true).'  ', array(), null, array('class'=>'disabled'));?>
 							<?php echo $paginator->last('  |  Last'); }?>
-						</div>
-					</td>
-				</tr>	
-			    <tr class="tableHeading"> 
+		</div>
+		    <table width ="100%" cellspacing='0' class="userTable">
+				
+			    <tr class="tableHeading">
+			    	<th>SN</th> 
 				    <th>User Type</th>
 				    <th>No of Sign-Ups</th>
 					<th>Remaining Sign-Ups</th>
@@ -144,6 +141,7 @@
                     	$class = $sno++%2?"odd":"even";
                 ?>
 				<tr class="<?php echo $class; ?>"> 
+					<td align="center" width="5%"><?php echo $sno;?></td>
 					<td align="center" width="20%"><?php echo $code["Code"]["user_type"]; ?></td> 
 					<td align="center" width="20%"><?php echo $code["Code"]["signups"]; ?></td> 
 					<td align="center" width="20%"><?php echo $code["Code"]["remianing_signups"]; ?></td> 
@@ -164,20 +162,12 @@
 			?>
 			
 	<tr class="odd">			
-	    <td colspan="6" align="center">Sorry no result.</td>
+	    <td colspan="6" align="center" style="line-height: 30px;">Sorry no result.</td>
 	</tr>
 	<?php
 	    }
 	?>
-	<tr>
-	    <td colspan="6" align="center">
-	        <?php
-		    // echo $this->Paginator->numbers(array('modulus'=>4)); 
-		 ?>
-	    </td>
-	</tr>
-			       
-		    </table>
+	    </table>
 		
 		</div>
 	</div>

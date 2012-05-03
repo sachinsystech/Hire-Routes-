@@ -74,10 +74,10 @@
 				</div>
 				<div style="clear:both"></div>
 				<div>
-					<?php echo $form->submit('Change',array('lable'=>'',
+						<?php echo $form->submit('Change',array('lable'=>'',
 												'type'=>'submit',
 												'value'=>'Change',
-												'style'=>'float:left;margin-left:100px;',
+												'style'=>'float:left;margin-left:100px;width:80px;',
 												)
 											);
 						?>
