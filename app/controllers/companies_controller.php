@@ -641,7 +641,7 @@ list archive jobs..
 												'alias'=>'User',
 												'type'=>'left',
 												'fields'=>'parent_user_id',
-												'conditions'=>array('SUBSTRING_INDEX(JobseekerApply.intermediate_users, ",", 1) = User.id')
+												'conditions'=>array('jobseekers.user_id = User.id')
 											)
 									      ),
 							'limit' => 10, // put display fillter here
