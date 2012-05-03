@@ -32,6 +32,9 @@ switch($role) {
 
 <div class="selection-button">
 <center>
-<a href="<?php echo $setting_page_url?>"><button><?php echo $setting_page_title; ?></button></a>
+<a style="text-decoration:none;" href="<?php echo $setting_page_url;?>"><button style="height:50px;"><?php echo $setting_page_title; ?></button></a>
+<?php if(isset($jobUrl)):?>
+<a style="text-decoration:none;" href="<?php echo $jobUrl;?>"><button style="height:50px;">CONTINUE TO <br/>JOB</button></a>
+<?php endif;?>
 </center>
 </div>

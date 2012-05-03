@@ -177,8 +177,8 @@
 	});
 
 	function validateSalary(){
-		if(parseInt($("#JobSalaryFrom").val()) >= parseInt($("#JobSalaryTo").val()) ) {	
-				$("#JobSalaryTo").after("<label class='error' for='JobSalaryTo' >Must greter than 'From' field value..</label>");
+		if(parseInt($("#JobSalaryFrom").val()) > parseInt($("#JobSalaryTo").val()) ) {	
+				$("#JobSalaryTo").after("<label class='error' for='JobSalaryTo' >Must greater than or equal to From field value</label>");
 				return false;
 	}
 	return true;
