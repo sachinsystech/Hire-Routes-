@@ -72,7 +72,8 @@ class NetworkersController extends AppController {
 	/* save email notifications setting*/
 	
 	function sendNotifyEmail(){
-		if($this->Networkers->save($this->data['Networkers'])){
+		$userId = $this->_getSession()->getUserId();
+		if($this->Networkers->updateAll($this->data['Networkers'],array('user_id'=>$userId))){
 			$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
 		}
 		$this->redirect('/networkers/setting');		
