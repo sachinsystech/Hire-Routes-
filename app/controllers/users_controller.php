@@ -14,26 +14,8 @@ require_once(APP_DIR.'/vendors/facebook/facebook.php');
 
  */
 class UsersController extends AppController {
-    var $uses = array(
-					'User',
-					'Companies',
-					'UserRules',
-					'UserRoles',
-					'Networkers',
-					'Jobseekers',
-					'FacebookUsers',
-					'NetworkerSettings',
-					'JobseekerSettings',
-					'Acos',
-					'Aros',
-					'ArosAcos',
-					'Specification',
-					'State',
-					'City',
-					'Industry',
-					'Code'
-					);
-	var $components = array('Email','Session','Bcp.AclCached', 'Cookie','Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
+    var $uses = array('User', 'Companies', 'UserRoles', 'Networkers', 'Jobseekers', 'NetworkerSettings', 'JobseekerSettings', 'Acos', 'Aros',	'ArosAcos',	'Code');
+	var $components = array('Email', 'Session', 'Bcp.AclCached', 'Cookie', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility');
 				
 	var $helpers = array('Form');
 

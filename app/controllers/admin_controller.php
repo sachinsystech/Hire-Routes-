@@ -201,7 +201,7 @@ class AdminController extends AppController {
 	function paymentDetails()
 	{
 		$payment_detail = $this->PaymentHistory->find('first',array(
-			'fields'=>'PaymentHistory.id, Company.company_name, Company.contact_phone, Company.company_url, Jobseeker.contact_name, Jobseeker.contact_phone, User.account_email, Job.title, PaymentHistory.amount, JobseekerApply.intermediate_users,PaymentHistory.paid_date, PaymentHistory.transaction_id, PaymentHistory.payment_status',
+			'fields'=>'PaymentHistory.id, Company.company_name, Company.contact_phone, Company.company_url, Jobseeker.contact_name, Jobseeker.contact_phone, User.account_email, Job.title, PaymentHistory.amount, JobseekerApply.intermediate_users,PaymentHistory.paid_date, PaymentHistory.transaction_id, PaymentHistory.payment_status, PaymentHistory.hr_reward_percent',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -261,6 +261,8 @@ class AdminController extends AppController {
 			'limit'=>10
 		);
 		$networkers=$this->paginate('Networkers');
+		$hrRewardPercent=$this->Config->find('list',array('fields'=>array('value'),'conditions'=>array('key'=>'rewardPercent')));
+		$this->set('hrRewardPercent',$hrRewardPercent[1]);
 		$this->set('payment_detail',$payment_detail);
 		$this->set('networkers',$networkers);
 	}
@@ -271,7 +273,7 @@ class AdminController extends AppController {
 	 
 	function updatePaymentStatus()
 	{
-		$this->PaymentHistory->set(array('id'=>$this->data['PaymentHistory']['id'],'payment_status'=>true));
+		$this->PaymentHistory->set(array('id'=>$this->data['PaymentHistory']['id'],'payment_status'=>true, 'hr_reward_percent'=>$this->data['PaymentHistory']['hrRewardPercent']));
 	 	if($this->PaymentHistory->save())
 	 		$this->Session->setFlash('Status updated successfully','success');
 	 	else

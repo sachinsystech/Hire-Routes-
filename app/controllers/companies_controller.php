@@ -578,7 +578,7 @@ list archive jobs..
 	
 	/** move active job to archive(Disable) **/
 	function archiveJob(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fileds"=>"id"));
@@ -595,7 +595,7 @@ list archive jobs..
 
 	/** list of Applicant for given job **/
 	function showApplicant(){
-		$userId = $this->TrackUser->getCurrentUserId();
+		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fields"=>"id"));
@@ -879,7 +879,9 @@ list archive jobs..
 		    	
 		        if(isset($resArray['TRANSACTIONID'])) {
 		        	// Here change status of applied job from applied to selected in jobseeker_apply table....
-		        	 if( $this->JobseekerApply->updateAll(array('is_active'=>1), array('JobseekerApply.id'=>$appliedJobId))){
+
+		        	 if($this->JobseekerApply->updateAll(array('is_active'=>1), array('JobseekerApply.id'=>$appliedJobId))){
+
 						$paymentHistory = array();
 						$paymentHistory['user_id'] = $userId;
 						$paymentHistory['job_id'] = $appliedJob['Job']['id'];
