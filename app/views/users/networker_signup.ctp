@@ -7,9 +7,7 @@
 <div class="fb"><a href="<?php echo $FBLoginUrl; ?>"><button class="facebook"></button></a></div>
 
 <div style="width:480px; margin-top:20px;">
-<?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkUserForm()')); ?>
-
-	<?php	//echo $form->input('role', array('type' => 'hidden','value'=>'networker'));    ?>
+<?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkform()')); ?>
 
 	<?php	echo $form->input('account_email', array('label' => 'Account Email',
                                            			'type'  => 'text',
@@ -26,7 +24,7 @@
                                            			)
                                  );
     ?>
-<?php if(isset($pwd_error)): ?><div class="error-message"><?php echo $pwd_error;?></div><?php endif; ?>
+	<?php if(isset($pwd_error)): ?><div class="error-message"><?php //echo $pwd_error;?></div><?php endif; ?>
 	<?php	echo $form->input('repeat_password', array('label' => 'Repeat Password',
                                            			'type'  => 'password',
 													'name'  => "data[User][repeat_password]",
@@ -48,19 +46,23 @@
 		<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
 															'type'  => 'checkbox',
 															'name'  => "data[User][agree_condition]",
-															'class' =>'required',
-											)
+															)
 									 );
 		?>	
-		<?php if(isset($tc_errors)): ?><div class="error-message"><?php echo $tc_errors;?></div><?php endif; ?>
+	
+	</div>
+	<div id="agree_condition_error"  class="error-message">
+		<?php if(isset($tcErrors)): echo $tcErrors; endif; ?>
 	</div>
 	<?php echo $form->submit('Register',array('div'=>false,)); ?>
 	<?php echo $form->end(); ?>
 </div>
 <div style="margin-top:50px;"><a href="/networkerInformation">Don't know about Networker</a> </div>
+</div>
 <script>
 	$(document).ready(function(){
 		$("#UserNetworkerSignupForm").validate({
+			  errorClass: 'error_input_message',
 			  rules: {
 				'data[User][password]': "required",
 				'data[User][repeat_password]': {
@@ -69,7 +71,16 @@
 			  }
 			});
 	});
-
+	function checkform() {
+		var isAgreeCondition = $('input:checkbox[id=UserAgreeCondition]:checked').val();
+		if(!isAgreeCondition){
+			$("#agree_condition_error").removeClass().addClass("error").html("This is required field.");
+			return false;
+		}
+		if(isAgreeCondition){
+			$("#agree_condition_error").removeClass().html("");  
+		}
+	}
+	
 </script>
 
-</div>

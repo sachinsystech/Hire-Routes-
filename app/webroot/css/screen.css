@@ -1718,7 +1718,7 @@ label.error {
 }
 .code_page_error{
 	float: left;
-    margin: 5px 10px;
+    margin: 5px 1px;
     color: red;
 }
 
@@ -1905,4 +1905,11 @@ select{
 select{
 	border:1px solid #000;
 	background:#fff;
+}
+
+label.error_input_message{
+	color: red;
+    display: block;
+    font-size: 13px;
+   	padding:11px;
 }

@@ -174,7 +174,8 @@ class UsersController extends AppController {
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
    	            unset($this->data["User"]["repeat_password"]);
-			    $this->set('tc-errors', "You must agree to the Terms and Conditions");
+   	            //echo "ssssssssssss"; exit;
+			    $this->set('tcErrors', "You must agree to the Terms and Conditions");
 				return;
 			}			
 	

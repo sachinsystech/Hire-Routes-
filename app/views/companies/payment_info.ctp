@@ -1,7 +1,15 @@
 
 <script> 	
     $(document).ready(function(){               
-		$("#PaymentInfoPaymentInfoForm").validate();
+		$("#PaymentInfoPaymentInfoForm").validate({
+			errorClass: 'error_input_message',
+				errorPlacement: function (error, element) {
+					error.insertAfter(element)
+					error.css({'position':'absolute','margin-left':'150px','width':'230px'});
+			}
+		});
+		
+		
     });	
 
 function check_expdate() {

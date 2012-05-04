@@ -197,11 +197,11 @@
 				</div>
 				</div>
 				<div style="float:left;width:50%;">
-				<div style="width:550px;float:left;margin-top:10px;padding:10px;">
+				<div style="width:480px;float:left;margin-top:10px;padding:10px;">
 	<h3><font size=5px><center><u>Networkers Reward Details</u></center></font></h3>
 				</div>
 				<div class="table_seperator"></div>
-				<table class="content-table" border="0" cellpadding="0" cellspacing="0" width="550px;">
+				<table class="content-table" border="0" cellpadding="0" cellspacing="0" width="480px;">
 					<tr>
 						<td COLSPAN="3">
 							<div class="code_pagination">

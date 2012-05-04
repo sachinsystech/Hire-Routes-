@@ -1,4 +1,16 @@
 <?php //echo $this->Session->flash(); ?>
+<script>
+	$(document).ready(function(){
+		
+		$("#UserLoginForm").validate({
+			  errorClass: 'error_input_message',
+			   errorPlacement: function (error, element) {
+			       error.insertBefore(element)
+			       error.css({'position':'absolute','margin-left':'110px'});
+            	}
+		});
+	});
+</script>
 <div class="page">
 <div style="width:350px;margin:auto;">
 <div class="sigup_heading"><u>Login</u></div>

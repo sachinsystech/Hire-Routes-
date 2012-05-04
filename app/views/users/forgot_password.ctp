@@ -13,7 +13,14 @@
 </div>
 <script>
 $(document).ready(function(){
-	$("#UserForgotPasswordForm").validate();
+//	$("#UserForgotPasswordForm").validate();
+   	$("#UserForgotPasswordForm").validate({
+		errorClass: 'error_input_message',
+			errorPlacement: function (error, element) {
+				error.insertAfter(element)
+				error.css({'margin-left':'85px','width':'230px'});
+		}
+	});
 });
 </script>
 
