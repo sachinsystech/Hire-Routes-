@@ -46,7 +46,7 @@ class NotificationsController extends AppController {
 
 					$setting_cond = array('Job.id >'=> $last_job_id,);
 				}else{
-					$setting_cond = "";
+					$setting_cond = array('Job.id >' => 0);
 				}
 				
 				$jobData = $this->getAllJobseekerJobs($settings,$setting_cond,$send_job);
