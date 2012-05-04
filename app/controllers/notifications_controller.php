@@ -2,7 +2,7 @@
 class NotificationsController extends AppController {
 
 	var $name = 'Notifications';
-	var $uses = array('JobseekerSettings','User','Job','Industry','State','Specification',
+	var $uses = array('JobseekerSettings','User','Job','Industry','State','Specification','JobseekerApply',
 			  'UserRoles', 'City','JobPost','Networkers','NetworkerSettings');
 
 	var $components = array('Email');
@@ -50,11 +50,9 @@ class NotificationsController extends AppController {
 				}
 				
 				$jobData = $this->getAllJobseekerJobs($settings,$setting_cond,$send_job);
-				$total_job     = count($jobData);	
-				
-				if($total_job==$send_job){								
-					$last_job_id = $jobData[$send_job-1]['Job']['id'];
-			
+				$total_job     = count($jobData);
+				if($total_job==$send_job){
+					$last_job_id = $jobData[0]['Job']['id'];
 					$jobPost['JobPost']['user_id'] = $userId;
 			    	$jobPost['JobPost']['job_id']  = $last_job_id;
 					if($last_job_posted['JobPost']['id']){
@@ -62,8 +60,7 @@ class NotificationsController extends AppController {
 					}else{
 						$jobPost['JobPost']['id'] = null;
 					}
-					
-					$this->JobPost->save($jobPost);	
+					$this->JobPost->save($jobPost);
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";			
 					$this->sendJobPostEmail($userId,$jobData);		
 			 	}else{
@@ -428,13 +425,20 @@ class NotificationsController extends AppController {
 					$industry2_cond=true;
 				}
 			}
-
+			$userId = $settings['JobseekerSettings']['user_id'];
+			$jobIds = $this->JobseekerApply->find('list',array('conditions'=>array('user_id'=>$userId),
+															   'fields'=>array('job_id'),));
+															   
+			if(!count($jobIds)){
+				$jobIds = 0;
+			}
+			
 			$cond = array('OR'=>array($industry1_cond,$industry2_cond),
 	                       'Job.salary_from >=' => $salary_range,
 						  'Job.is_active'  => 1,
-						 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
+						 'AND' => array('NOT'=>array('Job.id'=>$jobIds)),
+						 $setting_cond
 						);
-			
 			if($city)
 				$cond['Job.city']  = $city;                      
         	if($state)
@@ -457,13 +461,17 @@ class NotificationsController extends AppController {
 											                array('table' => 'states',
 										                          'alias' => 'state',
 										                          'type' => 'LEFT',
-										                          'conditions' => array('Job.state = state.id',))
+										                          'conditions' => array('Job.state = state.id',)),
+										                    array('table' => 'companies',
+										                          'alias' => 'comp',
+										                          'type' => 'LEFT',
+										                          'conditions' => array('Job.company_id = comp.id',)),      
+										                          
                                                            ),
 															
-											 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name')
+											 'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name')
 											)
-							  );
-
+							  );					  
 		return($jobData);
 	}
 	

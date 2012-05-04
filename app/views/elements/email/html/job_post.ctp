@@ -16,7 +16,7 @@
 			<tr>
 				<td>
 					<?php	echo $this->Html->link($job['Job']['title'], $config_url.'jobs/jobDetail/'.$job['Job']['id']); ?><br>
-					<?php	echo $job['Job']['company_name'].", ".$job['city']['city'].", ".$job['state']['state']."<br>";?>
+					<?php	echo $job['comp']['company_name'].", ".$job['city']['city'].", ".$job['state']['state']."<br>";?>
 			    </td>
 				<td><?php echo $job['Job']['reward'];?></td>
 			</tr>
