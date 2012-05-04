@@ -224,6 +224,7 @@ function close(){
         function fillFacebookFriend(){
             //get list of facebook friend from ajax request
 			$('#imageDiv').html('<p><img src="/images/fbloader.gif" class="sharejob_ajax_loader"/></p>');
+			$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
             $.ajax({
                 type: 'POST',
                 url: '/facebook/getFaceBookFriendList',
@@ -260,6 +261,7 @@ function close(){
        
 	   function fillLinkedinFriend(){
 		   	$('#imageDiv').html('<p><img src="/images/liloader.gif" width="50px" height="50px" class="sharejob_ajax_loader"/></p>');
+		   	$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
             $.ajax({
                 type: 'POST',
                 url: '/linkedin/getLinkedinFriendList',
@@ -303,6 +305,7 @@ function close(){
       
 	   function fillTwitterFriend(){
 		   	$('#imageDiv').html('<p><img src="/images/twitterLoader.gif" width="42px" height="60px" class="sharejob_ajax_loader"/></p>');
+		   	$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
             $.ajax({
                 type: 'POST',
                 url: '/twitter/getTwitterFriendList',
