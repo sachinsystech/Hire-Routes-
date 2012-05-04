@@ -21,16 +21,16 @@
 					<div class="payment_info" style="width:500px;margin-left:50px">
 						<div style="clear:both;">							
 							<div style="float:left;font-weight: bold;width: 130px;">Transaction-Id:</div>
-							<div style="float:left"><?php echo $PaymentDetail['PaymentHistory']['transaction_id']; ?></div>
+							<div style="float:left"><?php echo $PaymentDetail['transaction_id']; ?></div>
 						</div>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Date & Time:</div>
-							<div style="float:left"><?php echo $this->Time->format('m/d/Y H:i:s',$PaymentDetail['PaymentHistory']['paid_date']); ?></div>
+							<div style="float:left"><?php echo $this->Time->format('m/d/Y H:i:s',$PaymentDetail['paid_date']); ?></div>
 						</div>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Reward(Amout):</div>
 							<div style="float:left"><?php echo $this->Number->format(
-										$PaymentDetail['PaymentHistory']['amount'],
+										$PaymentDetail['amount'],
 										array(
 											'places' => 2,
 											'before' => '$',
@@ -42,35 +42,29 @@
 					<div style="clear:both;margin-left: 45px;margin-top: 35px;width: 410px;"><hr/></div>
 					<div style="clear:both;font-weight: bold;margin:10px;"><u>JOB INFO</u> ::</div>
 					<div class="job_info" style="width:500px;margin-left:50px">
-						<?php if(!empty($PaymentDetail['js']['contact_name'])):?>
+						<?php if(!empty($PaymentDetail['contact_name'])):?>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Jobseeker Name:</div>
-							<div style="float:left"><?php echo $PaymentDetail['js']['contact_name']; ?></div>
+							<div style="float:left"><?php echo $PaymentDetail['contact_name']; ?></div>
 						</div>
 						<?php endif;?>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Title:</div>
-							<div style="float:left"><?php echo $PaymentDetail['job']['title']; ?></div>
+							<div style="float:left"><?php echo $PaymentDetail['job_title']; ?></div>
 						</div>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Description:</div>
-							<div style="float:left"><?php echo $PaymentDetail['job']['short_description']; ?></div>
+							<div style="float:left"><?php echo $PaymentDetail['description']; ?></div>
 						</div>
 						
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Industry:</div>
-							<div style="float:left"><?php echo $jobInfo['ind']['name'].", ".$jobInfo['spec']['name']; ?></div>
+							<div style="float:left"><?php echo $PaymentDetail['industry']; ?></div>
 						</div>
 						<div style="clear:both">							
 							<div style="float:left;font-weight: bold;width: 130px;">Location:</div>
 								<div style="float:left">
-									<?php 
-										if(!empty($jobInfo['city']['city'])) 
-											echo $jobInfo['city']['city'].",&nbsp;";
-									?>
-									<?php 
-										echo $jobInfo['state']['state'];
-									?>
+									<?php echo $PaymentDetail['location'];?>
 								</div>
 							</div>
 						</div>

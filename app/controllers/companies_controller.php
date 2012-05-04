@@ -489,11 +489,12 @@ list archive jobs..
 		}
 	}
 	
-function paymentHistoryInfo(){
+	function paymentHistoryInfo(){
 		
 		$userId = $this->_getSession()->getUserId();
-		$id = isset($this->params['id'])?$this->params['id']:"";
-		$tid = isset($this->params['tid'])?$this->params['tid']:"";
+		$this->autoRender= false ;
+		$id = isset($this->params['form']['id'])?$this->params['form']['id']:"";
+		$tid = isset($this->params['form']['tid'])?$this->params['form']['tid']:"";
 				
 		if($userId && isset($tid) &&isset($id)){
 				$PaymentDetail = $this->PaymentHistory->find('first',
@@ -522,15 +523,33 @@ function paymentHistoryInfo(){
 																 	) 
 																); 		
 			if(!$PaymentDetail){
-				$this->Session->setFlash('You may be clicked on old link or entered  manually.', 'error');				
-				$this->redirect('/companies/paymentHistory');
-			}														
-			$this->set('PaymentDetail',$PaymentDetail);	
-			$this->set('jobInfo',$this->getJob($PaymentDetail['job']['id']));	
+				$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
+				return json_encode($error);
+			}	
+			$jobInfo = $this->getJob($PaymentDetail['job']['id']);
+			$pd =array();
+			$pd['transaction_id']=$PaymentDetail['PaymentHistory']['transaction_id'];
+			$pd['paid_date']=$PaymentDetail['PaymentHistory']['paid_date'];	
+			$pd['amount']=$PaymentDetail['PaymentHistory']['amount'];
+			if(isset($PaymentDetail['js']['contact_name']) && !empty($PaymentDetail['js']['contact_name'])){
+				$pd['contact_name']= ucfirst($PaymentDetail['js']['contact_name']);
+			}
+			else{
+				$pd['contact_name']= "<i>Name Not Available</i>";
+			}
+			$pd['job_title']=$PaymentDetail['job']['title'];
+			$pd['description']=$PaymentDetail['job']['short_description'];	
+			$pd['industry']= $jobInfo['ind']['name'].", ".$jobInfo['spec']['name'];
+			$location =$jobInfo['state']['state'];
+			 if(!empty($jobInfo['city']['city'])) {
+				$location= $jobInfo['city']['city'].",&nbsp;".$location;
+			}
+			$pd['location']= $location;
+			return json_encode($pd);
 		}
 		else{
-			$this->Session->setFlash('You may be clicked on old link or entered  manually.', 'error');				
-			$this->redirect('/companies/paymentHistory');
+			$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
+			return json_encode($error);
 		}
 	}
 	
@@ -622,7 +641,7 @@ function paymentHistoryInfo(){
 												'alias'=>'User',
 												'type'=>'left',
 												'fields'=>'parent_user_id',
-												'conditions'=>array('SUBSTRING_INDEX(JobseekerApply.intermediate_users, ",", 1) = User.id')
+												'conditions'=>array('jobseekers.user_id = User.id')
 											)
 									      ),
 							'limit' => 10, // put display fillter here

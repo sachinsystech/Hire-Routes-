@@ -63,7 +63,8 @@ class AdminController extends AppController {
 	/****	Accept company request	***/
 	function acceptCompanyRequest() {
 		$id = $this->params['id'];
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id,
+																	'User.is_active'=>'0')));
 		if($user){
 			$user['User']['is_active'] = '1';
 			$user['User']['confirm_code']="";
@@ -89,7 +90,7 @@ class AdminController extends AppController {
 			}
 		}
 		else{
-			$this->Session->setFlash('Company not exit. OR you maybe clickd on old link.', 'error');
+			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
 		}
 		$this->redirect("/admin/companiesList");
 	}
@@ -97,7 +98,8 @@ class AdminController extends AppController {
 	/****	Decline company request	***/
 	function declineCompanyRequest() {
 		$id = $this->params['id'];
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
+		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id,
+																	'User.is_active'=>'0')));
 		if($user){
 			$user['User']['is_active'] = '2';
 			// deactivate user's account	
@@ -116,7 +118,7 @@ class AdminController extends AppController {
 			}
 		}
 		else{
-			$this->Session->setFlash('Company not exit. OR you maybe clickd on old link.', 'error');
+			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
 		}
 		$this->redirect("/admin/companiesList");
 	}
@@ -124,22 +126,30 @@ class AdminController extends AppController {
 	/**
 	 * For payment information 
 	 */
-	function paymentInformation()
-	{
+	function paymentInformation(){
+	
+		if(isset($this->params['named'])){
+			$data=$this->params['named'];
+		}
+		/*Retrive data on form submit */
+		if(isset($this->params['url']['find'])){
+			$data=$this->params['url'];
+		}	
 		$conditions[]='JobseekerApply.is_active=1';
-		if(!empty($this->data['paymentInformation']['status'])){
-			$conditions[]='payment_status ='.$this->data['paymentInformation']['status'];
-	 		$this->set('status',$this->data['paymentInformation']['status']);
+		if(isset($data['status']) && $data['status'] !==""){
+		//echo $data['status']."------";exit;
+			$conditions[]='payment_status ='.$data['status'];
+	 		$this->set('status',$data['status']);
 	 	}
-	 	if(!empty($this->data['paymentInformation']['from_date'])){
-	 		$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($this->data['paymentInformation']['from_date']))."'";
-	 		$this->set('from_date',$this->data['paymentInformation']['from_date']);
+	 	if(!empty($data['from_date'])){
+	 		$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+	 		$this->set('from_date',$data['from_date']);
 	 	}
-	 	if(!empty($this->data['paymentInformation']['to_date'])){
-	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($this->data['paymentInformation']['to_date']))."'";
-	 		$this->set('to_date',$this->data['paymentInformation']['to_date']);
-	 	}
-	 		 	
+	 	if(!empty($data['to_date'])){
+	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+	 		$this->set('to_date',$data['to_date']);
+	 	}	
+	 	//echo "<pre>"	 	; print_r($conditions);exit;
 		$this->paginate = array(
 			'fields'=>'PaymentHistory.id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 			'recursive'=>-1,
@@ -191,7 +201,7 @@ class AdminController extends AppController {
 	function paymentDetails()
 	{
 		$payment_detail = $this->PaymentHistory->find('first',array(
-			'fields'=>'PaymentHistory.id, Company.company_name, Company.contact_phone, Company.company_url, Jobseeker.contact_name, Jobseeker.contact_phone, User.account_email, Job.title, PaymentHistory.amount, JobseekerApply.intermediate_users,PaymentHistory.paid_date, PaymentHistory.transaction_id, PaymentHistory.payment_status',
+			'fields'=>'PaymentHistory.id, Company.company_name, Company.contact_phone, Company.company_url, Jobseeker.contact_name, Jobseeker.contact_phone, User.account_email, Job.title, PaymentHistory.amount, JobseekerApply.intermediate_users,PaymentHistory.paid_date, PaymentHistory.transaction_id, PaymentHistory.payment_status, PaymentHistory.hr_reward_percent',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -251,6 +261,8 @@ class AdminController extends AppController {
 			'limit'=>10
 		);
 		$networkers=$this->paginate('Networkers');
+		$hrRewardPercent=$this->Config->find('list',array('fields'=>array('value'),'conditions'=>array('key'=>'rewardPercent')));
+		$this->set('hrRewardPercent',$hrRewardPercent[1]);
 		$this->set('payment_detail',$payment_detail);
 		$this->set('networkers',$networkers);
 	}
@@ -261,7 +273,7 @@ class AdminController extends AppController {
 	 
 	function updatePaymentStatus()
 	{
-		$this->PaymentHistory->set(array('id'=>$this->data['PaymentHistory']['id'],'payment_status'=>true));
+		$this->PaymentHistory->set(array('id'=>$this->data['PaymentHistory']['id'],'payment_status'=>true, 'hr_reward_percent'=>$this->data['PaymentHistory']['hrRewardPercent']));
 	 	if($this->PaymentHistory->save())
 	 		$this->Session->setFlash('Status updated successfully','success');
 	 	else
@@ -418,7 +430,6 @@ class AdminController extends AppController {
 		if(isset($userId)){
 			$userData =$this->User->find('first',array('conditions'=>array("User.id"=>$userId,
 																		'NOT'=>array("User.group_id"=>array(1,2)))));
-			
 			if(isset($userData)){
 				$userData['User']['id']=$userId;
 				$userData['User']['is_active'] =$is_active;

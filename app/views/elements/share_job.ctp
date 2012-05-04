@@ -38,7 +38,7 @@ $(function() {
 	<!-- left section start -->	
 	<div class="leftPanel">
 		<div class="sideMenu">
-			<ul class='api_menu'>
+			<ul class='api_menu top_mene_hover'>
 				<li id='liFacebook'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='showView(1);'>Facebook</a></li>
 				<li id='liLinkedIn'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='showView(2);'>LinkedIn</a></li>
 				<li id='liTwitter'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='showView(3);'>Twitter</a></li>
@@ -113,7 +113,7 @@ $(function() {
 	<!-- middle section end -->
 </div>
 </div>
-<div id="opener" ></div>
+<div id="opener"></div>
 <?php endif;?>
 <script>
 function showView(type){
@@ -213,6 +213,11 @@ function createHTMLforFillingFriends(friends){
 </script>
 
 <script>
+
+/************************** close**********************************/
+function close(){
+	$( "#dialog" ).dialog( "close" );
+}
 
 /****************************	1).Fill facebook Friends	******************************/
 

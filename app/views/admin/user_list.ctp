@@ -5,7 +5,8 @@
 		$("#UserListFilter").change(onSelectShortByChange);
 	});
 	function onSelectShortByChange(){
-	    var selected = $("#UserListFilter option:selected");    
+	    var selected = $("#UserListFilter option:selected");   
+	    alert("helo"); 
 	    if(selected.val() == 0){
 	    	window.location.href="/admin/userList";
 	    }
@@ -90,7 +91,7 @@
 ?>
 <table id="content-table" border="0" cellpadding="0" cellspacing="0" width="100%">
 	<tbody><tr>
-	<th rowspan="3" class="sized"></th>
+		<th rowspan="3" class="sized"></th>
 		<th class="topleft"></th>
 		<th id="tbl-border-top">&nbsp;</th>
 		<th class="topright"></th>
@@ -105,12 +106,11 @@
     	<td id="tbl-border-left"></td>
     	<td>
 			<div class="content-table-inner">
-				<div style="float:right;margin:15px;">
+				<div style="float:right;margin:10px;">
 					<?php
 						$date = new DateTime();
 						$date->modify(-30 . ' days');
 						$last_month= $date->format("m/d/Y");
-					
 						$from_date=isset($from_date)?$from_date:$last_month;
 						$to_date=isset($to_date)?$to_date:date('m/d/Y');
 						$findUrl=array("contact_name"=>isset($contact_name)?$contact_name:"",
@@ -136,19 +136,19 @@
 					?>
 				</div>
 				    <table width ="100%" cellspacing='0' class='userTable'>
-					    <tr class="usertableHeading"> 
+					    <tr class="usertableHeading userTableLeftRadius" > 
 						    <th width="5%">SN</th> 
 						    <th width="12%">Name</th>
 						    <th width="25%">
 						    	<div><?php echo $this->Paginator->sort('E-Mail','UserList.account_email')?></div>
 						    </th>
-   						    <th width="12%">User Group</th>
+   						    <th width="12%">Group</th>
    						    <th width="15%">Telephone</th>
 						    <th width="20%">
-						    	<div><?php echo $this->Paginator->sort('User Since','UserList.created')?></div>
+						    	<div><?php echo $this->Paginator->sort('Since','UserList.created')?></div>
 						    </th>
 						    <th width="15%">
-						    	<?php echo $this->Paginator->sort('User Activated','UserList.is_active')?>
+						    	<?php echo $this->Paginator->sort('Activated','UserList.is_active')?>
 						    </th>
    						    <th></th>						    						    						    
 						</tr>
@@ -180,11 +180,12 @@
 									  'type'=>'select',
 									  'label'=>'',
 									  'name'=>'filter',
-									  'options'=>array('0'=>' All',
+									  'options'=>array(
 									  				   'company'=>'Company',
 									  				   'networker'=> 'Networker',
 									  				   'jobseeker' => 'Jobseeker'),
-									  'style'=>"width:115px",
+									  'empty'=>'--select--',
+									  'style'=>"width:105px",
 									  'class'=>'job_select_shortby',
 									  'selected'=>isset($filter)?$filter:'All',));
 								?>
@@ -240,11 +241,11 @@
 								<?php echo $form -> input('',array(
 												  'type'=>'select',
 												  'name'=>'isActivated',
-												  'options'=>array('0'=>' All',
-												  				   'activated'=>'Activated',
+												  'options'=>array('activated'=>'Activated',
 												  				   'deactivated'=> 'Deactivated',
 												  				   ),
-												  'style'=>"width:125px",
+												  'empty'=>'--select--',
+												  'style'=>"width:105px",
 												  'class'=>'job_select_shortby',
 												  'selected'=>isset($isActivated)?$isActivated:'All',));
 								?>
@@ -262,7 +263,7 @@
 	    		                	$class = $sno%2?"odd":"even";
 	    			        ?>
 						<tr class="<?php echo $class; ?>" > 
-							<td style="padding:10px;text-align:center;" ><?php echo $sno++; ?></td> 
+							<td style="padding:7px;text-align:center;" ><?php echo $sno++; ?></td> 
 							<td><?php echo $user['contact_name'];?></td> 
 							<?php if($user['account_email']=='fb'):
 									echo "<td title='Facebook User'> </td>";

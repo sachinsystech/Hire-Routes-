@@ -594,7 +594,7 @@ div.code-coverage-results span.result-good {
 	display: none;
 }
 .selection-button{
-  margin: 20px 0 0 21px;
+  margin: 20px 0 10px 21px;
 }
 .selection-button button{
   padding:5px;
@@ -1213,8 +1213,10 @@ label.error{
     width: 72px;
 }
 .delete_spe{
+	background: -webkit-gradient(linear, left top, left bottom, from(#62AF56), to(#f7f7e1));
+	background: -moz-linear-gradient(center top, #62AF56,#f7f7e1) repeat scroll 0 0 #62AF56;
 	-moz-border-radius: 8px 8px 8px 8px;
-    background: none repeat scroll 0 0 #00FF00;
+	webkit-border-radious:8px; 
     cursor: pointer;
     float: right;
     text-align: center;
@@ -1876,12 +1878,11 @@ border: 1px solid #000000;
 	width:250px;
 	margin-bottom:20px;
 }
-.InformationImage{
-	float:right;
-	width:650px;
-	margin-top:10px;
+.InformationImage {
+    float: left;
+    margin-top: 0;
+    width: 477px;
 }
-
 
 #UserShowApplicantForm{
 	width:100%;
@@ -2226,5 +2227,15 @@ ul a.menu_item{
 }
 
 #japdiv{
-	font-size:11px;
+	font-size:12px;
+}
+.phi_table {
+    font-size: 12px;
+    line-height: 8px;
+    margin-left: 70px;
+    width: 390px;
+}
+.phi_table tr td{
+	background:none !important;
+	border:none;
 }

@@ -707,33 +707,33 @@ class JobseekersController extends AppController {
 		
 		$jobCounts['appliedJob']=count($applied_job);//Applied job count
 		
-		$cond1 = array('OR'=>array($industry1_cond,$industry2_cond),
+		$cond_for_new_job = array('OR'=>array($industry1_cond,$industry2_cond),
                        'Job.salary_from >=' => $salary_range,
 					  'Job.is_active'  => 1,
 					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 					);
                 
 		if($city)
-			$cond['Job.city']  = $city;
+			$cond_for_new_job['Job.city']  = $city;
                       
         if($state)
-            $cond['Job.state'] = $state;
+            $cond_for_new_job['Job.state'] = $state;
 		
-		$jobCounts['newJob'] = $this->Job->find('count',array('conditions'=>$cond1));//New job count
+		$jobCounts['newJob'] = $this->Job->find('count',array('conditions'=>$cond_for_new_job));//New job count
 
-		 $cond2 = array('OR'=>array($industry1_cond,$industry2_cond),
+		 $cond_for_archive_job = array('OR'=>array($industry1_cond,$industry2_cond),
                        'Job.salary_from >=' => $salary_range,
 					  'Job.is_active'  => 0,
 					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 					);
 
 		if($city)
-			$cond['Job.city']  = $city;
+			$cond_for_archive_job['Job.city']  = $city;
                       
         if($state)
-            $cond['Job.state'] = $state;
+            $cond_for_archive_job['Job.state'] = $state;
 		
-		$jobCounts['archiveJob'] = $this->Job->find('count',array('conditions'=>$cond2));//Archive job count
+		$jobCounts['archiveJob'] = $this->Job->find('count',array('conditions'=>$cond_for_archive_job));//Archive job count
 		
 		return $jobCounts;
 	}
