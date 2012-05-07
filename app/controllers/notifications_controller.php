@@ -38,29 +38,29 @@ class NotificationsController extends AppController {
 			foreach($jobseeker_settings as $settings){
 
 				$userId 		 = $settings['JobseekerSettings']['user_id'];				
-				$last_job_posted = $this->JobPost->find('first',array('conditions'=>array('user_id'=> $userId,),
-																      'order' => array("id" => 'desc',),));
+				$last_job_posted = $this->JobPost->find('first',array(
+																'conditions'=>array('user_id'=> $userId),
+																'order' => array("id" => 'desc'),
+															)
+														);
 				
 				if($last_job_posted){
 					$last_job_id = $last_job_posted['JobPost']['job_id'];			
 
 					$setting_cond = array('Job.id >'=> $last_job_id,);
 				}else{
-					$setting_cond = array('Job.id >' => 0);
+					$setting_cond = array('Job.id >'=> 0);
 				}
 				
 				$jobData = $this->getAllJobseekerJobs($settings,$setting_cond,$send_job);
 				$total_job     = count($jobData);
 				if($total_job==$send_job){
-					$last_job_id = $jobData[0]['Job']['id'];
-					$jobPost['JobPost']['user_id'] = $userId;
-			    	$jobPost['JobPost']['job_id']  = $last_job_id;
+					//Save job data with userId, Last job Id, Job Post id(if exist)
 					if($last_job_posted['JobPost']['id']){
-						$jobPost['JobPost']['id'] = $last_job_posted['JobPost']['id'];
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
 					}else{
-						$jobPost['JobPost']['id'] = null;
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
 					}
-					$this->JobPost->save($jobPost);
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";			
 					$this->sendJobPostEmail($userId,$jobData);		
 			 	}else{
@@ -86,10 +86,20 @@ class NotificationsController extends AppController {
 				$userId       = $settings['JobseekerSettings']['user_id'];
 				$setting_cond = array('created >'=> date("Y-m-d h:i:s", strtotime("-1 day")),
 						          	  'created <'=> date("Y-m-d h:i:s"));
-			
+				$last_job_posted = $this->JobPost->find('first',array(
+																'conditions'=>array('user_id'=> $userId),
+																'order' => array("id" => 'desc'),
+															)
+														);
 				$jobData = $this->getAllJobseekerJobs($settings,$setting_cond);
 			
 				if(count($jobData)>0){
+					//Save job data with userId, Last job Id, Job Post id(if exist)
+					if($last_job_posted['JobPost']['id']){
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+					}else{
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
+					}
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";					
 					$this->sendJobPostEmail($userId,$jobData);
 				}else{
@@ -113,10 +123,21 @@ class NotificationsController extends AppController {
 				$userId       = $settings['JobseekerSettings']['user_id'];
 				$setting_cond = array('created >'=> date("Y-m-d h:i:s", strtotime("-3 day")),
 						          	  'created <'=> date("Y-m-d h:i:s"));
+				$last_job_posted = $this->JobPost->find('first',array(
+																'conditions'=>array('user_id'=> $userId),
+																'order' => array("id" => 'desc'),
+															)
+														);
 			
 				$jobData = $this->getAllJobseekerJobs($settings,$setting_cond);			
 			
 				if(count($jobData)>0){
+					//Save job data with userId, Last job Id, Job Post id(if exist)
+					if($last_job_posted['JobPost']['id']){
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+					}else{
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
+					}
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";						
 					$this->sendJobPostEmail($userId,$jobData);
 				}else{
@@ -141,10 +162,20 @@ class NotificationsController extends AppController {
 				$userId       = $settings['JobseekerSettings']['user_id'];
 				$setting_cond = array('created >'=> date("Y-m-d h:i:s", strtotime("-1 week")),
 						          	  'created <'=> date("Y-m-d h:i:s"));
-			
+				$last_job_posted = $this->JobPost->find('first',array(
+																'conditions'=>array('user_id'=> $userId),
+																'order' => array("id" => 'desc'),
+															)
+														);
 				$jobData = $this->getAllJobseekerJobs($settings,$setting_cond);		
 			
-				if(count($jobData)>0){	
+				if(count($jobData)>0){
+					//Save job data with userId, Last job Id, Job Post id(if exist)
+					if($last_job_posted['JobPost']['id']){
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+					}else{
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
+					}
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";					
 					$this->sendJobPostEmail($userId,$jobData);
 				}else{
@@ -175,21 +206,17 @@ class NotificationsController extends AppController {
 				if($last_job_posted){
 					$last_job_id = $last_job_posted['JobPost']['job_id'];			
 
-					$cond = array('Job.id >'=> $last_job_id,);
+					$cond[] = array('Job.id >'=> $last_job_id,);
 				}
-				
 				$jobData  = $this->getAllNetworkerJobs($cond,$send_job);		
 				$total_job     = count($jobData);		
-				if($total_job==$send_job){								
-					$last_job_id = $jobData[$send_job-1]['Job']['id'];
-			
-					$jobPost['JobPost']['user_id'] = $userId;
-			    	$jobPost['JobPost']['job_id']  = $last_job_id;
+				if($total_job==$send_job){
+					//Save job data with userId, Last job Id, Job Post id(if exist)
 					if($last_job_posted['JobPost']['id']){
-						$jobPost['JobPost']['id'] = $last_job_posted['JobPost']['id'];
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+					}else{
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
 					}
-					
-					$this->JobPost->save($jobPost);	
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";			
 					$this->sendJobPostEmail($userId,$jobData);		
 			 	}else{
@@ -218,7 +245,22 @@ class NotificationsController extends AppController {
 
 				$jobData  = $this->getAllNetworkerJobs($cond);			
 			
-				if($jobData){	
+				if($jobData){
+					$last_job_posted = $this->JobPost->find('first',array(
+																	'conditions'=>array(
+																		'user_id'=> $userId
+																		),
+																	'order' => array(
+																		"id" => 'desc'
+																		)
+																	)
+																);
+					//Save job data with userId, Last job Id, Job Post id(if exist)
+					if($last_job_posted['JobPost']['id']){
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+					}else{
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
+					}
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";				
 					$this->sendJobPostEmail($userId,$jobData);
 				}else{
@@ -248,6 +290,21 @@ class NotificationsController extends AppController {
 				$jobData  = $this->getAllNetworkerJobs($cond);			
 			
 				if($jobData){
+					$last_job_posted = $this->JobPost->find('first',array(
+																	'conditions'=>array(
+																		'user_id'=> $userId
+																		),
+																	'order' => array(
+																		"id" => 'desc'
+																		)
+																	)
+																);
+					//Save job data with userId, Last job Id, Job Post id(if exist)
+					if($last_job_posted['JobPost']['id']){
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+					}else{
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
+					}
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";					
 					$this->sendJobPostEmail($userId,$jobData);
 				}else{
@@ -277,6 +334,21 @@ class NotificationsController extends AppController {
 				$jobData  = $this->getAllNetworkerJobs($cond);			
 			
 				if($jobData){
+					$last_job_posted = $this->JobPost->find('first',array(
+																	'conditions'=>array(
+																		'user_id'=> $userId
+																		),
+																	'order' => array(
+																		"id" => 'desc'
+																		)
+																	)
+																);
+					//Save job data with userId, Last job Id, Job Post id(if exist)
+					if($last_job_posted['JobPost']['id']){
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+					}else{
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
+					}
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";					
 					$this->sendJobPostEmail($userId,$jobData);
 				}else{
@@ -290,16 +362,33 @@ class NotificationsController extends AppController {
 	}
 
 	private function getNetworkSettings($subscription_cond){
-		$networker_settings = $this->NetworkerSettings->find('all',array('conditions'=>array('networkers.notification'=>1,'networkers.subscribe_email' => $subscription_cond),
-																		 'joins'=>array(array('table' => 'networkers',
-										             										   'alias' => 'networkers',
-										                                                       'type' => 'LEFT',
-										                                                       'conditions' => array('networkers.user_id = NetworkerSettings.user_id',)),
-									                                                          
-									                                                    ),
-																			'fields'=>array('NetworkerSettings.user_id,NetworkerSettings.industry,NetworkerSettings.specification,NetworkerSettings.city,NetworkerSettings.state'),
-															            )
-															);
+		$networker_settings = $this->NetworkerSettings->find('all',array(
+																'conditions'=>array(
+																	'networkers.notification'=>1,
+																	'networkers.subscribe_email'=> $subscription_cond
+																),
+																'joins'=>array(
+																	array('table' => 'networkers',
+										             					  'alias' => 'networkers',
+										             					  'type' => 'LEFT',
+										             					  'conditions' => array(
+										             					  		'networkers.user_id = NetworkerSettings.user_id'
+										             					  	)
+										             				),
+										             				array('table' => 'users',
+										             					  'alias' => 'user',
+										             					  'type' => 'inner',
+										             					  'conditions' => array(
+										             					  		'networkers.user_id =user.id AND user.is_active = 1'
+										             					  	)
+										             				)
+									                            ),
+																'fields'=>array(
+																'NetworkerSettings.user_id, 																NetworkerSettings.industry, 																NetworkerSettings.specification, 																	NetworkerSettings.city, 
+																NetworkerSettings.state'
+																),
+															)
+														);
 		return($networker_settings);
 	}
 
@@ -368,10 +457,14 @@ class NotificationsController extends AppController {
 											                array('table' => 'states',
 										                          'alias' => 'state',
 										                          'type' => 'LEFT',
-										                          'conditions' => array('Job.state = state.id',))
+										                          'conditions' => array('Job.state = state.id',)),
+										                    array('table' => 'companies',
+										                          'alias' => 'comp',
+										                          'type' => 'LEFT',
+										                          'conditions' => array('Job.company_id = comp.id',))
                                                            ),
-															
-											 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name')
+											 'order'=>'Job.id desc',			
+											 'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name')
 											)
 							  );
 
@@ -468,7 +561,7 @@ class NotificationsController extends AppController {
 										                          'conditions' => array('Job.company_id = comp.id',)),      
 										                          
                                                            ),
-															
+											 'order'=>'Job.id desc',				
 											 'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name')
 											)
 							  );					  
@@ -495,7 +588,15 @@ class NotificationsController extends AppController {
 		}catch(Exception $e){
 			echo 'Message: ' .$e->getMessage();	
 		}		
-	}	
+	}
+	
+	//To store latest posted 
+	private function savePostedJob($userId,$lastJobId,$PostJobId=null){
+		$jobPost['JobPost']['user_id'] = $userId;
+    	$jobPost['JobPost']['job_id']  = $lastJobId;
+		$jobPost['JobPost']['id'] = $PostJobId;
+		$this->JobPost->save($jobPost);
+	}
 
 }
 ?>
