@@ -6,18 +6,16 @@ class AdminController extends AppController {
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
-		
 		if($this->Session->read('Auth.User.id')!=1){
 			$this->redirect('/');
 		}
 		if($this->userRole!=ADMIN){
 			$this->redirect("/users/loginSuccess");
 		}
-		
 		$this->Auth->authorize = 'actions';
 		$this->Auth->allow('index');
 		$this->Auth->allow('companiesList');
-		$this->Auth->allow('Code');
+
 		$this->Auth->allow('paymentInformation');
 		$this->Auth->allow('filterPayment');
 		$this->Auth->allow('paymentDetails');
