@@ -57,9 +57,9 @@ class NotificationsController extends AppController {
 				if($total_job==$send_job){
 					//Save job data with userId, Last job Id, Job Post id(if exist)
 					if($last_job_posted['JobPost']['id']){
-						savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
 					}else{
-						savePostedJob($userId,$jobData[0]['Job']['id']);
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
 					}
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";			
 					$this->sendJobPostEmail($userId,$jobData);		
@@ -96,9 +96,9 @@ class NotificationsController extends AppController {
 				if(count($jobData)>0){
 					//Save job data with userId, Last job Id, Job Post id(if exist)
 					if($last_job_posted['JobPost']['id']){
-						savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
 					}else{
-						savePostedJob($userId,$jobData[0]['Job']['id']);
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
 					}
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";					
 					$this->sendJobPostEmail($userId,$jobData);
@@ -134,9 +134,9 @@ class NotificationsController extends AppController {
 				if(count($jobData)>0){
 					//Save job data with userId, Last job Id, Job Post id(if exist)
 					if($last_job_posted['JobPost']['id']){
-						savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
 					}else{
-						savePostedJob($userId,$jobData[0]['Job']['id']);
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
 					}
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";						
 					$this->sendJobPostEmail($userId,$jobData);
@@ -172,9 +172,9 @@ class NotificationsController extends AppController {
 				if(count($jobData)>0){
 					//Save job data with userId, Last job Id, Job Post id(if exist)
 					if($last_job_posted['JobPost']['id']){
-						savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
+						$this->savePostedJob($userId,$jobData[0]['Job']['id'],$last_job_posted['JobPost']['id']);
 					}else{
-						savePostedJob($userId,$jobData[0]['Job']['id']);
+						$this->savePostedJob($userId,$jobData[0]['Job']['id']);
 					}
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";					
 					$this->sendJobPostEmail($userId,$jobData);
