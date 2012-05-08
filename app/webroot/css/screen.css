@@ -1580,13 +1580,13 @@ a:hover.back-login	{
 .even{
         background-color:#FCF8F1;
 		font-size:14px;
-        line-height:11px;
+        line-height:20px;
     }
 
-.odd td{
+.odd{
         background-color:#F5F5F5;
         font-size:14px;
-        line-height:11px;
+        line-height:20px;
     }
     
  .tableHeading{

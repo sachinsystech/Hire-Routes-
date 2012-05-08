@@ -276,7 +276,10 @@ function clear_div(val){
 						<?php 
 							$degree = 0;
 							if($applicant['JobseekerApply']['intermediate_users']!=''){
-								$degree = count(explode(",",$applicant['JobseekerApply']['intermediate_users']));
+							$intermediate_user_ids=explode(",",$applicant['JobseekerApply']['intermediate_users']);
+								$degree = count($intermediate_user_ids);
+							if(empty($intermediate_user_ids[0]) && $degree>1)
+								$degree=$degree-1;
 							} 
 							echo $degree+1;
 						?>

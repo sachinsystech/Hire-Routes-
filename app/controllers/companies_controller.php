@@ -832,6 +832,7 @@ list archive jobs..
 		    $companyInfo = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
 		    
 		    $appliedJob = $this->appliedJob($appliedJobId);
+		    
 		    if(!isset($appliedJob) || !isset($appliedJob['JobseekerapplyJob'])){
 				$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
 				$this->redirect("/companies/newJob");
@@ -887,7 +888,30 @@ list archive jobs..
 						$paymentHistory['jobseeker_user_id'] = $appliedJob['JobseekerapplyJob']['user_id'];
 						$paymentHistory['amount'] = $appliedJob['Job']['reward'];
 						$paymentHistory['transaction_id'] = $resArray['TRANSACTIONID'];
+						//***********To Store reward payout percent***********
 						
+						$intermediate_user_ids=explode(',',$appliedJob['JobseekerapplyJob']['intermediate_users']);
+						$count_intermediate_user=count($intermediate_user_ids);
+						if(empty($intermediate_user_ids[0]))
+							$count_intermediate_user=$count_intermediate_user-1;
+						// Scenario I
+						if($count_intermediate_user>0){
+							$senerio_percents=$this->Config->find('list',array('fields'=>'key, value','conditions'=>array('key like'=>'%pc_for_scenario_1%')));
+							$paymentHistory['hr_reward_percent']=$senerio_percents['hr_reward_pc_for_scenario_1'];
+							$paymentHistory['networker_reward_percent']=$senerio_percents['nr_reward_pc_for_scenario_1'];
+							$paymentHistory['jobseeker_reward_percent']=$senerio_percents['js_reward_pc_for_scenario_1'];
+						}else{
+							//Scenario III
+							
+							$senerio_percents=$this->Config->find('list',array('fields'=>'key, value','conditions'=>array('key like'=>'%pc_for_scenario_3%')));
+							
+							$paymentHistory['hr_reward_percent']=$senerio_percents['hr_reward_pc_for_scenario_3'];
+							$paymentHistory['networker_reward_percent']=$senerio_percents['nr_reward_pc_for_scenario_3'];
+							$paymentHistory['jobseeker_reward_percent']=$senerio_percents['js_reward_pc_for_scenario_3'];
+						}
+						
+						
+						//***********End Store reward payout percent***********
 						$this->PaymentHistory->save($paymentHistory);
 						$this->Session->setFlash('Applicant has been selected successfully.', 'success');	
 						$this->sendCongratulationEmail($appliedJob);
