@@ -256,7 +256,7 @@ function clear_div(val){
 				</tr>
 				<?php if(empty($applicants)): ?>
 				<tr>
-					<td colspan="100%">Sorry, No applicant found.</td>
+					<td colspan="100%" style="line-height: 25px;">Sorry, No applicant found.</td>
 				</tr>
 				<?php endif; ?>
 				<?php foreach($applicants as $applicant):?>	

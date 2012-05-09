@@ -1913,3 +1913,42 @@ label.error_input_message{
     font-size: 13px;
    	padding:11px;
 }
+
+.employerSpecificDataTable{
+	border:none !important;
+	line-height: 25px;
+	margin:auto;
+	width:70%;
+	overflow:visible;
+}
+.employerListTable tr{
+	border:1px solid #000;
+}
+.employerListTable{
+	width:65%;
+	height:250px;
+	text-align:left;
+	display:block;
+	overflow:auto;
+	margin:auto;
+	line-height: 20px;
+}
+
+.phi_table {
+    font-size: 12px;
+    line-height: 20px;
+    margin-left: 70px;
+    width: 500px;
+}
+.phi_table tr td{
+	background:none !important;
+	border:none;
+}
+.jobDetail{
+	height:20px;
+}
+.jobDetailContent{
+   font-size: 12px;
+   padding:5px;
+   margin:5px;  
+}
