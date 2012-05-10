@@ -541,7 +541,6 @@ class UsersController extends AppController {
 		if($this->userRole==NETWORKER){
 			if($this->Session->check('code')){
 				$code=$this->Session->read('code');
-				echo $code;exit;
 				$jobId=$this->Utility->getJobIdFromCode('',$code);
 				$this->set('jobUrl','/jobs/jobDetail/'.$jobId.'?code='.$code);
 			}
