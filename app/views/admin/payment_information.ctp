@@ -196,7 +196,7 @@
 						<tr class="tableHeading">
 							<th>SN</th> 
 						    <th>Company Name</th>
-						    <th>Employ Name</th>
+						    <th>Employee Name</th>
 							<th>Job title</th>
 						    <th>Payment</th>
 						    <th>Date</th>

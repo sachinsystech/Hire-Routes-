@@ -171,8 +171,11 @@
 							    ?>
 						</div>
 						<div style="clear: both;"></div>
-							<?php echo $form->submit('Save',array('div'=>false,
-																'style'=>'margin:2px 150px;')); ?>	
+							<?php echo $form->submit('Save',array('div'=>false,'style'=>'margin:2px 0px 0px 150px;'));
+								if($job['is_active']==3){
+									echo $form->submit('Post and Share',array('div'=>false,'name'=>'shareJob','value'=>'share','style'=>'margin:2px 0px 0px 15px;'));
+								}
+							?>
 							<?php echo $form->end(); ?>
 						</div>
 					</div>

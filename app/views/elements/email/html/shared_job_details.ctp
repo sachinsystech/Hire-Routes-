@@ -6,9 +6,9 @@
 		<?php if(isset($message['message'])&&!is_null($message['message']))echo $message['message']; ?>
 	</div>
 		<?php if(isset($message['code'])&&!empty($message['code'])){
-			$code= "/?code=".$message['code'];
+			$intermediateCode= "/?intermediateCode=".$message['code'];
 			}else
-			$code="";
+			$intermediateCode="";
 		?>
 	<p>
 		TAKE THE HIREROUTES SIMPLY BY SHARING THIS JOB POST WITH YOUR TRUSTED NETWORK AND EARN UPTO THE ENTIRE REWARD OF <b>$<?php echo number_format($message['Job']['reward'],2);?></b><br/><b>-OR-</b><br/>APPLY FOR THE JOB YOURSELF!
@@ -47,7 +47,7 @@
 	</div>
 	<div class='clear:both'></div>
 	<div>
-		<a href= "<?php echo $base_link.'howItWorks/'.$message['Job']['id'].$code;?>"><font size='3px'><b>CLICK HERE TO SEE<br/> HOW!</b></font></a>
+		<a href= "<?php echo $base_link.'howItWorks/'.$message['Job']['id'].$intermediateCode;?>"><font size='3px'><b>CLICK HERE TO SEE<br/> HOW!</b></font></a>
 	</div>
 	<div>
 		<p>
@@ -62,10 +62,10 @@
 		</p>
 	</div>
 	<div>
-		<a href="<?php echo $base_link.'howItWorks/'.$message['Job']['id'].$code;?>"><font size="5px"><b>SEE HOW IT WORKS<br/> HOW!</b></font></a>
+		<a href="<?php echo $base_link.'howItWorks/'.$message['Job']['id'].$intermediateCode;?>"><font size="5px"><b>SEE HOW IT WORKS<br/> HOW!</b></font></a>
 	</div>
 	<p>
-		NEED HELP? HAVE FEEDBACK? PLEASE FILL FREE TO <a href="<?php echo $base_link.'contactUs/'.$message['Job']['id'].$code; ?>"><b>CONTACT US!</b></a>
+		NEED HELP? HAVE FEEDBACK? PLEASE FILL FREE TO <a href="<?php echo $base_link.'contactUs/'.$message['Job']['id'].$intermediateCode; ?>"><b>CONTACT US!</b></a>
 	</p>
 </div>
 <p>

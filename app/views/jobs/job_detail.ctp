@@ -222,4 +222,6 @@
 <?php  endif; ?>
 
 <div></div>
-<?php echo $this->element('share_job');?>
+<div style="display:none;">
+	<?php echo $this->element('share_job');?>
+</div>

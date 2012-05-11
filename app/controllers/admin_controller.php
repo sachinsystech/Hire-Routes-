@@ -541,16 +541,20 @@ class AdminController extends AppController {
 			$totalRewards= $this->Job->find('all',array('conditions' =>array('user_id'=>$companyId),
 														'fields'=>array('sum(reward) as totalReward '),
 						));
-			//echo "<pre>";print_r($totalRewards);exit;
-			$this->set('totalRewards',$totalRewards[0][0]['totalReward']);
-			$this->set('totalPaidReward',$PaymentHistory[0][0]['totalPaidReward']);
-			$this->set('PaymentHistory',$PaymentHistory); 				  
-			$this->set('jobs',$jobs);
-			
-			$this->set('companyDetail',$companyDetail);															
+			if(isset($companyDetail) && $PaymentHistory && $jobs){
+			    //echo "<pre>";print_r($totalRewards);exit;
+			    $this->set('totalRewards',$totalRewards[0][0]['totalReward']);
+			    $this->set('totalPaidReward',$PaymentHistory[0][0]['totalPaidReward']);
+			    $this->set('PaymentHistory',$PaymentHistory); 				  
+			    $this->set('jobs',$jobs);
+			    $this->set('companyDetail',$companyDetail);
+			}else{
+			    $this->Session->setFlash('You may be clicked on old link or entered manually......', 'error');
+			    $this->redirect("/admin/paymentInformation");
+			}
 		}else{
 			$this->Session->setFlash("No Result Founds","error");				
-			
+			//$this->redirect("/admin/paymentInformation");
 		}
 	}	
 	

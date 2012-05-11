@@ -66,7 +66,7 @@ class UtilityComponent extends Object
     function getCode($passJobId,$userId){
     	$userRole=$this->Session->read('userRole');
     	if($userRole!=COMPANY){
-	        $saveCode = $this->Session->read('code');
+	        $saveCode = $this->Session->read('intermediateCode');
     	    if($saveCode){
     	        $str = base64_decode($saveCode);
 		    //echo $str;
@@ -107,7 +107,7 @@ class UtilityComponent extends Object
 
     /** It returns recent user id from Code which is set by URL  **/ 
     function getRecentUserIdFromCode(){
-        $saveCode = $this->Session->read('code');
+        $saveCode = $this->Session->read('intermediateCode');
         if($saveCode){
             $str = base64_decode($saveCode);
             echo $str;
@@ -124,7 +124,7 @@ class UtilityComponent extends Object
 
     /*** It will return all intermediate users ***/
     function getIntermediateUsers($jobId){
-        $saveCode = $this->Session->read('code');
+        $saveCode = $this->Session->read('intermediateCode');
         if($saveCode){
             $str = base64_decode($saveCode);
             $code="";
