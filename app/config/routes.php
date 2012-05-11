@@ -33,6 +33,7 @@
   	Router::connect('/admin/declineCompanyRequest/:id', array('controller' => 'admin','action' => 'declineCompanyRequest'),array('id' => '[0-9]+'));
   	Router::connect('/admin/paymentDetails/:payment_history_id/*', array('controller' => 'admin','action' => 'paymentDetails'),array('payment_history_id' => '[0-9]+'));
   	Router::connect('/admin/networkerSpecificData/:id/*', array('controller' => 'admin','action' => 'networkerSpecificData'),array('id' => '[0-9]+'));
+  	Router::connect('/admin/employerSpecificData/:companyId/*', array('controller' => 'admin','action' => 'employerSpecificData'),array('companyId' => '[0-9]+'));
  /** end Admin URL **/
  
 	Router::connect('/admin/codes', array('controller' => 'codes','action' => 'add'));
