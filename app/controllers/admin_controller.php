@@ -1,7 +1,7 @@
 <?php
 class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers',
-    					'UserList','Config','Job','JobseekerApply');
+    					'UserList','Config','Job','JobseekerApply','RewardsStatus');
 	var $helpers = array('Form','Number','Time','Paginator');
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
 	
@@ -26,6 +26,8 @@ class AdminController extends AppController {
 		$this->Auth->allow('userList');
 		$this->Auth->allow('config');
 		$this->Auth->allow('userAction');
+		$this->Auth->allow('networkerData');
+		$this->Auth->allow('networkerSpecificData');
 		$this->Auth->allow('employerSpecificData');	
 		$this->Auth->allow('companyjobdetail');	
 		$this->layout = "admin";
@@ -153,7 +155,8 @@ class AdminController extends AppController {
 	 	}	
 	 	//echo "<pre>"	 	; print_r($conditions);exit;
 		$this->paginate = array(
-			'fields'=>'PaymentHistory.id, Company.company_name,Company.user_id, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
+
+			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -186,6 +189,7 @@ class AdminController extends AppController {
 					'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id'
 				)
 			),
+			'order'=>'id desc',
 			'limit'=>10,
 			'conditions'=>isset($conditions)?$conditions:true
 		);
@@ -203,7 +207,7 @@ class AdminController extends AppController {
 	function paymentDetails()
 	{
 		$payment_detail = $this->PaymentHistory->find('first',array(
-			'fields'=>'PaymentHistory.id, Company.company_name, Company.contact_phone, Company.company_url, Jobseeker.contact_name, Jobseeker.contact_phone, User.account_email, Job.title, PaymentHistory.amount, JobseekerApply.intermediate_users,PaymentHistory.paid_date, PaymentHistory.transaction_id, PaymentHistory.payment_status, PaymentHistory.hr_reward_percent',
+			'fields'=>'PaymentHistory.id, Company.user_id, Company.company_name, Company.contact_name, Company.contact_phone, Company_User.account_email, Jobseeker.user_id, Jobseeker.contact_name, User.account_email, Job.title, PaymentHistory.amount, JobseekerApply.intermediate_users,PaymentHistory.paid_date, PaymentHistory.transaction_id, PaymentHistory.payment_status, PaymentHistory.hr_reward_percent, PaymentHistory.networker_reward_percent, PaymentHistory.jobseeker_reward_percent',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -218,7 +222,7 @@ class AdminController extends AppController {
 					'table'=>'companies',
 					'alias'=>'Company',
 					'type'=>'left',
-					'fields'=>'id, company_name, contact_phone, company_url',
+					'fields'=>'id, company_name, contact_phone, company_url, Company.user_id',
 					'conditions'=>'Job.company_id = Company.id'
 				),
 				array(
@@ -241,14 +245,21 @@ class AdminController extends AppController {
 					'type'=>'left',
 					'fields'=>'id, account_email',
 					'conditions'=>'JobseekerApply.user_id = User.id'
-				)
+				),
+				array(
+					'table'=>'users',
+					'alias'=>'Company_User',
+					'type'=>'left',
+					'fields'=>'id, account_email',
+					'conditions'=>'Company.user_id = Company_User.id'
+				),
 			),
 			'limit'=>10,			
 			'conditions'=>array('PaymentHistory.id'=>$this->params['payment_history_id'],'JobseekerApply.is_active'=>'1')
 		));
 		$networker_ids=explode(',',$payment_detail['JobseekerApply']['intermediate_users']);
 		$this->paginate=array(
-			'fields'=>'contact_name, User.account_email',
+			'fields'=>'Networkers.user_id,contact_name, User.account_email',
 			'recursive'=>-1,
 			'joins'=>array(
 				array(
@@ -469,6 +480,260 @@ class AdminController extends AppController {
 		$this->set('rewardPercent',$configuration['Config']['value']);
 	}
 	
+
+	function networkerData(){
+		$level=1;
+		if(isset($this->params['named']['level'])&&!empty($this->params['named']['level'])){
+			if(preg_match('/^[0-9]+$/',$this->params['named']['level'])){
+				$level=$this->params['named']['level'];
+			}else{
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			}
+		}
+		$levelInformation=$this->getLevelInformation();
+		if(!empty($levelInformation)&&count($levelInformation)<$level){
+			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			$level=1;
+		}
+		$networkersData=$this->getNetworkersData($level);
+		$this->set('selectedLevel',$level);
+		$this->set('levelInformation',$levelInformation);
+		$this->set('networkersData',$networkersData);
+	}
+	
+	function networkerSpecificData(){
+		if(isset($this->params['id'])&&$this->params['id']>2){
+			$level=1;
+			if(isset($this->params['named']['level'])&&!empty($this->params['named']['level'])){
+				if(preg_match('/^[0-9]+$/',$this->params['named']['level'])){
+					$level=$this->params['named']['level'];
+				}else{
+					$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+				}
+			}
+			$networkerData=$this->getNetworkersData(0,$this->params['id']);
+			if(!isset($networkerData)||empty($networkerData)){
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+				$this->redirect('/admin/networkerData');
+			}else{
+				$networkersLevelInfo=$this->getLevelInformation($this->params['id']);
+				if(!empty($networkersLevelInfo) && count($networkersLevelInfo)<$level){
+					$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+					$level=1;
+				}
+				$networkersNetworkerData = $this->getNetworkersData($level,$this->params['id']);
+				$originData=null;
+				if($networkerData[0]['origin']!='Random'){
+					$originData[]=$networkerData[0]['origin'];
+				}else{
+					$originData[]=$networkerData[0]['origin'];
+				}
+				$this->set('networkerData',$networkerData[0]);
+				$this->set('selectedLevel',$level);
+				$this->set('networkersLevelInfo',$networkersLevelInfo);
+				$this->set('networkersNetworkerData', $networkersNetworkerData);				
+				$this->set('originData',$originData);
+			}
+		}else{
+			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			$this->redirect('/admin/networkerData');
+		}
+	}
+	
+	private function getLevelInformation($userId=NULL){
+		if(empty($userId)){
+			$cond=array('OR'=>array(
+								'User.parent_user_id IS NULL',
+								'User.parent_user_id = Company.user_id'
+							)
+						);
+			$joins=array(
+						array(
+							'table'=>'companies',
+							'alias'=>'Company',
+							'fields'=>'Company.user_id',
+							'type'=>'left',
+							'conditions'=>'Company.user_id = User.parent_user_id'
+						),
+						array(
+							'table'=>'networkers',
+							'alias'=>'Networkers',
+							'fields'=>'id',
+							'type'=>'inner',
+							'conditions'=>'User.id = Networkers.user_id'
+						)
+					);
+		}else{
+			$cond=array('User.parent_user_id'=>$userId);
+			$joins=array(
+						array(
+							'table'=>'networkers',
+							'alias'=>'Networkers',
+							'fields'=>'id',
+							'type'=>'inner',
+							'conditions'=>'User.id = Networkers.user_id'
+						)
+					);
+		}
+		$Users   = $this->User->find('list',array('fields'=>'User.id',
+													'joins'=>$joins,
+													'conditions'=>$cond
+												)
+											);
+		if(count($Users)== 0 ){
+			return null;
+			
+		}
+  	    return array_merge(array(count($Users)),(array)$this->getlevelInformation($Users));
+	}
+	
+	private function getNetworkersData($level, $userIds=NULL){
+		for($level;$level>0;$level--){
+			$userIds=$this->getRecursiveNetworkers($userIds);
+		}
+		$this->paginate=array(
+							'fields'=>'User.id, User.parent_user_id, User.account_email, count(DISTINCT Jobseeker.id) as jobseekerCount, Networker.contact_name, Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount',
+							'recursive'=>-1,
+							'joins'=>array(
+								array(
+									'table'=>'users',
+									'alias'=>'JobseekerUser',
+									'type'=>'LEFT',
+									'conditions'=>'JobseekerUser.parent_user_id=User.id'
+								),
+								array(
+									'table'=>'jobseekers',
+									'alias'=>'Jobseeker',
+									'type'=>'LEFT',
+									'conditions'=>'Jobseeker.user_id=JobseekerUser.id'
+								),
+								array(
+									'table'=>'networkers',
+									'alias'=>'Networker',
+									'type'=>'LEFT',
+									'conditions'=>'Networker.user_id=User.id'
+								),
+								array(
+									'table'=>'shared_jobs',
+									'alias'=>'SharedJob',
+									'type'=>'LEFT',
+									'conditions'=>'SharedJob.user_id=User.id'
+								),
+							),
+							'conditions'=>array(
+								'User.id'=>$userIds
+							),
+							'group'=>'User.id',
+							'limit'=>10,
+						);
+		$networkersData = $this->paginate('User');												
+		foreach($networkersData as $key => $value){
+		
+			//To get Networkers networker count
+			$networkerslevelInformation=$this->getlevelInformation($networkersData[$key]['User']['id']);
+			if(empty($networkerslevelInformation)){
+				$networkersData[$key]['networkersCount'] =0;
+			}else{
+				$networkersData[$key]['networkersCount'] = array_sum($networkerslevelInformation);
+			}
+			$networkersData[$key]['level']=count($networkerslevelInformation);
+			//End get Networkers networker count
+			
+			//To get Origin	
+			if(empty($networkersData[$key]['User']['parent_user_id'])){
+				$networkersData[$key]['origin']='HR';
+			}else{
+				$company=$this->Companies->find('first',array('fields'=>'Companies.company_name','conditions'=>array('Companies.user_id'=>$networkersData[$key]['User']['parent_user_id'])));
+				if(empty($company)){
+					$networkersData[$key]['origin']='Random';
+				}else{
+					$networkersData[$key]['origin']=$company['Companies']['company_name'];
+				}
+			}
+			//End get Origin
+			
+			//To get Networkers Total Reward
+				$reward = $this->RewardsStatus->find('all',array(
+												'conditions'=>array(
+													'RewardsStatus.status'=>1,
+													'RewardsStatus.user_id'=>$networkersData[$key]['User']['id']
+												),
+												'joins'=>array(
+															array(
+								     							'table' => 'payment_history',
+										 						'alias' => 'PaymentHistory',
+										                        'type' => 'INNER',
+										                        'conditions' => array('RewardsStatus.payment_history_id = PaymentHistory.id')
+									     					),
+															array(
+																'table' => 'jobseeker_apply',
+										  						'alias' => 'JobseekerApply',
+										  						'type' => 'INNER',
+										  						'conditions' => array('PaymentHistory.applied_job_id = JobseekerApply.id AND FIND_IN_SET('.$networkersData[$key]['User']['id'].',JobseekerApply.intermediate_users)')
+									     					),
+																),
+												'fields'=>array(
+													'SUM(((PaymentHistory.amount)*(PaymentHistory.networker_reward_percent))/(substrCount(JobseekerApply.intermediate_users,",")*100)) as networker_reward'
+												),
+											)
+										);
+				if(empty($reward[0][0]['networker_reward'])){
+					$networkersData[$key]['networkerRewards']=0;
+				}else{
+					$networkersData[$key]['networkerRewards']=$reward[0][0]['networker_reward'];
+				}
+		//End get Networkers Total Reward
+			
+		}
+		
+		return $networkersData;
+	}
+	
+	private function getRecursiveNetworkers($userIds=NULL){
+		if(empty($userIds)){
+			$cond=array('OR'=>array(
+								'User.parent_user_id IS NULL',
+								'User.parent_user_id = Company.user_id'
+							)
+						);
+			$joins=array(
+						array(
+							'table'=>'companies',
+							'alias'=>'Company',
+							'fields'=>'Company.user_id',
+							'type'=>'left',
+							'conditions'=>'Company.user_id = User.parent_user_id'
+						),
+						array(
+							'table'=>'networkers',
+							'alias'=>'Networkers',
+							'fields'=>'id',
+							'type'=>'inner',
+							'conditions'=>'User.id = Networkers.user_id'
+						)
+					);
+		}else{
+			$cond=array('User.parent_user_id'=>$userIds);
+			$joins=array(
+						array(
+							'table'=>'networkers',
+							'alias'=>'Networkers',
+							'fields'=>'id',
+							'type'=>'inner',
+							'conditions'=>'User.id = Networkers.user_id'
+						)
+					);
+		}
+		
+		$users= $this->User->find('list',array('fields'=>'User.id',
+													'joins'=>$joins,
+													'conditions'=>$cond
+												)
+											);
+		return $users;
+
+	}
+	
 	public function employerSpecificData(){
 		
 		if(isset($this->params["companyId"])){
@@ -584,6 +849,6 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 		$jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
 		$jobDetail['Job']['job_type']=$jobtypes[$jobDetail['Job']['job_type']];
 		return json_encode($jobDetail);
-	}
+		}
 }
 ?>
