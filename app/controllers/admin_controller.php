@@ -26,7 +26,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('config');
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('networkerData');
-		
+		$this->Auth->allow('networkerSpecificData');
 		$this->layout = "admin";
 	}
 	
@@ -474,17 +474,65 @@ class AdminController extends AppController {
 	}
 	
 	function networkerData(){
-		echo $this->params['named']['level'];
 		$level=1;
 		if(isset($this->params['named']['level'])&&!empty($this->params['named']['level'])){
-			$level=$this->params['named']['level'];
+			if(preg_match('/^[0-9]+$/',$this->params['named']['level'])){
+				$level=$this->params['named']['level'];
+			}else{
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			}
 		}
-		$this->set('levelInformation',$this->getlevelInformation());
+		$levelInformation=$this->getLevelInformation();
+		if(!empty($levelInformation)&&count($levelInformation)<$level){
+			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			$level=1;
+		}
+		$networkersData=$this->getNetworkersData($level);
 		$this->set('selectedLevel',$level);
-		$this->set('networkersData',$this->getnetworkersData($level));
+		$this->set('levelInformation',$levelInformation);
+		$this->set('networkersData',$networkersData);
 	}
 	
-	private function getlevelInformation($userId=NULL){
+	function networkerSpecificData(){
+		if(isset($this->params['id'])&&$this->params['id']>2){
+			$level=1;
+			if(isset($this->params['named']['level'])&&!empty($this->params['named']['level'])){
+				if(preg_match('/^[0-9]+$/',$this->params['named']['level'])){
+					$level=$this->params['named']['level'];
+				}else{
+					$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+				}
+			}
+			$networkerData=$this->getNetworkersData(0,$this->params['id']);
+			if(!isset($networkerData)||empty($networkerData)){
+				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+				$this->redirect('/admin/networkerData');
+			}else{
+				$networkersLevelInfo=$this->getLevelInformation($this->params['id']);
+				if(!empty($networkersLevelInfo) && count($networkersLevelInfo)<$level){
+					$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+					$level=1;
+				}
+				$networkersNetworkerData = $this->getNetworkersData($level,$this->params['id']);
+				$originData=null;
+				if($networkerData[0]['origin']!='Random'){
+					$originData[]=$networkerData[0]['origin'];
+				}else{
+					$originData[]=$networkerData[0]['origin'];
+				}
+				$this->set('networkerData',$networkerData[0]);
+				$this->set('selectedLevel',$level);
+				$this->set('networkersLevelInfo',$networkersLevelInfo);
+				$this->set('networkersNetworkerData', $networkersNetworkerData);				
+				$this->set('originData',$originData);
+			}
+		}else{
+			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			$this->redirect('/admin/networkerData');
+		}
+	}
+	
+	private function getLevelInformation($userId=NULL){
 		if(empty($userId)){
 			$cond=array('OR'=>array(
 								'User.parent_user_id IS NULL',
@@ -531,13 +579,12 @@ class AdminController extends AppController {
   	    return array_merge(array(count($Users)),(array)$this->getlevelInformation($Users));
 	}
 	
-	private function getnetworkersData($level){
-		$userIds=NULL;
+	private function getNetworkersData($level, $userIds=NULL){
 		for($level;$level>0;$level--){
 			$userIds=$this->getRecursiveNetworkers($userIds);
 		}
 		$this->paginate=array(
-							'fields'=>'User.id, User.parent_user_id, User.account_email, count(DISTINCT Jobseeker.id) as jobseekerCount, Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount',
+							'fields'=>'User.id, User.parent_user_id, User.account_email, count(DISTINCT Jobseeker.id) as jobseekerCount, Networker.contact_name, Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount',
 							'recursive'=>-1,
 							'joins'=>array(
 								array(
@@ -581,6 +628,7 @@ class AdminController extends AppController {
 			}else{
 				$networkersData[$key]['networkersCount'] = array_sum($networkerslevelInformation);
 			}
+			$networkersData[$key]['level']=count($networkerslevelInformation);
 			//End get Networkers networker count
 			
 			//To get Origin	
