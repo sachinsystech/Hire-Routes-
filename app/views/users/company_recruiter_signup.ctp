@@ -1,7 +1,7 @@
-<div style="width:550px;margin:auto;">
 <script>
 	$(document).ready(function(){
 		$("#UserCompanyRecruiterSignupForm").validate({
+			  errorClass: 'error_input_message',
 			  rules: {
 				'data[User][password]': "required",
 				'data[User][repeat_password]': {
@@ -23,8 +23,8 @@
   }
       
 </script>
+<div style="width:550px;margin:auto;">
 <div class="sigup_heading"><u>Companies/Recruiters  Registration Request</u></div>
-
 <div class="sigup_head_description">Please fill the registration request below, we will analyze your data and get back with in next 24 hours.</div>
 <div class="sigup_form" >
 <?php echo $form->create('User', array('action' => 'companyRecruiterSignup','onsubmit'=>'return checkform();')); ?>
@@ -92,22 +92,25 @@
 	<?php	echo $form->input('repeat_password', array('label' => 'Repeat Password',
                                            			'type'  => 'password',
 													'name'  => "data[User][repeat_password]",
-													'class' => 'text_field_bg'
+													'class' => 'text_field_bg required'
                                            			)
                                  );
     ?>
 
+
 	<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
                                            			'type'  => 'checkbox',
 													'name'  => "data[User][agree_condition]",
-											
+													
                                            			)
                                  );
     ?>
+    
     <div id="agree_condition_error"></div>
     <?php if(isset($errors)): ?>
-      <div class="error-message" ><?php echo $errors;?></div>
+     	<div class="error-message" ><?php echo $errors;?></div>
     <?php endif; ?>
+    
     <?php echo $form->submit('Send A Request',array('div'=>false,)); ?>
     <?php echo $form->end(); ?>	
 </div>

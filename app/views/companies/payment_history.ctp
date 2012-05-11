@@ -2,7 +2,7 @@
 <script>
 
 function paymentHistoryInfo(user_id,transaction_id){
-		//alert("ddd");
+		
 		$.ajax({
 		url:"/companies/paymentHistoryInfo",
 		type:"post",

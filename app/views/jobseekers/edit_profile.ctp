@@ -1,6 +1,12 @@
 <script> 	
     $(document).ready(function(){
-  		$("#JobseekerSettingsEditProfileForm").validate();
+   		$("#JobseekerSettingsEditProfileForm").validate({
+			errorClass: 'error_input_message',
+				errorPlacement: function (error, element) {
+					error.insertAfter(element)
+					error.css({'margin-left':'125px','width':'230px'});
+			}
+		});
     });	
 </script>
 <div class="page">
