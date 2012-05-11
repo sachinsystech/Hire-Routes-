@@ -637,7 +637,7 @@ class NetworkersController extends AppController {
 		
 		$payment = $this->PaymentHistory->find('all',array(
 												'conditions'=>array(
-													'PaymentHistory.payment_status'=>1,
+													//'PaymentHistory.payment_status'=>1,
 													'FIND_IN_SET('.$userId.',jobseeker_apply.intermediate_users)>0'),
 														   'joins'=>array(
 																		array('table' => 'jobseeker_apply',
@@ -645,14 +645,19 @@ class NetworkersController extends AppController {
 												  							  'type' => 'LEFT',
 												  							  'conditions' => array('PaymentHistory.applied_job_id = jobseeker_apply.id ')
 											     							),
-																		array('table' => 'jobs',
+																		/*array('table' => 'jobs',
 												 							  'alias' => 'jobs',
 												                              'type' => 'LEFT',
 												                              'conditions' => array('PaymentHistory.job_id = jobs.id ')
-											     							)
+											     							),*/
+											     						array('table' => 'rewards_status',
+												 							  'alias' => 'RewardsStatus',
+												                              'type' => 'INNER',
+												                              'conditions' => array('RewardsStatus.user_id ='.$userId.' AND RewardsStatus.status=1')
+											     							),
 		
 																		),
-															'fields'=>array('SUM(((jobs.reward)*(100-PaymentHistory.hr_reward_percent))/(substrCount(jobseeker_apply.intermediate_users,",")*100)) as networker_reward'),
+															'fields'=>array('SUM(((PaymentHistory.amount)*(PaymentHistory.networker_reward_percent))/(substrCount(jobseeker_apply.intermediate_users,",")*100)) as networker_reward'),
 							
 							
 														  )
