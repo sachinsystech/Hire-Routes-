@@ -515,10 +515,50 @@ class AdminController extends AppController {
 				}
 				$networkersNetworkerData = $this->getNetworkersData($level,$this->params['id']);
 				$originData=null;
-				if($networkerData[0]['origin']!='Random'){
-					$originData[]=$networkerData[0]['origin'];
+				echo "ORIGIN ".$networkerData[0]['origin'];
+				if($networkerData[0]['origin']==RANDOM){
+					$cond=true;
+					$userId=$networkerData[0]['User']['id'];
+					$originsData=null;
+					while($cond){
+						$originsData=$this->User->find('first',array(
+									'fields'=>'User.id, User.parent_user_id, Company.company_name, Company.id, Networker.contact_name',
+									'recursive'=>'-1',
+									'joins'=>array(
+										array(
+											'table'=>'companies',
+											'alias'=>'Company',
+											'type'=>'LEFT',
+											'conditions'=>'Company.user_id=User.parent_user_id'
+										),
+										array(
+											'table'=>'networkers',
+											'alias'=>'Networker',
+											'type'=>'LEFT',
+											'conditions'=>'Networker.user_id=User.id'
+										)
+									),
+									'conditions'=>array(
+										'User.id'=>$userId,
+									)
+								)
+							);
+						$userId=$originsData['User']['parent_user_id'];
+						if(!empty($originsData['Company']['id'])||$originsData['User']['parent_user_id']==NULL)
+							$cond=false;
+					}
+					$originData[]=$originsData['Networker']['contact_name'];
+					if($originsData['User']['parent_user_id']==NULL){
+						$originData[]="Hire Routes";
+					}else{
+						$originData[]=$originsData['Company']['company_name'];
+					}
 				}else{
-					$originData[]=$networkerData[0]['origin'];
+					if($networkerData[0]['origin']===HR){
+						$originData[]="Hire Routes";
+					}else{
+						$originData[]=$networkerData[0]['origin'];
+					}
 				}
 				$this->set('networkerData',$networkerData[0]);
 				$this->set('selectedLevel',$level);
@@ -633,11 +673,11 @@ class AdminController extends AppController {
 			
 			//To get Origin	
 			if(empty($networkersData[$key]['User']['parent_user_id'])){
-				$networkersData[$key]['origin']='HR';
+				$networkersData[$key]['origin']=0;
 			}else{
 				$company=$this->Companies->find('first',array('fields'=>'Companies.company_name','conditions'=>array('Companies.user_id'=>$networkersData[$key]['User']['parent_user_id'])));
 				if(empty($company)){
-					$networkersData[$key]['origin']='Random';
+					$networkersData[$key]['origin']=1;
 				}else{
 					$networkersData[$key]['origin']=$company['Companies']['company_name'];
 				}

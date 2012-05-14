@@ -110,16 +110,37 @@
 							<?php echo $networkerInfo['0']['jobseekerCount'];?>
 						</div>
 						<div class="networkersDataOrigin">
-							<?php echo $networkerInfo['origin'];?>
+							<?php 
+								if($networkerInfo['origin']===HR)
+									echo "HR";
+								elseif($networkerInfo['origin']===RANDOM)
+									echo "Random";
+								else
+									echo $networkerInfo['origin'];
+							?>
 						</div>
-						<div class="networkersData">
-							<?php echo $networkerInfo['networkerRewards'];?>
+						<div class="networkersData" style="text-align:right;">
+							<?php 
+								echo $this->Number->format(
+									$networkerInfo['networkerRewards'],
+									array(
+										'places' => 2,
+										'before' => '$',
+										'decimals' => '.',
+										'thousands' => ',')
+									);
+							?>
 						</div>
 						<div class="networkersData">
 							<?php echo $networkerInfo['0']['sharedJobsCount'];?>
 						</div>
 						<div class="networkersData">
-							<?php echo $networkerInfo['Networker']['notification'];?>
+							<?php 
+								if($networkerInfo['Networker']['notification']>0)
+									echo "Y";
+								else
+									echo "N";
+							?>
 						</div>
 					</div>
 					<?php $count++;?>
