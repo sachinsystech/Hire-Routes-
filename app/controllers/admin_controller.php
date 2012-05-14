@@ -23,6 +23,8 @@ class AdminController extends AppController {
 		$this->Auth->allow('userList');
 		$this->Auth->allow('config');
 		$this->Auth->allow('userAction');
+		$this->Auth->allow('rewardPayment');
+		$this->Auth->allow('fetchRewardTimeGraph');
 		
 		$this->layout = "admin";
 	}
@@ -94,7 +96,7 @@ class AdminController extends AppController {
 	}
 
 	/****	Decline company request	***/
-	function declineCompanyRequest() {
+	function declineCompanyRequest(){
 		$id = $this->params['id'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id,
 																	'User.is_active'=>'0')));
@@ -126,6 +128,10 @@ class AdminController extends AppController {
 	 */
 	function paymentInformation(){
 	
+		$orderBy = array('paid_date' => 'desc');
+		if(isset($this->params['named']['sort'])){
+			//pr($this->params['named']);exit;
+		}	
 		if(isset($this->params['named'])){
 			$data=$this->params['named'];
 		}
@@ -146,10 +152,11 @@ class AdminController extends AppController {
 	 	if(!empty($data['to_date'])){
 	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
 	 		$this->set('to_date',$data['to_date']);
-	 	}	
+	 	}
+	 		
 	 	//echo "<pre>"	 	; print_r($conditions);exit;
 		$this->paginate = array(
-			'fields'=>'PaymentHistory.id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
+			'fields'=>'PaymentHistory.id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -461,5 +468,107 @@ class AdminController extends AppController {
 		    }
 		$this->set('rewardPercent',$configuration['Config']['value']);
 	}
+	
+	function rewardPayment(){
+		
+	    if(isset($this->data['Config'])){
+	   	    $i = 1;
+	    	foreach($this->data['Config'] as $key=>$value) {
+				$cdarray['id'] = $i++;
+				$cdarray['key'] = $key;
+				$cdarray['value'] = $value;
+				$this->Config->save($cdarray);
+			}
+			$this->Session->setFlash('The Reward Configuration have been updated.', 'success');	    		
+	    }
+	    $params = array(
+				   'conditions' => array('Config.id'=>array(1,2,3,4,5,6,7,8,9)), 
+				   'fields' => array('Config.key','Config.value','Config.id')
+				   );
+		$configuration = $this->Config->find('list',$params);
+		$this->set('rewardPercent',$configuration);
+
+		/***	Graph data	***/
+	    $year = 2012; 
+	    $graphParams = array(
+	    			'conditions' => array('YEAR(PaymentHistory.paid_date)'=>$year), 
+				    'fields' => array('MONTH(PaymentHistory.paid_date) As month','sum(PaymentHistory.amount) as reward'),
+					'group' => 'MONTH(PaymentHistory.paid_date)',
+
+				   );
+		$graphData = $this->PaymentHistory->find('all',$graphParams);
+		$months = array(
+                1 => 'Jan',
+                2 => 'Feb',
+                3 => 'Mar',
+                4 => 'Apr',
+                5 => 'May',
+                6 => 'Jun',
+                7 => 'Jul',
+                8 => 'Aug',
+                9 => 'Sep',
+                10 => 'Oct',
+                11 => 'Nov',
+                12 => 'Dec'
+                );
+		
+		foreach($graphData as $kuch_v){
+			$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+		}
+		
+		$result = array();
+		
+		foreach($months as $k=>$v){
+			if(in_array($k,array_keys($gdarray))){
+				$result[] = "['".$v."',".$gdarray[$k]."]";
+			}	
+			else{
+				$put_zero = 0;
+				$result[] = "['".$v."',".$put_zero."]";
+			}
+		}
+		$this->set('gD',implode(",", $result));
+	}
+	
+	function fetchRewardTimeGraph(){
+		/***	Graph data	***/
+		$this->autoRender=false;
+	    $year = $this->params['form']['yearReward']; 
+	    $graphParams = array(
+	    			'conditions' => array('YEAR(PaymentHistory.paid_date)'=>$year), 
+				    'fields' => array('MONTH(PaymentHistory.paid_date) As month','sum(PaymentHistory.amount) as reward'),
+					'group' => 'MONTH(PaymentHistory.paid_date)',
+
+				   );
+		$graphData = $this->PaymentHistory->find('all',$graphParams);
+		$months = array(
+                1 => 'Jan',
+                2 => 'Feb',
+                3 => 'Mar',
+                4 => 'Apr',
+                5 => 'May',
+                6 => 'Jun',
+                7 => 'Jul',
+                8 => 'Aug',
+                9 => 'Sep',
+                10 => 'Oct',
+                11 => 'Nov',
+                12 => 'Dec'
+                );
+		
+		foreach($graphData as $kuch_v){
+			$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+		}
+		$result = array();
+		foreach($months as $k=>$v){
+			if(in_array($k,array_keys($gdarray))){
+				$result[] = $gdarray[$k];
+			}	
+			else{
+				$result[] = 0;
+			}
+		}
+		return json_encode(array('data'=>$result,'year'=>$year));
+	}	
 }
 ?>

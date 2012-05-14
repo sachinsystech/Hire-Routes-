@@ -107,6 +107,10 @@
 		</ul>
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+			<li><a href="/admin/rewardPayment"><b>Rewards/Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+		</ul>
+		
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 
 			<li><a href="/admin/userList"><b>Users</b></a></li>
 		</ul>
