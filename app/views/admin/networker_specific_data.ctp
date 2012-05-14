@@ -8,7 +8,7 @@
 	<div class="specificData">
 		<div class="NSDRowLeft">
 			<div class="NSDInfoHeading">NAME:</div>
-			<div class="NSDInfo"><?php echo $networkerData['Networker']['contact_name'];?></div>
+			<div class="NSDInfo"><?php echo ucfirst($networkerData['Networker']['contact_name']);?></div>
 		</div>
 		<div class="NSDRowRight">
 			<div class="NSDInfoHeading">Job Shared:</div>

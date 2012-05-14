@@ -87,7 +87,7 @@
 						?>
 						<tr>
 							<td width="22%"><b>Company Name:<b></td>
-							<td width="35%"> <?php echo $companyDetail['Companies']['company_name'] ;?> </td>
+							<td width="35%"> <?php echo ucfirst($companyDetail['Companies']['company_name']) ;?> </td>
 							<td width="22%"><b>Reward Paid:</b></td>
 							<td width="35%">
 								<?php echo $this->Number->format($totalPaidReward,
@@ -101,7 +101,7 @@
 						</tr>
 							<td ><b>Contact Name:</b></td>
 							<td >
-								<?php echo $companyDetail['Companies']['contact_name'] ;?> 
+								<?php echo ucfirst($companyDetail['Companies']['contact_name']) ;?> 
 							</td> 
 							<td><b>Reward Posted:</b></td>
 							<td>
@@ -195,7 +195,7 @@
 						<td align="center"><?php echo ++$sno; ?></td>
 						<td>
 							<a href="javascript:void(0);" onclick="jobDetail(<?php echo $job['Job']['id'] ;?>)" >
-								<?php echo $job['Job']['title']; ?>
+								<?php echo ucfirst($job['Job']['title']); ?>
 							</a>
 						</td>
 						<td><?php echo $job['0']['submission']; ?></td>

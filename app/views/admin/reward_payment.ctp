@@ -121,7 +121,18 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 
 <div class="configuration_content">
  <div class="inner-content">	
-  <span class="rp-error" style="clear:both;color:#FF0000;color: #FF0000;font-size: 13px;margin-left: 62px;"></span>
+  <span class="rp-error" style="clear:both;color:#FF0000;color: #FF0000;font-size: 13px;margin-left: 62px;">
+  
+	<?php if(isset($scenario)){
+		echo $rp_error;?>
+		<style>
+		.sc<?php echo $scenario; ?> fieldset{
+      		border-color:#FF0000;
+    	}
+		</style>
+	<?php } ?>
+
+  </span>
   <?php echo $form->create('Config',array('url'=>array('controller'=>'admin','action'=>'rewardPayment'),'onSubmit'=>'return checkForm()'))?>
 
 	<div style="float:left">
@@ -476,3 +487,4 @@ function paymentRewardGraph(yearReward){
 }
 paymentRewardGraph(2012);
 </script>
+

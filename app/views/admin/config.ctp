@@ -2,7 +2,7 @@
 <div id="page-heading"><h1>Global Configuration</h1></div>
 
 <div style="clear:both"></div>
-<div class="configuration_content"> 
+<div class="configuration_content" style="height:60px;"> 
 	<div style="width:360px">
 		<?php echo $form->create('Config',array('url'=>array('controller'=>'admin','action'=>'config')))?>
 		<div class="required" style="float:left">
@@ -10,7 +10,7 @@
 				echo $form->input('rewardPercent',array(
 									'label' => 'Reward <span> <b>%</b></span>',
 									'type'  => 'text',
-									'class' => 'reward_pc required number',
+									'class' => 'reward_config required number',
 									'value' => $rewardPercent,
 									'maxlength' => '5',
 									'max' =>100,
