@@ -43,7 +43,8 @@
     <div></div>
 	<?php	echo $form->input('Companies.company_name', array('label' => 'Company / Recruiter Name',
                                            			'type'  => 'text',
-													'class' => 'text_field_bg'
+													'class' => 'text_field_bg required alphabets',
+													'minlength' => '3',
                                            			)
                                  );
     ?>

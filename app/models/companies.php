@@ -4,6 +4,24 @@ class Companies extends AppModel {
     var $name = 'Companies';
     var $useTable = 'companies';
     var $validate = array(
+    	'company_name' => array(
+			'notEmpty'=> array(
+				'rule' => 'notEmpty',
+				'message' => 'This can not be blank.'
+			),
+			'allowedCharacters'=> array(
+				'rule' => '|^[a-zA-Z ]*$|',
+				'message' => 'This can only be letters.'
+			),
+			'minLength'=> array(
+				'rule' => array('minLength', 3),
+				'message' => 'This must be at least 3 characters long.'
+			),
+			'maxLength'=> array(
+				'rule' => array('maxLength', 255),
+				'message' => 'This can not be longer that 255 characters.'
+			)
+		),
 		'contact_name' => array(
 			'notEmpty'=> array(
 				'rule' => 'notEmpty',

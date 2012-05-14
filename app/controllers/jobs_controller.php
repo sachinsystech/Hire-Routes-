@@ -418,10 +418,10 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
             if($userId){
                 if($this->userRole == NETWORKER||$this->userRole == COMPANY){
                 	$code=$this->Utility->getCode($id,$userId);
-                    $this->set('code',$code);
+                    $this->set('intermediateCode',$code);
                 }
                 if(isset($code)&&!empty($code))
-                	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/?code='.$code;
+                	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/?intermediateCode='.$code;
                 else
 	                $jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/';
 	  

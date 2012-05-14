@@ -60,7 +60,7 @@
     ?>
 	
 	<?php	
-		if($this->Session->read('code')=="" || $this->Session->read('code')==null){
+		if($this->Session->read('intermediateCode')=="" || $this->Session->read('intermediateCode')==null){
 			echo $form->input('Code.code', array('label' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",

@@ -100,7 +100,7 @@ $(function() {
 						<?php echo $form->input('code', array('label' => '',
 															  'id'=>'code',
 															  'type'  => 'hidden',
-															  'value'=>isset($code)?$code:"",
+															  'value'=>isset($intermediateCode)?$intermediateCode:"",
 						));?>
 					</div>
 					<?php echo $form->end(); ?>

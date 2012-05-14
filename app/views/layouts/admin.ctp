@@ -102,8 +102,9 @@
 			<li><a href="/admin/networkerData"><b>Networkers</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
 
+		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
-			<li><a href="/admin/paymentInformation"><b>Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+			<li><a href="/admin/rewardPayment"><b>Rewards/Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">

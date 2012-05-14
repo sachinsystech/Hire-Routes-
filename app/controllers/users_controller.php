@@ -146,7 +146,7 @@ class UsersController extends AppController {
                 return;
 			}
 			/*	Validating Restrict_Code	*/
-			if($this->Session->read('code')=='' || $this->Session->read('code')== null){
+			if($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null){
 				if(!$this->validateCode()){
 					return;
 				}
@@ -230,7 +230,7 @@ class UsersController extends AppController {
 				return;
 			}
 			/*	Validating Restrict_Code	*/
-			if($this->Session->read('code')=='' || $this->Session->read('code')== null){
+			if($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null){
 				if(!$this->validateCode()){
 					return;
 				}
@@ -331,6 +331,8 @@ class UsersController extends AppController {
  	private function saveUser($userData){
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
+		$userData['last_login']=date('Y-m-d H:i:s'); 
+		
         if($parent = $this->Utility->getRecentUserIdFromCode()){
             $userData['parent_user_id'] = $parent;
 		}
@@ -378,8 +380,8 @@ class UsersController extends AppController {
 		$to = $user['User']['account_email'];
 		$subject = 'Hire Routes : Account Confirmation';
 		$message =  $user['User'];
-		$code=$this->Session->read('code');
-		$message['code'] =  '?code='.$code;
+		$code=$this->Session->read('intermediateCode');
+		$message['intermediateCode'] =  '?intermediateCode='.$code;
 		$this->sendEmail($to,$subject,$template,$message);
 	}
 	
@@ -540,10 +542,10 @@ class UsersController extends AppController {
 					$this->redirect('/');					
 		}
 		if($this->userRole==NETWORKER){
-			if($this->Session->check('code')){
-				$code=$this->Session->read('code');
-				$jobId=$this->Utility->getJobIdFromCode('',$code);
-				$this->set('jobUrl','/jobs/jobDetail/'.$jobId.'?code='.$code);
+			if($this->Session->check('intermediateCode')){
+				$intermediateCode=$this->Session->read('intermediateCode');
+				$jobId=$this->Utility->getJobIdFromCode('',$intermediateCode);
+				$this->set('jobUrl','/jobs/jobDetail/'.$jobId.'?intermediateCode='.$intermediateCode);
 			}
 		}
 		$this->set('role', $this->userRole);
@@ -728,7 +730,7 @@ class UsersController extends AppController {
 	function logout() {
 		$this->Auth->logout();
 		$this->_getSession()->logout();
-        $this->Session->delete('code');
+        $this->Session->delete('intermediateCode');
 		$this->Session->delete('welcomeUserName');
 		$this->Session->delete('userRole');
 		$this->Session->delete('Twitter');
@@ -958,6 +960,9 @@ class UsersController extends AppController {
 		if(!$session->isLoggedIn()){
 			$this->redirect("/users/login");
 		}
+		$data['User']['id']= $session->getUserId();
+		$data['User']['last_login']=date('Y-m-d H:i:s'); 
+		$this->User->save($data);
 		$userRole = $this->_getSession()->getUserRole();
 		switch($userRole){
 			case COMPANY:

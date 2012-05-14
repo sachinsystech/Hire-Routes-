@@ -223,7 +223,16 @@
 								Check Status :
 							</div>
 							<div style="float:left;">
-								Paid/Sent</br>
+								<?php
+									switch($payment_detail['RewardsStatus']['status']){
+										case 0:
+											echo "Sent";
+											break;
+										case 1:
+											echo "Paid";
+											break;
+									}
+								?></br>
 							</div>
 							<div style="clear:both"></div>
 							<div class='sub_heading'>
@@ -262,7 +271,7 @@
 				<tr class="tableHeading">
 					<th>Networker</th>
 					<th width="150px;">Reward</th>
-					<th width="130px;">Checkout Status</th>
+					<th width="130px;">Check Status</th>
 					<th>Email</th>
 				</tr>
 				<?php
@@ -289,7 +298,16 @@
 						</span>
 					</td>
 					<td  align="center">
-						SENT/PAID
+						<?php
+							switch($networker['RewardsStatus']['status']){
+								case 0:
+									echo "Sent";
+									break;
+								case 1:
+									echo "Paid";
+									break;
+							}
+						?>
 					</td>
 					<td style="padding-left:20px;">
 						<?php echo $html->link($networker['User']['account_email'], array('controller' => 'admin','action'=>'networkerSpecificData',$networker['Networkers']['user_id'] ));?>

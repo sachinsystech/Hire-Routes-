@@ -86,9 +86,17 @@
 					<td colspan="100%">Sorry, No job found.</td>
 				</tr>
 				<?php } ?>
-				<?php foreach($jobs as $job):?>	
-				<tr>
-					<td><?php echo $this->Html->link($job['Job']['title'], '/companies/editJob/'.$job['Job']['id']); echo "<br>Posted ". $time->timeAgoInWords($job['Job']['created'],'m/d/Y'); ?></td>
+				<?php foreach($jobs as $job):?>
+				<?php 
+					if($job['Job']['is_active']==3)
+					echo "<tr class='post_later_jobs'>";
+					else echo "<tr>";
+				?>
+					<td><?php echo $this->Html->link($job['Job']['title'], '/companies/editJob/'.$job['Job']['id']);
+						  echo "<br>Posted ". $time->timeAgoInWords($job['Job']['created'],'m/d/Y');
+						if($job['Job']['is_active']==3)	  
+						  echo "<a href='/companies/editJob/".$job['Job']['id']."' style='float:right;'>Post & Share</a>";
+					?></td>
 					<td><?php echo $job[0]['submissions']; ?> submissions</td>
 					<td><?php echo $this->Html->image("/img/icon/detail.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
