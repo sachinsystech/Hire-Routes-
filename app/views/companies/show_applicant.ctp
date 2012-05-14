@@ -256,7 +256,7 @@ function clear_div(val){
 				</tr>
 				<?php if(empty($applicants)): ?>
 				<tr>
-					<td colspan="100%">Sorry, No applicant found.</td>
+					<td colspan="100%" style="line-height: 25px;">Sorry, No applicant found.</td>
 				</tr>
 				<?php endif; ?>
 				<?php foreach($applicants as $applicant):?>	
@@ -276,7 +276,10 @@ function clear_div(val){
 						<?php 
 							$degree = 0;
 							if($applicant['JobseekerApply']['intermediate_users']!=''){
-								$degree = count(explode(",",$applicant['JobseekerApply']['intermediate_users']));
+							$intermediate_user_ids=explode(",",$applicant['JobseekerApply']['intermediate_users']);
+								$degree = count($intermediate_user_ids);
+							if(empty($intermediate_user_ids[0]) && $degree>1)
+								$degree=$degree-1;
 							} 
 							echo $degree+1;
 						?>

@@ -99,6 +99,13 @@
 		window.location.href="/companies/postJob";			
 	}
 	$(document).ready(function(){
-		$("#UserEditProfileForm").validate();
+		$("#UserEditProfileForm").validate({
+			errorClass: 'error_input_message',
+			errorPlacement: function (error, element) {
+				error.insertAfter(element)
+				error.css({'position':'absolute','margin-left':'120px','width':'230px'});
+			}
+		});
 	});     
+	
 </script>
