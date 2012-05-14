@@ -45,7 +45,7 @@
 			<tr class="<?php echo $class; ?>"> 
 				<td align="center" width="3%"><?php echo $sno;?></td>
 				<td width="20%" style="padding:7px;"><?php echo $company["Companies"]["company_name"]; ?></td> 
-				<td width="20%"><?php echo $company["Companies"]["contact_name"]; ?></td> 
+				<td width="20%"><?php echo ucfirst($company["Companies"]["contact_name"]); ?></td> 
 				<td align="center" width="20%"><?php echo $company["Companies"]["contact_phone"]; ?></td> 
 				<td width="40%"><?php echo $company["User"]["account_email"]; ?></td> 
 				<td align="center" width="10%"><?php echo $company["Companies"]["act_as"]; ?></td>
