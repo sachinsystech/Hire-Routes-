@@ -1,32 +1,36 @@
 <?php
 class AdminController extends AppController {
-    var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers','UserList','Config','RewardsStatus');
-	var $helpers = array('Form','Number');
+    var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers',
+    					'UserList','Config','Job','JobseekerApply','RewardsStatus');
+	var $helpers = array('Form','Number','Time','Paginator');
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
-		
 		if($this->Session->read('Auth.User.id')!=1){
 			$this->redirect('/');
 		}
 		if($this->userRole!=ADMIN){
 			$this->redirect("/users/loginSuccess");
 		}
-		
 		$this->Auth->authorize = 'actions';
-		$this->Auth->allow('index');
-		$this->Auth->allow('companiesList');
-		$this->Auth->allow('Code');
-		$this->Auth->allow('paymentInformation');
-		$this->Auth->allow('filterPayment');
-		$this->Auth->allow('paymentDetails');
-		$this->Auth->allow('updatePaymentStatus');
-		$this->Auth->allow('userList');
+
 		$this->Auth->allow('config');
-		$this->Auth->allow('userAction');
+		$this->Auth->allow('companyjobdetail');	
+		$this->Auth->allow('companiesList');
+		$this->Auth->allow('employerSpecificData');	
+		$this->Auth->allow('fetchRewardTimeGraph');
+		$this->Auth->allow('filterPayment');
+		$this->Auth->allow('index');
 		$this->Auth->allow('networkerData');
 		$this->Auth->allow('networkerSpecificData');
+		$this->Auth->allow('paymentDetails');
+		$this->Auth->allow('paymentInformation');
+		$this->Auth->allow('rewardPayment');
+		$this->Auth->allow('userAction');
+		$this->Auth->allow('updatePaymentStatus');
+		$this->Auth->allow('userList');
+
 		$this->layout = "admin";
 	}
 	
@@ -97,7 +101,7 @@ class AdminController extends AppController {
 	}
 
 	/****	Decline company request	***/
-	function declineCompanyRequest() {
+	function declineCompanyRequest(){
 		$id = $this->params['id'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id,
 																	'User.is_active'=>'0')));
@@ -129,6 +133,8 @@ class AdminController extends AppController {
 	 */
 	function paymentInformation(){
 	
+		$orderBy = array('paid_date' => 'desc');
+
 		if(isset($this->params['named'])){
 			$data=$this->params['named'];
 		}
@@ -138,7 +144,7 @@ class AdminController extends AppController {
 		}	
 		$conditions[]='JobseekerApply.is_active=1';
 		if(isset($data['status']) && $data['status'] !==""){
-		//echo $data['status']."------";exit;
+
 			$conditions[]='payment_status ='.$data['status'];
 	 		$this->set('status',$data['status']);
 	 	}
@@ -149,10 +155,11 @@ class AdminController extends AppController {
 	 	if(!empty($data['to_date'])){
 	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
 	 		$this->set('to_date',$data['to_date']);
-	 	}	
-	 	//echo "<pre>"	 	; print_r($conditions);exit;
+	 	}
+	 		
+
 		$this->paginate = array(
-			'fields'=>'DISTINCT PaymentHistory.id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
+			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -167,7 +174,7 @@ class AdminController extends AppController {
 					'table'=>'companies',
 					'alias'=>'Company',
 					'type'=>'left',
-					'fields'=>'id, company_name',
+					'fields'=>'id,user_id,company_name',
 					'conditions'=>'Job.company_id = Company.id'
 				),
 				array(
@@ -270,8 +277,11 @@ class AdminController extends AppController {
 			'limit'=>10
 		);
 		$networkers=$this->paginate('Networkers');
-		//$hrRewardPercent=$this->Config->find('list',array('fields'=>array('value'),'conditions'=>array('key'=>'rewardPercent')));
-		//$this->set('hrRewardPercent',$hrRewardPercent[1]);
+		$hrRewardPercent=$this->Config->find('list',array('fields'=>array('value'),'conditions'=>array('key'=>'rewardPercent')));
+		if(isset($hrRewardPercent[1])){
+	 		$this->set('hrRewardPercent',$hrRewardPercent[1]);
+	 	}else
+ 			$this->set('hrRewardPercent',null);
 		$this->set('payment_detail',$payment_detail);
 		$this->set('networkers',$networkers);
 	}
@@ -473,6 +483,108 @@ class AdminController extends AppController {
 		$this->set('rewardPercent',$configuration['Config']['value']);
 	}
 	
+	function rewardPayment(){
+		
+	    if(isset($this->data['Config'])){
+	   	    $i = 1;
+	    	foreach($this->data['Config'] as $key=>$value) {
+				$cdarray['id'] = $i++;
+				$cdarray['key'] = $key;
+				$cdarray['value'] = $value;
+				$this->Config->save($cdarray);
+			}
+			$this->Session->setFlash('The Reward Configuration have been updated.', 'success');	    		
+	    }
+	    $params = array(
+				   'conditions' => array('Config.id'=>array(1,2,3,4,5,6,7,8,9)), 
+				   'fields' => array('Config.key','Config.value','Config.id')
+				   );
+		$configuration = $this->Config->find('list',$params);
+		$this->set('rewardPercent',$configuration);
+
+		/***	Graph data	***/
+	    $year = 2012; 
+	    $graphParams = array(
+	    			'conditions' => array('YEAR(PaymentHistory.paid_date)'=>$year), 
+				    'fields' => array('MONTH(PaymentHistory.paid_date) As month','sum(PaymentHistory.amount) as reward'),
+					'group' => 'MONTH(PaymentHistory.paid_date)',
+
+				   );
+		$graphData = $this->PaymentHistory->find('all',$graphParams);
+		$months = array(
+                1 => 'Jan',
+                2 => 'Feb',
+                3 => 'Mar',
+                4 => 'Apr',
+                5 => 'May',
+                6 => 'Jun',
+                7 => 'Jul',
+                8 => 'Aug',
+                9 => 'Sep',
+                10 => 'Oct',
+                11 => 'Nov',
+                12 => 'Dec'
+                );
+		
+		foreach($graphData as $kuch_v){
+			$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+		}
+		
+		$result = array();
+		
+		foreach($months as $k=>$v){
+			if(in_array($k,array_keys($gdarray))){
+				$result[] = "['".$v."',".$gdarray[$k]."]";
+			}	
+			else{
+				$put_zero = 0;
+				$result[] = "['".$v."',".$put_zero."]";
+			}
+		}
+		$this->set('gD',implode(",", $result));
+	}
+	
+	function fetchRewardTimeGraph(){
+		/***	Graph data	***/
+		$this->autoRender=false;
+	    $year = $this->params['form']['yearReward']; 
+	    $graphParams = array(
+	    			'conditions' => array('YEAR(PaymentHistory.paid_date)'=>$year), 
+				    'fields' => array('MONTH(PaymentHistory.paid_date) As month','sum(PaymentHistory.amount) as reward'),
+					'group' => 'MONTH(PaymentHistory.paid_date)',
+
+				   );
+		$graphData = $this->PaymentHistory->find('all',$graphParams);
+		$months = array(
+                1 => 'Jan',
+                2 => 'Feb',
+                3 => 'Mar',
+                4 => 'Apr',
+                5 => 'May',
+                6 => 'Jun',
+                7 => 'Jul',
+                8 => 'Aug',
+                9 => 'Sep',
+                10 => 'Oct',
+                11 => 'Nov',
+                12 => 'Dec'
+                );
+		
+		foreach($graphData as $kuch_v){
+			$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+		}
+		$result = array();
+		foreach($months as $k=>$v){
+			if(in_array($k,array_keys($gdarray))){
+				$result[] = $gdarray[$k];
+			}	
+			else{
+				$result[] = 0;
+			}
+		}
+		return json_encode(array('data'=>$result,'year'=>$year));
+	}	
+
 	function networkerData(){
 		$level=1;
 		if(isset($this->params['named']['level'])&&!empty($this->params['named']['level'])){
@@ -763,6 +875,128 @@ class AdminController extends AppController {
 												)
 											);
 		return $users;
+
 	}
+	
+	public function employerSpecificData(){
+		
+		if(isset($this->params["companyId"])){
+			$companyId = $this->params["companyId"];
+			$companyDetail = $this->UserList->find('first',array('conditions'=>array('UserList.is_active'=>1,
+																				  'UserList.id'=>$companyId,
+																				  'UserRoles.role_id'=>1,
+																				  ),
+																'fields'=>array('UserList.id','UserList.account_email',
+																'UserList.last_login','Companies.*'),					  
+												));
+			$companyDetail['activeJobCount']=$this->Job->find('count',array('conditions'=>
+																					array('Job.user_id'=>$companyId,
+																				          'Job.is_active'=>1)));
+		
+			$companyDetail['archJobCount']= $this->Job->find('count',array('conditions'=>
+																					array('Job.user_id'=>$companyId,
+																		   				  'Job.is_active'=>0)));
+			$appliedJobCount=$this->Job->find('all',array('conditions'=>
+														array('Job.user_id'=>$companyId,
+															'Job.is_active'=>1),
+															'joins'=>array( 
+																		array('table' => 'jobseeker_apply',
+																			  'alias' => 'JobseekerApply',
+																			  'type' => 'LEFT',
+																			  'conditions'=> 'JobseekerApply.job_id=Job.id AND JobseekerApply.is_active =0', 
+															     				),
+																			),
+															 'fields'=>array('COUNT(Job.id) as appliedJobCount',)
+															));		
+															
+			$companyDetail['appliedJobCount'] =$appliedJobCount[0][0]['appliedJobCount'];
+			//echo "<pre>";print_r($appliedJobCount);exit;  
+			
+			$jobs =$this->PaymentHistory->find('all',array(
+												'conditions'=>array('PaymentHistory.user_id'=>$companyId),
+												'joins'=>array(
+																array('table'=>'jobs',
+																'alias'=>'Job',
+																'type'=>'Inner',
+																'conditions'=>array('Job.id=PaymentHistory.job_id',
+																		//'Job.is_active'=>'1',
+																	),
+																),
+				
+																array('table'=>'job_views',
+																'alias'=>'JobViews',
+																'type'=>'LEFT',
+																'conditions'=>'Job.id=JobViews.job_id',
+																),
+																array('table' => 'jobseeker_apply',
+																'alias' => 'JobseekerApply',
+																'type' => 'LEFT',
+																'conditions' => 'JobseekerApply.job_id=Job.id AND JobseekerApply.is_active= 0'
+																		,
+																 ),
+																),
+												'recursive'=>1,
+												'fields'=>array('Job.id ,Job.user_id,Job.reward,Job.title,Job.created',
+																	'COUNT(DISTINCT(PaymentHistory.id)) AS submission',
+																	'COUNT(DISTINCT(JobViews.id)) as views',),
+													'group'=>array('Job.id'),
+													));				
+		
+			$PaymentHistory =$this->PaymentHistory->find('all', array(
+														'conditions' =>array('user_id'=>$companyId),
+														'fields'=>array('sum(amount) as totalPaidReward '),
+						));
+			
+			$totalRewards= $this->Job->find('all',array('conditions' =>array('user_id'=>$companyId),
+														'fields'=>array('sum(reward) as totalReward '),
+						));
+			if(isset($companyDetail) && $PaymentHistory && $jobs){
+			    //echo "<pre>";print_r($totalRewards);exit;
+			    $this->set('totalRewards',$totalRewards[0][0]['totalReward']);
+			    $this->set('totalPaidReward',$PaymentHistory[0][0]['totalPaidReward']);
+			    $this->set('PaymentHistory',$PaymentHistory); 				  
+			    $this->set('jobs',$jobs);
+			    $this->set('companyDetail',$companyDetail);
+			}else{
+			    $this->Session->setFlash('You may be clicked on old link or entered manually......', 'error');
+			    $this->redirect("/admin/paymentInformation");
+			}
+		}else{
+			$this->Session->setFlash("No Result Founds","error");				
+			//$this->redirect("/admin/paymentInformation");
+		}
+	}	
+	
+	function companyjobdetail(){
+		$this->autoRender= false ;
+		$jobId = isset($this->params['form']['jobId'])?$this->params['form']['jobId']:"";
+		$jobDetail = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId),
+												  'joins'=>array(array('table' => 'industry',
+										                               'alias' => 'ind',
+										             				   'type' => 'LEFT',
+										             				   'conditions' => array('Job.industry = ind.id',)),
+											   			         array('table' => 'specification',
+										             				   'alias' => 'spec',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('Job.specification = spec.id',)),
+																 array('table' => 'companies',
+										             				   'alias' => 'comp',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('Job.company_id = comp.id',)),
+																 array('table' => 'cities',
+										            				   'alias' => 'city',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('Job.city = city.id',)),
+											                     array('table' => 'states',
+										                               'alias' => 'state',
+										                               'type' => 'LEFT',
+										                               'conditions' => array('Job.state = state.id',))
+																),
+												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,comp.company_name,city.city,state.state,Job.job_type,
+Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
+		$jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
+		$jobDetail['Job']['job_type']=$jobtypes[$jobDetail['Job']['job_type']];
+		return json_encode($jobDetail);
+		}
 }
 ?>

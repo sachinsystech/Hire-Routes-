@@ -379,8 +379,8 @@ div.error-message {
     color: #FF0000;
     font-size: 13px;
     height: 14px;
-    margin: 3px 14px;
-    width: 214px;
+    margin: 0px;
+    width: 320px;
 }
 p.error {
 	background-color: #e32;
@@ -750,6 +750,10 @@ button.fb-logout {
 .signup_agree_condition{
 	 margin-top:15px;
 }
+#UserCompanyRecruiterSignupForm error-message{
+	margin-left:20;
+}
+
 .signup-error-message{
     background: none repeat scroll 0 0 #FA5858;
     clear: both;
@@ -2238,4 +2242,27 @@ ul a.menu_item{
 .phi_table tr td{
 	background:none !important;
 	border:none;
+}
+
+label.error_input_message{
+	color: red;
+    display: block;
+    font-size: 13px;
+    font-weight: normal !important;
+    vertical-align: top;
+    margin-left: 240px;
+    overflow: visible;
+   	width:230px;
+
+}
+.error_select_message label.error{
+	float: left;
+	margin-left: 150px;
+    overflow: visible;
+    margin-top: -14px
+    position: absolute;
+
+}
+.post_later_jobs td{
+	background-color:#FEE !important;
 }

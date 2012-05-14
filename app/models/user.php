@@ -43,6 +43,11 @@ class User extends AppModel {
 
     var $validate = array(
 		'account_email' => array(
+			'notEmpty'=> array(
+				'rule' => 'notEmpty',
+				'message' => 'E-mail can not be blank.',
+				'last'=>true,
+			),
             'email' => array(
                 'rule' => 'email',
                 'message' => 'Please provide a valid E-mail address.'

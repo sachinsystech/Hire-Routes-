@@ -7,12 +7,17 @@
 <script>
 	$(document).ready(function(){
 		$("#UserChangePasswordForm").validate({
-			  rules: {
+			rules: {
 				'data[User][password]': "required",
 				'data[User][repeat_password]': {
 				  equalTo: "#UserPassword"
 				}
-			  }
+			  },
+			errorClass: 'error_input_message',
+				errorPlacement: function (error, element) {
+					error.insertAfter(element)
+					error.css({'position':'absolute','margin-left':'155px','width':'230px'});
+			}
 			});
 	});
 </script>
@@ -98,8 +103,4 @@
 	</div>
 	<!-- middle section end -->
 </div>
-<script>
-	$(document).ready(function(){
-		$("#UserChangePasswordForm").validate();
-	});     
-</script>
+

@@ -63,15 +63,18 @@ class CompaniesController extends AppController {
 					if($this->Job->save()){
     		    	    switch($this->params['form']['save']){
     		    	        case 'Post and Share':
-    		    	        	$this->Session->write('openShare','open');
+					$this->Session->write('openShare','open');
     		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');
     		    	            $this->redirect('/companies/editJob/'.$this->Job->id);
     		    	            break;
     		    	        case 'Save for Later':
+					$this->Session->setFlash('Job has been saved successfuly. Post it later', 'success');	
+					$this->redirect('/companies/newJob');
+					break;
     		    	        default:
-    		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');	
-								$this->redirect('/companies/editJob/'.$this->Job->id);
-        		            break;
+					$this->Session->setFlash('Job has been saved successfuly.', 'success');	
+					$this->redirect('/companies/editJob/'.$this->Job->id);
+					break;
 	    		        }
     			    }else{
     			        $this->Session->setFlash('Internal error while save job.', 'error');	
@@ -112,7 +115,7 @@ class CompaniesController extends AppController {
 		}
 
 		//	fetching jobs with given condition
-		$conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
+		$conditions = array('Job.user_id'=>$userId,"OR"=>array("Job.is_active"=>array(1,3)));
 		$this->paginate = array(
 				            'conditions' => $conditions,
 				"limit"=>$displayPageNo,
@@ -129,7 +132,7 @@ class CompaniesController extends AppController {
 							),
 				    'order' => array($shortByItem => 'desc'),
 				    'recursive'=>0,
-				    'fields'=>array('Job.id ,Job.user_id,Job.title,Job.created,COUNT(ja.id) as submissions'),
+				    'fields'=>array('Job.id,Job.user_id,Job.title,Job.is_active,Job.created,COUNT(ja.id) as submissions'),
 				    'group'=>array('Job.id'),
 				    );
 		$jobs = $this->paginate("Job");
@@ -283,6 +286,7 @@ list archive jobs..
 	function editJob(){
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['jobId'];
+		$shareJob=isset($this->params['form']['shareJob'])?true:false;
 		if($userId && $jobId){
 	
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId)));
@@ -291,9 +295,9 @@ list archive jobs..
 				$this->set('jobId',$jobId);
 				$this->set('jobTitle',$jobs['Job']['title']);
 				$code=$this->Utility->getCode($jobId,$userId);
-                $this->set('code',$code);
+                $this->set('intermediateCode',$code);
                 if(isset($code)&&!empty($code))
-                	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/?code='.$code;
+                	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/?intermediateCode='.$code;
                 else
 	                $jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/';
                 $this->set('jobUrl',$jobUrl);
@@ -331,9 +335,15 @@ list archive jobs..
 		}
 		if(isset($this->data['Job'])){
 			$this->data['Job']['user_id'] = $userId;
+			if($shareJob) $this->data['Job']['is_active'] = 1;
 			$this->Job->set($this->data['Job']);
 			if($this->Job->validates()){
 				$this->Job->save();
+				if($shareJob) {
+					$this->Session->write('openShare','open');
+					$this->Session->setFlash('Job has been posted successfuly.', 'success');
+					$this->redirect('/companies/editJob/'.$this->Job->id);
+				}
 				$this->Session->setFlash('Job has been updated successfuly.', 'success');
 				$this->redirect('/companies/newJob');
 			}else{
@@ -880,7 +890,9 @@ list archive jobs..
 		    	
 		        if(isset($resArray['TRANSACTIONID'])) {
 		        	// Here change status of applied job from applied to selected in jobseeker_apply table....
+
 		        	 if($this->JobseekerApply->updateAll(array('is_active'=>1), array('JobseekerApply.id'=>$appliedJobId))){
+
 						$paymentHistory = array();
 						$paymentHistory['user_id'] = $userId;
 						$paymentHistory['job_id'] = $appliedJob['Job']['id'];
