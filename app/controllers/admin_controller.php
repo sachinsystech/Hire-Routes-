@@ -414,13 +414,10 @@ class AdminController extends AppController {
 					$this->set('scenario',$i/'3');
 					$validFlag=false;
 				}
-				
 				$i++;
-				//echo "<pre>"; print_r($cdarray);
 			}
 			if($validFlag){
 				$this->Config->saveAll($cdarray);
-				//exit;//echo "<pre>"; print_r($cdarray);exit;
 				$this->Session->setFlash('The Reward Configuration have been updated.', 'success');	    		
 			}
 	    }
@@ -441,21 +438,15 @@ class AdminController extends AppController {
 			$data=$this->params['url'];
 		}	
 		$conditions[]='JobseekerApply.is_active=1';
-		if(isset($data['status']) && $data['status'] !==""){
-
-			$conditions[]='payment_status ='.$data['status'];
-	 		$this->set('status',$data['status']);
-	 	}
-	 	if(!empty($data['from_date'])){
+		if(isset($data['from_date']) && !empty($data['from_date'])){
 	 		$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
 	 		$this->set('from_date',$data['from_date']);
 	 	}
-	 	if(!empty($data['to_date'])){
+	 	if(isset($data['to_date']) && !empty($data['to_date'])){
 	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
 	 		$this->set('to_date',$data['to_date']);
 	 	}
-	 		
-
+	
 		$this->paginate = array(
 			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 			'recursive'=>-1,

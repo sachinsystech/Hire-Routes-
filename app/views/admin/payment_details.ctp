@@ -171,7 +171,7 @@
 								Contact :
 							</div>
 							<div style="float:left;">
-								<?php echo $payment_detail['Company']['contact_name'];?>
+								<?php echo ucfirst($payment_detail['Company']['contact_name']);?>
 							</div>
 							<div style="clear:both"></div>
 							<div class='sub_heading'>
@@ -198,7 +198,7 @@
 								Name :
 							</div>
 							<div style="float:left;">
-								<?php echo $html->link($payment_detail['Jobseeker']['contact_name'], array('controller' => 'admin','action'=>'jobseekerSpecificData',$payment_detail['Jobseeker']['user_id'] ));?>
+								<?php echo $html->link(ucfirst($payment_detail['Jobseeker']['contact_name']), array('controller' => 'admin','action'=>'jobseekerSpecificData',$payment_detail['Jobseeker']['user_id'] ));?>
 							</div>
 							<div style="clear:both"></div>
 							<div class='sub_heading'>
