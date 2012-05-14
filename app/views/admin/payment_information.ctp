@@ -183,7 +183,7 @@
 				<div class="content-table-inner">
 					<div class="code_pagination">
 								<?php if($this->Paginator->numbers()){ echo $paginator->first('First  |  '); 
-										$this->Paginator->options(array('url' =>$findUrl));
+										//$this->Paginator->options(array('url' =>$findUrl));
 									
 										echo $paginator->prev('  '.__('Previous ', true), array(), null, array('class'=>'disabled'));	
 										echo " < ".$this->Paginator->numbers(array('modulus'=>4))." > ";
@@ -194,41 +194,44 @@
 					
 				    <table width ="100%" cellspacing='0' class="userTable">
 						<tr class="tableHeading">
-							<th>SN</th> 
-						    <th>Company Name</th>
-						    <th>Employee Name</th>
-							<th>Job title</th>
-						    <th>Payment</th>
-						    <th>Date</th>
+						    <th>Employer</th>
+							<th>Job Title</th>
+							<th>Date Posted</th>
+							<th><?php echo $this->Paginator->sort('Reward($)','PaymentHistory.amount')?></th>
+						    <th><?php echo $this->Paginator->sort('Date Paid','PaymentHistory.paid_date')?></th>
 						    <th>Transaction Id</th>
-						    <th>Action</th>
+						    <th> </th>
 					    </tr>
-        			        <?php 
-        		        		if($paymentHistories){
-									$sno = 0;
-        		        			foreach($paymentHistories as $paymentHistory):
-        			            		$class = $sno++%2?"odd":"even";
-        			        ?>
+						<?php 
+							if($paymentHistories){
+								$sno = 0;
+								foreach($paymentHistories as $paymentHistory):
+									$class = $sno++%2?"odd":"even";
+						?>
 						<tr class="<?php echo $class; ?>">
-							<td align="center" width="4%"> <?php echo $sno;?></td> 
+							<!-- td align="center" width="4%"> <?php //echo $sno;?></td --> 
+
 							<td align="center" width="15%" style="padding:7px;">
 								<a href="/admin/employerSpecificData/<?php echo $paymentHistory['Company']['user_id'];?>">
 								<?php echo $paymentHistory['Company']['company_name'];?>
 								</a>
 							</td> 
-							<td align="center" width="15%">
-								<?php echo $paymentHistory['Jobseeker']['contact_name'];?>
-							</td>
-							<td align="center" width="20%">
+							<!-- td align="center" width="15%">
+								<?php //echo $paymentHistory['Jobseeker']['contact_name'];?>
+							</td -->
+							<td  width="17%" style="padding-left:18px">
 								<?php echo $paymentHistory['Job']['title'];?>
-							</td> 
+							</td>
+							<td align="center" width="12%">
+								<?php echo date('m/d/Y',strtotime($paymentHistory['Job']['created']))."&nbsp;";?>
+							</td>
 							<td align="right" width="10%" style="padding-right:5px;">
 								<?php
 									echo $this->Number->format(
 										$paymentHistory['PaymentHistory']['amount'],
 										array(
 											'places' => 2,
-											'before' => '$',
+											//'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
 										);?>

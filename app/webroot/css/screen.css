@@ -1156,18 +1156,6 @@ form	{
 	}
 
 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
  
  
@@ -1578,7 +1566,7 @@ a:hover.back-login	{
 }
 
 .even{
-        background-color:#FCF8F1;
+        background-color:#FFFFFF;
 		font-size:14px;
         line-height:20px;
     }
@@ -1590,19 +1578,14 @@ a:hover.back-login	{
     }
     
  .tableHeading{
-        background-color:#FEAEAE;
-        line-height: 25px;
-        color: #FFFFFF;
-        font-size:16px;
-        }
-  /*      
- .error{
-        color :red;
-        margin:0 0 0 20px;
-        font-size: 12px;
-        text-align: left;
-    }
-*/
+    background-color: #3E3E3E;
+    border-left: 1px solid #3E3E3E;
+    border-right: 1px solid #3E3E3E;
+    color: #FFFFFF;
+    font-size: 16px;
+    line-height: 25px;
+}
+    
 label.error {
     clear: both;
     color: red;
@@ -1613,18 +1596,21 @@ label.error {
     padding-left: 1.5em;
     vertical-align: top;
 }
- .success{
-		background: none repeat scroll 0 0 #EFF5EA;
-		border: 1px solid #446423;
-		clear: both;
-		color: #4AA02C;
-		font-weight: bold;
-		height: 20px;
-		margin: 3px;
-		padding: 5px;
-		text-align: center;
-		font-size: 18px;
-    }
+.success {
+    background: none repeat scroll 0 0 #EFF5EA;
+    border: 1px solid #446423;
+    clear: both;
+    color: #4AA02C;
+    font-weight: bold;
+    height: 20px;
+    margin: 0px 15px;
+    padding: 5px;
+    text-align: center;
+    position:absolute;
+    width:90%;
+    -moz-border-radius: 15px;
+	border-radius: 15px;
+}
 
 .logoutClass{
         float:right;
@@ -1891,20 +1877,70 @@ select{
 	cursor:pointer;
 }
 .reward_pc{
-    border: 1px solid;
-    width: 45px;
+    border: none;
+    width: 42px;
 }
 .configuration_content{
 	-moz-border-radius: 20px 20px 20px 20px;
     border: 1px solid #CCCCCC;
-    height: 63px;
+    height: auto;
     margin: 15px;
     padding: 14px;
     width: auto;
 }
+.employer_content{
+	-moz-border-radius: 20px 20px 20px 20px;
+    border: 1px solid #CCCCCC;
+    height: auto;
+    margin: 15px;
+    padding: 14px;
+    width: auto;
+}
+.graph_content{
+	-moz-border-radius: 20px 20px 20px 20px;
+    border: 1px solid #CCCCCC;
+    height: auto;
+    margin: 15px;
+    padding: 14px;
+    width: auto;
+}
+
+.graph_inner_content{
+    margin: auto;
+    width: 620px;
+}
+
+.inner-content{
+    margin: auto;
+    width: 321px;
+}
 select{
 	border:1px solid #000;
 	background:#fff;
+}
+
+.rp_user_list{
+    float: none;
+    font-weight: bold;
+    margin-top: -2px;
+    padding: 8px;
+}
+.pr_scenario_heading{
+    float: none;
+    font-weight: bold;
+    padding: 5px;
+    text-align: center;
+}
+.tableHeading a{
+	color:#FFF;
+	text-decoration:underline;
+}
+.nav_year {
+    background: none repeat scroll 0 0 #0000FF;
+    float: left;
+    height: 12px;
+    margin: 2px;
+    width: 12px;
 }
 
 /*Networker Data*/

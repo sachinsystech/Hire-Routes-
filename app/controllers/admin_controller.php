@@ -7,29 +7,30 @@ class AdminController extends AppController {
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
-		
 		if($this->Session->read('Auth.User.id')!=1){
 			$this->redirect('/');
 		}
 		if($this->userRole!=ADMIN){
 			$this->redirect("/users/loginSuccess");
 		}
-		
 		$this->Auth->authorize = 'actions';
-		$this->Auth->allow('index');
-		$this->Auth->allow('companiesList');
-		$this->Auth->allow('Code');
-		$this->Auth->allow('paymentInformation');
-		$this->Auth->allow('filterPayment');
-		$this->Auth->allow('paymentDetails');
-		$this->Auth->allow('updatePaymentStatus');
-		$this->Auth->allow('userList');
+
 		$this->Auth->allow('config');
-		$this->Auth->allow('userAction');
+		$this->Auth->allow('companyjobdetail');	
+		$this->Auth->allow('companiesList');
+		$this->Auth->allow('employerSpecificData');	
+		$this->Auth->allow('fetchRewardTimeGraph');
+		$this->Auth->allow('filterPayment');
+		$this->Auth->allow('index');
 		$this->Auth->allow('networkerData');
 		$this->Auth->allow('networkerSpecificData');
-		$this->Auth->allow('employerSpecificData');	
-		$this->Auth->allow('companyjobdetail');	
+		$this->Auth->allow('paymentDetails');
+		$this->Auth->allow('paymentInformation');
+		$this->Auth->allow('rewardPayment');
+		$this->Auth->allow('userAction');
+		$this->Auth->allow('updatePaymentStatus');
+		$this->Auth->allow('userList');
+
 		$this->layout = "admin";
 	}
 	
@@ -100,7 +101,7 @@ class AdminController extends AppController {
 	}
 
 	/****	Decline company request	***/
-	function declineCompanyRequest() {
+	function declineCompanyRequest(){
 		$id = $this->params['id'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id,
 																	'User.is_active'=>'0')));
@@ -132,6 +133,8 @@ class AdminController extends AppController {
 	 */
 	function paymentInformation(){
 	
+		$orderBy = array('paid_date' => 'desc');
+
 		if(isset($this->params['named'])){
 			$data=$this->params['named'];
 		}
@@ -141,7 +144,7 @@ class AdminController extends AppController {
 		}	
 		$conditions[]='JobseekerApply.is_active=1';
 		if(isset($data['status']) && $data['status'] !==""){
-		//echo $data['status']."------";exit;
+
 			$conditions[]='payment_status ='.$data['status'];
 	 		$this->set('status',$data['status']);
 	 	}
@@ -152,11 +155,11 @@ class AdminController extends AppController {
 	 	if(!empty($data['to_date'])){
 	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
 	 		$this->set('to_date',$data['to_date']);
-	 	}	
-	 	//echo "<pre>"	 	; print_r($conditions);exit;
-		$this->paginate = array(
+	 	}
+	 		
 
-			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
+		$this->paginate = array(
+			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -480,6 +483,107 @@ class AdminController extends AppController {
 		$this->set('rewardPercent',$configuration['Config']['value']);
 	}
 	
+	function rewardPayment(){
+		
+	    if(isset($this->data['Config'])){
+	   	    $i = 1;
+	    	foreach($this->data['Config'] as $key=>$value) {
+				$cdarray['id'] = $i++;
+				$cdarray['key'] = $key;
+				$cdarray['value'] = $value;
+				$this->Config->save($cdarray);
+			}
+			$this->Session->setFlash('The Reward Configuration have been updated.', 'success');	    		
+	    }
+	    $params = array(
+				   'conditions' => array('Config.id'=>array(1,2,3,4,5,6,7,8,9)), 
+				   'fields' => array('Config.key','Config.value','Config.id')
+				   );
+		$configuration = $this->Config->find('list',$params);
+		$this->set('rewardPercent',$configuration);
+
+		/***	Graph data	***/
+	    $year = 2012; 
+	    $graphParams = array(
+	    			'conditions' => array('YEAR(PaymentHistory.paid_date)'=>$year), 
+				    'fields' => array('MONTH(PaymentHistory.paid_date) As month','sum(PaymentHistory.amount) as reward'),
+					'group' => 'MONTH(PaymentHistory.paid_date)',
+
+				   );
+		$graphData = $this->PaymentHistory->find('all',$graphParams);
+		$months = array(
+                1 => 'Jan',
+                2 => 'Feb',
+                3 => 'Mar',
+                4 => 'Apr',
+                5 => 'May',
+                6 => 'Jun',
+                7 => 'Jul',
+                8 => 'Aug',
+                9 => 'Sep',
+                10 => 'Oct',
+                11 => 'Nov',
+                12 => 'Dec'
+                );
+		
+		foreach($graphData as $kuch_v){
+			$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+		}
+		
+		$result = array();
+		
+		foreach($months as $k=>$v){
+			if(in_array($k,array_keys($gdarray))){
+				$result[] = "['".$v."',".$gdarray[$k]."]";
+			}	
+			else{
+				$put_zero = 0;
+				$result[] = "['".$v."',".$put_zero."]";
+			}
+		}
+		$this->set('gD',implode(",", $result));
+	}
+	
+	function fetchRewardTimeGraph(){
+		/***	Graph data	***/
+		$this->autoRender=false;
+	    $year = $this->params['form']['yearReward']; 
+	    $graphParams = array(
+	    			'conditions' => array('YEAR(PaymentHistory.paid_date)'=>$year), 
+				    'fields' => array('MONTH(PaymentHistory.paid_date) As month','sum(PaymentHistory.amount) as reward'),
+					'group' => 'MONTH(PaymentHistory.paid_date)',
+
+				   );
+		$graphData = $this->PaymentHistory->find('all',$graphParams);
+		$months = array(
+                1 => 'Jan',
+                2 => 'Feb',
+                3 => 'Mar',
+                4 => 'Apr',
+                5 => 'May',
+                6 => 'Jun',
+                7 => 'Jul',
+                8 => 'Aug',
+                9 => 'Sep',
+                10 => 'Oct',
+                11 => 'Nov',
+                12 => 'Dec'
+                );
+		
+		foreach($graphData as $kuch_v){
+			$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+		}
+		$result = array();
+		foreach($months as $k=>$v){
+			if(in_array($k,array_keys($gdarray))){
+				$result[] = $gdarray[$k];
+			}	
+			else{
+				$result[] = 0;
+			}
+		}
+		return json_encode(array('data'=>$result,'year'=>$year));
+	}	
 
 	function networkerData(){
 		$level=1;
