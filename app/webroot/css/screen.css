@@ -2211,3 +2211,8 @@ label.error_input_message{
    padding:5px;
    margin:5px;  
 }
+.reward_config{
+	border:1px solid #000;
+	width:50px;
+	margin-left:10px;
+}

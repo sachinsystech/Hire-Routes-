@@ -403,13 +403,26 @@ class AdminController extends AppController {
 		
 	    if(isset($this->data['Config'])){
 	   	    $i = 1;
+	   	    $validFlag= true;
+	   	    $cdarray= array();
 	    	foreach($this->data['Config'] as $key=>$value) {
-				$cdarray['id'] = $i++;
-				$cdarray['key'] = $key;
-				$cdarray['value'] = $value;
-				$this->Config->save($cdarray);
+				$cdarray[$i]['id'] = $i;
+				$cdarray[$i]['key'] = $key;
+				$cdarray[$i]['value'] = $value;
+				if($i%3==0 && ($cdarray[$i-2]['value']+$cdarray[$i-1]['value']+$cdarray[$i]['value'])!=100 ){
+					$this->set("rp_error","Sum for scenario-".$i/'3'." should be 100.");
+					$this->set('scenario',$i/'3');
+					$validFlag=false;
+				}
+				
+				$i++;
+				//echo "<pre>"; print_r($cdarray);
 			}
-			$this->Session->setFlash('The Reward Configuration have been updated.', 'success');	    		
+			if($validFlag){
+				$this->Config->saveAll($cdarray);
+				//exit;//echo "<pre>"; print_r($cdarray);exit;
+				$this->Session->setFlash('The Reward Configuration have been updated.', 'success');	    		
+			}
 	    }
 	    $params = array(
 				   'conditions' => array('Config.id'=>array(1,2,3,4,5,6,7,8,9)), 

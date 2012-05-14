@@ -3,9 +3,7 @@
 
 <div style="clear:both"></div>
 <div class="configuration_content"> 
-	<div style="width:360px">
-		
-	</div>
+	
 </div>		
 <script>
 	$(document).ready(function(){

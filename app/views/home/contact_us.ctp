@@ -3,16 +3,15 @@
 <div><b>Contact us at:</b></div>
 <div>
 	<p>
-		15 HB, Sector H, Scheme No 194<br/>
-		Near white palace...<br/>
-		City, (State) - 8888888<br/>
-		Country
+		hire routes, inc.
+		94 prince street, suite 4
+		new york, ny 10012			
 	</p><br/>
 </div>
 <div><b>Email us:</b></div>
 <div>
 	<a href="#">
-		support@hireroutes.com
+		hireroutes@hireroutes.com
 	</a><br/>
 </div>
 </div>
