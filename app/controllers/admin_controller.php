@@ -128,81 +128,6 @@ class AdminController extends AppController {
 		$this->redirect("/admin/companiesList");
 	}
 	
-	/**
-	 * For payment information 
-	 */
-	function paymentInformation(){
-	
-		$orderBy = array('paid_date' => 'desc');
-
-		if(isset($this->params['named'])){
-			$data=$this->params['named'];
-		}
-		/*Retrive data on form submit */
-		if(isset($this->params['url']['find'])){
-			$data=$this->params['url'];
-		}	
-		$conditions[]='JobseekerApply.is_active=1';
-		if(isset($data['status']) && $data['status'] !==""){
-
-			$conditions[]='payment_status ='.$data['status'];
-	 		$this->set('status',$data['status']);
-	 	}
-	 	if(!empty($data['from_date'])){
-	 		$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
-	 		$this->set('from_date',$data['from_date']);
-	 	}
-	 	if(!empty($data['to_date'])){
-	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
-	 		$this->set('to_date',$data['to_date']);
-	 	}
-	 		
-
-		$this->paginate = array(
-			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
-			'recursive'=>-1,
-			'order' => array('paid_date' => 'desc'),
-			'joins'=>array(
-				array(
-					'table'=>'jobs',
-					'alias'=>'Job',
-					'type'=>'left',
-					'fields'=>'id, title',
-					'conditions'=>'Job.id = PaymentHistory.job_id'
-				),
-				array(
-					'table'=>'companies',
-					'alias'=>'Company',
-					'type'=>'left',
-					'fields'=>'id,user_id,company_name',
-					'conditions'=>'Job.company_id = Company.id'
-				),
-				array(
-					'table'=>'jobseeker_apply',
-					'alias'=>'JobseekerApply',
-					'type'=>'inner',
-					'fields'=>'user_id, is_active',
-					'conditions'=>'PaymentHistory.job_id = JobseekerApply.job_id AND PaymentHistory.jobseeker_user_id=JobseekerApply.user_id'
-				),
-				array(
-					'table'=>'jobseekers',
-					'alias'=>'Jobseeker',
-					'type'=>'left',
-					'fields'=>'user_id, contact_name',
-					'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id'
-				)
-			),
-			'order'=>'id desc',
-			'limit'=>10,
-			'conditions'=>isset($conditions)?$conditions:true
-		);
-		try{
-			$paymentHistories=$this->paginate('PaymentHistory');
-			$this->set('paymentHistories',$paymentHistories);
-		}catch(Exception $e){
-			$this->Session->setFlash("Server Problem!",'ERROR');
-		}
-	}
 	
 	/**
 	 * For payment details 
@@ -471,16 +396,7 @@ class AdminController extends AppController {
 	}
 	
 	function config(){
-		$configuration = $this->Config->find('first',array('conditions'=>array('Config.key'=>'rewardPercent')));
-		    if($this->data){
-		         if($this->data['Config']["rewardPercent"]){
-		             $configuration['Config']['value'] = $this->data['Config']["rewardPercent"];
-		             if($this->Config->save($configuration)){
-		             $this->Session->setFlash('The Configuration details have been updated.', 'success');
-					 }
-		         }
-		    }
-		$this->set('rewardPercent',$configuration['Config']['value']);
+		
 	}
 	
 	function rewardPayment(){
@@ -502,46 +418,75 @@ class AdminController extends AppController {
 		$configuration = $this->Config->find('list',$params);
 		$this->set('rewardPercent',$configuration);
 
-		/***	Graph data	***/
-	    $year = 2012; 
-	    $graphParams = array(
-	    			'conditions' => array('YEAR(PaymentHistory.paid_date)'=>$year), 
-				    'fields' => array('MONTH(PaymentHistory.paid_date) As month','sum(PaymentHistory.amount) as reward'),
-					'group' => 'MONTH(PaymentHistory.paid_date)',
+		
+		/****	Employer Payment Details 	***/
+		if(isset($this->params['named'])){
+			$data=$this->params['named'];
+		}
+		/*Retrive data on form submit */
+		if(isset($this->params['url']['find'])){
+			$data=$this->params['url'];
+		}	
+		$conditions[]='JobseekerApply.is_active=1';
+		if(isset($data['status']) && $data['status'] !==""){
 
-				   );
-		$graphData = $this->PaymentHistory->find('all',$graphParams);
-		$months = array(
-                1 => 'Jan',
-                2 => 'Feb',
-                3 => 'Mar',
-                4 => 'Apr',
-                5 => 'May',
-                6 => 'Jun',
-                7 => 'Jul',
-                8 => 'Aug',
-                9 => 'Sep',
-                10 => 'Oct',
-                11 => 'Nov',
-                12 => 'Dec'
-                );
-		
-		foreach($graphData as $kuch_v){
-			$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+			$conditions[]='payment_status ='.$data['status'];
+	 		$this->set('status',$data['status']);
+	 	}
+	 	if(!empty($data['from_date'])){
+	 		$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+	 		$this->set('from_date',$data['from_date']);
+	 	}
+	 	if(!empty($data['to_date'])){
+	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+	 		$this->set('to_date',$data['to_date']);
+	 	}
+	 		
+
+		$this->paginate = array(
+			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
+			'recursive'=>-1,
+			'order' => array('paid_date' => 'desc'),
+			'joins'=>array(
+				array(
+					'table'=>'jobs',
+					'alias'=>'Job',
+					'type'=>'left',
+					'fields'=>'id, title',
+					'conditions'=>'Job.id = PaymentHistory.job_id'
+				),
+				array(
+					'table'=>'companies',
+					'alias'=>'Company',
+					'type'=>'left',
+					'fields'=>'id,user_id,company_name',
+					'conditions'=>'Job.company_id = Company.id'
+				),
+				array(
+					'table'=>'jobseeker_apply',
+					'alias'=>'JobseekerApply',
+					'type'=>'inner',
+					'fields'=>'user_id, is_active',
+					'conditions'=>'PaymentHistory.job_id = JobseekerApply.job_id AND PaymentHistory.jobseeker_user_id=JobseekerApply.user_id'
+				),
+				array(
+					'table'=>'jobseekers',
+					'alias'=>'Jobseeker',
+					'type'=>'left',
+					'fields'=>'user_id, contact_name',
+					'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id'
+				)
+			),
+			'order'=>'id desc',
+			'limit'=>10,
+			'conditions'=>isset($conditions)?$conditions:true
+		);
+		try{
+			$paymentHistories=$this->paginate('PaymentHistory');
+			$this->set('paymentHistories',$paymentHistories);
+		}catch(Exception $e){
+			$this->Session->setFlash("Server Problem!",'ERROR');
 		}
-		
-		$result = array();
-		
-		foreach($months as $k=>$v){
-			if(in_array($k,array_keys($gdarray))){
-				$result[] = "['".$v."',".$gdarray[$k]."]";
-			}	
-			else{
-				$put_zero = 0;
-				$result[] = "['".$v."',".$put_zero."]";
-			}
-		}
-		$this->set('gD',implode(",", $result));
 	}
 	
 	function fetchRewardTimeGraph(){
@@ -959,4 +904,10 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 		return json_encode($jobDetail);
 		}
 }
+
+
+
+
+
+
 ?>

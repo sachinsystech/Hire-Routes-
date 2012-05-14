@@ -4,26 +4,7 @@
 <div style="clear:both"></div>
 <div class="configuration_content"> 
 	<div style="width:360px">
-		<?php echo $form->create('Config',array('url'=>array('controller'=>'admin','action'=>'config')))?>
-		<div class="required" style="float:left">
-			<?php
-				echo $form->input('rewardPercent',array(
-									'label' => 'Reward <span> <b>%</b></span>',
-									'type'  => 'text',
-									'class' => 'reward_pc required number',
-									'value' => $rewardPercent,
-									'maxlength' => '5',
-									'max' =>100,
-									'min' =>1,
-									'after'=>'<br>'
-								)
-				);
-			?>
-		</div>
-		<div style="float:right">
-			<?php echo $form->submit('Save',array('style'=>'width:62px;'));?>
-		</div>
-		<?php echo $form->end();?>
+		
 	</div>
 </div>		
 <script>
