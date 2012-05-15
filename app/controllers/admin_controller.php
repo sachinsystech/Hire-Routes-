@@ -7,8 +7,9 @@ class AdminController extends AppController {
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
-		if($this->Session->read('Auth.User.id')!=1){
-			$this->redirect('/');
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect('/users/login');
 		}
 		if($this->userRole!=ADMIN){
 			$this->redirect("/users/loginSuccess");
