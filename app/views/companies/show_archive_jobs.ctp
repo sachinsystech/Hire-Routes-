@@ -87,7 +87,7 @@
 				<?php } ?>
 				<?php foreach($jobs as $job):?>	
 				<tr>
-					<td><?php echo "<b>".$job['Job']['title']."</b><br>Posted ". $time->timeAgoInWords($job['Job']['created'],'m/d/Y');?></td>
+					<td><?php echo "<b>".ucfirst($job['Job']['title'])."</b><br>Posted ". $time->timeAgoInWords($job['Job']['created'],'m/d/Y');?></td>
 					<td><?php echo $job[0]['submissions']; ?> submissions</td>
 					<td><?php /*echo $this->Html->image("/img/icon/detail.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
