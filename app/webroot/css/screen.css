@@ -1763,8 +1763,7 @@ label.error {
 	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
 }
  .usertableHeading th{
- 	
-    background-color:#FEAEAE;
+ 	background-color:#6e6e6e;
     border:none !important;
     color: #FFFFFF;
     font-size:18px;
@@ -1967,24 +1966,32 @@ div .levelInfo{
 	float:left;
 }
 
-div .levelDataHeading{
-	height:40px;
-	background-color:#3E3E3E;
-	border-bottom:1px solid black;
-	color:white;
+div .levelDataHeading {
+    background-color: #3E3E3E;
+    border-bottom: 1px solid black;
+    border-radius: 17px 17px 17px 17px;
+    color: white;
+    height: 40px;
+    text-align: center;
 }
-
 div .levelDataBar{
-	height:40px;
-	background-color:#696969;
-	border-bottom:1px solid black;
-	color:white;
+	background: -moz-linear-gradient(center top , #7E7E7E, #CCCCCC) repeat scroll 0 0 transparent;
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#CCCCCC));
+    border-bottom: 1px solid black;
+    border-radius: 17px 17px 17px 17px;
+    color: white;
+    height: 40px;
+    margin: 2px 0;
+    text-align: center;
 }
 
 div .levelDataActiveBar{
-	height:40px;
 	background-color:#E3E3E3;
-	border-bottom:1px solid black;
+    border-radius: 17px 17px 17px 17px;
+    color: white;
+    height: 40px;
+    margin: 2px 0;
+    text-align: center;
 }
 
 .levelHeading{
@@ -2215,5 +2222,8 @@ label.error_input_message{
    padding:5px;
    margin:5px;  
 }
-
+.levelDataBarHover:hover{
+   	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#7E7E7E));
+}
 

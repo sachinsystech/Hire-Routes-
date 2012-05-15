@@ -92,7 +92,7 @@
 					echo "<tr class='post_later_jobs'>";
 					else echo "<tr>";
 				?>
-					<td><?php echo $this->Html->link($job['Job']['title'], '/companies/editJob/'.$job['Job']['id']);
+					<td><?php echo $this->Html->link(ucfirst($job['Job']['title']), '/companies/editJob/'.$job['Job']['id']);
 						  echo "<br>Posted ". $time->timeAgoInWords($job['Job']['created'],'m/d/Y');
 						if($job['Job']['is_active']==3)	  
 						  echo "<a href='/companies/editJob/".$job['Job']['id']."' style='float:right;'>Post & Share</a>";

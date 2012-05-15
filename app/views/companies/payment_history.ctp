@@ -43,7 +43,7 @@ function paymentHistoryInfo(user_id,transaction_id){
 						'<td><b>Paid Date : </b></td><td>'+response['paid_date']+'</td>'+
 					'</tr>'+
 					'<tr>'+
-						'<td><b>amount : </b></td><td>'+response['amount']+'</td>'+
+						'<td><b>amount : </b></td><td> $'+response['amount']+'</td>'+
 					'</tr>'+
 				'</table>'+
 				'<div style="clear:both;font-weight: bold;margin:10px;"><u>JOB INFO</u> ::</div>'+

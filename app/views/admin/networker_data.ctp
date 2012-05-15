@@ -23,7 +23,7 @@
 				<?php if(($level+1)==$selectedLevel){?>
 					<div class="levelDataActiveBar">
 				<?php }else{?>
-					<div style="cursor:pointer;" class="levelDataBar" onclick="getNetworkerForLevel(<?php echo ($level+1);?>);">
+					<div style="cursor:pointer;" class="levelDataBar levelDataBarHover" onclick="getNetworkerForLevel(<?php echo ($level+1);?>);">
 				<?php }?>
 				<div class="levelData">
 					<?php echo "Level ".($level+1); ?>
