@@ -1945,15 +1945,20 @@ select{
 
 /*Networker Data*/
 
+div .dataBorder{
+	height:auto;
+	overflow:auto;
+	margin-bottom:5px;
+	border:1px solid #cccccc;
+	-moz-border-radius: 15px 15px 15px 15px;
+}
+
 div .networkerData{
-	width:947px;
 	height:auto;
 	overflow:auto;
 	margin:auto;
-	margin-bottom:5px;
 	padding:10px;
-	border:1px solid #cccccc;
-	border-radius: 15px 15px 15px 15px;
+	width:947px;
 }
 
 div .levelInfo{
@@ -2082,13 +2087,12 @@ div .networkerInfo{
 /* Networker Specific Data */
 
 div .networkerSpecificData{
-	width:947px;
 	height:auto;
 	overflow:auto;
 	margin:auto;
 	margin-bottom:5px;
 	border:1px solid #cccccc;
-	border-radius: 15px 15px 15px 15px;
+	-moz-border-radius: 15px 15px 15px 15px;
 	padding:10px;
 }
 
@@ -2134,7 +2138,6 @@ div .NSDRowRight .NSDInfo{
 }
 
 div .NSDOrigin{
-	width:947px;
 	margin:auto;
 	margin-bottom:5px;
 	height:auto;
@@ -2146,7 +2149,7 @@ div .NSDOrigin{
 
 div .NSDoriginData{
 	border: 1px solid #000000;
-    border-radius: 15px 15px 15px 15px;
+    -moz-border-radius: 15px 15px 15px 15px;
     background-color:#3E3E3E;
     margin:auto;
     margin-bottom: 5px;
@@ -2211,8 +2214,5 @@ label.error_input_message{
    padding:5px;
    margin:5px;  
 }
-.reward_config{
-	border:1px solid #000;
-	width:50px;
-	margin-left:10px;
-}
+
+
