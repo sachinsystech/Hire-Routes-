@@ -588,7 +588,7 @@ class AdminController extends AppController {
 				}
 				$networkersNetworkerData = $this->getNetworkersData($level,$this->params['id']);
 				$originData=null;
-				echo "ORIGIN ".$networkerData[0]['origin'];
+				//echo "ORIGIN ".$networkerData[0]['origin'];
 				if($networkerData[0]['origin']==RANDOM){
 					$cond=true;
 					$userId=$networkerData[0]['User']['id'];

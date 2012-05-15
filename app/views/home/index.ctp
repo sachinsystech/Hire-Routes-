@@ -65,7 +65,7 @@
 			<?php foreach($jobs as $job):?>
 				<div class="JobListData">
 					<?php
-						echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']);
+						echo $this->Html->link(ucfirst($job['Job']['title']), '/jobs/jobDetail/'.$job['Job']['id']);
 					?>
 					<span style="float:right">
 						<?php

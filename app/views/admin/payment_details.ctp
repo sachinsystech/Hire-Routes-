@@ -283,7 +283,7 @@
 				?>
 				<tr class="<?php echo $class; ?>">
 					<td>
-						<?php echo $html->link(empty($networker['Networkers']['contact_name'])?'----':$networker['Networkers']['contact_name'], array('controller' => 'admin','action'=>'networkerSpecificData',$networker['Networkers']['user_id'] ));?>
+						<?php echo $html->link(empty($networker['Networkers']['contact_name'])?'----':ucfirst($networker['Networkers']['contact_name']), array('controller' => 'admin','action'=>'networkerSpecificData',$networker['Networkers']['user_id'] ));?>
 					</td>
 					<td>
 						<span class='reward'>
