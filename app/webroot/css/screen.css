@@ -2025,6 +2025,7 @@ div .networkerInfo{
 .networkerDataBarOdd{
 	width:730px;
 	height:20px;
+	overflow:auto;
 	float:left;
 	border-bottom: 1px solid black;
 	font-size:12px;
@@ -2059,6 +2060,7 @@ div .networkerInfo{
 .networkerDataBarEven{
 	width:730px;
 	height:20px;
+	overflow:auto;
 	float:left;
 	border-bottom: 1px solid black;
 	background-color:#E3E3E3;
@@ -2219,3 +2221,39 @@ label.error_input_message{
 	width:50px;
 	margin-left:10px;
 }
+
+/* Reward/payment Data */
+
+.networkerRewardDataHeading{
+	width:160px;
+	float:left;
+	font-weight:bold;
+	text-align:center;
+	font-size:20px;
+}
+
+.networkerRewardDataHeadingEmail{
+	width:220px;
+	float:left;
+	font-weight:bold;
+	text-align:center;
+	font-size:20px;
+}
+
+.networkerRewardDataBar{
+	width:700px;
+	overflow:auto;
+	font-size:14px;
+}
+
+.networkerRewardData{
+	width:160px;
+	float:left;
+}
+
+.networkerRewardDataEmail{
+	width:220px;
+	float:left;
+}
+
+/****************/
