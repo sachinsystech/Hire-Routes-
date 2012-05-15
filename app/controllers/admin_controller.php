@@ -137,7 +137,7 @@ class AdminController extends AppController {
 	function paymentDetails()
 	{
 		$payment_detail = $this->PaymentHistory->find('first',array(
-			'fields'=>'PaymentHistory.id, Company.user_id, Company.company_name, Company.contact_name, Company.contact_phone, Company_User.account_email, Jobseeker.user_id, Jobseeker.contact_name, User.account_email, Job.title, PaymentHistory.amount, JobseekerApply.intermediate_users,PaymentHistory.paid_date, PaymentHistory.transaction_id, RewardsStatus.status, PaymentHistory.hr_reward_percent, PaymentHistory.networker_reward_percent, PaymentHistory.jobseeker_reward_percent',
+			'fields'=>'PaymentHistory.*, Company.*, CompanyUser.account_email, Jobseeker.user_id, Jobseeker.contact_name, JobseekerUser.account_email, JobseekerUser.parent_user_id, Job.title, JobseekerApply.intermediate_users, RewardsStatus.status',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -171,17 +171,17 @@ class AdminController extends AppController {
 				),
 				array(
 					'table'=>'users',
-					'alias'=>'User',
+					'alias'=>'JobseekerUser',
 					'type'=>'left',
 					'fields'=>'id, account_email',
-					'conditions'=>'JobseekerApply.user_id = User.id'
+					'conditions'=>'JobseekerApply.user_id = JobseekerUser.id'
 				),
 				array(
 					'table'=>'users',
-					'alias'=>'Company_User',
+					'alias'=>'CompanyUser',
 					'type'=>'left',
 					'fields'=>'id, account_email',
-					'conditions'=>'Company.user_id = Company_User.id'
+					'conditions'=>'Company.user_id = CompanyUser.id'
 				),
 				array(
 					'table'=>'rewards_status',
@@ -194,6 +194,9 @@ class AdminController extends AppController {
 			'conditions'=>array('PaymentHistory.id'=>$this->params['payment_history_id'],'JobseekerApply.is_active'=>'1')
 		));
 		$networker_ids=explode(',',$payment_detail['JobseekerApply']['intermediate_users']);
+		if($payment_detail['PaymentHistory']['scenario']==2){
+				$networker_ids[] = $payment_detail['JobseekerUser']['parent_user_id'];
+		}
 		$this->paginate=array(
 			'fields'=>'Networkers.user_id, contact_name, RewardsStatus.status, User.account_email',
 			'recursive'=>-1,
@@ -216,11 +219,6 @@ class AdminController extends AppController {
 			'limit'=>10
 		);
 		$networkers=$this->paginate('Networkers');
-		$hrRewardPercent=$this->Config->find('list',array('fields'=>array('value'),'conditions'=>array('key'=>'rewardPercent')));
-		if(isset($hrRewardPercent[1])){
-	 		$this->set('hrRewardPercent',$hrRewardPercent[1]);
-	 	}else
- 			$this->set('hrRewardPercent',null);
 		$this->set('payment_detail',$payment_detail);
 		$this->set('networkers',$networkers);
 	}
@@ -590,7 +588,6 @@ class AdminController extends AppController {
 				}
 				$networkersNetworkerData = $this->getNetworkersData($level,$this->params['id']);
 				$originData=null;
-				//echo "ORIGIN ".$networkerData[0]['origin'];
 				if($networkerData[0]['origin']==RANDOM){
 					$cond=true;
 					$userId=$networkerData[0]['User']['id'];
