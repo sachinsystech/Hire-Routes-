@@ -21,6 +21,11 @@
 				async:false,
 				data:{jobId:jobId},
 				success:function(response){
+					if(response['error']!=undefined){
+						alert(response['message']);
+						return;
+					}
+				
 					$("#companyJobDetail").dialog({
 						height:200,
 						width:450,
@@ -55,6 +60,9 @@
 	'<div class="jobDetail"><span style="font-size:14px;"><b>Description:</b></span><span class="jobDetailContent">'+response['Job']['description']+'</span></div>'+
 	'</div>');
 				
+				},
+				error:function(response){
+					alert("Something went wrong, please try again.");
 				}
 		});	
 	
@@ -161,6 +169,7 @@
 		</tr>
 	</tbody>
 	</table>
+	<div style="height:10px;"></div>
 	<table class="content-table" border="0" cellpadding="0" cellspacing="0" width="100%">
 	<tbody>
 		<tr>
@@ -176,13 +185,13 @@
 			<div style="margin:auto;clear:both;">
 		    	<table class="employerListTable">
 					<tr>
-						<th align="center" style="width:5%" ># </th>
-						<th style="width:30%">Job description</th>
-						<th style="width:15%">Applicants</th>
-						<th style="width:10%" >Views</th>
-						<th style="width:30%" >Date Posted</th>
-						<th align="center">Rewards</th>	
-						<th align="center">Total Reward</th>				
+						<th align="center" style="width:3%" ># </th>
+						<th style="width:27%">Job description</th>
+						<th style="width:12%">Applicants</th>
+						<th style="width:7%" >Views</th>
+						<th style="width:20%" >Date Posted</th>
+						<th style="width:10%" align="center" >Rewards</th>	
+						<th style="width:15%" align="center">Total Reward</th>				
 					</tr>
 					<?php if(empty($jobs)){ ?>
 					<tr>

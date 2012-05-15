@@ -7,8 +7,9 @@ class AdminController extends AppController {
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
-		if($this->Session->read('Auth.User.id')!=1){
-			$this->redirect('/');
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect('/users/login');
 		}
 		if($this->userRole!=ADMIN){
 			$this->redirect("/users/loginSuccess");
@@ -48,6 +49,7 @@ class AdminController extends AppController {
 				'Companies.contact_name',
 				'Companies.contact_phone',
 				'Companies.company_name',
+				'Companies.company_url',
 				'Companies.act_as',
 				'User.account_email'
 				),
@@ -424,7 +426,6 @@ class AdminController extends AppController {
 					$this->set('scenario',$i/'3');
 					$validFlag=false;
 				}
-				
 				$i++;
 			}
 			if($validFlag){
@@ -449,21 +450,15 @@ class AdminController extends AppController {
 			$data=$this->params['url'];
 		}	
 		$conditions[]='JobseekerApply.is_active=1';
-		if(isset($data['status']) && $data['status'] !==""){
-
-			$conditions[]='payment_status ='.$data['status'];
-	 		$this->set('status',$data['status']);
-	 	}
-	 	if(!empty($data['from_date'])){
+		if(isset($data['from_date']) && !empty($data['from_date'])){
 	 		$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
 	 		$this->set('from_date',$data['from_date']);
 	 	}
-	 	if(!empty($data['to_date'])){
+	 	if(isset($data['to_date']) && !empty($data['to_date'])){
 	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
 	 		$this->set('to_date',$data['to_date']);
 	 	}
-	 		
-
+	
 		$this->paginate = array(
 			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
 			'recursive'=>-1,
@@ -921,11 +916,12 @@ class AdminController extends AppController {
 			    $this->set('jobs',$jobs);
 			    $this->set('companyDetail',$companyDetail);
 			}else{
-			    $this->Session->setFlash('You may be clicked on old link or entered manually......', 'error');
-			    $this->redirect("/admin/paymentInformation");
+			    $this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			    $this->redirect("/admin/rewardPayment");
 			}
 		}else{
-			$this->Session->setFlash("No Result Founds","error");				
+			$this->Session->setFlash("You may be clicked on old link or entered manually","error");				
+			$this->redirect("/admin/rewardPayment");
 		}
 	}	
 	
@@ -956,15 +952,16 @@ class AdminController extends AppController {
 																),
 												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,comp.company_name,city.city,state.state,Job.job_type,
 Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
+		
 		$jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
-		$jobDetail['Job']['job_type']=$jobtypes[$jobDetail['Job']['job_type']];
-		return json_encode($jobDetail);
+		if(isset($jobDetail['Job']['id'])){
+			$jobDetail['Job']['job_type']=$jobtypes[$jobDetail['Job']['job_type']];
+			return json_encode($jobDetail);
+		}else{
+			$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
+			return json_encode($error);
 		}
+	}
 }
-
-
-
-
-
 
 ?>

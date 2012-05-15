@@ -29,13 +29,14 @@
 		</div>
 	    <table width ="100%" cellspacing='0' class="userTable">
 		    <tr class="tableHeading"> 
-		    	<th>SN</th>
-			    <th>Company/Recruiter name</th> 
-			    <th>Name</th>
-			    <th>Phone</th>
-			    <th>Email</th>
-			    <th>Company/Recruiter</th>
-			    <th>Action</th>
+		    	<th width="3%">SN</th>
+			    <th width="15%">Company/Recruiter name</th> 
+			    <th width="15%">Name</th>
+			    <th width="20%">company_url</th>
+			    <th width="10%">Phone</th>
+			    <th width="20%">Email</th>
+			    <th width="10%">Company Recruiter</th>
+			    <th width="10%">Action</th>
 		    </tr>
             <?php 
                	if(count($Companies)>0){
@@ -43,13 +44,27 @@
             	       	$class = $sno%2?"odd":"even";
             ?>
 			<tr class="<?php echo $class; ?>"> 
-				<td align="center" width="3%"><?php echo $sno;?></td>
-				<td width="20%" style="padding:7px;"><?php echo $company["Companies"]["company_name"]; ?></td> 
-				<td width="20%"><?php echo ucfirst($company["Companies"]["contact_name"]); ?></td> 
-				<td align="center" width="20%"><?php echo $company["Companies"]["contact_phone"]; ?></td> 
-				<td width="40%"><?php echo $company["User"]["account_email"]; ?></td> 
-				<td align="center" width="10%"><?php echo $company["Companies"]["act_as"]; ?></td>
-				<td align="center" width="10%"><?php echo $html->link("Accept", array('action' => 'acceptCompanyRequest',$company['Companies']['user_id']), array('escape' => false)); ?>/<?php echo $html->link("Decline", array('action' => 'declineCompanyRequest',$company['Companies']['user_id']), array('escape' => false)); ?></td>
+				<td align="center"><?php echo $sno;?></td>
+				<td style="padding:3px;"><?php echo $company["Companies"]["company_name"]; ?></td> 
+				<td style="padding:3px;"><?php echo ucfirst($company["Companies"]["contact_name"]); ?></td>
+				<td >
+					<a href='<?php echo $company["Companies"]["company_url"]; ?>'>
+						<?php echo $company["Companies"]["company_url"];?>
+					</a>
+				</td>
+				<td align="center" ><?php echo $company["Companies"]["contact_phone"]; ?></td> 
+				<td ><?php echo $company["User"]["account_email"]; ?></td> 
+				<td align="center" ><?php echo $company["Companies"]["act_as"]; ?></td>
+				<td align="center">
+					<?php echo $html->link("Accept", array('action' => 'acceptCompanyRequest',
+																		$company['Companies']['user_id']),
+													 array('escape' => false, 
+													 'onclick'=>"return confirm('Do you want to accept the request ?')"));?>
+					<?php echo $html->link("Decline", array('action' => 'declineCompanyRequest',
+																		$company['Companies']['user_id']
+															), 
+													  array('escape' => false,
+													  'onclick'=>"return confirm('Do you want to decline the request ?')")); ?></td>
 			</tr> 
       	<?php 
       		$sno++;

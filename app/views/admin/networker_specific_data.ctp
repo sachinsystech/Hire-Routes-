@@ -62,7 +62,7 @@
 					<?php if(($level+1)==$selectedLevel):?>
 				<div class="levelDataActiveBar">
 					<?php else:?>
-				<div style="cursor:pointer;" class="levelDataBar" onclick="getNetworkersNetworkerForLevel(<?php echo ($networkerData['User']['id'].','.($level+1));?>);">
+				<div style="cursor:pointer;" class="levelDataBar levelDataBarHover" onclick="getNetworkersNetworkerForLevel(<?php echo ($networkerData['User']['id'].','.($level+1));?>);">
 					<?php endif;?>
 					<div class="levelData">
 						<?php echo "Level ".($level+1); ?>
@@ -108,7 +108,7 @@
 					</div>
 					<?php $count=1;?>
 					<?php foreach($networkersNetworkerData as $key => $networkerInfo): ?>
-						<div class="<?php if($count%2==0) echo 'networkerDataBarEven'; else echo 'networkerDataBarOdd'; ?>" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
+						<div class="networkerDataHover <?php if($count%2==0) echo 'networkerDataBarEven'; else echo 'networkerDataBarOdd'; ?>" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
 							<div class="networkersDataEmail">
 								<?php echo $networkerInfo['User']['account_email'];?>
 							</div>

@@ -5,7 +5,7 @@
 		<li></li>
 		<li><a href="/"><span> HOME </span></a></li>
 		<li><a href="#"><span> JOBS </span></a></li>
-		<li><a href="#"><span>ABOUT</span></a></li>
+		<li><a href="/blog/"><span>ABOUT</span></a></li>
 		
 		
 		<?php /*$current_user = $this->Session->read('Auth.User'); ?>
@@ -31,7 +31,7 @@
 		<li></li>
 		<li><a href="/"><span> HOME </span></a></li>
 		<li><a href="/jobs"><span> JOBS </span></a></li>
-		<li><a href="#"><span>ABOUT</span></a></li>	
+		<li><a href="/blog/"><span>ABOUT</span></a></li>	
 	  </ul>
 
 	  <ul style="float:right;">

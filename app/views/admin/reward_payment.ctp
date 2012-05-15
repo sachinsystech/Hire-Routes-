@@ -1,5 +1,4 @@
 <script>
-d = <?php echo $gD; ?>
 
 	function checkForm(){
 		var NS_I = parseFloat($("#ConfigNrRewardPcForScenario1").val());
@@ -113,7 +112,11 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 
 </script>
 
-
+<style>
+#graph img {
+	display:none;
+}
+</style>
 <?php echo $this->Session->flash();?>
 
 <div id="page-heading"><h1>Reward Payment </h1></div>
@@ -121,7 +124,19 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 
 <div class="configuration_content">
  <div class="inner-content">	
-  <span class="rp-error" style="clear:both;color:#FF0000;color: #FF0000;font-size: 13px;margin-left: 62px;"></span>
+ 
+   <span class="rp-error" style="clear:both;color:#FF0000;color: #FF0000;font-size: 13px;margin-left: 62px;">
+  
+	<?php if(isset($scenario)){
+		echo $rp_error;?>
+		<style>
+		.sc<?php echo $scenario; ?> fieldset{
+      		border-color:#FF0000;
+    	}
+		</style>
+	<?php } ?>
+
+  </span>
   <?php echo $form->create('Config',array('url'=>array('controller'=>'admin','action'=>'rewardPayment'),'onSubmit'=>'return checkForm()'))?>
 
 	<div style="float:left">
@@ -346,107 +361,6 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 </div>
 
 
-<table class="content-table" border="0" cellpadding="0" cellspacing="0" width="100%">
-	<tbody>
-		<tr>
-			<th rowspan="3" class="sized"></th>
-			<th class="topleft"></th>
-			<td id="tbl-border-top">&nbsp;</td>
-			<th class="topright"></th>
-			<th rowspan="3" class="sized"></th>
-		</tr>
-		<tr>
-			<td id="tbl-border-left"></td>
-			<td>
-				<div style="float:left">
-					<?php
-						echo $this->Form->create('paymentInformation',array('url'=>array('controller'=>'admin','action'=>'paymentInformation'),'type'=>'get','onsubmit'=>'return validateForm();'));
-										
-					?>
-					<div style="float:left;width:100px;margin: 2px;">
-						<?php echo "<font size='3px'>From :</font>";?>
-					</div>
-					<div style="float:left;width:150px;margin: 2px;">
-						<?php 
-							$date = new DateTime();
-							$date->modify(-30 . ' days');
-							$last_month= $date->format("m/d/Y");
-							$from_date=isset($from_date)?$from_date:$last_month;
-							$to_date=isset($to_date)?$to_date:date('m/d/Y');
-							$findUrl=array(
-									   "from_date"=>date("Ymd",strtotime($from_date)),
-									   "to_date"=>date("Ymd",strtotime($to_date)),
-									   "status"=>isset($status)?$status:"",
-									   );
-							echo $this->Form->input('from_date',array(
-								'label'=>'',
-								'type'=>'text',
-								'class'=>'date_field_employee',
-								'readonly'=>'true',
-								'style'=>'width:75px;',
-								'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):$date->format("m/d/Y")
-								)
-							);
-						?>
-					</div>
-					<div style="float:left;width:75px;margin: 2px;">
-						<?php echo "<font size='3px'>To :</font>";?>
-					</div>
-					<div style="float:left;width:150px;margin: 2px;">
-					<?php 
-						echo $this->Form->input('to_date',array(
-							'label'=>'',
-							'type'=>'text',
-							'readonly'=>'true',
-							'class'=>'date_field_employee',
-							'style'=>'width:75px;',
-							'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):date('m/d/Y')
-							)
-						);
-					?>
-					</div>
-					<div style="clear:both"></div>
-					<div style="float:left;width:100px;margin: 2px;">
-						<font size='3px'>Status</font>
-					</div>
-					<div style="float:left;width:150px;margin: 2px;">
-					<?php 
-						echo $this->Form->input('status',
-							array(
-								'label'=>'',
-								'type'=>'select',
-								'empty'=>'--select--',
-								'value'=>isset($status)?$status:"",
-								'options'=>array('0'=>'Pending','1'=>'Done'),
-								'style'=>'background:none;scroll:0 0 #FFFFFF;color:#393939;border:1px solid;',
-							)
-						);
-					?>
-					</div>
-					<div style="float:left;width:100px;margin: 2px;">
-						<?php echo $this->Form->submit('GO',array('name'=>'find','style'=>'width:60px;'));?>
-						
-					</div>
-					<!--
-					<div style="float:left;">
-						<button class="clear_button div_hover"  style="margin-top:4px;height:25px;"type="Reset" onclick ="resetFields();">Clear</button>
-						
-					</div>
-					-->
-					<div style="clear:both"></div>
-					<?php echo $this->Form->end(); ?>
-				</div>
-			</td>	
-			<td id="tbl-border-right"></td>
-		</tr>
-		<tr>
-			<th class="sized bottomleft"></th>
-			<th id="tbl-border-bottom">&nbsp;</th>
-			<th class="sized bottomright"></th>
-		</tr>
-	</tbody>
-</table>
-
 <!--  Start Employer data -->
 <div class="table_seperator"></div>
 <table class="content-table" border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -462,9 +376,61 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 			<td id="tbl-border-left"></td>
 		    <td>
 				<div class="content-table-inner">
+				<div style="float:left">
+					<?php
+						echo $this->Form->create('paymentInformation',array('url'=>array('controller'=>'admin','action'=>'rewardPayment'),'type'=>'get','onsubmit'=>'return validateForm();'));
+			
+					?>
+					<div style="float:left;width:45px;margin: 2px;">
+						<?php echo "<font size='2px'>From :</font>";?>
+					</div>
+					<div style="float:left;width:95px;">
+						<?php 
+							$date = new DateTime();
+							$date->modify(-30 . ' days');
+							$last_month= $date->format("m/d/Y");
+							$from_date=isset($from_date)?$from_date:$last_month;
+							$to_date=isset($to_date)?$to_date:date('m/d/Y');
+							$findUrl=array(
+									   "from_date"=>date("Ymd",strtotime($from_date)),
+									   "to_date"=>date("Ymd",strtotime($to_date)),
+									   );
+							echo $this->Form->input('from_date',array(
+								'label'=>'',
+								'type'=>'text',
+								'class'=>'date_field_employee',
+								'readonly'=>'true',
+								'style'=>'width:75px;',
+								'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):$date->format("m/d/Y")
+								)
+							);
+						?>
+					</div>
+					<div style="float:left;width:30px;margin: 2px;">
+						<?php echo "<font size='2px'>To :</font>";?>
+					</div>
+					<div style="float:left;width:85px;">
+					<?php 
+						echo $this->Form->input('to_date',array(
+							'label'=>'',
+							'type'=>'text',
+							'readonly'=>'true',
+							'class'=>'date_field_employee',
+							'style'=>'width:75px;',
+							'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):date('m/d/Y')
+							)
+						);
+					?>
+					</div>
+					<div style="float:left;width:60px;">
+						<?php echo $this->Form->submit('GO',array('name'=>'find','style'=>'width:40px;
+height:19px;float:right;'));?>
+					</div>
+					<?php echo $this->Form->end(); ?>
+				</div>
 					<div class="code_pagination">
 								<?php if($this->Paginator->numbers()){ echo $paginator->first('First  |  '); 
-										//$this->Paginator->options(array('url' =>$findUrl));
+										$this->Paginator->options(array('url' =>$findUrl));
 									
 										echo $paginator->prev('  '.__('Previous ', true), array(), null, array('class'=>'disabled'));	
 										echo " < ".$this->Paginator->numbers(array('modulus'=>4))." > ";
@@ -501,7 +467,7 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 								<?php //echo $paymentHistory['Jobseeker']['contact_name'];?>
 							</td -->
 							<td  width="17%" style="padding-left:18px">
-								<?php echo $paymentHistory['Job']['title'];?>
+								<?php echo ucfirst($paymentHistory['Job']['title']);?>
 							</td>
 							<td align="center" width="12%">
 								<?php echo date('m/d/Y',strtotime($paymentHistory['Job']['created']))."&nbsp;";?>
@@ -652,8 +618,6 @@ function drawGraph(data,year){
 	myChart.setBarSpacingRatio(40);
 	myChart.setBackgroundImage('/chart_bg.jpg');
 	myChart.draw();
-	
-	$("#map_JSChart_graph img").css({"background":"url('/chart_bg.jpg') repeat scroll 0 0 transparent","border": "0 none","left":"365px","position":"absolute","top":"925px","width":"77px","z-index":"-10000000","height":"20px"});
 }
 function callback(){
 	
