@@ -48,6 +48,7 @@ class AdminController extends AppController {
 				'Companies.contact_name',
 				'Companies.contact_phone',
 				'Companies.company_name',
+				'Companies.company_url',
 				'Companies.act_as',
 				'User.account_email'
 				),
@@ -871,7 +872,6 @@ class AdminController extends AppController {
 															));		
 															
 			$companyDetail['appliedJobCount'] =$appliedJobCount[0][0]['appliedJobCount'];
-			//echo "<pre>";print_r($appliedJobCount);exit;  
 			
 			$jobs =$this->PaymentHistory->find('all',array(
 												'conditions'=>array('PaymentHistory.user_id'=>$companyId),
@@ -912,19 +912,18 @@ class AdminController extends AppController {
 														'fields'=>array('sum(reward) as totalReward '),
 						));
 			if(isset($companyDetail) && $PaymentHistory && $jobs){
-			    //echo "<pre>";print_r($totalRewards);exit;
 			    $this->set('totalRewards',$totalRewards[0][0]['totalReward']);
 			    $this->set('totalPaidReward',$PaymentHistory[0][0]['totalPaidReward']);
 			    $this->set('PaymentHistory',$PaymentHistory); 				  
 			    $this->set('jobs',$jobs);
 			    $this->set('companyDetail',$companyDetail);
 			}else{
-			    $this->Session->setFlash('You may be clicked on old link or entered manually......', 'error');
-			    $this->redirect("/admin/paymentInformation");
+			    $this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			    $this->redirect("/admin/rewardPayment");
 			}
 		}else{
-			$this->Session->setFlash("No Result Founds","error");				
-			//$this->redirect("/admin/paymentInformation");
+			$this->Session->setFlash("You may be clicked on old link or entered manually","error");				
+			$this->redirect("/admin/rewardPayment");
 		}
 	}	
 	
@@ -955,15 +954,16 @@ class AdminController extends AppController {
 																),
 												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,comp.company_name,city.city,state.state,Job.job_type,
 Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
+		
 		$jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
-		$jobDetail['Job']['job_type']=$jobtypes[$jobDetail['Job']['job_type']];
-		return json_encode($jobDetail);
+		if(isset($jobDetail['Job']['id'])){
+			$jobDetail['Job']['job_type']=$jobtypes[$jobDetail['Job']['job_type']];
+			return json_encode($jobDetail);
+		}else{
+			$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
+			return json_encode($error);
 		}
+	}
 }
-
-
-
-
-
 
 ?>

@@ -21,6 +21,11 @@
 				async:false,
 				data:{jobId:jobId},
 				success:function(response){
+					if(response['error']!=undefined){
+						alert(response['message']);
+						return;
+					}
+				
 					$("#companyJobDetail").dialog({
 						height:200,
 						width:450,
@@ -55,6 +60,9 @@
 	'<div class="jobDetail"><span style="font-size:14px;"><b>Description:</b></span><span class="jobDetailContent">'+response['Job']['description']+'</span></div>'+
 	'</div>');
 				
+				},
+				error:function(response){
+					alert("Something went wrong, please try again.");
 				}
 		});	
 	
