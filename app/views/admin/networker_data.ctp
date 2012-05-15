@@ -70,7 +70,7 @@
 			</div>
 			<?php $count=1;?>
 			<?php foreach($networkersData as $key => $networkerInfo): ?>
-			<div class="<?php if($count%2==0) echo 'networkerDataBarEven'; else echo 'networkerDataBarOdd'; ?>" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
+			<div class="networkerDataHover <?php if($count%2==0) echo 'networkerDataBarEven'; else echo 'networkerDataBarOdd'; ?>" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
 				<div class="networkersDataEmail"><?php echo $networkerInfo['User']['account_email'];?></div>
 				<div class="networkersData">&nbsp;</div>
 				<div class="networkersData"><?php echo $networkerInfo['networkersCount'];?></div>

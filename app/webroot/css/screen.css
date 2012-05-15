@@ -1740,9 +1740,8 @@ label.error {
 }
 .flip{
     -moz-border-radius: 10px 10px 10px 10px;
-	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to#7E7E7E));
-	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
-	background: none repeat scroll 0 0 #7E7E7E;
+    background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
+	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
     border: -1px solid;
     -webkit-border-radius:10px;
 	-moz-border-radius:10px;
@@ -1755,13 +1754,13 @@ label.error {
     width: 112px;
 }
 .flip:hover{
-	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
-	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#7E7E7E));
+	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
 }
 
 .div_hover:hover{
-	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
-	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#7E7E7E));
+	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
 }
  .usertableHeading th{
  	
@@ -1844,9 +1843,8 @@ label.error {
 
 input[type=submit],
 button{
-	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
-	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#7E7E7E));
-	background: #7E7E7E;
+	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
     border: 1px solid #7E7E7E;
  	color: #FFFFFF;
     font-weight: normal;
@@ -1859,9 +1857,10 @@ button{
 }
 input[type=submit]:hover{
 	cursor:pointer;
-	background: #7E7E7E;
-	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
-	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
+	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
+	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#7E7E7E));
+	
+
 }
 .submit input {
     height: 25px;
@@ -2032,7 +2031,9 @@ div .networkerInfo{
 	text-align:center;
 	padding:5px;
 }
-
+.networkerDataHover:hover{
+	background-color: #ccffcc;
+}
 .networkerDataHeading{
 	width:730px;
 	height:20px;

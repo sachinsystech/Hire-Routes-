@@ -264,7 +264,7 @@
 	    			        ?>
 						<tr class="<?php echo $class; ?>" > 
 							<td style="padding:7px;text-align:center;" ><?php echo $sno++; ?></td> 
-							<td><?php echo $user['contact_name'];?></td> 
+							<td><?php echo ucfirst($user['contact_name']);?></td> 
 							<?php if($user['account_email']=='fb'):
 									echo "<td title='Facebook User'> </td>";
 								  else:
