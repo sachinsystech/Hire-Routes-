@@ -1,5 +1,4 @@
 <script>
-d = <?php echo $gD; ?>
 
 	function checkForm(){
 		var NS_I = parseFloat($("#ConfigNrRewardPcForScenario1").val());
@@ -113,7 +112,11 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 
 </script>
 
-
+<style>
+#graph img {
+	display:none;
+}
+</style>
 <?php echo $this->Session->flash();?>
 
 <div id="page-heading"><h1>Reward Payment </h1></div>
@@ -652,8 +655,6 @@ function drawGraph(data,year){
 	myChart.setBarSpacingRatio(40);
 	myChart.setBackgroundImage('/chart_bg.jpg');
 	myChart.draw();
-	
-	$("#map_JSChart_graph img").css({"background":"url('/chart_bg.jpg') repeat scroll 0 0 transparent","border": "0 none","left":"365px","position":"absolute","top":"925px","width":"77px","z-index":"-10000000","height":"20px"});
 }
 function callback(){
 	

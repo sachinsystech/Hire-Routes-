@@ -13,7 +13,7 @@ class CodesController extends AppController {
 		parent::beforeFilter();
 		
 		if($this->Session->read('Auth.User.id')!=1){
-			$this->redirect('/');
+			$this->redirect('/users/login');
 		}
 		if($this->userRole!=ADMIN){
 			$this->redirect("/users/loginSuccess");
