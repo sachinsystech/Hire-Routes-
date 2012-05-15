@@ -2031,7 +2031,9 @@ div .networkerInfo{
 	text-align:center;
 	padding:5px;
 }
-
+.networkerDataHover:hover{
+	background-color: #ccffcc;
+}
 .networkerDataHeading{
 	width:730px;
 	height:20px;
