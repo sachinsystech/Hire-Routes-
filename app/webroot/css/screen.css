@@ -2100,6 +2100,19 @@ div .networkerInfo{
 	float:left;
 }
 
+/* jobseeker Specific Data */
+div .jobseekerSpecificData{
+	height:auto;
+	overflow:auto;
+	margin:auto;
+	padding:10px;
+}
+div .DataRow{
+	width:330px;
+	margin:auto;
+	font-size:14px;
+}
+/*********/
 /* Networker Specific Data */
 
 div .networkerSpecificData{
@@ -2117,11 +2130,6 @@ div .specificData{
 	height:auto;
 	overflow:auto;
 	margin:auto;
-}
-
-div .NSDRow{
-	width:600px;
-	height:30px;
 }
 
 div .NSDRowLeft{

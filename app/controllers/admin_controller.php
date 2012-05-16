@@ -1,7 +1,7 @@
 <?php
 class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers',
-    					'UserList','Config','Job','JobseekerApply','RewardsStatus');
+    					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker');
 	var $helpers = array('Form','Number','Time','Paginator');
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
 	
@@ -23,6 +23,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('fetchRewardTimeGraph');
 		$this->Auth->allow('filterPayment');
 		$this->Auth->allow('index');
+		$this->Auth->allow('jobseekerSpecificData');
 		$this->Auth->allow('networkerData');
 		$this->Auth->allow('networkerSpecificData');
 		$this->Auth->allow('paymentDetails');
@@ -190,10 +191,15 @@ class AdminController extends AppController {
 					'type'=>'inner',
 					'conditions'=>'RewardsStatus.user_id = Jobseeker.user_id AND RewardsStatus.payment_history_id = PaymentHistory.id'
 				)
-			),
-			'limit'=>10,			
+			),			
 			'conditions'=>array('PaymentHistory.id'=>$this->params['payment_history_id'],'JobseekerApply.is_active'=>'1')
 		));
+		
+		if(empty($payment_detail)){
+			$this->Session->setFlash('You click on old link or entered manually.','error');
+			$this->redirect('/admin/rewardPayment/');
+		}
+		
 		$networker_ids=explode(',',$payment_detail['JobseekerApply']['intermediate_users']);
 		if($payment_detail['PaymentHistory']['scenario']==2){
 				$networker_ids[] = $payment_detail['JobseekerUser']['parent_user_id'];
@@ -545,7 +551,43 @@ class AdminController extends AppController {
 			}
 		}
 		return json_encode(array('data'=>$result,'year'=>$year));
-	}	
+	}
+	
+	function jobseekerSpecificData(){
+		if(isset($this->params['id'])&&$this->params['id']>2){
+			$jobseekerData=$this->Jobseeker->find('first',array(
+						'recursive'=>'-1',
+						'joins'=>array(
+							array(
+								'table'=>'users',
+								'alias'=>'User',
+								'type'=>'INNER',
+								'conditions'=>'User.id = Jobseeker.user_id'
+							),
+							array(
+								'table'=>'jobseeker_apply',
+								'alias'=>'JobseekerApply',
+								'type'=>'LEFT',
+								'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id AND JobseekerApply.is_active = 0'
+							)
+						),
+						'conditions'=>array(
+							'Jobseeker.user_id'=>$this->params['id']
+						),
+						'fields'=>'Jobseeker.user_id, Jobseeker.contact_name, User.account_email, count(JobseekerApply.id) as appliedJob'
+					)
+				);
+			if(empty($jobseekerData['Jobseeker']['user_id'])){
+				$this->Session->setFlash('You may be clicked on old link or entered manually.','error');
+				$this->redirect('/admin/');
+			}
+			$this->set('jobseekerData',$jobseekerData);
+		}else{
+			$this->Session->setFlash('You may be clicked on old link or entered manually.','error');
+			$this->redirect('/admin/');
+		}
+	}
+		
 
 	function networkerData(){
 		$level=1;
@@ -640,7 +682,7 @@ class AdminController extends AppController {
 				$this->set('originData',$originData);
 			}
 		}else{
-			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			$this->Session->setFlash('You may be clicked on old link or entered manually.','error');
 			$this->redirect('/admin/networkerData');
 		}
 	}
