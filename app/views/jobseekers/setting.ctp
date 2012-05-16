@@ -166,7 +166,7 @@
 							<?php }?>
 							<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email based on my information:<span>
 							<div style="float:right;margin-top: -12px;width: 129px;">
-							<?php $emil_post_array =array(''=>'Please Select','10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
+							<?php $emil_post_array =array(''=>'Select','10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
 								<?php echo $form -> input('subscribe_email',array('type'=>'select',
 																              'label'=>'',
 																              'options'=>$emil_post_array,

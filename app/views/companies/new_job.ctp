@@ -113,9 +113,14 @@
                         'title'=>'Archive',
 						'onclick'=>"return confirm('Do you want to Archive  it ?');"
 						));
+						if($job['Job']['is_active']==3){
+							$url=null;
+						}else
+							$url="/companies/showApplicant/".$job['Job']['id'];
+							
 						echo $this->Html->image("/img/icon/person.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/showApplicant/".$job['Job']['id'],
+						'url' => $url,
                         'title'=>'Applicant'
 						));
 						echo $this->Html->image("/img/icon/static.png", array(

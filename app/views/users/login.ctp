@@ -73,8 +73,8 @@ function saveCookie(){
 	var password=$("#UserPassword").val();
 	var exDate=new Date();
 	exDate.setDate(exDate.getDate()+2);
-	document.cookie="username="+escape(username)+(";expires="+exDate.toUTCString()+";security=true;");
-	document.cookie="password="+escape(password)+(";expires="+exDate.toUTCString()+";security=true;");
+	document.cookie="username="+escape(username)+("; expires="+exDate.toUTCString()+"; security=true;");
+	document.cookie="password="+escape(password)+("; expires="+exDate.toUTCString()+"; security=true;");
 	return ;
 }
 

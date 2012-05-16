@@ -72,7 +72,7 @@
 							<td>
 								<div>
 									<div style="float:left">
-										<b><?php echo $job['Job']['title']?></b>
+										<b><?php echo ucfirest($job['Job']['title']);?></b>
 									</div>									
 								</div>
 								<div style="clear:both"></div>
