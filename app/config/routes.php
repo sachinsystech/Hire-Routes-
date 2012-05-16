@@ -32,8 +32,10 @@
   	Router::connect('/admin/acceptCompanyRequest/:id', array('controller' => 'admin','action' => 'acceptCompanyRequest'),array('id' => '[0-9]+'));
   	Router::connect('/admin/declineCompanyRequest/:id', array('controller' => 'admin','action' => 'declineCompanyRequest'),array('id' => '[0-9]+'));
   	Router::connect('/admin/paymentDetails/:payment_history_id/*', array('controller' => 'admin','action' => 'paymentDetails'),array('payment_history_id' => '[0-9]+'));
-
+	
+	Router::connect('/admin/networkerSpecificData/', array('controller' => 'admin','action' => 'networkerData'));
   	Router::connect('/admin/networkerSpecificData/:id/*', array('controller' => 'admin','action' => 'networkerSpecificData'),array('id' => '[0-9]+'));
+  	Router::connect('/admin/jobseekerSpecificData/:id/*', array('controller' => 'admin','action' => 'jobseekerSpecificData'),array('id' => '[0-9]+'));
 
   	Router::connect('/admin/employerSpecificData/:companyId/*', array('controller' => 'admin','action' => 'employerSpecificData'),array('companyId' => '[0-9]+'));
  /** end Admin URL **/
