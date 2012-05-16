@@ -381,7 +381,8 @@ class UsersController extends AppController {
 		$subject = 'Hire Routes : Account Confirmation';
 		$message =  $user['User'];
 		$code=$this->Session->read('intermediateCode');
-		$message['intermediateCode'] =  '?intermediateCode='.$code;
+		if(!empty($code))
+			$message['intermediateCode'] =  '?intermediateCode='.$code;
 		$this->sendEmail($to,$subject,$template,$message);
 	}
 	
