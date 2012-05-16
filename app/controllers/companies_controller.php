@@ -4,7 +4,7 @@ class CompaniesController extends AppController {
 
 	var $name = 'Companies';
 
-   	var $uses = array('User', 'Companies', 'Job', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse','Config','University','RewardsStatus');
+   	var $uses = array('User', 'Companies', 'Job', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse','Config','University','RewardsStatus','SharedJob');
 	var $components = array('TrackUser','Utility','RequestHandler','Session');
 
 	var $helpers = array('Form','Paginator','Time');
@@ -21,25 +21,26 @@ class CompaniesController extends AppController {
 		}
 		
 		$this->Auth->authorize = 'actions';
-		$this->Auth->allow('postJob');
-		$this->Auth->allow('editJob');		
-		$this->Auth->allow('newJob');
-		$this->Auth->allow('showArchiveJobs');
+		$this->Auth->allow('accountProfile');		
+		$this->Auth->allow('archiveJob');
 		$this->Auth->allow('companyData');
 		$this->Auth->allow('checkout');
-		$this->Auth->allow('rejectApplicant');
+		$this->Auth->allow('deleteJob');
+		$this->Auth->allow('editJob');		
+		$this->Auth->allow('editProfile');		
+		$this->Auth->allow('employees');		
+		$this->Auth->allow('jobseekerFilledProfile');		
 		$this->Auth->allow('jobStats');
-		$this->Auth->allow('viewResume');
-		$this->Auth->allow('showApplicant');
-		$this->Auth->allow('archiveJob');
+		$this->Auth->allow('newJob');
 		$this->Auth->allow('paymentHistoryInfo');
 		$this->Auth->allow('paymentHistory');
 		$this->Auth->allow('paymentInfo');
-		$this->Auth->allow('editProfile');
-		$this->Auth->allow('accountProfile');
-		$this->Auth->allow('employees');
+		$this->Auth->allow('postJob');
 		$this->Auth->allow('paypalProPayment');
-		$this->Auth->allow('jobseekerFilledProfile');
+		$this->Auth->allow('rejectApplicant');
+		$this->Auth->allow('showApplicant');
+		$this->Auth->allow('showArchiveJobs');		
+		$this->Auth->allow('viewResume');		
      }
 	
 	
@@ -591,7 +592,10 @@ list archive jobs..
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
-			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fileds"=>"id"));
+			$jobs = $this->Job->find('first',array("conditions"=>array("Job.id"=>$jobId,
+																		"Job.user_id"=>$userId,
+																		"OR"=>array("Job.is_active"=>array(1,3))),
+												   "fileds"=>"id"));
 			if($jobs['Job']){
 				$jobs['Job']["is_active"] = 0 ;
 				$this->Job->save($jobs);
@@ -731,37 +735,41 @@ list archive jobs..
 			
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId),"fileds"=>"id"));
 			if($jobs['Job']){
-				$applicationalltime = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
+				$jobStatusArray['aat'] = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
 				
-				$jobprofilelastmonth = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$jobStatusArray['alm']= $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'is_active'=>0,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
 		
-				$jobprofilelastweek = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$jobStatusArray['alw']= $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'is_active'=>0,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
 
 				
-				$viewalltime = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId)));
+				$jobStatusArray['vat'] = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId)));
 	
-				$viewlastmonth = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$jobStatusArray['vlm'] = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 month")),
 													'created <'=> date("Y-m-d"))));
 
-				$viewlastweek = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
+				$jobStatusArray['vlw'] = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
 													'created >'=> date("Y-m-d", strtotime("-1 week")),
 													'created <'=> date("Y-m-d"))));
-		
+													
+				$jobStatusArray['sat'] =$this->SharedJob->find('count',array('conditions'=>array('job_id'=>$jobId)));
+				
+				$jobStatusArray['slm']=$this->SharedJob->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'sharing_date >'=> date("Y-m-d", strtotime("-1 month")),
+													'sharing_date <'=> date("Y-m-d"))));
+				$jobStatusArray['slw']=$this->SharedJob->find('count',array('conditions'=>array('job_id'=>$jobId,
+													'sharing_date >'=> date("Y-m-d", strtotime("-1 week")),
+													'sharing_date <'=> date("Y-m-d"))));
+					
 				$this->set('jobId',$jobId);
-				$this->set('application_alltime',$applicationalltime);
-				$this->set('application_last_month',$jobprofilelastmonth);
-				$this->set('application_last_week',$jobprofilelastweek);
-				$this->set('view_alltime',$viewalltime);
-				$this->set('view_last_month',$viewlastmonth);
-				$this->set('view_last_week',$viewlastweek);				
-				$this->set('NoOfApplicants',$applicationalltime);
+				$this->set('jobStatusArray',$jobStatusArray);
+				$this->set('NoOfApplicants',$jobStatusArray['aat']);
 			}else{
 				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
 				$this->redirect("/companies/newJob");
@@ -1088,55 +1096,54 @@ list archive jobs..
 		$userId = $this->_getSession()->getUserId();
 		$jobId=$this->params['form']['jobId'];
 		$action=$this->params['form']['action'];
-		if($action=='newJobs'){
-			$activate=1;
+		if($action=="newJobs"){
+			$activate=array(1,3);
 		}else 
 			$activate=0;
 
 		if($userId && $jobId){
 			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>$activate),"fileds"=>"id"));
-			if($jobs['Job']){
+				if($jobs['Job']){
 				$jobs['Job']["is_active"] = 2 ;
 				$this->Job->save($jobs);
 				$this->Session->setFlash('Successfully, Job has been deleted.', 'success');	
-				return;
+				$success=array('success'=>true);
+				return json_encode($success);
 			}
 		}
-		$this->Session->setFlash('May be you click on old link.','error');	
-		return;	
+		$error=array('error'=>1,'message'=>'You may be clicked on old link or entered manually.');
+		return json_encode($error);
     }
-
 
 	public function employees(){
 		$userId = $this->_getSession()->getUserId();	
 		$conditions[]="PaymentHistory.user_id=$userId";
-		$condition_phone=null;
-		$condition_name=null;
 		if(isset($this->params['named'])){
 			$data=$this->params['named'];
 		}
-		if(isset($this->params['url']['from_date'])){
+		if(isset($this->params['url']['find'])){
 			$data=$this->params['url'];
 		}
 		if(isset($data)){
 			if(isset($data['contact_name']) && !empty($data['contact_name'])){			
 				$contact_name=trim($data['contact_name']);
-				$conditions[]=array('OR'=>array("js.contact_name LIKE\"".$contact_name."%\"",	));
+				$conditions[]=array('OR'=>array("js.contact_name LIKE\"".trim($contact_name)."%\"",	));
 				$this->set('contact_name',$contact_name);	
 			}
 			if(isset($data['contact_phone']) && !empty($data['contact_phone'])){			
 				$contact_phone=trim($data['contact_phone']);
-				$conditions[]=array('OR'=>array("js.contact_phone LIKE\"".$contact_phone."%\"",));
+				$conditions[]=array('OR'=>array("js.contact_phone LIKE\"".trim($contact_phone)."%\"",));
 				$this->set('contact_phone',$contact_phone);	
 			}
 			if(isset($data['account_email']) && !empty($data['account_email'])){			
 				$conditions[]= "users.account_email LIKE \"".trim($data['account_email'])."%\"";
 				$this->set('account_email',$data['account_email']);	
 			}
-			if(isset($data['state']) && !empty($data['state'])){			
-				$conditions[]= "js.state LIKE\"".$data['state']."%\"";
-				$conditions[]= "js.city LIKE\"".$data['state']."%\"";
-				$this->set('state',$data['state']);	
+			if(isset($data['address']) && !empty($data['address'])){	
+				$conditions[]= array('OR'=>array("js.address LIKE\"".trim($data['address'])."%\"",
+												"js.state LIKE\"".trim($data['address'])."%\"",
+												"js.city LIKE\"".trim($data['address'])."%\"",));
+				$this->set('address',$data['address']);	
 			}
 			if(isset($data['from_date']) && !empty($data['from_date'])){
 	 			$conditions[]="date(PaymentHistory.paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
@@ -1147,14 +1154,12 @@ list archive jobs..
 		 		$this->set('to_date',$data['to_date']);
 		 	}
 		 }
-		
 		$this->paginate = array('conditions' =>isset($conditions)?$conditions:true,
 								'limit'=>'10', 	
 								'joins'=>array(
 											array('table'=>'users',
 												  'type'=>'LEFT',
-												  'conditions'=>array('users.id=PaymentHistory.jobseeker_user_id',
-																	  'users.is_active=1'),
+												  'conditions'=>array('users.id=PaymentHistory.jobseeker_user_id'),
 												 ),
 										 	array('table'=>'jobseekers',
 												  'alias'=> 'js',
@@ -1163,7 +1168,7 @@ list archive jobs..
 												 ),
 											   ),
 								'fields'=>array('PaymentHistory.user_id,PaymentHistory.paid_date,js.contact_name,
-												js.contact_phone,js.city,js.state,users.account_email'),
+												js.contact_phone,js.address,js.city,js.state,users.account_email'),
 								'order'=>'PaymentHistory.paid_date desc'
 								);
 		$employees = $this->paginate("PaymentHistory");

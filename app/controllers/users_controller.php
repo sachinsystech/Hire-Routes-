@@ -728,6 +728,11 @@ class UsersController extends AppController {
  * @access public
  */	
 	function logout() {
+		$data['User']['id']=$this->_getSession()->getUserId();
+		if(isset($data['User']['id'])){
+			$data['User']['last_logout']=date('Y-m-d H:i:s'); 
+			$this->User->save($data);
+		}
 		$this->Auth->logout();
 		$this->_getSession()->logout();
         $this->Session->delete('intermediateCode');

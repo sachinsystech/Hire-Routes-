@@ -448,7 +448,8 @@ div.actions ul li a:hover {
 input[type=submit],
 button,
 div.actions ul li a,
-td.actions a {
+td.actions a,
+.hr_button{
 	font-weight:normal;
 	padding: 4px 8px;
     background-color: #3DB517;
@@ -2268,4 +2269,18 @@ label.error_input_message{
 }
 .post_later_jobs td{
 	background-color:#FEE !important;
+}
+.emp_search_button{
+	width:45px;
+	height:20px;
+	font-size:10px !important;
+	background: -webkit-gradient(linear, left top, left bottom, from(#A8EA9C), to(#62AF56));
+	background: -moz-linear-gradient(center top , #A8EA9C, #62AF56) repeat scroll 0 0 #62AF56;
+	color:#333;
+	border:1px solid #aaac62;
+	-webkit-border-radius:8px;
+	-moz-border-radius:8px;
+	border-radius:8px;
+	text-decoration:none;
+	margin-top:1px;
 }
