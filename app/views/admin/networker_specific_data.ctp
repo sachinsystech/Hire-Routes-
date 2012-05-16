@@ -20,7 +20,18 @@
 		</div>
 		<div class="NSDRowRight">
 			<div class="NSDInfoHeading">Rewards:</div>
-			<div class="NSDInfo"><?php echo $networkerData['networkerRewards'];?></div>
+			<div class="NSDInfo">
+				<?php 
+					echo $this->Number->format(
+					$networkerData['networkerRewards'],
+					array(
+						'places' => 2,
+						'before' => '$',
+						'decimals' => '.',
+						'thousands' => ',')
+					);
+				?>
+			</div>
 		</div>
 		<div class="NSDRowLeft">
 			<div class="NSDInfoHeading">Origin:</div>

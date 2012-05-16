@@ -4,7 +4,7 @@ class CompaniesController extends AppController {
 
 	var $name = 'Companies';
 
-   	var $uses = array('User', 'Companies', 'Job', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse','Config','University');
+   	var $uses = array('User', 'Companies', 'Job', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse','Config','University','RewardsStatus');
 	var $components = array('TrackUser','Utility','RequestHandler','Session');
 
 	var $helpers = array('Form','Paginator','Time');
@@ -900,32 +900,85 @@ list archive jobs..
 						$paymentHistory['jobseeker_user_id'] = $appliedJob['JobseekerapplyJob']['user_id'];
 						$paymentHistory['amount'] = $appliedJob['Job']['reward'];
 						$paymentHistory['transaction_id'] = $resArray['TRANSACTIONID'];
-						//***********To Store reward payout percent***********
+						$paymentHistory['paid_date'] = date('Y-m-d H:i:s');
+						//***********To Store reward payout percent accoding to Scenario***********
 						
 						$intermediate_user_ids=explode(',',$appliedJob['JobseekerapplyJob']['intermediate_users']);
-						$count_intermediate_user=count($intermediate_user_ids);
+		    			$count_intermediate_user=count($intermediate_user_ids);
 						if(empty($intermediate_user_ids[0]))
 							$count_intermediate_user=$count_intermediate_user-1;
-						// Scenario I
-						if($count_intermediate_user>0){
-							$senerio_percents=$this->Config->find('list',array('fields'=>'key, value','conditions'=>array('key like'=>'%pc_for_scenario_1%')));
-							$paymentHistory['hr_reward_percent']=$senerio_percents['hr_reward_pc_for_scenario_1'];
-							$paymentHistory['networker_reward_percent']=$senerio_percents['nr_reward_pc_for_scenario_1'];
-							$paymentHistory['jobseeker_reward_percent']=$senerio_percents['js_reward_pc_for_scenario_1'];
+		    			$jobSeekerParent=$this->User->find('first', array(
+								'recursive'=>-1,
+								'joins'=>array(
+									array(
+										'table'=>'networkers',
+										'alias'=>'Networker',
+										'type'=>'inner',
+										'conditions'=>'Networker.user_id = User.parent_user_id'
+									)
+								),
+								'conditions'=>array(
+									'User.id'=>$appliedJob['JobseekerapplyJob']['user_id']
+								),
+								'fields'=>'Networker.user_id',
+							)
+						);
+						if(!empty($jobSeekerParent)){
+							$isFirstTimeSelect = $this->JobseekerApply->find('first',array(
+									'conditions'=>array(
+										'user_id'=>$appliedJob['JobseekerapplyJob']['user_id'],
+										'is_active'=>1
+									),
+									'fields'=>'count(id) as selectionCount'
+								)
+							);
+							if($isFirstTimeSelect[0]['selectionCount']>1){
+								if($count_intermediate_user>0)
+									$paymentHistory['scenario']=1;
+								else
+									$paymentHistory['scenario']=3;
+							}else{
+								if(in_array($jobSeekerParent['Networker']['user_id'],$intermediate_user_ids))
+									$paymentHistory['scenario']=3;
+								else{
+									$paymentHistory['scenario']=2;
+									if(empty($intermediate_user_ids[0]))
+										$intermediate_user_ids[0]=$jobSeekerParent['Networker']['user_id'];
+									else
+										$intermediate_user_ids[]=$jobSeekerParent['Networker']['user_id'];
+								}
+							}
 						}else{
-							//Scenario III
-							
-							$senerio_percents=$this->Config->find('list',array('fields'=>'key, value','conditions'=>array('key like'=>'%pc_for_scenario_3%')));
-							
-							$paymentHistory['hr_reward_percent']=$senerio_percents['hr_reward_pc_for_scenario_3'];
-							$paymentHistory['networker_reward_percent']=$senerio_percents['nr_reward_pc_for_scenario_3'];
-							$paymentHistory['jobseeker_reward_percent']=$senerio_percents['js_reward_pc_for_scenario_3'];
-						}
-						
-						
+							if($count_intermediate_user>0)
+										$paymentHistory['scenario']=1;
+									else
+										$paymentHistory['scenario']=3;
+						}						
+						$senerio_percents=$this->Config->find('list',array('fields'=>'key, value','conditions'=>array('key like'=>'%pc_for_scenario_'.$paymentHistory['scenario'].'%')));
+							$paymentHistory['hr_reward_percent']=$senerio_percents['hr_reward_pc_for_scenario_'.$paymentHistory['scenario'].''];
+							$paymentHistory['networker_reward_percent']=$senerio_percents['nr_reward_pc_for_scenario_'.$paymentHistory['scenario'].''];
+							$paymentHistory['jobseeker_reward_percent']=$senerio_percents['js_reward_pc_for_scenario_'.$paymentHistory['scenario'].''];
 						//***********End Store reward payout percent***********
 						$this->PaymentHistory->save($paymentHistory);
-						$this->Session->setFlash('Applicant has been selected successfully.', 'success');	
+						$paymentHistoryId=$this->PaymentHistory->find('first',array('conditions'=>array(
+												'applied_job_id' => $appliedJob['JobseekerapplyJob']['id']
+											),
+											'fields'=>'id',
+											'order'=>'id desc',
+										)
+									);
+						$rewardData['payment_history_id']=$paymentHistoryId['PaymentHistory']['id'];
+						$rewardData['status'] = 0;
+						$rewardData['user_id']= $appliedJob['JobseekerapplyJob']['user_id'];
+						$this->RewardsStatus->save($rewardData);
+						foreach($intermediate_user_ids as $key => $id){
+							if(!empty($id)){
+								$rewardData['user_id']=$id;
+								$this->RewardsStatus->create();
+								$this->RewardsStatus->save($rewardData);
+							}
+						}
+						$this->Session->setFlash('Applicant has been selected successfully.', 'success');
 						$this->sendCongratulationEmail($appliedJob);
 						$this->redirect("/companies/showApplicant/".$appliedJob['Job']['id']);
 						return;
