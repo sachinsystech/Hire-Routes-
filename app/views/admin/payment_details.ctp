@@ -274,20 +274,19 @@
 					<?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
 					<?php echo $paginator->last(' Last');} ?>
 				</div>
-				<div class="networkerRewardDataBar">
+				<div class="networkerDataHeading">
 					<div class="networkerRewardDataHeading">Networker</div>
 					<div class="networkerRewardDataHeadingEmail">Email</div>
 					<div class="networkerRewardDataHeading">Reward</div>
 					<div class="networkerRewardDataHeading">Check Status</div>
 				</div>
 				<?php
-					if($networker_count>0)
-					{
-						//$sno=0;
+					if($networker_count>0):
+						$sno=0;
 						foreach($networkers as $key=>$networker):
-						//$class = $sno++%2?"odd":"even";
+						$class = $sno++%2?"networkerDataBarOdd":"networkerDataBarEven";
 				?>
-				<div class="networkerRewardDataBar">
+				<div class="<?php echo $class;?>">
 					<div class="networkerRewardData">
 						<?php echo $html->link(empty($networker['Networkers']['contact_name'])?'----':ucfirst($networker['Networkers']['contact_name']), array('controller' => 'admin','action'=>'networkerSpecificData',$networker['Networkers']['user_id'] ));?>
 					</div>
@@ -308,50 +307,49 @@
 					</div>
 					<div class="networkerRewardData" style="text-align:center">
 						<?php
-							switch($networker['RewardsStatus']['status']){
+							switch($networker['RewardsStatus']['status']):
 								case 0:
 									echo "Sent";
 									break;
 								case 1:
 									echo "Paid";
 									break;
-							}
+							endswitch;
 						?>
 					</div>
 				</div>
-					<?php 
+						<?php 
 							endforeach;
-						}else
-						{
+						?>
+						<div class="networkerDataBar">
+							<div class="networkerRewardData">&nbsp;</div>
+							<div class="networkerRewardDataEmail" style="text-align:right;font-weight:bold;">
+								Total
+							</div>
+							<div class="networkerRewardData">
+								<span class='reward'>
+								<?php echo $this->Number->format(
+										($payment_detail['PaymentHistory']['amount']*($payment_detail['PaymentHistory']['networker_reward_percent']))/100,
+													array(
+														'places' => 2,
+														'before' => '$',
+														'decimals' => '.',
+														'thousands' => ',')
+													);	
+											?>
+								</span>
+							</div>
+							<div class="networkerRewardData">&nbsp;</div>
+						</div>
+					<?php	
+						else:
 					?>
-					<div class="odd">			
-					    <div colspan="4" align="center" style="line-height: 25px;">
-					    	Sorry no result found.
-					    </div>
+					<div class="networkerDataBarOdd">			
+				    	Sorry, no result found.
 					</div>
 					<?php
-						}	
+						endif;	
 					?>
-					<div class="networkerRewardDataBar">
-						<div class="networkerRewardData">&nbsp;</div>
-						<div class="networkerRewardDataEmail" style="text-align:right;font-weight:bold;">
-							Total
-						</div>
-						<div class="networkerRewardData">
-							<span class='reward'>
-							<?php echo $this->Number->format(
-									($payment_detail['PaymentHistory']['amount']*($payment_detail['PaymentHistory']['networker_reward_percent']))/100,
-												array(
-													'places' => 2,
-													'before' => '$',
-													'decimals' => '.',
-													'thousands' => ',')
-												);	
-										?>
-							</span>
-					</div>
-						<div class="networkerRewardData">&nbsp;</div>
-					</div>
 					<div>
 	    				<?php
 	    					echo $this->Paginator->numbers(); 

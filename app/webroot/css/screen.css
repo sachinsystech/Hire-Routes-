@@ -2247,7 +2247,12 @@ label.error_input_message{
 	font-size:20px;
 }
 
-.networkerRewardDataBar{
+.networkerRewardDataBarOdd{
+	width:700px;
+	overflow:auto;
+	font-size:14px;
+}
+.networkerRewardDataBarEven{
 	width:700px;
 	overflow:auto;
 	font-size:14px;
