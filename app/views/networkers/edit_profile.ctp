@@ -116,7 +116,7 @@
                                     echo $form->input('Networkers.university', array('label' => 'University:',
 												'type'  => 'select',
 												'options'=>$universities,
-												'empty'=>"----select----",
+												'empty'=>"select",
 												'class' => 'networker_select_bg required',
 												'style' => "float:right;width:208px;",
 												'value' => isset($networker['university'])?$networker['university']:"",

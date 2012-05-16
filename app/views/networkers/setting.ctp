@@ -52,7 +52,7 @@
 																	'type'=>'select',
 																	'label'=>'',
 																	'options'=>$industries,
-																	'empty' =>' -- Select Industry-- ',
+																	'empty' =>' Select Industry ',
 																	'style'=>'margin-left:0px;',
 																	'class'=>'networker_select_bg required',
 																	'onchange'=>'return fillSpecification(this.value,"NetworkerSettingsSpecification","specification_loader");'
@@ -65,7 +65,7 @@
 						<?php echo $form -> input('specification',array(
 																	'type'=>'select',
 																	'label'=>'',
-																	'empty' =>' -- Select Specification-- ',
+																	'empty' =>'Select Specification',
 																	'class'=>'networker_select_bg'
 															)
 												);
@@ -77,7 +77,7 @@
 							<?php echo $form -> input('state',array(
 																		'type'=>'select',
 																		'label'=>'Location: ',
-																		'empty' =>' -- All States-- ',
+																		'empty' =>' All States ',
 																		'options'=>array($states),
 																		'class'=>'networker_select_state',
 																		'onchange'=>'return fillCities(this.value,"NetworkerSettingsCity","city_loader");'
@@ -90,7 +90,7 @@
 							<?php echo $form -> input('city',array(
 																		'type'=>'select',
 																		'label'=>'',
-																		'empty' =>' -- All Cities-- ',
+																		'empty' =>' All Cities ',
 																		'class'=>'networker_select_city'
 																)
 													);
@@ -163,7 +163,7 @@
 							<span>I would like to receive job notifications by email based on my information:<span>
 						</div>
 						<div>
-							<?php $emil_post_array =array(''=>'Please Select','10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
+							<?php $emil_post_array =array(''=>'Select','10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
 								<?php echo $form -> input('subscribe_email',array('type'=>'select',
 																              'label'=>'',
 																              'options'=>$emil_post_array,

@@ -68,7 +68,7 @@
 							<td>
 								<div>
 									<div>
-										<?php	echo '<b>'.$job['Job']['title'].'</b>'; ?>
+										<?php	echo '<b>'.ucfirst($job['Job']['title']).'</b>'; ?>
 									</div>									
 								</div>
 								<div style="clear:both"></div>

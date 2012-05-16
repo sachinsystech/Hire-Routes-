@@ -51,7 +51,8 @@ class AdminController extends AppController {
 				'Companies.company_name',
 				'Companies.company_url',
 				'Companies.act_as',
-				'User.account_email'
+				'User.account_email',
+				'User.created'
 				),
 			'joins' => array(
 				array('table' => 'users',
