@@ -179,7 +179,7 @@ function clear_div(val){
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
 															 'options' =>$universities,
-															 'empty'=>"----select----",
+															 'empty'   =>"select",
 															 'value'   => isset($filterOpt['answer6'])?$filterOpt['answer6']:"",
 															 'onChange'=>"return clear_div(this.value);"
 															));?>

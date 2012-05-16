@@ -814,12 +814,21 @@ div.message{
     background: none repeat scroll 0 0 #FAEBE7;
     border: 1px solid red;
     clear: both;
-    color: red;
-    font-size: 16px;
-    margin: 0 0 1em;
+    color: #ff0000;
+    font-weight: bold;
+    height: 20px;
+    margin: 0px 15px;
     padding: 5px;
     text-align: center;
+    position:absolute;
+    width:90%;
+    -moz-border-radius: 15px;
+	border-radius: 15px;
 }
+
+
+
+
 .error-inner {
 	float:left;
 	padding: 7px 10px 0 4px;
@@ -871,6 +880,7 @@ div.message{
 	}
 .account-drop-inner	{
 	font-size: 0px;
+
 	line-height: 0px;
 	margin: 20px auto 0 auto;
 	width: 140px;
@@ -1568,13 +1578,13 @@ a:hover.back-login	{
 .even{
         background-color:#FFFFFF;
 		font-size:14px;
-        line-height:20px;
+        line-height:18px;
     }
 
 .odd{
         background-color:#F5F5F5;
         font-size:14px;
-        line-height:20px;
+        line-height:18px;
     }
     
  .tableHeading{
@@ -1763,7 +1773,7 @@ label.error {
 	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
 }
  .usertableHeading th{
- 	background-color:#6e6e6e;
+ 	background-color:#3E3E3E;
     border:none !important;
     color: #FFFFFF;
     font-size:18px;
@@ -1827,7 +1837,6 @@ label.error {
 }
 /***********/
 .text_field_employee {
-    border: 1px solid;
 	height: 16px;
 	width: 100px;
 }
@@ -1872,7 +1881,8 @@ input[type=submit]:hover{
 	padding:0px 3px 0 3px;
 }
 select{
-	cursor:pointer;
+	border:1px solid #000;
+	background:#fff;
 }
 .reward_pc{
     border: none;
@@ -1911,10 +1921,6 @@ select{
 .inner-content{
     margin: auto;
     width: 321px;
-}
-select{
-	border:1px solid #000;
-	background:#fff;
 }
 
 .rp_user_list{

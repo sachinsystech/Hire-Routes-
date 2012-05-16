@@ -127,7 +127,10 @@ div.actions h3 {
 	padding-top:0;
 	color:#777;
 }
-
+select{
+	border:1px solid #000;
+	background:#fff;
+}
 
 /** Tables **/
 table {

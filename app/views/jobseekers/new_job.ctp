@@ -1,3 +1,4 @@
+
 <script>
 	$(document).ready(function(){
 	    $("#switch_display").change(onSelectChange);
@@ -69,7 +70,7 @@
 							<tr>
 								<td>
 									<div>
-										<div><?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>								<div style="float:right"><b>Reward : </b><?php echo $this->Number->format(
+										<div><?php	echo $this->Html->link(ucfirst($job['Job']['title']), '/jobs/jobDetail/'.$job['Job']['id']); ?></div>								<div style="float:right"><b>Reward : </b><?php echo $this->Number->format(
 										$job['Job']['reward'],
 										array(
 											'places' => 2,

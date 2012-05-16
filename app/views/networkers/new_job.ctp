@@ -71,7 +71,7 @@
 						<tr>
 							<td>
 								<div>
-									<div style="float:left"> <?php	echo $this->Html->link($job['Job']['title'], '/jobs/jobDetail/'.$job['Job']['id']); ?></div>
+									<div style="float:left"> <?php	echo $this->Html->link(ucfirst($job['Job']['title']), '/jobs/jobDetail/'.$job['Job']['id']); ?></div>
 									<div style="float:right"><b>Reward : </b><?php echo $this->Number->format(
 										$job['Job']['reward'],
 										array(

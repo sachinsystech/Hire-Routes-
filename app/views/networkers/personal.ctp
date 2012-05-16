@@ -86,9 +86,9 @@
 				<div style="float:right;font-size: 93%;margin-right:50px">
 					
 				 <?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
-				 <?php echo $paginator->prev('<< '.__('Previous Page', true), array(), null, array('class'=>'disabled'));?>
+				 <?php echo $paginator->prev('<< '.__('Previous', true), array(), null, array('class'=>'disabled'));?>
 				 < <  <?php echo $this->Paginator->numbers(array('class'=>'numbers','modulus'=>4)); ?>  > >
-				 <?php echo $paginator->next(__('Next Page', true).' >>', array(), null, array('class'=>'disabled'));?>
+				 <?php echo $paginator->next(__('Next', true).' >>', array(), null, array('class'=>'disabled'));?>
 				 <?php echo $paginator->last(' Last'); ?>
 				 <?php }?>
 				</div>
