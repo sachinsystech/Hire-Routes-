@@ -463,7 +463,7 @@ class AdminController extends AppController {
 	 	}
 	
 		$this->paginate = array(
-			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, User.id, User.account_email, User.last_login',
+			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, User.id, User.account_email, User.last_login,User.last_logout',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -512,6 +512,8 @@ class AdminController extends AppController {
 			$this->PaymentHistory->virtualFields['jobTitle'] = 'Job.title';
 			$this->PaymentHistory->virtualFields['datePosted'] = 'Job.created';
 			$paymentHistories=$this->paginate('PaymentHistory');
+			
+			//pr($paymentHistories); exit;
 			$this->set('paymentHistories',$paymentHistories);
 		}catch(Exception $e){
 			$this->Session->setFlash("Server Problem!",'ERROR');
