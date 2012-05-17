@@ -773,6 +773,9 @@ class AdminController extends AppController {
 							'group'=>'User.id',
 							'limit'=>10,
 						);
+		$this->User->virtualFields['jobseekerCount'] = 'count(DISTINCT Jobseeker.id)';
+		$this->User->virtualFields['sharedJobsCount'] = 'count(DISTINCT SharedJob.job_id)';
+		$this->User->virtualFields['notification'] = 'Networker.notification';
 		$networkersData = $this->paginate('User');												
 		foreach($networkersData as $key => $value){
 		

@@ -51,20 +51,20 @@
 				</div>
 				<div Class="networkerDataHeading">
 					<div class="networkersDataEmail" style="text-align:center">
-						<?php echo $this->Paginator->sort('User','User.account_email')?>
+						<?php echo $this->Paginator->sort('User','User.account_email');?>
 					</div>
 					<div class="networkersData">&nbsp;</div>
 					<div class="networkersData">Networkers</div>
 					<div class="networkersData">
-						Jobseekers
+						<?php echo $this->Paginator->sort('Jobseekers','jobseekerCount');?>
 					</div>
 					<div class="networkersDataOrigin">Origin</div>
 					<div class="networkersData">Rewards</div>
 					<div class="networkersData">
-						Job Shared
+						<?php echo $this->Paginator->sort('Job Shared','sharedJobsCount');?>
 					</div>
 					<div class="networkersData">
-						Subscription
+						<?php echo $this->Paginator->sort('Subscription','notification');?>
 					</div>
 				</div>
 			</div>
