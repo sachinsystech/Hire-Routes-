@@ -85,7 +85,7 @@
 																			 'type'  => 'select',
                                                                              'class' => 'required',
 																			 'options'=>$universities,
-																			 'empty'=>"----select----",
+																			 'empty'=>"select",
 																			 'value' => isset($jobprofile['answer6'])?$jobprofile['answer6']:""));?>
 								</div>
 								<div>

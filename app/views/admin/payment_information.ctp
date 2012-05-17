@@ -136,7 +136,7 @@
 							array(
 								'label'=>'',
 								'type'=>'select',
-								'empty'=>'--select--',
+								'empty'=>'select',
 								'value'=>isset($status)?$status:"",
 								'options'=>array('0'=>'Pending','1'=>'Done'),
 								'style'=>'background:none;scroll:0 0 #FFFFFF;color:#393939;border:1px solid;',

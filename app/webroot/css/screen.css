@@ -881,6 +881,7 @@ div.message{
 .account-drop-inner	{
 	font-size: 0px;
 
+
 	line-height: 0px;
 	margin: 20px auto 0 auto;
 	width: 140px;
@@ -1771,6 +1772,7 @@ label.error {
 .div_hover:hover{
 	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#7E7E7E));
 	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
+	
 }
  .usertableHeading th{
  	background-color:#3E3E3E;
@@ -1879,6 +1881,7 @@ input[type=submit]:hover{
 
 .button_field{
 	padding:0px 3px 0 3px;
+    cursor: pointer;
 }
 select{
 	border:1px solid #000;
