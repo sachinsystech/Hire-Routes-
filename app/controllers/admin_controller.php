@@ -462,7 +462,7 @@ class AdminController extends AppController {
 	 	}
 	
 		$this->paginate = array(
-			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
+			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, User.id, User.account_email, User.last_login',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -493,15 +493,23 @@ class AdminController extends AppController {
 					'type'=>'left',
 					'fields'=>'user_id, contact_name',
 					'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id'
+				),
+				array(
+					'table'=>'users',
+					'alias'=>'User',
+					'type'=>'left',
+					//'fields'=>'id, account_email, last_login',
+					'conditions'=>'User.id = Company.user_id'
 				)
 			),
-			'order'=>'id desc',
+			'order'=>'paid_date desc',
 			'limit'=>10,
 			'conditions'=>isset($conditions)?$conditions:true
 		);
 		try{
 			$paymentHistories=$this->paginate('PaymentHistory');
 			$this->set('paymentHistories',$paymentHistories);
+			//pr($paymentHistories); exit;
 		}catch(Exception $e){
 			$this->Session->setFlash("Server Problem!",'ERROR');
 		}

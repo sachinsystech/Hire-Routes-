@@ -900,6 +900,7 @@ list archive jobs..
 						$paymentHistory['jobseeker_user_id'] = $appliedJob['JobseekerapplyJob']['user_id'];
 						$paymentHistory['amount'] = $appliedJob['Job']['reward'];
 						$paymentHistory['transaction_id'] = $resArray['TRANSACTIONID'];
+						$paymentHistory['paid_date'] = date('Y-m-d H:i:s');
 						//***********To Store reward payout percent***********
 						
 						$intermediate_user_ids=explode(',',$appliedJob['JobseekerapplyJob']['intermediate_users']);
