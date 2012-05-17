@@ -44,7 +44,7 @@
 	</div>
 </div>
 <div class="dataBorder">
-	<div class="networkerData">
+	<div class="NSData">
 		<?php if(empty($networkersLevelInfo)): ?>
 			<div style="height:20px;font-size:16px;padding:5px;text-align:center;">
 				No Networker Level Exist!
@@ -73,19 +73,19 @@
 				</div>
 				<?php endforeach;?>
 			</div>
-			<div class="networkerInfo">
+			<div class="NSInfo">
 				<?php if(empty($networkersNetworkerData)):?>
 					<div style="height:30px;font-size:16px;padding:5px;text-align:center;">
 						There is no networker at this Level!
 					</div>
 				<?php else:?>
-					<div style="width:730px;height:70px;float:left;">
+					<div style="height:70px;float:left;">
 						<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;">
 							<?php echo "Level $selectedLevel"?>
 							<?php $this->Paginator->options(array('url' =>array($networkerData['User']['id'])));?>
 							<?php if($this->Paginator->numbers()): ?>
 								<?php $this->Paginator->options(array('url' =>array($networkerData['User']['id'],'level'=>$selectedLevel)));?>
-								<div class="networkerDataPaginatorBar">
+								<div class="NSDataPaginatorBar">
 									<?php echo $paginator->first('First  |'); ?>
 									<?php echo $paginator->prev('  '.__('Previous', true), array(),null,array('class'=>'disabled'));?>
 									<?php echo " < ".$this->Paginator->numbers(array('modulus'=>4))."  > "; ?>
