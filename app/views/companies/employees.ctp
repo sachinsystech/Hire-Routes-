@@ -59,7 +59,8 @@
 		}
 	}
 	function clear_fields(){
-		$(':text').val("");
+		$('select, :text').val("");
+		return false;
 	}
 </script>
 <script>
@@ -212,13 +213,13 @@
 					<th style="width:10%">
 						<div class="submit">
 							<input type="submit" value="Find" class="emp_search_button" name="find">
-							<input type="button" value="clear" class="emp_search_button div_hover" onclick=" clear_fields();">
+							<input type="button" value="Clear" class="emp_search_button div_hover" onclick=" clear_fields();">
 						</div>
 					</th>
 				</tr>
 				<?php if(empty($employees)){ ?>
 				<tr>
-					  <td colspan="7" style="line-height:20px;text-align:center;">Sorry no result.</td>
+					  <td colspan="7" style="line-height:20px;text-align:center;">Sorry, no result found.</td>
 				</tr>
 				<?php } ?>
 				<?php $count=1; foreach($employees as $employee):?>	

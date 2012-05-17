@@ -89,7 +89,7 @@
 						<?php
 							echo $form->button('Clear',array(
 													'type'=>'Reset',
-													'class'=>'clear_button div_hover',
+													'class'=>'clear_button button_field div_hover',
 													)
 												);
 						?>

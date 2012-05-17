@@ -416,14 +416,15 @@ function login_status($l1,$l2){
 					</div>
 					<div style="float:left;width:95px;">
 						<?php 
-							$date = new DateTime();
+							/*$date = new DateTime();
 							$date->modify(-30 . ' days');
 							$last_month= $date->format("m/d/Y");
 							$from_date=isset($from_date)?$from_date:$last_month;
 							$to_date=isset($to_date)?$to_date:date('m/d/Y');
+							*/
 							$findUrl=array(
-									   "from_date"=>date("Ymd",strtotime($from_date)),
-									   "to_date"=>date("Ymd",strtotime($to_date)),
+										"from_date"=>isset($from_date)?date("Ymd",strtotime($from_date)):"",
+										"to_date"=>isset($to_date)?date("Ymd",strtotime($to_date)):"",
 									   );
 							echo $this->Form->input('from_date',array(
 								'label'=>'',
@@ -431,7 +432,7 @@ function login_status($l1,$l2){
 								'class'=>'date_field_employee',
 								'readonly'=>'true',
 								'style'=>'width:75px;',
-								'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):$date->format("m/d/Y")
+								'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):""
 								)
 							);
 						?>
@@ -447,15 +448,17 @@ function login_status($l1,$l2){
 							'readonly'=>'true',
 							'class'=>'date_field_employee',
 							'style'=>'width:75px;',
-							'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):date('m/d/Y')
+							'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):"",
 							)
 						);
 					?>
 					</div>
 					<div style="float:left;width:60px;">
 						<?php echo $this->Form->submit('GO',array('name'=>'find','style'=>'width:40px;
-height:19px;float:right;'));?>
+height:20px;float:right;'));?>
 					</div>
+						<button class="button_field div_hover" style="width:50px;height:20px;margin-top:2px;" 
+						onclick="return clear_fields();">Clear</button>
 					<?php echo $this->Form->end(); ?>
 				</div>
 					<div class="code_pagination">
