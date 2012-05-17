@@ -360,11 +360,7 @@ class AdminController extends AppController {
 				$userArray[$key]['id'] = $value['UserList']['id'];
 				$userArray[$key]['role_id'] = $role_id;
 				$userArray[$key]['role'] = $role;
-				if($value['UserList']['fb_user_id']==0){
-					$userArray[$key]['account_email'] = $value['UserList']['account_email'];
-				}else
-					$userArray[$key]['account_email'] = "fb";
-					
+				$userArray[$key]['account_email'] = $value['UserList']['account_email'];
 				$userArray[$key]['created'] = date("m/d/Y h:m:s", strtotime($value['UserList']['created']));
 				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
 				
@@ -466,7 +462,7 @@ class AdminController extends AppController {
 	 	}
 	
 		$this->paginate = array(
-			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id',
+			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, User.id, User.account_email, User.last_login',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -497,13 +493,23 @@ class AdminController extends AppController {
 					'type'=>'left',
 					'fields'=>'user_id, contact_name',
 					'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id'
+				),
+				array(
+					'table'=>'users',
+					'alias'=>'User',
+					'type'=>'left',
+					//'fields'=>'id, account_email, last_login',
+					'conditions'=>'User.id = Company.user_id'
 				)
 			),
-			'order'=>'id desc',
+			'order'=>'paid_date desc',
 			'limit'=>10,
 			'conditions'=>isset($conditions)?$conditions:true
 		);
 		try{
+			$this->PaymentHistory->virtualFields['employer'] = 'Company.company_name';
+			$this->PaymentHistory->virtualFields['jobTitle'] = 'Job.title';
+			$this->PaymentHistory->virtualFields['datePosted'] = 'Job.created';
 			$paymentHistories=$this->paginate('PaymentHistory');
 			$this->set('paymentHistories',$paymentHistories);
 		}catch(Exception $e){

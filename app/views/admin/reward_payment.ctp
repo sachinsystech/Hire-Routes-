@@ -386,14 +386,15 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 					</div>
 					<div style="float:left;width:95px;">
 						<?php 
-							$date = new DateTime();
+							/*$date = new DateTime();
 							$date->modify(-30 . ' days');
 							$last_month= $date->format("m/d/Y");
 							$from_date=isset($from_date)?$from_date:$last_month;
 							$to_date=isset($to_date)?$to_date:date('m/d/Y');
+							*/
 							$findUrl=array(
-									   "from_date"=>date("Ymd",strtotime($from_date)),
-									   "to_date"=>date("Ymd",strtotime($to_date)),
+										"from_date"=>isset($from_date)?date("Ymd",strtotime($from_date)):"",
+										"to_date"=>isset($to_date)?date("Ymd",strtotime($to_date)):"",
 									   );
 							echo $this->Form->input('from_date',array(
 								'label'=>'',
@@ -401,7 +402,7 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 								'class'=>'date_field_employee',
 								'readonly'=>'true',
 								'style'=>'width:75px;',
-								'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):$date->format("m/d/Y")
+								'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):""
 								)
 							);
 						?>
@@ -417,15 +418,17 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 							'readonly'=>'true',
 							'class'=>'date_field_employee',
 							'style'=>'width:75px;',
-							'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):date('m/d/Y')
+							'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):"",
 							)
 						);
 					?>
 					</div>
 					<div style="float:left;width:60px;">
 						<?php echo $this->Form->submit('GO',array('name'=>'find','style'=>'width:40px;
-height:19px;float:right;'));?>
+height:20px;float:right;'));?>
 					</div>
+						<button class="button_field div_hover" style="width:50px;height:20px;margin-top:2px;" 
+						onclick="return clear_fields();">Clear</button>
 					<?php echo $this->Form->end(); ?>
 				</div>
 					<div class="code_pagination">
@@ -441,9 +444,9 @@ height:19px;float:right;'));?>
 					
 				    <table width ="100%" cellspacing='0' class="userTable">
 						<tr class="tableHeading">
-						    <th>Employer</th>
-							<th>Job Title</th>
-							<th>Date Posted</th>
+							<th><?php echo $this->Paginator->sort('Employer','PaymentHistory.employer')?></th>
+							<th><?php echo $this->Paginator->sort('Job Title','PaymentHistory.jobTitle')?></th>
+							<th><?php echo $this->Paginator->sort('Date Posted','PaymentHistory.datePosted')?></th>
 							<th><?php echo $this->Paginator->sort('Reward($)','PaymentHistory.amount')?></th>
 						    <th><?php echo $this->Paginator->sort('Date Paid','PaymentHistory.paid_date')?></th>
 						    <th>Transaction Id</th>
@@ -590,7 +593,7 @@ function drawGraph(data,year){
 	myChart.setDataArray(myData);
 	myChart.colorizeBars(colors);
 	myChart.setDataArray(myData);
-	myChart.setTitle('Rewards[in thousands] Vs. Time for year-'+year);
+	myChart.setTitle('[ Year-'+year+' ]');
 	myChart.setAxisColor('#9D9F9D');
 	myChart.setAxisWidth(1);
 	myChart.setAxisNameX('');
@@ -612,7 +615,8 @@ function drawGraph(data,year){
 	myChart.setTextPaddingBottom(13);
 	myChart.setBarValuesColor('#9C1919');
 	myChart.setBarBorderWidth(0);
-	myChart.setTitleColor('#8C8382');
+	myChart.setTitleColor('#FF0000');
+	myChart.setTitleFontSize(15);
 	myChart.setGridColor('#5D5F5D');
 	myChart.setSize(616, 321);
 	myChart.setBarSpacingRatio(40);

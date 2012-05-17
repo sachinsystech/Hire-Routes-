@@ -70,7 +70,7 @@
 		<!--  start nav -->
 		<div class="nav">
 		<div class="table">
-		<ul class="<?php echo $this->params['action']=='adminHome'?'current':'select'; ?>"><li><a href="/admin"><b>HOME</b><!--[if IE 7]><!--></a><!--<![endif]-->
+		<ul class="<?php echo $this->params['action']=='adminHome'?'current':'select'; ?>"><li><a href="/admin"><b>Home</b><!--[if IE 7]><!--></a><!--<![endif]-->
 
 		</li>
 		</ul>
@@ -78,7 +78,7 @@
 		<div class="nav-divider">&nbsp;</div>
 		                    
 		<ul class="<?php echo $this->params['controller']=='sliders' && $this->params['action']=='add'?'current':'select'; ?>">
-			<li><a href="/admin/companiesList"><b>Companies Request</b><!--[if IE 7]><!--></a><!--<![endif]-->
+			<li><a href="/admin/companiesList"><b>Employer Request</b><!--[if IE 7]><!--></a><!--<![endif]-->
 
 		</ul>
 		
@@ -89,31 +89,50 @@
 		</li>
 		</ul>
 		
+		<div class="nav-divider">&nbsp;</div>
+		
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+			<li><a href="/admin/userList/"><b>HR-User</b></a></li>
+		</ul>
 	
 		<div class="nav-divider">&nbsp;</div>
 		
-		<ul class="<?php echo $this->params['controller']=='' ?'current':'select'; ?>">
-			<li><a href="/admin/config"><b>Configuration</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+			<li><a href="/admin/employer/"><b>Employer</b></a></li>
 		</ul>
+		
 		<div class="nav-divider">&nbsp;</div>
+		
+		<!-- ul class="<?php //echo $this->params['controller']=='' ?'current':'select'; ?>">
+			<li><a href="/admin/config"><b>Configuration</b><!--[if IE 7]><!-- ></a ><!--<![endif]-- ></li>
+		</ul>
+		<div class="nav-divider">&nbsp;</div -->
 		
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
-			<li><a href="/admin/networkerData/"><b>Networkers</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+			<li><a href="/admin/networkerData/"><b>Networker</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
-
+		
+		<div class="nav-divider">&nbsp;</div>
+		
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+			<li><a href="/admin/jobseeker/"><b>Jobseeker</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+		</ul>
+		
+		<div class="nav-divider">&nbsp;</div>
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a href="/admin/rewardPayment/"><b>Rewards/Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
 		
-		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 
-			<li><a href="/admin/userList/"><b>Users</b></a></li>
-		</ul>
+		
+		<div class="nav-divider">&nbsp;</div>
+		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a href="/users/changePassword/"><b>Change password</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
+		
 		
 		<div class="clear"></div>
 		</div>

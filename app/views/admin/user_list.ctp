@@ -84,6 +84,10 @@
 				return false;
 		}
 	}
+	function clear_fields(){
+		$('select, :text').val("");
+		return false;
+	}
 </script>
 <div id="page-heading"><h1>User List </h1></div>
 <?php 
@@ -108,16 +112,18 @@
 			<div class="content-table-inner">
 				<div style="float:right;margin:10px;">
 					<?php
+						/*
 						$date = new DateTime();
 						$date->modify(-30 . ' days');
 						$last_month= $date->format("m/d/Y");
-						$from_date=isset($from_date)?$from_date:$last_month;
-						$to_date=isset($to_date)?$to_date:date('m/d/Y');
+						*/
+						//$from_date=isset($from_date)?$from_date:"";
+						//$to_date=isset($to_date)?$to_date:"";
 						$findUrl=array("contact_name"=>isset($contact_name)?$contact_name:"",
 									   "contact_phone"=>isset($contact_phone)?$contact_phone:"",
 									   "account_email"=>isset($account_email)?$account_email:"",
-									   "from_date"=>date("Ymd",strtotime($from_date)),
-									   "to_date"=>date("Ymd",strtotime($to_date)),
+									   "from_date"=>isset($from_date)?date("Ymd",strtotime($from_date)):"",
+									   "to_date"=>isset($to_date)?date("Ymd",strtotime($to_date)):"",
 									   "page"=>isset($this->params['named']['page'])?$this->params['named']['page']:"1",
 									   "isActivated"=>isset($isActivated)?$isActivated:"",
 									   "filter"=>isset($filter)?$filter:""
@@ -184,7 +190,7 @@
 									  				   'company'=>'Company',
 									  				   'networker'=> 'Networker',
 									  				   'jobseeker' => 'Jobseeker'),
-									  'empty'=>'--select--',
+									  'empty'=>'select',
 									  'style'=>"width:105px",
 									  'class'=>'job_select_shortby',
 									  'selected'=>isset($filter)?$filter:'All',));
@@ -213,7 +219,7 @@
 																'readonly'=>"true",
 																'class' => 'date_field_employee',
 																'title'=>'From Date',
-																'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):$last_month	
+																'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):""
 															));
 											?>
 										</div>
@@ -229,9 +235,8 @@
 															'readonly'=>"true",
 															'class' => 'date_field_employee',
 															'title'=>'To Date',
-															'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):date('m/d/Y'),
-																		)
-															);
+															'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):"",	
+															));
 										?>
 										</div>
 									</center>
@@ -244,7 +249,7 @@
 												  'options'=>array('activated'=>'Activated',
 												  				   'deactivated'=> 'Deactivated',
 												  				   ),
-												  'empty'=>'--select--',
+												  'empty'=>'select',
 												  'style'=>"width:105px",
 												  'class'=>'job_select_shortby',
 												  'selected'=>isset($isActivated)?$isActivated:'All',));
@@ -253,8 +258,11 @@
 	   						<th width="5%">
 	   						    <?php
 									echo $form->submit("Find", array('name'=>'find','class'=>'button_field div_hover',
-															 'style'=>'width:40px;')); 	
+															 'style'=>'width:40px;height:20px')); 
+									
 								?>
+								<button class="button_field div_hover" style="width:40px;height:20px;" 
+								onclick="return clear_fields();">Clear</button>
 	   						</th>
 						</tr>
 	    		            <?php 
@@ -265,14 +273,7 @@
 						<tr class="<?php echo $class; ?>" > 
 							<td style="padding:7px;text-align:center;" ><?php echo $sno++; ?></td> 
 							<td><?php echo ucfirst($user['contact_name']);?></td> 
-							<?php if($user['account_email']=='fb'):
-									echo "<td title='Facebook User'> </td>";
-								  else:
-							?>
-							<td>
-								<?php echo $user['account_email']?>
-							</td>
-							<? endif;?>
+							<td><?php echo $user['account_email']?></td>
 							<td style="text-align:center;"> <?php echo $user['role'];?> </td> 
 							<td style="text-align:center;"> <?php echo $user['contact_phone'];?> </td>
 							<td style="text-align:center;"> <?php echo $user['created'];?> </td>
