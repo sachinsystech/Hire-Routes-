@@ -5,7 +5,7 @@
 			errorClass: 'error_input_message',
 				errorPlacement: function (error, element) {
 					error.insertAfter(element)
-					error.css({'position':'absolute','margin-left':'150px','width':'230px'});
+					error.css({'margin-left':'150px','width':'230px'});
 			}
 		});
 		

@@ -16,13 +16,18 @@
 			$.ajax({
 				url: "/companies/deleteJob",
 				type: "post",
+				dataType:"json",
 				data: {jobId : id,action:'archiveJobs'},
 				success: function(response){
-					window.location.reload();          
+					if(response.error==1){
+						alert(response['message']);
+						return;
+					}
+					window.location.reload();	      
 				},
 				error:function(response)
 				{
-					$('#message').html("ERROR:");
+					alert("You may be clicked on old link or entered manually");
 				}
 			});
 		}

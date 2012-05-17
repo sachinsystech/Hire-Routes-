@@ -4,9 +4,9 @@
 	$(document).ready(function(){
 		$("#CompaniesEmployeesForm").validate();
 	});     
-</script>
-<script>
+
 	$('document').ready(function(){
+	  
 		$("#CompaniesFromDate").datepicker({ minDate: new Date(2012,0,1), maxDate:'+0'});
 		$("#CompaniesToDate").datepicker({ minDate: new Date(2012,0,1), maxDate:'+0'});
 	});
@@ -58,6 +58,9 @@
 				return false;
 		}
 	}
+	function clear_fields(){
+		$(':text').val("");
+	}
 </script>
 <script>
 	function goTo(){
@@ -89,17 +92,19 @@
 															)?>
 						</div>
 						<?php
+							/*
 							$date = new DateTime();
 							$date->modify(-30 . ' days');
 							$last_month= $date->format("m/d/Y");
-							
-							$from_date=isset($from_date)?$from_date:$last_month;
-							$to_date=isset($to_date)?$to_date:date('m/d/Y');
+							*/
+							//$from_date=isset($from_date)?$from_date:"";
+							//$to_date=isset($to_date)?$to_date:"";
 							$findUrl=array("contact_name"=>isset($contact_name)?$contact_name:"",
 										   "contact_phone"=>isset($contact_phone)?$contact_phone:"",
+										   "address"=>isset($address)?$address:"",
 										   "account_email"=>isset($account_email)?$account_email:"",
-										   "from_date"=>date("Ymd",strtotime($from_date)),
-										   "to_date"=>date("Ymd",strtotime($to_date)),
+										   "from_date"=>isset($from_date)?date("Ymd",strtotime($from_date)):"",
+										   "to_date"=>isset($to_date)?date("Ymd",strtotime($to_date)):"",
 										   "page"=>isset($this->params['named']['page'])?$this->params['named']['page']:"1",
 										   );
 					
@@ -145,8 +150,8 @@
 					</th>
 					<th style="width:20%;text-align:center;">
 						<?php
-							echo $form->input("",array("name"=>"state",
-													   "value"=>isset($state)?$state:"",
+							echo $form->input("",array("name"=>"address",
+													   "value"=>isset($address)?$address:"",
 													   "class"=>'text_field_employee ',
 													   "title"=>'Enter State,city',
 											));
@@ -184,7 +189,7 @@
 														'readonly'=>"true",
 														'class' => 'date_field_employee',
 														'title'=>'From Date',
-														'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):$last_month
+														'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):""
 														));
 							?>
 						</div>
@@ -199,13 +204,16 @@
 														'readonly'=>"true",
 														'class' => 'date_field_employee',
 														'title'=>'To Date',
-														'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):date('m/d/Y'),												));
+														'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):"",	
+														));
 							?>
 						</div>
 					</th> 
 					<th style="width:10%">
-						<?php echo $form->submit("Find", array('name'=>'find','style'=>'width:48px;')); 	
-						?>
+						<div class="submit">
+							<input type="submit" value="Find" class="emp_search_button" name="find">
+							<input type="button" value="clear" class="emp_search_button div_hover" onclick=" clear_fields();">
+						</div>
 					</th>
 				</tr>
 				<?php if(empty($employees)){ ?>
@@ -221,7 +229,7 @@
 						<?php else:?>
 						<td> -- -- -- </td>
 						<?php endif;?>
-					<td><?php echo $employee['js']['state'].' , '.$employee['js']['city'];?></td>
+					<td><?php echo  $employee['js']['address'].','.$employee['js']['city'].','.$employee['js']['state'];?></td>
 					<td><?php echo $employee['users']['account_email'];?></td>
 					<td><?php echo $employee['js']['contact_phone'];?></td>
 					<td><?php echo $this->Time->format('m/d/Y', $employee['PaymentHistory']['paid_date']);?></td>

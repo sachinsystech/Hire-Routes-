@@ -37,7 +37,7 @@
 						<div class='required'>
 							<?php	echo $form->input('Companies.company_name', array('label' => 'Company:',
 												'type'  => 'text',
-												'class' => 'text_field_bg required',
+												'class' => 'text_field_bg required alphabets',
 												'value' => $company['company_name'],
 												)
 								 );
@@ -49,7 +49,7 @@
 						<div>
 							<?php	echo $form->input('Companies.contact_name', array('label' => 'Company Name:',
 												'type'  => 'text',
-												'class' => 'text_field_bg required',
+												'class' => 'text_field_bg required alphabets',
 												'value' => $company['contact_name'],
 												)
 								 );
@@ -63,7 +63,6 @@
 												'class' => 'text_field_bg required number',
 												'minlength' => '10',
 												'value' => $company['contact_phone'],
-
 												)
 								 );
 							?>
@@ -103,7 +102,7 @@
 			errorClass: 'error_input_message',
 			errorPlacement: function (error, element) {
 				error.insertAfter(element)
-				error.css({'position':'absolute','margin-left':'120px','width':'230px'});
+				error.css({'margin-left':'120px','width':'230px'});
 			}
 		});
 	});     
