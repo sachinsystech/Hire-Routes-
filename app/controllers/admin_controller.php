@@ -361,11 +361,7 @@ class AdminController extends AppController {
 				$userArray[$key]['id'] = $value['UserList']['id'];
 				$userArray[$key]['role_id'] = $role_id;
 				$userArray[$key]['role'] = $role;
-				if($value['UserList']['fb_user_id']==0){
-					$userArray[$key]['account_email'] = $value['UserList']['account_email'];
-				}else
-					$userArray[$key]['account_email'] = "fb";
-					
+				$userArray[$key]['account_email'] = $value['UserList']['account_email'];
 				$userArray[$key]['created'] = date("m/d/Y h:m:s", strtotime($value['UserList']['created']));
 				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
 				
@@ -512,9 +508,11 @@ class AdminController extends AppController {
 			'conditions'=>isset($conditions)?$conditions:true
 		);
 		try{
+			$this->PaymentHistory->virtualFields['employer'] = 'Company.company_name';
+			$this->PaymentHistory->virtualFields['jobTitle'] = 'Job.title';
+			$this->PaymentHistory->virtualFields['datePosted'] = 'Job.created';
 			$paymentHistories=$this->paginate('PaymentHistory');
 			$this->set('paymentHistories',$paymentHistories);
-			//pr($paymentHistories); exit;
 		}catch(Exception $e){
 			$this->Session->setFlash("Server Problem!",'ERROR');
 		}

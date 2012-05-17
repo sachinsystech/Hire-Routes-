@@ -441,9 +441,9 @@ height:19px;float:right;'));?>
 					
 				    <table width ="100%" cellspacing='0' class="userTable">
 						<tr class="tableHeading">
-						    <th>Employer</th>
-							<th>Job Title</th>
-							<th>Date Posted</th>
+							<th><?php echo $this->Paginator->sort('Employer','PaymentHistory.employer')?></th>
+							<th><?php echo $this->Paginator->sort('Job Title','PaymentHistory.jobTitle')?></th>
+							<th><?php echo $this->Paginator->sort('Date Posted','PaymentHistory.datePosted')?></th>
 							<th><?php echo $this->Paginator->sort('Reward($)','PaymentHistory.amount')?></th>
 						    <th><?php echo $this->Paginator->sort('Date Paid','PaymentHistory.paid_date')?></th>
 						    <th>Transaction Id</th>
