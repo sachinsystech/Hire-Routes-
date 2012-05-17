@@ -444,9 +444,9 @@ height:20px;float:right;'));?>
 					
 				    <table width ="100%" cellspacing='0' class="userTable">
 						<tr class="tableHeading">
-						    <th>Employer</th>
-							<th>Job Title</th>
-							<th>Date Posted</th>
+							<th><?php echo $this->Paginator->sort('Employer','PaymentHistory.employer')?></th>
+							<th><?php echo $this->Paginator->sort('Job Title','PaymentHistory.jobTitle')?></th>
+							<th><?php echo $this->Paginator->sort('Date Posted','PaymentHistory.datePosted')?></th>
 							<th><?php echo $this->Paginator->sort('Reward($)','PaymentHistory.amount')?></th>
 						    <th><?php echo $this->Paginator->sort('Date Paid','PaymentHistory.paid_date')?></th>
 						    <th>Transaction Id</th>
@@ -593,7 +593,7 @@ function drawGraph(data,year){
 	myChart.setDataArray(myData);
 	myChart.colorizeBars(colors);
 	myChart.setDataArray(myData);
-	myChart.setTitle('Rewards[in thousands] Vs. Time for year-'+year);
+	myChart.setTitle('[ Year-'+year+' ]');
 	myChart.setAxisColor('#9D9F9D');
 	myChart.setAxisWidth(1);
 	myChart.setAxisNameX('');
@@ -615,7 +615,8 @@ function drawGraph(data,year){
 	myChart.setTextPaddingBottom(13);
 	myChart.setBarValuesColor('#9C1919');
 	myChart.setBarBorderWidth(0);
-	myChart.setTitleColor('#8C8382');
+	myChart.setTitleColor('#FF0000');
+	myChart.setTitleFontSize(15);
 	myChart.setGridColor('#5D5F5D');
 	myChart.setSize(616, 321);
 	myChart.setBarSpacingRatio(40);

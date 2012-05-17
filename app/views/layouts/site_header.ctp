@@ -31,7 +31,7 @@
 		<li></li>
 		<li><a href="/"><span> HOME </span></a></li>
 		<li><a href="/jobs"><span> JOBS </span></a></li>
-		<li><a href="/blog/"><span>ABOUT</span></a></li>	
+		<li><a href="/blog/"><span>BLOG</span></a></li>	
 	  </ul>
 
 	  <ul style="float:right;">

@@ -1848,7 +1848,6 @@ label.error {
 	width: 85px;
 	font-size:12px;
 	text-align:center;
-	cursor:pointer;
 }
 
 input[type=submit],
@@ -1880,6 +1879,7 @@ input[type=submit]:hover{
 }
 
 .button_field{
+	cursor:pointer;
 	padding:0px 3px 0 3px;
     cursor: pointer;
 }
