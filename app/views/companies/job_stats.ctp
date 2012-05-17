@@ -25,22 +25,22 @@
 							<td><strong>Last Week</strong></td>
 						</tr>
 						<tr>
-							<td><strong>Applications</strong></td>
-							<td><?php echo $application_alltime;?></td>
-							<td><?php echo $application_last_month?></td>
-							<td><?php echo $application_last_week?></td>
+							<td><strong>Applicants</strong></td>
+							<td><?php echo $jobStatusArray['aat'];?></td>
+							<td><?php echo $jobStatusArray['alm'];?></td>
+							<td><?php echo $jobStatusArray['alw'];?></td>
 						</tr>
 						<tr>
 							<td><strong>Shares<strong></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td><?php echo $jobStatusArray['sat'];?></td>
+							<td><?php echo $jobStatusArray['slm'];?></td>
+							<td><?php echo $jobStatusArray['slw'];?></td>
 						</tr>
 						<tr>
 							<td><strong>Views</strong></td>
-							<td><?php echo $view_alltime;?></td>
-							<td><?php echo $view_last_month;?></td>
-							<td><?php echo $view_last_week;?></td>
+							<td><?php echo $jobStatusArray['vat'];?></td>
+							<td><?php echo $jobStatusArray['vlm'];?></td>
+							<td><?php echo $jobStatusArray['vlw'];?></td>
 						</tr>
 					</table>
 				</div>
