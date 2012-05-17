@@ -52,7 +52,7 @@
 							<u>Reward Details</u>
 						</div>
 						<div class='info_block'>
-							<div style="margin:5px 0 5px 0;overflow:auto;">
+							<div style="margin:5px 0 5px 0;clear:both">
 								<div class='sub_heading' style="font-size:24px;margin:5px 5px 5px 0px;">
 									Scenario <?php switch($payment_detail['PaymentHistory']['scenario']){
 														case 1:
@@ -68,7 +68,8 @@
 									?>:
 								</div>
 							</div>
-							<div style="margin:5px 0 5px 0;overflow:auto;">
+							
+							<div style="margin:5px 0 5px 0;clear:both">
 								<div class='sub_heading' style="font-size:20px;">
 									Networker(s) :
 								</div>
@@ -92,7 +93,7 @@
 								</div>
 							</div>
 							<div style="clear:both"></div>
-							<div style="margin:5px 0 5px 0;overflow:auto;">
+							<div style="margin:5px 0 5px 0;clear:both">
 								<div class='sub_heading' style="font-size:20px;">
 									Jobseeker :
 								</div>
@@ -116,7 +117,7 @@
 								</div>
 							</div>	
 							<div style="clear:both"></div>
-							<div style="margin:5px 0 5px 0;overflow:auto;">
+							<div style="margin:5px 0 5px 0;clear:both">
 								<div class='sub_heading' style="font-size:20px;">
 									Hire Routes :
 								</div>
@@ -321,14 +322,10 @@
 						<?php 
 							endforeach;
 						?>
-						<div class="networkerDataBar">
-							<div class="networkerRewardData">&nbsp;</div>
-							<div class="networkerRewardDataEmail" style="text-align:right;font-weight:bold;">
-								Total
-							</div>
-							<div class="networkerRewardData">
-								<span class='reward'>
-								<?php echo $this->Number->format(
+						<div class="networkerDataBar" style="clear:both">
+							<div>
+								<span style="float: right; margin-right: 290px;">
+								<?php echo "<b>Total </b> ".$this->Number->format(
 										($payment_detail['PaymentHistory']['amount']*($payment_detail['PaymentHistory']['networker_reward_percent']))/100,
 													array(
 														'places' => 2,
@@ -339,7 +336,6 @@
 											?>
 								</span>
 							</div>
-							<div class="networkerRewardData">&nbsp;</div>
 						</div>
 					<?php	
 						else:

@@ -265,14 +265,7 @@
 						<tr class="<?php echo $class; ?>" > 
 							<td style="padding:7px;text-align:center;" ><?php echo $sno++; ?></td> 
 							<td><?php echo ucfirst($user['contact_name']);?></td> 
-							<?php if($user['account_email']=='fb'):
-									echo "<td title='Facebook User'> </td>";
-								  else:
-							?>
-							<td>
-								<?php echo $user['account_email']?>
-							</td>
-							<? endif;?>
+							<td><?php echo $user['account_email']?></td>
 							<td style="text-align:center;"> <?php echo $user['role'];?> </td> 
 							<td style="text-align:center;"> <?php echo $user['contact_phone'];?> </td>
 							<td style="text-align:center;"> <?php echo $user['created'];?> </td>
