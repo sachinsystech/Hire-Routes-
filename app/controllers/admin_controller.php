@@ -1,7 +1,7 @@
 <?php
 class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers',
-    					'UserList','Config','Job','JobseekerApply','RewardsStatus');
+    					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker');
 	var $helpers = array('Form','Number','Time','Paginator');
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
 	
@@ -23,6 +23,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('fetchRewardTimeGraph');
 		$this->Auth->allow('filterPayment');
 		$this->Auth->allow('index');
+		$this->Auth->allow('jobseekerSpecificData');
 		$this->Auth->allow('networkerData');
 		$this->Auth->allow('networkerSpecificData');
 		$this->Auth->allow('paymentDetails');
@@ -51,7 +52,8 @@ class AdminController extends AppController {
 				'Companies.company_name',
 				'Companies.company_url',
 				'Companies.act_as',
-				'User.account_email'
+				'User.account_email',
+				'User.created'
 				),
 			'joins' => array(
 				array('table' => 'users',
@@ -137,7 +139,7 @@ class AdminController extends AppController {
 	function paymentDetails()
 	{
 		$payment_detail = $this->PaymentHistory->find('first',array(
-			'fields'=>'PaymentHistory.id, Company.user_id, Company.company_name, Company.contact_name, Company.contact_phone, Company_User.account_email, Jobseeker.user_id, Jobseeker.contact_name, User.account_email, Job.title, PaymentHistory.amount, JobseekerApply.intermediate_users,PaymentHistory.paid_date, PaymentHistory.transaction_id, RewardsStatus.status, PaymentHistory.hr_reward_percent, PaymentHistory.networker_reward_percent, PaymentHistory.jobseeker_reward_percent',
+			'fields'=>'PaymentHistory.*, Company.*, CompanyUser.account_email, Jobseeker.user_id, Jobseeker.contact_name, JobseekerUser.account_email, JobseekerUser.parent_user_id, Job.title, JobseekerApply.intermediate_users, RewardsStatus.status',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -171,17 +173,17 @@ class AdminController extends AppController {
 				),
 				array(
 					'table'=>'users',
-					'alias'=>'User',
+					'alias'=>'JobseekerUser',
 					'type'=>'left',
 					'fields'=>'id, account_email',
-					'conditions'=>'JobseekerApply.user_id = User.id'
+					'conditions'=>'JobseekerApply.user_id = JobseekerUser.id'
 				),
 				array(
 					'table'=>'users',
-					'alias'=>'Company_User',
+					'alias'=>'CompanyUser',
 					'type'=>'left',
 					'fields'=>'id, account_email',
-					'conditions'=>'Company.user_id = Company_User.id'
+					'conditions'=>'Company.user_id = CompanyUser.id'
 				),
 				array(
 					'table'=>'rewards_status',
@@ -189,11 +191,19 @@ class AdminController extends AppController {
 					'type'=>'inner',
 					'conditions'=>'RewardsStatus.user_id = Jobseeker.user_id AND RewardsStatus.payment_history_id = PaymentHistory.id'
 				)
-			),
-			'limit'=>10,			
+			),			
 			'conditions'=>array('PaymentHistory.id'=>$this->params['payment_history_id'],'JobseekerApply.is_active'=>'1')
 		));
+		
+		if(empty($payment_detail)){
+			$this->Session->setFlash('You click on old link or entered manually.','error');
+			$this->redirect('/admin/rewardPayment/');
+		}
+		
 		$networker_ids=explode(',',$payment_detail['JobseekerApply']['intermediate_users']);
+		if($payment_detail['PaymentHistory']['scenario']==2){
+				$networker_ids[] = $payment_detail['JobseekerUser']['parent_user_id'];
+		}
 		$this->paginate=array(
 			'fields'=>'Networkers.user_id, contact_name, RewardsStatus.status, User.account_email',
 			'recursive'=>-1,
@@ -216,11 +226,6 @@ class AdminController extends AppController {
 			'limit'=>10
 		);
 		$networkers=$this->paginate('Networkers');
-		$hrRewardPercent=$this->Config->find('list',array('fields'=>array('value'),'conditions'=>array('key'=>'rewardPercent')));
-		if(isset($hrRewardPercent[1])){
-	 		$this->set('hrRewardPercent',$hrRewardPercent[1]);
-	 	}else
- 			$this->set('hrRewardPercent',null);
 		$this->set('payment_detail',$payment_detail);
 		$this->set('networkers',$networkers);
 	}
@@ -554,7 +559,43 @@ class AdminController extends AppController {
 			}
 		}
 		return json_encode(array('data'=>$result,'year'=>$year));
-	}	
+	}
+	
+	function jobseekerSpecificData(){
+		if(isset($this->params['id'])&&$this->params['id']>2){
+			$jobseekerData=$this->Jobseeker->find('first',array(
+						'recursive'=>'-1',
+						'joins'=>array(
+							array(
+								'table'=>'users',
+								'alias'=>'User',
+								'type'=>'INNER',
+								'conditions'=>'User.id = Jobseeker.user_id'
+							),
+							array(
+								'table'=>'jobseeker_apply',
+								'alias'=>'JobseekerApply',
+								'type'=>'LEFT',
+								'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id AND JobseekerApply.is_active = 0'
+							)
+						),
+						'conditions'=>array(
+							'Jobseeker.user_id'=>$this->params['id']
+						),
+						'fields'=>'Jobseeker.user_id, Jobseeker.contact_name, User.account_email, count(JobseekerApply.id) as appliedJob'
+					)
+				);
+			if(empty($jobseekerData['Jobseeker']['user_id'])){
+				$this->Session->setFlash('You may be clicked on old link or entered manually.','error');
+				$this->redirect('/admin/');
+			}
+			$this->set('jobseekerData',$jobseekerData);
+		}else{
+			$this->Session->setFlash('You may be clicked on old link or entered manually.','error');
+			$this->redirect('/admin/');
+		}
+	}
+		
 
 	function networkerData(){
 		$level=1;
@@ -598,7 +639,6 @@ class AdminController extends AppController {
 				}
 				$networkersNetworkerData = $this->getNetworkersData($level,$this->params['id']);
 				$originData=null;
-				//echo "ORIGIN ".$networkerData[0]['origin'];
 				if($networkerData[0]['origin']==RANDOM){
 					$cond=true;
 					$userId=$networkerData[0]['User']['id'];
@@ -650,7 +690,7 @@ class AdminController extends AppController {
 				$this->set('originData',$originData);
 			}
 		}else{
-			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
+			$this->Session->setFlash('You may be clicked on old link or entered manually.','error');
 			$this->redirect('/admin/networkerData');
 		}
 	}
@@ -741,6 +781,9 @@ class AdminController extends AppController {
 							'group'=>'User.id',
 							'limit'=>10,
 						);
+		$this->User->virtualFields['jobseekerCount'] = 'count(DISTINCT Jobseeker.id)';
+		$this->User->virtualFields['sharedJobsCount'] = 'count(DISTINCT SharedJob.job_id)';
+		$this->User->virtualFields['notification'] = 'Networker.notification';
 		$networkersData = $this->paginate('User');												
 		foreach($networkersData as $key => $value){
 		

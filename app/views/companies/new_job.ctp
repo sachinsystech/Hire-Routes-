@@ -17,13 +17,18 @@
 			$.ajax({
 				url: "/companies/deleteJob",
 				type: "post",
+				dataType:"json",
 				data: {jobId : id,action:'newJobs'},
 				success: function(response){
-					window.location.reload();			
+					if(response.error==1){
+						alert(response['message']);
+						return;
+					}
+					window.location.reload();	
 				},
 				error:function(response)
 				{
-					$('.success').html("ERROR:");
+					alert("You may be clicked on old link or entered manually");
 				}
 			});
 		}
@@ -98,11 +103,18 @@
 						  echo "<a href='/companies/editJob/".$job['Job']['id']."' style='float:right;'>Post & Share</a>";
 					?></td>
 					<td><?php echo $job[0]['submissions']; ?> submissions</td>
-					<td><?php echo $this->Html->image("/img/icon/detail.png", array(
+					<td><?php
+						if($job['Job']['is_active']==3){
+							$url=null;
+						}else
+							$url="/jobs/jobDetail/".$job['Job']['id'];
+						
+						 echo $this->Html->image("/img/icon/detail.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' =>  '/jobs/jobDetail/'.$job['Job']['id'],
+						'url' =>  $url,
                         'title'=> 'Detail'
 						));
+						
 						echo $this->Html->image("/img/icon/edit.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
 						'url' =>  '/companies/editJob/'.$job['Job']['id'],
@@ -113,14 +125,24 @@
                         'title'=>'Archive',
 						'onclick'=>"return confirm('Do you want to Archive  it ?');"
 						));
+						if($job['Job']['is_active']==3){
+							$url=null;
+						}else
+							$url="/companies/showApplicant/".$job['Job']['id'];
+							
 						echo $this->Html->image("/img/icon/person.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/showApplicant/".$job['Job']['id'],
+						'url' => $url,
                         'title'=>'Applicant'
 						));
+						if($job['Job']['is_active']==3){
+							$url=null;
+						}else
+							$url="/companies/jobStats/".$job['Job']['id'];
+						
 						echo $this->Html->image("/img/icon/static.png", array(
 						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => "/companies/jobStats/".$job['Job']['id'],
+						'url' => $url,
                         'title'=>'Statistics'
 						));
 						echo $this->Html->image("/img/icon/delete.png", array(

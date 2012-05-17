@@ -1,5 +1,8 @@
-<?php 
- 	$confirmation_link = Configure::read('httpRootURL')."users/account/".$message['id']."/".$message['confirm_code']."/".$message['intermediateCode'];
+<?php
+	if(isset($message['intermediateCode'])&&!empty($message['intermediateCode'])) 
+ 		$confirmation_link = Configure::read('httpRootURL')."users/account/".$message['id']."/".$message['confirm_code']."/".$message['intermediateCode'];
+ 	else
+ 		$confirmation_link = Configure::read('httpRootURL')."users/account/".$message['id']."/".$message['confirm_code']."/";
 ?>
 <b>Hire Routes</b>
 <p>

@@ -20,7 +20,18 @@
 		</div>
 		<div class="NSDRowRight">
 			<div class="NSDInfoHeading">Rewards:</div>
-			<div class="NSDInfo"><?php echo $networkerData['networkerRewards'];?></div>
+			<div class="NSDInfo">
+				<?php 
+					echo $this->Number->format(
+					$networkerData['networkerRewards'],
+					array(
+						'places' => 2,
+						'before' => '$',
+						'decimals' => '.',
+						'thousands' => ',')
+					);
+				?>
+			</div>
 		</div>
 		<div class="NSDRowLeft">
 			<div class="NSDInfoHeading">Origin:</div>
@@ -71,9 +82,10 @@
 					<div style="width:730px;height:70px;float:left;">
 						<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;">
 							<?php echo "Level $selectedLevel"?>
+							<?php $this->Paginator->options(array('url' =>array($networkerData['User']['id'])));?>
 							<?php if($this->Paginator->numbers()): ?>
+								<?php $this->Paginator->options(array('url' =>array($networkerData['User']['id'],'level'=>$selectedLevel)));?>
 								<div class="networkerDataPaginatorBar">
-									<?php $this->Paginator->options(array('url' =>array($networkerData['User']['id'],'level'=>$selectedLevel)));?>
 									<?php echo $paginator->first('First  |'); ?>
 									<?php echo $paginator->prev('  '.__('Previous', true), array(),null,array('class'=>'disabled'));?>
 									<?php echo " < ".$this->Paginator->numbers(array('modulus'=>4))."  > "; ?>
@@ -88,11 +100,17 @@
 							</div>
 							<div class="networkersData">Level</div>
 							<div class="networkersData">Networkers</div>
-							<div class="networkersData">Jobseekers</div>
+							<div class="networkersData">
+								<?php echo $this->Paginator->sort('Jobseekers','jobseekerCount');?>
+							</div>
 							<div class="networkersDataOrigin">Origin</div>
 							<div class="networkersData">Rewards</div>
-							<div class="networkersData">Job Shared</div>
-							<div class="networkersData">Subscription</div>
+							<div class="networkersData">
+								<?php echo $this->Paginator->sort('Job Shared','sharedJobsCount');?>
+							</div>
+							<div class="networkersData">
+								<?php echo $this->Paginator->sort('Subscription','notification');?>
+							</div>
 						</div>
 					</div>
 					<?php $count=1;?>

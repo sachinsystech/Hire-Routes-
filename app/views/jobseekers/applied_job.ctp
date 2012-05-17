@@ -63,7 +63,7 @@
 							<td>
 								<div>
 									<div>
-										<?php	echo $this->Html->link($job['job']['title'], '/jobs/jobDetail/'.$job['job']['id']); ?>
+										<?php	echo $this->Html->link(ucfirst($job['job']['title']), '/jobs/jobDetail/'.$job['job']['id']); ?>
 									</div>									
 								</div>
 								<div style="clear:both"></div>
