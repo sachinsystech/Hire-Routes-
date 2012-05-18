@@ -52,7 +52,7 @@
 													  'type'=>'select',
 													  'label'=>'Category',
 													  'options'=>$industries,
-													  'empty' =>' -- Select Industry-- ',
+													  'empty' =>'Select Industry',
 													  'onchange'=>'return fillSpecification(this.value,"JobSpecification","specification_loader");',
 													  'class'=>'jobseeker_select_i required',
 											  )
@@ -64,7 +64,7 @@
 							<?php echo $form -> input('specification',array(
 													  'type'=>'select',
 													  'label'=>'',
-													  'empty' =>' -- Select Specifications-- ',
+													  'empty' =>'Select Specifications',
 													 // 'options'=>$specifications,
 													  'class'=>'job_select__i_s required',
 											  )
@@ -79,7 +79,7 @@
 												  'type'=>'select',
 												  'label'=>'Location:',
 												  'options'=>$states,
-												  'empty' =>' -- All States-- ',
+												  'empty' =>'All States',
 												  'class'=>'jobseeker_select_i required',
 												  'onchange'=>'return fillCities(this.value,"JobCity","city_loader");'
 									)
@@ -91,7 +91,7 @@
 							<?php echo $form -> input('city',array(
 											'type'=>'select',
 											'label'=>'',
-											'empty' =>' -- All Cities-- ',
+											'empty' =>'All Cities',
 											'class'=>'job_select__i_s',
 											'style'=>'margin-left:5px;'
 										)

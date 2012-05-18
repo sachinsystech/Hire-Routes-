@@ -41,7 +41,7 @@
 																						'label'=>"<span style='float:left;margin-right: 8px;'> User Type ",	
 																						'type' => 'select',
 																						'options' => $userType,
-																						'empty' => ' - - Select - - ',
+																						'empty' => 'Select',
 																						'class' => 'code_user_select_box',
 																						'error' => array('wrap' => 'span', 'class' => 'code_page_error')
 																						 )

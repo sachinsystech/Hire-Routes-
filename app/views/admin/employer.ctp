@@ -3,6 +3,38 @@
 	 *	Employer Data page
 	 */
 ?>
+
+
+<?php
+
+function login_status($l1,$l2){
+	$status = false;
+	if($l1==null){
+		return $status;
+	}
+	else{
+		if($l2==null){
+			if((strtotime(date('Y:m:d H:i:s'))-strtotime($l1))<=20*60){
+				$status = true;
+				return $status;
+			}
+			else{
+				return $status;
+			}
+		}
+		if((strtotime($l2)-strtotime($l1))>0){
+			return $status;
+		}
+		if((strtotime(date('Y:m:d H:i:s'))-strtotime($l1))<=20*60){
+			$status = true;
+			return $status;
+		}
+	}
+}	
+
+?>
+
+
 <div id="page-heading"><h1>Employer data</h1></div>
 <div class="dataBorder">
 	<?php if($this->Paginator->numbers()):?>
@@ -39,6 +71,11 @@
 		?>
 		<div class="<?php echo $class;?>">
 			<div style="width:300px;float:left;">
+				<?php if(login_status($employer['User']['last_login'],$employer['User']['last_logout'])): ?>
+					<img src="/images/login.png">
+				<?php  else: ?>
+					<img src="/images/logout.png">
+				<?php endif;?>
 				<?php echo $html->link(empty($employer['Companies']['company_name'])?'----':ucfirst($employer['Companies']['company_name']), array('controller' => 'admin','action'=>'employerSpecificData',$employer['Companies']['user_id'] )).", ";?>
 				<?php echo ucfirst($employer['Companies']['contact_name']); ?></br>
 				<?php echo $employer['User']['account_email']; ?></br>

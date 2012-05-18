@@ -549,7 +549,6 @@ class NetworkersController extends AppController {
 					$tempCond[] = array('Job.city ' => $city[$n]);
 		        if($state[$n])
 		        	$tempCond[] = array('Job.state' => $state[$n]);
-				  
 			
 				if(!$tempCond){
 					$tempCond = array(1);
@@ -743,7 +742,7 @@ class NetworkersController extends AppController {
 		                            'order' => $shortByItem,
 		                            'group'=>array('SharedJob.job_id'),
 		                            'myCount'=>$jobCounts['sharedJobs'],
-									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
+									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
 		    
 		    $jobs = $this->paginate('SharedJob');	
 			$this->set('SharedJobs',$jobCounts['sharedJobs']);

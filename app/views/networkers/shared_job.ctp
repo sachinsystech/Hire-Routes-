@@ -71,7 +71,17 @@
 						<tr>
 							<td>
 								<div>
-									<div style="float:left"> <?php	echo $this->Html->link(ucfirst($job['Job']['title']), '/jobs/jobDetail/'.$job['Job']['id']); ?></div>
+									<div style="float:left;font-weight: bold;">								
+									<?php
+										if($job['Job']['is_active'] == 1){
+											$status= "<span style='float:right;'><b>[Opened]</b></span>";
+											echo $this->Html->link(ucfirst($job['Job']['title']),"/jobs/jobDetail/".$job['Job']['id']);
+										}else if($job['Job']['is_active'] == 0 || $job['Job']['is_active'] == 2){
+											$status= "<span style='float:right;'><b>[Closed]</b></span>";
+											echo ucfirst($job['Job']['title']);
+										}
+									?>
+									</div>
 									<div style="float:right"><b>Reward : </b><?php echo $this->Number->format(
 										$job['Job']['reward'],
 										array(
@@ -83,7 +93,8 @@
 								</div>
 								<div style="clear:both"></div>
                                 <div>
-									<?php	
+									<?php
+										echo $status;													
 										if(!empty($job['comp']['company_name']))
 											echo $job['comp']['company_name']."&nbsp;-&nbsp;";
 									?>
@@ -103,7 +114,7 @@
 				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'],'m/d/Y')." <br><br>";?>							
 								</div>	
                                 <div style="float:right">
-                                    <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['Job']['id']); ?>
+                                    <?php //	echo $this->Html->link('Read More', ); ?>
                                 </div>                                	
 							</td>
 						</tr>
