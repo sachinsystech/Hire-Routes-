@@ -894,12 +894,6 @@ class AdminController extends AppController {
 			'recursive'=>'-1',
 			'joins'=>array(
 				array(
-					'table'=>'users',
-					'alias'=>'User',
-					'type'=>'inner',
-					'conditions'=>'Companies.user_id = User.id AND User.is_active = 1'
-				),
-				array(
 					'table'=>'jobs',
 					'alias'=>'Job',
 					'type'=>'LEFT',
@@ -910,6 +904,12 @@ class AdminController extends AppController {
 					'alias'=>'PaymentHistory',
 					'type'=>'LEFT',
 					'conditions'=>'Companies.user_id = PaymentHistory.user_id'
+				),
+				array(
+					'table'=>'users',
+					'alias'=>'User',
+					'type'=>'inner',
+					'conditions'=>'Companies.user_id = User.id AND User.is_active = 1'
 				),
 			),
 			'limit'=>10,
