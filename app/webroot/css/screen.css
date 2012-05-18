@@ -2038,7 +2038,8 @@ div .networkerInfo{
 }
 
 .networkerDataBarOdd{
-	height:20px;
+	min-height:20px;
+	height:auto;
 	overflow:auto;
 	float:left;
 	border-bottom: 1px solid black;
@@ -2051,7 +2052,9 @@ div .networkerInfo{
 	background-color: #ccffcc;
 }
 .networkerDataHeading{
-	height:20px;
+	min-height:20px;
+	height:auto;
+	overflow:auto;
 	float:left;
 	border-bottom: 1px solid black;
 	background-color:#3E3E3E;
@@ -2072,7 +2075,8 @@ div .networkerInfo{
 }
 
 .networkerDataBarEven{
-	height:20px;
+	min-height:20px;
+	height:auto;
 	overflow:auto;
 	float:left;
 	border-bottom: 1px solid black;
@@ -2322,7 +2326,6 @@ div .employerData{
 	margin:auto;
 	width:1017px;
 	border:1px solid black;
-	margin-top:20px;
 	margin-bottom:20px;
 }
 
@@ -2349,11 +2352,12 @@ div .employerData{
 
 .employerPaginatorBar{
 	height:20px;
-	float:left;
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
-	width:970px;
+	width:1017px;
+	margin:auto;
+	margin-top:20px;
 }
 
 .employerDataBarEven{
@@ -2361,7 +2365,7 @@ div .employerData{
 	height:auto;
 	overflow:auto;
 	padding:5px;
-	font-size:14px;
+	font-size:13px;
 	background-color:#E3E3E3;
 	clear:both;
 }
@@ -2370,7 +2374,7 @@ div .employerData{
 	height:auto;
 	overflow:auto;
 	padding:5px;
-	font-size:14px;
+	font-size:13px;
 	clear:both;
 }
 /***************/
