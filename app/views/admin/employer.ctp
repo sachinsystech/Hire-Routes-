@@ -44,7 +44,7 @@
 			foreach($employers as $key =>$employer):
 				$class=($sn++%2==0)?"employerDataBarEven":"employerDataBarOdd"
 		?>
-		<div class="<?php echo $class;?>">
+		<div class="<?php echo $class;?>" onclick="specificEmployer(<?php echo $employer['Companies']['user_id'];?>);">
 			<div class="networkersDataOrigin" style="width:125px;">
 				<?php echo $employer['Companies']['company_name']; ?>&nbsp;
 			</div>
@@ -89,3 +89,8 @@
 		?>
 	</div>
 </div>
+<script>
+	function specificEmployer(employer){
+		window.location.href='/admin/employerSpecificData/'+employer;
+	}
+</script>
