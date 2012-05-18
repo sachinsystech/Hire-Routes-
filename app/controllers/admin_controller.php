@@ -894,12 +894,6 @@ class AdminController extends AppController {
 			'recursive'=>'-1',
 			'joins'=>array(
 				array(
-					'table'=>'jobs',
-					'alias'=>'Job',
-					'type'=>'LEFT',
-					'conditions'=>'Companies.user_id = Job.user_id'
-				),
-				array(
 					'table'=>'payment_history',
 					'alias'=>'PaymentHistory',
 					'type'=>'LEFT',
@@ -913,16 +907,36 @@ class AdminController extends AppController {
 				),
 			),
 			'limit'=>10,
-			'fields'=>'Companies.user_id, Companies.contact_name, Companies.company_name, Companies.company_url, User.account_email, count(DISTINCT Job.id) AS jobPosted, count(DISTINCT PaymentHistory.job_id) as jobFilled, sum(PaymentHistory.amount) as awardPaid, SUM(Job.reward) as awardPosted',
+			'fields'=>'Companies.user_id, Companies.contact_name, Companies.company_name, Companies.company_url, User.account_email, count(DISTINCT PaymentHistory.job_id) as jobFilled, sum(PaymentHistory.amount) as awardPaid',
 			'group'=>'Companies.user_id',
 			'order'=>'Companies.user_id desc'
 		);
-		$this->Companies->virtualFields['jobPosted'] = 'count(DISTINCT Job.id)';
 		$this->Companies->virtualFields['jobFilled'] = 'count(DISTINCT PaymentHistory.job_id)';
 		$this->Companies->virtualFields['awardPaid'] = 'sum(PaymentHistory.amount)';
-		$this->Companies->virtualFields['awardPosted'] = 'SUM(Job.reward)';
 		$this->Companies->virtualFields['email'] = 'User.email';
 		$employers=$this->paginate('Companies');
+		$user_ids=null;
+		if(!empty($employers[0]))
+		foreach($employers as $key=> $employer)
+			$user_ids[]=$employer['Companies']['user_id'];
+		$employersJobs=$this->Job->find('all',array(
+					'fields'=>'Job.user_id, count(Job.id) AS jobPosted, sum(Job.reward) AS awardPosted',
+					'group'=>'Job.user_id',
+					'conditions'=>array('Job.user_id'=>$user_ids)
+				)
+			);
+		foreach($employers as $key=> $employer){
+			foreach($employersJobs as $jobKey => $employerJobs){
+				if($employerJobs['Job']['user_id']==$employer['Companies']['user_id']){
+					$employers[$key][0]['jobPosted']=$employerJobs['0']['jobPosted'];
+					$employers[$key][0]['awardPosted']=$employerJobs['0']['awardPosted'];
+				}
+			}
+			if(!isset($employers[$key][0]['jobPosted'])){
+				$employers[$key][0]['jobPosted']=0;
+				$employers[$key][0]['awardPosted']=0;
+			}
+		}
 		$this->set('employers',$employers);
 	}
 	
