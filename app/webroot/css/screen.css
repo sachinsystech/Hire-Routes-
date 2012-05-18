@@ -882,6 +882,7 @@ div.message{
 	font-size: 0px;
 
 
+
 	line-height: 0px;
 	margin: 20px auto 0 auto;
 	width: 140px;
@@ -1785,8 +1786,10 @@ label.error {
 	line-height: 20px;
 
 }
- .usertableHeading a{
+ .usertableHeading a,
+ .networkerDataHeading a{
    color: #FFFFFF;
+   text-decoration: underline;
  }
 
  .usertableHeading a:hover{

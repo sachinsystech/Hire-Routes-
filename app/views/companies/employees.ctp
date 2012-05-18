@@ -154,7 +154,7 @@
 							echo $form->input("",array("name"=>"address",
 													   "value"=>isset($address)?$address:"",
 													   "class"=>'text_field_employee ',
-													   "title"=>'Enter State,city',
+													   "title"=>'Enter Address',
 											));
 						?>
 					</th>
