@@ -462,7 +462,7 @@ height:20px;float:right;'));?>
 						<tr class="<?php echo $class; ?>">
 							<!-- td align="center" width="4%"> <?php //echo $sno;?></td --> 
 
-							<td align="center" width="15%" style="padding:7px;">
+							<td width="15%" style="padding:7px;">
 								<a href="/admin/employerSpecificData/<?php echo $paymentHistory['Company']['user_id'];?>">
 									<?php echo $paymentHistory['Company']['company_name'];?>
 								</a>								
