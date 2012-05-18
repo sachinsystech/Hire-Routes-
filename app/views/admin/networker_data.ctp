@@ -35,7 +35,7 @@
 		<?php endforeach; ?>
 		</div>
 		<div class="networkerInfo">
-			<div style="width:730px;height:70px;float:left;">
+			<div style="height:70px;float:left;">
 				<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;">
 					<?php echo "Level $selectedLevel"?>
 					<?php if($this->Paginator->numbers()): ?>
@@ -53,7 +53,6 @@
 					<div class="networkersDataEmail" style="text-align:center">
 						<?php echo $this->Paginator->sort('User','User.account_email');?>
 					</div>
-					<div class="networkersData">&nbsp;</div>
 					<div class="networkersData">Networkers</div>
 					<div class="networkersData">
 						<?php echo $this->Paginator->sort('Jobseekers','jobseekerCount');?>
@@ -72,7 +71,6 @@
 			<?php foreach($networkersData as $key => $networkerInfo): ?>
 			<div class="networkerDataHover <?php if($count%2==0) echo 'networkerDataBarEven'; else echo 'networkerDataBarOdd'; ?>" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
 				<div class="networkersDataEmail"><?php echo $networkerInfo['User']['account_email'];?></div>
-				<div class="networkersData">&nbsp;</div>
 				<div class="networkersData"><?php echo $networkerInfo['networkersCount'];?></div>
 				<div class="networkersData"><?php echo $networkerInfo['0']['jobseekerCount'];?></div>
 				<div class="networkersDataOrigin">

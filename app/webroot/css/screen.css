@@ -1968,7 +1968,7 @@ div .networkerData{
 	overflow:auto;
 	margin:auto;
 	padding:10px;
-	width:947px;
+	width:907px;
 }
 
 div .levelInfo{
@@ -2024,7 +2024,7 @@ div .levelDataActiveBar{
 }
 
 div .networkerInfo{
-	width:740px;
+	width:700px;
 	height:auto;
 	overflow:auto;
 	float:right;
@@ -2032,17 +2032,17 @@ div .networkerInfo{
 }
 
 .networkerDataPaginatorBar{
-	width:724px;
 	height:20px;
 	float:left;
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
+	width:690px;
 }
 
 .networkerDataBarOdd{
-	width:730px;
-	height:20px;
+	min-height:20px;
+	height:auto;
 	overflow:auto;
 	float:left;
 	border-bottom: 1px solid black;
@@ -2055,8 +2055,9 @@ div .networkerInfo{
 	background-color: #ccffcc;
 }
 .networkerDataHeading{
-	width:730px;
-	height:20px;
+	min-height:20px;
+	height:auto;
+	overflow:auto;
 	float:left;
 	border-bottom: 1px solid black;
 	background-color:#3E3E3E;
@@ -2076,10 +2077,9 @@ div .networkerInfo{
 	color:#0000FF;
 }
 
-
 .networkerDataBarEven{
-	width:730px;
-	height:20px;
+	min-height:20px;
+	height:auto;
 	overflow:auto;
 	float:left;
 	border-bottom: 1px solid black;
@@ -2091,7 +2091,7 @@ div .networkerInfo{
 }
 
 .networkersData{
-	width:75px;
+	width:80px;
 	float:left;
 }
 
@@ -2102,7 +2102,7 @@ div .networkerInfo{
 }
 
 .networkersDataOrigin{
-	width:90px;
+	width:100px;
 	float:left;
 }
 
@@ -2131,21 +2131,53 @@ div .networkerSpecificData{
 	padding:10px;
 }
 
+div .NSData{
+	height:auto;
+	overflow:auto;
+	margin:auto;
+	padding:10px;
+	width:987px;
+}
+
+div .NSInfo{
+	width:780px;
+	height:auto;
+	overflow:auto;
+	float:right;
+	border:1px solid black;
+}
+
+.NSDataPaginatorBar{
+	height:20px;
+	float:left;
+	font-size:12px;
+	font-weight:normal;
+	text-align:right;
+	width:770px;
+}
+
 div .specificData{
-	width:600px;
+	width:550px;
 	height:auto;
 	overflow:auto;
 	margin:auto;
 }
 
 div .NSDRowLeft{
-	width:330px;
+	width:280px;
 	float:left;
 }
 
 div .NSDRowRight{
 	width:270px;
 	float:right;
+}
+
+div .NSDRowLeft .NSDInfoHeading{
+	width:70px;
+	float:left;
+	font-size:14px;
+	font-weight:bold;
 }
 
 div .NSDInfoHeading{
@@ -2156,15 +2188,15 @@ div .NSDInfoHeading{
 }
 
 div .NSDRowLeft .NSDInfo{
-	width:220px;
+	width:200px;
 	font-size:14px;
-	float:right;
+	float:left;
 }
 
 div .NSDRowRight .NSDInfo{
 	width:120px;
 	font-size:14px;
-	float:right;
+	float:left;
 }
 
 div .NSDOrigin{
@@ -2289,3 +2321,72 @@ label.error_input_message{
 }
 
 /****************/
+/* employer Data */
+
+div .employerData{
+	height:auto;
+	overflow:auto;
+	margin:auto;
+	width:1018px;
+	border:1px solid black;
+	border-bottom:none;
+	margin-bottom:20px;
+}
+
+.employerDataHeading{
+	height:35px;
+	float:left;
+	border-bottom: 1px solid black;
+	background-color:#3E3E3E;
+	font-weight:bold;
+	font-size:14px;
+	text-align:center;
+	padding:5px;
+	color:white;
+	clear:both;
+	width:1008px;
+}
+
+.employerDataHeading a{
+	color:white;
+}
+
+.employerDataHeading a:hover{
+	color:#0000FF;
+}
+
+.employerPaginatorBar{
+	height:20px;
+	font-size:12px;
+	font-weight:normal;
+	text-align:right;
+	width:1017px;
+	margin:auto;
+	width:1015px;
+	margin-top:20px;
+}
+
+.employerDataBarEven{
+	min-height:20px;
+	height:auto;
+	overflow:auto;
+	padding:5px;
+	font-size:13px;
+	background-color:#E3E3E3;
+	clear:both;
+	cursor:pointer;
+	width:1008px;
+	border-bottom:1px solid black;
+}
+.employerDataBarOdd{
+	min-height:20px;
+	height:auto;
+	overflow:auto;
+	padding:5px;
+	font-size:13px;
+	clear:both;
+	cursor:pointer;
+	width:1008px;
+	border-bottom:1px solid black;
+}
+/***************/

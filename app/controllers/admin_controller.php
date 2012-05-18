@@ -3,7 +3,7 @@ class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers',
     					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker');
 	var $helpers = array('Form','Number','Time','Paginator');
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','Acl','TrackUser','Utility');
+	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus', 							'Acl', 'TrackUser', 'Utility');
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -18,6 +18,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('config');
 		$this->Auth->allow('companyjobdetail');	
 		$this->Auth->allow('companiesList');
+		$this->Auth->allow('employer');
 		$this->Auth->allow('employerSpecificData');	
 		$this->Auth->allow('fetchRewardTimeGraph');
 		$this->Auth->allow('filterPayment');
@@ -27,7 +28,6 @@ class AdminController extends AppController {
 		$this->Auth->allow('networkerData');
 		$this->Auth->allow('networkerSpecificData');
 		$this->Auth->allow('paymentDetails');
-		$this->Auth->allow('paymentInformation');
 		$this->Auth->allow('rewardPayment');
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('updatePaymentStatus');
@@ -42,7 +42,6 @@ class AdminController extends AppController {
 
 	/****	listing companies to accept/decline registration request	***/
 	function companiesList() {
-		
 		$this->paginate=array(
 			'fields' => array('Companies.id',
 				'Companies.user_id',
@@ -457,7 +456,7 @@ class AdminController extends AppController {
 	 	}
 	
 		$this->paginate = array(
-			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, User.id, User.account_email, User.last_login',
+			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, User.id, User.account_email, User.last_login,User.last_logout',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -506,6 +505,8 @@ class AdminController extends AppController {
 			$this->PaymentHistory->virtualFields['jobTitle'] = 'Job.title';
 			$this->PaymentHistory->virtualFields['datePosted'] = 'Job.created';
 			$paymentHistories=$this->paginate('PaymentHistory');
+			
+			//pr($paymentHistories); exit;
 			$this->set('paymentHistories',$paymentHistories);
 		}catch(Exception $e){
 			$this->Session->setFlash("Server Problem!",'ERROR');
@@ -882,6 +883,43 @@ class AdminController extends AppController {
 											);
 		return $users;
 
+	}
+	
+	function employer(){
+		$this->paginate=array(
+			'recursive'=>'-1',
+			'joins'=>array(
+				array(
+					'table'=>'jobs',
+					'alias'=>'Job',
+					'type'=>'LEFT',
+					'conditions'=>'Companies.user_id = Job.user_id'
+				),
+				array(
+					'table'=>'payment_history',
+					'alias'=>'PaymentHistory',
+					'type'=>'LEFT',
+					'conditions'=>'Companies.user_id = PaymentHistory.user_id'
+				),
+				array(
+					'table'=>'users',
+					'alias'=>'User',
+					'type'=>'inner',
+					'conditions'=>'Companies.user_id = User.id AND User.is_active = 1'
+				),
+			),
+			'limit'=>10,
+			'fields'=>'Companies.user_id, Companies.contact_name, Companies.company_name, Companies.company_url, User.account_email, count(DISTINCT Job.id) AS jobPosted, count(DISTINCT PaymentHistory.job_id) as jobFilled, sum(PaymentHistory.amount) as awardPaid, SUM(Job.reward) as awardPosted, User.id, User.account_email, User.last_login,User.last_logout',
+			'group'=>'Companies.user_id',
+			'order'=>'Companies.user_id desc'
+		);
+		$this->Companies->virtualFields['jobPosted'] = 'count(DISTINCT Job.id)';
+		$this->Companies->virtualFields['jobFilled'] = 'count(DISTINCT PaymentHistory.job_id)';
+		$this->Companies->virtualFields['awardPaid'] = 'sum(PaymentHistory.amount)';
+		$this->Companies->virtualFields['awardPosted'] = 'SUM(Job.reward)';
+		$this->Companies->virtualFields['email'] = 'User.email';
+		$employers = $this->paginate('Companies');
+		$this->set('employers',$employers);
 	}
 	
 	public function employerSpecificData(){

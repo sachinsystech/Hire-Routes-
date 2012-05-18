@@ -5,15 +5,8 @@
 ?>
 <script>
 
-	function ucfirst(str) {
-		var f = str.charAt(0).toUpperCase();
-		return f + str.substr(1);
-	}
-
-
 	function jobDetail(jobId){
-		//alert(jobId);
-		
+	
 		$.ajax({
 				url:"/admin/companyjobdetail",
 				type:"post",
