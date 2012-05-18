@@ -76,7 +76,7 @@ function login_status($l1,$l2){
 			foreach($employers as $key =>$employer):
 				$class=($sn++%2==0)?"employerDataBarEven":"employerDataBarOdd"
 		?>
-		<div class="<?php echo $class;?>">
+		<div class="<?php echo $class;?>" onclick="specificEmployer(<?php echo $employer['Companies']['user_id'];?>);">
 			<div class="networkersDataOrigin" style="width:125px;">
 				<?php if(login_status($employer['User']['last_login'],$employer['User']['last_logout'])): ?>
 					<img src="/images/login.png">
@@ -126,3 +126,8 @@ function login_status($l1,$l2){
 		?>
 	</div>
 </div>
+<script>
+	function specificEmployer(employer){
+		window.location.href='/admin/employerSpecificData/'+employer;
+	}
+</script>
