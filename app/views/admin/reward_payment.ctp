@@ -120,35 +120,6 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 <?php echo $this->Session->flash();?>
 
 
-<?php
-
-function login_status($l1,$l2){
-	$status = false;
-	if($l1==null){
-		return $status;
-	}
-	else{
-		if($l2==null){
-			if((strtotime(date('Y:m:d H:i:s'))-strtotime($l1))<=20*60){
-				$status = true;
-				return $status;
-			}
-			else{
-				return $status;
-			}
-		}
-		if((strtotime($l2)-strtotime($l1))>0){
-			return $status;
-		}
-		if((strtotime(date('Y:m:d H:i:s'))-strtotime($l1))<=20*60){
-			$status = true;
-			return $status;
-		}
-	}
-}	
-
-?>
-
 <div id="page-heading"><h1>Reward Payment </h1></div>
 <div style="clear:both"></div>
 
@@ -493,14 +464,8 @@ height:20px;float:right;'));?>
 
 							<td align="center" width="15%" style="padding:7px;">
 								<a href="/admin/employerSpecificData/<?php echo $paymentHistory['Company']['user_id'];?>">
-								<?php echo $paymentHistory['Company']['company_name'];?>
-								</a>
-								<?php if(login_status($paymentHistory['User']['last_login'],$paymentHistory['User']['last_logout'])): ?>
-									<img src="/images/login.png">
-								<?php  else: ?>
-									<img src="/images/logout.png">
-								<?php endif;?>	
-								
+									<?php echo $paymentHistory['Company']['company_name'];?>
+								</a>								
 							</td> 
 							<!-- td align="center" width="15%">
 								<?php //echo $paymentHistory['Jobseeker']['contact_name'];?>

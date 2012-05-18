@@ -915,7 +915,7 @@ class AdminController extends AppController {
 				),
 			),
 			'limit'=>10,
-			'fields'=>'Companies.user_id, Companies.contact_name, Companies.company_name, Companies.company_url, User.account_email, count(DISTINCT Job.id) AS jobPosted, count(DISTINCT PaymentHistory.job_id) as jobFilled, sum(PaymentHistory.amount) as awardPaid, SUM(Job.reward) as awardPosted',
+			'fields'=>'Companies.user_id, Companies.contact_name, Companies.company_name, Companies.company_url, User.account_email, count(DISTINCT Job.id) AS jobPosted, count(DISTINCT PaymentHistory.job_id) as jobFilled, sum(PaymentHistory.amount) as awardPaid, SUM(Job.reward) as awardPosted, User.id, User.account_email, User.last_login,User.last_logout',
 			'group'=>'Companies.user_id',
 			'order'=>'Companies.user_id desc'
 		);
@@ -924,7 +924,7 @@ class AdminController extends AppController {
 		$this->Companies->virtualFields['awardPaid'] = 'sum(PaymentHistory.amount)';
 		$this->Companies->virtualFields['awardPosted'] = 'SUM(Job.reward)';
 		$this->Companies->virtualFields['email'] = 'User.email';
-		$employers=$this->paginate('Companies');
+		$employers = $this->paginate('Companies');
 		$this->set('employers',$employers);
 	}
 	
