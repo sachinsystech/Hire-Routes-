@@ -904,7 +904,7 @@ class AdminController extends AppController {
 			),
 			'limit'=>10,
 
-			'fields'=>'Companies.user_id, Companies.contact_name, Companies.company_name, Companies.company_url, User.account_email, count(DISTINCT PaymentHistory.job_id) as jobFilled, sum(PaymentHistory.amount) as awardPaid',
+			'fields'=>'Companies.user_id, Companies.contact_name, Companies.company_name, Companies.company_url, User.id, User.account_email, User.last_login,User.last_logout, count(DISTINCT PaymentHistory.job_id) as jobFilled, sum(PaymentHistory.amount) as awardPaid',
 			'group'=>'Companies.user_id',
 			'order'=>'Companies.user_id desc'
 		);
