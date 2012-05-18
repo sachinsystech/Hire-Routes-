@@ -47,20 +47,31 @@ class AppModel extends Model {
 
 	public function paginateCount($conditions = null, $recursive = 0, $extra = array())
 	{
-		if(isset($extra['myCount'])){
+		if(isset($extra['myCount']))
+		{
 			$count = $extra['myCount'];
 			unset($extra['myCount']);
 			return $count;
 		}
-	    if ( isset($extra['group']) )
-	    {
 		$parameters = compact('conditions', 'recursive');
-		$count = $this->find('count', $parameters);
+	    if (isset($extra['group']))
+	    {
+	    	$cond=null;
+	    	if(isset($extra['joins'])){
+	    		foreach($extra['joins'] as $key => $join){
+	    			if(strtoupper($join['type'])=='INNER'){
+	    				$cond['joins'][]=$extra['joins'][$key];
+	    			}
+	    		}
+	    	}
+			if(!empty($cond))
+				$count = $this->find('count', array_merge($parameters,$cond));
+			else
+				$count = $this->find('count', $parameters);
 	    }
 	    else
 	    {
-		$parameters = compact('conditions', 'recursive');
-		$count = $this->find('count', array_merge($parameters, $extra));
+			$count = $this->find('count', array_merge($parameters, $extra));
 	    }
 	    return $count;
 	}
