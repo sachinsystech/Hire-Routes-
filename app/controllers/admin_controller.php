@@ -886,6 +886,10 @@ class AdminController extends AppController {
 	}
 	
 	function employer(){
+		$sortBy="company_name";
+		if(isset($this->params['named']['sort'])&&!empty($this->params['named']['sort'])){
+			$sortBy=$this->params['named']['sort'];
+		}
 		$this->paginate=array(
 			'recursive'=>'-1',
 			'joins'=>array(
@@ -910,7 +914,7 @@ class AdminController extends AppController {
 		);
 		$this->Companies->virtualFields['jobFilled'] = 'count(DISTINCT PaymentHistory.job_id)';
 		$this->Companies->virtualFields['awardPaid'] = 'sum(PaymentHistory.amount)';
-		$this->Companies->virtualFields['email'] = 'User.email';
+		$this->Companies->virtualFields['email'] = 'User.account_email';
 		$employers=$this->paginate('Companies');
 		$user_ids=null;
 		if(!empty($employers[0]))
@@ -934,6 +938,7 @@ class AdminController extends AppController {
 				$employers[$key][0]['awardPosted']=0;
 			}
 		}
+		$this->set('sortBy',$sortBy);
 		$this->set('employers',$employers);
 	}
 	

@@ -2359,9 +2359,9 @@ div .employerData{
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
-	width:650px;
+	width:250px;
 	margin:auto;
-	margin-top:20px;
+	float:right;
 }
 
 .employerDataBarEven{

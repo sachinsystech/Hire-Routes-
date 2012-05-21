@@ -38,12 +38,22 @@ function login_status($l1,$l2){
 <div id="page-heading"><h1>Employer data</h1></div>
 <div class="dataBorder">
 	<?php if($this->Paginator->numbers()):?>
+		<div style="overflow: auto; margin: auto; width: 660px; padding: 5px;margin-top:15px;">
+		<div style="width:160px;float:left;">
+		SORT BY
+		<select  id="short_by">
+			<option value="company_name" <?php echo $sortBy=="company_name"?"selected":""?> >Company</option>
+			<option value="contact_name" <?php echo $sortBy=="contact_name"?"selected":"" ?> >Contact</option>
+			<option value="email" <?php echo $sortBy=="email"?"selected":"" ?> >Email</option>
+		</select>
+		</div>
 		<div class="employerPaginatorBar">
 			<?php echo $paginator->first('First  |'); ?>
 			<?php echo $paginator->prev('  '.__('Previous', true), array(),null,array('class'=>'disabled'));?>
 			<?php echo " < ".$this->Paginator->numbers(array('modulus'=>4))."  > "; ?>
 			<?php echo $paginator->next(__('Next', true).' ', array(), null, array('class'=>'disabled')); ?>
 			<?php echo $paginator->last(' |  Last'); ?>
+		</div>
 		</div>
 	<?php endif;?>
 	<div class="employerData">
@@ -117,4 +127,10 @@ function login_status($l1,$l2){
 	function specificEmployer(employer){
 		window.location.href='/admin/employerSpecificData/'+employer;
 	}
+	
+	$(document).ready(function(){
+		$("#short_by").change(function sortByEmployer(){
+			window.location.href='/admin/employer/page:1/sort:'+$('#short_by option:selected').val()+'/direction:asc';
+		});
+	});
 </script>
