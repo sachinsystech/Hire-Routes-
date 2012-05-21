@@ -39,7 +39,7 @@
    						   		</div>
    						   	</th>
 						    <th width="20%">
-						    	<div><?php echo $this->Paginator->sort('Since','UserList.created')?></div>
+						    	<div><?php echo $this->Paginator->sort('Created','UserList.created')?></div>
 						    </th>
 						    <th width="10%">
 						    	<?php echo $this->Paginator->sort('Activated','UserList.is_active')?>

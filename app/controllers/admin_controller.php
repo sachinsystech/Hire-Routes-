@@ -278,12 +278,16 @@ class AdminController extends AppController {
 				$this->set('account_email',$data['account_email']);	
 			}
 			if(isset($data['from_date']) && !empty($data['from_date'])){
-	 			$conditions[]="date(UserList.created) >='".date("Y-m-d",strtotime($data['from_date']))."'";
-	 			$this->set('from_date',$data['from_date']);
+				if($this->Utility->checkDateFormat(date("Y-m-d",strtotime($data['from_date'])))){
+					$conditions[]="date(UserList.created) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+		 			$this->set('from_date',$data['from_date']);
+		 		}
 	 		}
 		 	if(isset($data['to_date']) && !empty($data['to_date'])){
-		 		$conditions[]="date(UserList.created) <='".date("Y-m-d",strtotime($data['to_date']))."'";
-		 		$this->set('to_date',$data['to_date']);
+		 		if($this->Utility->checkDateFormat(date("Y-m-d",strtotime($data['to_date'])))){
+			 		$conditions[]="date(UserList.created) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+			 		$this->set('to_date',$data['to_date']);
+			 	}
 		 	}
 		 	if(isset($data['isActivated'])){
 		 		switch($data['isActivated']){
@@ -398,7 +402,7 @@ class AdminController extends AppController {
 				return ;
 			}
 		}else{
-			$this->Session->setFlash('You may be clicked on old link or entered manually......', 'error');
+			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
 			return ;
 		}		
 	}
@@ -413,18 +417,24 @@ class AdminController extends AppController {
 	   	    $i = 1;
 	   	    $validFlag= true;
 	   	    $cdarray= array();
+	   	    $sumOfSenario=0;
 	    	foreach($this->data['Config'] as $key=>$value) {
 				$cdarray[$i]['id'] = $i;
 				$cdarray[$i]['key'] = $key;
 				$cdarray[$i]['value'] = $value;
-				if($i%3==0 && ($cdarray[$i-2]['value']+$cdarray[$i-1]['value']+$cdarray[$i]['value'])!=100 ){
-					$this->set("rp_error","Sum for scenario-".$i/'3'." should be 100.");
-					$this->set('scenario',$i/'3');
-					$validFlag=false;
+				$sumOfSenario =$cdarray[$i]['value']+$sumOfSenario;
+				if($i%3==0 ){
+					if($sumOfSenario != 100 ){
+						$this->set("rp_error","Sum for scenario-".($i/3)." should be 100.");
+						$this->set('scenario',$i/3);
+						$validFlag=false;
+						break;
+					}
+					$sumOfSenario=0;
 				}
 				$i++;
 			}
-			if($validFlag){
+			if($validFlag){ 
 				$this->Config->saveAll($cdarray);
 				$this->Session->setFlash('The Reward Configuration have been updated.', 'success');	    		
 			}
@@ -962,7 +972,6 @@ class AdminController extends AppController {
 																'alias'=>'Job',
 																'type'=>'Inner',
 																'conditions'=>array('Job.id=PaymentHistory.job_id',
-																		//'Job.is_active'=>'1',
 																	),
 																),
 				
@@ -993,18 +1002,18 @@ class AdminController extends AppController {
 			$totalRewards= $this->Job->find('all',array('conditions' =>array('user_id'=>$companyId),
 														'fields'=>array('sum(reward) as totalReward '),
 						));
-			if(isset($companyDetail) && $PaymentHistory && $jobs){
+			if(isset($companyDetail['Companies'])  && isset($jobs) && isset($PaymentHistory)){
 			    $this->set('totalRewards',$totalRewards[0][0]['totalReward']);
 			    $this->set('totalPaidReward',$PaymentHistory[0][0]['totalPaidReward']);
-			    $this->set('PaymentHistory',$PaymentHistory); 				  
 			    $this->set('jobs',$jobs);
+				$this->set('PaymentHistory',$PaymentHistory); 				  
 			    $this->set('companyDetail',$companyDetail);
 			}else{
 			    $this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
 			    $this->redirect("/admin/rewardPayment");
 			}
 		}else{
-			$this->Session->setFlash("You may be clicked on old link or entered manually","error");				
+			$this->Session->setFlash("You may be clicked on old link or entered manually.","error");				
 			$this->redirect("/admin/rewardPayment");
 		}
 	}	
@@ -1040,9 +1049,10 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 		$jobtypes = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
 		if(isset($jobDetail['Job']['id'])){
 			$jobDetail['Job']['job_type']=$jobtypes[$jobDetail['Job']['job_type']];
+			$jobDetail['error']=false;
 			return json_encode($jobDetail);
 		}else{
-			$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
+			$error=array('error'=>true,'message'=>'You may be clicked on old link or entered manually');
 			return json_encode($error);
 		}
 	}
