@@ -13,6 +13,7 @@
 	echo $html->css('screen');
 	echo $html->css('jquery-ui-1.8.18.custom');
 	
+	echo $html->script('admin.js');
 	echo $html->script('jquery_min.js');	
 	echo $html->script('jquery-ui.min.js');
 	echo $html->script('jquery.validate.js');

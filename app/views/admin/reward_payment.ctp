@@ -119,6 +119,7 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 </style>
 <?php echo $this->Session->flash();?>
 
+
 <div id="page-heading"><h1>Reward Payment </h1></div>
 <div style="clear:both"></div>
 
@@ -461,10 +462,10 @@ height:20px;float:right;'));?>
 						<tr class="<?php echo $class; ?>">
 							<!-- td align="center" width="4%"> <?php //echo $sno;?></td --> 
 
-							<td align="center" width="15%" style="padding:7px;">
+							<td width="15%" style="padding:7px;">
 								<a href="/admin/employerSpecificData/<?php echo $paymentHistory['Company']['user_id'];?>">
-								<?php echo $paymentHistory['Company']['company_name'];?>
-								</a>
+									<?php echo $paymentHistory['Company']['company_name'];?>
+								</a>								
 							</td> 
 							<!-- td align="center" width="15%">
 								<?php //echo $paymentHistory['Jobseeker']['contact_name'];?>
@@ -587,13 +588,13 @@ function drawGraph(data,year){
 					   'Nov':data[10],
 					   'Dec':data[11]	
 					};
-	var colors = ['#CE0000', '#EF2323', '#D20202', '#A70000', '#850000', '#740000', '#530000', '#850000', '#B00000', '#9C0404', '#CE0000', '#BA0000'];
+	var colors = ['#7979DB','#7979DB', '#7952E9', '#7952E9', '#792BC8', '#792BC8', '#792BA1',  '#792BA1', '#792BA1', '#792BA1', '#792B79','#792B79'];
 	var myChart = new JSChart('graph', 'bar');
 	
 	myChart.setDataArray(myData);
 	myChart.colorizeBars(colors);
 	myChart.setDataArray(myData);
-	myChart.setTitle('[ Year-'+year+' ]');
+	myChart.setTitle('Reward in Thousand [ Year-'+year+' ] ');
 	myChart.setAxisColor('#9D9F9D');
 	myChart.setAxisWidth(1);
 	myChart.setAxisNameX('');
@@ -603,18 +604,19 @@ function drawGraph(data,year){
 	myChart.setAxisPaddingLeft(66);
 	myChart.setAxisPaddingBottom(30);
 	myChart.setAxisValuesDecimals(1);
+	myChart.set3D(true);
 	
 	$.each(months, function(key, value) { 
 		if(value){
-			myChart.setTooltip([key, 'Reward in Thousand', 1], callback);
+			myChart.setTooltip([key, 'Total Rward = $'+number_format(value*1000,2), 1], callback);
 		}	
 	});
 	
 	myChart.setAxisValuesColor('#9C1919');
 	myChart.setTextPaddingLeft(20);
 	myChart.setTextPaddingBottom(13);
-	myChart.setBarValuesColor('#9C1919');
-	myChart.setBarBorderWidth(0);
+	myChart.setBarValuesColor('#0000FF');
+	myChart.setBarBorderWidth(1);
 	myChart.setTitleColor('#FF0000');
 	myChart.setTitleFontSize(15);
 	myChart.setGridColor('#5D5F5D');

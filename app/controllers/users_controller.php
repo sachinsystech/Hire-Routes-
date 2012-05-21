@@ -25,25 +25,26 @@ class UsersController extends AppController {
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->authorize = 'actions';
-				
+		$this->Auth->allow('account');		
+		$this->Auth->allow('accountConfirmation');		
+		$this->Auth->allow('beforeLoggedIn');
+		$this->Auth->allow('companyRecruiterSignup');		
+		$this->Auth->allow('confirmation');		
+		$this->Auth->allow('companyRecruiterSignup');
+		$this->Auth->allow('firstTime');
+		$this->Auth->allow('facebookUser');
+		$this->Auth->allow('facebookUserSelection');
+		$this->Auth->allow('forgotPassword');	
+		$this->Auth->allow('index');
+		$this->Auth->allow('jobseekerSignup');
 		$this->Auth->allow('logout'); 
 		$this->Auth->allow('login');
-		$this->Auth->allow('index');
-		
-		$this->Auth->allow('jobseekerSignup');		
-		$this->Auth->allow('networkerSignup');		
-		$this->Auth->allow('companyRecruiterSignup');
-		$this->Auth->allow('userSelection');
-		$this->Auth->allow('account');		
-		$this->Auth->allow('confirmation');		
-		$this->Auth->allow('facebookUserSelection');
-		$this->Auth->allow('accountConfirmation');		
-		$this->Auth->allow('myAccount');	
-		$this->Auth->allow('forgotPassword');	
-		$this->Auth->allow('saveFacebookUser');
-		$this->Auth->allow('facebookUser');
 		$this->Auth->allow('loginSuccess');
-		$this->Auth->allow('firstTime');
+		$this->Auth->allow('myAccount');		
+		$this->Auth->allow('networkerSignup');	
+		$this->Auth->allow('saveFacebookUser');
+		$this->Auth->allow('userSelection');
+
 	}
 
 /**
@@ -679,31 +680,8 @@ class UsersController extends AppController {
 																		'is_active'=>array(0,1),
 																		)
 															));								
-
+			$this->beforeLoggedIn($active_user);
 			/**	@user not registered account(OR for company user ==>> declined by admin)	**/			
-			if(!$active_user ){
-				$this->Session->setFlash('Username or password not matched.', 'error');	
-				$this->redirect("/users/login");
-			}
-						
-			/**	@user not acitvated (AND deactivated by Admin)	**/			
-			if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']=="" ){
-				$this->Session->setFlash('You are not activated, Please contact your system administrator', 'error');
-				$this->redirect("/users/login");
-			}
-			
-			/**	@user not acitvated (AND not confirmed account by clicking on link in email)	**/
-			if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']!="" ){
-				$this->sendConfirmationEmail($active_user['User']['id']);
-				$this->Session->setFlash('Your account is not activated/confirmed, we have sent an email, please check your email for confirmation link!', 'warning');
-				$this->redirect("/users/login");
-			}
-			
-			/**	@user not acitvated	**/			
-			if($active_user['User']['is_active']==0){
-				$this->Session->setFlash('Username or password not matched....', 'error');	
-				$this->redirect("/users/login");
-			}
 			
 			$this->Auth->fields = array(
 				'username' => 'account_email',
@@ -986,6 +964,33 @@ class UsersController extends AppController {
 			default:
 				$this->redirect("/");	
 		}
+	}
+	
+	function beforeLoggedIn($active_user){
+		if(!$active_user ){
+			$this->Session->setFlash('Username or password not matched.', 'error');	
+			$this->redirect("/users/login");
+		}
+				
+		/**	@user not acitvated (AND deactivated by Admin)	**/			
+		if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']=="" ){
+			$this->Session->setFlash('You are not activated, Please contact your system administrator', 'error');
+			$this->redirect("/users/login");
+		}
+	
+		/**	@user not acitvated (AND not confirmed account by clicking on link in email)	**/
+		if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']!="" ){
+			$this->sendConfirmationEmail($active_user['User']['id']);
+			$this->Session->setFlash('Your account is not activated/confirmed, we have sent an email, please check your email for confirmation link!', 'warning');
+			$this->redirect("/users/login");
+		}
+	
+		/**	@user not acitvated	**/			
+		if($active_user['User']['is_active']==0){
+			$this->Session->setFlash('Username or password not matched.', 'error');	
+			$this->redirect("/users/login");
+		}
+	
 	}
 
 }

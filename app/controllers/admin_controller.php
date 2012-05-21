@@ -15,7 +15,6 @@ class AdminController extends AppController {
 			$this->redirect("/users/loginSuccess");
 		}
 		$this->Auth->authorize = 'actions';
-
 		$this->Auth->allow('config');
 		$this->Auth->allow('companyjobdetail');	
 		$this->Auth->allow('companiesList');
@@ -25,6 +24,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('filterPayment');
 		$this->Auth->allow('index');
 		$this->Auth->allow('jobseekerSpecificData');
+		$this->Auth->allow('jobseeker');
 		$this->Auth->allow('networkerData');
 		$this->Auth->allow('networkerSpecificData');
 		$this->Auth->allow('paymentDetails');
@@ -32,7 +32,6 @@ class AdminController extends AppController {
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('updatePaymentStatus');
 		$this->Auth->allow('userList');
-
 		$this->layout = "admin";
 	}
 	
@@ -379,13 +378,8 @@ class AdminController extends AppController {
 	function userAction(){
 		$this->autoRender=false;
 		$userId = isset($this->params['form']['userId'])?$this->params['form']['userId']:"";
-		$action = isset($this->params['form']['action'])?$this->params['form']['action']:"";
-		if($action=="Activate"){
-			$is_active='1';
-		}elseif($action=="De-activate"){
-			$is_active='0';
-		}
-		if(isset($userId)){
+		$is_active=isset($this->params['form']['action'])?$this->params['form']['action']:"";
+		if(isset($userId) && isset($is_active)){
 			$userData =$this->User->find('first',array('conditions'=>array("User.id"=>$userId,
 																		'NOT'=>array("User.group_id"=>array(1,2)))));
 			if(isset($userData)){
@@ -394,7 +388,7 @@ class AdminController extends AppController {
 				if($this->User->save($userData)){
 					$is_active==0?$this->Session->setFlash('User De-activated successfully','success'):
 					$this->Session->setFlash('User Activated successfully','success');
-					return "Succsess";
+					return ;
 				}else{
 					$this->Session->setFlash('Internal error occurs.','error');
 					return ;
@@ -405,7 +399,7 @@ class AdminController extends AppController {
 			}
 		}else{
 			$this->Session->setFlash('You may be clicked on old link or entered manually......', 'error');
-			return "error";
+			return ;
 		}		
 	}
 	
@@ -462,7 +456,7 @@ class AdminController extends AppController {
 	 	}
 	
 		$this->paginate = array(
-			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, User.id, User.account_email, User.last_login',
+			'fields'=>'DISTINCT PaymentHistory.id, Company.user_id, Company.company_name, Jobseeker.contact_name, Job.title, Job.created, PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, User.id, User.account_email, User.last_login,User.last_logout',
 			'recursive'=>-1,
 			'order' => array('paid_date' => 'desc'),
 			'joins'=>array(
@@ -511,6 +505,8 @@ class AdminController extends AppController {
 			$this->PaymentHistory->virtualFields['jobTitle'] = 'Job.title';
 			$this->PaymentHistory->virtualFields['datePosted'] = 'Job.created';
 			$paymentHistories=$this->paginate('PaymentHistory');
+			
+			//pr($paymentHistories); exit;
 			$this->set('paymentHistories',$paymentHistories);
 		}catch(Exception $e){
 			$this->Session->setFlash("Server Problem!",'ERROR');
@@ -894,12 +890,6 @@ class AdminController extends AppController {
 			'recursive'=>'-1',
 			'joins'=>array(
 				array(
-					'table'=>'jobs',
-					'alias'=>'Job',
-					'type'=>'LEFT',
-					'conditions'=>'Companies.user_id = Job.user_id'
-				),
-				array(
 					'table'=>'payment_history',
 					'alias'=>'PaymentHistory',
 					'type'=>'LEFT',
@@ -913,16 +903,37 @@ class AdminController extends AppController {
 				),
 			),
 			'limit'=>10,
-			'fields'=>'Companies.user_id, Companies.contact_name, Companies.company_name, Companies.company_url, User.account_email, count(DISTINCT Job.id) AS jobPosted, count(DISTINCT PaymentHistory.job_id) as jobFilled, sum(PaymentHistory.amount) as awardPaid, SUM(Job.reward) as awardPosted',
+
+			'fields'=>'Companies.user_id, Companies.contact_name, Companies.company_name, Companies.company_url, User.id, User.account_email, User.last_login,User.last_logout, count(DISTINCT PaymentHistory.job_id) as jobFilled, sum(PaymentHistory.amount) as awardPaid',
 			'group'=>'Companies.user_id',
 			'order'=>'Companies.user_id desc'
 		);
-		$this->Companies->virtualFields['jobPosted'] = 'count(DISTINCT Job.id)';
 		$this->Companies->virtualFields['jobFilled'] = 'count(DISTINCT PaymentHistory.job_id)';
 		$this->Companies->virtualFields['awardPaid'] = 'sum(PaymentHistory.amount)';
-		$this->Companies->virtualFields['awardPosted'] = 'SUM(Job.reward)';
 		$this->Companies->virtualFields['email'] = 'User.email';
 		$employers=$this->paginate('Companies');
+		$user_ids=null;
+		if(!empty($employers[0]))
+		foreach($employers as $key=> $employer)
+			$user_ids[]=$employer['Companies']['user_id'];
+		$employersJobs=$this->Job->find('all',array(
+					'fields'=>'Job.user_id, count(Job.id) AS jobPosted, sum(Job.reward) AS awardPosted',
+					'group'=>'Job.user_id',
+					'conditions'=>array('Job.user_id'=>$user_ids)
+				)
+			);
+		foreach($employers as $key=> $employer){
+			foreach($employersJobs as $jobKey => $employerJobs){
+				if($employerJobs['Job']['user_id']==$employer['Companies']['user_id']){
+					$employers[$key][0]['jobPosted']=$employerJobs['0']['jobPosted'];
+					$employers[$key][0]['awardPosted']=$employerJobs['0']['awardPosted'];
+				}
+			}
+			if(!isset($employers[$key][0]['jobPosted'])){
+				$employers[$key][0]['jobPosted']=0;
+				$employers[$key][0]['awardPosted']=0;
+			}
+		}
 		$this->set('employers',$employers);
 	}
 	
@@ -1049,6 +1060,15 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 			$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
 			return json_encode($error);
 		}
+	}
+	
+	function jobseeker(){
+		$this->paginate= array('limit'=>10,
+							   'conditions'=>array('UserList.id=Jobseekers.user_id'),
+							   'fields'=>array('UserList.*','Jobseekers.*'),
+							   'order'=>array('UserList.created'=>'desc'));
+		$jobseekers=$this->paginate("UserList");	
+		$this->set('jobseekers',$jobseekers);
 	}
 }
 

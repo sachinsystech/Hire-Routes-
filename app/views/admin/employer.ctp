@@ -3,6 +3,38 @@
 	 *	Employer Data page
 	 */
 ?>
+
+
+<?php
+
+function login_status($l1,$l2){
+	$status = false;
+	if($l1==null){
+		return $status;
+	}
+	else{
+		if($l2==null){
+			if((strtotime(date('Y:m:d H:i:s'))-strtotime($l1))<=20*60){
+				$status = true;
+				return $status;
+			}
+			else{
+				return $status;
+			}
+		}
+		if((strtotime($l2)-strtotime($l1))>0){
+			return $status;
+		}
+		if((strtotime(date('Y:m:d H:i:s'))-strtotime($l1))<=20*60){
+			$status = true;
+			return $status;
+		}
+	}
+}	
+
+?>
+
+
 <div id="page-heading"><h1>Employer data</h1></div>
 <div class="dataBorder">
 	<?php if($this->Paginator->numbers()):?>
@@ -16,24 +48,17 @@
 	<?php endif;?>
 	<div class="employerData">
 		<div class="employerDataHeading">
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php echo $this->Paginator->sort('Company','Companies.company_name')?>
+			<div style="width:300px;float:left;">
+				Employer
 			</div>
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php echo $this->Paginator->sort('Contact Name','Companies.contact_name')?>
-			</div>
-			<div class="networkersDataEmail" style="text-align:center;">
-				<?php echo $this->Paginator->sort('Email','email')?>
-			</div>
-			<div class="networkersDataEmail" style="width:205px;text-align:center;">URL</div>
 			<div class="networkersData">
-				<?php echo $this->Paginator->sort('Job posted','jobPosted')?>
+				Job posted
 			</div>
 			<div class="networkersData">
 				<?php echo $this->Paginator->sort('Job Filled','jobFilled')?>
 			</div>
 			<div class="networkersData" style="width:100px;">
-				<?php echo $this->Paginator->sort('Award Posted','awardPosted')?>
+				Award Posted
 			</div>
 			<div class="networkersData" style="width:100px;">
 				<?php echo $this->Paginator->sort('Award Paid','awardPaid')?>
@@ -44,18 +69,17 @@
 			foreach($employers as $key =>$employer):
 				$class=($sn++%2==0)?"employerDataBarEven":"employerDataBarOdd"
 		?>
-		<div class="<?php echo $class;?>" onclick="specificEmployer(<?php echo $employer['Companies']['user_id'];?>);">
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php echo $employer['Companies']['company_name']; ?>&nbsp;
-			</div>
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php echo $employer['Companies']['contact_name']; ?>&nbsp;
-			</div>
-			<div class="networkersDataEmail">
-				<?php echo $employer['User']['account_email']; ?>&nbsp;
-			</div>
-			<div class="networkersDataEmail"  style="width:205px;">
-				<?php echo $employer['Companies']['company_url']; ?>&nbsp;
+		<div class="<?php echo $class;?>">
+			<div style="width:300px;float:left;">
+				<?php if(login_status($employer['User']['last_login'],$employer['User']['last_logout'])): ?>
+					<img src="/images/login.png">
+				<?php  else: ?>
+					<img src="/images/logout.png">
+				<?php endif;?>
+				<?php echo $html->link(empty($employer['Companies']['company_name'])?'----':ucfirst($employer['Companies']['company_name']), array('controller' => 'admin','action'=>'employerSpecificData',$employer['Companies']['user_id'] )).", ";?>
+				<?php echo ucfirst($employer['Companies']['contact_name']); ?></br>
+				<?php echo $employer['User']['account_email']; ?></br>
+				<?php echo "<a href='".$employer['Companies']['company_url']."' >".$employer['Companies']['company_url']."</a>";?>
 			</div>
 			<div class="networkersData" style="text-align:center">
 				<?php echo $employer['0']['jobPosted']; ?>&nbsp;
@@ -65,23 +89,23 @@
 			</div>
 			<div class="networkersData" style="width:100px;text-align:right">
 				<?php echo $this->Number->format(
-												$employer['0']['awardPosted']/1000,
+												$employer['0']['awardPosted'],
 												array(
 													'places' => 2,
 													'before' => '$',
 													'decimals' => '.',
 													'thousands' => ',')
-												)." K"; ?>&nbsp;
+												); ?>&nbsp;
 			</div>
 			<div class="networkersData" style="text-align:right;width:100px;">
 				<?php echo $this->Number->format(
-												$employer['0']['awardPaid']/1000,
+												$employer['0']['awardPaid'],
 												array(
 													'places' => 2,
 													'before' => '$',
 													'decimals' => '.',
 													'thousands' => ',')
-												)." K";?>&nbsp;
+												);?>&nbsp;
 			</div>
 		</div>
 		<?php
