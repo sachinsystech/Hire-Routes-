@@ -35,7 +35,16 @@
 		</div>
 		<div class="NSDRowLeft">
 			<div class="NSDInfoHeading">Origin:</div>
-			<div class="NSDInfo"><?php echo $networkerData['origin'];?></div>
+			<div class="NSDInfo">
+			<?php 
+				if($networkerData['origin']===HR)
+					echo "Hire Routes";
+				elseif($networkerData['origin']===RANDOM)
+					echo "Random";
+				else
+					echo $networkerData['origin'];
+			?>
+			</div>
 		</div>
 		<div class="NSDRowRight">
 			<div class="NSDInfoHeading">Jobseekers:</div>
