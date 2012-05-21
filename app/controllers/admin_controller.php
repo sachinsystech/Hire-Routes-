@@ -32,6 +32,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('updatePaymentStatus');
 		$this->Auth->allow('userList');
+		$this->Auth->allow('processCompanyRequest');
 		$this->layout = "admin";
 	}
 	
@@ -66,70 +67,56 @@ class AdminController extends AppController {
 		$Companies = $this->paginate('Companies');
 		$this->set('Companies',$Companies);		
 	}
-
-	/****	Accept company request	***/
-	function acceptCompanyRequest() {
+	/**** Accept/Decline company request ****/
+	function processCompanyRequest() {
 		$id = $this->params['id'];
+		$process = $this->params['process'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id,
 																	'User.is_active'=>'0')));
 		if($user){
-			$user['User']['is_active'] = '1';
-			$user['User']['confirm_code']="";
-			$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$id)));
-			$arosAcosData['aro_id'] = $aros['Aros']['id'];
-			$arosAcosData['aco_id'] = 47;
-			$arosAcosData['_create'] = 1;
-			$arosAcosData['_read'] = 1;						
-			$arosAcosData['_update'] = 1;
-			$arosAcosData['_delete'] = 1;	
-			// activate user's account
-			if($this->ArosAcos->save($arosAcosData) && $this->User->save($user['User'])){
-				$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-				$to = $user['User']['account_email'];
-				$subject = 'Hire Routes : Accept Account Request';
-				$template = 'company_account_accept';
-				$message = $user['User'];
-				$this->sendEmail($to,$subject,$template,$message);			
-				$this->Session->setFlash('Successfully activated user.', 'success');
+			if($process=='accept'){
+				$user['User']['is_active'] = '1';
+				$user['User']['confirm_code']="";
+				$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$id)));
+				$arosAcosData['aro_id'] = $aros['Aros']['id'];
+				$arosAcosData['aco_id'] = 47;
+				$arosAcosData['_create'] = 1;
+				$arosAcosData['_read'] = 1;						
+				$arosAcosData['_update'] = 1;
+				$arosAcosData['_delete'] = 1;	
+				// activate user's account
+				if($this->ArosAcos->save($arosAcosData)){
+					$this->saveCompanyStatus($user['User'],$process);
+				}else{
+					$this->Session->setFlash('Internal error.', 'error');
+					$this->redirect("/admin/companiesList");
+				}
 			}else{
-				$this->Session->setFlash('Internal error.', 'error');
-				$this->redirect("/admin/companiesList");
+				$user['User']['is_active'] = '2';
+				$this->saveCompanyStatus($user['User'],$process);
 			}
-		}
-		else{
-			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
-		}
-		$this->redirect("/admin/companiesList");
-	}
-
-	/****	Decline company request	***/
-	function declineCompanyRequest(){
-		$id = $this->params['id'];
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id,
-																	'User.is_active'=>'0')));
-		if($user){
-			$user['User']['is_active'] = '2';
-			// deactivate user's account	
-			if($this->User->save($user['User'])){
-			
-				$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-				$to = $user['User']['account_email'];
-				$subject = 'Hire Routes : Decline Account Request';
-				$template = 'company_account_decline';
-				$message = $user['User'];
-				$this->sendEmail($to,$subject,$template,$message);		
-				$this->Session->setFlash('User has been declined.', 'success');				
-			}else{
-				$this->Session->setFlash('Internal error.', 'error');
-				$this->redirect("/admin/companiesList");
-			}
-		}
-		else{
+		}else{
 			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
 		}
 		$this->redirect("/admin/companiesList");
 	}
 	
+	private function saveCompanyStatus($userData,$process){
+ 		if($this->User->save($userData)){
+			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userData['id'])));
+			$to = $user['User']['account_email'];
+			$subject = 'Hire Routes : '.$process.' Account Request';
+			$template = 'company_account_'.$process;
+			$message = $user['User'];
+			$this->sendEmail($to,$subject,$template,$message);		
+			$this->Session->setFlash('User has been '.$process.'ed.', 'success');
+		}else{
+			$this->Session->setFlash('Internal error.', 'error');
+			$this->redirect("/admin/companiesList");
+		}
+		return true;
+	}
+		
 	
 	/**
 	 * For payment details 

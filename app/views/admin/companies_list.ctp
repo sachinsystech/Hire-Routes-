@@ -57,16 +57,15 @@
 				<td ><?php echo $company["User"]["account_email"]; ?></td> 
 				<td align="center" ><?php echo $company["Companies"]["act_as"]; ?></td>
 				<td align="center" ><?php echo $company["User"]["created"]; ?></td>
-				<td align="center">
-					<?php echo $html->link("Accept", array('action' => 'acceptCompanyRequest',
-																		$company['Companies']['user_id']),
+				<td>
+					<?php echo $html->link($html->image("activate.png",array('alt'=>'Accept','url')), array('action' => 'processCompanyRequest',$company['Companies']['user_id'],"accept"),
 													 array('escape' => false, 
-													 'onclick'=>"return confirm('Do you want to accept the request ?')"));?>
-					<?php echo $html->link("Decline", array('action' => 'declineCompanyRequest',
-																		$company['Companies']['user_id']
+													 'onclick'=>"return disableLinks('accept');"));?>
+					<?php echo $html->link($html->image("de-activate.jpg"), array('action' => 'processCompanyRequest',
+																		$company['Companies']['user_id'],"decline"
 															), 
 													  array('escape' => false,
-													  'onclick'=>"return confirm('Do you want to decline the request ?')")); ?></td>
+													  'onclick'=>"return disableLinks('decline');")); ?></td>
 			</tr> 
       	<?php 
       		$sno++;
@@ -91,3 +90,10 @@
 	<th class="sized bottomright"></th>
 </tr>
 </tbody></table>
+<script>
+	function disableLinks(process){
+		var ret=confirm("Do you want to "+process+" the request ?");
+		$('a').attr('disabled','disabled');
+		return ret;
+	} 
+</script>
