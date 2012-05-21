@@ -14,7 +14,7 @@
 				async:false,
 				data:{jobId:jobId},
 				success:function(response){
-					if(response['error']!=undefined){
+					if(response['error']== true){
 						alert(response['message']);
 						return;
 					}
@@ -37,20 +37,20 @@
 					$("#companyJobDetail").html(
 	'<div style="font-size:20px;height:15px;margin:10px;"><b>'+ucfirst(response['Job']['title'])+'</b></div>'+
 	'<div style="margin-left:20px;">'+
-	'<div class="jobDetail"><span style="font-size:14px;"><b>By Company:</b></span><span class="jobDetailContent">'+
+	'<div class="jobDetail"><span><b>By Company:</b></span><span class="jobDetailContent">'+
 	response['comp']['company_name']+'</span></div>'+
-	'<div class="jobDetail"><span style="font-size:14px;"><b>Website:</b></span><span class="jobDetailContent">'+
+	'<div class="jobDetail"><span><b>Website:</b></span><span class="jobDetailContent">'+
 	response['comp']['company_url']+'</span></div>'+
-	'<div class="jobDetail"><span style="font-size:14px;"><b>Published In:</b></span><span class="jobDetailContent">'+
+	'<div class="jobDetail"><span><b>Published In:</b></span><span class="jobDetailContent">'+
 	response['ind']['industry_name']+' , '+response['spec']['specification_name']+'</span></div>'+
 	'</div>'+
 	'<div style="margin-left:20px;">'+
-	'<div class="jobDetail"><span style="font-size:14px;"><b>Location:</b></span><span class="jobDetailContent">'+
+	'<div class="jobDetail"><span><b>Location:</b></span><span class="jobDetailContent">'+
 	response['state']['state']+' , '+response['city']['city']+'</span></div>'+
-	'<div class="jobDetail"><span style="font-size:14px;"><b>Anual Salary Range($):</b></span><span  class="jobDetailContent">'+response['Job']['salary_from']+'k -'+response['Job']['salary_to']+'k</div>'+
-	'<div class="jobDetail"><span style="font-size:14px;"><b>Type:</b></span><span class="jobDetailContent">'+
+	'<div class="jobDetail"><span><b>Anual Salary Range($):</b></span><span  class="jobDetailContent">'+response['Job']['salary_from']+'k -'+response['Job']['salary_to']+'k</div>'+
+	'<div class="jobDetail"><span><b>Type:</b></span><span class="jobDetailContent">'+
 	response['Job']['job_type']+'</span></div>'+
-	'<div class="jobDetail"><span style="font-size:14px;"><b>Description:</b></span><span class="jobDetailContent">'+response['Job']['description']+'</span></div>'+
+	'<div class="jobDetail"><span><b>Description:</b></span><span class="jobDetailContent">'+response['Job']['description']+'</span></div>'+
 	'</div>');
 				
 				},
@@ -188,7 +188,7 @@
 					</tr>
 					<?php if(empty($jobs)){ ?>
 					<tr>
-						<td colspan="100%">Sorry, No job found.</td>
+						<td colspan="100%" align="center">Sorry, No Result found.</td>
 					</tr>
 					<?php }else{ ?>
 					<?php $sno=0; 
