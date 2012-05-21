@@ -149,14 +149,14 @@
 				    <table width ="100%" cellspacing='0' class='userTable'>
 					    <tr class="usertableHeading userTableLeftRadius" style="border:1px solid;"> 
 						    <th width="5%">#</th> 
-						    <th width="12%"><?php echo $this->Paginator->sort('Name','UserList.contact')?></div></th>
+						    <th width="12%">Name</th>
 						    <th width="25%">
 						    	<div><?php echo $this->Paginator->sort('E-Mail','UserList.account_email')?></div>
 						    </th>
    						    <th width="12%">Group</th>
    						    <th width="15%">Telephone</th>
 						    <th width="20%">
-						    	<div><?php echo $this->Paginator->sort('Since','UserList.created')?></div>
+						    	<div><?php echo $this->Paginator->sort('Created','UserList.created')?></div>
 						    </th>
 						    <th width="15%">
 						    	<?php echo $this->Paginator->sort('Activated','UserList.is_active')?>
