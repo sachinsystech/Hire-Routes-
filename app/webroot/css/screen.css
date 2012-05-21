@@ -2330,7 +2330,7 @@ div .employerData{
 	height:auto;
 	overflow:auto;
 	margin:auto;
-	width:1018px;
+	width:670px;
 	border:1px solid black;
 	border-bottom:none;
 	margin-bottom:20px;
@@ -2347,7 +2347,6 @@ div .employerData{
 	padding:5px;
 	color:white;
 	clear:both;
-	width:1008px;
 }
 
 .employerDataHeading a{
@@ -2363,9 +2362,8 @@ div .employerData{
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
-	width:1017px;
+	width:650px;
 	margin:auto;
-	width:1015px;
 	margin-top:20px;
 }
 
@@ -2377,8 +2375,6 @@ div .employerData{
 	font-size:13px;
 	background-color:#E3E3E3;
 	clear:both;
-	cursor:pointer;
-	width:1008px;
 	border-bottom:1px solid black;
 }
 .employerDataBarOdd{
@@ -2388,8 +2384,6 @@ div .employerData{
 	padding:5px;
 	font-size:13px;
 	clear:both;
-	cursor:pointer;
-	width:1008px;
 	border-bottom:1px solid black;
 }
 /***************/

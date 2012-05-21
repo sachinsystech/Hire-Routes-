@@ -48,24 +48,17 @@ function login_status($l1,$l2){
 	<?php endif;?>
 	<div class="employerData">
 		<div class="employerDataHeading">
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php echo $this->Paginator->sort('Employer','Companies.company_name')?>
+			<div style="width:300px;float:left;">
+				Employer
 			</div>
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php echo $this->Paginator->sort('Name','Companies.contact_name')?>
-			</div>
-			<div class="networkersDataEmail" style="text-align:center;">
-				<?php echo $this->Paginator->sort('Email','email')?>
-			</div>
-			<div class="networkersDataEmail" style="width:205px;text-align:center;">URL</div>
 			<div class="networkersData">
-				<?php echo $this->Paginator->sort('Job posted','jobPosted')?>
+				Job posted
 			</div>
 			<div class="networkersData">
 				<?php echo $this->Paginator->sort('Job Filled','jobFilled')?>
 			</div>
 			<div class="networkersData" style="width:100px;">
-				<?php echo $this->Paginator->sort('Award Posted','awardPosted')?>
+				Award Posted
 			</div>
 			<div class="networkersData" style="width:100px;">
 				<?php echo $this->Paginator->sort('Award Paid','awardPaid')?>
@@ -76,23 +69,17 @@ function login_status($l1,$l2){
 			foreach($employers as $key =>$employer):
 				$class=($sn++%2==0)?"employerDataBarEven":"employerDataBarOdd"
 		?>
-		<div class="<?php echo $class;?>" onclick="specificEmployer(<?php echo $employer['Companies']['user_id'];?>);">
-			<div class="networkersDataOrigin" style="width:125px;">
+		<div class="<?php echo $class;?>">
+			<div style="width:300px;float:left;">
 				<?php if(login_status($employer['User']['last_login'],$employer['User']['last_logout'])): ?>
 					<img src="/images/login.png">
 				<?php  else: ?>
 					<img src="/images/logout.png">
-				<?php endif;?>	
-				<?php echo $employer['Companies']['company_name']; ?>&nbsp;
-			</div>
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php echo ucfirst($employer['Companies']['contact_name']); ?>&nbsp;
-			</div>
-			<div class="networkersDataEmail">
-				<?php echo $employer['User']['account_email']; ?>&nbsp; 
-			</div>
-			<div class="networkersDataEmail"  style="width:205px;">
-				&nbsp;<?php echo $employer['Companies']['company_url']; ?>&nbsp;
+				<?php endif;?>
+				<?php echo $html->link(empty($employer['Companies']['company_name'])?'----':ucfirst($employer['Companies']['company_name']), array('controller' => 'admin','action'=>'employerSpecificData',$employer['Companies']['user_id'] )).", ";?>
+				<?php echo ucfirst($employer['Companies']['contact_name']); ?></br>
+				<?php echo $employer['User']['account_email']; ?></br>
+				<?php echo "<a href='".$employer['Companies']['company_url']."' >".$employer['Companies']['company_url']."</a>";?>
 			</div>
 			<div class="networkersData" style="text-align:center">
 				<?php echo $employer['0']['jobPosted']; ?>&nbsp;
