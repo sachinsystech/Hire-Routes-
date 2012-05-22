@@ -3,7 +3,7 @@ class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers',
     					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker');
 	var $helpers = array('Form','Number','Time','Paginator');
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus', 							'Acl', 'TrackUser', 'Utility');
+	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility');
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -32,7 +32,9 @@ class AdminController extends AppController {
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('updatePaymentStatus');
 		$this->Auth->allow('userList');
+		$this->Auth->allow('employerLoginStatus');
 		$this->Auth->allow('processCompanyRequest');
+
 		$this->layout = "admin";
 	}
 	
@@ -245,23 +247,24 @@ class AdminController extends AppController {
 		}
 		if(isset($data)){
 			if(isset($data['contact_name']) && !empty($data['contact_name'])){			
-				$contact_name=trim($data['contact_name']);
+				$contact_name=addslashes(trim($data['contact_name']));
 				$conditions[]=array('OR'=>array("Jobseekers.contact_name LIKE\"".$contact_name."%\"",
 	   								 		    "Networkers.contact_name LIKE\"".$contact_name."%\"",
     						   					"Companies.contact_name LIKE\"".$contact_name."%\"",
 	   								));
-				$this->set('contact_name',$contact_name);	
+				$this->set('contact_name',$data['contact_name']);	
 			}
 			if(isset($data['contact_phone']) && !empty($data['contact_phone'])){			
-				$contact_phone=trim($data['contact_phone']);
+				$contact_phone=addslashes(trim($data['contact_phone']));
 				$conditions[]=array('OR'=>array("Jobseekers.contact_phone LIKE\"".$contact_phone."%\"",
 	   						   					"Networkers.contact_phone LIKE\"".$contact_phone."%\"",
 	   						   					"Companies.contact_phone LIKE\"".$contact_phone."%\"",
 	   						   		));				
-				$this->set('contact_phone',$contact_phone);	
+				$this->set('contact_phone',$data['contact_phone']);	
 			}
 			if(isset($data['account_email']) && !empty($data['account_email'])){			
-				$conditions[]= "UserList.account_email LIKE \"".trim($data['account_email'])."%\"";
+				$contact_email=addslashes(trim($data['account_email']));			
+				$conditions[]= "UserList.account_email LIKE \"".$contact_email."%\"";
 				$this->set('account_email',$data['account_email']);	
 			}
 			if(isset($data['from_date']) && !empty($data['from_date'])){
@@ -428,12 +431,20 @@ class AdminController extends AppController {
 	    }
 	    $params = array(
 				   'conditions' => array('Config.id'=>array(1,2,3,4,5,6,7,8,9)), 
-				   'fields' => array('Config.key','Config.value','Config.id')
+				   'fields' => array('Config.id','Config.value')
 				   );
-		$configuration = $this->Config->find('list',$params);
-		$this->set('rewardPercent',$configuration);
+	   $configuration = $this->Config->find('list',$params);
 
-		
+	   $senarioSum=$this->PaymentHistory->find('all',array(
+											'group' => 'scenario',	
+										    'fields' => array('sum(PaymentHistory.amount) as reward','scenario'),
+				   ));
+		for($i=1, $j=0; $i<=9;$i++){
+			$configuration['scenario'][$i]= ($senarioSum[$j][0]['reward']*$configuration[$i]) / 100; 
+			if($i%3 ==0) $j++;
+		}
+		$this->set('configuration',$configuration);
+			
 		/****	Employer Payment Details 	***/
 		if(isset($this->params['named'])){
 			$data=$this->params['named'];
@@ -444,11 +455,15 @@ class AdminController extends AppController {
 		}	
 		$conditions[]='JobseekerApply.is_active=1';
 		if(isset($data['from_date']) && !empty($data['from_date'])){
-	 		$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+			if($this->Utility->checkDateFormat(date("Y-m-d",strtotime($data['from_date'])))){
+				$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+		 	}	
 	 		$this->set('from_date',$data['from_date']);
 	 	}
 	 	if(isset($data['to_date']) && !empty($data['to_date'])){
-	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+			 if($this->Utility->checkDateFormat(date("Y-m-d",strtotime($data['to_date'])))){	
+	 			$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+	 		}
 	 		$this->set('to_date',$data['to_date']);
 	 	}
 	
@@ -635,7 +650,7 @@ class AdminController extends AppController {
 					$originsData=null;
 					while($cond){
 						$originsData=$this->User->find('first',array(
-									'fields'=>'User.id, User.parent_user_id, Company.company_name, Company.id, Networker.contact_name',
+									'fields'=>'User.id, User.parent_user_id, Parent.account_email, Company.company_name, Company.id, Networker.contact_name',
 									'recursive'=>'-1',
 									'joins'=>array(
 										array(
@@ -648,24 +663,26 @@ class AdminController extends AppController {
 											'table'=>'networkers',
 											'alias'=>'Networker',
 											'type'=>'LEFT',
-											'conditions'=>'Networker.user_id=User.id'
-										)
+											'conditions'=>'Networker.user_id=User.parent_user_id'
+										),
+										array(
+											'table'=>'users',
+											'alias'=>'Parent',
+											'type'=>'LEFT',
+											'conditions'=>'Parent.id=User.parent_user_id'
+										),
 									),
 									'conditions'=>array(
 										'User.id'=>$userId,
 									)
 								)
 							);
+						$originData[]=$originsData;
 						$userId=$originsData['User']['parent_user_id'];
 						if(!empty($originsData['Company']['id'])||$originsData['User']['parent_user_id']==NULL)
 							$cond=false;
 					}
-					$originData[]=$originsData['Networker']['contact_name'];
-					if($originsData['User']['parent_user_id']==NULL){
-						$originData[]="Hire Routes";
-					}else{
-						$originData[]=$originsData['Company']['company_name'];
-					}
+					
 				}else{
 					if($networkerData[0]['origin']===HR){
 						$originData[]="Hire Routes";
@@ -676,7 +693,7 @@ class AdminController extends AppController {
 				$this->set('networkerData',$networkerData[0]);
 				$this->set('selectedLevel',$level);
 				$this->set('networkersLevelInfo',$networkersLevelInfo);
-				$this->set('networkersNetworkerData', $networkersNetworkerData);				
+				$this->set('networkersNetworkerData', $networkersNetworkerData);
 				$this->set('originData',$originData);
 			}
 		}else{
@@ -938,6 +955,28 @@ class AdminController extends AppController {
 		$this->set('sortBy',$sortBy);
 		$this->set('employers',$employers);
 	}
+
+
+	/***		Ajax to refresh login status		***/
+	function employerLoginStatus(){
+		$this->autoRender = false;
+		$ids = $this->params['form']['ids'];
+		$employers =  $this->User->find('all', array(
+												'fields' => 'User.id,User.last_login,User.last_logout',
+												'recursive'=>-1,
+												'conditions' =>array('User.id' =>$ids),
+												)
+										);
+										
+		foreach($employers AS $emp){
+			$l1 = strtotime($emp['User']['last_login']);
+			$l2 = strtotime($emp['User']['last_logout']);
+			$result[$emp['User']['id']] = array('last_login'=>$l1, 'last_logout'=>$l2);
+		}
+		return json_encode(array('data'=>$result));
+	}
+
+	/* * *	* * *	* * *	* * *	* * */
 	
 	public function employerSpecificData(){
 		
