@@ -52,7 +52,11 @@
 	    			        ?>
 						<tr class="<?php echo $class; ?>" > 
 							<td style="padding:7px;text-align:center;" ><?php echo $sno++; ?></td> 
-							<td><?php echo ucfirst($jobseeker['Jobseekers']['contact_name']);?></td> 
+							<td>
+								<a href="/admin/jobseekerSpecificData/<?php echo $jobseeker['Jobseekers']['user_id'];?> ">
+									<?php echo ucfirst($jobseeker['Jobseekers']['contact_name']);?>
+								</a>
+							</td> 
 							<td><?php echo $jobseeker['UserList']['account_email']?></td>
 							<td style="text-align:center;"> <?php echo $jobseeker['Jobseekers']['contact_phone'];?> </td>
 							<td style="text-align:center;"> <?php echo $jobseeker['UserList']['created'];?> </td>

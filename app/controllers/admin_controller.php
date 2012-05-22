@@ -442,12 +442,20 @@ class AdminController extends AppController {
 	    }
 	    $params = array(
 				   'conditions' => array('Config.id'=>array(1,2,3,4,5,6,7,8,9)), 
-				   'fields' => array('Config.key','Config.value','Config.id')
+				   'fields' => array('Config.id','Config.value')
 				   );
-		$configuration = $this->Config->find('list',$params);
-		$this->set('rewardPercent',$configuration);
+	   $configuration = $this->Config->find('list',$params);
 
-		
+	   $senarioSum=$this->PaymentHistory->find('all',array(
+											'group' => 'scenario',	
+										    'fields' => array('sum(PaymentHistory.amount) as reward','scenario'),
+				   ));
+		for($i=1, $j=0; $i<=9;$i++){
+			$configuration['scenario'][$i]= ($senarioSum[$j][0]['reward']*$configuration[$i]) / 100; 
+			if($i%3 ==0) $j++;
+		}
+		$this->set('configuration',$configuration);
+			
 		/****	Employer Payment Details 	***/
 		if(isset($this->params['named'])){
 			$data=$this->params['named'];

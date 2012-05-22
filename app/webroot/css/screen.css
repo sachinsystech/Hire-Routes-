@@ -885,6 +885,7 @@ div.message{
 
 
 
+
 	line-height: 0px;
 	margin: 20px auto 0 auto;
 	width: 140px;
@@ -1942,7 +1943,7 @@ select{
     float: none;
     font-weight: bold;
     padding: 5px;
-    text-align: center;
+    font-size:14px;
 }
 .tableHeading a{
 	color:#FFF;
@@ -2389,4 +2390,25 @@ div .employerData{
 /***************/
 .jobDetail span:first-child{
 	font-size:14px;
+}
+
+.senarioReward{
+    border: 1px solid #000000;
+    float: right;
+    font-size: 14px;
+    height: 19px;
+    padding-top: 1px;
+    text-align: center;
+    border-left:none;
+    width: 95px;
+}
+
+.senarioPersantage{
+	float:none;
+	padding: 5px;
+	width:165px;
+}
+
+fieldset{
+	border: 1px solid #000000;
 }
