@@ -59,6 +59,7 @@ class CompaniesController extends AppController {
 				$this->data['Job']['user_id']= $userId;
 				$this->data['Job']['company_id']= $company['Companies']['id'];
 				$this->data['Job']['company_name']= $company['Companies']['company_name'];
+				$this->data['Job'] = $this->stripTags($this->data['Job']);
 				$this->Job->set($this->data['Job']);
 				if($this->Job->validates()){
 					if($this->Job->save()){
@@ -290,8 +291,11 @@ list archive jobs..
 		$shareJob=isset($this->params['form']['shareJob'])?true:false;
 		if($userId && $jobId){
 	
-			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId)));
+			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,
+																	   'Job.user_id'=>$userId,
+																	   'Job.is_active'=>array(1,3))));
 			if($jobs['Job']){
+				$jobs['Job'] = $this->htmlEntityDecode($jobs['Job']);
 				$this->set('job',$jobs['Job']);	
 				$this->set('jobId',$jobId);
 				$this->set('jobTitle',$jobs['Job']['title']);
@@ -304,26 +308,6 @@ list archive jobs..
                 $this->set('jobUrl',$jobUrl);
 				$this->set('states',$this->Utility->getState());
 				$this->set('industries',$this->Utility->getIndustry());
-				
-				/****************  genrate code for traking user **************** /
-					$str = "11:12";
-					$temp = base64_encode($str);
-					//echo $temp;
-					$str = base64_decode("MTE6MTI6Njk=");
-					//echo $str;exit;
-					$code="";
-					if($str != ""){
-						$ids = split(":",$str);
-						if($ids!=false && count($ids)>0){
-							$ids[] = $userId;
-							$str = implode(":",$ids);
-							$code = base64_encode($str);
-						}
-					}else{
-						$code = base64_encode($userId);				
-					}
-					$this->set('code',$code);
-				/************************** end *********************************/
 
 				$NoOfApplicants = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
 				$this->set('NoOfApplicants',$NoOfApplicants);
@@ -337,6 +321,7 @@ list archive jobs..
 		if(isset($this->data['Job'])){
 			$this->data['Job']['user_id'] = $userId;
 			if($shareJob) $this->data['Job']['is_active'] = 1;
+			$this->data['Job'] = $this->stripTags($this->data['Job']);
 			$this->Job->set($this->data['Job']);
 			if($this->Job->validates()){
 				$this->Job->save();
@@ -356,6 +341,21 @@ list archive jobs..
 			$this->redirect('/companies/newJob');
 		}
 	}
+	/*------- Fro  prevent the Xss----*/
+	function stripTags($stripTagsArray){
+		foreach($stripTagsArray as $key =>$value ){
+			$stripTagsArray[$key] = htmlentities(strip_tags($value), ENT_QUOTES);
+		}
+		return $stripTagsArray;
+	}
+	
+	function htmlEntityDecode($DecodeArray){
+		foreach($DecodeArray as $key =>$value ){
+			$DecodeArray[$key] = html_entity_decode($value);
+		}
+		return $DecodeArray;
+	}
+	
 	
 	function accountProfile() {
 		$userId = $this->_getSession()->getUserId();
@@ -411,7 +411,7 @@ list archive jobs..
 			
 		
 			require_once(APP.'vendors'.DS."paypalpro/paypal_pro.inc.php");
-				
+			$this->data['PaymentInfo'] = $this->stripTags($this->data['PaymentInfo']);
 		    $firstName =urlencode($this->data['PaymentInfo']['cardholder_name']);
 		    $lastName =urlencode($this->data['PaymentInfo']['cardholder_name']);
 		    
@@ -1126,31 +1126,37 @@ list archive jobs..
 		}
 		if(isset($data)){
 			if(isset($data['contact_name']) && !empty($data['contact_name'])){			
-				$contact_name=trim($data['contact_name']);
-				$conditions[]=array('OR'=>array("js.contact_name LIKE\"".trim($contact_name)."%\"",	));
-				$this->set('contact_name',$contact_name);	
+				$contact_name=addslashes(trim($data['contact_name']));
+				$conditions[]=array('OR'=>array("js.contact_name LIKE\"".$contact_name."%\"",	));
+				$this->set('contact_name',$data['contact_name']);	
 			}
 			if(isset($data['contact_phone']) && !empty($data['contact_phone'])){			
-				$contact_phone=trim($data['contact_phone']);
-				$conditions[]=array('OR'=>array("js.contact_phone LIKE\"".trim($contact_phone)."%\"",));
-				$this->set('contact_phone',$contact_phone);	
+				$contact_phone=addslashes(trim($data['contact_phone']));
+				$conditions[]=array('OR'=>array("js.contact_phone LIKE\"".$contact_phone."%\"",));
+				$this->set('contact_phone',$data['contact_phone']);	
 			}
 			if(isset($data['account_email']) && !empty($data['account_email'])){			
-				$conditions[]= "users.account_email LIKE \"".trim($data['account_email'])."%\"";
+				$account_email=addslashes(trim($data['account_email']));
+				$conditions[]= "users.account_email LIKE \"".$account_email."%\"";
 				$this->set('account_email',$data['account_email']);	
 			}
-			if(isset($data['address']) && !empty($data['address'])){	
-				$conditions[]= array('OR'=>array("js.address LIKE\"".trim($data['address'])."%\"",
-												"js.state LIKE\"".trim($data['address'])."%\"",
-												"js.city LIKE\"".trim($data['address'])."%\"",));
+			if(isset($data['address']) && !empty($data['address'])){
+				$address=addslashes(trim($data['address']));	
+				$conditions[]= array('OR'=>array("js.address LIKE\"".$address."%\"",
+												"js.state LIKE\"".$address."%\"",
+												"js.city LIKE\"".$address."%\"",));
 				$this->set('address',$data['address']);	
 			}
 			if(isset($data['from_date']) && !empty($data['from_date'])){
-	 			$conditions[]="date(PaymentHistory.paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+				if($this->Utility->checkDateFormat(date("Y-m-d",strtotime($data['from_date'])))){
+		 			$conditions[]="date(PaymentHistory.paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+		 		}
 	 			$this->set('from_date',$data['from_date']);
 	 		}
 		 	if(isset($data['to_date']) && !empty($data['to_date'])){
-		 		$conditions[]="date(PaymentHistory.paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+		 		if($this->Utility->checkDateFormat(date("Y-m-d",strtotime($data['to_date'])))){
+			 		$conditions[]="date(PaymentHistory.paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+			 	}
 		 		$this->set('to_date',$data['to_date']);
 		 	}
 		 }

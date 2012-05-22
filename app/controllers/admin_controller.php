@@ -258,23 +258,24 @@ class AdminController extends AppController {
 		}
 		if(isset($data)){
 			if(isset($data['contact_name']) && !empty($data['contact_name'])){			
-				$contact_name=trim($data['contact_name']);
+				$contact_name=addslashes(trim($data['contact_name']));
 				$conditions[]=array('OR'=>array("Jobseekers.contact_name LIKE\"".$contact_name."%\"",
 	   								 		    "Networkers.contact_name LIKE\"".$contact_name."%\"",
     						   					"Companies.contact_name LIKE\"".$contact_name."%\"",
 	   								));
-				$this->set('contact_name',$contact_name);	
+				$this->set('contact_name',$data['contact_name']);	
 			}
 			if(isset($data['contact_phone']) && !empty($data['contact_phone'])){			
-				$contact_phone=trim($data['contact_phone']);
+				$contact_phone=addslashes(trim($data['contact_phone']));
 				$conditions[]=array('OR'=>array("Jobseekers.contact_phone LIKE\"".$contact_phone."%\"",
 	   						   					"Networkers.contact_phone LIKE\"".$contact_phone."%\"",
 	   						   					"Companies.contact_phone LIKE\"".$contact_phone."%\"",
 	   						   		));				
-				$this->set('contact_phone',$contact_phone);	
+				$this->set('contact_phone',$data['contact_phone']);	
 			}
 			if(isset($data['account_email']) && !empty($data['account_email'])){			
-				$conditions[]= "UserList.account_email LIKE \"".trim($data['account_email'])."%\"";
+				$contact_email=addslashes(trim($data['account_email']));			
+				$conditions[]= "UserList.account_email LIKE \"".$contact_email."%\"";
 				$this->set('account_email',$data['account_email']);	
 			}
 			if(isset($data['from_date']) && !empty($data['from_date'])){
@@ -457,11 +458,15 @@ class AdminController extends AppController {
 		}	
 		$conditions[]='JobseekerApply.is_active=1';
 		if(isset($data['from_date']) && !empty($data['from_date'])){
-	 		$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+			if($this->Utility->checkDateFormat(date("Y-m-d",strtotime($data['from_date'])))){
+				$conditions[]="date(paid_date) >='".date("Y-m-d",strtotime($data['from_date']))."'";
+		 	}	
 	 		$this->set('from_date',$data['from_date']);
 	 	}
 	 	if(isset($data['to_date']) && !empty($data['to_date'])){
-	 		$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+			 if($this->Utility->checkDateFormat(date("Y-m-d",strtotime($data['to_date'])))){	
+	 			$conditions[]="date(paid_date) <='".date("Y-m-d",strtotime($data['to_date']))."'";
+	 		}
 	 		$this->set('to_date',$data['to_date']);
 	 	}
 	

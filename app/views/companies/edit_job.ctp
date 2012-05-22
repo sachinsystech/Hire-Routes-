@@ -184,6 +184,7 @@
 		<!-- middle conyent list -->
 			</div>
 			<div style="text-align:left;float:left;width:100px;margin-top:40px;">
+			<?php if($job['is_active']==1){?>
 					<div style="clear:both;margin-top:5px;padding:5px;">
 						<span><b>Share Job</b></span>
 					</div>
@@ -202,8 +203,7 @@
 					<div style="clear:both;margin-top: 5px;padding: 5px;">
 						<img src="/img/tweeter_post.png" style="float: left;cursor:pointer" onclick='showView(3);'/>
 					</div>
-	
-	
+			<?php } ?>
 		<!-- middle section end -->
 			</div>
 			<div style="display:none;">
