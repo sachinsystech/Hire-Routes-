@@ -635,7 +635,7 @@ class AdminController extends AppController {
 					$originsData=null;
 					while($cond){
 						$originsData=$this->User->find('first',array(
-									'fields'=>'User.id, User.parent_user_id, Company.company_name, Company.id, Networker.contact_name',
+									'fields'=>'User.id, User.parent_user_id, Parent.account_email, Company.company_name, Company.id, Networker.contact_name',
 									'recursive'=>'-1',
 									'joins'=>array(
 										array(
@@ -648,24 +648,26 @@ class AdminController extends AppController {
 											'table'=>'networkers',
 											'alias'=>'Networker',
 											'type'=>'LEFT',
-											'conditions'=>'Networker.user_id=User.id'
-										)
+											'conditions'=>'Networker.user_id=User.parent_user_id'
+										),
+										array(
+											'table'=>'users',
+											'alias'=>'Parent',
+											'type'=>'LEFT',
+											'conditions'=>'Parent.id=User.parent_user_id'
+										),
 									),
 									'conditions'=>array(
 										'User.id'=>$userId,
 									)
 								)
 							);
+						$originData[]=$originsData;
 						$userId=$originsData['User']['parent_user_id'];
 						if(!empty($originsData['Company']['id'])||$originsData['User']['parent_user_id']==NULL)
 							$cond=false;
 					}
-					$originData[]=$originsData['Networker']['contact_name'];
-					if($originsData['User']['parent_user_id']==NULL){
-						$originData[]="Hire Routes";
-					}else{
-						$originData[]=$originsData['Company']['company_name'];
-					}
+					
 				}else{
 					if($networkerData[0]['origin']===HR){
 						$originData[]="Hire Routes";
@@ -676,7 +678,7 @@ class AdminController extends AppController {
 				$this->set('networkerData',$networkerData[0]);
 				$this->set('selectedLevel',$level);
 				$this->set('networkersLevelInfo',$networkersLevelInfo);
-				$this->set('networkersNetworkerData', $networkersNetworkerData);				
+				$this->set('networkersNetworkerData', $networkersNetworkerData);
 				$this->set('originData',$originData);
 			}
 		}else{

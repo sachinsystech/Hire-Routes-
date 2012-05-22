@@ -29,15 +29,15 @@
 		</div>
 	    <table width ="100%" cellspacing='0' class="userTable">
 		    <tr class="tableHeading"> 
-		    	<th width="4%"> # </th>
-			    <th width="15%"><?php echo $this->Paginator->sort('Employer','Companies.company_name');?></th> 
-			    <th width="15%"><?php echo $this->Paginator->sort('Contact Name','Companies.contact_name')?></th>
-			    <th width="20%"><?php echo $this->Paginator->sort('Site URL','Companies.company_url')?></th>
+		    	<th width="3%"> # </th>
+			    <th width="12%"><?php echo $this->Paginator->sort('Employer','Companies.company_name');?></th> 
+			    <th width="12%"><?php echo $this->Paginator->sort('Contact Name','Companies.contact_name')?></th>
+			    <th width="18%"><?php echo $this->Paginator->sort('Site URL','Companies.company_url')?></th>
 			    <th width="10%"><?php echo $this->Paginator->sort('Phone','Companies.contact_phone')?></th>
-			    <th width="20%"><?php echo $this->Paginator->sort('E-Mail','Users.account_email')?></th>
-			    <th width="10%">Type</th>
-			    <th width="20%"><?php echo $this->Paginator->sort('Date','Users.created')?></th>
-			    <th width="10%"> Action </th>
+			    <th width="18%"><?php echo $this->Paginator->sort('E-Mail','Users.account_email')?></th>
+			    <th width="6%">Type</th>
+			    <th width="15%"><?php echo $this->Paginator->sort('Date','Users.created')?></th>
+			    <th width="9%"> Action </th>
 		    </tr>
             <?php 
                	if(count($Companies)>0){
