@@ -205,6 +205,6 @@ reloadLoginStatus();
 
 setTimeout(function(){
    window.location.reload(1);
-}, 1000*60*2);
+}, 1000*60*3);
 
 </script>
