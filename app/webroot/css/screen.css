@@ -2219,8 +2219,8 @@ div .NSDoriginData{
     background-color:#3E3E3E;
     margin:auto;
     margin-bottom: 5px;
-    padding: 10px 30px;
-    width: 120px;
+    padding: 10px 20px;
+    width: 250px;
     color:white;
     font-weight:bold;
     font-size:16px;
@@ -2363,9 +2363,9 @@ div .employerData{
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
-	width:650px;
+	width:250px;
 	margin:auto;
-	margin-top:20px;
+	float:right;
 }
 
 .employerDataBarEven{

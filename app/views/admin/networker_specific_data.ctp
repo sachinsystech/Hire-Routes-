@@ -183,16 +183,37 @@
 		Origin:
 	</div>
 	<div class="NSDoriginData">
-		<?php if(empty($networkerData['Networker']['contact_name'])) echo "N/A"; else echo ucfirst($networkerData['Networker']['contact_name']);?>
-	</div>	
-	<?php foreach($originData as $key => $origin):?>
-		<div class="NSDOriginConnector">
-			&nbsp;
-		</div>
-		<div class="NSDoriginData">
-			<?php if(empty($origin)) echo "N/A"; else echo ucfirst($origin);?>
-		</div>
-	<?php endforeach;?>
+		<?php if(empty($networkerData['Networker']['contact_name'])) echo $networkerData['User']['account_email']; else echo ucfirst($networkerData['Networker']['contact_name']);?>
+	</div>
+	<?php if($networkerData['origin']===RANDOM):?>
+		<?php foreach($originData as $key => $userData):?>
+			<div class="NSDOriginConnector">
+				&nbsp;
+			</div>
+			<?php if(empty($userData['User']['parent_user_id'])):?>
+				<div class="NSDoriginData">
+					<?php echo "Hire Routes";?>
+				</div>
+			<?php elseif(!empty($userData['Company']['id'])):?>
+				<div class="NSDoriginData">
+					<?php if(empty($userData['Company']['company_name'])) echo $userData['Parent']['account_email']; else echo ucfirst($userData['Company']['company_name']);?>
+				</div>
+			<?php else:?>
+				<div class="NSDoriginData">
+					<?php if(empty($userData['Networker']['contact_name'])) echo $userData['Parent']['account_email']; else echo ucfirst($userData['Networker']['contact_name']);?>
+				</div>
+			<?php endif;?>
+		<?php endforeach;?>
+	<?php else:?>	
+		<?php foreach($originData as $key => $origin):?>
+			<div class="NSDOriginConnector">
+				&nbsp;
+			</div>
+			<div class="NSDoriginData">
+				<?php if(empty($origin)) echo "N/A"; else echo ucfirst($origin);?>
+			</div>
+		<?php endforeach;?>
+	<?php endif;?>
 </div>
 <script>
 	function getNetworkersNetworkerForLevel(id,level){

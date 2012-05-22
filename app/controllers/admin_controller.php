@@ -32,6 +32,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('updatePaymentStatus');
 		$this->Auth->allow('userList');
+		$this->Auth->allow('processCompanyRequest');
 		$this->layout = "admin";
 	}
 	
@@ -66,70 +67,56 @@ class AdminController extends AppController {
 		$Companies = $this->paginate('Companies');
 		$this->set('Companies',$Companies);		
 	}
-
-	/****	Accept company request	***/
-	function acceptCompanyRequest() {
+	/**** Accept/Decline company request ****/
+	function processCompanyRequest() {
 		$id = $this->params['id'];
+		$process = $this->params['process'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id,
 																	'User.is_active'=>'0')));
 		if($user){
-			$user['User']['is_active'] = '1';
-			$user['User']['confirm_code']="";
-			$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$id)));
-			$arosAcosData['aro_id'] = $aros['Aros']['id'];
-			$arosAcosData['aco_id'] = 47;
-			$arosAcosData['_create'] = 1;
-			$arosAcosData['_read'] = 1;						
-			$arosAcosData['_update'] = 1;
-			$arosAcosData['_delete'] = 1;	
-			// activate user's account
-			if($this->ArosAcos->save($arosAcosData) && $this->User->save($user['User'])){
-				$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-				$to = $user['User']['account_email'];
-				$subject = 'Hire Routes : Accept Account Request';
-				$template = 'company_account_accept';
-				$message = $user['User'];
-				$this->sendEmail($to,$subject,$template,$message);			
-				$this->Session->setFlash('Successfully activated user.', 'success');
+			if($process=='accept'){
+				$user['User']['is_active'] = '1';
+				$user['User']['confirm_code']="";
+				$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$id)));
+				$arosAcosData['aro_id'] = $aros['Aros']['id'];
+				$arosAcosData['aco_id'] = 47;
+				$arosAcosData['_create'] = 1;
+				$arosAcosData['_read'] = 1;						
+				$arosAcosData['_update'] = 1;
+				$arosAcosData['_delete'] = 1;	
+				// activate user's account
+				if($this->ArosAcos->save($arosAcosData)){
+					$this->saveCompanyStatus($user['User'],$process);
+				}else{
+					$this->Session->setFlash('Internal error.', 'error');
+					$this->redirect("/admin/companiesList");
+				}
 			}else{
-				$this->Session->setFlash('Internal error.', 'error');
-				$this->redirect("/admin/companiesList");
+				$user['User']['is_active'] = '2';
+				$this->saveCompanyStatus($user['User'],$process);
 			}
-		}
-		else{
-			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
-		}
-		$this->redirect("/admin/companiesList");
-	}
-
-	/****	Decline company request	***/
-	function declineCompanyRequest(){
-		$id = $this->params['id'];
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id,
-																	'User.is_active'=>'0')));
-		if($user){
-			$user['User']['is_active'] = '2';
-			// deactivate user's account	
-			if($this->User->save($user['User'])){
-			
-				$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id)));
-				$to = $user['User']['account_email'];
-				$subject = 'Hire Routes : Decline Account Request';
-				$template = 'company_account_decline';
-				$message = $user['User'];
-				$this->sendEmail($to,$subject,$template,$message);		
-				$this->Session->setFlash('User has been declined.', 'success');				
-			}else{
-				$this->Session->setFlash('Internal error.', 'error');
-				$this->redirect("/admin/companiesList");
-			}
-		}
-		else{
+		}else{
 			$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
 		}
 		$this->redirect("/admin/companiesList");
 	}
 	
+	private function saveCompanyStatus($userData,$process){
+ 		if($this->User->save($userData)){
+			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userData['id'])));
+			$to = $user['User']['account_email'];
+			$subject = 'Hire Routes : '.$process.' Account Request';
+			$template = 'company_account_'.$process;
+			$message = $user['User'];
+			$this->sendEmail($to,$subject,$template,$message);		
+			$this->Session->setFlash('User has been '.$process.'ed.', 'success');
+		}else{
+			$this->Session->setFlash('Internal error.', 'error');
+			$this->redirect("/admin/companiesList");
+		}
+		return true;
+	}
+		
 	
 	/**
 	 * For payment details 
@@ -661,7 +648,7 @@ class AdminController extends AppController {
 					$originsData=null;
 					while($cond){
 						$originsData=$this->User->find('first',array(
-									'fields'=>'User.id, User.parent_user_id, Company.company_name, Company.id, Networker.contact_name',
+									'fields'=>'User.id, User.parent_user_id, Parent.account_email, Company.company_name, Company.id, Networker.contact_name',
 									'recursive'=>'-1',
 									'joins'=>array(
 										array(
@@ -674,24 +661,26 @@ class AdminController extends AppController {
 											'table'=>'networkers',
 											'alias'=>'Networker',
 											'type'=>'LEFT',
-											'conditions'=>'Networker.user_id=User.id'
-										)
+											'conditions'=>'Networker.user_id=User.parent_user_id'
+										),
+										array(
+											'table'=>'users',
+											'alias'=>'Parent',
+											'type'=>'LEFT',
+											'conditions'=>'Parent.id=User.parent_user_id'
+										),
 									),
 									'conditions'=>array(
 										'User.id'=>$userId,
 									)
 								)
 							);
+						$originData[]=$originsData;
 						$userId=$originsData['User']['parent_user_id'];
 						if(!empty($originsData['Company']['id'])||$originsData['User']['parent_user_id']==NULL)
 							$cond=false;
 					}
-					$originData[]=$originsData['Networker']['contact_name'];
-					if($originsData['User']['parent_user_id']==NULL){
-						$originData[]="Hire Routes";
-					}else{
-						$originData[]=$originsData['Company']['company_name'];
-					}
+					
 				}else{
 					if($networkerData[0]['origin']===HR){
 						$originData[]="Hire Routes";
@@ -702,7 +691,7 @@ class AdminController extends AppController {
 				$this->set('networkerData',$networkerData[0]);
 				$this->set('selectedLevel',$level);
 				$this->set('networkersLevelInfo',$networkersLevelInfo);
-				$this->set('networkersNetworkerData', $networkersNetworkerData);				
+				$this->set('networkersNetworkerData', $networkersNetworkerData);
 				$this->set('originData',$originData);
 			}
 		}else{
@@ -909,6 +898,10 @@ class AdminController extends AppController {
 	}
 	
 	function employer(){
+		$sortBy="company_name";
+		if(isset($this->params['named']['sort'])&&!empty($this->params['named']['sort'])){
+			$sortBy=$this->params['named']['sort'];
+		}
 		$this->paginate=array(
 			'recursive'=>'-1',
 			'joins'=>array(
@@ -933,7 +926,7 @@ class AdminController extends AppController {
 		);
 		$this->Companies->virtualFields['jobFilled'] = 'count(DISTINCT PaymentHistory.job_id)';
 		$this->Companies->virtualFields['awardPaid'] = 'sum(PaymentHistory.amount)';
-		$this->Companies->virtualFields['email'] = 'User.email';
+		$this->Companies->virtualFields['email'] = 'User.account_email';
 		$employers=$this->paginate('Companies');
 		$user_ids=null;
 		if(!empty($employers[0]))
@@ -957,6 +950,7 @@ class AdminController extends AppController {
 				$employers[$key][0]['awardPosted']=0;
 			}
 		}
+		$this->set('sortBy',$sortBy);
 		$this->set('employers',$employers);
 	}
 	
