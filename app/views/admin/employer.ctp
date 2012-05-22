@@ -81,13 +81,13 @@ function login_status($l1,$l2){
 		?>
 		<div class="<?php echo $class;?>">
 			<div style="width:300px;float:left;">
-				<div class="employerLoginStatusBar" style="float:left" id="<?php echo "user_".$employer['Companies']['user_id'];?>" idfield="<?php echo $employer['Companies']['user_id'];?>">	
+				<div class="employerLoginStatusBar" style="float:left;margin-top:2px" id="<?php echo "user_".$employer['Companies']['user_id'];?>" idfield="<?php echo $employer['Companies']['user_id'];?>">	
 				</div>
 				
 				<?php echo $html->link(empty($employer['Companies']['company_name'])?'----':ucfirst($employer['Companies']['company_name']), array('controller' => 'admin','action'=>'employerSpecificData',$employer['Companies']['user_id'] )).", ";?>
 				<?php echo ucfirst($employer['Companies']['contact_name']); ?></br>
 				<?php echo $employer['User']['account_email']; ?></br>
-				<?php echo "<a href='".$employer['Companies']['company_url']."' >".$employer['Companies']['company_url']."</a>";?>
+				<span style="margin-left:17px"><?php echo "<a href='".$employer['Companies']['company_url']."' >".$employer['Companies']['company_url']."</a>";?></span>
 			</div>
 			<div class="networkersData" style="text-align:center">
 				<?php echo $employer['0']['jobPosted']; ?>&nbsp;
