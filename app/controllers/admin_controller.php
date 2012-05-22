@@ -3,7 +3,7 @@ class AdminController extends AppController {
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers',
     					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker');
 	var $helpers = array('Form','Number','Time','Paginator');
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus', 							'Acl', 'TrackUser', 'Utility');
+	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility');
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -32,7 +32,8 @@ class AdminController extends AppController {
 		$this->Auth->allow('userAction');
 		$this->Auth->allow('updatePaymentStatus');
 		$this->Auth->allow('userList');
-
+		$this->Auth->allow('employerLoginStatus');
+		
 		$this->layout = "admin";
 	}
 	
@@ -927,6 +928,28 @@ class AdminController extends AppController {
 		$employers = $this->paginate('Companies');
 		$this->set('employers',$employers);
 	}
+
+
+	/***		Ajax to refresh login status		***/
+	function employerLoginStatus(){
+		$this->autoRender = false;
+		$ids = $this->params['form']['ids'];
+		$employers =  $this->User->find('all', array(
+												'fields' => 'User.id,User.last_login,User.last_logout',
+												'recursive'=>-1,
+												'conditions' =>array('User.id' =>$ids),
+												)
+										);
+										
+		foreach($employers AS $emp){
+			$l1 = strtotime($emp['User']['last_login']);
+			$l2 = strtotime($emp['User']['last_logout']);
+			$result[$emp['User']['id']] = array('last_login'=>$l1, 'last_logout'=>$l2);
+		}
+		return json_encode(array('data'=>$result));
+	}
+
+	/* * *	* * *	* * *	* * *	* * */
 	
 	public function employerSpecificData(){
 		

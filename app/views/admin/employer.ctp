@@ -76,49 +76,50 @@ function login_status($l1,$l2){
 			foreach($employers as $key =>$employer):
 				$class=($sn++%2==0)?"employerDataBarEven":"employerDataBarOdd"
 		?>
-		<div class="<?php echo $class;?>" onclick="specificEmployer(<?php echo $employer['Companies']['user_id'];?>);">
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php if(login_status($employer['User']['last_login'],$employer['User']['last_logout'])): ?>
-					<img src="/images/login.png">
-				<?php  else: ?>
-					<img src="/images/logout.png">
-				<?php endif;?>	
-				<?php echo $employer['Companies']['company_name']; ?>&nbsp;
-			</div>
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php echo ucfirst($employer['Companies']['contact_name']); ?>&nbsp;
-			</div>
-			<div class="networkersDataEmail">
-				<?php echo $employer['User']['account_email']; ?>&nbsp; 
-			</div>
-			<div class="networkersDataEmail"  style="width:205px;">
-				&nbsp;<?php echo $employer['Companies']['company_url']; ?>&nbsp;
-			</div>
-			<div class="networkersData" style="text-align:center">
-				<?php echo $employer['0']['jobPosted']; ?>&nbsp;
-			</div>
-			<div class="networkersData" style="text-align:center">
-				<?php echo $employer['0']['jobFilled']; ?>&nbsp;
-			</div>
-			<div class="networkersData" style="width:100px;text-align:right">
-				<?php echo $this->Number->format(
-												$employer['0']['awardPosted'],
-												array(
-													'places' => 2,
-													'before' => '$',
-													'decimals' => '.',
-													'thousands' => ',')
-												); ?>&nbsp;
-			</div>
-			<div class="networkersData" style="text-align:right;width:100px;">
-				<?php echo $this->Number->format(
-												$employer['0']['awardPaid'],
-												array(
-													'places' => 2,
-													'before' => '$',
-													'decimals' => '.',
-													'thousands' => ',')
-												);?>&nbsp;
+		<div class="employerDataBar">
+			<div class="<?php echo $class;?>" onclick="specificEmployer(<?php echo $employer['Companies']['user_id'];?>);">
+				<div class="networkersDataOrigin" style="width:125px;">
+					<div class="employerLoginStatusBar" style="float:left" id="<?php echo "user_".$employer['Companies']['user_id'];?>" idfield="<?php echo $employer['Companies']['user_id'];?>">	
+					</div>	
+					<div style="float:left">
+						<?php echo $employer['Companies']['company_name']; ?>&nbsp;
+					</div>	
+				</div>
+				<div class="networkersDataOrigin" style="width:125px;">
+					<?php echo ucfirst($employer['Companies']['contact_name']); ?>&nbsp;
+				</div>
+				<div class="networkersDataEmail">
+					<?php echo $employer['User']['account_email']; ?>&nbsp; 
+				</div>
+				<div class="networkersDataEmail"  style="width:205px;">
+					&nbsp;<?php echo $employer['Companies']['company_url']; ?>&nbsp;
+				</div>
+				<div class="networkersData" style="text-align:center">
+					<?php echo $employer['0']['jobPosted']; ?>&nbsp;
+				</div>
+				<div class="networkersData" style="text-align:center">
+					<?php echo $employer['0']['jobFilled']; ?>&nbsp;
+				</div>
+				<div class="networkersData" style="width:100px;text-align:right">
+					<?php echo $this->Number->format(
+													$employer['0']['awardPosted'],
+													array(
+														'places' => 2,
+														'before' => '$',
+														'decimals' => '.',
+														'thousands' => ',')
+													); ?>&nbsp;
+				</div>
+				<div class="networkersData" style="text-align:right;width:100px;">
+					<?php echo $this->Number->format(
+													$employer['0']['awardPaid'],
+													array(
+														'places' => 2,
+														'before' => '$',
+														'decimals' => '.',
+														'thousands' => ',')
+													);?>&nbsp;
+				</div>
 			</div>
 		</div>
 		<?php
@@ -130,4 +131,81 @@ function login_status($l1,$l2){
 	function specificEmployer(employer){
 		window.location.href='/admin/employerSpecificData/'+employer;
 	}
+</script>
+
+
+
+<script>
+
+function login_status(l1,l2){
+	status = 0;
+	var currentTime =new Date();
+	currentTime = currentTime.getTime()/1000;
+	
+	if(l1==false){
+		return status;
+	}
+	else{
+		if(l2==false){
+			if((currentTime-l1)<=20*60){
+				status = 1;
+				return status;
+			}
+			else{
+				return status;
+			}
+		}
+		if((l2-l1)>0){
+			return status;
+		}
+		if((currentTime-l1)<=20*60){
+			status = 1;
+			return status;
+		}
+		else{
+			return status;
+		}
+		
+	}
+}	
+
+function reloadLoginStatus() {
+	var ids = jQuery.makeArray();
+	var user_ids = jQuery.makeArray();
+	$('.employerLoginStatusBar').each(function(index){
+		ids[index] = $(this).attr('idfield');
+		user_ids[index] = $(this).attr('id');
+	});
+	
+	$.ajax({
+		url:"/admin/employerLoginStatus/",
+		type:"post",
+		dataType:"json",
+		async:false,
+		data: {ids:ids},
+		success:function(response){
+			response['data'];
+			$.each(response['data'], function(index,value) {
+				x = login_status(value['last_login'],value['last_logout']);
+				if(x==1){
+					$("#user_"+index).html('<img src="/images/login.png">');
+				}
+				else{
+					$("#user_"+index).html('<img src="/images/logout.png">');
+				}
+            });
+		}		
+		
+	});
+	setInterval('reloadLoginStatus()',10*1000);
+}
+reloadLoginStatus();
+
+setTimeout(function(){
+   window.location.reload(1);
+}, 1000*60*1);
+
+
+
+//clearConsole();
 </script>
