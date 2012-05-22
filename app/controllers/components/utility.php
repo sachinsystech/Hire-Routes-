@@ -227,6 +227,20 @@ class UtilityComponent extends Object
 		}
 		return true;
 	}	
+/**
+	Match the format of the date
+*/	
+	function checkDateFormat($date){
+	
+		if (preg_match ("/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/", $date, $parts)){
+			if(checkdate($parts[2],$parts[3],$parts[1]))
+			  return true;
+			else
+			 return false;
+		}
+		else
+			return false;
+	}
 	
 }
 ?>

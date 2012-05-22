@@ -38,6 +38,15 @@ function login_status($l1,$l2){
 <div id="page-heading"><h1>Employer data</h1></div>
 <div class="dataBorder">
 	<?php if($this->Paginator->numbers()):?>
+		<div style="overflow: auto; margin: auto; width: 660px; padding: 5px;margin-top:15px;">
+		<div style="width:160px;float:left;">
+		SORT BY
+		<select  id="short_by">
+			<option value="company_name" <?php echo $sortBy=="company_name"?"selected":""?> >Company</option>
+			<option value="contact_name" <?php echo $sortBy=="contact_name"?"selected":"" ?> >Contact</option>
+			<option value="email" <?php echo $sortBy=="email"?"selected":"" ?> >Email</option>
+		</select>
+		</div>
 		<div class="employerPaginatorBar">
 			<?php echo $paginator->first('First  |'); ?>
 			<?php echo $paginator->prev('  '.__('Previous', true), array(),null,array('class'=>'disabled'));?>
@@ -45,27 +54,21 @@ function login_status($l1,$l2){
 			<?php echo $paginator->next(__('Next', true).' ', array(), null, array('class'=>'disabled')); ?>
 			<?php echo $paginator->last(' |  Last'); ?>
 		</div>
+		</div>
 	<?php endif;?>
 	<div class="employerData">
 		<div class="employerDataHeading">
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php echo $this->Paginator->sort('Employer','Companies.company_name')?>
+			<div style="width:300px;float:left;">
+				Employer
 			</div>
-			<div class="networkersDataOrigin" style="width:125px;">
-				<?php echo $this->Paginator->sort('Name','Companies.contact_name')?>
-			</div>
-			<div class="networkersDataEmail" style="text-align:center;">
-				<?php echo $this->Paginator->sort('Email','email')?>
-			</div>
-			<div class="networkersDataEmail" style="width:205px;text-align:center;">URL</div>
 			<div class="networkersData">
-				<?php echo $this->Paginator->sort('Job posted','jobPosted')?>
+				Job posted
 			</div>
 			<div class="networkersData">
 				<?php echo $this->Paginator->sort('Job Filled','jobFilled')?>
 			</div>
 			<div class="networkersData" style="width:100px;">
-				<?php echo $this->Paginator->sort('Award Posted','awardPosted')?>
+				Award Posted
 			</div>
 			<div class="networkersData" style="width:100px;">
 				<?php echo $this->Paginator->sort('Award Paid','awardPaid')?>
@@ -76,50 +79,43 @@ function login_status($l1,$l2){
 			foreach($employers as $key =>$employer):
 				$class=($sn++%2==0)?"employerDataBarEven":"employerDataBarOdd"
 		?>
-		<div class="employerDataBar">
-			<div class="<?php echo $class;?>" onclick="specificEmployer(<?php echo $employer['Companies']['user_id'];?>);">
-				<div class="networkersDataOrigin" style="width:125px;">
-					<div class="employerLoginStatusBar" style="float:left" id="<?php echo "user_".$employer['Companies']['user_id'];?>" idfield="<?php echo $employer['Companies']['user_id'];?>">	
-					</div>	
-					<div style="float:left">
-						<?php echo $employer['Companies']['company_name']; ?>&nbsp;
-					</div>	
+		<div class="<?php echo $class;?>">
+			<div style="width:300px;float:left;">
+				<div class="employerLoginStatusBar" style="float:left" id="<?php echo "user_".$employer['Companies']['user_id'];?>" idfield="<?php echo $employer['Companies']['user_id'];?>">	
 				</div>
-				<div class="networkersDataOrigin" style="width:125px;">
-					<?php echo ucfirst($employer['Companies']['contact_name']); ?>&nbsp;
-				</div>
-				<div class="networkersDataEmail">
-					<?php echo $employer['User']['account_email']; ?>&nbsp; 
-				</div>
-				<div class="networkersDataEmail"  style="width:205px;">
-					&nbsp;<?php echo $employer['Companies']['company_url']; ?>&nbsp;
-				</div>
-				<div class="networkersData" style="text-align:center">
-					<?php echo $employer['0']['jobPosted']; ?>&nbsp;
-				</div>
-				<div class="networkersData" style="text-align:center">
-					<?php echo $employer['0']['jobFilled']; ?>&nbsp;
-				</div>
-				<div class="networkersData" style="width:100px;text-align:right">
-					<?php echo $this->Number->format(
-													$employer['0']['awardPosted'],
-													array(
-														'places' => 2,
-														'before' => '$',
-														'decimals' => '.',
-														'thousands' => ',')
-													); ?>&nbsp;
-				</div>
-				<div class="networkersData" style="text-align:right;width:100px;">
-					<?php echo $this->Number->format(
-													$employer['0']['awardPaid'],
-													array(
-														'places' => 2,
-														'before' => '$',
-														'decimals' => '.',
-														'thousands' => ',')
-													);?>&nbsp;
-				</div>
+				
+				<?php echo $html->link(empty($employer['Companies']['company_name'])?'----':ucfirst($employer['Companies']['company_name']), array('controller' => 'admin','action'=>'employerSpecificData',$employer['Companies']['user_id'] )).", ";?>
+				<?php echo ucfirst($employer['Companies']['contact_name']); ?></br>
+				<?php echo $employer['User']['account_email']; ?></br>
+				<?php echo "<a href='".$employer['Companies']['company_url']."' >".$employer['Companies']['company_url']."</a>";?>
+			</div>
+			<div class="networkersData" style="text-align:center">
+				<?php echo $employer['0']['jobPosted']; ?>&nbsp;
+			</div>
+			<div class="networkersData" style="text-align:center">
+				<?php echo $employer['0']['jobFilled']; ?>&nbsp;
+			</div>
+			<div class="networkersData" style="width:100px;text-align:right">
+				<?php echo $this->Number->format(
+												$employer['0']['awardPosted'],
+												array(
+													'places' => 2,
+													'before' => '$',
+													'decimals' => '.',
+													'thousands' => ',')
+												); ?>&nbsp;
+			</div>
+			<div class="networkersData" style="text-align:right;width:100px;">
+				<?php echo $this->Number->format(
+												$employer['0']['awardPaid'],
+												array(
+													'places' => 2,
+													'before' => '$',
+													'decimals' => '.',
+													'thousands' => ',')
+												);
+				?>
+				&nbsp;
 			</div>
 		</div>
 		<?php
@@ -131,6 +127,12 @@ function login_status($l1,$l2){
 	function specificEmployer(employer){
 		window.location.href='/admin/employerSpecificData/'+employer;
 	}
+	
+	$(document).ready(function(){
+		$("#short_by").change(function sortByEmployer(){
+			window.location.href='/admin/employer/page:1/sort:'+$('#short_by option:selected').val()+'/direction:asc';
+		});
+	});
 </script>
 
 
@@ -197,15 +199,12 @@ function reloadLoginStatus() {
 		}		
 		
 	});
-	setInterval('reloadLoginStatus()',10*1000);
+	setInterval('reloadLoginStatus()',20*1000);
 }
 reloadLoginStatus();
 
 setTimeout(function(){
    window.location.reload(1);
-}, 1000*60*1);
+}, 1000*60*2);
 
-
-
-//clearConsole();
 </script>

@@ -76,7 +76,7 @@
 				<div class="networkersDataOrigin">
 					<?php 
 						if($networkerInfo['origin']===HR)
-							echo "HR";
+							echo "Hire Routes";
 						elseif($networkerInfo['origin']===RANDOM)
 							echo "Random";
 						else

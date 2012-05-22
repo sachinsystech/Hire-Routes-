@@ -62,7 +62,7 @@
 						  	<?php echo $form -> input('industry_1',array('type'=>'select',
 																	     'label'=>'Industry 1:',
 																	     'options'=>$industries,
-																	     'empty' =>' -- Select Industry-- ',
+																	     'empty' =>'Select Industry',
 																	     'onchange'=>'return fillSpecification(this.value,"JobseekerSettingsIndustrySpecification1","specification_1_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
@@ -87,7 +87,7 @@
 							<?php echo $form -> input('industry_2',array('type'=>'select',
 																	     'label'=>'Industry 2:',
 																	     'options'=>$industries,
-																	     'empty' =>' -- Select Industry-- ',
+																	     'empty' =>'Select Industry',
 																	     'onchange'=>'return fillSpecification(this.value,"JobseekerSettingsIndustrySpecification2","specification_2_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:""));?>
@@ -111,7 +111,7 @@
 											'type'=>'select',
 											'label'=>'Location: ',
 											'options'=>$states,
-											'empty' =>' -- All States-- ',
+											'empty' =>'All States',
 											'class'=>'js_select_ls',
 											'onchange'=>'return fillCities(this.value,"JobseekerSettingsCity","city_loader");',
 											'selected' => isset($jobseekerData['state'])?$jobseekerData['state']:""
@@ -124,7 +124,7 @@
 <?php echo $form -> input('city',array(
 											'type'=>'select',
 											'label'=>'',
-											'empty' =>' -- All Cities-- ',
+											'empty' =>'All Cities',
 											'class'=>'js_select_city',
 											'selected' => isset($jobseekerData['city'])?$jobseekerData['city']:""
 									)

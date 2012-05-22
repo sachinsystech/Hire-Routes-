@@ -6,19 +6,24 @@
 	});
 	function onSelectShortByChange(){
 	    var selected = $("#UserListFilter option:selected");   
-	    alert("helo"); 
 	    if(selected.val() == 0){
 	    	window.location.href="/admin/userList";
 	    }
 	}	
-	function onDelete(id,adminAction)
-	{
-	if(confirm('Do you want to '+adminAction+' it ?')){
+	function onDelete(id,userSate)
+	{	
+		var state;
+		if(userSate==0)
+			state=confirm('Do you want to De-activate user ?');
+		if(userSate==1)
+			state=confirm('Do you want to Activate user ?');
+		if(state){
+		
 			$.ajax({
 				url: "/admin/userAction",
 				type: "post",
 				async: false,
-				data:{userId:id,action:adminAction},
+				data:{userId:id,action:userSate},
 				success: function(response){
 					window.location.reload();
 				},
@@ -142,8 +147,8 @@
 					?>
 				</div>
 				    <table width ="100%" cellspacing='0' class='userTable'>
-					    <tr class="usertableHeading userTableLeftRadius" > 
-						    <th width="5%">SN</th> 
+					    <tr class="usertableHeading userTableLeftRadius" style="border:1px solid;"> 
+						    <th width="5%">#</th> 
 						    <th width="12%">Name</th>
 						    <th width="25%">
 						    	<div><?php echo $this->Paginator->sort('E-Mail','UserList.account_email')?></div>
@@ -151,14 +156,14 @@
    						    <th width="12%">Group</th>
    						    <th width="15%">Telephone</th>
 						    <th width="20%">
-						    	<div><?php echo $this->Paginator->sort('Since','UserList.created')?></div>
+						    	<div><?php echo $this->Paginator->sort('Created','UserList.created')?></div>
 						    </th>
 						    <th width="15%">
 						    	<?php echo $this->Paginator->sort('Activated','UserList.is_active')?>
 						    </th>
    						    <th></th>						    						    						    
 						</tr>
-						<tr class="usertableHeading">
+						<tr class="usertableHeading" style="border:1px solid;"> 
 							<th></th>
 							<th>
 
@@ -280,14 +285,14 @@
 							<?php if($user['is_active']==1 ):?>
 								<td style="text-align:center;">Yes</td>
 								<td>
-								<?php  echo $html->link($html->image("de-activate.jpg"), array(), array('escape' => false,'title'=>'De-Activate','onclick'=>"return onDelete($user[id],'De-activate')"));
+								<?php  echo $html->link($html->image("de-activate.jpg"), 'javascript:void(0)', array('escape' => false,'title'=>'De-Activate','onclick'=>"return onDelete($user[id],'0')"));
 								?>
 					
 								</td>
 								<?php else:?>
 								<td style="text-align:center;">No</td>
 								<td>
-								<?php	echo $html->link($html->image("activate.png"),array(),array('escape' => false,'title'=>'Activate','onclick'=>"return onDelete($user[id],'Activate')")); ?>
+								<?php	echo $html->link($html->image("activate.png"),'javascript:void(0)',array('escape' => false,'title'=>'Activate','onclick'=>"return onDelete($user[id],'1')")); ?>
 			
 							<?php endif; ?>
 			    		</tr> 
@@ -296,7 +301,7 @@
 	    			}else{
 					?>	
 					<tr class="odd">			
-					    <td colspan="8" align="center" style="line-height: 40px;">Sorry no result.</td>
+					    <td colspan="8" align="center" style="line-height: 40px;">Sorry , No result found.</td>
 					</tr>
 					<?php
 				    }

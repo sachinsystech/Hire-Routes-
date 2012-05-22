@@ -124,7 +124,7 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 <div style="clear:both"></div>
 
 <div class="configuration_content">
- <div class="inner-content">	
+ <div class="inner-content"  style="width:610px;">	
  
    <span class="rp-error" style="clear:both;color:#FF0000;color: #FF0000;font-size: 13px;margin-left: 62px;">
   
@@ -162,16 +162,21 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 		
 		<div class="pr_scenario_heading">
 			<?php	echo "Scenario-I"; ?>
+			<span style="margin-left:18px;">$ Paid</span>		
 		</div>
 		
-		<div class="required" style="float:none;padding: 5px;">
-				
+		<div class="required senarioPersantage">
+			<div class="senarioReward">
+				<?php 
+					echo "$".number_format($configuration['scenario'][1],2);
+				?>
+			</div>
 			<?php
 				echo $form->input('nr_reward_pc_for_scenario_1',array(
 									'label' => '',
 									'type'  => 'text',
 									'class' => 'reward_pc required number',
-									'value' => number_format($rewardPercent[1]['nr_reward_pc_for_scenario_1'],'2'),
+									'value' => number_format($configuration[1],'2'),
 									'maxlength' => '5',
 									'max' =>100,
 									'min' =>1,
@@ -182,15 +187,20 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 								)
 				);
 			?>
+			
 		</div>
 		
-		<div class="required" style="float:none;padding: 5px;">
+		<div class="required senarioPersantage" >
+			<div class="senarioReward"><?php 
+					echo "$".number_format($configuration['scenario'][2],2);
+				?>
+			</div>
 			<?php
 				echo $form->input('hr_reward_pc_for_scenario_1',array(
 									'label' => '',
 									'type'  => 'text',
 									'class' => 'reward_pc required number',
-									'value' => number_format($rewardPercent[2]['hr_reward_pc_for_scenario_1'],'2'),
+									'value' => number_format($configuration[2],'2'),
 									'maxlength' => '5',
 									'max' =>100,
 									'min' =>1,
@@ -202,13 +212,18 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 				);
 			?>
 		</div>
-		<div class="required" style="float:none;padding: 5px;">
+		<div class="required senarioPersantage" >
+			<div class="senarioReward">
+			<?php 
+					echo "$".number_format($configuration['scenario'][3],2);
+				?>
+			</div>
 			<?php
 				echo $form->input('js_reward_pc_for_scenario_1',array(
 									'label' => '',
 									'type'  => 'text',
 									'class' => 'reward_pc required number',
-									'value' => number_format($rewardPercent[3]['js_reward_pc_for_scenario_1'],'2'),
+									'value' => number_format($configuration[3],'2'),
 									'maxlength' => '5',
 									'max' =>100,
 									'min' =>1,
@@ -228,14 +243,18 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 	<div style="width:auto;float:left" class="sc2">	
 		<div class="pr_scenario_heading">
 			<?php	echo "Scenario-II"; ?>
+			<span style="margin-left:18px;">$ Paid</span>		
 		</div>
-		<div class="required" style="float:none;padding: 5px;">
+		<div class="required senarioPersantage">
+			<div class="senarioReward"><?php 
+					echo "$".number_format($configuration['scenario'][4],2);
+				?></div>
 			<?php
 				echo $form->input('nr_reward_pc_for_scenario_2',array(
 									'label' => '',
 									'type'  => 'text',
 									'class' => 'reward_pc required number',
-									'value' => number_format($rewardPercent[4]['nr_reward_pc_for_scenario_2'],'2'),
+									'value' => number_format($configuration[4],'2'),
 									'maxlength' => '5',
 									'max' =>100,
 									'min' =>1,
@@ -248,13 +267,16 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 			?>
 		</div>
 		
-		<div class="required" style="float:none;padding: 5px;">
+		<div class="required senarioPersantage" >
+			<div class="senarioReward"><?php 
+					echo "$".number_format($configuration['scenario'][5],2);
+				?></div>
 			<?php
 				echo $form->input('hr_reward_pc_for_scenario_2',array(
 									'label' => '',
 									'type'  => 'text',
 									'class' => 'reward_pc required number',
-									'value' => number_format($rewardPercent[5]['hr_reward_pc_for_scenario_2'],'2'),
+									'value' => number_format($configuration[5],'2'),
 									'maxlength' => '5',
 									'max' =>100,
 									'min' =>1,
@@ -266,13 +288,17 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 				);
 			?>
 		</div>
-		<div class="required" style="float:none;padding: 5px;">
+		<div class="required senarioPersantage" >
+			<div class="senarioReward"><?php 
+					echo "$".number_format($configuration['scenario'][6],2);
+				?>
+			</div>
 			<?php
 				echo $form->input('js_reward_pc_for_scenario_2',array(
 									'label' => '',
 									'type'  => 'text',
 									'class' => 'reward_pc required number',
-									'value' => number_format($rewardPercent[6]['js_reward_pc_for_scenario_2'],'2'),
+									'value' => number_format($configuration[6],'2'),
 									'maxlength' => '5',
 									'max' =>100,
 									'min' =>1,
@@ -292,14 +318,16 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 	<div style="width:auto;float:left" class="sc3">	
 		<div class="pr_scenario_heading">
 			<?php	echo "Scenario-III"; ?>
+			<span style="margin-left:18px;">$ Paid</span>		
 		</div>
-		<div class="required" style="float:none;padding: 5px;">
+		<div class="required senarioPersantage" >
+			<div class="senarioReward">$ 2000</div>
 			<?php
 				echo $form->input('nr_reward_pc_for_scenario_3',array(
 									'label' => '',
 									'type'  => 'text',
 									'class' => 'reward_pc required number',
-									'value' => number_format($rewardPercent[7]['nr_reward_pc_for_scenario_3'],'2'),
+									'value' => number_format($configuration[7],'2'),
 									'maxlength' => '5',
 									'max' =>100,
 									'min' =>1,
@@ -312,13 +340,16 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 			?>
 		</div>
 		
-		<div class="required" style="float:none;padding: 5px;">
+		<div class="required senarioPersantage" >
+			<div class="senarioReward"><?php 
+					echo "$".number_format($configuration['scenario'][8],2);
+				?></div>
 			<?php
 				echo $form->input('hr_reward_pc_for_scenario_3',array(
 									'label' => '',
 									'type'  => 'text',
 									'class' => 'reward_pc required number',
-									'value' => number_format($rewardPercent[8]['hr_reward_pc_for_scenario_3'],'2'),
+									'value' => number_format($configuration[8],'2'),
 									'maxlength' => '5',
 									'max' =>100,
 									'min' =>1,
@@ -330,13 +361,16 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 				);
 			?>
 		</div>
-		<div class="required" style="float:none;padding: 5px;">
+		<div class="required senarioPersantage" >
+			<div class="senarioReward"><?php 
+					echo "$".number_format($configuration['scenario'][9],2);
+				?></div>
 			<?php
 				echo $form->input('js_reward_pc_for_scenario_3',array(
 									'label' => '',
 									'type'  => 'text',
 									'class' => 'reward_pc required number',
-									'value' => number_format($rewardPercent[9]['js_reward_pc_for_scenario_3'],'2'),
+									'value' => number_format($configuration[9],'2'),
 									'maxlength' => '5',
 									'max' =>100,
 									'min' =>1,
@@ -354,7 +388,7 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 	
 	<!-- start of submit-->	
 	<div style="clear:both">
-		<?php echo $form->submit('Save',array('style'=>'width:227px;margin-left: 82px;width: 227px;'));?>
+		<?php echo $form->submit('Save',array('style'=>'width:227px;margin-left:225px;'));?>
 	</div>
 	<!-- end of submit-->	
   <?php echo $form->end();?>
@@ -707,4 +741,3 @@ paymentRewardGraph(2012);
 	
 	}
 </script>
-
