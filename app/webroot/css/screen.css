@@ -2109,19 +2109,6 @@ div .networkerInfo{
 	float:left;
 }
 
-/* jobseeker Specific Data */
-div .jobseekerSpecificData{
-	height:auto;
-	overflow:auto;
-	margin:auto;
-	padding:10px;
-}
-div .DataRow{
-	width:330px;
-	margin:auto;
-	font-size:14px;
-}
-/*********/
 /* Networker Specific Data */
 
 div .networkerSpecificData{
@@ -2390,6 +2377,140 @@ div .employerData{
 .jobDetail span:first-child{
 	font-size:14px;
 }
+
+/* jobseeker Specific Data */
+div .jobseekerSpecificData{
+	height:auto;
+	overflow:auto;
+	margin:auto;
+	padding:10px;
+	width:830px;
+}
+div .DataRow{
+	width:330px;
+	margin:auto;
+	font-size:14px;
+}
+
+div .JSPersonalInfo{
+	width:195px;
+	overflow:auto;
+	padding:20px;
+	font-size:14px;
+	float:left;
+}
+
+div .JSPersonalInfo .JSDInfo{
+	width:195px;
+	float:left;
+}
+
+div .JSJobProfile{
+	width:550px;
+	float:left;
+	padding:20px;
+}
+
+.JSJobProfile .left{
+	width:270px;
+	float:left;
+	margin-right:10px;
+}
+.JSJobProfile .right{
+	width:270px;
+	float:left;
+}
+
+.JSJobProfile .heading{
+	width:130px;
+	float:left;
+	font-weight:bold;
+}
+
+.JSJobProfile .info{
+	width:140px;
+	float:right;
+}
+
+/**********/
+/**** Jobseeker job data ****/
+.JSJobData{
+	width:600px;
+	margin:auto;
+	padding:10px;
+	text-align:center;
+	font-size:13px;
+}
+
+.JSJobData .paginatorBar{
+	height:20px;
+	float:right;
+	text-align:right;
+}
+
+.JSJobData .heading{
+	height:35px;
+	float:left;
+	border-bottom: 1px solid black;
+	background-color:#3E3E3E;
+	font-weight:bold;
+	font-size:14px;
+	text-align:center;
+	padding:5px;
+	color:white;
+	clear:both;
+	width:590px;
+}
+
+.heading a{
+	color:white;
+}
+
+.heading a:hover{
+	color:#0000FF;
+}
+
+.JSJobDataBar{
+	min-height:20px;
+	height:auto;
+	overflow:auto;
+	padding:5px;
+	clear:both;
+	border-bottom:1px solid black;
+}
+
+.JSJobDataBar .even{
+	background-color:#E3E3E3;
+}
+
+.JSJobDataBar .odd{
+	background-color:#FFFFFF;
+}
+
+.JSJobData .job{
+	width:200px;
+	float:left;
+	text-align:left;
+}
+
+.JSJobData .data{
+	width:80px;
+	float:left;
+	text-align:center;
+}
+
+.JSJobData .date{
+	width:100px;
+	float:left;
+	text-align:center;
+}
+
+.JSJobData .reward{
+	width:100px;
+	float:left;
+	text-align:right;
+}
+/******************/
 
 .senarioReward{
     border: 1px solid #000000;

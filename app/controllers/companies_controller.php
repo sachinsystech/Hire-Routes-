@@ -3,10 +3,10 @@
 class CompaniesController extends AppController {
 
 	var $name = 'Companies';
-
-   	var $uses = array('User', 'Companies', 'Job', 'PaymentInfo', 'JobseekerApply', 'JobViews', 'PaymentHistory','PaypalResponse','Config','University','RewardsStatus','SharedJob');
+   	var $uses = array('User', 'Companies', 'Job', 'PaymentInfo', 'JobseekerApply', 'JobViews', 
+   		'PaymentHistory','PaypalResponse','Config','University','RewardsStatus','SharedJob'
+   	);
 	var $components = array('TrackUser','Utility','RequestHandler','Session');
-
 	var $helpers = array('Form','Paginator','Time');
 	
 	public function beforeFilter(){
@@ -50,12 +50,13 @@ class CompaniesController extends AppController {
 		if($userId){
 			$this->set('states',$this->Utility->getState());
 			$this->set('industries',$this->Utility->getIndustry());
-
 			if(isset($this->data['Job'])){
 				if(!(strtoupper(trim($this->params['form']['save']))=='POST AND SHARE')){
 					$this->data['Job']['is_active']=3;	//For 3=>unpublished, 1=>active job posts
 				}
-				$company = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
+				$company = $this->Companies->find(
+					'first',array('conditions'=>array('Companies.user_id'=>$userId))
+				);
 				$this->data['Job']['user_id']= $userId;
 				$this->data['Job']['company_id']= $company['Companies']['id'];
 				$this->data['Job']['company_name']= $company['Companies']['company_name'];
@@ -65,18 +66,19 @@ class CompaniesController extends AppController {
 					if($this->Job->save()){
     		    	    switch($this->params['form']['save']){
     		    	        case 'Post and Share':
-					$this->Session->write('openShare','open');
+								$this->Session->write('openShare','open');
     		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');
     		    	            $this->redirect('/companies/editJob/'.$this->Job->id);
     		    	            break;
     		    	        case 'Save for Later':
-					$this->Session->setFlash('Job has been saved successfuly. Post it later', 'success');	
-					$this->redirect('/companies/newJob');
-					break;
+								$this->Session->setFlash('Job has been saved successfuly. Post it later',
+									'success');	
+								$this->redirect('/companies/newJob');
+								break;
     		    	        default:
-					$this->Session->setFlash('Job has been saved successfuly.', 'success');	
-					$this->redirect('/companies/editJob/'.$this->Job->id);
-					break;
+								$this->Session->setFlash('Job has been saved successfuly.', 'success');	
+								$this->redirect('/companies/editJob/'.$this->Job->id);
+								break;
 	    		        }
     			    }else{
     			        $this->Session->setFlash('Internal error while save job.', 'error');	
@@ -90,27 +92,25 @@ class CompaniesController extends AppController {
 	function newJob(){
 		$session = $this->_getSession();
 		$userId = $session->getUserId();
-		
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
 	    $this->set('displayPageNo',$displayPageNo);
-
 		if(isset($this->params['named']['shortby'])){
-			    $shortBy = $this->params['named']['shortby'];
-			    $this->set('shortBy',$shortBy);
-			    switch($shortBy){
-			    	case 'date-added':
-			    				$shortByItem = 'created'; 
-			    				break;	
-	        		case 'industry':
-	        				$shortByItem = 'industry'; 
-	        				break;
-			    				break;
-			    	case 'salary':
-			    				$shortByItem = 'salary_from'; 
-			    				break;
-			    	default:
-			    			$this->redirect("/companies/newJob");	        		        	
-			    }
+		    $shortBy = $this->params['named']['shortby'];
+		    $this->set('shortBy',$shortBy);
+		    switch($shortBy){
+		    	case 'date-added':
+		    				$shortByItem = 'created'; 
+		    				break;	
+        		case 'industry':
+        				$shortByItem = 'industry'; 
+        				break;
+		    				break;
+		    	case 'salary':
+		    				$shortByItem = 'salary_from'; 
+		    				break;
+		    	default:
+		    			$this->redirect("/companies/newJob");	        		        	
+		    }
 		}else{
 			$this->set('shortBy',"date-added");
 			$shortByItem = 'created'; 
@@ -119,61 +119,56 @@ class CompaniesController extends AppController {
 		//	fetching jobs with given condition
 		$conditions = array('Job.user_id'=>$userId,"OR"=>array("Job.is_active"=>array(1,3)));
 		$this->paginate = array(
-				            'conditions' => $conditions,
-				"limit"=>$displayPageNo,
-				'joins'=>array(
-									array('table' => 'jobseeker_apply',
-										'alias' => 'ja',
-										'type' => 'LEFT',
-										'conditions' => array(
-													'Job.id = ja.job_id',
-													'ja.is_active' => 0
-										),
-													
-									)
-							),
-				    'order' => array($shortByItem => 'desc'),
-				    'recursive'=>0,
-				    'fields'=>array('Job.id,Job.user_id,Job.title,Job.is_active,Job.created,COUNT(ja.id) as submissions'),
-				    'group'=>array('Job.id'),
-				    );
+			'conditions' => $conditions,
+			'limit'=>$displayPageNo,
+			'joins'=>array(
+				array(
+					'table' => 'jobseeker_apply',
+					'alias' => 'ja',
+					'type' => 'LEFT',
+					'conditions' => array('Job.id = ja.job_id', 'ja.is_active' => 0),
+				)
+			),
+		    'order' => array($shortByItem => 'desc'),
+		    'recursive'=>0,
+		    'fields'=>array('Job.id, Job.user_id, Job.title, Job.is_active, Job.created, 
+		    	COUNT(ja.id) as submissions'
+		    ),
+			'group'=>array('Job.id'),
+		);
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
 		// end for job fetching...
 		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
 		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
-
 	}
 
 /*
-
 list archive jobs..
 */
 
 	function showArchiveJobs(){
-		
 		$userId = $this->_getSession()->getUserId();
-		
 		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
 	    $this->set('displayPageNo',$displayPageNo);
-
+	    
 		if(isset($this->params['named']['shortby'])){
-			    $shortBy = $this->params['named']['shortby'];
-			    $this->set('shortBy',$shortBy);
-			    switch($shortBy){
-			    	case 'date-added':
-			    				$shortByItem = 'created'; 
-			    				break;	
-	        		case 'industry':
-	        				$shortByItem = 'industry'; 
-	        				break;
-			    				break;
-			    	case 'salary':
-			    				$shortByItem = 'salary_from'; 
-			    				break;
-			    	default:
-			    			$this->redirect("/companies/newJob");	        		        	
-			    }
+		    $shortBy = $this->params['named']['shortby'];
+		    $this->set('shortBy',$shortBy);
+		    switch($shortBy){
+		    	case 'date-added':
+		    				$shortByItem = 'created'; 
+		    				break;	
+        		case 'industry':
+        				$shortByItem = 'industry'; 
+        				break;
+		    				break;
+		    	case 'salary':
+		    				$shortByItem = 'salary_from'; 
+		    				break;
+		    	default:
+		    			$this->redirect("/companies/newJob");	        		        	
+		    }
 		}else{
 			$this->set('shortBy',"date-added");
 			$shortByItem = 'created'; 
@@ -181,37 +176,37 @@ list archive jobs..
 
 		$conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
 		$this->paginate = array(
-				            'conditions' => $conditions,
-				"limit"=>$displayPageNo,
-				'joins'=>array(
-									array('table' => 'jobseeker_apply',
-										'alias' => 'ja',
-										'type' => 'LEFT',
-										'conditions' => array(
-													'Job.id = ja.job_id',
-										)
-									)
-							),
-				    'order' => array($shortByItem => 'desc'),
-				    'recursive'=>0,
-				    'fields'=>array('Job.id ,Job.user_id,Job.title,Job.created,COUNT(ja.id) as submissions'),
-				    'group'=>array('Job.id'),
-				    );
+			'conditions' => $conditions,
+			'limit'=>$displayPageNo,
+			'joins'=>array(
+				array(
+					'table' => 'jobseeker_apply',
+					'alias' => 'ja',
+					'type' => 'LEFT',
+					'conditions' => array('Job.id = ja.job_id')
+				)
+			),
+		    'order' => array($shortByItem => 'desc'),
+		    'recursive'=>0,
+		    'fields'=>array('Job.id ,Job.user_id,Job.title,Job.created,COUNT(ja.id) as submissions'),
+		    'group'=>array('Job.id'),
+		);
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
 		// end for job fetching...
-		
 		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
 		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 	
 	/* Company data starts*/
-
 	function companyData(){
 		$userId = $this->_getSession()->getUserId();
-
-		$jobPosted = $this->Job->find('all',array('conditions'=>array('Job.user_id'=>$userId),
-												 'fields'=>array('SUM(Job.reward) as jobs_reward, count(Job.id) as jobs_posted'), ));
+		$jobPosted = $this->Job->find(
+			'all',array(
+				'conditions'=>array('Job.user_id'=>$userId),
+				'fields'=>array('SUM(Job.reward) as jobs_reward, count(Job.id) as jobs_posted')
+			)
+		);
 
 		if($jobPosted){
 			$rewardPosted = $jobPosted[0][0]['jobs_reward'];
@@ -221,49 +216,62 @@ list archive jobs..
 			$jobPosted	  = 0;
 		}
 
-		$jobApply = $this->JobseekerApply->find('all',array('conditions'=>array('jobs.user_id'=>$userId),
-															  	'joins'    =>array(array('table' => 'jobs',
-																	    				'alias' => 'jobs',
-																						'type'  => 'LEFT',
-																						'conditions' => 'jobs.id = JobseekerApply.job_id',											 						   )
-																		         ),
-																'fields'   => array('COUNT(DISTINCT JobseekerApply.job_id) as job_filled, count(JobseekerApply.job_id) as applicants'), ));
+		$jobApply = $this->JobseekerApply->find(
+			'all',array(
+				'conditions'=>array('jobs.user_id'=>$userId),
+			  	'joins'=>array(
+			  		array(
+			  			'table' => 'jobs',
+	    				'alias' => 'jobs',
+						'type'  => 'LEFT',
+						'conditions' => 'jobs.id =JobseekerApply.job_id',
+					)
+		        ),
+				'fields'=> array('COUNT(DISTINCT JobseekerApply.job_id) as job_filled, 
+					count(JobseekerApply.job_id) as applicants'
+				),
+			)
+		);
 
 		$jobFilled  = $jobApply[0][0]['job_filled'];
 		$applicants = $jobApply[0][0]['applicants'];
-		
-		
-		$jobReward = $this->Job->find('all',array('conditions'=>array('Job.user_id'=>$userId),
-													 'fields'=>array('SUM(Job.reward) as jobs_reward'),	));
-
-		
-
-		$paidReward = $this->PaymentHistory->find('all',array('conditions'=>array(
-																'PaymentHistory.user_id'=>$userId,
-//																'PaymentHistory.payment_status' =>1
-																),
-													 'fields'=>array('SUM(PaymentHistory.amount) as paid_reward'),));
+		$jobReward = $this->Job->find(
+			'all',array(
+				'conditions'=>array('Job.user_id'=>$userId),
+				'fields'=>array('SUM(Job.reward) as jobs_reward'),
+			)
+		);
+		$paidReward = $this->PaymentHistory->find(
+			'all',array(
+				'conditions'=>array('PaymentHistory.user_id'=>$userId),
+				'fields'=>array('SUM(PaymentHistory.amount) as paid_reward'),
+			)
+		);
 		if($paidReward){
 			$rewardPaid = $paidReward[0][0]['paid_reward'];
 		}else{
 			$rewardPaid = 0;
 		}
-
-		
-
-		$jobViews = $this->JobViews->find('count',array('conditions'=>array('jobs.user_id'=>$userId),
-													    'joins'     =>array(array('table' => 'jobs',
-																	    		  'alias' => 'jobs',
-																		          'type'  => 'LEFT',
-																				  'conditions' => 'JobViews.job_id = jobs.id',	))));
+		$jobViews = $this->JobViews->find(
+			'count',array(
+				'conditions'=>array('jobs.user_id'=>$userId),
+			    'joins'=>array(
+			    	array(
+			    		'table' => 'jobs',
+						'alias' => 'jobs',
+					    'type'  => 'LEFT',
+						'conditions' => 'JobViews.job_id = jobs.id',
+					)
+				)
+			)
+		);
 		
 		$this->set('JobPosted',$jobPosted);
 		$this->set('JobFilled',$jobFilled);	
 		$this->set('RewardsPosted',$rewardPosted);
 		$this->set('RewardsPaid',$rewardPaid);
 		$this->set('Applicants',$applicants);
-		$this->set('Views',$jobViews);	
-
+		$this->set('Views',$jobViews);
 		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
 		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());		
 	}
@@ -283,17 +291,22 @@ list archive jobs..
 		return $archJobCount;
 	}
 
-	
 /*****	Companies edit their own Job :: 	*********/
 	function editJob(){
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['jobId'];
 		$shareJob=isset($this->params['form']['shareJob'])?true:false;
+
 		if($userId && $jobId){
-	
-			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,
-																	   'Job.user_id'=>$userId,
-																	   'Job.is_active'=>array(1,3))));
+			$jobs = $this->Job->find(
+				'first',array(
+					'conditions'=>array(
+						'Job.id'=>$jobId,
+						'Job.user_id'=>$userId,
+						'Job.is_active'=>array(1,3)
+					)
+				)
+			);
 			if($jobs['Job']){
 				$jobs['Job'] = $this->Utility->htmlEntityDecode($jobs['Job']);
 				$this->set('job',$jobs['Job']);	
@@ -302,16 +315,15 @@ list archive jobs..
 				$code=$this->Utility->getCode($jobId,$userId);
                 $this->set('intermediateCode',$code);
                 if(isset($code)&&!empty($code))
-                	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/?intermediateCode='.$code;
+                	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/
+                		?intermediateCode='.$code;
                 else
 	                $jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/';
                 $this->set('jobUrl',$jobUrl);
 				$this->set('states',$this->Utility->getState());
 				$this->set('industries',$this->Utility->getIndustry());
-
 				$NoOfApplicants = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
 				$this->set('NoOfApplicants',$NoOfApplicants);
-		
 			}	
 			else{
 				$this->Session->setFlash('You may be clicked on old link.', 'error');				
@@ -388,15 +400,13 @@ list archive jobs..
 			}
 		}
 		$this->set('appliedJobId',$appliedJobId);
-		
 		$submit_txt = "Save...";
 		if(isset($this->params['id'])){
 			$submit_txt = "Proceed to checkout..>>";
 		}
 		$this->set('submit_txt',$submit_txt);
 		if(isset($this->data['PaymentInfo'])){
-			
-		
+
 			require_once(APP.'vendors'.DS."paypalpro/paypal_pro.inc.php");
 			$this->data['PaymentInfo'] = $this->Utility->stripTags($this->data['PaymentInfo']);
 		    $firstName =urlencode($this->data['PaymentInfo']['cardholder_name']);
@@ -438,7 +448,8 @@ list archive jobs..
 		        // Execute the API operation; see the PPHttpPost function above.
 		        $httpParsedResponseAr = $this->PPHttpPost('DoVoid', $nvpstr);
 		        $msg="";
-		        if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) {
+		        if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) 
+		        	|| "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])){
 		        	$msg="Payment information Authorized";
 		        	if(isset($resArray['L_SHORTMESSAGE0'])){
 		                $msg = $resArray['L_SHORTMESSAGE0'];
@@ -451,12 +462,13 @@ list archive jobs..
 			        $this->render("payment_info");
 			        return;				
 		        }else{
-			        if(isset($this->data['PaymentInfo']['applied_job_id'])&& $this->data['PaymentInfo']['applied_job_id']!=""){
+			        if(isset($this->data['PaymentInfo']['applied_job_id']) 
+			        	&& $this->data['PaymentInfo']['applied_job_id']!=""){
 				        $this->redirect('/companies/checkout/'.$this->data['PaymentInfo']['applied_job_id']);
 				    }
-				        $this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');	
-				        $this->redirect('/companies/paymentInfo');
-			        }		
+				    $this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');
+				    $this->redirect('/companies/paymentInfo');
+				}		
             }else{
                 // card is not valid
                 $error_msg = "Invalid Data";
@@ -476,12 +488,11 @@ list archive jobs..
 		$tid = isset($this->params['tid'])?$this->params['tid']:"";
 		
 		if($userId){
-
 			$conditions = array('PaymentHistory.user_id'=>$userId);
 			$this->paginate = array(
-					'conditions' => $conditions,
-						'order' => array('paid_date' => 'desc'),
-						);
+				'conditions' => $conditions,
+				'order' => array('paid_date' => 'desc'),
+			);
 			$PaymentHistory = $this->paginate("PaymentHistory");
 			$this->set('PaymentHistory',$PaymentHistory);	
 		}
@@ -495,31 +506,39 @@ list archive jobs..
 		$tid = isset($this->params['form']['tid'])?$this->params['form']['tid']:"";
 				
 		if($userId && isset($tid) &&isset($id)){
-				$PaymentDetail = $this->PaymentHistory->find('first',
-																array('conditions'=>array(
-																							'PaymentHistory.id'=>$id, 
-																							'PaymentHistory.user_id'=>$userId, 
-																							'PaymentHistory.transaction_id'=>$tid
-																						),
-												  						'joins'=>array(
-												  									array('table' => 'jobseeker_apply',
-																			           'alias' => 'jsapply',
-																	 				   'type' => 'INNER',
-																	 				   'conditions' => array('PaymentHistory.applied_job_id = jsapply.id',)),
-															   			         
-																				 	array('table' => 'jobs',
-																			           'alias' => 'job',
-																			           'type' => 'INNER',
-																			           'conditions' => array('PaymentHistory.job_id = job.id',)),
-																			        array('table' => 'jobseekers',
-																			           'alias' => 'js',
-																			           'type' => 'INNER',
-																			           'conditions' => array(
-																				           		'PaymentHistory.jobseeker_user_id = js.user_id',)),   
-																			),
-																 		'fields'=>array( 'PaymentHistory.amount, PaymentHistory.paid_date, PaymentHistory.transaction_id, job.id,job.title, job.short_description, jsapply.*, js.contact_name') 
-																 	) 
-																); 		
+			$PaymentDetail = $this->PaymentHistory->find(
+				'first',array(
+					'conditions'=>array(
+						'PaymentHistory.id'=>$id,
+						'PaymentHistory.user_id'=>$userId, 
+						'PaymentHistory.transaction_id'=>$tid
+					),
+					'joins'=>array(
+						array(
+							'table' => 'jobseeker_apply',
+					        'alias' => 'jsapply',
+		 				    'type' => 'INNER',
+		 				    'conditions' => array('PaymentHistory.applied_job_id = jsapply.id',)
+		 				),
+					 	array(
+					 		'table' => 'jobs',
+					        'alias' => 'job',
+					        'type' => 'INNER',
+					        'conditions' => array('PaymentHistory.job_id = job.id',)
+					    ),
+					    array(
+					    	'table' => 'jobseekers',
+					        'alias' => 'js',
+					        'type' => 'INNER',
+					        'conditions' => array('PaymentHistory.jobseeker_user_id = js.user_id',)
+					    ),   
+					),
+					'fields'=>array('PaymentHistory.amount, PaymentHistory.paid_date, 
+						PaymentHistory.transaction_id, job.id,job.title, job.short_description, 
+						jsapply.*, js.contact_name'
+					) 
+				) 
+			); 		
 			if(!$PaymentDetail){
 				$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
 				return json_encode($error);
@@ -539,38 +558,50 @@ list archive jobs..
 			$pd['description']=$PaymentDetail['job']['short_description'];	
 			$pd['industry']= $jobInfo['ind']['name'].", ".$jobInfo['spec']['name'];
 			$location =$jobInfo['state']['state'];
-			 if(!empty($jobInfo['city']['city'])) {
+			if(!empty($jobInfo['city']['city'])) {
 				$location= $jobInfo['city']['city'].",&nbsp;".$location;
 			}
 			$pd['location']= $location;
 			return json_encode($pd);
-		}
-		else{
+		}else{
 			$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
 			return json_encode($error);
 		}
 	}
 	
 	private function getJob($jobId){
-		$jobInfo = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId),
-			  'joins'=>array(array('table' => 'industry',
-	                               'alias' => 'ind',
-	             				   'type' => 'LEFT',
-	             				   'conditions' => array('Job.industry = ind.id',)),
-		   			         array('table' => 'specification',
-	             				   'alias' => 'spec',
-	                               'type' => 'LEFT',
-	                               'conditions' => array('Job.specification = spec.id',)),
-							 array('table' => 'cities',
-	            				   'alias' => 'city',
-	                               'type' => 'LEFT',
-	                               'conditions' => array('Job.city = city.id',)),
-		                     array('table' => 'states',
-	                               'alias' => 'state',
-	                               'type' => 'LEFT',
-	                               'conditions' => array('Job.state = state.id',))
-							),
-			 'fields'=>array('Job.*, ind.name, city.city, state.state, spec.name' ), ));
+		$jobInfo = $this->Job->find(
+			'first',array(
+				'conditions'=>array('Job.id'=>$jobId),
+				'joins'=>array(
+					array(
+						'table' => 'industry',
+                       	'alias' => 'ind',
+     				   	'type' => 'LEFT',
+     				   	'conditions' => array('Job.industry = ind.id',)
+     				),
+		         	array(
+		         		'table' => 'specification',
+		 				'alias' => 'spec',
+		                'type' => 'LEFT',
+						'conditions' => array('Job.specification = spec.id',)
+					),
+					array(
+						'table' => 'cities',
+						'alias' => 'city',
+		                'type' => 'LEFT',
+		                'conditions' => array('Job.city = city.id',)
+		            ),
+		            array(
+		            	'table' => 'states',
+		                'alias' => 'state',
+		                'type' => 'LEFT',
+		                'conditions' => array('Job.state = state.id',)
+		            )
+				),
+				'fields'=>array('Job.*, ind.name, city.city, state.state, spec.name' ),
+			)
+		);
 		return $jobInfo;										 
 	}
 	
@@ -579,10 +610,16 @@ list archive jobs..
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
-			$jobs = $this->Job->find('first',array("conditions"=>array("Job.id"=>$jobId,
-																		"Job.user_id"=>$userId,
-																		"OR"=>array("Job.is_active"=>array(1,3))),
-												   "fileds"=>"id"));
+			$jobs = $this->Job->find(
+				'first',array(
+					'conditions'=>array(
+						"Job.id"=>$jobId,
+						"Job.user_id"=>$userId,
+						"OR"=>array("Job.is_active"=>array(1,3))
+					),
+					"fileds"=>"id"
+				)
+			);
 			if($jobs['Job']){
 				$jobs['Job']["is_active"] = 0 ;
 				$this->Job->save($jobs);
@@ -599,14 +636,19 @@ list archive jobs..
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
-			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),"fields"=>"id"));
+			$jobs = $this->Job->find(
+				'first',array(
+					'conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId,"Job.is_active"=>1),
+					'fields'=>'id'
+				)
+			);
 			$universities=$this->University->find('list',array('fields'=>'id,name'));
 			$this->set('universities',$universities);
 			if($jobs['Job']){
-				$conditions = array('JobseekerApply.job_id'=>$jobs['Job']['id'],"JobseekerApply.is_active"=>0);
-				
+				$conditions = array(
+					'JobseekerApply.job_id'=>$jobs['Job']['id'], 'JobseekerApply.is_active'=>0
+				);
 				if(isset($this->data['User'])){
-
 					$i=0;
 					foreach($this->data['User'] as $answer=>$user){
 						if($user!=""){
@@ -614,47 +656,41 @@ list archive jobs..
 							$i++;
 						}
 					}
-					
-					$conditions = array('OR' => $ans,
-					                    'AND' => $conditions
-					                  );
+					$conditions = array('OR' => $ans, 'AND' => $conditions);
 					$this->set('filterOpt',$this->data['User']);
 				}
 				
 				$this->paginate = array(
-						    'conditions' => $conditions,
-							'joins'=>array(
-											array('table' => 'jobseekers',
-												  'alias' => 'jobseekers',
-												  'type' => 'LEFT',
-												  'fields'=>'jobseekers.contact_name',
-												  'conditions' => array('JobseekerApply.user_id = jobseekers.user_id ')
-											),
-											array(
-												'table'=>'jobs',
-												'alias'=>'Job',
-												'fields'=>'Job.user_id',
-												'type'=>'left',
-												'conditions'=>'JobseekerApply.job_id=Job.id'
-											),
-											array(
-												'table'=>'users',
-												'alias'=>'User',
-												'type'=>'left',
-												'fields'=>'parent_user_id',
-												'conditions'=>array('jobseekers.user_id = User.id')
-											)
-									      ),
-							'limit' => 10, // put display fillter here
-							'order' => array('JobseekerApply.id' => 'desc'), // put sort fillter here
-							'recursive'=>0,
-							'fields'=>array('JobseekerApply.*, 
-											jobseekers.contact_name,
-											User.parent_user_id,
-											Job.user_id',
-									),
-							);
-				
+				    'conditions' => $conditions,
+					'joins'=>array(
+						array('table' => 'jobseekers',
+							  'alias' => 'jobseekers',
+							  'type' => 'LEFT',
+							  'fields'=>'jobseekers.contact_name',
+							  'conditions' => array('JobseekerApply.user_id = jobseekers.user_id ')
+						),
+						array(
+							'table'=>'jobs',
+							'alias'=>'Job',
+							'fields'=>'Job.user_id',
+							'type'=>'left',
+							'conditions'=>'JobseekerApply.job_id=Job.id'
+						),
+						array(
+							'table'=>'users',
+							'alias'=>'User',
+							'type'=>'left',
+							'fields'=>'parent_user_id',
+							'conditions'=>array('jobseekers.user_id = User.id')
+						)
+				    ),
+					'limit' => 10, // put display fillter here
+					'order' => array('JobseekerApply.id' => 'desc'), // put sort fillter here
+					'recursive'=>0,
+					'fields'=>array(
+						'JobseekerApply.*, jobseekers.contact_name, User.parent_user_id, Job.user_id',
+					),
+				);
 				$applicants = $this->paginate("JobseekerApply");
 				$this->set('NoOfApplicants',count($applicants));
 				$this->set('applicants',$applicants);
@@ -719,40 +755,82 @@ list archive jobs..
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
-			
-			$jobs = $this->Job->find('first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId),"fileds"=>"id"));
+			$jobs = $this->Job->find(
+				'first',array('conditions'=>array('Job.id'=>$jobId,'Job.user_id'=>$userId),"fileds"=>"id")
+			);
 			if($jobs['Job']){
-				$jobStatusArray['aat'] = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
+				$jobStatusArray['aat'] = $this->JobseekerApply->find(
+					'count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0))
+				);
 				
-				$jobStatusArray['alm']= $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
-													'is_active'=>0,
-													'created >'=> date("Y-m-d", strtotime("-1 month")),
-													'created <'=> date("Y-m-d"))));
-		
-				$jobStatusArray['alw']= $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,
-													'is_active'=>0,
-													'created >'=> date("Y-m-d", strtotime("-1 week")),
-													'created <'=> date("Y-m-d"))));
+				$jobStatusArray['alm']= $this->JobseekerApply->find(
+					'count',array(
+						'conditions'=>array(
+							'job_id'=>$jobId,
+							'is_active'=>0,
+							'created >'=> date("Y-m-d", strtotime("-1 month")),
+							'created <'=> date("Y-m-d")
+						)
+					)
+				);
+				$jobStatusArray['alw']= $this->JobseekerApply->find(
+					'count',array(
+						'conditions'=>array(
+							'job_id'=>$jobId,
+							'is_active'=>0,
+							'created >'=> date("Y-m-d", strtotime("-1 week")),
+							'created <'=> date("Y-m-d")
+						)
+					)
+				);
 
 				
-				$jobStatusArray['vat'] = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId)));
+				$jobStatusArray['vat'] = $this->JobViews->find(
+					'count',array('conditions'=>array('job_id'=>$jobId))
+				);
 	
-				$jobStatusArray['vlm'] = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
-													'created >'=> date("Y-m-d", strtotime("-1 month")),
-													'created <'=> date("Y-m-d"))));
+				$jobStatusArray['vlm'] = $this->JobViews->find(
+					'count',array(
+						'conditions'=>array(
+							'job_id'=>$jobId,
+							'created >'=> date("Y-m-d", strtotime("-1 month")),
+							'created <'=> date("Y-m-d")
+						)
+					)
+				);
 
-				$jobStatusArray['vlw'] = $this->JobViews->find('count',array('conditions'=>array('job_id'=>$jobId,
-													'created >'=> date("Y-m-d", strtotime("-1 week")),
-													'created <'=> date("Y-m-d"))));
+				$jobStatusArray['vlw'] = $this->JobViews->find(
+					'count',array(
+						'conditions'=>array(
+							'job_id'=>$jobId,
+							'created >'=> date("Y-m-d", strtotime("-1 week")),
+							'created <'=> date("Y-m-d")
+						)
+					)
+				);
 													
-				$jobStatusArray['sat'] =$this->SharedJob->find('count',array('conditions'=>array('job_id'=>$jobId)));
+				$jobStatusArray['sat'] =$this->SharedJob->find(
+					'count',array('conditions'=>array('job_id'=>$jobId))
+				);
 				
-				$jobStatusArray['slm']=$this->SharedJob->find('count',array('conditions'=>array('job_id'=>$jobId,
-													'sharing_date >'=> date("Y-m-d", strtotime("-1 month")),
-													'sharing_date <'=> date("Y-m-d"))));
-				$jobStatusArray['slw']=$this->SharedJob->find('count',array('conditions'=>array('job_id'=>$jobId,
-													'sharing_date >'=> date("Y-m-d", strtotime("-1 week")),
-													'sharing_date <'=> date("Y-m-d"))));
+				$jobStatusArray['slm']=$this->SharedJob->find(
+					'count',array(
+						'conditions'=>array(
+							'job_id'=>$jobId,
+							'sharing_date >'=> date("Y-m-d", strtotime("-1 month")),
+							'sharing_date <'=> date("Y-m-d")
+						)
+					)
+				);
+				$jobStatusArray['slw']=$this->SharedJob->find(
+					'count',array(
+						'conditions'=>array(
+							'job_id'=>$jobId,
+							'sharing_date >'=> date("Y-m-d", strtotime("-1 week")),
+							'sharing_date <'=> date("Y-m-d")
+						)
+					)
+				);
 					
 				$this->set('jobId',$jobId);
 				$this->set('jobStatusArray',$jobStatusArray);
@@ -833,8 +911,12 @@ list archive jobs..
         								
         if($userId && $appliedJobId){
         
-		    $cardInfo = $this->PaymentInfo->find('first',array('conditions'=>array('PaymentInfo.user_id'=>$userId)));
-		    $companyInfo = $this->Companies->find('first',array('conditions'=>array('Companies.user_id'=>$userId)));
+		    $cardInfo = $this->PaymentInfo->find(
+		    	'first',array('conditions'=>array('PaymentInfo.user_id'=>$userId))
+		    );
+		    $companyInfo = $this->Companies->find(
+		    	'first',array('conditions'=>array('Companies.user_id'=>$userId))
+		    );
 		    
 		    $appliedJob = $this->appliedJob($appliedJobId);
 		    

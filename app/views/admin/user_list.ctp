@@ -187,7 +187,7 @@
 						    
 						    ?>
 						    </th>
-						    <th width="12%">
+						    <th width="10%">
 						    	<?php echo $form -> input('',array(
 									  'type'=>'select',
 									  'label'=>'',
@@ -197,7 +197,7 @@
 									  				   'networker'=> 'Networker',
 									  				   'jobseeker' => 'Jobseeker'),
 									  'empty'=>'select',
-									  'style'=>"width:105px",
+									  'style'=>"width:94px",
 									  'class'=>'job_select_shortby',
 									  'selected'=>isset($filter)?$filter:'All',));
 								?>
