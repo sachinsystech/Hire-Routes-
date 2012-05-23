@@ -2394,7 +2394,7 @@ div .DataRow{
 }
 
 div .JSPersonalInfo{
-	width:196px;
+	width:195px;
 	overflow:auto;
 	padding:20px;
 	font-size:14px;
@@ -2402,7 +2402,7 @@ div .JSPersonalInfo{
 }
 
 div .JSPersonalInfo .JSDInfo{
-	width:196px;
+	width:195px;
 	float:left;
 }
 
