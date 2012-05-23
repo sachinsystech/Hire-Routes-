@@ -8,6 +8,7 @@
 		<div style="padding:1px;float:left;">
 		SORT BY
 		<select  id="short_by">
+			<option value="" <?php if(empty($sortBy)) echo "selected"; ?>>Select</option>
 			<option value="title" <?php echo $sortBy=="company_name"?"selected":""?> >Title</option>
 			<option value="industry_name" <?php echo $sortBy=="industry_name"?"selected":"" ?> >Industry</option>
 			<option value="specification_name" <?php echo $sortBy=="specification_name"?"selected":"" ?> >Specification</option>
