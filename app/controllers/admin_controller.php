@@ -322,7 +322,8 @@ class AdminController extends AppController {
 	   						   					    'NOT'=>array('UserList.id'=>array(1,2),'UserRoles.role_id'=>5),	
 	   						   						),
 							   'fields' => array("UserList.account_email,UserList.id,
-							   					UserList.created,UserList.fb_user_id,UserList.is_active,
+							   					UserList.created,UserList.last_login,
+							   					UserList.last_logout,UserList.fb_user_id,UserList.is_active,
 							   					UserRoles.*,$userFilter"),
 							   'order' => array('UserList.created' => 'desc'),
 							  );	
@@ -349,12 +350,20 @@ class AdminController extends AppController {
 							$role="";
 				}
 				$userArray[$key]['id'] = $value['UserList']['id'];
+				$networkers = $this->getLevelInformation($value['UserList']['id']);
+				$userArray[$key]['networkCount']=0;
+				if(isset($networkers)){
+					foreach($networkers as $index=>$userCount){
+					$userArray[$key]['networkCount']=$userArray[$key]['networkCount'] + $userCount;
+					}
+				}
 				$userArray[$key]['role_id'] = $role_id;
 				$userArray[$key]['role'] = $role;
 				$userArray[$key]['account_email'] = $value['UserList']['account_email'];
 				$userArray[$key]['created'] = date("m/d/Y h:m:s", strtotime($value['UserList']['created']));
 				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
-				
+				$userArray[$key]['last_login'] = $value['UserList']['last_login'];
+				$userArray[$key]['last_logout'] = $value['UserList']['last_logout'];				
 				if(isset($value[$table])){
 					$userArray[$key]['contact_name'] = $value[$table]['contact_name'];
 					$userArray[$key]['contact_phone'] = $value[$table]['contact_phone'];
@@ -363,7 +372,9 @@ class AdminController extends AppController {
 					$userArray[$key]['contact_phone'] = "";
 				}
 			}
-		}
+		}//echo "<pre>"; print_r($this->getNetworkersData(0,425));exit;
+		//exit;
+		//exit;
 		$this->set('userArray',$userArray);	
 	}
 		
@@ -439,7 +450,7 @@ class AdminController extends AppController {
 				   ));
 		for($i=1, $j=0; $i<=9;$i++){
 			$configuration['scenario'][$i]= ($senarioSum[$j][0]['reward']*$configuration[$i]) / 100; 
-			if($i%3 ==0) $j++;
+			if($i%3 ==0){ $j++;}
 		}
 		$this->set('configuration',$configuration);
 			

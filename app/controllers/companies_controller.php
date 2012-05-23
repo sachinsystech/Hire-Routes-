@@ -59,7 +59,7 @@ class CompaniesController extends AppController {
 				$this->data['Job']['user_id']= $userId;
 				$this->data['Job']['company_id']= $company['Companies']['id'];
 				$this->data['Job']['company_name']= $company['Companies']['company_name'];
-				$this->data['Job'] = $this->stripTags($this->data['Job']);
+				$this->data['Job'] = $this->Utility->stripTags($this->data['Job']);
 				$this->Job->set($this->data['Job']);
 				if($this->Job->validates()){
 					if($this->Job->save()){
@@ -295,7 +295,7 @@ list archive jobs..
 																	   'Job.user_id'=>$userId,
 																	   'Job.is_active'=>array(1,3))));
 			if($jobs['Job']){
-				$jobs['Job'] = $this->htmlEntityDecode($jobs['Job']);
+				$jobs['Job'] = $this->Utility->htmlEntityDecode($jobs['Job']);
 				$this->set('job',$jobs['Job']);	
 				$this->set('jobId',$jobId);
 				$this->set('jobTitle',$jobs['Job']['title']);
@@ -321,7 +321,7 @@ list archive jobs..
 		if(isset($this->data['Job'])){
 			$this->data['Job']['user_id'] = $userId;
 			if($shareJob) $this->data['Job']['is_active'] = 1;
-			$this->data['Job'] = $this->stripTags($this->data['Job']);
+			$this->data['Job'] = $this->Utility->stripTags($this->data['Job']);
 			$this->Job->set($this->data['Job']);
 			if($this->Job->validates()){
 				$this->Job->save();
@@ -342,20 +342,7 @@ list archive jobs..
 		}
 	}
 	/*------- Fro  prevent the Xss----*/
-	function stripTags($stripTagsArray){
-		foreach($stripTagsArray as $key =>$value ){
-			$stripTagsArray[$key] = htmlentities(strip_tags($value), ENT_QUOTES);
-		}
-		return $stripTagsArray;
-	}
-	
-	function htmlEntityDecode($DecodeArray){
-		foreach($DecodeArray as $key =>$value ){
-			$DecodeArray[$key] = html_entity_decode($value);
-		}
-		return $DecodeArray;
-	}
-	
+
 	
 	function accountProfile() {
 		$userId = $this->_getSession()->getUserId();
@@ -411,7 +398,7 @@ list archive jobs..
 			
 		
 			require_once(APP.'vendors'.DS."paypalpro/paypal_pro.inc.php");
-			$this->data['PaymentInfo'] = $this->stripTags($this->data['PaymentInfo']);
+			$this->data['PaymentInfo'] = $this->Utility->stripTags($this->data['PaymentInfo']);
 		    $firstName =urlencode($this->data['PaymentInfo']['cardholder_name']);
 		    $lastName =urlencode($this->data['PaymentInfo']['cardholder_name']);
 		    

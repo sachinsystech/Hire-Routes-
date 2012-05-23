@@ -30,6 +30,7 @@ class CodesController extends AppController {
 	function add() {
 		if(isset($this->data['Code'])){
 			$this->data['Code']['remianing_signups'] = $this->data['Code']['signups'];
+			$this->data['Code'] = $this->Utility->stripTags($this->data['Code']);
 			if($this->Code->save($this->data['Code'])){
 				$this->Session->setFlash('Code has been added successfuly.', 'success');
 				$this->redirect("/admin/codes");

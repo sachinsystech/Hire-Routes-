@@ -168,7 +168,7 @@ class NetworkersController extends AppController {
 			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 			$this->data['Contact']['user_id'] = $userId;
 			$this->data['Contact']['networker_id'] = $user['Networkers'][0]['id'];
-			
+			$this->data['Contact'] = $this->Utility->stripTags($this->data['Contact']);
 			if($this->data['Contact']['contact_name']=='Enter Name'){
 				$this->data['Contact']['contact_name'] = "";			
 			}

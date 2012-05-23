@@ -5,8 +5,8 @@
 		$("#UserLoginForm").validate({
 			  errorClass: 'error_input_message',
 			   errorPlacement: function (error, element) {
-			       error.insertBefore(element)
-			       error.css({'position':'absolute','margin-left':'110px'});
+			       error.insertAfter(element)
+			       error.css({'margin-left':'110px'});
             	}
 		});
 	});
@@ -33,8 +33,8 @@ $(document).ready(function(){
 		if($("#UserRememberMe").is(':checked')){		
 			saveCookie(); 
 		}else{
-			document.cookie = "username"+ "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-			document.cookie = "password"+ "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+			document.cookie = "username"+ "=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+			document.cookie = "password"+ "=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 		}
 	});
 

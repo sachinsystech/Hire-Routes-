@@ -16,7 +16,7 @@
 			errorClass: 'error_input_message',
 				errorPlacement: function (error, element) {
 					error.insertAfter(element)
-					error.css({'position':'absolute','margin':'3px 0px 3px 155px','width':'230px'});
+					error.css({'margin':'0px 0px 0px 134px','width':'230px'});
 			}
 			});
 	});
