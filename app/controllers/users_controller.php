@@ -598,7 +598,7 @@ class UsersController extends AppController {
 			}
 			if($FBUser){
 				$this->setUserAsLoggedIn($FBUser['User']);
-				$this->redirect("/users/firstTime");
+				$this->redirect("/users/loginSuccess");
 			}
 		}
 	}

@@ -123,6 +123,12 @@
 		<div class="nav-divider">&nbsp;</div>
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+			<li><a href="/admin/jobs/"><b>Job</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+		</ul>
+		
+		<div class="nav-divider">&nbsp;</div>
+		
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a href="/admin/rewardPayment/"><b>Rewards/Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 		</ul>
 		

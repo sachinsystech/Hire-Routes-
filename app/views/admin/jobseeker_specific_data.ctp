@@ -26,6 +26,11 @@
 			<div style="font-size:18px;font-weight:bold;margin-bottom:10px;">
 				&nbsp;
 			</div>
+			<?php if(empty($jobseekerData['JobseekerProfile']['answer1'])):?>
+			<div class="left" style="font-size:14px;border:1px solid black;text-align:center;padding:1px;">
+				Job profile not filled yet!
+			</div>
+			<?php else:?>
 			<div class="left">
 				<div class="heading">Qualification :</div>
 				<div class="info">
@@ -91,11 +96,12 @@
 				</div>
 			</div>
 			<div class="right">
-			<div class="heading">Training Needs :</div>
+				<div class="heading">Training Needs :</div>
 				<div class="info">
 					<?php echo $jobseekerData['JobseekerProfile']['answer10']; ?>
 				</div>
 			</div>
+			<?php endif;?>
 		</div>
 	</div>
 </div>

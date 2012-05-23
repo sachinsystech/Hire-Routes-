@@ -242,5 +242,19 @@ class UtilityComponent extends Object
 			return false;
 	}
 	
+	function stripTags($stripTagsArray){
+		foreach($stripTagsArray as $key =>$value ){
+			$stripTagsArray[$key] = htmlentities(strip_tags($value), ENT_QUOTES);
+		}
+		return $stripTagsArray;
+	}
+	
+	function htmlEntityDecode($DecodeArray){
+		foreach($DecodeArray as $key =>$value ){
+			$DecodeArray[$key] = html_entity_decode($value);
+		}
+		return $DecodeArray;
+	}
+	
 }
 ?>

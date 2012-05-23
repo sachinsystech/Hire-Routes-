@@ -65,5 +65,6 @@ class UtilitiesController extends AppController {
 		$specifications=json_encode($specifications);
 		return $specifications;
 	}
+	
 }
 ?>

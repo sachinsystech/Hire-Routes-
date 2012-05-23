@@ -35,6 +35,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('userList');
 		$this->Auth->allow('employerLoginStatus');
 		$this->Auth->allow('processCompanyRequest');
+		$this->Auth->allow('jobs');
 
 		$this->layout = "admin";
 	}
@@ -339,18 +340,17 @@ class AdminController extends AppController {
 		}
 		$this->set('filter',isset($data['filter'])?$data['filter']:null);		
 		$this->paginate =array('limit' =>10,
-			'conditions' => array(
-				$filterRoleCond,
-	   			"AND"=>array($conditions),	
-	   			'NOT'=>array(
-	   				'UserList.id'=>array(1,2),'UserRoles.role_id'=>5
-	   			),	
-	   		),
-			'fields' => array("UserList.account_email, UserList.id,	UserList.created, UserList.fb_user_id, 
-				UserList.is_active,	UserRoles.*, $userFilter"
-			),
-			'order' => array('UserList.created' => 'desc'),
-		);	
+	   						   'conditions' => array($filterRoleCond,
+	   						   						"AND"=>array($conditions),	
+	   						   					    'NOT'=>array('UserList.id'=>array(1,2),'UserRoles.role_id'=>5),	
+	   						   						),
+							   'fields' => array("UserList.account_email,UserList.id,
+							   					UserList.created,UserList.last_login,
+							   					UserList.last_logout,UserList.fb_user_id,UserList.is_active,
+							   					UserRoles.*,$userFilter"),
+							   'order' => array('UserList.created' => 'desc'),
+							  );	
+
 		$users= $this->paginate('UserList');
 		$userArray = array();
 		foreach($users as $key=>$value){
@@ -374,12 +374,20 @@ class AdminController extends AppController {
 							$role="";
 				}
 				$userArray[$key]['id'] = $value['UserList']['id'];
+				$networkers = $this->getLevelInformation($value['UserList']['id']);
+				$userArray[$key]['networkCount']=0;
+				if(isset($networkers)){
+					foreach($networkers as $index=>$userCount){
+					$userArray[$key]['networkCount']=$userArray[$key]['networkCount'] + $userCount;
+					}
+				}
 				$userArray[$key]['role_id'] = $role_id;
 				$userArray[$key]['role'] = $role;
 				$userArray[$key]['account_email'] = $value['UserList']['account_email'];
 				$userArray[$key]['created'] = date("m/d/Y h:m:s", strtotime($value['UserList']['created']));
 				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
-				
+				$userArray[$key]['last_login'] = $value['UserList']['last_login'];
+				$userArray[$key]['last_logout'] = $value['UserList']['last_logout'];				
 				if(isset($value[$table])){
 					$userArray[$key]['contact_name'] = $value[$table]['contact_name'];
 					$userArray[$key]['contact_phone'] = $value[$table]['contact_phone'];
@@ -464,7 +472,7 @@ class AdminController extends AppController {
 				   ));
 		for($i=1, $j=0; $i<=9;$i++){
 			$configuration['scenario'][$i]= ($senarioSum[$j][0]['reward']*$configuration[$i]) / 100; 
-			if($i%3 ==0) $j++;
+			if($i%3 ==0){ $j++;}
 		}
 		$this->set('configuration',$configuration);
 			
@@ -886,6 +894,7 @@ class AdminController extends AppController {
 			),
 			'group'=>'User.id',
 			'limit'=>10,
+			'order'=>'User.created desc'
 		);
 		//Add virtual fields to sort data
 		$this->User->virtualFields['jobseekerCount'] = 'count(DISTINCT Jobseeker.id)';
@@ -1007,7 +1016,7 @@ class AdminController extends AppController {
 	}
 	
 	function employer(){
-		$sortBy="company_name";
+		$sortBy=null;
 		if(isset($this->params['named']['sort'])&&!empty($this->params['named']['sort'])){
 			$sortBy=$this->params['named']['sort'];
 		}
@@ -1262,6 +1271,59 @@ class AdminController extends AppController {
 		);
 		$jobseekers=$this->paginate("UserList");	
 		$this->set('jobseekers',$jobseekers);
+	}
+	
+	function jobs(){
+		$sortBy=null;
+		if(isset($this->params['named']['sort'])&&!empty($this->params['named']['sort'])){
+			$sortBy=$this->params['named']['sort'];
+		}
+		$this->paginate = array(
+			'recursive'=>'-1',
+			'joins'=>array(
+				array(
+					'table'=>'industry',
+					'alias'=>'Industry',
+					'type'=>'LEFT',
+					'conditions'=>'Industry.id = Job.industry'
+				),
+				array(
+					'table'=>'specification',
+					'alias'=>'Specification',
+					'type'=>'LEFT',
+					'conditions'=>'Specification.id=Job.specification'
+				),
+				array(
+					'table'=>'cities',
+					'alias'=>'City',
+					'type'=>'LEFT',
+					'conditions'=>'City.id=Job.city'
+				),
+				array(
+					'table'=>'states',
+					'alias'=>'State',
+					'type'=>'LEFT',
+					'conditions'=>'State.id=Job.state'
+				),
+				array(
+					'table'=>'companies',
+					'alias'=>'Company',
+					'type'=>'LEFT',
+					'conditions'=>'Company.id=Job.company_id'
+				),
+			),
+			'fields'=>'Job.*, City.city, State.state, Industry.name, Specification.name, Company.company_name',
+			'limit'=>10,
+			'order'=>'Job.created desc'
+		);
+		$this->Job->virtualFields['industry_name'] = 'Industry.name';
+		$this->Job->virtualFields['specification_name'] = 'Specification.name';
+		$this->Job->virtualFields['state_name'] = 'State.state';
+		$this->Job->virtualFields['city_name'] = 'City.city';
+		$this->Job->virtualFields['company'] = 'Company.company_name';
+		$jobs=$this->paginate('Job');
+		$this->set('sortBy',$sortBy);
+		$this->set('jobs',$jobs);		
 	}
 }
 
