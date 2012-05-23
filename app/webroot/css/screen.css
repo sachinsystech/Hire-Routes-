@@ -2463,11 +2463,11 @@ div .JSJobProfile{
 	width:590px;
 }
 
-.JSJobHeading a{
+.heading a{
 	color:white;
 }
 
-.JSJobHeading a:hover{
+.heading a:hover{
 	color:#0000FF;
 }
 

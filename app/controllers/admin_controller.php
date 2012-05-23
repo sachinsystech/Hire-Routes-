@@ -35,6 +35,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('userList');
 		$this->Auth->allow('employerLoginStatus');
 		$this->Auth->allow('processCompanyRequest');
+		$this->Auth->allow('jobs');
 
 		$this->layout = "admin";
 	}
@@ -1262,6 +1263,58 @@ class AdminController extends AppController {
 		);
 		$jobseekers=$this->paginate("UserList");	
 		$this->set('jobseekers',$jobseekers);
+	}
+	
+	function jobs(){
+		$sortBy='title';
+		if(isset($this->params['named']['sort'])&&!empty($this->params['named']['sort'])){
+			$sortBy=$this->params['named']['sort'];
+		}
+		$this->paginate = array(
+			'recursive'=>'-1',
+			'joins'=>array(
+				array(
+					'table'=>'industry',
+					'alias'=>'Industry',
+					'type'=>'LEFT',
+					'conditions'=>'Industry.id = Job.industry'
+				),
+				array(
+					'table'=>'specification',
+					'alias'=>'Specification',
+					'type'=>'LEFT',
+					'conditions'=>'Specification.id=Job.specification'
+				),
+				array(
+					'table'=>'cities',
+					'alias'=>'City',
+					'type'=>'LEFT',
+					'conditions'=>'City.id=Job.city'
+				),
+				array(
+					'table'=>'states',
+					'alias'=>'State',
+					'type'=>'LEFT',
+					'conditions'=>'State.id=Job.state'
+				),
+				array(
+					'table'=>'companies',
+					'alias'=>'Company',
+					'type'=>'LEFT',
+					'conditions'=>'Company.id=Job.company_id'
+				),
+			),
+			'fields'=>'Job.*, City.city, State.state, Industry.name, Specification.name, Company.company_name',
+			'limit'=>10
+		);
+		$this->Job->virtualFields['industry_name'] = 'Industry.name';
+		$this->Job->virtualFields['specification_name'] = 'Specification.name';
+		$this->Job->virtualFields['state_name'] = 'State.state';
+		$this->Job->virtualFields['city_name'] = 'City.city';
+		$this->Job->virtualFields['company'] = 'Company.company_name';
+		$jobs=$this->paginate('Job');
+		$this->set('sortBy',$sortBy);
+		$this->set('jobs',$jobs);		
 	}
 }
 

@@ -65,13 +65,13 @@ function login_status($l1,$l2){
 				Job posted
 			</div>
 			<div class="networkersData">
-				<?php echo $this->Paginator->sort('Job Filled','jobFilled')?>
+				<?php echo $this->Paginator->sort('Job Filled','jobFilled');?>
 			</div>
 			<div class="networkersData" style="width:100px;">
 				Award Posted
 			</div>
 			<div class="networkersData" style="width:100px;">
-				<?php echo $this->Paginator->sort('Award Paid','awardPaid')?>
+				<?php echo $this->Paginator->sort('Award Paid','awardPaid');?>
 			</div>
 		</div>
 		<?php
