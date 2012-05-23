@@ -201,12 +201,12 @@ function reloadLoginStatus() {
 		}		
 		
 	});
-	setInterval('reloadLoginStatus()',20*1000);
+	setInterval('reloadLoginStatus()',30*1000);
 }
 reloadLoginStatus();
 
 setTimeout(function(){
    window.location.reload(1);
-}, 1000*60*3);
+}, 1000*60*2);
 
 </script>
