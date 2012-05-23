@@ -2284,3 +2284,9 @@ label.error_input_message{
 	text-decoration:none;
 	margin-top:1px;
 }
+
+#UserChangePasswordForm{
+    margin-right: 20px;
+    padding: 0;
+    width: 90%;
+}

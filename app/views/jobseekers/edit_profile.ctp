@@ -113,7 +113,7 @@
 						<div style="clear:both"></div>
 
 						<div class="company_profile_field_row">
-							<div style="float:right;margin-top:20px">
+							<div style="float:right;margin-right:20px">
 								<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>	
 							</div>
 						</div>

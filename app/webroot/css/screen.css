@@ -886,6 +886,7 @@ div.message{
 
 
 
+
 	line-height: 0px;
 	margin: 20px auto 0 auto;
 	width: 140px;
@@ -1816,14 +1817,12 @@ label.error {
     padding: 11px;
     width: 400px;
 }
-
-.change_password label{
-	width:140px;
-	float:left;
-	font-size:15px;
-	margin:5px;
+.change_password label {
+    float: left;
+    font-size: 15px;
+    margin: 0px;
+    width: 130px;
 }
-
 .change_password label.error{
 	width:300px;
 	clear:left;
@@ -1832,9 +1831,9 @@ label.error {
 }
 .change_password input[type=password] {
 	float:left;
-	margin-left:10px;
 	text-align:left;
 	border: 1px solid #000000;
+	margin:4px;
 }
 .change_password button {
     float: left;
@@ -2226,7 +2225,7 @@ label.error_input_message{
 	color: red;
     display: block;
     font-size: 13px;
-   	padding:11px;
+   	padding:2px;
 }
 
 .employerSpecificDataTable{

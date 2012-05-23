@@ -155,6 +155,7 @@
 						    </th>
    						    <th width="12%">Group</th>
    						    <th width="15%">Telephone</th>
+   						    <th width="10%">Network</th>
 						    <th width="20%">
 						    	<div><?php echo $this->Paginator->sort('Created','UserList.created')?></div>
 						    </th>
@@ -186,7 +187,7 @@
 						    
 						    ?>
 						    </th>
-						    <th width="12%">
+						    <th width="10%">
 						    	<?php echo $form -> input('',array(
 									  'type'=>'select',
 									  'label'=>'',
@@ -196,7 +197,7 @@
 									  				   'networker'=> 'Networker',
 									  				   'jobseeker' => 'Jobseeker'),
 									  'empty'=>'select',
-									  'style'=>"width:105px",
+									  'style'=>"width:94px",
 									  'class'=>'job_select_shortby',
 									  'selected'=>isset($filter)?$filter:'All',));
 								?>
@@ -210,6 +211,7 @@
 											));
 							?>
 						    </th>
+						    <th></th>
 						    <th width="20%">
 						    	<div>
 						    		<center>	
@@ -276,11 +278,20 @@
 	    		                	$class = $sno%2?"odd":"even";
 	    			        ?>
 						<tr class="<?php echo $class; ?>" > 
-							<td style="padding:7px;text-align:center;" ><?php echo $sno++; ?></td> 
-							<td><?php echo ucfirst($user['contact_name']);?></td> 
+							<td style="padding:7px;text-align:center;" ><?php echo $sno++;?>
+							
+							</td> 
+							<td>
+								<?php if(login_status($user['last_login'],$user['last_logout'])):?>
+									<img src="/images/login.png">
+								<?php  else: ?>
+										<img src="/images/logout.png">
+								<?php endif;?>
+								<?php echo ucfirst($user['contact_name']);?></td> 
 							<td><?php echo $user['account_email']?></td>
 							<td style="text-align:center;"> <?php echo $user['role'];?> </td> 
 							<td style="text-align:center;"> <?php echo $user['contact_phone'];?> </td>
+							<td style="text-align:center;"> <?php echo $user['networkCount'];?> </td>
 							<td style="text-align:center;"> <?php echo $user['created'];?> </td>
 							<?php if($user['is_active']==1 ):?>
 								<td style="text-align:center;">Yes</td>
@@ -320,3 +331,33 @@
 	</tbody>
 </table>
 	<?php echo $form->end();?>	
+	
+	
+<?php
+
+function login_status($l1,$l2){
+	$status = false;
+	if($l1==null){
+		return $status;
+	}
+	else{
+		if($l2==null){
+			if((strtotime(date('Y:m:d H:i:s'))-strtotime($l1))<=20*60){
+				$status = true;
+				return $status;
+			}
+			else{
+				return $status;
+			}
+		}
+		if((strtotime($l2)-strtotime($l1))>0){
+			return $status;
+		}
+		if((strtotime(date('Y:m:d H:i:s'))-strtotime($l1))<=20*60){
+			$status = true;
+			return $status;
+		}
+	}
+}	
+
+?>

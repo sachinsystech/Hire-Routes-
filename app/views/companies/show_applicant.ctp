@@ -14,7 +14,7 @@ function valid_form(){
 	answer9 = $("#UserAnswer9").val();
 	answer10 = $("#UserAnswer10").val();
 	if(answer1==="" && answer2==="" && answer3==="" && answer4==="" && answer5==="" && answer6==="" && answer7==="" && answer8==="" && answer9==="" && answer10===""){
-		$("#error_div").removeClass().addClass("js_terms-condition-error").html("Please Select Atleast One Option to Filter Results.*");
+		$("#error_div").removeClass().addClass("js_terms-condition-error").html("Please select at least one option to filter results.*");
 		return false;
 	}
 }

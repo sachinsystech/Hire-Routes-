@@ -321,7 +321,9 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 			<span style="margin-left:18px;">$ Paid</span>		
 		</div>
 		<div class="required senarioPersantage" >
-			<div class="senarioReward">$ 2000</div>
+			<div class="senarioReward"><?php 
+					echo "$".number_format($configuration['scenario'][7],2);
+				?></div>
 			<?php
 				echo $form->input('nr_reward_pc_for_scenario_3',array(
 									'label' => '',
