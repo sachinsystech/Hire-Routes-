@@ -16,7 +16,7 @@
 			<div class="JSDInfo"><?php echo $jobseekerData['User']['account_email'];?></div>
 			<div class="JSDInfo"><?php echo $jobseekerData['Jobseeker']['address'];?></div>
 			<div class="JSDInfo">
-				<?php echo $jobseekerData['Jobseeker']['city'].",";?>
+				<?php echo !empty($jobseekerData['Jobseeker']['city'])?$jobseekerData['Jobseeker']['city'].",":"";?>
 				<?php echo $jobseekerData['Jobseeker']['state'];?>
 			</div>
 			<div class="JSDInfo"><?php echo $jobseekerData['Jobseeker']['contact_phone'];?></div>
@@ -61,7 +61,9 @@
 							'5'=>'Temporary'
 						);
 					?>
-					<?php echo $jobtypes[$jobseekerData['JobseekerProfile']['answer5']]; ?>
+					<?php if(isset($jobseekerData['JobseekerProfile']['answer5'])&&!empty($jobseekerData['JobseekerProfile']['answer5'])):?>
+					<?php 	echo $jobtypes[$jobseekerData['JobseekerProfile']['answer5']]; ?>
+					<?php endif;?>
 				</div>
 			</div>
 			<div class="right">
@@ -166,7 +168,9 @@
 				</div>
 			<?php endforeach;?>
 		<?php else: ?>
-			This jobseeker does not applied to any job!
+			<div style="border:1px solid #000000;padding:2px;">
+				This jobseeker does not applied to any job!
+			</div>
 		<?php endif; ?>
 	</div>
 </div>
