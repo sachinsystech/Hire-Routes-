@@ -1109,66 +1109,35 @@ class AdminController extends AppController {
 						'UserRoles.role_id'=>1,
 					),
 					'fields'=>array(
-						'UserList.id', 'UserList.account_email', 'UserList.last_login', 'Companies.*' 
+						'UserList.id','UserList.account_email','UserList.last_login','Companies.*' 
 					),					  
 				)
 			);
 			$companyDetail['activeJobCount'] = $this->Job->find(
-				'count',array('conditions'=>array('Job.user_id'=>$companyId, 'Job.is_active'=>1))
+				'count',array('conditions'=>array('Job.user_id'=>$companyId,'Job.is_active'=>1))
 			);
 		
 			$companyDetail['archJobCount']= $this->Job->find(
-				'count',array('conditions'=>array('Job.user_id'=>$companyId,'Job.is_active'=>0))
+				'count',array('conditions'=>array('Job.user_id'=>$companyId,'Job.is_active'=>array(0)))
 			);
 			
 			$appliedJobCount=$this->Job->find(
 				'all',array(
-					'conditions'=>array('Job.user_id'=>$companyId,'Job.is_active'=>1),
+					'conditions'=>array('Job.user_id'=>$companyId),
 					'joins'=>array( 
 						array(
 							'table' => 'jobseeker_apply',
 							'alias' => 'JobseekerApply',
-							'type' => 'LEFT',
-							'conditions'=> 'JobseekerApply.job_id=Job.id AND JobseekerApply.is_active =0', 
+							'type' => 'inner',
+							'conditions'=> 'JobseekerApply.job_id=Job.id', 
 						),
 					),
-					'fields'=>array('COUNT(Job.id) as appliedJobCount',)
+					'fields'=>array('COUNT(distinct(Job.id)) as appliedJobCount',)
 				)
-			);		
+			);	
 															
 			$companyDetail['appliedJobCount'] =$appliedJobCount[0][0]['appliedJobCount'];
 			
-			$jobs =$this->PaymentHistory->find(
-				'all',array(
-					'conditions'=>array('PaymentHistory.user_id'=>$companyId),
-					'joins'=>array(
-						array(
-							'table'=>'jobs',
-							'alias'=>'Job',
-							'type'=>'Inner',
-							'conditions'=>array('Job.id=PaymentHistory.job_id'),
-						),				
-						array(
-							'table'=>'job_views',
-							'alias'=>'JobViews',
-							'type'=>'LEFT',
-							'conditions'=>'Job.id=JobViews.job_id',
-						),
-						array(
-							'table' => 'jobseeker_apply',
-							'alias' => 'JobseekerApply',
-							'type' => 'LEFT',
-							'conditions' => 'JobseekerApply.job_id=Job.id AND JobseekerApply.is_active= 0'
-						),
-					),
-					'recursive'=>1,
-					'fields'=>'Job.id, Job.user_id, Job.reward, Job.title, Job.created, 
-						COUNT(DISTINCT(PaymentHistory.id)) AS submission,
-						COUNT(DISTINCT(JobViews.id)) as views',
-					'group'=>array('Job.id'),
-				)
-			);				
-		
 			$PaymentHistory =$this->PaymentHistory->find(
 				'all', array(
 					'conditions' =>array('user_id'=>$companyId),
@@ -1182,13 +1151,37 @@ class AdminController extends AppController {
 					'fields'=>array('sum(reward) as totalReward '),
 				)
 			);
-			
-			if(isset($companyDetail['Companies'])  && isset($jobs) && isset($PaymentHistory)){
+			$this->paginate =array(
+					'conditions'=>array('Job.user_id'=>$companyId),
+					'limit'=>'10',
+					'joins'=>array(
+						array(
+							'table'=>'job_views',
+							'alias'=>'JobViews',
+							'type'=>'LEFT',
+							'conditions'=>'JobViews.job_id=Job.id',
+						),
+						array(
+							'table' => 'jobseeker_apply',
+							'alias' => 'JobseekerApply',
+							'type' => 'LEFT',
+							'conditions' => 'JobseekerApply.job_id=Job.id '
+						),
+					),
+					
+					'fields'=>'Job.id, Job.user_id, Job.reward, Job.title, Job.created, Job.is_active, 
+						COUNT(DISTINCT(JobseekerApply.id)) AS submission,
+						COUNT(DISTINCT(JobViews.id)) as views',
+					'group'=>array('Job.id'),
+				);				
+			$this->Job->virtualFields['submission'] = 'COUNT(DISTINCT(JobseekerApply.id))';
+			$this->Job->virtualFields['views'] = 'COUNT(DISTINCT(JobViews.id))';
+			$jobs = $this->paginate("Job");
+			if(isset($companyDetail['Companies'])  && isset($jobs)){
 			    $this->set('totalRewards',$totalRewards[0][0]['totalReward']);
 			    $this->set('totalPaidReward',$PaymentHistory[0][0]['totalPaidReward']);
 			    $this->set('jobs',$jobs);
-				$this->set('PaymentHistory',$PaymentHistory); 				  
-			    $this->set('companyDetail',$companyDetail);
+				$this->set('companyDetail',$companyDetail);
 			}else{
 			    $this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');
 			    $this->redirect("/admin/rewardPayment");
