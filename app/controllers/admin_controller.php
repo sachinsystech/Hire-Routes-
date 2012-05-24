@@ -894,6 +894,7 @@ class AdminController extends AppController {
 			),
 			'group'=>'User.id',
 			'limit'=>10,
+			'order'=>'User.created desc'
 		);
 		//Add virtual fields to sort data
 		$this->User->virtualFields['jobseekerCount'] = 'count(DISTINCT Jobseeker.id)';
@@ -1015,7 +1016,7 @@ class AdminController extends AppController {
 	}
 	
 	function employer(){
-		$sortBy="company_name";
+		$sortBy=null;
 		if(isset($this->params['named']['sort'])&&!empty($this->params['named']['sort'])){
 			$sortBy=$this->params['named']['sort'];
 		}
@@ -1266,7 +1267,7 @@ class AdminController extends AppController {
 	}
 	
 	function jobs(){
-		$sortBy='title';
+		$sortBy=null;
 		if(isset($this->params['named']['sort'])&&!empty($this->params['named']['sort'])){
 			$sortBy=$this->params['named']['sort'];
 		}
@@ -1305,7 +1306,8 @@ class AdminController extends AppController {
 				),
 			),
 			'fields'=>'Job.*, City.city, State.state, Industry.name, Specification.name, Company.company_name',
-			'limit'=>10
+			'limit'=>10,
+			'order'=>'Job.created desc'
 		);
 		$this->Job->virtualFields['industry_name'] = 'Industry.name';
 		$this->Job->virtualFields['specification_name'] = 'Specification.name';

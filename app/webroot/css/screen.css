@@ -2508,6 +2508,7 @@ div .JSJobProfile{
 	float:left;
 	text-align:right;
 }
+
 /******************/
 
 .senarioReward{
@@ -2519,6 +2520,7 @@ div .JSJobProfile{
     text-align: center;
     border-left:none;
     width: 95px;
+    margin-right: 1px; 
 }
 
 .senarioPersantage{
