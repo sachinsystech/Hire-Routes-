@@ -20,7 +20,9 @@
 				
 				<div class="add_contact_field_row">
 					<div class="add_contact_label">1. Gmail</div>
-					<div style="float:left"><button style="background:#00FF00; width: 150px;">Import from Gmail</button></div>					
+					<div style="float:left">
+						<button style="background:#00FF00; width: 150px;" onclick="importFromGmail();">Import from Gmail</button>
+					</div>					
 				</div>
 				
 				<div style="clear:both"></div>
@@ -135,3 +137,8 @@ $(document).ready(function(){
 
 </script>
 
+<script>
+function importFromGmail(){
+	window.location.href="https://accounts.google.com/o/oauth2/auth?client_id=570913376629-e30ao1afv415iu3e8e1t1tatgqjpspm7.apps.googleusercontent.com&redirect_uri=http://qa.hireroutes.com/gmailContacts&scope=https://www.google.com/m8/feeds/&response_type=code";
+}
+</script>

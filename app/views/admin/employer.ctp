@@ -1,9 +1,3 @@
-<?php
-	/**
-	 *	Employer Data page
-	 */
-?>
-
 
 <?php
 
