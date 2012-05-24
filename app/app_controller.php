@@ -24,6 +24,15 @@ class AppController extends Controller {
 		if($this->Session->check('SearchJob') && strtoupper($this->params['action'])!='SEARCHJOB'){
 				$this->Session->delete('SearchJob');
 		}
+		$session = $this->_getSession();
+		if($session->isLoggedIn()){
+			$data['User']['id']=$session->getUserId();
+			if(isset($data['User']['id']) && ($this->params['action'])!='logout'){
+				$data['User']['last_login']=date('Y-m-d H:i:s'); 
+				$data['User']['group_id']=0;
+				$this->User->save($data);
+			}
+		}
         //here we get intermidiate user id from URLs
         $this->setIntermidiateUser();
 		/* SMTP Options for GMAIL */

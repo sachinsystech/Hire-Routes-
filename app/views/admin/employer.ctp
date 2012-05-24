@@ -36,6 +36,7 @@ function login_status($l1,$l2){
 		<div style="width:160px;float:left;">
 		SORT BY
 		<select  id="short_by">
+			<option value="" <?php if(empty($sortBy)) echo "selected"; ?>>Select</option>
 			<option value="company_name" <?php echo $sortBy=="company_name"?"selected":""?> >Company</option>
 			<option value="contact_name" <?php echo $sortBy=="contact_name"?"selected":"" ?> >Contact</option>
 			<option value="email" <?php echo $sortBy=="email"?"selected":"" ?> >Email</option>
@@ -59,13 +60,13 @@ function login_status($l1,$l2){
 				Job posted
 			</div>
 			<div class="networkersData">
-				<?php echo $this->Paginator->sort('Job Filled','jobFilled')?>
+				<?php echo $this->Paginator->sort('Job Filled','jobFilled');?>
 			</div>
 			<div class="networkersData" style="width:100px;">
 				Award Posted
 			</div>
 			<div class="networkersData" style="width:100px;">
-				<?php echo $this->Paginator->sort('Award Paid','awardPaid')?>
+				<?php echo $this->Paginator->sort('Award Paid','awardPaid');?>
 			</div>
 		</div>
 		<?php
