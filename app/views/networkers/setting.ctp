@@ -1,3 +1,11 @@
+<style>
+div .checkbox{
+	float:left;
+	width:12px;
+	margin-top:0px;
+	overflow:auto;
+}
+</style>
 <script>
 	$(document).ready(function(){
 	    $("#NetworkersNotification").click(onCheckChange);
@@ -153,17 +161,14 @@
 																	'value' => $id
 																	)
 														 );?>
-						<div style="float:left;">	
+						<div style="float:left;width:610px;">	
 							<?php echo $form->input('notification', array('label' => '',
 																          'type'  => 'checkbox',
 																		  'class' => '',
-                                                                          'checked' => isset($SubscriptionData['notification'])?$SubscriptionData['notification']:"checked",
+																		  'checked' => isset($SubscriptionData['notification'])?$SubscriptionData['notification']:"checked",
 																		  'value' => isset($SubscriptionData['notification'])?$SubscriptionData['notification']:""));?>
-							
-							<span>I would like to receive job notifications by email based on my information:<span>
-						</div>
-						<div>
-							<?php $emil_post_array =array(''=>'Select','10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
+							<span style="float:left;margin:4px;margin-left:1px;">I would like to receive job notifications by email based on my information:</span>
+							<?php $emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
 								<?php echo $form -> input('subscribe_email',array('type'=>'select',
 																              'label'=>'',
 																              'options'=>$emil_post_array,
