@@ -143,6 +143,7 @@ function importFromGmail(){
 }
 </script>
 
+<?php if(isset($GmailContacts));?>
 <div id="gmailContacts">
 	<table style="width:85%;margin: auto;" class="contacts">
 		<tr>
@@ -175,8 +176,8 @@ function importFromGmail(){
 </div>
 <script>
 	$("#gmailContacts").dialog({
-		height:200,
-		width:450,
+		height:400,
+		width:550,
 		modal:true,
 		resizable: false ,
 		draggable: true,
@@ -187,3 +188,5 @@ function importFromGmail(){
 		},
 	});
 </script>
+
+<?php endif;?>
