@@ -166,8 +166,8 @@ function importFromGmail(){
 						echo "[]";
 				?>
 			</td>
-			<td><?php echo $title->attributes()->address ?></td>
-			<td><?php echo $title->attributes()->address?></td>
+			<td><?php echo $contact->attributes()->address ?></td>
+			<td><?php echo $contact->attributes()->address?></td>
 		</tr>
 		<?php endforeach;?>
 	</table>
