@@ -143,7 +143,7 @@ function importFromGmail(){
 }
 </script>
 
-<?php if(isset($GmailContacts));?>
+<?php if(isset($GmailContacts)):?>
 <div id="gmailContacts">
 	<table style="width:85%;margin: auto;" class="contacts">
 		<tr>
