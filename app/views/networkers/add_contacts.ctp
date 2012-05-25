@@ -139,6 +139,6 @@ $(document).ready(function(){
 
 <script>
 function importFromGmail(){
-	window.location.href="https://accounts.google.com/o/oauth2/auth?client_id=570913376629-e30ao1afv415iu3e8e1t1tatgqjpspm7.apps.googleusercontent.com&redirect_uri=http://qa.hireroutes.com/gmailContacts&scope=https://www.google.com/m8/feeds/&response_type=code";
+	window.location.href="https://accounts.google.com/o/oauth2/auth?client_id=570913376629-e30ao1afv415iu3e8e1t1tatgqjpspm7.apps.googleusercontent.com&redirect_uri=http://qa.hireroutes.com/networkers/addContacts&scope=https://www.google.com/m8/feeds/&response_type=code";
 }
 </script>
