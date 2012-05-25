@@ -142,3 +142,48 @@ function importFromGmail(){
 	window.location.href="https://accounts.google.com/o/oauth2/auth?client_id=570913376629-e30ao1afv415iu3e8e1t1tatgqjpspm7.apps.googleusercontent.com&redirect_uri=http://qa.hireroutes.com/networkers/addContacts&scope=https://www.google.com/m8/feeds/&response_type=code";
 }
 </script>
+
+<div id="gmailContacts">
+	<table style="width:85%;margin: auto;" class="contacts">
+		<tr>
+			<th style="width:8%;text-align:center"><input type="checkbox" onclick="toggleChecked(this.checked)"></th>
+			<th style="width:35%;text-align:center"> Name </th>
+			<th style="width:50%;text-align:center"> E-Mail </th>
+		</tr>
+		
+		<?php foreach($GmailContacts AS $contact):?>	
+		<tr>
+			<td>
+				<?php	
+						/*echo $form->input($contact['NetworkerContact']['id'], array(
+																			'label' => "$i",
+																			'type'  => 'checkbox',
+																			'value' => $contact['NetworkerContact']['id'],
+																			'class' => 'contact_checkbox'
+																			)
+										  );
+						*/
+						echo "[]";
+				?>
+			</td>
+			<td><?php echo $title->attributes()->address ?></td>
+			<td><?php echo $title->attributes()->address?></td>
+		</tr>
+		<?php endforeach;?>
+	</table>
+	
+</div>
+<script>
+	$("#gmailContacts").dialog({
+		height:200,
+		width:450,
+		modal:true,
+		resizable: false ,
+		draggable: true,
+		title:"Name",
+		show: { 
+			effect: 'drop', 
+			direction: "up" 
+		},
+	});
+</script>
