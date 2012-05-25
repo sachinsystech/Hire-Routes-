@@ -41,7 +41,7 @@
 								$urlLink = $alphabet;
 							}
 							?>
-							<span class="<?php echo $class; ?>" > <?php echo $urlLink; ?></a> </span>
+							<span class="<?php echo $class; ?>" style="font-size:13px"> <?php echo $urlLink; ?></a> </span>
 							<?php
 							if($alphabet !="Z"){
 								echo " | ";
