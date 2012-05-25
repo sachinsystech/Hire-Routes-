@@ -75,10 +75,6 @@ a {
 	margin: 0 auto 0px auto;
 	padding: 25px 0 30px 0;
 	}
-.content-table	{
-	/*font-size: 0px;
-	line-height: 0px;*/
-	}
 .content-table th.sized	{
 	height: 15px;
 	width: 15px;
@@ -887,6 +883,7 @@ div.message{
 
 
 
+
 	line-height: 0px;
 	margin: 20px auto 0 auto;
 	width: 140px;
@@ -1302,6 +1299,7 @@ div.selectbox-wrapper2 ul li	{
 	border-left: none;
 	color: #393939;
 	cursor: pointer;
+
 	display: block;
 	font-family: Arial;
 	font-size: 12px;
@@ -2259,7 +2257,7 @@ label.error_input_message{
 	border:none;
 }
 .jobDetail{
-	height:20px;
+	margin:12px;
 }
 .jobDetailContent{
    font-size: 12px;
