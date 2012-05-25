@@ -910,7 +910,7 @@ class UsersController extends AppController {
 			$userEmail = trim($this->data['User']['user_email']);
 			$user = $this->User->find('first',array('conditions'=>array('account_email'=>$userEmail)));
 			if(!$user['User'] && !isset($user['User'])){
-				$this->Session->SetFlash('Account with this Email is not registered!','error');
+				$this->Session->SetFlash('Not a valid email , Please try again .!','error');
 				return;
 			}
 			if($user['User']['is_active']==1 && $user['User']['is_active']){
