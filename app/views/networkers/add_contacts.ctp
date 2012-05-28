@@ -156,14 +156,14 @@ function importFromGmail(){
 		<tr>
 			<td>
 				<?php	
-						/*echo $form->input($contact['NetworkerContact']['id'], array(
+						echo $form->input($contact['NetworkerContact']['id'], array(
 																			'label' => "$i",
 																			'type'  => 'checkbox',
 																			'value' => $contact['NetworkerContact']['id'],
 																			'class' => 'contact_checkbox'
 																			)
 										  );
-						*/
+						
 						echo "[]";
 				?>
 			</td>
