@@ -21,7 +21,7 @@
 				<div class="add_contact_field_row">
 					<div class="add_contact_label">1. Gmail</div>
 					<div style="float:left">
-						<button style="background:#00FF00; width: 150px;" onclick="importFromGmail();">Import from Gmail</button>
+						<button style="background:#00FF00; width: 150px;font-size: 12px;" onclick="importFromGmail();">Import from Gmail</button>
 					</div>					
 				</div>
 				
@@ -29,7 +29,7 @@
 				
 				<div class="add_contact_field_row">
 					<div class="add_contact_label">2. Hotmail</div>
-					<div style="float:left"><button style="background:#00FF00; width: 150px;">Import from Hotmail</button></div>
+					<div style="float:left"><button style="background:#00FF00; width: 150px;font-size: 12px;">Import from Hotmail</button></div>
 				</div>
 				<div style="clear:both"></div>
 				
@@ -145,34 +145,50 @@ function importFromGmail(){
 
 <?php if(isset($GmailContacts)):?>
 <div id="gmailContacts">
-	<table style="width:85%;margin: auto;" class="contacts">
+
+	<table style="font-size: 14px; margin: -3px 0 0 26px; width: 95%;" class="contacts">
 		<tr>
-			<th style="width:8%;text-align:center"><input type="checkbox" onclick="toggleChecked(this.checked)"></th>
-			<th style="width:35%;text-align:center"> Name </th>
-			<th style="width:50%;text-align:center"> E-Mail </th>
+			<th style="width:3%;text-align:center"><input type="checkbox" onclick="toggleChecked(this.checked)"></th>
+			<th style="width:25%;text-align:center"> Name </th>
+			<th style="width:72%;text-align:center"> E-Mail </th>
 		</tr>
+	</table>	
+	<div style="height: 280px; margin: auto; overflow: auto;">
+		<table style="font-size: 14px; margin-left: 26px; width: 95%;" class="contacts">
 		
-		<?php foreach($GmailContacts AS $contact):?>	
-		<tr>
-			<td>
-				<?php	
-						/*echo $form->input($contact['NetworkerContact']['id'], array(
-																			'label' => "$i",
-																			'type'  => 'checkbox',
-																			'value' => $contact['NetworkerContact']['id'],
-																			'class' => 'contact_checkbox'
-																			)
-										  );
-						*/
-						echo "[]";
+			<?php foreach($GmailContacts AS $contact):?>	
+			<tr>
+				<?php 
+						$email = $contact->attributes()->address;
+						$pieces = explode("@", $email);
+						$contactName = explode(".", $pieces[0]);
+						$contactName = preg_split('#([0-9])#i', $contactName[0]);
+						$contactName =  ucfirst($contactName[0]);
+					
 				?>
-			</td>
-			<td><?php echo $contact->attributes()->address ?></td>
-			<td><?php echo $contact->attributes()->address?></td>
-		</tr>
-		<?php endforeach;?>
-	</table>
-	
+				<td>
+					<?php	
+							echo $form->input($contactName, array(
+																				'label' => '',
+																				'type'  => 'checkbox',
+																				'value' => $contact->attributes()->address,
+																				'class' => 'contact_checkbox',
+																				'css' => 'margin-left:4px;width:17px'
+																				)
+											  );
+						
+					?>
+				</td>
+			
+				<td><?php echo $contactName; ?></td>
+				<td><?php echo $email; ?></td>
+			</tr>
+			<?php endforeach;?>
+		</table>
+	</div>
+	<div style="clear:both;margin: 7px 23px;">
+		<button style="font-size: 10px; font-weight: bold; width: 90px; float: right; margin: 3px;">Add Contacts</button>
+	</div>	
 </div>
 <script>
 	$("#gmailContacts").dialog({
@@ -181,12 +197,18 @@ function importFromGmail(){
 		modal:true,
 		resizable: false ,
 		draggable: true,
-		title:"Name",
+		title:"Gmail Contacts: <br> ",
 		show: { 
 			effect: 'drop', 
 			direction: "up" 
 		},
 	});
+	
+	function toggleChecked(status) {
+		$(".contact_checkbox").each( function() {
+			$(this).attr("checked",status);
+		})
+	}
 </script>
 
 <?php endif;?>
