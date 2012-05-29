@@ -2290,3 +2290,32 @@ label.error_input_message{
     padding: 0;
     width: 90%;
 }
+#ShareJobForm{
+	font-size: 13px;
+	width: 100%;
+}
+#ff_list{
+	background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #000000;
+    clear: both;
+    height: 221px;
+    margin-left: 4px;
+    margin-top: 63px;
+    overflow: auto;
+    position: absolute;
+    width: 525px;
+    z-index: 22000;
+}
+.ui-dialog ui-widget{
+	top:25px;
+}
+.ui-dialog .ui-dialog-titlebar-close {
+	background: url("../images/dialog-close.png") repeat scroll 0 0 transparent;
+    height: 30px !important;
+    margin: -16px 0 0 !important;
+    padding: 1px;
+    position: absolute;
+    right: 0.3em;
+    top: 50%;
+    width: 30px !important;
+}

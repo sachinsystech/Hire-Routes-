@@ -24,6 +24,7 @@ class NetworkersController extends AppController {
 		if($this->userRole!=NETWORKER){
 			$this->redirect("/users/loginSuccess");
 		}
+		$this->Auth->allow('getGmailContacts');
 	}
 	
 	/* Delete Subscription */
@@ -163,6 +164,15 @@ class NetworkersController extends AppController {
 	
 	/*	Add contact by single entry	*/
 	function addContacts() {
+		if(isset($this->params['url']['error'])){
+    		$this->Session->setFlash('You have declined the request!', 'warning');
+    		$this->redirect('/networkers/addContacts');
+    	}
+		if(isset($this->params['url']['code'])){
+			$GmailContacts = $this->getGmailContacts($this->params['url']['code']);
+			$this->set('GmailContacts',$GmailContacts);
+		}	
+		
 		if(isset($this->data['Contact'])){
 			$userId = $this->_getSession()->getUserId();
 			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
@@ -195,6 +205,51 @@ class NetworkersController extends AppController {
 			$this->set('validationErrors',$this->NetworkerContact->validationErrors);
 			$this->set('NetworkerContact',$this->NetworkerContact->data['NetworkerContact']);
 		}
+	}
+	
+	private function getGmailContacts($authcode){
+		$clientid='570913376629-e30ao1afv415iu3e8e1t1tatgqjpspm7.apps.googleusercontent.com';
+		$clientsecret='IiJFcDk6WYmujXAxbdC4ZxiR';
+		$redirecturi='http://qa.hireroutes.com/networkers/addContacts';
+		$fields=array(
+			'code'=>  urlencode($authcode),
+			'client_id'=>  urlencode($clientid),
+			'client_secret'=>  urlencode($clientsecret),
+			'redirect_uri'=>  urlencode($redirecturi),
+			'grant_type'=>  urlencode('authorization_code')
+		);
+		//url-ify the data for the POST
+		$fields_string='';
+		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+		$fields_string=rtrim($fields_string,'&');
+		//open connection
+		$ch = curl_init();
+		//set the url, number of POST vars, POST data
+		curl_setopt($ch,CURLOPT_URL,'https://accounts.google.com/o/oauth2/token');
+		curl_setopt($ch,CURLOPT_POST,5);
+		curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
+		// Set so curl_exec returns the result instead of outputting it.
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		//to trust any ssl certificates
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		//execute post
+		$result = curl_exec($ch);
+		//close connection
+		curl_close($ch);
+		//extracting access_token from response string
+		$response=  json_decode($result);
+		$accesstoken= $response->access_token;
+		if(!isset($accesstoken)){
+			$this->Session->setFlash('Token expired from Gmail, please try again!', 'warning');
+    		$this->redirect('/networkers/addContacts');
+		}
+		//passing accesstoken to obtain contact details
+		$xmlresponse=  file_get_contents('https://www.google.com/m8/feeds/contacts/default/full?max-results=1000&oauth_token='.$accesstoken);
+		//reading xml using SimpleXML
+		$xml=  new SimpleXMLElement($xmlresponse);
+		$xml->registerXPathNamespace('gd', 'http://schemas.google.com/g/2005');
+		$result = $xml->xpath('//gd:email');
+		return $result;
 	}
 
 	/*	Edit single contact	*/

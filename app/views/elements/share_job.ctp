@@ -13,7 +13,7 @@ $(function() {
             width:900,
 		});
 		$( "#opener" ).click(function() {
-			$( "#dialog" ).css( "top" ,'20');
+			$( "#dialog" ).css( "top" ,'-50');
 			$( "#dialog" ).dialog( "open" );			
 			return false;
 		});
@@ -45,6 +45,7 @@ $(function() {
 				<li id='liEmail'class="active" ><a style="text-decoration: none;font-weight: normal;" href=# onclick='showView(4);'>Email</a></li>
 			</ul>
 		</div>
+		
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -54,6 +55,7 @@ $(function() {
 			<div class="middleBox">
 				<div id='message'></div>
 				<div class="share_middle_setting">
+					
 					<?php echo $form->create('Share', array('action'=>'job', 'onsubmit'=>'return validateEmail(ShareToEmail.value);')); ?>
 					<div id='to' style="padding-bottom:0px; clear:both"></div>
 						<?php echo $form->input('jobId', array('label' => '',
@@ -78,6 +80,20 @@ $(function() {
 																'value'=>"Learn more about this job (".$jobUrl.")"
 						));?>
 					</div>
+					<!-- Added for filter friends -->
+					<div style="padding-bottom:0px; clear:both">
+						<div style="float:left"><strong>Filter Friends:</strong></div>
+						<div style="float:right">
+						<?php echo $form->input('filter_friends', array('label' => '',
+																'type'  => 'text',
+																'id'=>'autocomplete',
+																'class'=> 'subject_txt required',
+																'value'=>''
+						));?>
+						</div>
+					</div>
+					<div id="ff_list" style="display:none"></div>
+					<!-- End -->
 					<div id='other' style="padding-bottom:0px; clear:both">
 					</div>
 					<div style="padding-bottom:0px; clear:both">
@@ -118,12 +134,14 @@ $(function() {
 <script>
 function showView(type){
     $("#share").unbind();
+	$("#autocomplete").unbind();
 	$("#opener").click();
     switch(type){
         case 1:
             setView('Facebook');
             fillFacebookFriend();
             $("#share").click(facebookComment);
+			$("#autocomplete").keyup(test_auto);
             break;
         case 2:
             setView('LinkedIn');
@@ -156,7 +174,7 @@ function setView(value)
 	else
 	{	
 		$('#to').html("");
-		$('#other').html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>");
+		$('#other').html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox'/></div><div id='filtered_friend'></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>");
 		$('#imageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="sharejob_ajax_loader"/></p>');
 	}
 	return false;
@@ -390,6 +408,45 @@ function close(){
 			return false;
 		}
         
+		function test_auto(){
+			var textValue = $('#autocomplete').val();
+			$('#ff_list').show("");
+			$('#ff_list').html("");
+			
+            if(textValue==''){
+				$('#ff_list').hide();
+				return false;
+			}
+			var user = jQuery.makeArray();
+			var value_array = jQuery.makeArray();
+			var search_array = "[";
+			
+			var name="";
+			var contentBoxHtml ="";
+			$('.contactBox').each(function(index){
+				
+				
+				name = $(this).find('img:first').attr("title");
+				contentBoxHtml = $(this).html();
+				search_array =  search_array + "\"" + name+ "\"," ;
+				user[index] = [name, contentBoxHtml];
+					
+			});
+			search_array = search_array.substring(0,search_array.length - 1);
+			search_array += "]";
+			
+			$.each(user, function(index,value) {
+				if(strStartsWith(value[0],textValue)){
+					$('#ff_list').append('<div class="contactBox">'+value[1]+'</div>');
+				}
+			});
+			return false;
+		}
+		function strStartsWith(str, prefix) {
+			str = str.toLowerCase();
+			prefix = prefix.toLowerCase();
+			return str.indexOf(prefix) === 0;
+		}
         function facebookComment(){
 			if(!validateCheckedUser()){
 				return false;
@@ -536,7 +593,13 @@ function close(){
         }
 
 /**********************/
-
+	
+	var name = jQuery.makeArray();
+	var name_array = jQuery.makeArray();
+	$('.contactName').each(function(index){
+		name[index] = $(this).html();
+		alert(name[index]);
+	});
 
     </script>
 
