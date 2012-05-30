@@ -2319,3 +2319,6 @@ label.error_input_message{
     top: 50%;
     width: 30px !important;
 }
+.ui-widget-header .ui-icon {
+    background-image: none;
+}
