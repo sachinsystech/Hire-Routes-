@@ -2320,5 +2320,5 @@ label.error_input_message{
     width: 30px !important;
 }
 .ui-widget-header .ui-icon {
-    background-image: none;
+    background-image: none !important;
 }
