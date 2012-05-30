@@ -859,7 +859,7 @@ class AdminController extends AppController {
 			$userIds=$this->getRecursiveNetworkers($userIds);
 		}
 		$this->paginate=array(
-			'fields'=>'User.id, User.parent_user_id, User.account_email, 
+			'fields'=>'User.id, User.parent_user_id, User.account_email, User.created,
 				count(DISTINCT Jobseeker.id) as jobseekerCount, Networker.contact_name, 
 				Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount',
 			'recursive'=>-1,
@@ -1038,7 +1038,7 @@ class AdminController extends AppController {
 			),
 			'limit'=>10,
 			'fields'=>'Companies.user_id, Companies.contact_name, Companies.company_name, 
-				Companies.company_url, User.id, User.account_email, User.last_login,User.last_logout, 
+				Companies.company_url, User.id, User.account_email, User.created, User.last_login,User.last_logout, 
 				count(DISTINCT PaymentHistory.job_id) as jobFilled, 
 				sum(PaymentHistory.amount) as awardPaid',
 			'group'=>'Companies.user_id',
@@ -1048,6 +1048,7 @@ class AdminController extends AppController {
 		$this->Companies->virtualFields['jobFilled'] = 'count(DISTINCT PaymentHistory.job_id)';
 		$this->Companies->virtualFields['awardPaid'] = 'sum(PaymentHistory.amount)';
 		$this->Companies->virtualFields['email'] = 'User.account_email';
+		$this->Companies->virtualFields['created'] = 'User.created';
 		$employers=$this->paginate('Companies');
 		
 		$user_ids=null;

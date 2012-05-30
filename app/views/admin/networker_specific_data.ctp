@@ -88,7 +88,7 @@
 						There is no networker at this Level!
 					</div>
 				<?php else:?>
-					<div style="height:70px;float:left;">
+					<div style="height:auto;float:left;">
 						<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;">
 							<?php echo "Level $selectedLevel"?>
 							<?php $this->Paginator->options(array('url' =>array($networkerData['User']['id'])));?>
@@ -107,28 +107,31 @@
 							<div class="networkersDataEmail" style="text-align:center">
 								<?php echo $this->Paginator->sort('User','User.account_email')?>
 							</div>
-							<div class="networkersData">Level</div>
+							<div class="networkersData" style="width:50px;">Level</div>
 							<div class="networkersData">Networkers</div>
 							<div class="networkersData">
 								<?php echo $this->Paginator->sort('Jobseekers','jobseekerCount');?>
 							</div>
 							<div class="networkersDataOrigin">Origin</div>
 							<div class="networkersData">Rewards</div>
-							<div class="networkersData">
+							<div class="networkersData" style="width:50px;">
 								<?php echo $this->Paginator->sort('Job Shared','sharedJobsCount');?>
 							</div>
 							<div class="networkersData">
 								<?php echo $this->Paginator->sort('Subscription','notification');?>
 							</div>
+							<div class="networkersData">
+								<?php echo $this->Paginator->sort('Created','User.created');?>
+							</div>
 						</div>
 					</div>
 					<?php $count=1;?>
 					<?php foreach($networkersNetworkerData as $key => $networkerInfo): ?>
-						<div class="networkerDataHover <?php if($count%2==0) echo 'networkerDataBarEven'; else echo 'networkerDataBarOdd'; ?>" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
+						<div class="<?php if($count%2==0) echo 'networkerDataBarEven'; else echo 'networkerDataBarOdd'; ?> networkerDataHover" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
 							<div class="networkersDataEmail">
 								<?php echo $networkerInfo['User']['account_email'];?>
 							</div>
-							<div class="networkersData">
+							<div class="networkersData" style="width:50px;">
 								<?php echo $networkerInfo['level'];?>
 							</div>
 							<div class="networkersData">
@@ -159,7 +162,7 @@
 										);
 								?>
 							</div>
-							<div class="networkersData">
+							<div class="networkersData" style="width:50px;">
 								<?php echo $networkerInfo['0']['sharedJobsCount'];?>
 							</div>
 							<div class="networkersData">
@@ -169,6 +172,9 @@
 									else
 										echo "N";
 								?>
+							</div>
+							<div class="networkersData">
+								<?php echo $networkerInfo['User']['created'];?>
 							</div>
 						</div>
 						<?php $count++;?>

@@ -65,6 +65,9 @@
 					<div class="networkersData">
 						<?php echo $this->Paginator->sort('Subscription','notification');?>
 					</div>
+					<div class="networkersData">
+						<?php echo $this->Paginator->sort('Created','User.created');?>
+					</div>
 				</div>
 			</div>
 			<?php $count=1;?>
@@ -102,6 +105,9 @@
 						else
 							echo "N";
 					?>
+				</div>
+				<div class="networkersData">
+						<?php echo $networkerInfo['User']['created'];?>
 				</div>
 			</div>
 			<?php $count++;?>
