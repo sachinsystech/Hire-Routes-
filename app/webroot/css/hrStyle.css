@@ -2294,18 +2294,6 @@ label.error_input_message{
 	font-size: 13px;
 	width: 100%;
 }
-#ff_list{
-	background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #000000;
-    clear: both;
-    height: 221px;
-    margin-left: 4px;
-    margin-top: 63px;
-    overflow: auto;
-    position: absolute;
-    width: 525px;
-    z-index: 22000;
-}
 .ui-dialog ui-widget{
 	top:25px;
 }
@@ -2321,4 +2309,16 @@ label.error_input_message{
 }
 .ui-widget-header .ui-icon {
     background-image: none !important;
+}
+#ff_list {
+	background: none repeat scroll 0 0 white;
+	border: 1px solid black;
+	clear: both;
+	height: 221px;
+	margin-left: 3px;
+	margin-top: 55px;
+	overflow: auto;
+	position: absolute;
+	width: 525px;
+	z-index: 22000;
 }
