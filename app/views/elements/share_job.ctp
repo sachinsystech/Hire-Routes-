@@ -11,6 +11,7 @@ $(function() {
 			show: "blind",
 			hide: "explode",
             width:900,
+			closeOnEscape: false
 		});
 		$( "#opener" ).click(function() {
 			$( "#dialog" ).css( "top" ,'-50');
@@ -25,10 +26,21 @@ $(function() {
 			buttons: {
 				Ok: function() {
 					$( this ).dialog( "close" );
+					$('.ui-widget-overlay').hide();
 				}
 			}
 		});
+		$('.ui-dialog-titlebar-close').click(closeUi);
+	
 	});
+
+
+function closeUi(){
+	$('.ui-widget-overlay').hide();
+}
+
+
+
 </script>
 <?php if(isset($jobUrl)):?>
 <div><input type="hidden" id="jobUrl" value="<?php echo  $jobUrl ?>"></div>
@@ -82,13 +94,15 @@ $(function() {
 					</div>
 					<!-- Added for filter friends -->
 					<div style="padding-bottom:0px; clear:both">
-						<div style="float:left"><strong>Filter Friends:</strong></div>
+						
 						<div style="float:right">
 						<?php echo $form->input('filter_friends', array('label' => '',
 																'type'  => 'text',
 																'id'=>'autocomplete',
-																'class'=> 'subject_txt required',
-																'value'=>''
+																'class'=> 'subject_txt searchfield',
+																'value'=>'Search Friends Here...',
+																'onfocus'=>"if(this.value=='Search Friends Here...') {this.value = '';}",
+																'onblur'=>"if(this.value==''){this.value='Search Friends Here...';}"
 						));?>
 						</div>
 					</div>
@@ -96,7 +110,7 @@ $(function() {
 					<!-- End -->
 					<div id='other' style="padding-bottom:0px; clear:both">
 					</div>
-					<div style="padding-bottom:0px; clear:both">
+					<div style="padding-bottom:0px; clear:both;margin-top: 16px;">
 
 						<div style='float:left;'>
 							<?php echo $form->button('Clear', array('label' => '',
@@ -135,25 +149,46 @@ $(function() {
 function showView(type){
     $("#share").unbind();
 	$("#autocomplete").unbind();
+	$("#autocomplete").hide();
 	$("#opener").click();
+	$('.ui-dialog-titlebar-close').click(closeUi);
+	$('.ui-widget-overlay').remove();
+	$('#container').after("<div class='ui-widget-overlay' style='width: 1350px; height: 779px; z-index: 1001;'></div>");
+	
     switch(type){
         case 1:
             setView('Facebook');
+			$('.s_w_e').hide();
             fillFacebookFriend();
-            $("#share").click(facebookComment);
+			$("#share").click(facebookComment);
+			$('#autocomplete').val('Search Friends Here...');
+			$('#ff_list').hide();
+			$('#ff_list').html('');
 			$("#autocomplete").keyup(test_auto);
             break;
         case 2:
             setView('LinkedIn');
+			$('.s_w_e').hide();
             fillLinkedinFriend();
             $("#share").click(linkedInComment);
+			$('#autocomplete').val('Search Friends Here...');
+			$('#ff_list').hide();
+			$('#ff_list').html('');
+			$("#autocomplete").keyup(test_auto);
             break;
         case 3:
             setView('Twitter');
+			$('.s_w_e').hide();
 			fillTwitterFriend();
             $("#share").click(TwitterComment);
+			$('#autocomplete').val('Search Friends Here...');
+			$('#ff_list').hide();
+			$('#ff_list').html('');
+			$("#autocomplete").keyup(test_auto);
             break;
         case 4:
+			$('#ff_list').hide();
+			$('#imageDiv').hide();
             setView('Email');
 			$("#share").click(shareEmail);
             break;
@@ -174,7 +209,7 @@ function setView(value)
 	else
 	{	
 		$('#to').html("");
-		$('#other').html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox'/></div><div id='filtered_friend'></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>");
+		$('#other').html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right' class='s_w_e'>Share with everyone<input style='float:right'type='checkbox'/></div><div id='filtered_friend'></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>");
 		$('#imageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="sharejob_ajax_loader"/></p>');
 	}
 	return false;
@@ -225,7 +260,7 @@ function createHTMLforFillingFriends(friends){
    for(i=0;i<length;i++){
 	   html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img width="50" height="50" src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox"></div></div><div class="contactName">'+((friends[i].name.split(" ",2)).toString()).replace(","," ")+'</div></div>';
    }
-   $("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong>Share with:</strong></div><div style='float:right'><strong>Share with everyone</strong><input style='float:right'type='checkbox' onclick='var flag=this.checked; $(\".facebookfriend\").each(function(){ this.checked = flag; });'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>"+html+"</div>");
+   $("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right'  class='s_w_e'>Share with everyone<input style='float:right'type='checkbox' onclick='var flag=this.checked; $(\".facebookfriend\").each(function(){ this.checked = flag; });'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>"+html+"</div>");
 }
 
 </script>
@@ -241,7 +276,8 @@ function close(){
 
         function fillFacebookFriend(){
             //get list of facebook friend from ajax request
-			$('#imageDiv').html('<p><img src="/images/fbloader.gif" class="sharejob_ajax_loader"/></p>');
+			$('#imageDiv').html('<p class="sharejob_ajax_loader"><img src="/images/fbloader.gif" width="50px" />'+
+								'<img src="/images/fb_loading.gif" /></p>');
 			$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
             $.ajax({
                 type: 'POST',
@@ -251,13 +287,22 @@ function close(){
                    switch(response.error){
                         case 0: // success
                             createHTMLforFillingFriends(response.data);
+							test_auto();
+							$("#autocomplete").show();
+							$("#imageDiv").css({visibility: "hidden"});
+
                             break;
                         case 1: // we don't have user's facebook token
                             alert(response.message);
 							window.open(response.URL);
                             break;
-                        case 2: // something went wrong when we connect with facebook.Need to login by facebook 
-                            $( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin");
+                        case 2: // something went wrong when we connect with facebook.Need to login by facebook
+							if(response.message){
+								$( "#dialog-message" ).html(response.message);
+							}
+                            else{
+								$( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin");
+							}	
                             $( "#dialog-message" ).dialog("open");
 							$( "#dialog" ).dialog( "close" );
                             break;
@@ -278,7 +323,8 @@ function close(){
 /****************************	2). Fill Linkedin Friends	******************************/
        
 	   function fillLinkedinFriend(){
-		   	$('#imageDiv').html('<p><img src="/images/liloader.gif" width="50px" height="50px" class="sharejob_ajax_loader"/></p>');
+		   	$('#imageDiv').html('<p class="sharejob_ajax_loader"><img src="/images/liloader.gif" width="50px" />'+
+								'<img src="/images/li_loading.gif" /></p>');
 		   	$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
             $.ajax({
                 type: 'POST',
@@ -288,6 +334,9 @@ function close(){
                    switch(response.error){
                         case 0: // success
                             createHTMLforFillingFriends(response.data);
+							test_auto();
+							$("#autocomplete").show();
+							$("#imageDiv").css({visibility: "hidden"});
                             break;
                         case 1: // we don't have user's linked token
                             alert(response.message);
@@ -322,7 +371,8 @@ function close(){
 /****************************	3). Fill Twitter Friends	******************************/
       
 	   function fillTwitterFriend(){
-		   	$('#imageDiv').html('<p><img src="/images/twitterLoader.gif" width="42px" height="60px" class="sharejob_ajax_loader"/></p>');
+			$('#imageDiv').html('<p class="sharejob_ajax_loader"><img src="/images/twitterLoader.gif" width="50px" />'+
+								'<img src="/images/li_loading.gif" /></p>');
 		   	$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
             $.ajax({
                 type: 'POST',
@@ -332,6 +382,9 @@ function close(){
                    switch(response.error){
                         case 0: // success
                             createHTMLforFillingFriends(response.data);
+							test_auto();
+							$("#autocomplete").show();
+							$("#imageDiv").css({visibility: "hidden"});
 							break;
                         case 1: // we don't have user's twitter token
                             alert(response.message);
@@ -413,27 +466,27 @@ function close(){
 			$('#ff_list').show("");
 			$('#ff_list').html("");
 			
-            if(textValue==''){
-				$('#ff_list').hide();
+            if(textValue=='' || textValue=='Search Friends Here...'){
+				$('#ff_list').html($('#imageDiv').html());
 				return false;
 			}
 			var user = jQuery.makeArray();
 			var value_array = jQuery.makeArray();
-			var search_array = "[";
+			//var search_array = "[";
 			
 			var name="";
 			var contentBoxHtml ="";
 			$('.contactBox').each(function(index){
 				
-				
 				name = $(this).find('img:first').attr("title");
+				alert(name);
 				contentBoxHtml = $(this).html();
-				search_array =  search_array + "\"" + name+ "\"," ;
+				//search_array =  search_array + "\"" + name+ "\"," ;
 				user[index] = [name, contentBoxHtml];
 					
 			});
-			search_array = search_array.substring(0,search_array.length - 1);
-			search_array += "]";
+			//search_array = search_array.substring(0,search_array.length - 1);
+			//search_array += "]";
 			
 			$.each(user, function(index,value) {
 				if(strStartsWith(value[0],textValue)){
