@@ -56,10 +56,10 @@ function login_status($l1,$l2){
 			<div style="width:300px;float:left;">
 				Employer
 			</div>
-			<div class="networkersData">
+			<div class="networkersData" style="width:50px;" >
 				Job posted
 			</div>
-			<div class="networkersData">
+			<div class="networkersData" style="width:50px;">
 				<?php echo $this->Paginator->sort('Job Filled','jobFilled');?>
 			</div>
 			<div class="networkersData" style="width:100px;">
@@ -67,6 +67,9 @@ function login_status($l1,$l2){
 			</div>
 			<div class="networkersData" style="width:100px;">
 				<?php echo $this->Paginator->sort('Award Paid','awardPaid');?>
+			</div>
+			<div class="networkersData" style="width:100px;">
+				<?php echo $this->Paginator->sort('Created','created');?>
 			</div>
 		</div>
 		<?php
@@ -86,10 +89,10 @@ function login_status($l1,$l2){
 				<div><?php echo $employer['User']['account_email']; ?></div>
 				<span style="margin-left:17px"><?php echo "<a href='".$employer['Companies']['company_url']."' >".$employer['Companies']['company_url']."</a>";?></span>
 			</div>
-			<div class="networkersData" style="text-align:center">
+			<div class="networkersData" style="width:50px;text-align:center">
 				<?php echo $employer['0']['jobPosted']; ?>&nbsp;
 			</div>
-			<div class="networkersData" style="text-align:center">
+			<div class="networkersData" style="width:50px;text-align:center">
 				<?php echo $employer['0']['jobFilled']; ?>&nbsp;
 			</div>
 			<div class="networkersData" style="width:100px;text-align:right">
@@ -113,6 +116,9 @@ function login_status($l1,$l2){
 												);
 				?>
 				&nbsp;
+			</div>
+			<div class="networkersData" style="width:100px;text-align:center">
+				<?php echo $employer['User']['created'];?>
 			</div>
 		</div>
 		<?php
