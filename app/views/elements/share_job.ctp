@@ -479,7 +479,6 @@ function close(){
 			$('.contactBox').each(function(index){
 				
 				name = $(this).find('img:first').attr("title");
-				alert(name);
 				contentBoxHtml = $(this).html();
 				//search_array =  search_array + "\"" + name+ "\"," ;
 				user[index] = [name, contentBoxHtml];
