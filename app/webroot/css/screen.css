@@ -886,6 +886,7 @@ div.message{
 
 	line-height: 0px;
 	margin: 20px auto 0 auto;
+
 	width: 140px;
 	}
 .showhide-account	{
@@ -976,6 +977,22 @@ Copyright (c) 2005-2007 Stu Nicholls. All rights reserved. This stylesheet and t
 	margin: 0;
 	padding: 0;
 	}
+.nav li	ul{
+	display:none;
+	}
+.nav li:hover ul{
+	display:block;
+	position:absolute;
+	background: url(/img/admin/repeat.jpg);
+	list-style:none;
+}
+
+.nav li:hover li, .nav li:hover li a, .nav li:hover li a b{
+	width:120px;
+	clear:both;
+	background:none !important;
+}
+
 .nav .select a	{
 	color: #fff;
 	display: block;
@@ -1969,11 +1986,11 @@ div .networkerData{
 	overflow:auto;
 	margin:auto;
 	padding:10px;
-	width:987px;
+	width:937px;
 }
 
 div .levelInfo{
-	width:200px;
+	width:150px;
 	height:auto;
 	overflow:auto;
 	float:left;
@@ -2010,7 +2027,7 @@ div .levelDataActiveBar{
 .levelHeading{
 	font-weight:bold;
 	font-size:20px;
-	width:98px;
+	width:73px;
 	float:left;
 	padding-top:8px;
 	padding-left:2px;
@@ -2018,7 +2035,7 @@ div .levelDataActiveBar{
 
 .levelData{
 	font-size:16px;
-	width:98px;
+	width:73px;
 	float:left;
 	padding-top:8px;
 	padding-left:2px;
@@ -2124,7 +2141,7 @@ div .NSData{
 	overflow:auto;
 	margin:auto;
 	padding:10px;
-	width:1007px;
+	width:957px;
 }
 
 div .NSInfo{
