@@ -2336,11 +2336,13 @@ label.error_input_message{
     padding: 6px 6px 6px 8px;
     position: absolute;
     width: 207px;
+    background-repeat: no-repeat;
+	background-position: right center, right center;
 }
 #imageDiv{
 	border:none !important;
 }
 
 .ui-dialog{
-	top:10px !important;
+	top:26px !important;
 }

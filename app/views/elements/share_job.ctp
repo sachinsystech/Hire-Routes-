@@ -164,7 +164,7 @@ function showView(type){
 			$('#autocomplete').val('Search Friends Here...');
 			$('#ff_list').hide();
 			$('#ff_list').html('');
-			$("#autocomplete").keyup(test_auto);
+			$("#autocomplete").keyup(filterFriendList);
             break;
         case 2:
             setView('LinkedIn');
@@ -174,7 +174,7 @@ function showView(type){
 			$('#autocomplete').val('Search Friends Here...');
 			$('#ff_list').hide();
 			$('#ff_list').html('');
-			$("#autocomplete").keyup(test_auto);
+			$("#autocomplete").keyup(filterFriendList);
             break;
         case 3:
             setView('Twitter');
@@ -184,7 +184,7 @@ function showView(type){
 			$('#autocomplete').val('Search Friends Here...');
 			$('#ff_list').hide();
 			$('#ff_list').html('');
-			$("#autocomplete").keyup(test_auto);
+			$("#autocomplete").keyup(filterFriendList);
             break;
         case 4:
 			$('#ff_list').hide();
@@ -287,7 +287,7 @@ function close(){
                    switch(response.error){
                         case 0: // success
                             createHTMLforFillingFriends(response.data);
-							test_auto();
+							filterFriendList();
 							$("#autocomplete").show();
 							$("#imageDiv").css({visibility: "hidden"});
 
@@ -334,7 +334,7 @@ function close(){
                    switch(response.error){
                         case 0: // success
                             createHTMLforFillingFriends(response.data);
-							test_auto();
+							filterFriendList();
 							$("#autocomplete").show();
 							$("#imageDiv").css({visibility: "hidden"});
                             break;
@@ -382,7 +382,7 @@ function close(){
                    switch(response.error){
                         case 0: // success
                             createHTMLforFillingFriends(response.data);
-							test_auto();
+							filterFriendList();
 							$("#autocomplete").show();
 							$("#imageDiv").css({visibility: "hidden"});
 							break;
@@ -461,8 +461,9 @@ function close(){
 			return false;
 		}
         
-		function test_auto(){
+		function filterFriendList(){
 			var textValue = $('#autocomplete').val();
+			var user = jQuery.makeArray();
 			$('#ff_list').show("");
 			$('#ff_list').html("");
 			
@@ -470,30 +471,27 @@ function close(){
 				$('#ff_list').html($('#imageDiv').html());
 				return false;
 			}
-			var user = jQuery.makeArray();
-			var value_array = jQuery.makeArray();
-			//var search_array = "[";
 			
-			var name="";
-			var contentBoxHtml ="";
 			$('.contactBox').each(function(index){
-				
 				name = $(this).find('img:first').attr("title");
 				contentBoxHtml = $(this).html();
-				//search_array =  search_array + "\"" + name+ "\"," ;
-				user[index] = [name, contentBoxHtml];
-					
+				checkedValue = 0;
+				if($(this).find('input:checkbox:first').is(':checked')){
+					checkedValue = $(this).find('input:checkbox:first').attr("value");
+				}
+				user[index] = [name, contentBoxHtml,checkedValue];
 			});
-			//search_array = search_array.substring(0,search_array.length - 1);
-			//search_array += "]";
 			
-			$.each(user, function(index,value) {
-				if(strStartsWith(value[0],textValue)){
-					$('#ff_list').append('<div class="contactBox">'+value[1]+'</div>');
+			$.each(user, function(index,userArray) {
+				if(strStartsWith(userArray[0],textValue)){
+					$('#ff_list').append('<div class="contactBox">'+userArray[1]+'</div>');
 				}
 			});
 			return false;
 		}
+		
+		
+		
 		function strStartsWith(str, prefix) {
 			str = str.toLowerCase();
 			prefix = prefix.toLowerCase();
