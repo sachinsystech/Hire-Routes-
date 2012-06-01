@@ -321,7 +321,6 @@ input[type=checkbox] {
 
 div.checkbox{
     margin-top:4px;
-    overflow:auto;
 }
 
 div.checkbox label {

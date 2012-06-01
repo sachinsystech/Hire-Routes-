@@ -77,7 +77,7 @@
 												);?>
 					</div>
 					<div class="data">
-						<?php $status=array(0=>'Archived', 1=>'Activted', 2=>'Deleted', 3=>'Unpublished');?>
+						<?php $status=array(0=>'Archived', 1=>'Activated', 2=>'Deleted', 3=>'Unpublished');?>
 						<?php echo $status[$job['Job']['is_active']];?>
 					</div>
 				</div>

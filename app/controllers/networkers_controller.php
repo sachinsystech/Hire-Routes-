@@ -168,10 +168,71 @@ class NetworkersController extends AppController {
     		$this->Session->setFlash('You have declined the request!', 'warning');
     		$this->redirect('/networkers/addContacts');
     	}
+    	
 		if(isset($this->params['url']['code'])){
-			$GmailContacts = $this->getGmailContacts($this->params['url']['code']);
-			$this->set('GmailContacts',$GmailContacts);
+			$GmailContacts = $this->personal();
+			$gmailContactsArray=array();
+			if(isset($GmailContacts) && !empty($GmailContacts)){
+				foreach($GmailContacts as $key=>$value){
+					$email = $value['NetworkerContact']['contact_email'];
+					$gmailContactsArray[$email]=$email;
+				}
+				$this->set('GmailContacts',$gmailContactsArray);
+				return;
+			}
+			$this->set('GmailContacts',$gmailContactsArray);
+		}
+		
+		if(isset($this->data['gmailContact']['addGmailContact']) && empty($this->data['gmailContact']['addGmailContact'])){
+			$this->Session->setFlash('Please select contects.', 'error');	
+			$this->redirect('/networkers/addContacts');	
 		}	
+		if(isset($this->data['gmailContact']['addGmailContact']) && !empty($this->data['gmailContact']['addGmailContact'])){
+			$userId = $this->_getSession()->getUserId();
+			$this->data['gmailContact'] = $this->Utility->stripTags($this->data['gmailContact']['addGmailContact']);
+			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
+			$matchEmail = $this->NetworkerContact->find('all',array('conditions'=>array(
+																	'NetworkerContact.user_id'=>$userId,
+																	"or"=>array('NetworkerContact.contact_email'=>$this->data['gmailContact']),
+														)
+														));
+			$flag=true;
+			$duplicate_count=0;
+			$added_count=0;
+			$dataArray= array();
+			foreach($this->data['gmailContact'] as  $key=>$value){
+				foreach ($matchEmail as $item) {
+					if($item['NetworkerContact']['contact_email'] == $value){
+						$flag=false;
+						$duplicate_emails[] = $value;	
+						$duplicate_count++;
+					}
+				}
+				if($flag){
+					$dataArray[$key]['contact_email'] =$value;
+					$dataArray[$key]['user_id'] =$userId;
+					$dataArray[$key]['networker_id'] =$user['Networkers'][0]['id'];
+					$added_count++;
+				}
+				$flag=true;
+			}
+			$added_count_msg = "0 contacts added";
+			$duplicate_count_msg = "0 duplicate contacts found";
+			if($added_count>0){
+				$added_count_msg = " $added_count contacts added.";	
+			}
+			if($duplicate_count>0){
+				$duplicate_count_msg = "$duplicate_count duplicate contacts found.";
+			}
+			if(!empty($dataArray) && $this->NetworkerContact->saveAll($dataArray)){
+				$this->Session->setFlash("You contacts has been added successfully ".$added_count_msg." ".$duplicate_count_msg, 'success');	
+			}else if($duplicate_count == count($this->data['gmailContact'])){
+				$this->Session->setFlash("You contacts has been added successfully ".$added_count_msg." ".$duplicate_count_msg, 'success');	
+			}else{
+				$this->Session->setFlash("you may be click on old link and enter manually.", 'error');	
+			}
+			$this->redirect('/networkers/personal');			
+		}
 		
 		if(isset($this->data['Contact'])){
 			$userId = $this->_getSession()->getUserId();
@@ -314,6 +375,7 @@ class NetworkersController extends AppController {
         $this->set('contacts',$contacts);
         $this->set('contact',null);
         $this->set('startWith',$startWith);
+        return $contacts;
 	}
 	
 	/*	show personal contact to Edit..	*/
