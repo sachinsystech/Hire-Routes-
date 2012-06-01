@@ -53,7 +53,7 @@
 					
 					<?php if(isset($networker['university'])): ?>
 					<div class="setting_profile_row">
-						<div class="setting_profile_field">university:</div>
+						<div class="setting_profile_field">University:</div>
 						<div class="setting_profile_value"><?php echo $networker['university'];?></div>
 					</div>
 					<?php endif;?>
