@@ -376,7 +376,6 @@ class NetworkersController extends AppController {
         $this->set('contacts',$contacts);
         $this->set('contact',null);
         $this->set('startWith',$startWith);
-        return $contacts;
 	}
 	
 	/*	show personal contact to Edit..	*/
