@@ -170,7 +170,16 @@ class NetworkersController extends AppController {
     	}
 		if(isset($this->params['url']['code'])){
 			$GmailContacts = $this->getGmailContacts($this->params['url']['code']);
-			$this->set('GmailContacts',$GmailContacts);
+			$GmailContactsArray  = array();
+			
+			foreach($GmailContacts as $GmailContact){
+				$email = $GmailContact->attributes()->address;
+				$email = (string)$email;
+				if(isset($email)){
+					$GmailContactsArray[$email] = $email;
+				}
+			}
+			$this->set('GmailContacts',$GmailContactsArray);
 		}	
 		
 		if(isset($this->data['Contact'])){
