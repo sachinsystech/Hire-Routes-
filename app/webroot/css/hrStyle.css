@@ -2102,7 +2102,7 @@ ul a.menu_item{
     width: 387px;
 }
 .sharejob_ajax_loader{
-	margin:80px 225px;
+	margin:76px 221px;
 }
 .email_msg_txtarear{
     border: 1px solid;
@@ -2288,4 +2288,60 @@ label.error_input_message{
     margin-right: 20px;
     padding: 0;
     width: 90%;
+}
+#ShareJobForm{
+	font-size: 13px;
+	width: 100%;
+}
+.ui-dialog ui-widget{
+	top:25px;
+}
+.ui-dialog .ui-dialog-titlebar-close {
+	background: url("../images/dialog-close.png") repeat scroll 0 0 transparent;
+    height: 30px !important;
+    margin: -16px 0 0 !important;
+    padding: 1px;
+    position: absolute;
+    right: 0.3em;
+    top: 50%;
+    width: 30px !important;
+}
+.ui-widget-header .ui-icon {
+    background-image: none !important;
+}
+#ff_list {
+	background: none repeat scroll 0 0 white;
+	border: 1px solid black;
+	clear: both;
+	height: 220px;
+	margin-left: 3px;
+	margin-top: 55px;
+	overflow: auto;
+	position: absolute;
+	width: 525px;
+	z-index: 22000;
+}
+.searchfield {
+    -moz-border-radius: 2em 2em 2em 2em;
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+    border-radius: 2em;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) inset;
+	border: 1px solid #BCBBBB;
+    clear: both;
+    height: 12px;
+    margin-left: -536px;
+    margin-top: 14px;
+    outline: medium none;
+    padding: 6px 6px 6px 8px;
+    position: absolute;
+    width: 207px;
+    background-repeat: no-repeat;
+	background-position: right center, right center;
+}
+#imageDiv{
+	border:none !important;
+}
+
+.ui-dialog{
+	top:26px !important;
 }

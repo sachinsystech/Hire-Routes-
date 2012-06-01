@@ -36,6 +36,7 @@
 		echo $this->Html->css('cake.generic');
 		echo $this->Html->css('hrStyle');
 		echo $this->Html->css('jquery_accordion');
+		echo $this->Html->css('jquery-ui');
 		
 
 		echo $html->script('hr.js');

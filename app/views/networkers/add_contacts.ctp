@@ -167,6 +167,7 @@ function importFromGmail(){
 		  
 		  
 	?>
+
 	</div>
 	<div style="clear:both;margin: 7px 23px;">
 		<input type="submit" style="font-size:10px;font-weight:bold;width:90px;float:right;margin:3px;"

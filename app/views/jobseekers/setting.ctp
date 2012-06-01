@@ -160,9 +160,11 @@ div .checkbox{
 																  'min' =>1000,
 																  'value' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>
 					<div>
-						<b>Subscription Frequency:</b><p>
-						<div style="float:left;width: 600px;">
-							<?php if(isset($jobseekerData['notification']) && $jobseekerData['notification']==1){?>
+						<div style="float:left;margin-right:15px;">
+							<b>Job notifications by email for</b>
+						</div>
+						<div style="float:left;width:375px;">
+							<?php /*if(isset($jobseekerData['notification']) && $jobseekerData['notification']==1){?>
 							<?php echo $form->input('notification', array('label' => '',
 																          'type'  => 'checkbox',
 																		  'class' => '',
@@ -174,10 +176,12 @@ div .checkbox{
 																          'class' => '',));?>
 							<?php }?>
 							<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email based on my information:<span>
-							<div style="float:right;margin-top: -12px;width: 129px;">
+							<?php */?>
+							<div style="float:left;margin-top: -12px;width: 129px;">
 							<?php $emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
 								<?php echo $form -> input('subscribe_email',array('type'=>'select',
 																              'label'=>'',
+																              //'empty'=>'Select',
 																              'options'=>$emil_post_array,
 																              'class'=>'networker_select_job_notify',
 																              'selected' => isset($jobseekerData['subscribe_email'])?$jobseekerData['subscribe_email']:""));?>

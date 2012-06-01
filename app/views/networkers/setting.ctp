@@ -24,11 +24,11 @@ div .checkbox{
 
 	function check_email_subs(){
 		var sel_val = $("#NetworkersSubscribeEmail").val();
-		if (!$('#NetworkersNotification').attr('checked')) {
+		/*if (!$('#NetworkersNotification').attr('checked')) {
 			$("#email_setting").removeClass().addClass("js_terms-condition-error").html("Please Check for email notifications.*");
 			return false;
-		}
-		if ($('#NetworkersNotification').attr('checked') && sel_val=='') {
+		}*/
+		if (/*$('#NetworkersNotification').attr('checked') && */sel_val=='') {
 			$("#email_setting").removeClass().addClass("js_terms-condition-error").html("Please Select Email Settings for Job Notifications*");
 			return false;
 		}
@@ -151,7 +151,7 @@ div .checkbox{
 					
 				
 				
-				<div class="form_content">
+				<div class="form_content" style="border:1px solid #cccccc;width:615px;">
 				 <?php echo $form->create('', array('name'=>'Subscriptions','controller'=>'networkers','action' => 'sendNotifyEmail','onsubmit'=>'return check_email_subs();')); ?>
 				
 					<div>
@@ -162,19 +162,21 @@ div .checkbox{
 																	)
 														 );?>
 						<div style="float:left;width:610px;">	
-							<?php echo $form->input('notification', array('label' => '',
+							<?php /*echo $form->input('notification', array('label' => '',
 																          'type'  => 'checkbox',
 																		  'class' => '',
 																		  'checked' => isset($SubscriptionData['notification'])?$SubscriptionData['notification']:"checked",
 																		  'value' => isset($SubscriptionData['notification'])?$SubscriptionData['notification']:""));?>
 							<span style="float:left;margin:4px;margin-left:1px;">I would like to receive job notifications by email based on my information:</span>
-							<?php $emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
-								<?php echo $form -> input('subscribe_email',array('type'=>'select',
+							<?php */$emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
+							<span style="float:left;margin:4px;margin-right:10px;margin-left:1px;">Job notifications by email for:</span>
+							<?php echo $form -> input('subscribe_email',array('type'=>'select',
 																              'label'=>'',
+																              //'empty'=>'Select',
 																              'options'=>$emil_post_array,
 																              'class'=>'networker_select_job_notify',
 																              'selected' => isset($SubscriptionData['subscribe_email'])?$SubscriptionData['subscribe_email']:""));?>
-							<div id="email_setting" style="padding-left:400px;"></div>
+							<div id="email_setting" style="margin-left:0px;"></div>
 						</div>
 						<div>
 							<?php echo $form->submit('Save Notification');?>
