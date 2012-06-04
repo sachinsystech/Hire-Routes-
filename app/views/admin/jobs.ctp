@@ -3,6 +3,7 @@
 	 *	Job data page
 	 */
 ?>
+<div id="page-heading"><h1>Jobs</h1></div>
 <div class='dataBorder'>
 	<div class="JSJobData">
 		<div style="padding:1px;float:left;">
@@ -48,7 +49,7 @@
 				<?php if($sn++ % 2 == 0) $class='even'; else $class='odd';?>
 				<div class="JSJobDataBar <?php echo $class;?>">
 					<div class="job">
-						<?php echo "<a href=#>".ucfirst($job['Job']['title'])."</a></br>";?>
+						<?php echo $html->link(ucfirst($job['Job']['title']),array('action'=>'jobSpecificData',$job['Job']['id']))."</br>";?>
 						<?php 
 							echo !empty($job['Specification']['name'])? $job['Specification']['name'].", ":"";
 							echo $job['Industry']['name']."</br>";

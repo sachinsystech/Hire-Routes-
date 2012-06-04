@@ -36,6 +36,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('employerLoginStatus');
 		$this->Auth->allow('processCompanyRequest');
 		$this->Auth->allow('jobs');
+		$this->Auth->allow('jobSpecificData');
 
 		$this->layout = "admin";
 	}
@@ -1189,7 +1190,7 @@ class AdminController extends AppController {
 			    $this->redirect("/admin/rewardPayment");
 			}
 		}else{
-			$this->Session->setFlash("You may be clicked on old link or entered manually.","error");				
+			$this->Session->setFlash("You may be clicked on old link or entered manually.","error");
 			$this->redirect("/admin/rewardPayment");
 		}
 	}	
@@ -1318,6 +1319,83 @@ class AdminController extends AppController {
 		$jobs=$this->paginate('Job');
 		$this->set('sortBy',$sortBy);
 		$this->set('jobs',$jobs);		
+	}
+	
+	function jobSpecificData(){
+		if(isset($this->params['id'])){
+			$jobData=$this->Job->find(
+				'first',array(
+					'conditions'=>array('Job.id'=>$this->params['id']),
+					'recursive'=>'-1',
+					'joins'=>array(
+						array(
+							'table'=>'industry',
+							'alias'=>'Industry',
+							'type'=>'LEFT',
+							'conditions'=>'Industry.id = Job.industry'
+						),
+						array(
+							'table'=>'specification',
+							'alias'=>'Specification',
+							'type'=>'LEFT',
+							'conditions'=>'Specification.id=Job.specification'
+						),
+						array(
+							'table'=>'cities',
+							'alias'=>'City',
+							'type'=>'LEFT',
+							'conditions'=>'City.id=Job.city'
+						),
+						array(
+							'table'=>'states',
+							'alias'=>'State',
+							'type'=>'LEFT',
+							'conditions'=>'State.id=Job.state'
+						),
+						array(
+							'table'=>'companies',
+							'alias'=>'Company',
+							'type'=>'LEFT',
+							'conditions'=>'Company.user_id=Job.user_id'
+						),
+						array(
+							'table'=>'job_views',
+							'alias'=>'JobView',
+							'type'=>'LEFT',
+							'conditions'=>'JobView.job_id = Job.id'
+						),
+						array(
+							'table'=>'networkers',
+							'alias'=>'Networker',
+							'type'=>'LEFT',
+							'conditions'=>'Networker.user_id = JobView.user_id'
+						),
+						array(
+							'table'=>'jobseekers',
+							'alias'=>'Jobseeker',
+							'type'=>'LEFT',
+							'conditions'=>'Jobseeker.user_id = JobView.user_id'
+						),
+						array(
+							'table'=>'shared_jobs',
+							'alias'=>'JobShared',
+							'type'=>'LEFT',
+							'conditions'=>'JobShared.job_id = Job.id'
+						),array(
+							'table'=>'jobseeker_apply',
+							'alias'=>'JobApplied',
+							'type'=>'LEFT',
+							'conditions'=>'JobApplied.job_id = Job.id'
+						),
+					),
+					'fields'=>'Job.*,Company.company_name, Industry.name, Specification.name, City.city, State.state, count(DISTINCT JobView.id) AS jobViews, count(DISTINCT JobShared.id) AS sharedJobs, count(DISTINCT JobApplied.id) AS appliedJobs, count(DISTINCT Networker.id) AS networkerViews, count(DISTINCT Jobseeker.id) as jobseekerViews'
+				)
+			);
+			$this->set('jobData',$jobData);
+		}else{
+			$this->Session->setFlash("You may be clicked on old link or entered manually.","error");
+			$this->redirect("/admin/Jobs");
+		}
 	}
 }
 

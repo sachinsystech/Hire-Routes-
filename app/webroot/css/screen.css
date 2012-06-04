@@ -1977,6 +1977,7 @@ div .dataBorder{
 	height:auto;
 	overflow:auto;
 	margin-bottom:5px;
+	padding:10px;
 	border:1px solid #cccccc;
 	-moz-border-radius: 15px 15px 15px 15px;
 }
@@ -2549,3 +2550,57 @@ div .JSJobProfile{
 fieldset{
 	border: 1px solid #000000;
 }
+
+/**** Job Specific Data ****/
+
+.jobDetail{
+	width:410px;
+	margin:auto;
+	padding:10px;
+	border:1px solid #cccccc;
+}
+
+.jobTitle{
+	font-size:16px;
+	font-weight:bold;
+	color:orange;
+}
+
+.jobRowHeading{
+	float:left;
+	width:110px;
+	font-weight:bold;
+}
+
+.jobRowData{
+	float:left;
+	width:300px;
+}
+
+.jobViewData{
+	width:410px;
+	margin:auto;
+	padding:10px;
+	clear:both;
+	height:auto;
+	overflow:auto;
+	border:1px solid #cccccc;
+	margin-top:10px;
+}
+
+.jobViewHeading{
+	font-size:16px;
+}
+
+.JVSpecificaion{
+	float:left;
+	width:60px;
+	font-weight:bold;
+}
+
+.JVData{
+	float:left;
+	width:65px;
+}
+
+/**********************/
