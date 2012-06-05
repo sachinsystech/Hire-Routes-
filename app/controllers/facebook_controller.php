@@ -103,8 +103,16 @@
                 try{
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array('message'=>$message,'access_token' =>$User['User']['facebook_token']));
                     $shareJobData['job_id'] = $jobId;
-                	$shareJobData['user_id'] = $userId;
-                	$this->SharedJob->save($shareJobData);
+                    $sharedJobExits=$this->SharedJob->find('first',array('conditions'=>array(
+    									'job_id'=>$jobId,	
+				    					'user_id'=>$userId,	
+				    					)
+						));
+					if(empty($sharedJobExits)){
+		            	$shareJobData['user_id'] = $userId;
+						$this->SharedJob->save($shareJobData);	
+					}
+		           	//$this->SharedJob->save($shareJobData);
                 	return json_encode(array('error'=>0));
                 }catch(Exception $e){
                     return json_encode(array('error'=>1));      

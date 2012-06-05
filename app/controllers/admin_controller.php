@@ -585,10 +585,13 @@ class AdminController extends AppController {
                 11 => 'Nov',
                 12 => 'Dec'
                 );
-		
-		foreach($graphData as $kuch_v){
-			$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+		$gdarray=array();
+		if(!empty($graphData)){
+			foreach($graphData as $kuch_v){
+				$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+			}
 		}
+
 		$result = array();
 		foreach($months as $k=>$v){
 			if(in_array($k,array_keys($gdarray))){

@@ -282,11 +282,8 @@
 							
 							</td> 
 							<td>
-								<?php if(login_status($user['last_login'],$user['last_logout'])):?>
-									<img src="/images/login.png">
-								<?php  else: ?>
-										<img src="/images/logout.png">
-								<?php endif;?>
+								<div class="employerLoginStatusBar" style="float:left;margin-top:2px" id="<?php echo "user_".$user['id'];?>" idfield="<?php echo $user['id']; ?>">	
+								</div>
 								<?php echo ucfirst($user['contact_name']);?></td> 
 							<td><?php echo $user['account_email']?></td>
 							<td style="text-align:center;"> <?php echo $user['role'];?> </td> 
@@ -332,32 +329,73 @@
 </table>
 	<?php echo $form->end();?>	
 	
-	
-<?php
+<script>
 
-function login_status($l1,$l2){
-	$status = false;
-	if($l1==null){
-		return $status;
+function login_status(l1,l2){
+	status = 0;
+	var currentTime =new Date();
+	currentTime = currentTime.getTime()/1000;
+	
+	if(l1==false){
+		return status;
 	}
 	else{
-		if($l2==null){
-			if((strtotime(date('Y:m:d H:i:s'))-strtotime($l1))<=20*60){
-				$status = true;
-				return $status;
+		if(l2==false){
+			if((currentTime-l1)<=20*60){
+				status = 1;
+				return status;
 			}
 			else{
-				return $status;
+				return status;
 			}
 		}
-		if((strtotime($l2)-strtotime($l1))>0){
-			return $status;
+		if((l2-l1)>0){
+			return status;
 		}
-		if((strtotime(date('Y:m:d H:i:s'))-strtotime($l1))<=20*60){
-			$status = true;
-			return $status;
+		if((currentTime-l1)<=20*60){
+			status = 1;
+			return status;
 		}
+		else{
+			return status;
+		}
+		
 	}
 }	
 
-?>
+function reloadLoginStatus() {
+	var ids = jQuery.makeArray();
+	var user_ids = jQuery.makeArray();
+	$('.employerLoginStatusBar').each(function(index){
+		ids[index] = $(this).attr('idfield');
+		user_ids[index] = $(this).attr('id');
+	});
+	$.ajax({
+		url:"/admin/employerLoginStatus/",
+		type:"post",
+		dataType:"json",
+		async:false,
+		data: {ids:ids},
+		success:function(response){
+			response['data'];
+			$.each(response['data'], function(index,value) {
+				x = login_status(value['last_login'],value['last_logout']);
+				if(x==1){
+					$("#user_"+index).html('<img src="/images/login.png">');
+				}
+				else{
+					$("#user_"+index).html('<img src="/images/logout.png">');
+				}
+            });
+		}		
+		
+	});
+	setInterval('reloadLoginStatus()',30*1000);
+}
+reloadLoginStatus();
+
+setTimeout(function(){
+   window.location.reload(1);
+}, 1000*60*2);
+
+</script>

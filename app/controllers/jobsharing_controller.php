@@ -35,8 +35,15 @@ class JobsharingController extends AppController {
 			if($this->sendEmail($to,$subject,$template,$messageBody)){
 				$shareJobData['job_id'] = $jobId;
                	$shareJobData['user_id'] = $userId;
-               	$this->SharedJob->save($shareJobData);
-				return json_encode(array('error'=>0));
+               	$sharedJobExits=$this->SharedJob->find('first',array('conditions'=>array(
+    									'job_id'=>$jobId,	
+				    					'user_id'=>$userId,	
+				    					)
+						));
+				if(empty($sharedJobExits)){
+					$this->SharedJob->save($shareJobData);	
+				}
+               	return json_encode(array('error'=>0));
 			}else{
 				return json_encode(array('error'=>2,'message'=>'Something went wrong. Please try after some time OR conntact ot site admin.'));
 			}

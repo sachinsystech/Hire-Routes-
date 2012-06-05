@@ -887,6 +887,8 @@ div.message{
 	line-height: 0px;
 	margin: 20px auto 0 auto;
 
+
+
 	width: 140px;
 	}
 .showhide-account	{
@@ -1969,7 +1971,15 @@ select{
     height: 12px;
     margin: 2px;
     width: 12px;
+    cursor: pointer;
 }
+.nav_year:hover {
+    background: none repeat scroll 0 0 #9C66F9;
+}
+.active_year{
+    background: none repeat scroll 0 0 #FF0000;
+}
+
 
 /*Networker Data*/
 
@@ -2247,7 +2257,7 @@ label.error_input_message{
 	border:none !important;
 	line-height: 25px;
 	margin:auto;
-	width:70%;
+	width:75%;
 	overflow:visible;
 }
 .employerListTable tr{
