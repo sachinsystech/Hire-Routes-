@@ -740,11 +740,18 @@ class UsersController extends AppController {
 		$facebook = $this->facebookObject();
 		$FBUserId = $facebook->getUser();
 		if(!$FBUserId){
-			$this->redirect('/users');;
+			$this->redirect('/users');
 		}
 	}
 	
 	function facebookUser(){
+		
+		/***	manage facebook user after cancel callback(denied permission from FB-App) ***/		
+		if(isset($this->params['url']['error_reason'])){
+			$this->Session->setFlash('you have declined the request from Facebook!', 'warning');
+			$this->redirect('/users');
+		}
+		
 		/***	manage facebook user after success callback ***/
 		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
 			$facebook = $this->facebookObject();
@@ -753,11 +760,7 @@ class UsersController extends AppController {
 				$this->manageFBUser();
 			}
 		}
-
-		/***	manage facebook user after cancel callback(denied permission from FB-App) ***/		
-		if(isset($this->params['url']['error_reason'])){
-			$this->Session->setFlash('you can signup by email!', 'warning');
-		}	
+	
 	}
 
 /**
