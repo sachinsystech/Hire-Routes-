@@ -1323,9 +1323,10 @@ class AdminController extends AppController {
 	
 	function jobSpecificData(){
 		if(isset($this->params['id'])){
+			$jobId=$this->params['id'];
 			$jobData=$this->Job->find(
 				'first',array(
-					'conditions'=>array('Job.id'=>$this->params['id']),
+					'conditions'=>array('Job.id'=>$jobId),
 					'recursive'=>'-1',
 					'joins'=>array(
 						array(
@@ -1391,11 +1392,36 @@ class AdminController extends AppController {
 					'fields'=>'Job.*,Company.company_name, Industry.name, Specification.name, City.city, State.state, count(DISTINCT JobView.id) AS jobViews, count(DISTINCT JobShared.id) AS sharedJobs, count(DISTINCT JobApplied.id) AS appliedJobs, count(DISTINCT Networker.id) AS networkerViews, count(DISTINCT Jobseeker.id) as jobseekerViews'
 				)
 			);
+			
+			$jobApplyers=$this->jobApplyers($jobId);
 			$this->set('jobData',$jobData);
+			$this->set('jobApplyers',$jobApplyers);
 		}else{
 			$this->Session->setFlash("You may be clicked on old link or entered manually.","error");
 			$this->redirect("/admin/Jobs");
 		}
+	}
+	
+	function jobApplyers($jobId){
+		$this->paginate=array(
+			'joins'=>array(
+				array(
+					'table'=>'jobseeker_apply',
+					'alias'=>'JobseekerApply',
+					'type'=>'INNER',
+					'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id AND JobseekerApply.job_id='.$jobId
+				),
+				array(
+					'table'=>'users',
+					'alias'=>'User',
+					'type'=>'INNER',
+					'conditions'=>'User.id = Jobseeker.user_id'
+				)
+			),
+			'fields'=>'Jobseeker.*,User.account_email, JobseekerApply.is_active',
+			'limit'=>10,
+		);
+		return $this->paginate('Jobseeker');
 	}
 }
 

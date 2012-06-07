@@ -93,9 +93,8 @@
 		<div class="nav-divider">&nbsp;</div>
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
-			<li><a href="#"><b>Users</b></a>
+			<li><a href="/admin/userList/"><b>Users</b></a>
 				<ul >
-					<li><a href="/admin/userList/"><b>HR-User</b></a></li>
 					<li><a href="/admin/employer/"><b>Employer</b></a></li>
 					<li><a href="/admin/networkerData/"><b>Networker</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 					<li><a href="/admin/jobseeker/"><b>Jobseeker</b><!--[if IE 7]><!--></a><!--<![endif]--></li>

@@ -887,6 +887,7 @@ div.message{
 	line-height: 0px;
 	margin: 20px auto 0 auto;
 
+
 	width: 140px;
 	}
 .showhide-account	{
@@ -1598,14 +1599,14 @@ a:hover.back-login	{
 
 .even{
         background-color:#FFFFFF;
-		font-size:14px;
-        line-height:18px;
+		font-size:12px;
+        line-height:16px;
     }
 
 .odd{
         background-color:#F5F5F5;
-        font-size:14px;
-        line-height:18px;
+        font-size:12px;
+        line-height:16px;
     }
     
  .tableHeading{
@@ -2047,6 +2048,7 @@ div .networkerInfo{
 	height:auto;
 	overflow:auto;
 	float:right;
+	text-align:center;
 	border:1px solid black;
 }
 
@@ -2118,6 +2120,7 @@ div .networkerInfo{
 	width:190px;
 	float:left;
 	text-align:left;
+	padding-left:5px;
 }
 
 .networkersDataOrigin{
@@ -2151,6 +2154,7 @@ div .NSInfo{
 	overflow:auto;
 	float:right;
 	border:1px solid black;
+	text-align:center;
 }
 
 .NSDataPaginatorBar{
@@ -2281,6 +2285,7 @@ label.error_input_message{
    font-size: 12px;
    padding:5px;
    margin:5px;  
+   line-height: 12px;
 }
 .levelDataBarHover:hover{
    	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
@@ -2504,9 +2509,10 @@ div .JSJobProfile{
 }
 
 .JSJobData .job{
-	width:200px;
+	width:195px;
 	float:left;
 	text-align:left;
+	padding-left:5px;
 }
 
 .JSJobData .data{
@@ -2553,7 +2559,7 @@ fieldset{
 
 /**** Job Specific Data ****/
 
-.jobDetail{
+.specificJobDetail{
 	width:410px;
 	margin:auto;
 	padding:10px;
@@ -2603,4 +2609,80 @@ fieldset{
 	width:65px;
 }
 
+.jobApplyers{
+	width:465px;
+	margin:auto;
+	padding:10px;
+	clear:both;
+	height:auto;
+	overflow:auto;
+	border:1px solid #cccccc;
+	margin-top:10px;
+}
+
+.dataContactName{
+	width:100px;
+	text-align:left;
+	float:left;
+}
+
+.dataAccountEmail{
+	width:190px;
+	text-align:left;
+	float:left;
+}
+
+.dataContact{
+	width:100px;
+	float:left;
+	text-align:left;
+}
+
+.dataStatus{
+	width:70px;
+	float:left;
+	text-align:center;
+}
+/**********************/
+
+/**** Common ****/
+.headingBar{
+	min-height:25px;
+	border-bottom: 1px solid black;
+	background-color:#3E3E3E;
+	font-weight:bold;
+	font-size:14px;
+	text-align:center;
+	padding-top:5px;
+	padding-bottom:5px;
+	color:white;
+	clear:both;
+	height:auto;
+	overflow:auto;
+}
+
+.headingBar a{
+	color:white;
+	text-decoration:underline;
+}
+
+.headingBar a:hover{
+	color:#FFA0FF;
+}
+
+.dataBar{
+	min-height:20px;
+	border-bottom:1px solid black;
+	clear:both;
+	height:auto;
+	overflow:auto;
+	padding-top:3px;
+	padding-bottom:3px;
+}
+
+.paginator{
+	height:20px;
+	float:right;
+	text-align:right;
+}
 /**********************/

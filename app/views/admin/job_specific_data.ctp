@@ -4,8 +4,8 @@
 	 */
 ?>
 <div id="page-heading"><h1>Specific Job Data</h1></div>
-<div class='dataBorder' style='font-size:14px;'>
-	<div class='jobDetail'>
+<div class='dataBorder' style='font-size:12px;'>
+	<div class='specificJobDetail'>
 		<div class='jobTitle'>
 			<?php echo ucfirst($jobData['Job']['title']); ?>
 		</div>
@@ -96,7 +96,7 @@
 				Description
 			</div>
 			<div class='jobRowData'>
-				<?php echo $jobData['Job']['short_description']; ?>
+				<?php echo ucfirst($jobData['Job']['short_description']); ?>
 			</div>
 		</div>
 	</div>
@@ -138,4 +138,52 @@
 			</div>
 		</div>
 	</div>
+	<div class='jobApplyers'>
+		<?php
+			if(empty($jobApplyers)):
+		?>
+		<div style='text-align:center;'>No one applied to this Job!</div>
+		<?php else:?>
+		<div style='height:20px;'><h2>Jobseekers :</h2></div>
+		<?php if($this->Paginator->numbers()): ?>
+			<?php $this->Paginator->options(array('url' =>array($jobData['Job']['id'])));?>
+		<div class='paginator'>
+			<?php echo $paginator->first('First  |'); ?>
+			<?php echo $paginator->prev('  '.__('Previous', true), array(),null,array('class'=>'disabled'));?>
+			<?php echo " < ".$this->Paginator->numbers(array('modulus'=>4))."  > "; ?>
+			<?php echo $paginator->next(__('Next', true).' ', array(), null, array('class'=>'disabled')); ?>
+			<?php echo $paginator->last(' |  Last'); ?>
+		</div>
+		<?php endif;?>
+		<div class='headingBar'>
+			<div class='dataContactName' style='margin-left:5px;text-align:center;'>Name</div>
+			<div class='dataAccountEmail' style='text-align:center;'>Email</div>
+			<div class='dataContact' style='text-align:center;'>Contact</div>
+			<div class='dataStatus'>Status</div>
+		</div>
+		<?php $sn=0;?>
+		<?php
+			foreach($jobApplyers as $key=>$applyer):
+		?>
+		<?php if($sn++ % 2 == 0) $class='even'; else $class='odd';?>
+		<div class="dataBar <?php echo $class;?>">
+			<div class='dataContactName' style='margin-left:5px;'>
+				<?php echo $applyer['Jobseeker']['contact_name'];?>
+			</div>
+			<div class='dataAccountEmail'>
+				<?php echo $applyer['User']['account_email'];?>
+			</div>
+			<div class='dataContact'>
+				<?php echo $applyer['Jobseeker']['contact_phone'];?>
+			</div>
+			<div class='dataStatus'>
+				<?php $status=array('0'=>'Applied','1'=>'Selected','2'=>'Rejected');?>
+				<?php echo $status[$applyer['JobseekerApply']['is_active']];?>
+			</div>
+		</div>
+		<?php
+			endforeach;
+		?>
+	</div>
+	<?php endif;?>
 </div>

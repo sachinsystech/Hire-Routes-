@@ -11,6 +11,7 @@ class NetworkersController extends AppController {
 						'SharedJob',
 						'User',
 						'Job',
+						'ReceivedJob'
 					);
 	var $components = array('Email','Session','TrackUser','Utility');	
 	var $helpers = array('Time','Form');
@@ -635,6 +636,8 @@ class NetworkersController extends AppController {
 
 	function newJob(){
 		$userId = $this->_getSession()->getUserId();	
+		
+		$receivedJobs=$this->ReceivedJob->find('list',array('conditions'=>array('user_id'=>$userId),'fields'=>'job_id'));
 		        
     	$networker_settings = $this->getNetworkerSettings($userId);
     	
@@ -648,32 +651,37 @@ class NetworkersController extends AppController {
 			$jobIds[$a] = $shared_job[$a]['SharedJob']['job_id'];
 		}
 		
-        if(count($networker_settings)>0){
-			for($n=0;$n<count($networker_settings);$n++){
-				$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
-				$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
-				$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
-				$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
+        if(count($networker_settings)>0||count($receivedJobs)>0){
+        	$job_cond=null;
+        	if(count($networker_settings)>0){
+				for($n=0;$n<count($networker_settings);$n++){
+					$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
+					$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
+					$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
+					$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
 
-				$tempCond = array();
-				if($industry[$n]>1){
-					$tempCond[] = array('Job.industry' => $industry[$n]);
+					$tempCond = array();
+					if($industry[$n]>1){
+						$tempCond[] = array('Job.industry' => $industry[$n]);
 				
-				}
-				if($specification[$n])
-						$tempCond[] = array('Job.specification' => $specification[$n]);
-				if($city[$n])
-					$tempCond[] = array('Job.city ' => $city[$n]);
-		        if($state[$n])
-		        	$tempCond[] = array('Job.state' => $state[$n]);
+					}
+					if($specification[$n])
+							$tempCond[] = array('Job.specification' => $specification[$n]);
+					if($city[$n])
+						$tempCond[] = array('Job.city ' => $city[$n]);
+				    if($state[$n])
+				    	$tempCond[] = array('Job.state' => $state[$n]);
 			
-				if(!$tempCond){
-					$tempCond = array(1);
-				}
-				$job_cond[$n] =  array('AND' =>$tempCond);
+					if(!$tempCond){
+						$tempCond = array(1);
+					}
+					$job_cond[$n] =  array('AND' =>$tempCond);
 			
+				}
 			}
-
+			
+			$job_cond[]=array('Job.id'=>$receivedJobs);
+			
 		    if(isset($this->params['named']['display'])){
 			    $displayPageNo = $this->params['named']['display'];
 			    $this->set('displayPageNo',$displayPageNo);
@@ -874,6 +882,8 @@ class NetworkersController extends AppController {
 	 */
 	private function jobCounts(){
 		$userId = $this->_getSession()->getUserId();		
+		
+		$receivedJobs=$this->ReceivedJob->find('list',array('conditions'=>array('user_id'=>$userId),'fields'=>'job_id'));
 		        
     	$networker_settings = $this->getNetworkerSettings($userId);
     	if(!(count($networker_settings)>0))
@@ -889,32 +899,35 @@ class NetworkersController extends AppController {
 			$jobIds[$a] = $shared_job[$a]['SharedJob']['job_id'];
 		}
 		
-        if(count($networker_settings)>0){
-			for($n=0;$n<count($networker_settings);$n++){
-				$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
-				$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
-				$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
-				$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
+        if(count($networker_settings)>0||count($receivedJobs)>0){
+        	$job_cond=null;
+        	if(count($networker_settings)>0){
+				for($n=0;$n<count($networker_settings);$n++){
+					$industry[$n]		= $networker_settings[$n]['NetworkerSettings']['industry'];
+					$specification[$n]  = $networker_settings[$n]['NetworkerSettings']['specification'];
+					$city[$n]			= $networker_settings[$n]['NetworkerSettings']['city'];
+					$state[$n] 			= $networker_settings[$n]['NetworkerSettings']['state'];
 
-				$tempCond = array();
-				if($industry[$n]>1){
-					$tempCond[] = array('Job.industry' => $industry[$n]);
-				
-				}
-				if($specification[$n])
-						$tempCond[] = array('Job.specification' => $specification[$n]);
-				if($city[$n])
-					$tempCond[] = array('Job.city ' => $city[$n]);
-		        if($state[$n])
-		        	$tempCond[] = array('Job.state' => $state[$n]);
-				  
+					$tempCond = array();
+					if($industry[$n]>1){
+						$tempCond[] = array('Job.industry' => $industry[$n]);
 			
-				if(!$tempCond){
-					$tempCond = array(1);
+					}
+					if($specification[$n])
+							$tempCond[] = array('Job.specification' => $specification[$n]);
+					if($city[$n])
+						$tempCond[] = array('Job.city ' => $city[$n]);
+					if($state[$n])
+						$tempCond[] = array('Job.state' => $state[$n]);
+					  
+		
+					if(!$tempCond){
+						$tempCond = array(1);
+					}
+					$job_cond[$n] =  array('AND' =>$tempCond);
 				}
-				$job_cond[$n] =  array('AND' =>$tempCond);
 			}
-			
+			$job_cond[]=array('Job.id'=>$receivedJobs);
 			$jobCounts['newJobs']= $this->Job->find('count',array(
 												'conditions'=>array(
 													'OR' => $job_cond,

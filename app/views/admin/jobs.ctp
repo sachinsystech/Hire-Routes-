@@ -27,8 +27,8 @@
 					<?php echo $paginator->last(' |  Last'); ?>
 				</div>
 			<?php endif; ?>
-			<div class="heading">
-				<div class="job">
+			<div class="headingBar">
+				<div class="job" style='text-align:center;'>
 					Job	
 				</div>
 				<div class="data">
@@ -47,7 +47,7 @@
 			<?php $sn=0;?>
 			<?php foreach($jobs as $key => $job):?>
 				<?php if($sn++ % 2 == 0) $class='even'; else $class='odd';?>
-				<div class="JSJobDataBar <?php echo $class;?>">
+				<div class="dataBar <?php echo $class;?>">
 					<div class="job">
 						<?php echo $html->link(ucfirst($job['Job']['title']),array('action'=>'jobSpecificData',$job['Job']['id']))."</br>";?>
 						<?php 
