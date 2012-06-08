@@ -33,7 +33,7 @@
 								<div>
 									<div style="float:left">
 										<?php echo $form->create('Code', array('action' => '/add','onsubmit'=>'return checkSubmitForm();')); ?>
-										<div style="float:left;width:320px;margin: 2px;">
+										<div style="float:left;width:300px;margin: 2px;">
 											<?php 
 													$userType = array('Jobseeker'=>"Jobseeker",'Networker'=>"Networker");
 													echo $form->input( 'user_type', array

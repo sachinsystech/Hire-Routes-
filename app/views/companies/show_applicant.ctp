@@ -235,7 +235,7 @@ function clear_div(val){
 				<?php	echo $form->submit('Search',array('div'=>false,)); ?>	
 			</div>
 			<?php echo $form->end();?>
-			<table style="width:100%">
+			<table style="width:100%;font-size:12px;">
 				<tr>
 					<td colspan="100%">
 						<div style="float:right;width:50%;text-align: right;">
@@ -249,10 +249,11 @@ function clear_div(val){
 					</td>
 				</tr>
 				<tr>
-					<th style="width:35%">Name</th>
-					<th style="width:25%">Degree of Separation</th>
-					<th style="width:20%">Networker</th>
-					<th style="width:20%">Operatoins</th>
+					<th style="width:30%">Name</th>
+					<th style="width:15%">Degree of Separation</th>
+					<th style="width:15%">Network</th>
+					<th style="width:15%">Networker</th>					
+					<th style="width:15%">Action</th>
 				</tr>
 				<?php if(empty($applicants)): ?>
 				<tr>
@@ -285,12 +286,14 @@ function clear_div(val){
 						?>
 					</td>
 					<td>
-						<?php 
+						<?php
 							// Match first networkers i.e. $applicant['User'] parent user
-							if($applicant['User']['parent_user_id']==$applicant['Job']['user_id']){
-								if($degree<1)
+							$networkerEmail="--------"; $networkerUniversity="";
+							if($applicant['User']['parent_user_id']==$applicant['Job']['user_id']&&$degree<1){
 									echo "<span title='Personal'>Personal</span>";
-								else
+							}elseif($applicant['NetworkerUser']['parent_user_id']==$applicant['Job']['user_id'] && $degree>=1){
+								$networkerEmail=$applicant["NetworkerUser"]["account_email"];
+								$networkerUniversity = $applicant["Networker"]["university"]!=0?"[".$universities[$applicant["Networker"]["university"]]."]":"";
 									echo "<span title='Extended-Personal' >Extended-Personal</span>";
 							}else{
 								if($degree<1)
@@ -300,11 +303,17 @@ function clear_div(val){
 							} 
 						?>
 					</td>
+					<td>
+						<?php if(isset($networkerEmail)){
+								echo $networkerEmail.$networkerUniversity;
+							  }
+						 ?>
+					</td>
 					<td align="center" width="10%">
 						<?php
 							
 							echo $this->Html->image("/img/icon/ok.png", array(
-								"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:22px;",
+								"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
 								'url' => "/companies/checkout/".$applicant['JobseekerApply']['id'],
 								'title'=>'Accept'
 							));

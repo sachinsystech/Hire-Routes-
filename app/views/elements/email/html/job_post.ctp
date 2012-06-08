@@ -18,7 +18,7 @@
 					<?php	echo $this->Html->link($job['Job']['title'], $config_url.'jobs/jobDetail/'.$job['Job']['id']); ?><br>
 					<?php	echo $job['comp']['company_name'].", ".$job['city']['city'].", ".$job['state']['state']."<br>";?>
 			    </td>
-				<td><?php echo $job['Job']['reward'];?></td>
+				<td><?php echo "$".number_format($job['Job']['reward'],2);?></td>
 			</tr>
 			<?php endforeach; ?>
 		</table>

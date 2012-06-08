@@ -315,8 +315,7 @@ list archive jobs..
 				$code=$this->Utility->getCode($jobId,$userId);
                 $this->set('intermediateCode',$code);
                 if(isset($code)&&!empty($code))
-                	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/
-                		?intermediateCode='.$code;
+                	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/?intermediateCode='.$code;
                 else
 	                $jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$jobId.'/';
                 $this->set('jobUrl',$jobUrl);
@@ -682,16 +681,29 @@ list archive jobs..
 							'type'=>'left',
 							'fields'=>'parent_user_id',
 							'conditions'=>array('jobseekers.user_id = User.id')
-						)
+						),
+						array(
+							'table'=>'users',
+							'alias'=>'NetworkerUser',
+							'type'=>'left',
+							'conditions'=>array('SUBSTRING_INDEX(JobseekerApply.intermediate_users,",",1) = NetworkerUser.id')
+						),
+						array(
+							'table'=>'networkers',
+							'alias'=>'Networker',
+							'type'=>'left',
+							'conditions'=>array('Networker.user_id = NetworkerUser.id')
+						),
+						
 				    ),
 					'limit' => 10, // put display fillter here
 					'order' => array('JobseekerApply.id' => 'desc'), // put sort fillter here
 					'recursive'=>0,
 					'fields'=>array(
-						'JobseekerApply.*, jobseekers.contact_name, User.parent_user_id, Job.user_id',
+						'JobseekerApply.*, jobseekers.contact_name, User.parent_user_id, Job.user_id, NetworkerUser.parent_user_id, NetworkerUser.account_email, Networker.contact_name,Networker.university',
 					),
 				);
-				$applicants = $this->paginate("JobseekerApply");
+				$applicants = $this->paginate("JobseekerApply");//pr($applicants);exit;
 				$this->set('NoOfApplicants',count($applicants));
 				$this->set('applicants',$applicants);
 				$this->set('jobId',$jobId);
