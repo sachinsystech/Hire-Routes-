@@ -168,7 +168,7 @@
 					<?php echo $this->Paginator->sort('Date Posted','Job.created')?>
 				</div>
 				<div class="reward" style="text-align:center	;">
-					<?php echo $this->Paginator->sort('Reward Posted','Job.Reward')?>
+					<?php echo $this->Paginator->sort('Reward Posted','Job.reward')?>
 				</div>
 				<div class="reward" style="width:140px;text-align:center;">
 					<?php echo $this->Paginator->sort('Status','Job.is_active')?>

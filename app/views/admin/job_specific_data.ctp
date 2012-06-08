@@ -22,7 +22,7 @@
 				Posted In
 			</div>
 			<div class='jobRowData'>
-				<?php echo $jobData['Specification']['name'].", ";?>
+				<?php echo (empty($jobData['Specification']['name']))?"":$jobData['Specification']['name'].", ";?>
 				<?php echo $jobData['Industry']['name']; ?>
 			</div>
 		</div>
@@ -31,7 +31,7 @@
 				Location
 			</div>
 			<div class='jobRowData'>
-				<?php echo $jobData['City']['city'].", ";?>
+				<?php echo (empty($jobData['City']['city']))?"":$jobData['City']['city'].", ";?>
 				<?php echo $jobData['State']['state']; ?>
 			</div>
 		</div>
@@ -168,13 +168,13 @@
 		<?php if($sn++ % 2 == 0) $class='even'; else $class='odd';?>
 		<div class="dataBar <?php echo $class;?>">
 			<div class='dataContactName' style='margin-left:5px;'>
-				<?php echo $applyer['Jobseeker']['contact_name'];?>
+				<?php echo (empty($applyer['Jobseeker']['contact_name']))?'&nbsp;':$applyer['Jobseeker']['contact_name'];?>
 			</div>
 			<div class='dataAccountEmail'>
 				<?php echo $applyer['User']['account_email'];?>
 			</div>
 			<div class='dataContact'>
-				<?php echo $applyer['Jobseeker']['contact_phone'];?>
+				<?php echo (empty($applyer['Jobseeker']['contact_phone']))?'&nbsp;':$applyer['Jobseeker']['contact_phone'];?>
 			</div>
 			<div class='dataStatus'>
 				<?php $status=array('0'=>'Applied','1'=>'Selected','2'=>'Rejected');?>
