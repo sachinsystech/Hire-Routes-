@@ -37,6 +37,8 @@
   	Router::connect('/admin/jobseekerSpecificData/:id/*', array('controller' => 'admin','action' => 'jobseekerSpecificData'),array('id' => '[0-9]+'));
 
   	Router::connect('/admin/employerSpecificData/:companyId/*', array('controller' => 'admin','action' => 'employerSpecificData'),array('companyId' => '[0-9]+'));
+  	
+  	Router::connect('/admin/jobSpecificData/:id/*', array('controller' => 'admin','action' => 'jobSpecificData'),array('id' => '[0-9]+'));
  /** end Admin URL **/
  
 	Router::connect('/admin/codes', array('controller' => 'codes','action' => 'add'));

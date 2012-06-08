@@ -14,7 +14,7 @@ require_once(APP_DIR.'/vendors/facebook/facebook.php');
 
  */
 class UsersController extends AppController {
-    var $uses = array('User', 'Companies', 'UserRoles', 'Networkers', 'Jobseekers', 'NetworkerSettings', 'JobseekerSettings', 'Acos', 'Aros',	'ArosAcos',	'Code');
+    var $uses = array('User', 'Companies', 'UserRoles', 'Networkers', 'Jobseekers', 'NetworkerSettings', 'JobseekerSettings', 'Acos', 'Aros',	'ArosAcos',	'Code','ReceivedJob');
 	var $components = array('Email', 'Session', 'Bcp.AclCached', 'Cookie', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility');
 				
 	var $helpers = array('Form');
@@ -137,7 +137,7 @@ class UsersController extends AppController {
 		if(isset($this->params['url']['error_reason'])){
 			$this->Session->setFlash('you can signup by email!', 'warning');
 		}
-		
+		$jobId=null;
 		$codeFlag=true;
 		
 		if(isset($this->data['User'])){
@@ -153,6 +153,7 @@ class UsersController extends AppController {
 				}
 			}else{ 
 				$codeFlag=false;
+				$jobId=$this->Utility->getJobIdFromCode(NULL, $this->Session->read('intermediateCode'));
 			}
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
@@ -165,6 +166,10 @@ class UsersController extends AppController {
 			if($userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = NETWORKER;
 				$this->saveUserRoles($userId,$userRoleId);
+				if(!is_null($jobId))
+					if(!$this->ReceivedJob->save(array('user_id'=>$userId,'job_id'=>$jobId))){
+						$this->Session->setFlash('Something went wrong! Your job is not saved!', 'warning');
+					}
 				$networker = array();
 				$networker['user_id'] = $userId;
 				if($this->Networkers->save($networker,false) ){			
@@ -219,7 +224,7 @@ class UsersController extends AppController {
 		if(isset($this->params['url']['error_reason'])){
 			$this->Session->setFlash('you can signup by email!', 'warning');
 		}
-			
+		$jobId=null;	
 		$codeFlag=true;
 		$transaction_validity=false;
 
@@ -235,7 +240,10 @@ class UsersController extends AppController {
 				if(!$this->validateCode()){
 					return;
 				}
-			}else $codeFlag=false;
+			}else{ 
+				$codeFlag=false;
+				$jobId=$this->Utility->getJobIdFromCode(NULL, $this->Session->read('intermediateCode'));
+			}
 
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
@@ -251,6 +259,10 @@ class UsersController extends AppController {
 					$this->Session->setFlash('Internal Error!', 'error');
 					return;
 				}
+				if(!is_null($jobId))
+					if(!$this->ReceivedJob->save(array('user_id'=>$userId,'job_id'=>$jobId))){
+						$this->Session->setFlash('Something went wrong! Your job is not saved!', 'warning');
+					}
 				$jobseeker = array();
 				$jobseeker['user_id'] = $userId;
 				if($this->Jobseekers->save($jobseeker,false)){
@@ -728,11 +740,18 @@ class UsersController extends AppController {
 		$facebook = $this->facebookObject();
 		$FBUserId = $facebook->getUser();
 		if(!$FBUserId){
-			$this->redirect('/users');;
+			$this->redirect('/users');
 		}
 	}
 	
 	function facebookUser(){
+		
+		/***	manage facebook user after cancel callback(denied permission from FB-App) ***/		
+		if(isset($this->params['url']['error_reason'])){
+			$this->Session->setFlash('you have declined the request from Facebook!', 'warning');
+			$this->redirect('/users');
+		}
+		
 		/***	manage facebook user after success callback ***/
 		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
 			$facebook = $this->facebookObject();
@@ -741,11 +760,7 @@ class UsersController extends AppController {
 				$this->manageFBUser();
 			}
 		}
-
-		/***	manage facebook user after cancel callback(denied permission from FB-App) ***/		
-		if(isset($this->params['url']['error_reason'])){
-			$this->Session->setFlash('you can signup by email!', 'warning');
-		}	
+	
 	}
 
 /**

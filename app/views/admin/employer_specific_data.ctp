@@ -20,7 +20,7 @@
 					}
 				
 					$("#companyJobDetail").dialog({
-						height:200,
+						height:240,
 						width:450,
 						modal:true,
 						resizable: false ,
@@ -154,8 +154,8 @@
 					<?php echo $paginator->last(' |  Last'); ?>
 				</div>
 			<?php endif; ?>
-			<div class="heading"  style="width:700px">
-				<div class="job">
+			<div class="headingBar">
+				<div class="job" style='text-align:center;'>
 					<?php echo $this->Paginator->sort('Job','Job.title')?>
 				</div>
 				<div class="data">
@@ -168,7 +168,7 @@
 					<?php echo $this->Paginator->sort('Date Posted','Job.created')?>
 				</div>
 				<div class="reward" style="text-align:center	;">
-					<?php echo $this->Paginator->sort('Reward Posted','Job.Reward')?>
+					<?php echo $this->Paginator->sort('Reward Posted','Job.reward')?>
 				</div>
 				<div class="reward" style="width:140px;text-align:center;">
 					<?php echo $this->Paginator->sort('Status','Job.is_active')?>
@@ -179,7 +179,7 @@
 			?>
 				<?php foreach($jobs as $job):?>	
 				<?php if($sn++ % 2 == 0) $class='even'; else $class='odd';?>
-				<div class="JSJobDataBar <?php echo $class;?>"  style="width:700px">
+				<div class="dataBar <?php echo $class;?>"  style="width:700px">
 					<div class="job">
 						<a href="javascript:void(0);" onclick="jobDetail(<?php echo $job['Job']['id'] ;?>)" >
 								<?php echo ucfirst($job['Job']['title']); ?>

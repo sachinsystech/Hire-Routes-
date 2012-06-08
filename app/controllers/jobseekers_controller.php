@@ -1,7 +1,7 @@
 <?php
 class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
-	var $uses = array('JobseekerSettings', 'Jobseekers', 'User', 'Job', 'JobseekerApply', 'JobseekerProfile', 'University');
+	var $uses = array('JobseekerSettings', 'Jobseekers', 'User', 'Job', 'JobseekerApply', 'JobseekerProfile', 'University','ReceivedJob');
 	var $components = array('Email','Session','TrackUser','Utility');
 	var $helpers = array('Time','Html','Javascript');	
 
@@ -201,6 +201,8 @@ class JobseekersController extends AppController {
 	function newJob(){
 		$userId = $this->_getSession()->getUserId();	
 	
+		$receivedJobs=$this->ReceivedJob->find('list',array('conditions'=>array('user_id'=>$userId),'fields'=>'job_id'));
+		
 		$jobseeker_settings = $this->getJobseekerSettings($userId);
 
 		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('user_id'=>$userId),
@@ -276,8 +278,8 @@ class JobseekersController extends AppController {
 			}
 		}
 
-		 $cond = array('OR'=>array($industry1_cond,$industry2_cond),
-                       'Job.salary_from >=' => $salary_range,
+		 $cond = array('OR'=>array('AND'=>array('OR'=>array($industry1_cond,$industry2_cond),
+                       'Job.salary_from >=' => $salary_range),'Job.id'=>$receivedJobs),
 					  'Job.is_active'  => 1,
 					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 					);
@@ -647,6 +649,9 @@ class JobseekersController extends AppController {
 
 	private function jobCounts(){
 		$userId = $this->_getSession()->getUserId();
+		
+		$receivedJobs=$this->ReceivedJob->find('list',array('conditions'=>array('user_id'=>$userId),'fields'=>'job_id'));
+		
 		$jobseeker_settings = $this->getJobseekerSettings($userId);
 		$applied_job = $this->JobseekerApply->find('all',array('conditions'=>array('JobseekerApply.user_id'=>$userId,'Job.is_active' =>1),
 															   'fields'=>array('job_id'),
@@ -707,8 +712,8 @@ class JobseekersController extends AppController {
 		
 		$jobCounts['appliedJob']=count($applied_job);//Applied job count
 		
-		$cond_for_new_job = array('OR'=>array($industry1_cond,$industry2_cond),
-                       'Job.salary_from >=' => $salary_range,
+		$cond_for_new_job = array('OR'=>array('AND'=>array('OR'=>array($industry1_cond,$industry2_cond),
+                       'Job.salary_from >=' => $salary_range),'Job.id'=>$receivedJobs),
 					  'Job.is_active'  => 1,
 					 'AND' => array('NOT'=>array(array('Job.id'=> $jobIds)))
 					);

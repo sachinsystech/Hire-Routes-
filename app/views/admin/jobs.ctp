@@ -3,6 +3,7 @@
 	 *	Job data page
 	 */
 ?>
+<div id="page-heading"><h1>Jobs</h1></div>
 <div class='dataBorder'>
 	<div class="JSJobData">
 		<div style="padding:1px;float:left;">
@@ -26,8 +27,8 @@
 					<?php echo $paginator->last(' |  Last'); ?>
 				</div>
 			<?php endif; ?>
-			<div class="heading">
-				<div class="job">
+			<div class="headingBar">
+				<div class="job" style='text-align:center;'>
 					Job	
 				</div>
 				<div class="data">
@@ -46,9 +47,9 @@
 			<?php $sn=0;?>
 			<?php foreach($jobs as $key => $job):?>
 				<?php if($sn++ % 2 == 0) $class='even'; else $class='odd';?>
-				<div class="JSJobDataBar <?php echo $class;?>">
+				<div class="dataBar <?php echo $class;?>">
 					<div class="job">
-						<?php echo "<a href=#>".ucfirst($job['Job']['title'])."</a></br>";?>
+						<?php echo $html->link(ucfirst($job['Job']['title']),array('action'=>'jobSpecificData',$job['Job']['id']))."</br>";?>
 						<?php 
 							echo !empty($job['Specification']['name'])? $job['Specification']['name'].", ":"";
 							echo $job['Industry']['name']."</br>";

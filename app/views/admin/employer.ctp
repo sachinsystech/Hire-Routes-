@@ -52,7 +52,7 @@ function login_status($l1,$l2){
 		</div>
 	<?php endif;?>
 	<div class="employerData">
-		<div class="employerDataHeading">
+		<div class="headingBar">
 			<div style="width:300px;float:left;">
 				Employer
 			</div>
@@ -75,9 +75,9 @@ function login_status($l1,$l2){
 		<?php
 			$sn=0;
 			foreach($employers as $key =>$employer):
-				$class=($sn++%2==0)?"employerDataBarEven":"employerDataBarOdd"
+				$class=($sn++%2==0)?"even":"odd"
 		?>
-		<div class="<?php echo $class;?>">
+		<div class="dataBar <?php echo $class;?>">
 			<div style="width:300px;float:left;">
 				<div class="employerLoginStatusBar" style="float:left;margin-top:2px" id="<?php echo "user_".$employer['Companies']['user_id'];?>" idfield="<?php echo $employer['Companies']['user_id'];?>">	
 				</div>
