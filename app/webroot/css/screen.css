@@ -879,6 +879,7 @@ div.message{
 	line-height: 0px;
 	margin: 20px auto 0 auto;
 	width: 140px;
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -1872,7 +1873,7 @@ button{
     min-width: 0;
     padding: 4px 8px;
     text-decoration: none;
-	-moz-border-radius:10px;
+	border-radius:15px;
 	-webkit-border-radius: 10px;
 
 }
