@@ -134,7 +134,10 @@ class UtilityComponent extends Object
 					$ids = split(":",$data[1]);
 					$userRole=$this->getUserRole($ids[0]);
 					if($userRole['id']==COMPANY){
-						$ids[0]='';
+						$user_ids='';
+						for($i=0;$i<count($ids)-1;$i++)
+							$user_ids[$i]=$ids[$i+1];
+						$ids=$user_ids;
 					}
                    return implode(",",$ids);
                }
