@@ -1987,7 +1987,7 @@ div .networkerData{
 	overflow:auto;
 	margin:auto;
 	padding:10px;
-	width:937px;
+	width:1007px;
 }
 
 div .levelInfo{
@@ -2043,7 +2043,7 @@ div .levelDataActiveBar{
 }
 
 div .networkerInfo{
-	width:780px;
+	width:850px;
 	height:auto;
 	overflow:auto;
 	float:right;
@@ -2057,7 +2057,7 @@ div .networkerInfo{
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
-	width:770px;
+	width:840px;
 }
 
 .networkerDataBarOdd{
@@ -2073,6 +2073,7 @@ div .networkerInfo{
 }
 .networkerDataHover:hover{
 	background-color: #ccffcc;
+	cursor:pointer;
 }
 .networkerDataHeading{
 	min-height:20px;
@@ -2144,11 +2145,11 @@ div .NSData{
 	overflow:auto;
 	margin:auto;
 	padding:10px;
-	width:957px;
+	width:1057px;
 }
 
 div .NSInfo{
-	width:800px;
+	width:900px;
 	height:auto;
 	overflow:auto;
 	float:right;
@@ -2162,7 +2163,7 @@ div .NSInfo{
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
-	width:770px;
+	width:870px;
 }
 
 div .specificData{

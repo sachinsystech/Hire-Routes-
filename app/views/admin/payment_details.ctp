@@ -236,14 +236,17 @@
 							</div>
 							<div style="float:left;">
 								<?php
-									switch($payment_detail['RewardsStatus']['status']){
+									switch($payment_detail['RewardsStatus']['status']):
 										case 0:
-											echo "Sent";
+											echo "Unpaid";
+								?>
+											<a href='#' onclick="updatePaymentStatus(<?php echo $payment_detail['PaymentHistory']['id'].','.$payment_detail['Jobseeker']['user_id'];?>,this);">Pay</a>
+								<?php			
 											break;
 										case 1:
 											echo "Paid";
 											break;
-									}
+									endswitch;
 								?></br>
 							</div>
 							<div style="clear:both"></div>
@@ -267,6 +270,9 @@
 				<u>Networkers Reward Details</u>
 			</div>
 			<div style="width:800px;">
+				<?php 
+					if($networker_count>0):
+				?>
 				<div class="code_pagination">
 					<?php $this->Paginator->options(array('url' =>$payment_detail['PaymentHistory']['id']));?>
 					<?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
@@ -282,7 +288,6 @@
 					<div class="networkerRewardDataHeading">Check Status</div>
 				</div>
 				<?php
-					if($networker_count>0):
 						$sno=0;
 						foreach($networkers as $key=>$networker):
 						$class = $sno++%2?"networkerDataBarOdd":"networkerDataBarEven";
@@ -310,7 +315,10 @@
 						<?php
 							switch($networker['RewardsStatus']['status']):
 								case 0:
-									echo "Sent";
+									echo "Unpaid";
+								?>
+								<a href='#' onclick="updatePaymentStatus(<?php echo $payment_detail['PaymentHistory']['id'].','.$networker['Networkers']['user_id'];?>, this);">Pay</a>
+								<?php
 									break;
 								case 1:
 									echo "Paid";
@@ -340,8 +348,8 @@
 					<?php	
 						else:
 					?>
-					<div class="networkerDataBarOdd">			
-				    	Sorry, no result found.
+					<div class="networkerDataBarOdd" style='text-align:center;width:350px;'>			
+				    	There is no networker for this Reword!
 					</div>
 					<?php
 						endif;	
@@ -362,3 +370,15 @@
 		</tr>
 	</tbody>
 </table>
+<script>
+function updatePaymentStatus(paymentHistoryId,userId,field)
+{
+	$.ajax({
+		url: "/admin/updatePaymentStatus/",
+	 	async:false,
+	 	type:'POST',
+	 	data:{'payment_history_id':paymentHistoryId,'user_id':userId },
+  		success: function(response){ if(response==1) $(field).parent().html("Paid"); else alert('Something went wrong! Try again');	}
+  	});
+}
+</script>
