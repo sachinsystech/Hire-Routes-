@@ -465,16 +465,18 @@ class AdminController extends AppController {
 				   'conditions' => array('Config.id'=>array(1,2,3,4,5,6,7,8,9)), 
 				   'fields' => array('Config.id','Config.value')
 				   );
-	   $configuration = $this->Config->find('list',$params);
-
-	   $senarioSum=$this->PaymentHistory->find('all',array(
-											'group' => 'scenario',	
-										    'fields' => array('sum(PaymentHistory.amount) as reward','scenario'),
-				   ));
-		for($i=1, $j=0; $i<=9;$i++){
-			$configuration['scenario'][$i]= ($senarioSum[$j][0]['reward']*$configuration[$i]) / 100; 
-			if($i%3 ==0){ $j++;}
-		}
+		$configuration = $this->Config->find('list',$params);
+		$senarioSum=$this->PaymentHistory->find('all',array(
+												'fields' =>'scenario , sum( (hr_reward_percent *amount) /100) as hr_amount , sum((amount*networker_reward_percent)/100)  as nr_amount, sum((jobseeker_reward_percent*amount ) /100 ) as js_amount',
+												'group'=> 'scenario',
+												));
+		$i=1;												
+		foreach($senarioSum as $key => $element){
+			$configuration['scenario'][$i++]= $element[0]["nr_amount"];
+			$configuration['scenario'][$i++]= $element[0]["hr_amount"];
+			$configuration['scenario'][$i++]= $element[0]["js_amount"];						
+		}												
+												
 		$this->set('configuration',$configuration);
 			
 		/****	Employer Payment Details 	***/

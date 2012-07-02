@@ -141,7 +141,7 @@
 				<?php if($sn++ % 2 == 0) $class='even'; else $class='odd';?>
 				<div class="dataBar <?php echo $class;?>">
 					<div class="job">
-						<?php echo "<a href=/admin/jobSpecificData/".$jobData['Job']['id'].">".$jobData['Job']['title']."</a></br>";?>
+						<?php echo "<a href=/admin/jobSpecificData/".$jobData['Job']['id']."/>".$jobData['Job']['title']."</a></br>";?>
 						<?php 
 							echo $jobData['Specification']['name'].", ".$jobData['Industry']['name']."</br>";
 						?>

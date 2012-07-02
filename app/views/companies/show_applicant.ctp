@@ -27,11 +27,11 @@ function jobseekersDetail(jobseekerId, jobseekerName){
 		data: {jobseekerId:jobseekerId},
 		success:function(response){
 			
-			$("#jobseekerApplyProfile").dialog({
+			$(".jobseekerApplyProfile").dialog({
 				height:280,
 				width:725,
 				modal:true,
-				show: { effect: 'drop', direction: "up" },
+				//show: { effect: 'drop', direction: "up" },
 				resizable: false ,
 				title:jobseekerName,
 				buttons: {
@@ -40,6 +40,7 @@ function jobseekersDetail(jobseekerId, jobseekerName){
 				}
 			}
 			});
+			$( ".ui-dialog" ).css("position", "fixed" );
 				$("#japdiv").html('<table>'+
 											'<tr>'+
 												'<td><b>Qualification : </b></td><td>'+response['qualificaiton']+'</td>'+
@@ -68,6 +69,7 @@ function jobseekersDetail(jobseekerId, jobseekerName){
 											
 										 '</table>'
 										);
+				
 		}		
 			
 	});
@@ -82,7 +84,7 @@ function clear_div(val){
 </script>
 
 
-<div id="jobseekerApplyProfile" style="display:none;">
+<div class="jobseekerApplyProfile" style="display:none;">
 	<div id="japdiv"></div>
 </div>
 
@@ -305,7 +307,7 @@ function clear_div(val){
 					</td>
 					<td>
 						<?php if(isset($networkerEmail)){
-								echo $networkerEmail.$networkerUniversity;
+								echo $networkerEmail."<br>".$networkerUniversity;
 							  }
 						 ?>
 					</td>

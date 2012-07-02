@@ -55,12 +55,12 @@
 							<td>
 								<div class="employerLoginStatusBar" style="float:left;margin-top:2px" id="<?php echo "user_".$jobseeker['Jobseekers']['user_id'];?>" idfield="<?php echo $jobseeker['Jobseekers']['user_id']; ?>">	
 								</div>
-								<a href="/admin/jobseekerSpecificData/<?php echo $jobseeker['Jobseekers']['user_id'];?> ">
+								<a href="/admin/jobseekerSpecificData/<?php echo $jobseeker['Jobseekers']['user_id'];?>/">
 									<?php echo ucfirst($jobseeker['Jobseekers']['contact_name']);?>
 								</a>
 							</td> 
 							<td>
-								<a href="/admin/jobseekerSpecificData/<?php echo $jobseeker['Jobseekers']['user_id'];?> ">
+								<a href="/admin/jobseekerSpecificData/<?php echo $jobseeker['Jobseekers']['user_id'];?>/">
 									<?php echo $jobseeker['UserList']['account_email']?>
 								</a>
 							</td>
