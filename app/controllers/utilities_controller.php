@@ -8,6 +8,8 @@ class UtilitiesController extends AppController {
 	public function beforeFilter(){
 		parent::beforeFilter();
 		$this->Auth->authorize = 'actions';
+		$this->Auth->allow('getCitiesOfState');
+		$this->Auth->allow('getSpecificationOfIndustry');
 		$this->Auth->allow('getUniversities');
 	}
 
