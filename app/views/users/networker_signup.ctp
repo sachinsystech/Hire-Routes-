@@ -33,7 +33,7 @@
                                  );
     ?>
 	<?php
-		if($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null){
+		if($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null):
 			echo $form->input('Code.code', array('label' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",
@@ -41,7 +41,31 @@
                                            			)
                                  );
 			if(isset($codeErrors)):?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
-	<?  }?>
+			
+			<?php echo $form->input('university',array('label'=> 'University',
+														'type'=>'text',
+														'class' => 'text_field_bg required'
+													));
+			?>
+			<?php echo $form->input('Networker.graduate_degree_id',array('label'=> 'Graduate Degree (if applicable)',
+														'type'=>'select',
+														'empty'=>'Select',
+														'options'=>$GraduateDegrees,
+														'style'=>'width:210px;float:right;padding:2px;'
+													));
+			?>
+			<?php echo $form->input('graduate_university',array('label'=> 'Graduate University',
+														'type'=>'text',
+														'class' => 'text_field_bg'
+													));
+			?>
+			<div style="display:none;">
+			<?php
+				echo $form->input('Networker.graduate_university_id',array('type'=>'text', 'value'=>''));
+				echo $form->input('Networker.university',array('type'=>'text','value'=>''));
+			?>
+			</div>
+	<?php  endif;?>
 	<div class="signup_agree_condition">
 		<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
 															'type'  => 'checkbox',
@@ -83,4 +107,62 @@
 	}
 	
 </script>
-
+<script>
+	$(document).ready(function(){
+		$("#UserUniversity").autocomplete({
+			minLength:2,
+			source: function( request, response ) {
+				$.ajax({
+					url: "/Utilities/getUniversities/startWith:"+request.term,
+					dataType: "json",
+					success: function( data ) {
+						response( $.map( data, function(item) {
+							return {
+								value: item.name,
+								key: item.id
+							}
+						}));
+					}
+				});
+			},
+			select: function( event, ui ) {
+				$('#NetworkerUniversity').val(ui.item.key);
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+			}
+		});
+	});
+	
+	$(document).ready(function() {
+		$( "#UserGraduateUniversity" ).autocomplete({
+			minLength:2,
+			source: function( request, response ) {
+				$.ajax({
+					url: "/Utilities/getUniversities/startWith:"+request.term,
+					dataType: "json",
+					success: function( data ) {
+						response( $.map( data, function(item) {
+							return {
+								value: item.name,
+								key: item.id
+							}
+						}));
+					},
+				});
+			},
+			select: function( event, ui ) {
+				$('#NetworkerGraduateUniversityId').val(ui.item.key);
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+			}
+		});
+	});
+	</script>

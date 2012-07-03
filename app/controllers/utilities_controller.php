@@ -3,7 +3,15 @@
  * UtilityController
  */
 class UtilitiesController extends AppController {
-    var $uses = array('IndustrySpecification','Specification','State','City','Industry');
+    var $uses = array('IndustrySpecification','Specification','State','City','Industry','University');
+
+	public function beforeFilter(){
+		parent::beforeFilter();
+		$this->Auth->authorize = 'actions';
+		$this->Auth->allow('getCitiesOfState');
+		$this->Auth->allow('getSpecificationOfIndustry');
+		$this->Auth->allow('getUniversities');
+	}
 
 /**
  * get list cities of a specific state
@@ -64,6 +72,17 @@ class UtilitiesController extends AppController {
 		);		
 		$specifications=json_encode($specifications);
 		return $specifications;
+	}
+	
+	public function getUniversities(){
+		$this->autoRender= false ;
+		$universities=$this->University->find('list',array('fields'=>'id, name', 'order'=>'id','conditions'=>array('name like '=>$this->params['named']['startWith']."%")));
+		$univs=null;
+		foreach($universities as $id=>$name){
+			$univs[]=array('id'=>$id,'name'=>$name);
+		}
+		$universities=json_encode($univs);
+		return $universities;
 	}
 	
 }

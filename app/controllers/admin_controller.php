@@ -239,18 +239,9 @@ class AdminController extends AppController {
 	 
 	function updatePaymentStatus()
 	{
-		$this->PaymentHistory->set(
-			array('id'=>$this->data['PaymentHistory']['id'], 'payment_status'=>true, 
-				'hr_reward_percent'=>$this->data['PaymentHistory']['hrRewardPercent']
-			)
-		);
-	 	if($this->PaymentHistory->save())
-	 		$this->Session->setFlash('Status updated successfully','success');
-	 	else
-	 		$this->Session->setFlash('Status update failure','error');
-	 	$this->redirect(
-	 		array('controller' => 'admin','action'=>'paymentDetails',$this->data['PaymentHistory']['id'])
-	 	);
+		$this->autoRender=false;
+		$this->RewardsStatus->updateAll(array('status'=>1),$this->params['form']);
+		return $this->RewardsStatus->getAffectedRows();
 	}
 	
 	/*
@@ -867,7 +858,7 @@ class AdminController extends AppController {
 		$this->paginate=array(
 			'fields'=>'User.id, User.parent_user_id, User.account_email, User.created,
 				count(DISTINCT Jobseeker.id) as jobseekerCount, Networker.contact_name, 
-				Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount',
+				Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount, University.name',
 			'recursive'=>-1,
 			'joins'=>array(
 				array(
@@ -894,6 +885,12 @@ class AdminController extends AppController {
 					'type'=>'LEFT',
 					'conditions'=>'SharedJob.user_id=User.id'
 				),
+				array(
+					'table'=>'universities',
+					'alias'=>'University',
+					'type'=>'LEFT',
+					'conditions'=>'Networker.university=University.id'
+				),
 			),
 			'conditions'=>array(
 				'User.id'=>$userIds
@@ -906,7 +903,7 @@ class AdminController extends AppController {
 		$this->User->virtualFields['jobseekerCount'] = 'count(DISTINCT Jobseeker.id)';
 		$this->User->virtualFields['sharedJobsCount'] = 'count(DISTINCT SharedJob.job_id)';
 		$this->User->virtualFields['notification'] = 'Networker.notification';
-		
+		$this->User->virtualFields['university'] = 'University.name';
 		$networkersData = $this->paginate('User');
 													
 		foreach($networkersData as $key => $value){

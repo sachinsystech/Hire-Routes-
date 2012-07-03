@@ -26,16 +26,16 @@
 				</div>
 				
 				<div style="clear:both"></div>
-				
-				<div class="add_contact_field_row">
+
+				<!--div class="add_contact_field_row">
 					<div class="add_contact_label">2. Hotmail</div>
 					<div style="float:left"><button style="background:#00FF00; width: 150px;font-size: 12px;">Import from Hotmail</button></div>
-				</div>
+				</div-->
 				<div style="clear:both"></div>
 				
 				<?php  echo $form->create('networkers', array('controller'=>'networkers','action' => 'importCsv', 'type' => 'file'));?>
 				<div class="add_contact_field_row">
-					<div class="add_contact_label">3. CSV File</div>
+					<div class="add_contact_label">2. CSV File</div>
 					<div style="float:left"><?php echo $form->file('CSVFILE',array('class'=>'csv_file_bg required'));?></div>					
 					<div style="float:right"><?php echo $form->submit('Import CSV File',array('div'=>false,'class'=>'csv_file_button'));?></div>
 				</div>
@@ -51,7 +51,7 @@
 																	)
 												   );
 					?>
-					<div class="add_contact_label">4. Single Entry</div>
+					<div class="add_contact_label">3. Single Entry</div>
 					<div style="float:left">
 						<?PHP $contact_name_value = isset($NetworkerContact['contact_name'])?$NetworkerContact['contact_name']:'Enter Name'?>
 						<?php echo $form->input('contact_name', array('label' => '',

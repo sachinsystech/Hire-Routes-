@@ -187,7 +187,7 @@ function showView(type){
 	$('.ui-dialog-titlebar-close').click(closeUi);
 	$('.ui-widget-overlay').remove();
 	$('#container').after("<div class='ui-widget-overlay' style='width: 1350px; height: 779px; z-index: 1001;'></div>");
-	
+	$('.selectedFriends .selectedFriend').remove();
     switch(type){
         case 1:
             setView('Facebook');
@@ -246,7 +246,9 @@ function setView(value)
 	else
 	{	
 		$('#to').html("");
+
 		$('#other').html("<div style='padding-bottom:20px; padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right;margin-top:12px;' class='s_w_e'>Share with everyone<input style='float:right' type='checkbox'/></div><div id='filtered_friend'></div><div id='imageDiv'>");
+
 		$('#imageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="sharejob_ajax_loader"/></p>');
 	}
 	return false;
@@ -291,13 +293,17 @@ function validateFormField(){
 }
 
 function createHTMLforFillingFriends(friends){
+
    $('.selectedFriends .selectedFriend').remove();
    var length = friends.length;
+
    html="";        
    for(i=0;i<length;i++){
 	   html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img width="50" height="50" src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox" onclick="return selectFriend(this);"></div></div><div class="contactName">'+((friends[i].name.split(" ",2)).toString()).replace(","," ")+'</div></div>';
    }
+
    $("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right'  class='s_w_e'>Share with everyone<input style='float:right'type='checkbox' onclick='return checkAll(this);'/></div><div id='imageDiv'>"+html+"</div>");
+
 }
 
 
@@ -325,9 +331,8 @@ function checkAll(field){
 	if(flag){
 		$(".selectedFriends").append($('#imageDiv').html());
 		$("#imageDiv .contactBox:visible").css('opacity',0.3).find('input:checkbox:first').attr("checked",true).attr("disabled",true);
-		$(".selectedFriends .contactBox > div div.contactCheckBox input[disabled='disabled']").parents(".contactBox").remove();
-		$(".selectedFriends .contactName").removeClass('contactName').addClass('selectedFriendName');
 		$(".selectedFriends .contactBox").removeClass('contactBox').addClass('selectedFriend').find('img:first').attr("width",30).attr("height",30).parent().removeClass('contactImage').addClass('selectedFriendImage').parent().css('float','left').find('input:checkbox:first').attr("checked",true).css("margin",'0').attr("onClick","return deSelectFriend(this)").parent().removeClass('contactCheckBox').addClass('selectedFriendCheckBox');
+		$(".selectedFriends .contactName").removeClass('contactName').addClass('selectedFriendName');
 	}else{
 		$(".selectedFriend").remove();
 		$("#imageDiv .contactBox ").filter(function(){ var opac=parseFloat($(this).css('opacity')); opac=opac.toFixed(1); return (opac==0.3)?true:false;}).css('opacity',1.0).find('input:checkbox:first').attr("checked",false).attr("disabled",false);
@@ -533,37 +538,33 @@ function close(){
 			});
 			return false;
 		}
-               
-        
+      
 		function filterFriendList(){
-			var textValue = $.trim($('#autocomplete').val());
+			var textValue = $('#autocomplete').val();
+			var user = jQuery.makeArray();
 			$('.s_w_e input:checked').attr('checked', false);
 			var foundFrd=false;
 			$('#ff_list').css("display","none");
-						
+			
+			
 			if(textValue=='' || textValue=='Search Friends Here...'){
 				$("#imageDiv").css("visibility","visible");
 				$('#imageDiv .contactBox').css({"display":"block","visibility":"visible"});
+				lastTextValue="";
 				return false;
 			}
 			textValue = textValue.toLowerCase();
 			$('#imageDiv .contactBox').css({"display":"none"});
+
 			$(".contactImage img[title]").filter(function(){ if((this.title.toLowerCase()).indexOf(textValue)===0)
 			return foundFrd=true;else return false; }).parents(".contactBox").css({"display":"block"});
 						
 			if(foundFrd === false)
 				$("#ff_list").css("display","block").html("<div align='center'>No result found</div>");
-			
+
 			return false;
 		}
-		
-		
-		
-		function strStartsWith(str, prefix) {
-			str = str.toLowerCase();
-			prefix = prefix.toLowerCase();
-			return str.indexOf(prefix) === 0;
-		}
+
         function facebookComment(){
 			if(!validateCheckedUser()){
 				return false;
