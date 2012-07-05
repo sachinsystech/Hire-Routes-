@@ -5,11 +5,14 @@
 ?>
 <style>
 .selectedFriends{
-	width:150px;
-	height:287px;
-	overflow:auto;
-	border:1px solid black;
-	padding:10px;
+	border: 1px solid black;
+    font-size: 13px;
+    font-weight: bold;
+    height: 260px;
+    overflow: auto;
+    padding: 10px;
+    text-decoration: underline;
+    width: 150px;
 }
 .selectedFriend{
     margin: 1px;

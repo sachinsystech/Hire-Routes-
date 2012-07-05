@@ -153,6 +153,37 @@ class UsersController extends AppController {
 				$codeFlag=false;
 				$jobId=$this->Utility->getJobIdFromCode(NULL, $this->Session->read('intermediateCode'));
 			}
+			if($this->data['User']['university'] == null ){
+				unset($this->data["User"]["password"]);
+   	            unset($this->data["User"]["repeat_password"]);
+				$this->set('uniErrors', "This is required field");
+				return;
+			}
+			
+			if( $this->data['Networker']['university'] == null){
+			 	unset($this->data["User"]["password"]);
+   	            unset($this->data["User"]["repeat_password"]);
+				$this->set('uniErrors', "This is not a valid university");
+				return;
+			}
+			
+			if( $this->data['User']['graduate_degree_id'] !=null && $this->data['Networker']['graduate_degree_id'] == null){
+			 	unset($this->data["User"]["password"]);
+   	            unset($this->data["User"]["repeat_password"]);
+   	            unset($this->data['User']['university']);
+				$this->set('graduateErrors', "This is not a valid Graduate Degree");
+				return;
+			} 
+			 
+			
+			if( $this->data['user']['graduate_university'] != null &&$this->data['Networker']['graduate_university_id'] == null){
+			 	unset($this->data["User"]["password"]);
+   	            unset($this->data["User"]["repeat_password"]);
+   	            unset($this->data['User']['university']);
+   	            unset($this->data['User']['graduate_degree_id']);   	            
+				$this->set('graduateUniErrors', "This is not a valid degree");
+				return;
+			}  
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
    	            unset($this->data["User"]["repeat_password"]);
@@ -167,7 +198,7 @@ class UsersController extends AppController {
 					if(!$this->ReceivedJob->save(array('user_id'=>$userId,'job_id'=>$jobId))){
 						$this->Session->setFlash('Something went wrong! Your job is not saved!', 'warning');
 					}
-				$this->data["Networker"]['user_id'] = $userId;
+				$this->data["Networker"]['user_id'] = $userId;//print_r($this->data["Networker"]);exit;
 				if($this->Networkers->save($this->data["Networker"],false) ){			
 					$this->sendConfirmationEmail($userId);
 					if($codeFlag){
@@ -193,8 +224,6 @@ class UsersController extends AppController {
 				}
 			}
 		}
-		$GraduateDegrees=$this->GraduateDegree->find('list',array('fields'=>'id,degree', 'order'=>'id'));
-		$this->set('GraduateDegrees',$GraduateDegrees);
 	}
 	
 /**
@@ -702,14 +731,14 @@ class UsersController extends AppController {
 				$this->Session->setFlash('Username or password not matched.', 'error');				
 			}else{
 				$session->start();
-				$referer = $session->getBeforeAuthUrl();  
+				$referer = $session->getBeforeAuthUrl(); 
 				if(isset($referer) && !empty($referer) && $session->getUserRole()!=ADMIN){
 					$this->redirect("/$referer");
 				}
 				$this->redirect('loginSuccess');
 			}
 		}
-		$session->setBeforeAuthUrl($this->referer());		
+		//$session->setBeforeAuthUrl($this->referer());		
 	}
 
 /**

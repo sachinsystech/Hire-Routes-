@@ -30,7 +30,9 @@
 <div>Please submit the form below and you will receive an email confirmation to complete your registration.</div>
 
 <div class="facebook-login">
-	<div><a href="<?php echo $FBLoginUrl;?>"><button class="facebook"></button></a></div>
+	<?php if($this->Session->read('intermediateCode')!="" || $this->Session->read('intermediateCode')!=null){ ?>
+		<div><a href="<?php echo $FBLoginUrl;?>"><button class="facebook"></button></a></div>
+	<?php }?>
 </div>
 <div style="width:480px; margin-top:20px;">
 <?php echo $form->create('User', array('action' => 'jobseekerSignup','onsubmit'=>'return checkform()')); ?>

@@ -3,7 +3,7 @@
  * UtilityController
  */
 class UtilitiesController extends AppController {
-    var $uses = array('IndustrySpecification','Specification','State','City','Industry','University');
+    var $uses = array('IndustrySpecification','Specification','State','City','Industry','University','GraduateDegree');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -11,6 +11,7 @@ class UtilitiesController extends AppController {
 		$this->Auth->allow('getCitiesOfState');
 		$this->Auth->allow('getSpecificationOfIndustry');
 		$this->Auth->allow('getUniversities');
+		$this->Auth->allow('getGraduateDegrees');
 	}
 
 /**
@@ -83,6 +84,19 @@ class UtilitiesController extends AppController {
 		}
 		$universities=json_encode($univs);
 		return $universities;
+	}
+	
+	public function getGraduateDegrees(){
+		$this->autoRender= false ;
+		//$GraduateDegrees=$this->GraduateDegree->find('list',array('fields'=>'id,degree', 'order'=>'id'));
+		$GraduateDegree=$this->GraduateDegree->find('list',array('fields'=>'id,degree', 'order'=>'id','conditions'=>array('degree like '=>$this->params['named']['startWith']."%")));
+		$Degree=null;
+		foreach($GraduateDegree as $id=>$name){
+			$Degree[]=array('id'=>$id,'name'=>$name);
+		}
+		$GraduateDegree=json_encode($Degree);
+		return $GraduateDegree;
+
 	}
 	
 }

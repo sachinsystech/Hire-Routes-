@@ -355,8 +355,15 @@ class JobsController extends AppController {
 	} 
 
 	function jobDetail(){
-
-		$session = $this->_getSession();		
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$url ="/jobs/jobDetail/".$this->params['jobId']; 
+			//echo $url;exit;
+			$session->setBeforeAuthUrl($url);	
+			$this->Session->setFlash('Please loign to continue with job.', 'error');				
+			$this->redirect("/users/login");
+		}
+	
 		$userId = $session->getUserId();
 		
 		if(isset($this->params['jobId'])){

@@ -32,7 +32,7 @@
 						<?php	echo $form->input('reward', array('label' => 'Reward$:',
 													'type'  => 'text',
 													'class' => 'text_field_bg required number',
-													'min' =>2000,
+													'min' =>1000,
 													)
 									 );
 						?>
