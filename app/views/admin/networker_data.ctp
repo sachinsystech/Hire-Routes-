@@ -35,8 +35,8 @@
 		<?php endforeach; ?>
 		</div>
 		<div class="networkerInfo">
-			<div style="height:70px;float:left;">
-				<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;">
+			<div style="min-height:79px;float:left;">
+				<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;text-align:left;">
 					<?php echo "Level $selectedLevel"?>
 					<?php if($this->Paginator->numbers()): ?>
 						<div class="networkerDataPaginatorBar">
@@ -49,9 +49,12 @@
 						</div>
 					<?php endif; ?>
 				</div>
-				<div Class="networkerDataHeading">
+				<div Class="headingBar">
 					<div class="networkersDataEmail" style="text-align:center">
 						<?php echo $this->Paginator->sort('User','User.account_email');?>
+					</div>
+					<div class="networkersDataOrigin">
+						<?php echo $this->Paginator->sort('University','university');?>
 					</div>
 					<div class="networkersData">Networkers</div>
 					<div class="networkersData">
@@ -59,7 +62,7 @@
 					</div>
 					<div class="networkersDataOrigin">Origin</div>
 					<div class="networkersData">Rewards</div>
-					<div class="networkersData">
+					<div class="networkersData" style='width:55px;'>
 						<?php echo $this->Paginator->sort('Job Shared','sharedJobsCount');?>
 					</div>
 					<div class="networkersData">
@@ -72,8 +75,9 @@
 			</div>
 			<?php $count=1;?>
 			<?php foreach($networkersData as $key => $networkerInfo): ?>
-			<div class="networkerDataHover <?php if($count%2==0) echo 'networkerDataBarEven'; else echo 'networkerDataBarOdd'; ?>" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
+			<div class="dataBar networkerDataHover <?php if($count%2==0) echo 'even'; else echo 'odd'; ?>" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
 				<div class="networkersDataEmail"><?php echo $networkerInfo['User']['account_email'];?></div>
+				<div class="networkersDataOrigin"><?php echo $networkerInfo['University']['name'];?></div>
 				<div class="networkersData"><?php echo $networkerInfo['networkersCount'];?></div>
 				<div class="networkersData"><?php echo $networkerInfo['0']['jobseekerCount'];?></div>
 				<div class="networkersDataOrigin">
@@ -97,7 +101,7 @@
 												);
 											?>
 				</div>
-				<div class="networkersData"><?php echo $networkerInfo['0']['sharedJobsCount'];?></div>
+				<div class="networkersData" style="width:55px;"><?php echo $networkerInfo['0']['sharedJobsCount'];?></div>
 				<div class="networkersData">
 					<?php 
 						if($networkerInfo['Networker']['notification']>0)

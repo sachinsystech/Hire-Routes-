@@ -220,7 +220,7 @@ class NotificationsController extends AppController {
 					echo "\n\t\t\t\t Sending job notification email to ".$userId."\n";			
 					$this->sendJobPostEmail($userId,$jobData);		
 			 	}else{
-					echo "\n\t\t\t\t No jobs to post for Jobseeker ".$userId."\n";
+					echo "\n\t\t\t\t No jobs to post for networker ".$userId." Total Post = ".$total_job."\n";
 				}								
 			}						
 		}else{

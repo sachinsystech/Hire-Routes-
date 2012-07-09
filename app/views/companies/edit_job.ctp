@@ -46,7 +46,8 @@
 					<?php echo $form->input('reward', array('label' => 'Reward$:',
         		   		                           			'type'  => 'text',
 															'class' => 'text_field_bg required number',
-        		           	                                'value' => isset($job['reward'])?$job['reward']:""
+        		           	                                'value' => isset($job['reward'])?$job['reward']:"",
+        		           	                                'min'   => 1000,
 		                                           			)
         		           		             );
 				    ?>	

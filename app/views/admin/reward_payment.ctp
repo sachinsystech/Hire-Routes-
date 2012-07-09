@@ -567,28 +567,20 @@ height:20px;float:right;'));?>
 	<div id="graph">Loading graph...</div>
 		<?php echo($javascript->link("jscharts.js")); ?>
 	</div>
-	<div style="clear:both;margin: auto;width: 310px;padding-bottom: 8px;">
-	   <div style="float:left">
-		   <div style="float:left">2011</div>
-		   <div class='nav_year' onclick="return paymentRewardGraph(2011);"> </div>
-	   </div>
-	   <div style="float:left">
-		   <div style="float:left"> <span> <b>| </b></span>  2012</div>
-		   <div class='nav_year' onclick="return paymentRewardGraph(2012);"> </div>
-	   </div>
-	   <div style="float:left">
-		   <div style="float:left"> <span> <b>| </b></span>  2013</div>
-		   <div class='nav_year' onclick="return paymentRewardGraph(2013);"> </div>
-	   </div>
-
-	   <div style="float:left">
-		   <div style="float:left"> <span> <b>| </b></span>  2014</div>
-		   <div class='nav_year' onclick="return paymentRewardGraph(2014);"> </div>
-	   </div>
-	   <div style="float:left">
-		   <div style="float:left"> <span> <b>| </b></span> 2015</div>
-		   <div class='nav_year' onclick="return paymentRewardGraph(2015);"> </div>
-	   </div>
+	<div id ="graphYear" style="clear:both;margin: auto;width: 0px;padding-bottom: 8px;">
+	<?php 
+		$j=0;
+		$currentYear=Date("Y"); 
+		for($i=2011;$i<=$currentYear;$i++,$j++){ ?>
+			<div style="float:left">
+			   <div style="float:left">
+			   <?php if($j%5!=0)echo "<span> <b>| </b></span>";echo $i?></div>
+			   <div class="nav_year <?php echo ($currentYear == $i)?'active_year':'';?>"
+			   	onclick="return paymentRewardGraph(<?php echo $i?> ,this);"> </div>
+		   </div>
+	<?}
+		echo "<script> $('#graphYear').width(".(55*$j).");</script>";
+	?>
 	</div>
  </div>
 </div>
@@ -665,21 +657,24 @@ function callback(){
 	
 }
 
-
-function paymentRewardGraph(yearReward){
+	function paymentRewardGraph(yearReward , field){ 
+		if(field){
+			$(".active_year").removeClass("active_year");
+			$(field).addClass("active_year");
+		}
 		$.ajax({
-		url:"/admin/fetchRewardTimeGraph",
-		type:"post",
-	    dataType:"json",
-	 	async:false,
-		data: {yearReward:yearReward},
-		success:function(response){
-			drawGraph(response['data'],response['year']);
-		}		
-			
-	});
-}
-paymentRewardGraph(2012);
+			url:"/admin/fetchRewardTimeGraph",
+			type:"post",
+			dataType:"json",
+		 	async:false,
+			data: {yearReward:yearReward},
+			success:function(response){ 
+				drawGraph(response['data'],response['year']);
+			}		
+		});
+	}
+	
+	paymentRewardGraph((new Date).getFullYear());
 </script>
 
 

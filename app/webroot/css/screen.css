@@ -876,18 +876,10 @@ div.message{
 	}
 .account-drop-inner	{
 	font-size: 0px;
-
-
-
-
-
-
-
-
 	line-height: 0px;
 	margin: 20px auto 0 auto;
-
 	width: 140px;
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -1598,14 +1590,14 @@ a:hover.back-login	{
 
 .even{
         background-color:#FFFFFF;
-		font-size:14px;
-        line-height:18px;
+		font-size:12px;
+        line-height:16px;
     }
 
 .odd{
         background-color:#F5F5F5;
-        font-size:14px;
-        line-height:18px;
+        font-size:12px;
+        line-height:16px;
     }
     
  .tableHeading{
@@ -1881,7 +1873,7 @@ button{
     min-width: 0;
     padding: 4px 8px;
     text-decoration: none;
-	-moz-border-radius:10px;
+	border-radius:15px;
 	-webkit-border-radius: 10px;
 
 }
@@ -1969,7 +1961,15 @@ select{
     height: 12px;
     margin: 2px;
     width: 12px;
+    cursor: pointer;
 }
+.nav_year:hover {
+    background: none repeat scroll 0 0 #9C66F9;
+}
+.active_year{
+    background: none repeat scroll 0 0 #FF0000;
+}
+
 
 /*Networker Data*/
 
@@ -1977,6 +1977,7 @@ div .dataBorder{
 	height:auto;
 	overflow:auto;
 	margin-bottom:5px;
+	padding:10px;
 	border:1px solid #cccccc;
 	-moz-border-radius: 15px 15px 15px 15px;
 }
@@ -1986,7 +1987,7 @@ div .networkerData{
 	overflow:auto;
 	margin:auto;
 	padding:10px;
-	width:937px;
+	width:1007px;
 }
 
 div .levelInfo{
@@ -2042,10 +2043,11 @@ div .levelDataActiveBar{
 }
 
 div .networkerInfo{
-	width:780px;
+	width:850px;
 	height:auto;
 	overflow:auto;
 	float:right;
+	text-align:center;
 	border:1px solid black;
 }
 
@@ -2055,7 +2057,7 @@ div .networkerInfo{
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
-	width:770px;
+	width:840px;
 }
 
 .networkerDataBarOdd{
@@ -2071,6 +2073,7 @@ div .networkerInfo{
 }
 .networkerDataHover:hover{
 	background-color: #ccffcc;
+	cursor:pointer;
 }
 .networkerDataHeading{
 	min-height:20px;
@@ -2117,6 +2120,7 @@ div .networkerInfo{
 	width:190px;
 	float:left;
 	text-align:left;
+	padding-left:5px;
 }
 
 .networkersDataOrigin{
@@ -2141,15 +2145,16 @@ div .NSData{
 	overflow:auto;
 	margin:auto;
 	padding:10px;
-	width:957px;
+	width:1057px;
 }
 
 div .NSInfo{
-	width:800px;
+	width:900px;
 	height:auto;
 	overflow:auto;
 	float:right;
 	border:1px solid black;
+	text-align:center;
 }
 
 .NSDataPaginatorBar{
@@ -2158,7 +2163,7 @@ div .NSInfo{
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
-	width:770px;
+	width:870px;
 }
 
 div .specificData{
@@ -2247,7 +2252,7 @@ label.error_input_message{
 	border:none !important;
 	line-height: 25px;
 	margin:auto;
-	width:70%;
+	width:75%;
 	overflow:visible;
 }
 .employerListTable tr{
@@ -2280,6 +2285,7 @@ label.error_input_message{
    font-size: 12px;
    padding:5px;
    margin:5px;  
+   line-height: 12px;
 }
 .levelDataBarHover:hover{
    	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
@@ -2450,7 +2456,7 @@ div .JSJobProfile{
 /**********/
 /**** Jobseeker job data ****/
 .JSJobData{
-	width:600px;
+	width:565px;
 	margin:auto;
 	padding:10px;
 	text-align:center;
@@ -2503,9 +2509,10 @@ div .JSJobProfile{
 }
 
 .JSJobData .job{
-	width:200px;
+	width:195px;
 	float:left;
 	text-align:left;
+	padding-left:5px;
 }
 
 .JSJobData .data{
@@ -2549,3 +2556,133 @@ div .JSJobProfile{
 fieldset{
 	border: 1px solid #000000;
 }
+
+/**** Job Specific Data ****/
+
+.specificJobDetail{
+	width:410px;
+	margin:auto;
+	padding:10px;
+	border:1px solid #cccccc;
+}
+
+.jobTitle{
+	font-size:16px;
+	font-weight:bold;
+	color:orange;
+}
+
+.jobRowHeading{
+	float:left;
+	width:110px;
+	font-weight:bold;
+}
+
+.jobRowData{
+	float:left;
+	width:300px;
+}
+
+.jobViewData{
+	width:410px;
+	margin:auto;
+	padding:10px;
+	clear:both;
+	height:auto;
+	overflow:auto;
+	border:1px solid #cccccc;
+	margin-top:10px;
+}
+
+.jobViewHeading{
+	font-size:16px;
+}
+
+.JVSpecificaion{
+	float:left;
+	width:60px;
+	font-weight:bold;
+}
+
+.JVData{
+	float:left;
+	width:65px;
+}
+
+.jobApplyers{
+	width:465px;
+	margin:auto;
+	padding:10px;
+	clear:both;
+	height:auto;
+	overflow:auto;
+	border:1px solid #cccccc;
+	margin-top:10px;
+}
+
+.dataContactName{
+	width:100px;
+	text-align:left;
+	float:left;
+}
+
+.dataAccountEmail{
+	width:190px;
+	text-align:left;
+	float:left;
+}
+
+.dataContact{
+	width:100px;
+	float:left;
+	text-align:left;
+}
+
+.dataStatus{
+	width:70px;
+	float:left;
+	text-align:center;
+}
+/**********************/
+
+/**** Common ****/
+.headingBar{
+	min-height:25px;
+	border-bottom: 1px solid black;
+	background-color:#3E3E3E;
+	font-weight:bold;
+	font-size:14px;
+	text-align:center;
+	padding-top:5px;
+	padding-bottom:5px;
+	color:white;
+	clear:both;
+	height:auto;
+	overflow:auto;
+}
+
+.headingBar a{
+	color:white;
+	text-decoration:underline;
+}
+
+.headingBar a:hover{
+	color:#FFA0FF;
+}
+
+.dataBar{
+	min-height:20px;
+	border-bottom:1px solid black;
+	clear:both;
+	height:auto;
+	overflow:auto;
+	padding-top:3px;
+	padding-bottom:3px;
+}
+
+.paginator{
+	height:20px;
+	float:right;
+	text-align:right;
+}
+/**********************/

@@ -3,15 +3,20 @@
 
 <div style="font-weight:bold; font-size:27px;"><center>Welcome to Hire Routes!</center></div>
 <div style="margin-top:35px">
-<center>
-	Thank you for registering with Hire Routes!
-</center>
+	<center>
+		Thank you for registering with Hire Routes!
+	</center>
+</div>
+<div style="margin-top:35px">
+	<center>
+		Please fill your profile first to continue with Hire Routes
+	</center>
 </div>
 <div style="margin-top:20px">
-<center>
-	Please click below and select your settings so you can start<br/>
-	helping people find jobs in the industries you think you can help in!
-</center>
+	<center>
+		Please click below and select your settings so you can start<br/>
+		helping people find jobs in the industries you think you can help in!
+	</center>
 </div>
 
 <?php
@@ -31,10 +36,10 @@ switch($role) {
 ?>
 
 <div class="selection-button">
-<center>
-<a style="text-decoration:none;" href="<?php echo $setting_page_url;?>"><button style="height:50px;"><?php echo $setting_page_title; ?></button></a>
-<?php if(isset($jobUrl)):?>
-<a style="text-decoration:none;" href="<?php echo $jobUrl;?>"><button style="height:50px;">CONTINUE TO <br/>JOB</button></a>
-<?php endif;?>
-</center>
+	<center>
+		<a style="text-decoration:none;" href="<?php echo $setting_page_url;?>"><button style="height:50px;"><?php echo $setting_page_title; ?></button></a>
+		<?php if(isset($jobUrl)):?>
+		<a style="text-decoration:none;" href="<?php echo $jobUrl;?>"><button style="height:50px;">CONTINUE TO <br/>JOB</button></a>
+		<?php endif;?>
+	</center>
 </div>

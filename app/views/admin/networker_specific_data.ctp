@@ -88,8 +88,8 @@
 						There is no networker at this Level!
 					</div>
 				<?php else:?>
-					<div style="height:auto;float:left;">
-						<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;">
+					<div style="height:auto;float:left;width:inherit;">
+						<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;text-align:left;">
 							<?php echo "Level $selectedLevel"?>
 							<?php $this->Paginator->options(array('url' =>array($networkerData['User']['id'])));?>
 							<?php if($this->Paginator->numbers()): ?>
@@ -103,9 +103,12 @@
 								</div>
 							<?php endif; ?>
 						</div>
-						<div Class="networkerDataHeading">
+						<div Class="headingBar">
 							<div class="networkersDataEmail" style="text-align:center">
 								<?php echo $this->Paginator->sort('User','User.account_email')?>
+							</div>
+							<div class="networkersDataOrigin">
+								<?php echo $this->Paginator->sort('University','university');?>
 							</div>
 							<div class="networkersData" style="width:50px;">Level</div>
 							<div class="networkersData">Networkers</div>
@@ -120,16 +123,19 @@
 							<div class="networkersData">
 								<?php echo $this->Paginator->sort('Subscription','notification');?>
 							</div>
-							<div class="networkersData">
+							<div class="networkersData" style='margin-right:5px;'>
 								<?php echo $this->Paginator->sort('Created','User.created');?>
 							</div>
 						</div>
 					</div>
 					<?php $count=1;?>
 					<?php foreach($networkersNetworkerData as $key => $networkerInfo): ?>
-						<div class="<?php if($count%2==0) echo 'networkerDataBarEven'; else echo 'networkerDataBarOdd'; ?> networkerDataHover" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
+						<div class="dataBar <?php if($count%2==0) echo 'even'; else echo 'odd'; ?> networkerDataHover" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
 							<div class="networkersDataEmail">
 								<?php echo $networkerInfo['User']['account_email'];?>
+							</div>
+							<div class="networkersDataOrigin">
+								<?php echo $networkerInfo['University']['name'];?>
 							</div>
 							<div class="networkersData" style="width:50px;">
 								<?php echo $networkerInfo['level'];?>

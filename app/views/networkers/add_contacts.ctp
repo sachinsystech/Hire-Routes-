@@ -26,16 +26,16 @@
 				</div>
 				
 				<div style="clear:both"></div>
-				
-				<div class="add_contact_field_row">
+
+				<!--div class="add_contact_field_row">
 					<div class="add_contact_label">2. Hotmail</div>
 					<div style="float:left"><button style="background:#00FF00; width: 150px;font-size: 12px;">Import from Hotmail</button></div>
-				</div>
+				</div-->
 				<div style="clear:both"></div>
 				
 				<?php  echo $form->create('networkers', array('controller'=>'networkers','action' => 'importCsv', 'type' => 'file'));?>
 				<div class="add_contact_field_row">
-					<div class="add_contact_label">3. CSV File</div>
+					<div class="add_contact_label">2. CSV File</div>
 					<div style="float:left"><?php echo $form->file('CSVFILE',array('class'=>'csv_file_bg required'));?></div>					
 					<div style="float:right"><?php echo $form->submit('Import CSV File',array('div'=>false,'class'=>'csv_file_button'));?></div>
 				</div>
@@ -51,7 +51,7 @@
 																	)
 												   );
 					?>
-					<div class="add_contact_label">4. Single Entry</div>
+					<div class="add_contact_label">3. Single Entry</div>
 					<div style="float:left">
 						<?PHP $contact_name_value = isset($NetworkerContact['contact_name'])?$NetworkerContact['contact_name']:'Enter Name'?>
 						<?php echo $form->input('contact_name', array('label' => '',
@@ -142,56 +142,50 @@ function importFromGmail(){
 	window.location.href="https://accounts.google.com/o/oauth2/auth?client_id=570913376629-e30ao1afv415iu3e8e1t1tatgqjpspm7.apps.googleusercontent.com&redirect_uri=http://qa.hireroutes.com/networkers/addContacts&scope=https://www.google.com/m8/feeds/&response_type=code";
 }
 </script>
-
-<?php if(isset($GmailContacts)):?>
-<div id="gmailContacts">
-
-	<table style="font-size: 14px; margin: -3px 0 0 26px; width: 95%;" class="contacts">
-		<tr>
-			<th style="width:3%;text-align:center"><input type="checkbox" onclick="toggleChecked(this.checked)"></th>
-			<th style="width:25%;text-align:center"> Name </th>
-			<th style="width:72%;text-align:center"> E-Mail </th>
-		</tr>
-	</table>	
+<?php if(isset($GmailContacts)){?>
+<div id="gmailContacts" >
+	<?php  echo $this->Form->create('gmailContact', array('url' => array('controller' => 'networkers', 
+																		 'action' => 'addContacts')));?>
+	<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
+	<div style="border-bottom:1px solid">
+		<div style="float:left;width:178px;margin-left:5px;"> 
+			<input type="checkbox" onclick="toggleChecked(this.checked)">
+		</div>
+		<div> <b> E-Mail </b> </div>
+	</div>
 	<div style="height: 280px; margin: auto; overflow: auto;">
-		<table style="font-size: 14px; margin-left: 26px; width: 95%;" class="contacts">
-			<?php foreach($GmailContacts AS $contact):?>	
-			<tr>
-				
-				<?php 
-						$email = $contact->attributes()->address;
-						$pieces = explode("@", $email);
-						$contactName = explode(".", $pieces[0]);
-						$contactName = preg_split('#([0-9])#i', $contactName[0]);
-						$contactName =  ucfirst($contactName[0]);					
-				?>
-				<td>
-					<?php	
-							echo $form->input($contactName, array(
-																				'label' => '',
-																				'type'  => 'checkbox',
-																				'value' => $contact->attributes()->address,
-																				'class' => 'contact_checkbox',
-																				'css' => 'margin-left:4px;width:17px'
-																				)
-											  );
-						
-					?>
-				</td>
-			
-				<td><?php echo $contactName; ?></td>
-				<td><?php echo $email; ?></td>
-			</tr>
-			<?php endforeach;?>
-		</table>
+	<?php	
+				echo $form->input("addGmailContact", array(	'class'=>'contact_checkbox',
+															'label' => '',
+															'type'  => 'select',
+															'multiple' => 'checkbox',
+															'options'=>$GmailContacts,
+															'class' => 'contact_checkbox',
+															'css' => 'margin-left:4px;width:17px'
+													)
+								  );
+		  
+		  
+	?>
+
 	</div>
 	<div style="clear:both;margin: 7px 23px;">
-		<button style="font-size: 10px; font-weight: bold; width: 90px; float: right; margin: 3px;">Add Contacts</button>
+		<input type="submit" style="font-size:10px;font-weight:bold;width:90px;float:right;margin:3px;"
+			value="Add Contacts" onclick="return checkGmailCheckbox()">
+		<?php }
+		else{ ?>
+			<div style="text-align:center;">
+				<span >No contacts Found</sapn> 
+			</div>
+		<?php } ?>
+	<?php echo $form->end(); ?>
+	<?php }?>
+	
 	</div>	
 </div>
 <script>
 	$("#gmailContacts").dialog({
-		height:400,
+		height:430,
 		width:550,
 		modal:true,
 		resizable: false ,
@@ -204,10 +198,20 @@ function importFromGmail(){
 	});
 	
 	function toggleChecked(status) {
-		$(".contact_checkbox").each( function() {
+		$("input:checkbox").each( function() {
 			$(this).attr("checked",status);
 		})
 	}
+	
+	function checkGmailCheckbox(){
+		var count = $(":checkbox:checked").length;
+		
+		if(count ==0 ){
+			alert("Please select contact from list");
+			return false;
+		}
+		else
+			return true;
+	}
 </script>
 
-<?php endif;?>

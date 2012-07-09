@@ -24,8 +24,8 @@ class Job extends AppModel {
 				'last'=>true,
 			),
 			'minValue'=>array(
-				'rule' => array('comparison', 'greater or equal', 2000),
-				'message'=>'Reward value must be greater or equal to 2000',
+				'rule' => array('comparison', 'greater or equal', 1000),
+				'message'=>'Reward value must be greater or equal to 1000',
 				'last'=>true,
 			),
         ),

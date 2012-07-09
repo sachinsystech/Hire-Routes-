@@ -3,9 +3,9 @@
 <div class="sigup_heading"><u>Register</u></div>
 <div>You will be able to apply for jobs and share job posts with your network.</div>
 <div>Please submit the form below and you will receive an email confirmation to complete you registration.</div>
-
-<div class="fb"><a href="<?php echo $FBLoginUrl; ?>"><button class="facebook"></button></a></div>
-
+<?php if($this->Session->read('intermediateCode')!="" || $this->Session->read('intermediateCode')!=null){ ?>
+	<div class="fb"><a href="<?php echo $FBLoginUrl; ?>"><button class="facebook"></button></a></div>
+<?php } ?>
 <div style="width:480px; margin-top:20px;">
 <?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkform()')); ?>
 
@@ -33,7 +33,7 @@
                                  );
     ?>
 	<?php
-		if($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null){
+		if($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null):
 			echo $form->input('Code.code', array('label' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",
@@ -41,7 +41,37 @@
                                            			)
                                  );
 			if(isset($codeErrors)):?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
-	<?  }?>
+			<div class="required" style="padding:0;">
+			<?php echo $form->input('university',array('label'=> 'University',
+														'type'=>'text',
+														'class' => 'text_field_bg required'
+													));
+				if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
+			?>
+			</div>
+			
+			<?php echo $form->input('graduate_degree_id',array('label'=> 'Graduate Degree (if applicable)',
+														'type'=>'text',
+														'class' => 'text_field_bg '
+													));
+				if(isset($graduateErrors)):?><div class="error-message"><?php echo $graduateErrors;?></div><?php endif; 
+			?>
+			
+			<?php echo $form->input('graduate_university',array('label'=> 'Graduate University',
+														'type'=>'text',
+														'class' => 'text_field_bg'
+													));
+				if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
+			?>													
+
+			<div style="display:none;">
+			<?php
+				echo $form->input('Networker.graduate_university_id',array('type'=>'text', 'value'=>''));
+				echo $form->input('Networker.graduate_degree_id',array('type'=>'text', 'value'=>''));
+				echo $form->input('Networker.university',array('type'=>'text','value'=>''));
+			?>
+			</div>
+	<?php  endif;?>
 	<div class="signup_agree_condition">
 		<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
 															'type'  => 'checkbox',
@@ -83,4 +113,94 @@
 	}
 	
 </script>
-
+<script>
+	$(document).ready(function(){
+		$("#UserUniversity").autocomplete({
+			minLength:1,
+			source: function( request, response ) {
+				$.ajax({
+					url: "/Utilities/getUniversities/startWith:"+request.term,
+					dataType: "json",
+					success: function( data ) {
+						response( $.map( data, function(item) {
+							if(data == null) return;
+							return {
+								value: item.name,
+								key: item.id
+							}
+						}));
+					}
+				});
+			},
+			select: function( event, ui ) {
+				$('#NetworkerUniversity').val(ui.item.key);
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+			}
+		});
+	});
+	
+	$(document).ready(function() {
+		$( "#UserGraduateUniversity" ).autocomplete({
+			minLength:1,
+			source: function( request, response ) {
+				$.ajax({
+					url: "/Utilities/getUniversities/startWith:"+request.term,
+					dataType: "json",
+					success: function( data ) {
+						if(data == null) return;
+						response( $.map( data, function(item) {
+							return {
+								value: item.name,
+								key: item.id
+							}
+						}));
+					},
+				});
+			},
+			select: function( event, ui ) {
+				$('#NetworkerGraduateUniversityId').val(ui.item.key);
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+			}
+		});
+	});
+	
+	$(document).ready(function() {
+		$("#UserGraduateDegreeId").autocomplete({
+			minLength:1,
+			source: function( request, response ) {
+				$.ajax({
+					url: "/Utilities/getGraduateDegrees/startWith:"+request.term,
+					dataType: "json",
+					success: function( data ) {
+						if(data == null) return;
+						response( $.map( data, function(item) {
+							return {
+								value: item.name,
+								key: item.id
+							}
+						}));
+					},
+				});
+			},
+			select: function( event, ui ) {
+				$('#NetworkerGraduateDegreeId').val(ui.item.key);
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+			}
+		});
+	});
+	</script>

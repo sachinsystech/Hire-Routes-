@@ -48,8 +48,17 @@ class TwitterController extends AppController {
                     if(isset($resp['recipient'])){
                     	//save here job sharing details..
                     	$shareJobData['job_id'] = $jobId;
-                    	$shareJobData['user_id'] = $userId;
-                    	$this->SharedJob->save($shareJobData);
+                       	$sharedJobExits=$this->SharedJob->find('first',array('conditions'=>array(
+    									'job_id'=>$jobId,	
+				    					'user_id'=>$userId,	
+				    					)
+						));
+						if(empty($sharedJobExits)){
+		            		$shareJobData['user_id'] = $userId;
+							$this->SharedJob->save($shareJobData);	
+						}
+                    	//$shareJobData['user_id'] = $userId;
+                    	//$this->SharedJob->save($shareJobData);
                     	return json_encode(array('error'=>0));
                     }else{
 				        if($resp['error'] || !empty($resp['error'])){

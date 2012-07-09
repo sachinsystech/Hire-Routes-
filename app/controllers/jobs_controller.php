@@ -355,8 +355,15 @@ class JobsController extends AppController {
 	} 
 
 	function jobDetail(){
-
-		$session = $this->_getSession();		
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$url ="/jobs/jobDetail/".$this->params['jobId']; 
+			//echo $url;exit;
+			$session->setBeforeAuthUrl($url);	
+			$this->Session->setFlash('Please loign to continue with job.', 'error');				
+			$this->redirect("/users/login");
+		}
+	
 		$userId = $session->getUserId();
 		
 		if(isset($this->params['jobId'])){
@@ -390,14 +397,23 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 			if($job){
 	
 				if($this->userRole!=COMPANY){
-					$this->data['JobViews']['job_id'] = $id;
+				    $this->data['JobViews']['job_id'] = $id;
 					if(isset($userId)){
-						$this->data['JobViews']['user_id'] = $userId;
+					    $jovViewExits=$this->JobViews->find('first',array('conditions'=>array(
+    									'JobViews.job_id'=>$id,	
+				    					'JobViews.user_id'=>$userId,	
+				    					)
+						));
+						if(empty($jovViewExits)){
+							$this->data['JobViews']['user_id'] = $userId;						
+							$this->JobViews->save($this->data['JobViews']);
+						}
 					}else{
 						$this->data['JobViews']['user_id'] = 0;
+					    $this->JobViews->save($this->data['JobViews']);						
 					}
 			   
-				    $this->JobViews->save($this->data['JobViews']);
+					//$this->JobViews->save($this->data['JobViews']);
 			    }
 				$this->set('job',$job);
 				$this->set('jobId',$job['Job']['id']);

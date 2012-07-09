@@ -36,6 +36,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('employerLoginStatus');
 		$this->Auth->allow('processCompanyRequest');
 		$this->Auth->allow('jobs');
+		$this->Auth->allow('jobSpecificData');
 
 		$this->layout = "admin";
 	}
@@ -238,18 +239,9 @@ class AdminController extends AppController {
 	 
 	function updatePaymentStatus()
 	{
-		$this->PaymentHistory->set(
-			array('id'=>$this->data['PaymentHistory']['id'], 'payment_status'=>true, 
-				'hr_reward_percent'=>$this->data['PaymentHistory']['hrRewardPercent']
-			)
-		);
-	 	if($this->PaymentHistory->save())
-	 		$this->Session->setFlash('Status updated successfully','success');
-	 	else
-	 		$this->Session->setFlash('Status update failure','error');
-	 	$this->redirect(
-	 		array('controller' => 'admin','action'=>'paymentDetails',$this->data['PaymentHistory']['id'])
-	 	);
+		$this->autoRender=false;
+		$this->RewardsStatus->updateAll(array('status'=>1),$this->params['form']);
+		return $this->RewardsStatus->getAffectedRows();
 	}
 	
 	/*
@@ -464,16 +456,18 @@ class AdminController extends AppController {
 				   'conditions' => array('Config.id'=>array(1,2,3,4,5,6,7,8,9)), 
 				   'fields' => array('Config.id','Config.value')
 				   );
-	   $configuration = $this->Config->find('list',$params);
-
-	   $senarioSum=$this->PaymentHistory->find('all',array(
-											'group' => 'scenario',	
-										    'fields' => array('sum(PaymentHistory.amount) as reward','scenario'),
-				   ));
-		for($i=1, $j=0; $i<=9;$i++){
-			$configuration['scenario'][$i]= ($senarioSum[$j][0]['reward']*$configuration[$i]) / 100; 
-			if($i%3 ==0){ $j++;}
-		}
+		$configuration = $this->Config->find('list',$params);
+		$senarioSum=$this->PaymentHistory->find('all',array(
+												'fields' =>'scenario , sum( (hr_reward_percent *amount) /100) as hr_amount , sum((amount*networker_reward_percent)/100)  as nr_amount, sum((jobseeker_reward_percent*amount ) /100 ) as js_amount',
+												'group'=> 'scenario',
+												));
+		$i=1;												
+		foreach($senarioSum as $key => $element){
+			$configuration['scenario'][$i++]= $element[0]["nr_amount"];
+			$configuration['scenario'][$i++]= $element[0]["hr_amount"];
+			$configuration['scenario'][$i++]= $element[0]["js_amount"];						
+		}												
+												
 		$this->set('configuration',$configuration);
 			
 		/****	Employer Payment Details 	***/
@@ -585,10 +579,13 @@ class AdminController extends AppController {
                 11 => 'Nov',
                 12 => 'Dec'
                 );
-		
-		foreach($graphData as $kuch_v){
-			$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+		$gdarray=array();
+		if(!empty($graphData)){
+			foreach($graphData as $kuch_v){
+				$gdarray[$kuch_v[0]['month']] = $kuch_v[0]['reward']/1000; 
+			}
 		}
+
 		$result = array();
 		foreach($months as $k=>$v){
 			if(in_array($k,array_keys($gdarray))){
@@ -861,7 +858,7 @@ class AdminController extends AppController {
 		$this->paginate=array(
 			'fields'=>'User.id, User.parent_user_id, User.account_email, User.created,
 				count(DISTINCT Jobseeker.id) as jobseekerCount, Networker.contact_name, 
-				Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount',
+				Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount, University.name',
 			'recursive'=>-1,
 			'joins'=>array(
 				array(
@@ -888,6 +885,12 @@ class AdminController extends AppController {
 					'type'=>'LEFT',
 					'conditions'=>'SharedJob.user_id=User.id'
 				),
+				array(
+					'table'=>'universities',
+					'alias'=>'University',
+					'type'=>'LEFT',
+					'conditions'=>'Networker.university=University.id'
+				),
 			),
 			'conditions'=>array(
 				'User.id'=>$userIds
@@ -900,7 +903,7 @@ class AdminController extends AppController {
 		$this->User->virtualFields['jobseekerCount'] = 'count(DISTINCT Jobseeker.id)';
 		$this->User->virtualFields['sharedJobsCount'] = 'count(DISTINCT SharedJob.job_id)';
 		$this->User->virtualFields['notification'] = 'Networker.notification';
-		
+		$this->User->virtualFields['university'] = 'University.name';
 		$networkersData = $this->paginate('User');
 													
 		foreach($networkersData as $key => $value){
@@ -1189,7 +1192,7 @@ class AdminController extends AppController {
 			    $this->redirect("/admin/rewardPayment");
 			}
 		}else{
-			$this->Session->setFlash("You may be clicked on old link or entered manually.","error");				
+			$this->Session->setFlash("You may be clicked on old link or entered manually.","error");
 			$this->redirect("/admin/rewardPayment");
 		}
 	}	
@@ -1318,6 +1321,109 @@ class AdminController extends AppController {
 		$jobs=$this->paginate('Job');
 		$this->set('sortBy',$sortBy);
 		$this->set('jobs',$jobs);		
+	}
+	
+	function jobSpecificData(){
+		if(isset($this->params['id'])){
+			$jobId=$this->params['id'];
+			$jobData=$this->Job->find(
+				'first',array(
+					'conditions'=>array('Job.id'=>$jobId),
+					'recursive'=>'-1',
+					'joins'=>array(
+						array(
+							'table'=>'industry',
+							'alias'=>'Industry',
+							'type'=>'LEFT',
+							'conditions'=>'Industry.id = Job.industry'
+						),
+						array(
+							'table'=>'specification',
+							'alias'=>'Specification',
+							'type'=>'LEFT',
+							'conditions'=>'Specification.id=Job.specification'
+						),
+						array(
+							'table'=>'cities',
+							'alias'=>'City',
+							'type'=>'LEFT',
+							'conditions'=>'City.id=Job.city'
+						),
+						array(
+							'table'=>'states',
+							'alias'=>'State',
+							'type'=>'LEFT',
+							'conditions'=>'State.id=Job.state'
+						),
+						array(
+							'table'=>'companies',
+							'alias'=>'Company',
+							'type'=>'LEFT',
+							'conditions'=>'Company.user_id=Job.user_id'
+						),
+						array(
+							'table'=>'job_views',
+							'alias'=>'JobView',
+							'type'=>'LEFT',
+							'conditions'=>'JobView.job_id = Job.id'
+						),
+						array(
+							'table'=>'networkers',
+							'alias'=>'Networker',
+							'type'=>'LEFT',
+							'conditions'=>'Networker.user_id = JobView.user_id'
+						),
+						array(
+							'table'=>'jobseekers',
+							'alias'=>'Jobseeker',
+							'type'=>'LEFT',
+							'conditions'=>'Jobseeker.user_id = JobView.user_id'
+						),
+						array(
+							'table'=>'shared_jobs',
+							'alias'=>'JobShared',
+							'type'=>'LEFT',
+							'conditions'=>'JobShared.job_id = Job.id'
+						),array(
+							'table'=>'jobseeker_apply',
+							'alias'=>'JobApplied',
+							'type'=>'LEFT',
+							'conditions'=>'JobApplied.job_id = Job.id'
+						),
+					),
+					'fields'=>'Job.*,Company.company_name, Industry.name, Specification.name, City.city, State.state, count(DISTINCT JobView.id) AS jobViews, count(DISTINCT JobShared.id) AS sharedJobs, count(DISTINCT JobApplied.id) AS appliedJobs, count(DISTINCT Networker.id) AS networkerViews, count(DISTINCT Jobseeker.id) as jobseekerViews'
+				)
+			);
+			
+			$jobApplyers=$this->jobApplyers($jobId);
+			$this->set('jobData',$jobData);
+			$this->set('jobApplyers',$jobApplyers);
+		}else{
+			$this->Session->setFlash("You may be clicked on old link or entered manually.","error");
+			$this->redirect("/admin/Jobs");
+		}
+	}
+	
+	function jobApplyers($jobId){
+		$this->paginate=array(
+			'joins'=>array(
+				array(
+					'table'=>'jobseeker_apply',
+					'alias'=>'JobseekerApply',
+					'type'=>'INNER',
+					'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id AND JobseekerApply.job_id='.$jobId
+				),
+				array(
+					'table'=>'users',
+					'alias'=>'User',
+					'type'=>'INNER',
+					'conditions'=>'User.id = Jobseeker.user_id'
+				)
+			),
+			'fields'=>'Jobseeker.*,User.account_email, JobseekerApply.is_active',
+			'limit'=>10,
+		);
+		return $this->paginate('Jobseeker');
 	}
 }
 
