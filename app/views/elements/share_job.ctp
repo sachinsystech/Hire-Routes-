@@ -3,6 +3,37 @@
 	 * Share job element
 	 */
 ?>
+<style>
+.selectedFriends{
+	width:150px;
+	height:240px;
+	overflow:auto;
+	border:1px solid black;
+	padding:10px;
+}
+.selectedFriend{
+	width: 31px; 
+    margin: 1px;
+    margin-bottom: 3px;
+    height: 45px;
+    float: left;
+}
+.selectedFriendImage{
+    height: 31px; 
+    width: 30px; 
+    margin: auto;
+}
+.selectedFriendCheckBox{
+    position: absolute; 
+    top: 0px; 
+    left: 15px;
+}
+.selectedFriendName{
+    font-size:.53em;
+    clear:both;
+    text-align: center;
+}
+</style>
 <script>
 $(function() {
         $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -57,7 +88,9 @@ function closeUi(){
 				<li id='liEmail'class="active" ><a style="text-decoration: none;font-weight: normal;" href=# onclick='showView(4);'>Email</a></li>
 			</ul>
 		</div>
-		
+		<div class='selectedFriends'>
+			<div>Selected Friends</div>
+		</div>
 	</div>
 	<!-- left section end -->
 	<!-- middle section start -->
@@ -159,6 +192,7 @@ function showView(type){
         case 1:
             setView('Facebook');
 			$('.s_w_e').hide();
+			$('.selectedFriends').show();
             fillFacebookFriend();
 			$("#share").click(facebookComment);
 			$('#autocomplete').val('Search Friends Here...');
@@ -169,6 +203,7 @@ function showView(type){
         case 2:
             setView('LinkedIn');
 			$('.s_w_e').hide();
+			$('.selectedFriends').show();
             fillLinkedinFriend();
             $("#share").click(linkedInComment);
 			$('#autocomplete').val('Search Friends Here...');
@@ -179,6 +214,7 @@ function showView(type){
         case 3:
             setView('Twitter');
 			$('.s_w_e').hide();
+			$('.selectedFriends').show();
 			fillTwitterFriend();
             $("#share").click(TwitterComment);
 			$('#autocomplete').val('Search Friends Here...');
@@ -189,6 +225,7 @@ function showView(type){
         case 4:
 			$('#ff_list').hide();
 			$('#imageDiv').hide();
+			$('.selectedFriends').hide();
             setView('Email');
 			$("#share").click(shareEmail);
             break;
@@ -253,14 +290,32 @@ function validateFormField(){
 	return true;
 }
 
+function selectFriend(checkedFriend){
+	var parentDiv=$($(checkedFriend).parent()).parent();
+	var title =$(parentDiv).find('img:first').attr("title");
+	var src =$(parentDiv).find('img:first').attr("src");
+	$(parentDiv).parent().hide();
+	$('.selectedFriends').append('<div class="selectedFriend"><div style="position:relative"><div class="selectedFriendImage"><img width="30" height="30" src="' +src+'" title="'+title+ '"/></div><div class="selectedFriendCheckBox"><input class="facebookfriend" value="'+$(checkedFriend).val()+'" type="checkbox" style="margin:0px;" checked onclick="return deSelectFriend(this);"></div></div><div class="selectedFriendName">'+((title.split(" ",2)).toString()).replace(","," ")+'</div></div>');
+}
+
+function deSelectFriend(unCheckedFriend){
+	$("#ff_list .contactBox :hidden").each(function(){
+		if($(this).find('input:checkbox:first').val()!=undefined && $(this).find('input:checkbox:first').val()==$(unCheckedFriend).val()){
+			$(this).find('input:checkbox:first').attr("checked",false);
+			$(this).parent().show();
+		}
+	});
+	$($($(unCheckedFriend).parent()).parent()).parent().html("").hide();
+}
+
 function createHTMLforFillingFriends(friends){
-   
+   $('.selectedFriends .selectedFriend').remove();
    length = friends.length;
    html="";        
    for(i=0;i<length;i++){
-	   html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img width="50" height="50" src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox"></div></div><div class="contactName">'+((friends[i].name.split(" ",2)).toString()).replace(","," ")+'</div></div>';
+	   html += '<div class="contactBox"><div style="position:relative"><div class="contactImage"><img width="50" height="50" src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox" onclick="return selectFriend(this);"></div></div><div class="contactName">'+((friends[i].name.split(" ",2)).toString()).replace(","," ")+'</div></div>';
    }
-   $("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right'  class='s_w_e'>Share with everyone<input style='float:right'type='checkbox' onclick='var flag=this.checked; $(\".facebookfriend\").each(function(){ this.checked = flag; });'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>"+html+"</div>");
+   $("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right'  class='s_w_e'>Share with everyone<input style='float:right'type='checkbox' onclick='var flag=this.checked; $(\"#ff_list .facebookfriend:visible\").each(function(){ this.checked = flag; });'/></div><div id='imageDiv' style='border: 1px solid #000000;width:525px;height:220px;overflow:auto;'>"+html+"<div id='frdFound' style='margin: 76px auto auto;width: 150px;'></div></div>");
 }
 
 </script>
@@ -460,37 +515,79 @@ function close(){
 			});
 			return false;
 		}
-        
+         
+        var lastTextValue= "";
+
 		function filterFriendList(){
 			var textValue = $('#autocomplete').val();
 			var user = jQuery.makeArray();
 			$('#ff_list').show("");
-			$('#ff_list').html("");
-			
+			$("#frdFound").show();	
+			var frdFoundflag= false;
+			$(".s_w_e input[type=checkbox]").attr('checked', false);
             if(textValue=='' || textValue=='Search Friends Here...'){
 				$('#ff_list').html($('#imageDiv').html());
+				$(".contactBox").show();
 				return false;
+			}else{
+				if(strStartsWith(textValue,lastTextValue)){
+					$('#ff_list div.contactBox').each(function(index){
+						name = $(this).find('img:first').attr("title");
+						if(strStartsWith(name,textValue)){
+							checkedValue = 0;
+							if($(this).find('input:checkbox:first').is(':checked')){
+								checkedValue = $(this).find('input:checkbox:first').attr("value");
+								$(this).find('input:checkbox:first').attr("checked","checked");
+							}
+							contentBoxHtml = $(this).html();
+							user[index] = [name, contentBoxHtml,checkedValue];
+						}
+					});
+	
+					lastTextValue=textValue;						
+				}else{
+					lastTextValue="";
+					$('#imageDiv .contactBox').each(function(index){
+						name = $(this).find('img:first').attr("title");
+						if(strStartsWith(name,textValue)){
+							checkedValue = 0;
+							if($(this).find('input:checkbox:first').is(':checked')){
+								checkedValue = $(this).find('input:checkbox:first').attr("value");
+								$(this).find('input:checkbox:first').attr("checked","checked");
+							}
+							contentBoxHtml = $(this).html();
+							user[index] = [name, contentBoxHtml,checkedValue];
+						}
+					});
+				}
 			}
-			
-			$('.contactBox').each(function(index){
+				
+			//$('.contactBox').hide();
+			/*$('.contactBox').each(function(index){
 				name = $(this).find('img:first').attr("title");
-				contentBoxHtml = $(this).html();
-				checkedValue = 0;
+				if(strStartsWith(name,textValue)){
+					contentBoxHtml = $(this).html();
+					checkedValue = 0;
 				if($(this).find('input:checkbox:first').is(':checked')){
 					checkedValue = $(this).find('input:checkbox:first').attr("value");
 				}
-				user[index] = [name, contentBoxHtml,checkedValue];
+			$(this).show();
+			frdFoundflag=true;
+			$("#frdFound").hide();
+			}
+			//user[index] = [name, contentBoxHtml,checkedValue];
 			});
-			
+			if(frdFoundflag==false)
+				$("#frdFound").html("<b>Sorry , No result found.</b>");
+			*/	
+			$("#ff_list").html("");	
 			$.each(user, function(index,userArray) {
-				if(strStartsWith(userArray[0],textValue)){
+				if(user[index]!=undefined){
 					$('#ff_list').append('<div class="contactBox">'+userArray[1]+'</div>');
 				}
 			});
 			return false;
 		}
-		
-		
 		
 		function strStartsWith(str, prefix) {
 			str = str.toLowerCase();
