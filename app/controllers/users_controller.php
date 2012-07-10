@@ -126,7 +126,7 @@ class UsersController extends AppController {
 		$universities = $this->University->find('list');
 		$this->set("universities",$universities);
 
-		$graduateDegrees = $this->GraduateDegree->find('list');	
+		$graduateDegrees = $this->GraduateDegree->find('list',array('fields'=>'id, degree'));	
 		$this->set("graduateDegrees",$graduateDegrees);
 
 		/***	manage facebook user after success callback ***/
