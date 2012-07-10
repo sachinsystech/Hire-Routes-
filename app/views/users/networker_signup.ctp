@@ -37,40 +37,41 @@
 			echo $form->input('Code.code', array('label' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",
-													'class' => 'text_field_bg required'
+													'class' => 'text_field_bg required',
+													'style'=>'margin-top: -2px;'
                                            			)
                                  );
 			if(isset($codeErrors)):?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
 			<div class="required" style="padding:0;">
-			<?php echo $form->input('university',array('label'=> 'University',
-														'type'=>'text',
-														'class' => 'text_field_bg required'
+			<?php echo $form->input('Networker.university',array('label'=> 'University',
+														'type'=>'select',
+														'options'=>$universities,
+														'empty' =>' -- Select University -- ',
+														'class' => 'net_select_university required'
 													));
 				if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
 			?>
 			</div>
 			
-			<?php echo $form->input('graduate_degree_id',array('label'=> 'Graduate Degree (if applicable)',
-														'type'=>'text',
-														'class' => 'text_field_bg '
+			<?php echo $form->input('Networker.graduate_degree_id',array('label'=> 'Graduate Degree (if applicable)',
+														'type'=>'select',
+														'options'=>$graduateDegrees,
+														'empty' =>' -- Select Gred Degree --',
+														'class' => 'net_select_gred_degree'
 													));
 				if(isset($graduateErrors)):?><div class="error-message"><?php echo $graduateErrors;?></div><?php endif; 
 			?>
 			
-			<?php echo $form->input('graduate_university',array('label'=> 'Graduate University',
-														'type'=>'text',
-														'class' => 'text_field_bg'
+			<?php echo $form->input('Networker.graduate_university_id',array('label'=> 'Graduate University',
+														'type'=>'select',
+														'options'=>$universities,
+														'empty' =>' -- Select Gred University --',
+														'class' => 'net_select_gred_university'
 													));
 				if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
 			?>													
 
-			<div style="display:none;">
-			<?php
-				echo $form->input('Networker.graduate_university_id',array('type'=>'text', 'value'=>''));
-				echo $form->input('Networker.graduate_degree_id',array('type'=>'text', 'value'=>''));
-				echo $form->input('Networker.university',array('type'=>'text','value'=>''));
-			?>
-			</div>
+			
 	<?php  endif;?>
 	<div class="signup_agree_condition">
 		<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
@@ -114,6 +115,7 @@
 	
 </script>
 <script>
+/*
 	$(document).ready(function(){
 		$("#UserUniversity").autocomplete({
 			minLength:1,
@@ -202,5 +204,5 @@
 				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 			}
 		});
-	});
+	});*/
 	</script>

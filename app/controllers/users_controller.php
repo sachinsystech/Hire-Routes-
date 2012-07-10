@@ -123,7 +123,12 @@ class UsersController extends AppController {
 		
 		$facebook = $this->facebookObject();
 		$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
-		
+		$universities = $this->University->find('list');
+		$this->set("universities",$universities);
+
+		$graduateDegrees = $this->GraduateDegree->find('list');	
+		$this->set("graduateDegrees",$graduateDegrees);
+
 		/***	manage facebook user after success callback ***/
 		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){			
 			$FBUserId = $facebook->getUser();
@@ -153,37 +158,14 @@ class UsersController extends AppController {
 				$codeFlag=false;
 				$jobId=$this->Utility->getJobIdFromCode(NULL, $this->Session->read('intermediateCode'));
 			}
-			if($this->data['User']['university'] == null ){
-				unset($this->data["User"]["password"]);
-   	            unset($this->data["User"]["repeat_password"]);
-				$this->set('uniErrors', "This is required field");
-				return;
-			}
-			
+
 			if( $this->data['Networker']['university'] == null){
 			 	unset($this->data["User"]["password"]);
    	            unset($this->data["User"]["repeat_password"]);
-				$this->set('uniErrors', "This is not a valid university");
+				$this->set('uniErrors', "This is Required");
 				return;
 			}
-			
-			if( $this->data['User']['graduate_degree_id'] !=null && $this->data['Networker']['graduate_degree_id'] == null){
-			 	unset($this->data["User"]["password"]);
-   	            unset($this->data["User"]["repeat_password"]);
-   	            unset($this->data['User']['university']);
-				$this->set('graduateErrors', "This is not a valid Graduate Degree");
-				return;
-			} 
-			 
-			
-			if( $this->data['user']['graduate_university'] != null &&$this->data['Networker']['graduate_university_id'] == null){
-			 	unset($this->data["User"]["password"]);
-   	            unset($this->data["User"]["repeat_password"]);
-   	            unset($this->data['User']['university']);
-   	            unset($this->data['User']['graduate_degree_id']);   	            
-				$this->set('graduateUniErrors', "This is not a valid degree");
-				return;
-			}  
+			  
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
    	            unset($this->data["User"]["repeat_password"]);
