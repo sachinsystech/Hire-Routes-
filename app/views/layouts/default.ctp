@@ -75,8 +75,18 @@
 		$('.warning').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.warning');
 	}
 </script>
+<script>
+function invite(){
+	window.location.href="/networkers/invites";			
+}
+</script>
 </head>
 <body onload="hideMessage();">
+		
+	<div onclick="return invite();" style="color: rgb(255, 255, 255); font-weight: bold; text-align: center; cursor: pointer; font-size: 14px; top: 45%; padding: 4px; position: fixed; background: url(&quot;../img/media/invite.png&quot;) repeat scroll 0pt 0pt transparent; width: 35px; margin-left: 2px; height: 142px;">
+	
+	</div>
+	
 	<div id="container">
 		<div id="header">
 			<h1><?php //echo $this->Html->link(__('Hire Routes', true), '/'); ?></h1>
