@@ -2,7 +2,7 @@
 <?php	
 	class FacebookController extends AppController {
 
-    var $uses = array('User','SharedJob');
+    var $uses = array('User','SharedJob','InvitedJob');
 	var $components = array('TrackUser','Utility','RequestHandler');    
 	
 	function beforeFilter(){
@@ -96,6 +96,7 @@
         $userId = $session->getUserId();
         $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $this->params['form']['usersId']);
+        
         $message = $this->params['form']['message'];
         $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
         if(!empty($userIds) && $message &&  $User){
@@ -113,12 +114,12 @@
 						$this->SharedJob->save($shareJobData);	
 					}
 		           	//$this->SharedJob->save($shareJobData);
-                	return json_encode(array('error'=>0));
+                	//return json_encode(array('error'=>0));
                 }catch(Exception $e){
                     return json_encode(array('error'=>1));      
                 }
             }
-        }
+        }        
         return json_encode(array('error'=>0));        
     }
 

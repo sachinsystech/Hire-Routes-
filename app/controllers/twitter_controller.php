@@ -1,6 +1,6 @@
 <?php
 class TwitterController extends AppController {
-	var $uses = array('User','SharedJob');
+	var $uses = array('User','SharedJob','InvitedJob');
 	var $components = array('TrackUser','Utility','RequestHandler');
 
 	function beforeFilter(){
@@ -59,7 +59,7 @@ class TwitterController extends AppController {
 						}
                     	//$shareJobData['user_id'] = $userId;
                     	//$this->SharedJob->save($shareJobData);
-                    	return json_encode(array('error'=>0));
+                    	
                     }else{
 				        if($resp['error'] || !empty($resp['error'])){
 				        		$errorMessage = $resp['error'];
@@ -70,6 +70,8 @@ class TwitterController extends AppController {
                     return json_encode(array('error'=>1));      
                 }
             }
+                        
+            return json_encode(array('error'=>0));
         }
         return json_encode(array('error'=>0));
 
