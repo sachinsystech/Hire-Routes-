@@ -11,7 +11,8 @@ class NetworkersController extends AppController {
 						'SharedJob',
 						'User',
 						'Job',
-						'ReceivedJob'
+						'ReceivedJob',
+						'JobViews'
 					);
 	var $components = array('Email','Session','TrackUser','Utility');	
 	var $helpers = array('Time','Form');
@@ -975,6 +976,28 @@ class NetworkersController extends AppController {
 	 */
 	 private function getNetworkerSettings($userId){
 	 	return $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
+	 }
+	 
+	 function invites(){
+	 	$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
+		}
+	
+		$userId = $session->getUserId();
+		$traceId = -1;
+		/*** code for networker trac **/
+        if($userId){
+            if($this->userRole == NETWORKER){
+            	$code=$this->Utility->getCode($traceId,$userId);
+                $this->set('intermediateCode',$code);
+            }
+            if(isset($code)&&!empty($code)){
+            	//$inviteUrl=Configure::read('httpRootURL').'?intermediateCode='.$code;
+		       	$this->set('invitationCode',$code);
+		    }   	
+        }
+        /**** end code ***/		
 	 }
 }
 ?>

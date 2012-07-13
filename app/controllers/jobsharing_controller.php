@@ -1,7 +1,7 @@
 <?php
 class JobsharingController extends AppController {
 
-	var $uses = array('User','Companies','Job','SharedJob','InvitedJob');
+	var $uses = array('User','Companies','Job','SharedJob','Invitation');
 	var $components = array('TrackUser','Utility','RequestHandler');
 	
 	function beforeFilter(){
@@ -83,8 +83,8 @@ class JobsharingController extends AppController {
 					$inviteData['from'] = "E-Mail";
 					$inviteData['code'] =$invitationCode;
 					$inviteData['status '] = 0;
-					$this->InvitedJob->create();
-					$this->InvitedJob->save($inviteData);					
+					$this->Invitation->create();
+					$this->Invitation->save($inviteData);					
 				}
 				// End....				
 				return json_encode(array('error'=>0));
