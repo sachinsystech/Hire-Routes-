@@ -124,7 +124,7 @@ showView(4);
 				<?php echo $form->input('message', array('label' => '',
 				'type' => 'textarea',
 				'class'=> 'msg_txtarear required',
-				'value'=>"Learn more about this $invitationCode"
+				'value'=>"Learn more about this "
 				));?>
 			</div>
 			<!-- Added for filter friends -->
@@ -532,26 +532,27 @@ function shareEmail(){
 	return false;
 }
 function filterFriendList(){
-var textValue = $('#autocomplete').val();
-var user = jQuery.makeArray();
-$('.s_w_e input:checked').attr('checked', false);
-var foundFrd=false;
-$('#ff_list').css("display","none");
-if(textValue=='' || textValue=='Search Friends Here...'){
-$("#imageDiv").css("visibility","visible");
-$('#imageDiv .contactBox').css({"display":"block","visibility":"visible"});
-lastTextValue="";
-return false;
-}
-textValue = textValue.toLowerCase();
-$('#imageDiv .contactBox').css({"display":"none"});
-
-$(".contactImage img[title]").filter(function(){ if((this.title.toLowerCase()).indexOf(textValue)===0)
-return foundFrd=true;else return false; }).parents(".contactBox").css({"display":"block"});
-if(foundFrd === false)
-$("#ff_list").css("display","block").html("<div align='center'>No result found</div>");
-
-return false;
+	var textValue = $('#autocomplete').val();
+	var user = jQuery.makeArray();
+	$('.s_w_e input:checked').attr('checked', false);
+	var foundFrd=false;
+	$('#ff_list').css("display","none");
+	if(textValue=='' || textValue=='Search Friends Here...'){
+		$("#imageDiv").css("visibility","visible");
+		$('#imageDiv .contactBox').css({"display":"block","visibility":"visible"});
+		lastTextValue="";
+		return false;
+	}
+	textValue = textValue.toLowerCase();
+	$('#imageDiv .contactBox').css({"display":"none"});
+	
+	$(".contactImage img[title]").filter(function(){ if((this.title.toLowerCase()).indexOf(textValue)===0)
+	return foundFrd=true;else return false; }).parents(".contactBox").css({"display":"block"});
+	
+	if(foundFrd === false)
+		$("#ff_list").css("display","block").html("<div align='center'>No result found</div>");
+	
+	return false;
 }
 
 function facebookComment(){
@@ -561,23 +562,27 @@ function facebookComment(){
 	if(!validateFormField()){
 		return false;
 	}
-	usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
-	usersNames = $("input[class=facebookfriend]:checked").map(function () {
-					if(this.title){
-						return this.title;
-					}
-				}).get().join(",");
+	var i=0;
+	var user = [];
+
+	$("#imageDiv input[class=facebookfriend]:checked").each(function (i){
+		var o = {};
+		o.id = $(this).attr("value");
+		o.name = $(this).attr("title");
+		user.push(o);
+	});
 
 	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
 	$.ajax({
 		type: 'POST',
-		url: '/facebook/commentAtFacebook',
+		url: '/facebook/sendInvitation',
 		dataType: 'json',
-		data: "usersNames="+usersNames+
-				"&usersId="+usersId+
+		data: 
+				"&user="+JSON.stringify(user)+
 				"&message="+$("#ShareMessage").val()+
-				"&jobId="+$("#ShareJobId").val()+
-				"&code="+$('#code').val(),
+				"&invitationCode="+$('#invitationCode').val(),
+				
+
 		success: function(response){
 			$('#submitLoaderImg').html('');
 			switch(response.error){
@@ -624,13 +629,12 @@ function linkedInComment(){
 	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
 	$.ajax({
 		type: 'POST',
-		url: '/Linkedin/sendMessagetoLinkedinUser',
+		url: '/Linkedin/sendInvitation',
 		dataType: 'json',
 		data: "usersNames="+usersNames+
 				"&usersId="+usersId+
 				"&message="+$("#ShareMessage").val()+
-				"&jobId="+$("#ShareJobId").val()+
-				"&code="+$('#code').val(),
+				"&invitationCode="+$('#invitationCode').val(),
 				
 		success: function(response){
 			$('#submitLoaderImg').html('');
@@ -668,58 +672,61 @@ function linkedInComment(){
 /****** Twitter comment ******/
 
 function TwitterComment(){
-if(!validateCheckedUser()){
-return false;
-}
-if(!validateFormField()){
-return false;
-}
+	if(!validateCheckedUser()){
+		return false;
+	}
+	if(!validateFormField()){
+		return false;
+	}
 	usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
 	usersNames = $("input[class=facebookfriend]:checked").map(function () {
-					if(this.title){
-						return this.title;
-					}
-				}).get().join(",");
-
-$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
-$.ajax({
-type: 'POST',
-url: '/twitter/sendMessageToTwitterFollwer',
-dataType: 'json',
-data: "usersId="+usersId+"&message="+$("#ShareMessage").val()+"&jobId="+$("#ShareJobId").val(),
-success: function(response){
-$('#submitLoaderImg').html('');
-switch(response.error){
-case 0: // success
-$( "#dialog-message" ).html("Successfully sent a message to Twitter follower.");
-$( "#dialog-message" ).dialog("open");
-$('#submitLoaderImg').html('');
-fillTwitterFriend();
-break;
-case 1:
-$( "#dialog-message" ).html(" something went wrong.Please try later or contact to site admin");
-$( "#dialog-message" ).dialog("open");
-$( "#dialog" ).dialog( "close" );
-break;
-case 2:
-$( "#dialog-message" ).html(response.message);
-$( "#dialog-message" ).dialog("open");
-$( "#dialog" ).dialog( "close" );
-break;
-case 3:
-alert(response.message);
-location.reload();
-break;
-}
-},
-error: function(message){
-$('#submitLoaderImg').html('');
-$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
-$( "#dialog-message" ).dialog("open");
-$( "#dialog" ).dialog( "close" );
-}
-});
-return false;
+						if(this.title){
+							return this.title;
+						}
+					}).get().join(",");
+	
+	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
+	$.ajax({
+		type: 'POST',
+		url: '/twitter/sendInvitation',
+		dataType: 'json',
+		data: "usersNames="+usersNames+
+				"&usersId="+usersId+
+				"&message="+$("#ShareMessage").val()+
+				"&invitationCode="+$('#invitationCode').val(),
+		success: function(response){
+			$('#submitLoaderImg').html('');
+			switch(response.error){
+				case 0: // success
+					$( "#dialog-message" ).html("Successfully sent a message to Twitter follower.");
+					$( "#dialog-message" ).dialog("open");
+					$('#submitLoaderImg').html('');
+					fillTwitterFriend();
+					break;
+				case 1:
+					$( "#dialog-message" ).html(" something went wrong.Please try later or contact to site admin");
+					$( "#dialog-message" ).dialog("open");
+					$( "#dialog" ).dialog( "close" );
+					break;
+				case 2:
+					$( "#dialog-message" ).html(response.message);
+					$( "#dialog-message" ).dialog("open");
+					$( "#dialog" ).dialog( "close" );
+					break;
+				case 3:
+					alert(response.message);
+					location.reload();
+					break;
+			}
+		},
+		error: function(message){
+			$('#submitLoaderImg').html('');
+			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+			$( "#dialog-message" ).dialog("open");
+			$( "#dialog" ).dialog( "close" );
+		}
+	});
+	return false;
 }
 
 /**********************/
