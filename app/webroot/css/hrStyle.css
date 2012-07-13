@@ -804,7 +804,6 @@ label.error{
     border: 1px solid #000000;
     height: 23px;
     width: 186px;
-	margin-left: 20px;
 }
 .networker_select_city{
     background-color: #FDFDFD;
@@ -1242,16 +1241,16 @@ label.error{
 .setting_profile{
     margin: 15px 40px;
     padding: 11px;
-    width: 400px;
+    width: 88%;
 }
 .setting_profile_row{
-	margin-top: 5px; 
-	height: 24px;
+	height: 18px;
+	font-size:13px;
 	clear:both;
 }
 .setting_profile_field{
 	float: left; 
-	width: 85px;	
+	width: 135px;	
 	font-weight: bold;
 }
 .setting_profile_value{
@@ -1259,7 +1258,7 @@ label.error{
 }
 .networker_edit_form{
     margin: 15px 50px;
-    width: 358px;
+    width: 385px;
 }
 .jobseeker_edit_form{
     margin: auto;
@@ -1287,7 +1286,7 @@ label.error{
 
 .contacts tr td{
 	border-bottom: 1px solid #DDDDDD;
-	padding:0px;
+	padding-left:5px;
 }
 .network_contact_middleBox{
     border: 1px solid #000000;

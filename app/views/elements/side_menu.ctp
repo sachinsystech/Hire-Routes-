@@ -32,7 +32,7 @@
 		{
 			$my_jobs_actions=array('newJob','jobDetail','archiveJob','jobData','sharedJob');
 			$my_accounts_actions=array('index','setting','editProfile','changePassword');
-			$my_networks_actions=array('personal','addContacts','networkerData');
+			$my_networks_actions=array('personal','addContacts','networkerData','invitations');
 		?>
 			<ul  class="top_mene_hover">
 				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers/newJob"><span>My Jobs</span></a></li>

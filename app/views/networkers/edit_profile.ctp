@@ -4,7 +4,7 @@
 			errorClass: 'error_input_message',
 				errorPlacement: function (error, element) {
 					error.insertAfter(element)
-					error.css({'margin-left':'125px','width':'230px'});
+					error.css({'margin-left':'147px','width':'230px'});
 			}
 		});
     });	
@@ -111,9 +111,8 @@
 						</div>
 						<div style="clear:both"></div>
 
-						<div>
-							<?php	if(isset($networker)){ $university = $networker['university']; } else { $university = "";}
-                                    echo $form->input('Networkers.university', array('label' => 'University:',
+						<div class="required">
+							<?php	echo $form->input('Networkers.university', array('label' => 'University:',
 												'type'  => 'select',
 												'options'=>$universities,
 												'empty'=>"select",
@@ -125,6 +124,32 @@
 							?>
 						</div>
 						
+						<div >
+							<?php	echo $form->input('Networkers.graduate_degree_id', array('label' => 'Graduate Degree:',
+												'type'  => 'select',
+												'options'=>$graduateDegrees,
+												'empty'=>"select",
+												'class' => 'networker_select_bg',
+												'style' => "float:right;width:208px;",
+												'value' => isset($networker['graduate_degree_id'])?$networker['graduate_degree_id']:"",
+												)
+								 );
+							?>
+						</div>
+
+						<div>
+							<?php	if(isset($networker)){ $university = $networker['graduate_university_id']; } else { $university = "";}
+                                    echo $form->input('Networkers.graduate_university_id', array('label' => 'Graduate University:',
+												'type'  => 'select',
+												'options'=>$universities,
+												'empty'=>"select",
+												'class' => 'networker_select_bg',
+												'style' => "float:right;width:208px;",
+												'value' => isset($networker['graduate_university_id'])?$networker['graduate_university_id']:"",
+												)
+								 );
+							?>
+						</div>						
 						<div class="company_profile_field_row">
 							<div style="float:right;margin-right:20px">
 								<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>	

@@ -12,7 +12,8 @@ class NetworkersController extends AppController {
 						'User',
 						'Job',
 						'ReceivedJob',
-						'JobViews'
+						'JobViews',
+						'Invitation',
 					);
 	var $components = array('Email','Session','TrackUser','Utility');	
 	var $helpers = array('Time','Form');
@@ -42,7 +43,7 @@ class NetworkersController extends AppController {
 		$userId = $this->_getSession()->getUserId();		
         if($userId){
         	/* User Info*/			
-			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId),
+			$user = $this->UserList->find('first',array('conditions'=>array('UserList.id'=>$userId),
 													'joins'=>array(
 																array(
 																	'table'=>'networkers',
@@ -53,8 +54,15 @@ class NetworkersController extends AppController {
 																'table'=>'universities',
 																'type'=>'LEFT',
 													'conditions'=>array('universities.id=networkers.university'),
-																)),
-													'fields'=>array('User.*, networkers.*,universities.*'),
+																),
+																array(
+																'table'=>'graduate_degrees',
+																'type'=>'LEFT',
+													'conditions'=>array('graduate_degrees.id=
+													networkers.graduate_degree_id'),
+																),
+																),
+													'fields'=>array('UserList.*, networkers.*,universities.*,graduate_degrees.*'),
 													)
 								);
 			$networkers = $user['networkers'];
@@ -62,8 +70,7 @@ class NetworkersController extends AppController {
 			if(!isset($networkers['contact_name']) || empty($networkers['contact_name'])){
 				$this->redirect("/Networkers/editProfile");						
 			}
-			$this->set('user',$user['User']);
-			$this->set('networker',$networkers);
+			$this->set('user',$user);
 		}
 		else{		
 			$this->Session->setFlash('Internal error has been occured...', 'error');	
@@ -154,13 +161,15 @@ class NetworkersController extends AppController {
 				}	
 			}
 		}
-		$universities =$this->University->find('list');
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-		$this->set('user',$user['User']);
+		$universities = $this->Utility->getUniversities();
+		$graduateDegrees =$this->Utility->getGraduateDegrees();
+		$user = $this->UserList->find('first',array('conditions'=>array('UserList.id'=>$userId)));
+		
+		$this->set('user',$user['UserList']);
 		$this->set('universities',$universities);
-
-        if(isset($user['Networkers'][0])){
-        	$this->set('networker',$user['Networkers'][0]);
+		$this->set('graduateDegrees',$graduateDegrees);
+        if(isset($user['Networkers'])){
+        	$this->set('networker',$user['Networkers']);
         }
 	}
 	
@@ -998,6 +1007,40 @@ class NetworkersController extends AppController {
 		    }   	
         }
         /**** end code ***/		
+	 }
+	 
+	 function invitations() {
+ 	 	$userId = $this->_getSession()->getUserId();
+		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
+	
+		$paginateCondition = array(
+									'AND' => array(
+												array('Invitation.user_id'=>$userId),
+												array('Invitation.name_email  LIKE' => "$startWith%")
+											)
+								);
+		$this->paginate = array('conditions'=>$paginateCondition,
+                                'limit' => 10,
+                                'order' => array("Invitation.id" => 'asc',));  
+		 	 	
+		$invitationArray =	$this->Invitation->find('all' ,array('conditions'=>array('user_id'=>$userId))) ;
+        $Invitations = $this->paginate('Invitation');
+	
+	    $alphabets = array();
+        foreach(range('A','Z') AS $alphabet){
+        	$contacts_count = $this->Invitation->find('count',array('conditions'=>array('Invitation.user_id'=>$userId,
+        																			 	'Invitation.name_email LIKE' => "$alphabet%"
+        																					  )
+        																  )
+        													);
+            $alphabets[$alphabet] = $contacts_count; 
+        }
+		
+        $this->set('alphabets',$alphabets);
+		$this->set("invitations", $Invitations);        
+        $this->set('contact',null);
+        $this->set('startWith',$startWith);
+ 
 	 }
 }
 ?>

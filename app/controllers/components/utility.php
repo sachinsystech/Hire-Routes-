@@ -4,7 +4,8 @@ class UtilityComponent extends Object
 {
 	var $controller = true;
 	var $components = array('Session','Auth','Email');
-	var $uses = array('Industry','State','City','Specification','FacebookUsers','Companies','UserRoles','Job');
+	var $uses = array('Industry','State','City','Specification','FacebookUsers',
+					'University','Companies','UserRoles','Job','GraduateDegree');
 	
 	function initialize(&$controller) {
 		if ($this->uses !== false) {
@@ -258,6 +259,18 @@ class UtilityComponent extends Object
 		}
 		return $DecodeArray;
 	}
+	
+	function getGraduateDegrees(){
+		$GraduateDegrees=$this->GraduateDegree->find('list',array('fields'=>'id,degree', 'order'=>'id'));
+		return $GraduateDegrees;
+
+	}
+	
+	function getUniversities(){
+		$universities=$this->University->find('list',array('fields'=>'id, name', 'order'=>'id'));
+		return $universities;
+	}
+	
 	
 }
 ?>
