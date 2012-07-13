@@ -77,6 +77,61 @@ class TwitterController extends AppController {
 
     }
 
+	function sendInvitation(){
+        $this->autoRender = false;
+
+        $session = $this->_getSession();
+        if(!$session->isLoggedIn()){       
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }
+        $userId = $session->getUserId();
+		$fbUsers = json_decode($this->params['form']['user']);
+        $invitationCode = $this->params['form']['invitationCode'];
+        
+        $user = $this->User->find('first', array('fields'=> array('twitter_token','twitter_token_secret'),
+        														'conditions'=> array('id'=>$userId,
+																'twitter_token !='=>'',
+																'twitter_token_secret !='=>'')));
+
+		$twitterObj = $this->getTwitterObject();
+		$twitterObj->setToken($user['User']['twitter_token'],$user['User']['twitter_token_secret']);
+
+       if(!empty($fbUsers) &&  $user){
+            foreach($fbUsers as $fbuser){
+                try{
+                	$subject = "Hire Routes Invitation ";
+                    $icc = md5(uniqid(rand())); 
+                	$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
+                	$message = $this->params['form']['message']." Connect with us >> ".$invitationUrl;
+                	
+                    $result = $twitterObj->post_direct_messagesNew( array('user' => $fbuser->id, 'text' => $message));
+                    $resp = $result->response;
+                    if(isset($resp['error'])){
+		        		$errorMessage = $resp['error'];
+			        	return json_encode(array('error'=>2,'message'=>$errorMessage));      
+					}
+					/* save invitaion details here*/
+                	$inviteData = array();
+					$inviteData['name_email'] = $fbuser->name;
+					$inviteData['user_id'] = $userId;
+					$inviteData['from'] = "Twitter";
+					$inviteData['ic_code'] = $icc;
+					$inviteData['status '] = 0;
+					$this->Invitation->create();
+					$this->Invitation->save($inviteData);					
+					/* End*/
+                }catch(Exception $e){
+                    return json_encode(array('error'=>1));      
+                }
+            }
+            return json_encode(array('error'=>0));
+        }
+        else{
+        	return json_encode(array('error'=>1));
+        }
+
+    }
+
 	private function connectTwitter(){
 		$this->redirect($this->getTwitterObject()->getAuthorizationUrl());
 	}
