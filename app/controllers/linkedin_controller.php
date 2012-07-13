@@ -5,7 +5,7 @@
 	
 	class LinkedinController extends AppController {
 
-    var $uses = array('User','SharedJob');
+    var $uses = array('User','SharedJob','InvitedJob');
 	var $components = array('TrackUser','Utility','RequestHandler');  
 	
 	function beforeFilter(){
@@ -119,12 +119,14 @@
 					}
                 	                	
                 	$this->SharedJob->save($shareJobData);
-                	return json_encode(array('error'=>0));					
+                	//return json_encode(array('error'=>0));					
                 }catch(Exception $e){
                     return json_encode(array('error'=>1));      
                 }
 
             }
+            
+            return json_encode(array('error'=>0));
         }
 
     }

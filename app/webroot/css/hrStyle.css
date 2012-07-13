@@ -2343,3 +2343,22 @@ label.error_input_message{
 .ui-dialog{
 	top:26px !important;
 }
+.net_select_university {
+    height: 24px;
+    margin-left: 165px;
+    width: 210px;
+}
+.net_select_gred_university {
+    height: 24px;
+    margin-left: 106px;
+    width: 210px;
+}
+.net-signup_txt_gred{
+	margin-top: -2px;
+}
+.net_select_gred_degree {
+    height: 24px;
+    margin-left: 34px;
+    width: 210px;
+}
+

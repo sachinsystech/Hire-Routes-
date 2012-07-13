@@ -455,7 +455,16 @@ class NetworkersController extends AppController {
 			while(! feof($file))
 		  	{
 				$csvArray = fgetcsv($file);
-				$values[] = $csvArray;
+				$csvExplode = explode(";",$csvArray[0]);
+				$fname = isset($csvExplode[0])?$csvExplode[0]:"";
+				$mname = isset($csvExplode[1])?$csvExplode[1]:"";
+				$lname = isset($csvExplode[2])?$csvExplode[2]:"";
+				$email = isset($csvExplode[3])?$csvExplode[3]:"";
+				$fname = trim($fname, "\"");
+				$mname = trim($mname, "\"");
+				$lname = trim($lname, "\"");
+				$email = trim($email, "\"");
+				$values[] = array($fname,$mname,$lname,$email);//$csvArray[0];
 		  	}
 			if(isset($values[1][3])){
 				
@@ -529,7 +538,7 @@ class NetworkersController extends AppController {
 			}	
 		}
 		if($this->NetworkerContact->delete($ids)){
-			$this->Session->setFlash('contact has been deleted successfuly.', 'success');				
+			$this->Session->setFlash('contact(s) have been deleted successfuly.', 'success');				
 		}	
 		$this->redirect('/networkers/personal');
 	}
