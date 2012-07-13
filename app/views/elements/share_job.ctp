@@ -727,4 +727,3 @@ function close(){
 <script>
 	$("#ShareJobForm").validate();
 </script>
-
