@@ -2,7 +2,7 @@
 <?php	
 	class FacebookController extends AppController {
 
-    var $uses = array('User','SharedJob','InvitedJob');
+    var $uses = array('User','SharedJob','Invitation');
 	var $components = array('TrackUser','Utility','RequestHandler');    
 	
 	function beforeFilter(){
