@@ -102,6 +102,8 @@
         if(!empty($userIds) && $message &&  $User){
             foreach($userIds as $id){
                 try{
+                	echo "ID::".$id;
+                	exit;
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array('message'=>$message,'access_token' =>$User['User']['facebook_token']));
                     $shareJobData['job_id'] = $jobId;
                     $sharedJobExits=$this->SharedJob->find('first',array('conditions'=>array(
@@ -123,6 +125,50 @@
         return json_encode(array('error'=>0));        
     }
 
+
+	function sendInvitation(){
+        $this->autoRender = false;
+        $session = $this->_getSession();
+        if(!$session->isLoggedIn()){       
+        	$this->autoRender = false;
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }
+        $userId = $session->getUserId();
+
+		$fbUsers = json_decode($this->params['form']['user']);
+        $invitationCode = $this->params['form']['invitationCode'];
+        $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+        
+        if(!empty($fbUsers) &&  $User){
+            foreach($fbUsers as $fbuser){
+                try{
+                	
+                	$icc = md5(uniqid(rand())); 
+                	$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
+                	$message = $this->params['form']['message']." Connect with us >> ".$invitationUrl;
+                	
+                	$result = $this->facebookObject()->api("/".$fbuser->id."/feed",'post',array('message'=>$message,'access_token' =>$User['User']['facebook_token']));
+					$inviteData = array();                	
+					$inviteData['name_email'] = $fbuser->name;
+					$inviteData['user_id'] = $userId;
+					$inviteData['from'] = "Facebook";
+					$inviteData['ic_code'] = $icc;
+					$inviteData['status '] = 0;
+					$this->Invitation->create();
+					$this->Invitation->save($inviteData);					
+                    
+                }catch(Exception $e){
+                    return json_encode(array('error'=>1));      
+                }
+            }
+        	return json_encode(array('error'=>0));
+        
+        }
+        else{
+        	return json_encode(array('error'=>1));   
+        }        
+                
+    }
 
 
 }
