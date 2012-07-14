@@ -32,3 +32,9 @@
 
 <?php echo $this->element('invite_friend');?>
 
+<script>
+    $(document).ready(function() {
+        showView(4);
+    });
+</script>
+

@@ -10,8 +10,10 @@
 
 class AppController extends Controller {
 
+	var $uses = array('Invitations');
+	
 	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','TrackUser','ApiSession','Utility');
-
+	
 	public $helpers = array('Session','Html', 'Form', 'Javascript','Bcp.DatabaseMenus','Number');
 	
 	protected $userRole;
@@ -25,6 +27,7 @@ class AppController extends Controller {
 				$this->Session->delete('SearchJob');
 		}
 		$session = $this->_getSession();
+		
 		if($session->isLoggedIn()){
 			$data['User']['id']=$session->getUserId();
 			if(isset($data['User']['id']) && ($this->params['action'])!='logout'){
@@ -35,6 +38,7 @@ class AppController extends Controller {
 		}
         //here we get intermidiate user id from URLs
         $this->setIntermidiateUser();
+        $this->setICC();
 		/* SMTP Options for GMAIL */
 	  	$this->Email->smtpOptions = array(
 		   'port'=>'465',
@@ -117,7 +121,23 @@ class AppController extends Controller {
     {
         return $this->ApiSession;
     }
-
+    
+    protected function setICC()
+    {
+        if(isset($this->params['url']['icc'])){
+    	   	//check if it is not presented
+    	   	$icCode = $this->params['url']['icc'];
+    	   	$invitationDetail = $this->Invitations->find('first', array('conditions'=>array('ic_code'=>$icCode)));
+			if(!isset($invitationDetail ) || $invitationDetail == null){
+				$this->Session->delete('intermediateCode');
+				$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
+				$this->redirect("/");
+				return;
+			}
+			$this->Session->write('icc',$icCode);
+		}
+	}
+	
 }
 
 ?>

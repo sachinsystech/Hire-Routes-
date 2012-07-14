@@ -72,7 +72,7 @@ function closeUi(){
 $('.ui-widget-overlay').hide();
 }
 
-showView(4);
+
 
 </script>
 

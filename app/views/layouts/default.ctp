@@ -77,7 +77,7 @@
 </script>
 <script>
 function invite(){
-	window.location.href="/networkers/invites";			
+	window.location.href="/networkers/invitations";			
 }
 </script>
 </head>

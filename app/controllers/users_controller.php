@@ -14,7 +14,7 @@ require_once(APP_DIR.'/vendors/facebook/facebook.php');
 
  */
 class UsersController extends AppController {
-    var $uses = array('User', 'Companies', 'UserRoles', 'Networkers', 'Jobseekers', 'NetworkerSettings', 'JobseekerSettings', 'Acos', 'Aros',	'ArosAcos',	'Code','ReceivedJob','University','GraduateDegree');
+    var $uses = array('User', 'Companies', 'UserRoles', 'Networkers', 'Jobseekers', 'NetworkerSettings', 'JobseekerSettings', 'Acos', 'Aros',	'ArosAcos',	'Code','ReceivedJob','University','GraduateDegree','Invitations');
 	var $components = array('Email', 'Session', 'Bcp.AclCached', 'Cookie', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility');
 				
 	var $helpers = array('Form');
@@ -120,7 +120,7 @@ class UsersController extends AppController {
 		if($this->_getSession()->isLoggedIn()){
 			$this->loginSuccess();	
 		}
-		
+	
 		$facebook = $this->facebookObject();
 		$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
 		$universities = $this->University->find('list');
@@ -159,7 +159,7 @@ class UsersController extends AppController {
 				$jobId=$this->Utility->getJobIdFromCode(NULL, $this->Session->read('intermediateCode'));
 			}
 
-			if( $this->data['Networker']['university'] == null){
+			if( isset($this->data['Networker']['university']) && $this->data['Networker']['university'] == null){
 			 	unset($this->data["User"]["password"]);
    	            unset($this->data["User"]["repeat_password"]);
 				$this->set('uniErrors', "This is Required");
@@ -181,7 +181,16 @@ class UsersController extends AppController {
 						$this->Session->setFlash('Something went wrong! Your job is not saved!', 'warning');
 					}
 				$this->data["Networker"]['user_id'] = $userId;//print_r($this->data["Networker"]);exit;
-				if($this->Networkers->save($this->data["Networker"],false) ){			
+				if($this->Networkers->save($this->data["Networker"],false) ){
+					
+					$iv1 = array('ic_code'=> null,'status'=>'1');
+					$iv2 = array('ic_code =' => $this->Session->read('icc'));
+						
+					if(! $this->Invitations->updateAll($iv1,$iv2)) {
+						$this->Session->setFlash('Internal Error!', 'error');
+						return;
+					}			
+					$this->Session->delete('icc');
 					$this->sendConfirmationEmail($userId);
 					if($codeFlag){
 						$code = $this->findCodeFor('Networker');
@@ -216,6 +225,12 @@ class UsersController extends AppController {
 
 		if($this->_getSession()->isLoggedIn()){
 			$this->loginSuccess();	
+		}
+		
+		if(!$this->validateIcCode()){
+			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
+			$this->redirect("/");
+			return;
 		}
 
 		$facebook = $this->facebookObject();
@@ -265,6 +280,13 @@ class UsersController extends AppController {
 				$userRoleId = JOBSEEKER;
 				if(!$this->saveUserRoles($userId,$userRoleId))
 				{
+					$this->Session->setFlash('Internal Error!', 'error');
+					return;
+				}
+				if(! $this->Invitations->updateAll(
+								   array('ic_code'=> null,'status'=>'1'),
+									array('ic_code =' => $this->Session->read('icc') )
+								)) {
 					$this->Session->setFlash('Internal Error!', 'error');
 					return;
 				}
@@ -364,6 +386,7 @@ class UsersController extends AppController {
 			$this->redirect("/");
 			return;
 		}
+		$this->Session->delete('intermediateCode');
 	    return $this->User->id;
 	}
 /**
@@ -1015,6 +1038,22 @@ class UsersController extends AppController {
 			$this->redirect("/users/login");
 		}
 	
+	}
+	
+	function validateIcCode(){
+		$ic_code = $this->Session->read('icc');
+		if( isset($ic_code) && $ic_code  != '' ){
+			$invitationDetail =$this->Invitations->find('first', array('conditions'=>array('ic_code'=>$ic_code)));
+			if(isset ($invitationDetail ) && $invitationDetail != null)
+				return true;
+			else{
+				$this->Session->delete('icc');
+				$this->Session->delete('intermediateCode');
+				return false;
+			}
+		}else{
+			return true;
+		 }
 	}
 
 }
