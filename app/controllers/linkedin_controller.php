@@ -131,6 +131,54 @@
 
     }
 
+    function sendInvitation(){
+        $this->autoRender = false;
+        $session = $this->_getSession();
+        if(!$session->isLoggedIn()){       
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        }
+        $linkedin = $this->getLinkedinObject();
+        $userId = $session->getUserId();
+		$fbUsers = json_decode($this->params['form']['user']);
+        $invitationCode = $this->params['form']['invitationCode'];
+        $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'NULL')));
+
+		if(!empty($fbUsers) &&  $user){
+            foreach($fbUsers as $fbuser){
+                try{
+                    $linkedin->access_token =unserialize($user['User']['linkedin_token']);
+                    $subject = "Hire Routes Invitation ";
+                    $icc = md5(uniqid(rand())); 
+                	$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
+                	$message = $this->params['form']['message']." Connect with us >> ";//.$invitationUrl;
+                	
+                	$xml_response = $linkedin->sendMessage($fbuser->id,$subject,$message);
+                    $xml_response = simplexml_load_string($xml_response);
+                    
+                    if($xml_response){
+                    	$errorMessage = $xml_response->message;
+                    	$errorMessage = convert_uudecode(convert_uuencode($errorMessage));
+                    	return json_encode(array('error'=>2,'message'=>$errorMessage));      
+                    }
+                           	
+                	/* save invitaion details here*/
+                	$inviteData = array();
+					$inviteData['name_email'] = $fbuser->name;
+					$inviteData['user_id'] = $userId;
+					$inviteData['from'] = "Linked-In";
+					$inviteData['ic_code'] = $icc;
+					$inviteData['status '] = 0;
+					$this->Invitation->create();
+					$this->Invitation->save($inviteData);					
+					/* End*/					
+                }catch(Exception $e){
+                    return json_encode(array('error'=>1));      
+                }
+            }
+            return json_encode(array('error'=>0));
+        }
+    }
+
     private function getLinkedinObject(){
         return  new LinkedIn(LINKEDIN_ACCESS, LINKEDIN_SECRET, LINKEDIN_CALLBACK_URL);    
     } 

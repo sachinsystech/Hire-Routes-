@@ -124,7 +124,7 @@ $('.ui-widget-overlay').hide();
 				<?php echo $form->input('message', array('label' => '',
 				'type' => 'textarea',
 				'class'=> 'msg_txtarear required',
-				'value'=>"Learn more about this "
+				'value'=>"Learn more about this...... "
 				));?>
 			</div>
 			<!-- Added for filter friends -->
@@ -619,20 +619,24 @@ function linkedInComment(){
 	if(!validateFormField()){
 		return false;
 	}
-	usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
-	usersNames = $("input[class=facebookfriend]:checked").map(function () {
-					if(this.title){
-						return this.title;
-					}
-				}).get().join(",");
+	
+	var i=0;
+	var user = [];
+
+	$("#imageDiv input[class=facebookfriend]:checked").each(function (i){
+		var o = {};
+		o.id = $(this).attr("value");
+		o.name = $(this).attr("title");
+		user.push(o);
+	});
 
 	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
 	$.ajax({
 		type: 'POST',
 		url: '/Linkedin/sendInvitation',
 		dataType: 'json',
-		data: "usersNames="+usersNames+
-				"&usersId="+usersId+
+		data: 
+				"&user="+JSON.stringify(user)+
 				"&message="+$("#ShareMessage").val()+
 				"&invitationCode="+$('#invitationCode').val(),
 				
@@ -678,22 +682,26 @@ function TwitterComment(){
 	if(!validateFormField()){
 		return false;
 	}
-	usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
-	usersNames = $("input[class=facebookfriend]:checked").map(function () {
-						if(this.title){
-							return this.title;
-						}
-					}).get().join(",");
+	var i=0;
+	var user = [];
+
+	$("#imageDiv input[class=facebookfriend]:checked").each(function (i){
+		var o = {};
+		o.id = $(this).attr("value");
+		o.name = $(this).attr("title");
+		user.push(o);
+	});
 	
 	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
 	$.ajax({
 		type: 'POST',
 		url: '/twitter/sendInvitation',
 		dataType: 'json',
-		data: "usersNames="+usersNames+
-				"&usersId="+usersId+
+		data: 
+				"&user="+JSON.stringify(user)+
 				"&message="+$("#ShareMessage").val()+
 				"&invitationCode="+$('#invitationCode').val(),
+				
 		success: function(response){
 			$('#submitLoaderImg').html('');
 			switch(response.error){

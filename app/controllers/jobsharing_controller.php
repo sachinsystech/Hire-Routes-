@@ -64,32 +64,28 @@ class JobsharingController extends AppController {
 
 		if(isset($this->params['form']['toEmail'])){
 
-			$to=trim($this->params['form']['toEmail']);
 			$invitationCode = $this->params['form']['invitationCode'];
 			$template = 'invitation';
 			$subject = "Hire-Routes Invitation";
-			$messageBody = array();
-			$messageBody['invitationUrl'] = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode;
-			$messageBody['message'] = $this->params['form']['message'];
-		
+			$tos = explode(",", trim($this->params['form']['toEmail']));
 			
-			if($this->sendEmail($to,$subject,$template,$messageBody)){
-				// Save Invitation
-				$tos = explode(',',$to);
-				$inviteData = array();
-				foreach($tos AS $to){
+			foreach($tos As $to){
+				$icc = md5(uniqid(rand())); 
+                $invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
+                $messageBody['message'] = $this->params['form']['message'];
+                $messageBody['invitationUrl'] = $invitationUrl;
+				if($this->sendEmail($to,$subject,$template,$messageBody)){
+					$inviteData = array();
 					$inviteData['name_email'] = $to;
 					$inviteData['user_id'] = $userId;
 					$inviteData['from'] = "E-Mail";
-					$inviteData['code'] =$invitationCode;
+					$inviteData['ic_code'] = $icc;
 					$inviteData['status '] = 0;
 					$this->Invitation->create();
-					$this->Invitation->save($inviteData);					
+					$this->Invitation->save($inviteData);						
+				}else{
+					return json_encode(array('error'=>2,'message'=>'Something went wrong. Please try after some time OR conntact to site admin.'));
 				}
-				// End....				
-				return json_encode(array('error'=>0));
-			}else{
-				return json_encode(array('error'=>2,'message'=>'Something went wrong. Please try after some time OR conntact to site admin.'));
 			}
 			return json_encode(array('error'=>0));
 		}
