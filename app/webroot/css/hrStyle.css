@@ -71,19 +71,23 @@ ul, li {
 }
 
 /** Invite button**/
-#invite_button{
-	color: rgb(255, 255, 255); 
-	font-weight: bold; 
-	text-align: center; 
-	cursor: pointer; 
-	font-size: 14px; 
-	top: 45%; 
-	padding: 4px; 
-	position: fixed; 
-	background: url('../img/media/invite.png') repeat scroll 0pt 0pt transparent; 
-	width: 35px; 
-	margin-left: 2px; 
-	height: 142px;"
+#invite_button {
+    background: url("../img/media/invite.png") repeat scroll 0 0 transparent;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    height: 86px;
+    margin-left: -7px;
+    padding: 4px;
+    position: fixed;
+    text-align: center;
+    top: 45%;
+    width: 35px;
+}
+
+#invite_button:hover {
+    margin-left: -3px;
 }
 
 /** Layout **/
