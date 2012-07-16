@@ -86,7 +86,14 @@
 					</li>
 				</ul>
 			<?php
-			}
+			}elseif($this->action=='invitations'){
+			?>
+				<ul style="float:left"  class="top_mene_hover">
+					<li <?php if($this->action=='invitations') echo "class='active'";?>>
+						<a class="menu_item" href="/companies/invitations">Invitations</a>
+					</li>
+				</ul>
+			<?php }
 			?>
 		<?php 
 			endif;
@@ -132,7 +139,14 @@
 					</li>
 				</ul>
 			<?php
-			}
+			}elseif($this->action=='invitations'){
+			?>
+				<ul style="float:left"  class="top_mene_hover">
+					<li <?php if($this->action=='invitations') echo "class='active'";?>>
+						<a class="menu_item" href="/jobseekers/invitations">Invitations</a>
+					</li>
+				</ul>
+			<?php }
 			?>
 		<?php
 			endif;
@@ -180,7 +194,7 @@
 					</li>
 				</ul>
 			<?php
-			}elseif($this->action=='personal'||$this->action=='addContacts'||$this->action=='networkerData' ||$this->action=='invitations' ){
+			}elseif($this->action=='personal'||$this->action=='addContacts'||$this->action=='networkerData' ){
 			?>
 				<ul style="float:left"  class="top_mene_hover">
 					<li <?php if($this->action=='personal') echo "class='active'";?>>
@@ -197,7 +211,14 @@
 					</li>
 				</ul>
 			<?php
-			}
+			}elseif($this->action=='invitations'){
+			?>
+				<ul style="float:left"  class="top_mene_hover">
+					<li <?php if($this->action=='invitations') echo "class='active'";?>>
+						<a class="menu_item" href="/networkers/invitations">Invitations</a>
+					</li>
+				</ul>
+			<?php }
 			?>
 		<?php
 			endif;	
