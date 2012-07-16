@@ -4,7 +4,7 @@ class CompaniesController extends AppController {
 
 	var $name = 'Companies';
    	var $uses = array('User', 'Companies', 'Job', 'PaymentInfo', 'JobseekerApply', 'JobViews', 
-   		'PaymentHistory','PaypalResponse','Config','University','RewardsStatus','SharedJob'
+   		'PaymentHistory','PaypalResponse','Config','University','RewardsStatus','SharedJob','Invitation'
    	);
 	var $components = array('TrackUser','Utility','RequestHandler','Session');
 	var $helpers = array('Form','Paginator','Time');
@@ -41,6 +41,7 @@ class CompaniesController extends AppController {
 		$this->Auth->allow('showApplicant');
 		$this->Auth->allow('showArchiveJobs');		
 		$this->Auth->allow('viewResume');		
+		$this->Auth->allow('invitations');	
      }
 	
 	
@@ -1351,6 +1352,60 @@ list archive jobs..
 	
 	
 	}
+	
+	function invitations() {
+ 	 	$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
+		}
+	
+		$userId = $session->getUserId();		$traceId = -1;
+		/*** code for networker trac **/
+        if($userId){
+            if($this->userRole == COMPANY){
+            	$code=$this->Utility->getCode($traceId,$userId);
+                $this->set('intermediateCode',$code);
+            }
+            if(isset($code)&&!empty($code)){
+            	//$inviteUrl=Configure::read('httpRootURL').'?intermediateCode='.$code;
+		       	$this->set('invitationCode',$code);
+		    }   	
+        }
+		//$this->set('invitationCode',null);
+		
+        /**** end code ***/	
+        
+		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
+	
+		$paginateCondition = array(
+									'AND' => array(
+												array('Invitation.user_id'=>$userId),
+												array('Invitation.name_email  LIKE' => "$startWith%")
+											)
+								);
+		$this->paginate = array('conditions'=>$paginateCondition,
+                                'limit' => 10,
+                                'order' => array("Invitation.id" => 'asc',));  
+		 	 	
+		$invitationArray =	$this->Invitation->find('all' ,array('conditions'=>array('user_id'=>$userId))) ;
+        $Invitations = $this->paginate('Invitation');
+	
+	    $alphabets = array();
+        foreach(range('A','Z') AS $alphabet){
+        	$contacts_count = $this->Invitation->find('count',array('conditions'=>array('Invitation.user_id'=>$userId,
+        																			 	'Invitation.name_email LIKE' => "$alphabet%"
+        																					  )
+        																  )
+        													);
+            $alphabets[$alphabet] = $contacts_count; 
+        }
+		
+        $this->set('alphabets',$alphabets);
+		$this->set("invitations", $Invitations);        
+        $this->set('contact',null);
+        $this->set('startWith',$startWith);
+ 
+	 }
 }
 ?>
 

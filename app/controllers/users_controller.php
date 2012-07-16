@@ -14,7 +14,7 @@ require_once(APP_DIR.'/vendors/facebook/facebook.php');
 
  */
 class UsersController extends AppController {
-    var $uses = array('User', 'Companies', 'UserRoles', 'Networkers', 'Jobseekers', 'NetworkerSettings', 'JobseekerSettings', 'Acos', 'Aros',	'ArosAcos',	'Code','ReceivedJob','University','GraduateDegree','Invitations');
+    var $uses = array('User', 'Companies', 'UserRoles', 'Networkers', 'Jobseekers', 'NetworkerSettings', 'JobseekerSettings', 'Acos', 'Aros',	'ArosAcos',	'Code','ReceivedJob','University','GraduateDegree','Invitation');
 	var $components = array('Email', 'Session', 'Bcp.AclCached', 'Cookie', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility');
 				
 	var $helpers = array('Form');
@@ -44,6 +44,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('networkerSignup');	
 		$this->Auth->allow('saveFacebookUser');
 		$this->Auth->allow('userSelection');
+		$this->Auth->allow('invitations');
 
 	}
 
@@ -150,7 +151,7 @@ class UsersController extends AppController {
                 return;
 			}
 			/*	Validating Restrict_Code	*/
-			if($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null){
+			if( ( $this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null )){
 				if(!$this->validateCode()){
 					return;
 				}
@@ -260,7 +261,7 @@ class UsersController extends AppController {
 				return;
 			}
 			/*	Validating Restrict_Code	*/
-			if($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null){
+			if( ( $this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null )){
 				if(!$this->validateCode()){
 					return;
 				}
@@ -1055,6 +1056,32 @@ class UsersController extends AppController {
 			return true;
 		 }
 	}
+	
+	
+	public function invitations() {
+ 	 	$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$url ="/users/invitations"; 
+			$session->setBeforeAuthUrl($url);	
+			$this->Session->setFlash('Please loign to send invitation.', 'error');				
+			$this->redirect("/users/login");
+		
+		}
+
+ 	 	$userId = $session->getUserId();
+		switch($session->getUserRole()){		
+			case COMPANY:
+					$this->redirect("/companies/invitations");
+					break;
+			case JOBSEEKER:
+					$this->redirect("/jobseekers/invitations");
+					break;
+			case NETWORKER:
+					$this->redirect("/networkers/invitations");
+					break;		
+		}
+        
+	 }
 
 }
 

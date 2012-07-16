@@ -70,8 +70,13 @@ class JobsharingController extends AppController {
 			$tos = explode(",", trim($this->params['form']['toEmail']));
 			
 			foreach($tos As $to){
-				$icc = md5(uniqid(rand())); 
-                $invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
+				$icc = md5(uniqid(rand()));
+				if($session->getUserRole()==JOBSEEKER){
+ 	            	$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+                }else{
+                	$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
+                } 
+                //$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
                 $messageBody['message'] = $this->params['form']['message'];
                 $messageBody['invitationUrl'] = $invitationUrl;
 				if($this->sendEmail($to,$subject,$template,$messageBody)){

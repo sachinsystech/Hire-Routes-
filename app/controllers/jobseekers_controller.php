@@ -1,7 +1,7 @@
 <?php
 class JobseekersController extends AppController {
 	var $name = 'Jobseekers';
-	var $uses = array('JobseekerSettings', 'Jobseekers', 'User', 'Job', 'JobseekerApply', 'JobseekerProfile', 'University','ReceivedJob');
+	var $uses = array('JobseekerSettings', 'Jobseekers', 'User', 'Job', 'JobseekerApply', 'JobseekerProfile', 'University','ReceivedJob','Invitation');
 	var $components = array('Email','Session','TrackUser','Utility');
 	var $helpers = array('Time','Html','Javascript');	
 
@@ -748,6 +748,49 @@ class JobseekersController extends AppController {
 	 */
 	 private function getJobseekerSettings($userId){
 	 	return $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
+	 }
+	 
+	 function invitations() {
+ 	 	$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
+		}
+	
+		$userId = $session->getUserId();
+		$this->set('invitationCode',null);
+		
+        /**** end code ***/	
+        
+		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
+	
+		$paginateCondition = array(
+									'AND' => array(
+												array('Invitation.user_id'=>$userId),
+												array('Invitation.name_email  LIKE' => "$startWith%")
+											)
+								);
+		$this->paginate = array('conditions'=>$paginateCondition,
+                                'limit' => 10,
+                                'order' => array("Invitation.id" => 'asc',));  
+		 	 	
+		$invitationArray =	$this->Invitation->find('all' ,array('conditions'=>array('user_id'=>$userId))) ;
+        $Invitations = $this->paginate('Invitation');
+	
+	    $alphabets = array();
+        foreach(range('A','Z') AS $alphabet){
+        	$contacts_count = $this->Invitation->find('count',array('conditions'=>array('Invitation.user_id'=>$userId,
+        																			 	'Invitation.name_email LIKE' => "$alphabet%"
+        																					  )
+        																  )
+        													);
+            $alphabets[$alphabet] = $contacts_count; 
+        }
+		
+        $this->set('alphabets',$alphabets);
+		$this->set("invitations", $Invitations);        
+        $this->set('contact',null);
+        $this->set('startWith',$startWith);
+ 
 	 }
 
 }

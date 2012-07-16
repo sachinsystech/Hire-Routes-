@@ -144,9 +144,12 @@
                 try{
                 	
                 	$icc = md5(uniqid(rand())); 
-                	$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
+                	if($session->getUserRole()==JOBSEEKER){
+ 	               		$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+                	}else{
+                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
+                	}
                 	$message = $this->params['form']['message']." Connect with us >> ".$invitationUrl;
-                	
                 	$result = $this->facebookObject()->api("/".$fbuser->id."/feed",'post',array('message'=>$message,'access_token' =>$User['User']['facebook_token']));
 					$inviteData = array();                	
 					$inviteData['name_email'] = $fbuser->name;

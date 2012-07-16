@@ -70,6 +70,22 @@ ul, li {
 	margin: 0 12px;
 }
 
+/** Invite button**/
+#invite_button{
+	color: rgb(255, 255, 255); 
+	font-weight: bold; 
+	text-align: center; 
+	cursor: pointer; 
+	font-size: 14px; 
+	top: 45%; 
+	padding: 4px; 
+	position: fixed; 
+	background: url('../img/media/invite.png') repeat scroll 0pt 0pt transparent; 
+	width: 35px; 
+	margin-left: 2px; 
+	height: 142px;"
+}
+
 /** Layout **/
 #container {
 	text-align: left;
