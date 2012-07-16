@@ -131,8 +131,14 @@ class ApiSessionComponent extends Object
 		if($this->isValidUrl($match,$url)){
 			$this->Session->write('beforeAuthUrl',$url);
 		}else{
-			$this->Session->delete('beforeAuthUrl');
+			$match = '/^\/users\/invitations/';
+			if($this->isValidUrl($match,$url)){
+				$this->Session->write('beforeAuthUrl',$url);
+			}else{
+				$this->Session->delete('beforeAuthUrl');	
+			}
 		}
+	
 	}
 	
 	function getBeforeAuthUrl(){

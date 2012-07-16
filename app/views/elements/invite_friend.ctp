@@ -344,6 +344,7 @@ function checkAll(field){
 /************************** close**********************************/
 function close(){
 $( "#dialog" ).dialog( "close" );
+window.location.href = jQuery(location).attr('href');
 }
 
 /**************************** 1).Fill facebook Friends ******************************/

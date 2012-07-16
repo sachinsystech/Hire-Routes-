@@ -77,13 +77,13 @@
 </script>
 <script>
 function invite(){
-	window.location.href="/networkers/invitations";			
+	window.location.href="/users/invitations";			
 }
 </script>
 </head>
 <body onload="hideMessage();">
 		
-	<div onclick="return invite();" style="color: rgb(255, 255, 255); font-weight: bold; text-align: center; cursor: pointer; font-size: 14px; top: 45%; padding: 4px; position: fixed; background: url(&quot;../img/media/invite.png&quot;) repeat scroll 0pt 0pt transparent; width: 35px; margin-left: 2px; height: 142px;">
+	<div onclick="return invite();" id="invite_button" >
 	
 	</div>
 	

@@ -62,7 +62,7 @@
     ?>
 	
 	<?php	
-		if($this->Session->read('intermediateCode')=="" || $this->Session->read('intermediateCode')==null){
+		if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null)){
 			echo $form->input('Code.code', array('label' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",

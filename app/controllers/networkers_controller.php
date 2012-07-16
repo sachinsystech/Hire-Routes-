@@ -1010,7 +1010,27 @@ class NetworkersController extends AppController {
 	 }
 	 
 	 function invitations() {
- 	 	$userId = $this->_getSession()->getUserId();
+ 	 	
+ 	 	$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
+		}
+	
+		$userId = $session->getUserId();
+		$traceId = -1;
+		/*** code for networker trac **/
+        if($userId){
+            if($this->userRole == NETWORKER){
+            	$code=$this->Utility->getCode($traceId,$userId);
+                $this->set('intermediateCode',$code);
+            }
+            if(isset($code)&&!empty($code)){
+            	//$inviteUrl=Configure::read('httpRootURL').'?intermediateCode='.$code;
+		       	$this->set('invitationCode',$code);
+		    }   	
+        }
+        /**** end code ***/	
+ 	 	
 		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
 	
 		$paginateCondition = array(

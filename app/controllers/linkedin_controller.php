@@ -140,7 +140,7 @@
         $linkedin = $this->getLinkedinObject();
         $userId = $session->getUserId();
 		$fbUsers = json_decode($this->params['form']['user']);
-        $invitationCode = $this->params['form']['invitationCode'];
+        $invitationCode = isset($this->params['form']['invitationCode'])?$this->params['form']['invitationCode']:"";
         $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'NULL')));
 
 		if(!empty($fbUsers) &&  $user){
@@ -149,7 +149,11 @@
                     $linkedin->access_token =unserialize($user['User']['linkedin_token']);
                     $subject = "Hire Routes Invitation ";
                     $icc = md5(uniqid(rand())); 
-                	$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
+                	if($session->getUserRole()==JOBSEEKER){
+ 	               		$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+                	}else{
+                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
+                	}
                 	$message = $this->params['form']['message']." Connect with us >> ";//.$invitationUrl;
                 	
                 	$xml_response = $linkedin->sendMessage($fbuser->id,$subject,$message);
