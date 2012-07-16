@@ -22,12 +22,12 @@
 				<?php echo $this->Form->create('invitations');
 				?>
 				<div style="margin: auto; font-weight: bold; width: 570px; font-size: 88%;">
-					<a class="button" href="/networkers/invitations">All</a>
+					<a class="button" href="/jobseekers/invitations">All</a>
 					<?php
 						
 						foreach($alphabets AS $alphabet=>$count){
 							$class = 'button';
-							$url = "/networkers/invitations/alpha:$alphabet";
+							$url = "/jobseekers/invitations/alpha:$alphabet";
 							$urlLink = "<a href=".$url.">". $alphabet ."</a>";
 							if($startWith ==$alphabet || $count<1){
 								$class = 'current';
