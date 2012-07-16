@@ -22,12 +22,12 @@
 				<?php echo $this->Form->create('invitations');
 				?>
 				<div style="margin: auto; font-weight: bold; width: 570px; font-size: 88%;">
-					<a class="button" href="/networkers/invitations">All</a>
+					<a class="button" href="/companies/invitations">All</a>
 					<?php
 						
 						foreach($alphabets AS $alphabet=>$count){
 							$class = 'button';
-							$url = "/networkers/invitations/alpha:$alphabet";
+							$url = "/companies/invitations/alpha:$alphabet";
 							$urlLink = "<a href=".$url.">". $alphabet ."</a>";
 							if($startWith ==$alphabet || $count<1){
 								$class = 'current';
@@ -88,10 +88,15 @@
 	<!-- middle section end -->
 
 </div>
+<div style= "display:hidden;"> 
 <?php echo $this->element('invite_friend');?>
-
-<script>
-    $(document).ready(function() {
-        showView(4);
-    });
-</script>
+</div>
+<?php
+	if( $this->params["url"]["url"] == "companies/invitations"){
+?>
+	<script>
+		$(document).ready(function() {
+			showView(4);
+		});
+	</script>
+<?php } ?>
