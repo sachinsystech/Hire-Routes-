@@ -35,14 +35,14 @@
 		{
 			$my_jobs_actions=array('newJob','jobDetail','archiveJob','jobData','sharedJob');
 			$my_accounts_actions=array('index','setting','editProfile','changePassword');
-			$my_networks_actions=array('personal','addContacts','networkerData');
-			$my_invitations_actions = array('invitations');
+			$my_networks_actions=array('personal','addContacts','networkerData','invitations');
+			//$my_invitations_actions = array('invitations');
 		?>
 			<ul  class="top_mene_hover">
 				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers/newJob"><span>My Jobs</span></a></li>
 				<li <?php if(in_array($this->action,$my_networks_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers/personal"><span>My Network</span></a></li>
 				<li <?php if(in_array($this->action,$my_accounts_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers">My Account</a></li>
-				<li <?php if(in_array($this->action,$my_invitations_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers/invitations">Invitations</a></li>
+				<!--<li <?php if(in_array($this->action,$my_invitations_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers/invitations">Invitations</a></li>-->
 
 			</ul>
 		<?php

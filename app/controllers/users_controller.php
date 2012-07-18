@@ -37,6 +37,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('forgotPassword');	
 		$this->Auth->allow('index');
 		$this->Auth->allow('jobseekerSignup');
+		$this->Auth->allow('saveLinkedinUser');
 		$this->Auth->allow('logout'); 
 		$this->Auth->allow('login');
 		$this->Auth->allow('loginSuccess');
@@ -45,6 +46,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('saveFacebookUser');
 		$this->Auth->allow('userSelection');
 		$this->Auth->allow('invitations');
+		$this->Auth->allow('linkedinUserSelection');
 
 	}
 
@@ -124,6 +126,10 @@ class UsersController extends AppController {
 	
 		$facebook = $this->facebookObject();
 		$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
+		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+		$linkedin->getRequestToken();
+		$this->Session->write('requestToken',serialize($linkedin->request_token));
+		$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl() );
 		$universities = $this->University->find('list');
 		$this->set("universities",$universities);
 
@@ -181,7 +187,7 @@ class UsersController extends AppController {
 					if(!$this->ReceivedJob->save(array('user_id'=>$userId,'job_id'=>$jobId))){
 						$this->Session->setFlash('Something went wrong! Your job is not saved!', 'warning');
 					}
-				$this->data["Networker"]['user_id'] = $userId;//print_r($this->data["Networker"]);exit;
+				$this->data["Networker"]['user_id'] = $userId;
 				if($this->Networkers->save($this->data["Networker"],false) ){
 					
 					$iv1 = array('ic_code'=> null,'status'=>'1');
@@ -233,7 +239,11 @@ class UsersController extends AppController {
 			$this->redirect("/");
 			return;
 		}
-
+		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+		$linkedin->getRequestToken();
+		$this->Session->write('requestToken',serialize($linkedin->request_token));
+		$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl() );
+		
 		$facebook = $this->facebookObject();
 		$this->set('FBLoginUrl',$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
 		/***	manage facebook user after success callback ***/
@@ -383,7 +393,8 @@ class UsersController extends AppController {
 		}
 		
 		if(!$this->User->save($userData)){
-			$this->Session->setFlash('Internal Error!', 'error');
+			$this->Session->setFlash('Internal Error1!', 'error');
+			//echo "<pre>";print_r($userData);exit;
 			$this->redirect("/");
 			return;
 		}
@@ -1057,7 +1068,6 @@ class UsersController extends AppController {
 		 }
 	}
 	
-	
 	public function invitations() {
  	 	$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
@@ -1081,6 +1091,74 @@ class UsersController extends AppController {
 					break;		
 		}
         
+	 }
+	 
+	 function saveLinkedinUser($response){
+		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+    	$linkedin->request_token = unserialize($this->Session->read("requestToken"));
+        $verifier = unserialize( $this->Session->read("verifier"));
+        $linkedin->oauth_verifier = $verifier;
+        $linkedin->getAccessToken($verifier);
+    	$xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url)");
+    	$response=simplexml_load_string($xml_response);
+    	$firstName = "first-name";
+    	if( isset($response->id) ){
+			$userData = array();
+
+			$userData['account_email'] =  $response->$firstName."@linkedin.com";
+			$userData['linkedin_token'] = serialize($linkedin->access_token);
+			$userData['password'] = 'NULL';	
+			if($userId = $this->saveUser($userData)){
+				$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
+				$this->saveUserRoles($userId,$userRole);
+				$userCCode = $this->User->find('first',array(	
+																'conditions'=>array('User.id'=>$userId), 
+																'fields'=>'User.confirm_code'));
+			
+				$userData['confirm_code'] = $userCCode['User']['confirm_code'];
+				$user['user_id'] = $userId;
+				$user['contact_name'] = $response->$firstName;
+				switch($userRole){
+					case JOBSEEKER:
+									if($this->Jobseekers->save($user,false) ){
+										$this->confirmAccount($userId,$userData['confirm_code']);
+										$this->Session->delete('requestToken');
+										$this->redirect("/users/firstTime");
+									}
+									break;
+					case NETWORKER:
+									if($this->Networkers->save($user,false) ){	
+										$this->confirmAccount($userId,$userData['confirm_code']);
+										$this->Session->delete('requestToken');										
+										$this->redirect("/users/firstTime");
+									}
+									break;					
+				}	
+			}
+		}else{
+			$this->Session->setFlash('Some thing is going wrong .Please try again later.', 'error');	
+			$this->redirect("/users/login");
+		}
+	 }
+	 
+	 function linkedinUserSelection(){
+	 	$session = $this->_getSession();
+		if($session->isLoggedIn()){
+			$this->redirect('loginSuccess');
+		}
+		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+    	$linkedin->request_token = unserialize($this->Session->read("requestToken"));
+        $verifier = unserialize( $this->Session->read("verifier"));
+        $linkedin->oauth_verifier = $verifier;
+        $linkedin->getAccessToken($verifier);
+		if( isset( $linkedin->access_token)){
+			$liData = $this->User->find('first',array('conditions'=>array('User.linkedin_token'=>serialize($linkedin->access_token) ),'fields'=>'User.*'));
+			if( isset($liData) ){
+				$this->setUserAsLoggedIn($liData['User']);
+				$this->Session->delete('requestToken');
+				$this->redirect("/users/loginSuccess");
+			}
+		}
 	 }
 
 }

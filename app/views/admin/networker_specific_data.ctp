@@ -18,6 +18,7 @@
 			<div class="NSDInfoHeading">Email:</div>
 			<div class="NSDInfo"><?php echo $networkerData['User']['account_email'];?></div>
 		</div>
+		
 		<div class="NSDRowRight">
 			<div class="NSDInfoHeading">Rewards:</div>
 			<div class="NSDInfo">
@@ -50,6 +51,22 @@
 			<div class="NSDInfoHeading">Jobseekers:</div>
 			<div class="NSDInfo"><?php echo $networkerData['0']['jobseekerCount'];?></div>
 		</div>
+		<?php if(isset($networkerData['GraduateDegree']['degree'])){ ?>
+			<div class="NSDRowLeft" >
+				<div class="NSDInfoHeading">Graduate Degree:</div>
+				<div class="NSDInfo"><?php echo $networkerData['GraduateDegree']['degree'];?></div>
+			</div>
+			<div class="NSDRowRight">
+				<div class="NSDInfoHeading">Graduate University:</div>
+				<div class="NSDInfo"><?php echo $networkerData['GraduateUniversity']['name'];?></div>
+			</div>
+		<?php } ?>
+		<?php if(isset($networkerData['University']['name'])){ ?>
+			<div class="NSDRowLeft">
+				<div class="NSDInfoHeading">University:</div>
+				<div class="NSDInfo"><?php echo $networkerData['University']['name'] ;?></div>
+			</div>	
+		<?php }?>
 	</div>
 </div>
 <div class="dataBorder">

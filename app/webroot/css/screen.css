@@ -880,6 +880,7 @@ div.message{
 	margin: 20px auto 0 auto;
 	width: 140px;
 
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -2167,14 +2168,14 @@ div .NSInfo{
 }
 
 div .specificData{
-	width:550px;
+	width:600px;
 	height:auto;
 	overflow:auto;
 	margin:auto;
 }
 
 div .NSDRowLeft{
-	width:280px;
+	width:320px;
 	float:left;
 }
 
@@ -2184,22 +2185,22 @@ div .NSDRowRight{
 }
 
 div .NSDRowLeft .NSDInfoHeading{
-	width:70px;
+	width:115px;
 	float:left;
-	font-size:14px;
+	font-size:13px;
 	font-weight:bold;
 }
 
 div .NSDInfoHeading{
-	width:100px;
+	width:135px;
 	float:left;
-	font-size:14px;
+	font-size:13px;
 	font-weight:bold;
 }
 
 div .NSDRowLeft .NSDInfo{
 	width:200px;
-	font-size:14px;
+	font-size:13px;
 	float:left;
 }
 

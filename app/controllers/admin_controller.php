@@ -858,6 +858,7 @@ class AdminController extends AppController {
 		$this->paginate=array(
 			'fields'=>'User.id, User.parent_user_id, User.account_email, User.created,
 				count(DISTINCT Jobseeker.id) as jobseekerCount, Networker.contact_name, 
+				GraduateUniversity.name ,GraduateDegree.degree,
 				Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount, University.name',
 			'recursive'=>-1,
 			'joins'=>array(
@@ -889,8 +890,22 @@ class AdminController extends AppController {
 					'table'=>'universities',
 					'alias'=>'University',
 					'type'=>'LEFT',
-					'conditions'=>'Networker.university=University.id'
+					'conditions'=>'Networker.graduate_university_id=University.id'
 				),
+				array(
+					'table'=>'universities',
+					'alias'=>'GraduateUniversity',
+					'type'=>'LEFT',
+					'conditions'=>'Networker.university=GraduateUniversity.id'
+				),
+				array(
+					'table'=>'graduate_degrees',
+					'alias'=>'GraduateDegree',
+					'type'=>'LEFT',
+					'conditions'=>array('GraduateDegree.id=
+					Networker.graduate_degree_id'),
+				),
+				
 			),
 			'conditions'=>array(
 				'User.id'=>$userIds

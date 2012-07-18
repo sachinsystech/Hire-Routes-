@@ -32,6 +32,8 @@
 <div class="facebook-login">
 	<?php if($this->Session->read('intermediateCode')!="" || $this->Session->read('intermediateCode')!=null){ ?>
 		<div><a href="<?php echo $FBLoginUrl;?>"><button class="facebook"></button></a></div>
+		<!------------- Linked In sign up--------------->
+		<div class="li"><a href="<?php echo $LILoginUrl;?>" > <button class="linkedin"></button></a></div>
 	<?php }?>
 </div>
 <div style="width:480px; margin-top:20px;">

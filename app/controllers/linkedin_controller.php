@@ -7,11 +7,12 @@
 
     var $uses = array('User','SharedJob','Invitation');
 	var $components = array('TrackUser','Utility','RequestHandler');  
-	
+
 	function beforeFilter(){
 		parent::beforeFilter();	
     	$this->Auth->allow('getLinkedinFriendList');
     	$this->Auth->allow('sendMessagetoLinkedinUser');
+    	$this->Auth->allow('getResonse');
 	}
     
     function getLinkedinFriendList(){
@@ -57,13 +58,21 @@
         }
     }
    
-
     function linkedinCallback(){
         $linkedin = $this->getLinkedinObject();
         $userId = $this->_getSession()->getUserId();
+        if( isset( $_REQUEST['oauth_problem'] ) &&  $_REQUEST['oauth_problem'] == "user_refused" ){
+        	$this->Session->setFlash('you have declined the request from Linkedin!', 'warning');
+			$this->redirect('/users');
+        }
+        if(isset($_REQUEST['oauth_token']) && $userId == null && isset($_REQUEST['oauth_verifier'])){
+        	$linkedin->request_token = unserialize($this->Session->read("requestToken"));
+            $verifier = $this->params['url']['oauth_verifier'];
+            $this->Session->write("verifier" , serialize($verifier));
+       	 	$this->redirect("/Users/linkedinUserSelection");
+        }
         if (isset($_REQUEST['oauth_verifier'])){
-            //$_SESSION['oauth_verifier']     = $_REQUEST['oauth_verifier'];
-            $linkedin->request_token    =   unserialize($this->Session->read("requestToken"));
+            $linkedin->request_token = unserialize($this->Session->read("requestToken"));
             $verifier = $this->params['url']['oauth_verifier'];
             $linkedin->oauth_verifier = $verifier;
             $linkedin->getAccessToken($verifier);
@@ -183,7 +192,7 @@
         }
     }
 
-    private function getLinkedinObject(){
+    public function getLinkedinObject(){
         return  new LinkedIn(LINKEDIN_ACCESS, LINKEDIN_SECRET, LINKEDIN_CALLBACK_URL);    
     } 
 

@@ -79,7 +79,7 @@
 				 }?>
 				</div>
 			  <?php else:?>
-				<div class="empty_concats_msg"> No Contacts added..</div>
+				<div class="empty_concats_msg"> No Contacts added..</div> 
 			  <?php endif;?>
 			</div>
 		<!-- middle conyent list -->

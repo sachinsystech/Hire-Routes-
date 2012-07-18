@@ -3,8 +3,10 @@
 <div class="sigup_heading"><u>Register</u></div>
 <div>You will be able to apply for jobs and share job posts with your network.</div>
 <div>Please submit the form below and you will receive an email confirmation to complete you registration.</div>
-<?php if($this->Session->read('intermediateCode')!="" || $this->Session->read('intermediateCode')!=null){ ?>
+<?php if( $this->Session->read('intermediateCode')!="" || $this->Session->read('intermediateCode')!=null){ ?>
 	<div class="fb"><a href="<?php echo $FBLoginUrl; ?>"><button class="facebook"></button></a></div>
+	<!------------- Linked In sign up--------------->
+	<div class="li"><a href="<?php echo $LILoginUrl;?>" > <button class="linkedin"></button></a></div>
 <?php } ?>
 <div style="width:480px; margin-top:20px;">
 <?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkform()')); ?>
@@ -206,3 +208,8 @@
 		});
 	});*/
 	</script>
+	<!--
+		<div style='height: 30px;width: 199px;'>
+		<a href="<?php echo $LILoginUrl;?>" > LinkedIn signup</a>
+	</div>
+	-->

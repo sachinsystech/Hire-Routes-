@@ -59,8 +59,9 @@ div .checkbox{
 						<?php echo $form -> input('industry',array(
 																	'type'=>'select',
 																	'label'=>'',
-																	'options'=>$industries,
-																	'empty' =>' Select Industry ',
+																	//'options'=>$industries,
+																	'value'=>'1',
+																	//'empty' =>'Select Industry ',
 																	'style'=>'margin-left:0px;',
 																	'class'=>'networker_select_bg required',
 																	'onchange'=>'return fillSpecification(this.value,"NetworkerSettingsSpecification","specification_loader");'
@@ -193,6 +194,7 @@ div .checkbox{
 $(document).ready(function(){
 	$("#NetworkerSettingsForm").validate();
 	$("#accordion").accordion();
+	fillSpecification(1,"NetworkerSettingsSpecification","specification_loader")
 }); 
 
  

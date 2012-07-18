@@ -672,13 +672,26 @@ div.code-coverage-results span.result-good {
 }
 button.facebook {
     -moz-border-radius: 0 0 0 0;
-    background: url("../img/facebook.png") no-repeat scroll center center transparent;
+    background: url("../img/FB.png") no-repeat scroll center center transparent;
     border: medium none;
     cursor: pointer;
     height: 25px;
     margin-top: 5px;
     padding: 0;
-	width: 94px;
+	width: 160px;
+	border-radius: none;
+}
+button.linkedin{
+    -moz-border-radius: 0 0 0 0;
+    background: url("../img/L-in.png") no-repeat scroll center center transparent;
+    border: medium none;
+    cursor: pointer;
+    height: 25px;
+    margin-top: 5px;
+    padding: 0;
+	width: 160px;
+	border-radius: none;
+
 }
 
 button.fb-logout {
