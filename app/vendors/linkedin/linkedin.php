@@ -51,11 +51,11 @@ class LinkedIn {
     $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->request_token, "GET", $this->access_token_path);
     $request->set_parameter("oauth_verifier", $oauth_verifier);
     $request->sign_request($this->signature_method, $this->consumer, $this->request_token);
-    $headers = Array();
+    $headers = "";// Array();
     $url = $request->to_url();
     $response = $this->httpRequest($url, $headers, "GET");
     parse_str($response, $response_params);
-    if($debug) {
+    if($this->debug) { //if($debug){
       echo $response . "\n";
     }
     $this->access_token = new OAuthConsumer($response_params['oauth_token'], $response_params['oauth_token_secret'], 1);
