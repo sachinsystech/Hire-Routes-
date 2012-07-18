@@ -674,6 +674,10 @@ div.code-coverage-results span.result-good {
     height: 25px;
     width: auto;
 }
+.fb{
+	width:160px;
+	float:left;	
+}
 button.facebook {
     -moz-border-radius: 0 0 0 0;
     background: url("../img/FB.png") no-repeat scroll center center transparent;

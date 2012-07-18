@@ -61,6 +61,8 @@
 
 	Router::connect('/users/saveFacebookUser/:userType', array('controller' => 'users', 'action' => 'saveFacebookUser'));
 
+	Router::connect('/users/saveLinkedinUser/:userType', array('controller' => 'users', 'action' => 'saveLinkedinUser'));
+
 	
 /**
 

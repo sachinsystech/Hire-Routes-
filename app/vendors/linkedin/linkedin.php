@@ -34,7 +34,7 @@ class LinkedIn {
     $request = OAuthRequest::from_consumer_and_token($consumer, NULL, "GET", $this->request_token_path);
     $request->set_parameter("oauth_callback", $this->oauth_callback);
     $request->sign_request($this->signature_method, $consumer, NULL);
-    $headers = Array();
+    $headers = "" ;//Array();
     $url = $request->to_url();
     $response = $this->httpRequest($url, $headers, "GET");
     parse_str($response, $response_params);
