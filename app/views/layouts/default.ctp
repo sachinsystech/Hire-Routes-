@@ -82,11 +82,12 @@ function invite(){
 </script>
 </head>
 <body onload="hideMessage();">
-		
+	<?php		if($session->check('Auth.User.id')){ 
+	?>
 	<div onclick="return invite();" id="invite_button" >
 	
 	</div>
-	
+	<?php }?>
 	<div id="container">
 		<div id="header">
 			<h1><?php //echo $this->Html->link(__('Hire Routes', true), '/'); ?></h1>

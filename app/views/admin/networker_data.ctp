@@ -77,7 +77,7 @@
 			<?php foreach($networkersData as $key => $networkerInfo): ?>
 			<div class="dataBar networkerDataHover <?php if($count%2==0) echo 'even'; else echo 'odd'; ?>" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
 				<div class="networkersDataEmail"><?php echo $networkerInfo['User']['account_email'];?></div>
-				<div class="networkersDataOrigin"><?php echo $networkerInfo['University']['name'];?></div>
+				<div class="networkersDataOrigin"><?php echo isset($networkerInfo['University']['name']) ?$networkerInfo['University']['name']:"------";?></div>
 				<div class="networkersData"><?php echo $networkerInfo['networkersCount'];?></div>
 				<div class="networkersData"><?php echo $networkerInfo['0']['jobseekerCount'];?></div>
 				<div class="networkersDataOrigin">
