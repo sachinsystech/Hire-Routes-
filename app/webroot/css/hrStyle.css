@@ -2397,5 +2397,45 @@ label.error_input_message{
     margin-left: 34px;
     width: 210px;
 }
+.pointsLevelHeading{
+	width:350px;
+	height:25px;
+}
+.networkerPoints{
+	float:left;
+	width:85px;
+	text-align:center;
+}
+.networkerLevel{
+	float:left;
+	width:60px;
+	text-align:center;
+}
+.networkerBonus{
+	float:left;
+	width:100px;
+	text-align:center;
+}
+.networkerTitle{
+	float:left;
+	width:105px;
+}
+.networkerPointContent{
+	width:750px;
+	margin:auto;
+	margin-top:20px;
+	height:auto;
 
-
+}
+.poinScoringDiv{
+	float:left;
+	width:350px;
+	margin:auto;
+	height:200px;
+	
+}
+.contentDivHeading{
+	font-weight:bold;
+	text-align:center;
+	text-decoration: underline;
+}

@@ -1121,21 +1121,21 @@ class UsersController extends AppController {
 				$user['contact_name'] = $response->$firstName;
 				switch($userRole){
 					case JOBSEEKER:
-									if($this->Jobseekers->save($user,false) ){
-										$this->confirmAccount($userId,$userData['confirm_code']);
-										$this->Session->delete('requestToken');
-										$this->Session->delete("accessToken");
-										$this->redirect("/users/firstTime");
-									}
-									break;
+						if($this->Jobseekers->save($user,false) ){
+							$this->confirmAccount($userId,$userData['confirm_code']);
+							$this->Session->delete('requestToken');
+							$this->Session->delete("accessToken");
+							$this->redirect("/users/firstTime");
+						}
+						break;
 					case NETWORKER:
-									if($this->Networkers->save($user,false) ){	
-										$this->confirmAccount($userId,$userData['confirm_code']);
-										$this->Session->delete('requestToken');										
-										$this->Session->delete("accessToken");										
-										$this->redirect("/users/firstTime");
-									}
-									break;					
+						if($this->Networkers->save($user,false) ){	
+							$this->confirmAccount($userId,$userData['confirm_code']);
+							$this->Session->delete('requestToken');										
+							$this->Session->delete("accessToken");										
+							$this->redirect("/users/firstTime");
+						}
+						break;					
 				}	
 			}
 		}else{
@@ -1170,6 +1170,7 @@ class UsersController extends AppController {
 			$this->redirect("/users/login");
 		}
 	 }
+
 
 }
 

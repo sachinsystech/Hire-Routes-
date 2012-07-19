@@ -34,6 +34,9 @@
 	
 	Router::connect('/admin/networkerSpecificData/', array('controller' => 'admin','action' => 'networkerData'));
   	Router::connect('/admin/networkerSpecificData/:id/*', array('controller' => 'admin','action' => 'networkerSpecificData'),array('id' => '[0-9]+'));
+  	Router::connect('/admin/usersInvitations/:id/*', array('controller' => 'admin','action' => 'usersInvitations'),array('id' => '[0-9]+'));
+  	
+  	
   	Router::connect('/admin/jobseekerSpecificData/:id/*', array('controller' => 'admin','action' => 'jobseekerSpecificData'),array('id' => '[0-9]+'));
 
   	Router::connect('/admin/employerSpecificData/:companyId/*', array('controller' => 'admin','action' => 'employerSpecificData'),array('companyId' => '[0-9]+'));

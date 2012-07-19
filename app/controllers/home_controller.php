@@ -1,6 +1,6 @@
 <?php
 class HomeController extends AppController {
-    var $uses = array('Home','Job');
+    var $uses = array('Home','Job','NetworkersTitle');
 				
 
 	var $helpers = array('Form','Paginator');
@@ -14,6 +14,9 @@ class HomeController extends AppController {
 		$this->Auth->allow('jobseekerInformation');
 		$this->Auth->allow('networkerInformation');
 		$this->Auth->allow('companyInformation');
+		$this->Auth->allow('companyInformation');		
+		$this->Auth->allow('hrInvitationsDetail');
+		$this->Auth->allow('networkerPointInfo');
 	}
 
 	function index(){
@@ -65,6 +68,18 @@ class HomeController extends AppController {
 	function howItWorks(){
 
 	}
+	
+	function networkerPointInfo(){
+		$networkersTitles = $this->NetworkersTitle->find('list')	;
+		//echo "<pre>"; print_r($networkersTitles);exit;	
+		$points = array('0 - 150','151 - 300','301 - 500','501 - 750','751 - 1000',
+						'1001 - 1300','1301 - 1700','1701 - 2000','2001 - 2500','2500+');
+		$this->set("points",$points);
+		$this->set('networkersTitles',$networkersTitles);
+	 }
+	 function hrInvitationsDetail(){
+	 
+	 }
 
 }
 ?>

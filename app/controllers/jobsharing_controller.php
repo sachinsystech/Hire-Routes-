@@ -85,6 +85,7 @@ class JobsharingController extends AppController {
 					$inviteData['user_id'] = $userId;
 					$inviteData['from'] = "E-Mail";
 					$inviteData['ic_code'] = $icc;
+					$inviteData['created'] = date('Y-m-d H:i:s');
 					$inviteData['status '] = 0;
 					$this->Invitation->create();
 					$this->Invitation->save($inviteData);						
