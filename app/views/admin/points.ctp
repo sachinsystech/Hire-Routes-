@@ -26,12 +26,12 @@
 								var temp = $(this).parent("div").parent("div").children("input").val() ;
 								//alert($(temp).children("input").val());
 								//alert( $(this).parent("div").parent("div").next("div div input").val() );
-								o.id = $(this).attr("value");
+								//o.id = $(this).attr("value");
 								//o.name = $(this).attr("name");
-								user.push(o);
+								//user.push(o);
 							});	
 							//alert(JSON.stringify(user));
-							return false;
+							//return false;
 					
 						$("#editPointInfo").click(function(){
 							$.validator.messages.required = 'All fields are required';						
