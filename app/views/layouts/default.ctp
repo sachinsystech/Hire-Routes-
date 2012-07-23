@@ -49,7 +49,7 @@
 	
 		echo $scripts_for_layout;
 
-		if($session->check('Auth.User.id')){ 
+		if($session->check('Auth.User.id') && $session->read('Auth.User.id') >2){ 
 	?>
 	<script type="text/javascript" charset="utf-8">
   var is_ssl = ("https:" == document.location.protocol);
@@ -82,7 +82,7 @@ function invite(){
 </script>
 </head>
 <body onload="hideMessage();">
-	<?php		if($session->check('Auth.User.id')){ 
+	<?php		if($session->check('Auth.User.id') && $session->read('Auth.User.id') >2){ 
 	?>
 	<div onclick="return invite();" id="invite_button" >
 	

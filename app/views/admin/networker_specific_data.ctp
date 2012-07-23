@@ -244,6 +244,7 @@
 		<?php endforeach;?>
 	<?php endif;?>
 </div>
+
 <script>
 	function getNetworkersNetworkerForLevel(id,level){
 		window.location.href='/admin/networkerSpecificData/'+id+'/level:'+level;
@@ -252,3 +253,72 @@
 		window.location.href='/admin/networkerSpecificData/'+networker;
 	}
 </script>
+<!--
+<div class="dataBorder">
+	<div class="invitationData">
+		<?php if(empty($invitations)){ ?>
+			<div>No invitations exits;</div>
+		<?php }else {?>
+		<div>
+			<div class ="invitaionHeading">
+				<div  class = "invitedName" >
+					<a href="#">Name / Email</a>
+				</div>
+				<div class = "invitedSource">
+					<a href="#">Invitation Source</a>
+				</div>
+				<div class="inviteCreated" >
+					<a href="#">Invited</a>
+				</div>
+			</div>
+		<?php /* foreach($invitations as $key => $data){
+		?>
+			<div class = "invitedName"> 
+				<?php echo $data['Invitation']['name_email']?>
+			</div>
+			<div class = "invitedSource">
+				<?php echo $data['Invitation']['from']?>
+			</div>
+			<div class="inviteCreated">
+				<?php echo $data['Invitation']['created']?>
+			</div>
+		<?php } */
+		?>
+		</div>
+		<?php }?>
+		<div id="imageList">
+
+		</div> 	
+	</div>
+</div>
+--->
+<script type="text/javascript">
+	$(document).ready(function() {
+		loadPiece("<?php echo $html->url(array('controller'=>'admin','action'=>'usersInvitations',$networkerData['User']['id']));?>","#imageList");
+	});
+</script>
+<script type="text/javascript">
+function loadPiece(href,divName) {    
+    $(divName).load(href, {}, function(){
+        var divPaginationLinks = divName+" #pagination a";
+        $(".invitaionHeading div a").click(function(){
+           var thisHref = $(this).attr("href");
+            loadPiece(thisHref,divName);
+            return false;
+        });
+        
+        
+        $(divPaginationLinks).click(function() {     
+            var thisHref = $(this).attr("href");
+            loadPiece(thisHref,divName);
+            return false;
+        });
+    });
+} 
+</script>
+
+<div id="imageList">
+
+</div> 
+
+

@@ -1093,12 +1093,13 @@ class UsersController extends AppController {
         
 	 }
 	 
-	 function saveLinkedinUser($response){
+	 function saveLinkedinUser(){
 		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
     	$linkedin->request_token = unserialize($this->Session->read("requestToken"));
-        $verifier = unserialize( $this->Session->read("verifier"));
+        $verifier = unserialize($this->Session->read("verifier"));
         $linkedin->oauth_verifier = $verifier;
-        $linkedin->getAccessToken($verifier);
+        //$linkedin->getAccessToken($verifier);
+    	$linkedin->access_token = unserialize($this->Session->read("accessToken"));
     	$xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url)");
     	$response=simplexml_load_string($xml_response);
     	$firstName = "first-name";
@@ -1107,7 +1108,7 @@ class UsersController extends AppController {
 
 			$userData['account_email'] =  $response->$firstName."@linkedin.com";
 			$userData['linkedin_token'] = serialize($linkedin->access_token);
-			$userData['password'] = 'NULL';	
+			$userData['password'] = 'NULL';
 			if($userId = $this->saveUser($userData)){
 				$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
 				$this->saveUserRoles($userId,$userRole);
@@ -1120,19 +1121,21 @@ class UsersController extends AppController {
 				$user['contact_name'] = $response->$firstName;
 				switch($userRole){
 					case JOBSEEKER:
-									if($this->Jobseekers->save($user,false) ){
-										$this->confirmAccount($userId,$userData['confirm_code']);
-										$this->Session->delete('requestToken');
-										$this->redirect("/users/firstTime");
-									}
-									break;
+						if($this->Jobseekers->save($user,false) ){
+							$this->confirmAccount($userId,$userData['confirm_code']);
+							$this->Session->delete('requestToken');
+							$this->Session->delete("accessToken");
+							$this->redirect("/users/firstTime");
+						}
+						break;
 					case NETWORKER:
-									if($this->Networkers->save($user,false) ){	
-										$this->confirmAccount($userId,$userData['confirm_code']);
-										$this->Session->delete('requestToken');										
-										$this->redirect("/users/firstTime");
-									}
-									break;					
+						if($this->Networkers->save($user,false) ){	
+							$this->confirmAccount($userId,$userData['confirm_code']);
+							$this->Session->delete('requestToken');										
+							$this->Session->delete("accessToken");										
+							$this->redirect("/users/firstTime");
+						}
+						break;					
 				}	
 			}
 		}else{
@@ -1152,14 +1155,22 @@ class UsersController extends AppController {
         $linkedin->oauth_verifier = $verifier;
         $linkedin->getAccessToken($verifier);
 		if( isset( $linkedin->access_token)){
+	        $this->Session->write('accessToken', serialize($linkedin->access_token));
+	        
 			$liData = $this->User->find('first',array('conditions'=>array('User.linkedin_token'=>serialize($linkedin->access_token) ),'fields'=>'User.*'));
-			if( isset($liData) ){
+			if( isset($liData) && $liData != null ){
 				$this->setUserAsLoggedIn($liData['User']);
 				$this->Session->delete('requestToken');
 				$this->redirect("/users/loginSuccess");
+			}else{
+			
 			}
+		}else{
+			$this->Session->setFlash('Some thing is going wrong .Please try again later.', 'error');	
+			$this->redirect("/users/login");
 		}
 	 }
+
 
 }
 

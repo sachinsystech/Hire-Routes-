@@ -1,10 +1,10 @@
 <?php
 class AdminController extends AppController {
 
-    var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers',
+    var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers','Invitation',
     					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker');
-	var $helpers = array('Form','Number','Time','Paginator');
-	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility');
+	var $helpers = array('Form','Number','Time','Paginator','Js');
+	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility','RequestHandler');
 	
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -37,7 +37,9 @@ class AdminController extends AppController {
 		$this->Auth->allow('processCompanyRequest');
 		$this->Auth->allow('jobs');
 		$this->Auth->allow('jobSpecificData');
+
 		$this->Auth->allow('rewardPoint');
+		$this->Auth->allow('usersInvitations');	
 		$this->layout = "admin";
 	}
 	
@@ -805,6 +807,19 @@ class AdminController extends AppController {
 		}else{
 			$this->Session->setFlash('You may be clicked on old link or entered manually.','error');
 			$this->redirect('/admin/networkerData');
+		}
+	}
+	
+	function usersInvitations()
+	{
+		if(isset($this->params['id'])){
+			$this->paginate=array(
+				'limit'=>10,
+				'conditions'=>array('user_id'=>$this->params['id'], 'status'=>1,),
+				'order'=>'created desc'
+			);
+			$invitations=$this->paginate('Invitation');
+			$this->set('invitations',$invitations);
 		}
 	}
 	
