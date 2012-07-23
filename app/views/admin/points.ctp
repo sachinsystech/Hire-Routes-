@@ -23,8 +23,8 @@
 							
 							$(".pointLevelFrom input[type=text]").each(function (i){
 								var o = {};
-								var temp = $(this).parent("div").parent("div").html() ;
-								alert($(temp).children("input").val());
+								var temp = $(this).parent("div").parent("div").children("input").val() ;
+								//alert($(temp).children("input").val());
 								//alert( $(this).parent("div").parent("div").next("div div input").val() );
 								o.id = $(this).attr("value");
 								//o.name = $(this).attr("name");
