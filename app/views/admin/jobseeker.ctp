@@ -31,17 +31,20 @@
 						    <th width="5%" style="line-height:25px;">#</th> 
 						    <th width="15%">
 						    	<div><?php echo $this->Paginator->sort('Name','Jobseekers.contact_name')?></div></th>
-						    <th width="30%">
+						    <th width="24%">
 						    	<div><?php echo $this->Paginator->sort('E-Mail','UserList.account_email')?></div>
 						    </th>
-   						   	<th width="15%">
+							<th width="24%">
+						    	<div><?php echo $this->Paginator->sort('Ancestor','UsrNetwrkr.account_email')?></div>
+						    </th>
+   						   	<th width="12%">
    						   		<div><?php echo $this->Paginator->sort('Telephone','Jobseekers.contact_phone')?>
    						   		</div>
    						   	</th>
-						    <th width="20%">
+						    <th width="18%">
 						    	<div><?php echo $this->Paginator->sort('Created','UserList.created')?></div>
 						    </th>
-						    <th width="10%">
+						    <th width="8%">
 						    	<?php echo $this->Paginator->sort('Activated','UserList.is_active')?>
 						    </th>
    						</tr>
@@ -62,6 +65,11 @@
 							<td>
 								<a href="/admin/jobseekerSpecificData/<?php echo $jobseeker['Jobseekers']['user_id'];?>/">
 									<?php echo $jobseeker['UserList']['account_email']?>
+								</a>
+							</td>
+							<td>
+								<a href="/admin/networkerSpecificData/<?php echo $jobseeker['Netwrk']['user_id'];?>/">
+									<?php echo $jobseeker['UsrNetwrkr']['account_email']?>
 								</a>
 							</td>
 							<td style="text-align:center;"> <?php echo $jobseeker['Jobseekers']['contact_phone'];?> </td>

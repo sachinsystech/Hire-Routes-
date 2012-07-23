@@ -37,9 +37,10 @@ class AdminController extends AppController {
 		$this->Auth->allow('processCompanyRequest');
 		$this->Auth->allow('jobs');
 		$this->Auth->allow('jobSpecificData');
-		$this->Auth->allow('usersInvitations');	
 		$this->Auth->allow('points');
 		$this->Auth->allow('editPointsLevelInfo');			
+		$this->Auth->allow('rewardPoint');
+		$this->Auth->allow('usersInvitations');	
 		$this->layout = "admin";
 	}
 	
@@ -1299,10 +1300,32 @@ class AdminController extends AppController {
 		$this->paginate = array(
 			'limit'=>10,
 			'conditions'=>array('UserList.id=Jobseekers.user_id'),
-			'fields'=>array('UserList.*','Jobseekers.*'),
+			'joins'=>array( 
+						array(
+							'table' => 'networkers',
+							'alias' => 'Netwrk',
+							'type' => 'left',
+							'conditions'=> 'Netwrk.user_id=UserList.parent_user_id', 
+						),
+						array(
+							'table' => 'users',
+							'alias' => 'UsrNetwrkr',
+							'type' => 'left',
+							'conditions'=> 'Netwrk.user_id=UsrNetwrkr.id', 
+						),
+					),
+					
+			'fields'=>array('UsrNetwrkr.id, UsrNetwrkr.account_email, 
+							Netwrk.id, Netwrk.user_id, Netwrk.contact_name, 
+							UserList.*',  'Jobseekers.*'),
 			'order'=>array('UserList.created'=>'desc')
 		);
 		$jobseekers=$this->paginate("UserList");	
+		
+		//echo "<pre>";
+		//print_r($jobseekers);
+		//exit;
+		
 		$this->set('jobseekers',$jobseekers);
 	}
 	
@@ -1513,6 +1536,11 @@ class AdminController extends AppController {
 		$this->redirect("/admin/points");
 
 	}
+
+	function rewardPoint() {
+
+	}
+
 }
 
 ?>
