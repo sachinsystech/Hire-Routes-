@@ -4,7 +4,7 @@ class UtilityComponent extends Object
 {
 	var $controller = true;
 	var $components = array('Session','Auth','Email');
-	var $uses = array('Industry','State','City','Specification','FacebookUsers',
+	var $uses = array('Industry','State','City','Specification','FacebookUsers','UserList','Config','Networkers',
 					'University','Companies','UserRoles','Job','GraduateDegree');
 	
 	function initialize(&$controller) {
@@ -271,6 +271,34 @@ class UtilityComponent extends Object
 		return $universities;
 	}
 	
+	public function setNetworkerPoints($user){
+ 				
+ 		if(isset($user) && $user != null){
+	 		$parentUserId =$user['User']['parent_user_id'];
+			if(isset( $parentUserId) &&  $parentUserId != null){
+				$parentData = $this->UserList->find('first', array('conditions'=>array('UserList.id'=>$parentUserId),'fields'=>array('UserList.id,UserRoles.role_id ,Networkers.*')));
+				if($user['UserRoles'][0]['role_id'] == JOBSEEKER && $parentData['UserRoles']['role_id'] == NETWORKER){
+					$point =  $this->Config->field("value", array("Config.key ='jobseekers_point_number'"));
+				}
+				if($user['UserRoles'][0]['role_id'] == COMPANY && $parentData['UserRoles']['role_id'] == NETWORKER){
+					$point =  $this->Config->field("value", array("Config.key ='company_point_number'"));
+				}
+				if($user['UserRoles'][0]['role_id'] == NETWORKER && $parentData['UserRoles']['role_id'] == NETWORKER){
+					//$point =  $this->Config->field("value", array("Config.key ='jobseekers_point_number'"));
+					//if($this->Networkers->save($parentData['Networkers'], false)){ echo "success"; exit;}
+				}
+				if( isset($point) && $point != null){		
+					$parentData['Networkers']['points']+= $point;
+			
+					if(!$this->Networkers->save($parentData['Networkers'], false)){ 
+						$this->Session->setFlash('Internal Error!', 'error');
+						$this->redirect("/");
+					}
+				}
+			}
+		}
+		return true;
+ 	}
 	
 }
 ?>

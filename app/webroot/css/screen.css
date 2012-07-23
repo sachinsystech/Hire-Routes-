@@ -882,6 +882,8 @@ div.message{
 
 
 
+
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -1879,7 +1881,7 @@ button{
 	-webkit-border-radius: 10px;
 
 }
-input[type=submit]:hover{
+input[type=submit]:hover ,button:hover{
 	cursor:pointer;
 	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
 	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#7E7E7E));
@@ -2724,4 +2726,94 @@ fieldset{
 	float:left;
 	width:150px;
 	text-align:center;
+}
+
+.pointsLevelHeading{
+	width:350px;
+	height:20px;
+}
+.pointsLevelHeading a {
+	text-decoration: underline;
+}
+.networkerPoints{
+	float:left;
+	width:85px;
+	text-align:center;
+	font-weight:bold;
+
+}
+.networkerLevel{
+	float:left;
+	width:60px;
+	text-align:center;
+}
+.networkerBonus{
+	float:left;
+	width:100px;
+	text-align:center;
+}
+.networkerTitle{
+	float:left;
+	width:105px;
+}
+.networkerPointContent{
+	width:750px;
+	margin:auto;
+	margin-top:20px;
+	height:auto;
+
+}
+.pointsData{
+	margin-top:10px;
+}
+.pointsInputBox{
+	height:50px;
+	font-weight:bold;
+}
+.pointsInputBox input{
+	float:right;
+	width:25px;
+}
+.pointscontent{
+	clear:both;
+	float:left;
+}
+.pointsInfo{
+	font-weight:bold;
+	font-size:16px;margin:5px;
+}
+.gubData{
+	width:80px;
+	float:left;
+}
+.points_error{
+	color:red;
+	overflow:auto;
+	width:250px;
+}
+.warning {
+    background: url("../img/message-warn.png") no-repeat scroll 7px 7px lightyellow;
+    border: 1px solid #DAA520;
+    margin: 1em 0;
+    padding: 10px 10px 10px 35px;
+    text-align: center;
+    color: #8B4513;
+}
+.pointInputTitle{
+	width:100px;
+	float:left;
+}
+.pointInputData{
+	width:46px;
+	float:left;
+}
+.pointInfoDataDiv{
+	width:70px;
+	height:25px;
+	float:left;
+}
+.pointEditHeading{
+	font-weight:bold;
+	font-size:14px;
+	height:25px;
 }

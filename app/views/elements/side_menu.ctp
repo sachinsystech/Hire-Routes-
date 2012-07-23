@@ -35,7 +35,7 @@
 		{
 			$my_jobs_actions=array('newJob','jobDetail','archiveJob','jobData','sharedJob');
 			$my_accounts_actions=array('index','setting','editProfile','changePassword');
-			$my_networks_actions=array('personal','addContacts','networkerData','invitations');
+			$my_networks_actions=array('networkerPoints','personal','addContacts','networkerData','invitations');
 			//$my_invitations_actions = array('invitations');
 		?>
 			<ul  class="top_mene_hover">

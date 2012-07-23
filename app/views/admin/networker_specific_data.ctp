@@ -151,8 +151,10 @@
 							<div class="networkersDataEmail">
 								<?php echo $networkerInfo['User']['account_email'];?>
 							</div>
+
 							<div class="networkersDataOrigin">
-								<?php echo $networkerInfo['University']['name'];?>
+
+								<?php echo isset($networkerInfo['University']['name'])? $networkerInfo['University']['name']:"------" ;?>
 							</div>
 							<div class="networkersData" style="width:50px;">
 								<?php echo $networkerInfo['level'];?>
@@ -286,7 +288,7 @@
 		?>
 		</div>
 		<?php }?>
-		<div id="imageList">
+		<div id="invitationList">
 
 		</div> 	
 	</div>
@@ -294,7 +296,7 @@
 --->
 <script type="text/javascript">
 	$(document).ready(function() {
-		loadPiece("<?php echo $html->url(array('controller'=>'admin','action'=>'usersInvitations',$networkerData['User']['id']));?>","#imageList");
+		loadPiece("<?php echo $html->url(array('controller'=>'admin','action'=>'usersInvitations',$networkerData['User']['id']));?>","#invitationList");
 	});
 </script>
 <script type="text/javascript">
@@ -317,8 +319,8 @@ function loadPiece(href,divName) {
 } 
 </script>
 
-<div id="imageList">
-
+<div id="invitationList">
+<?php echo $this->element("users_invitations");?>
 </div> 
 
 

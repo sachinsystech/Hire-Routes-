@@ -70,8 +70,7 @@ class HomeController extends AppController {
 	}
 	
 	function networkerPointInfo(){
-		$networkersTitles = $this->NetworkersTitle->find('list')	;
-		//echo "<pre>"; print_r($networkersTitles);exit;	
+		$networkersTitles = $this->NetworkersTitle->find('list');
 		$points = array('0 - 150','151 - 300','301 - 500','501 - 750','751 - 1000',
 						'1001 - 1300','1301 - 1700','1701 - 2000','2001 - 2500','2500+');
 		$this->set("points",$points);

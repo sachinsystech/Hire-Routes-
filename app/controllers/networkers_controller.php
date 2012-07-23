@@ -14,6 +14,7 @@ class NetworkersController extends AppController {
 						'ReceivedJob',
 						'JobViews',
 						'Invitation',
+						'PointLabels',
 					);
 	var $components = array('Email','Session','TrackUser','Utility');	
 	var $helpers = array('Time','Form');
@@ -1061,6 +1062,24 @@ class NetworkersController extends AppController {
         $this->set('contact',null);
         $this->set('startWith',$startWith);
  
+	 }
+	 
+	 function networkerPoints(){
+	 	 	
+ 	 	$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->redirect("/users/login");
+		}
+	
+		$userId = $session->getUserId();
+		
+		 $boardData = array( "Networker 45021", "Networker 45230", "Networker 45362", "Austin Root" ,"Networker 23432" );
+		 $user = $this->Networkers->find('first', array('conditions' => array('Networkers.user_id' => $userId) ));
+		 $pointLables = $this->PointLabels->find('first' ,array('conditions'=>array("point_from <=".$user['Networkers']['points']." and point_to >=".$user['Networkers']['points'])));
+		 //echo"<pre>" ;print_r($pointLables); print_r($user); exit;
+		 $this->set('pointLables',$pointLables);
+		 $this->set('user',$user);
+		 $this->set("boardData",$boardData);
 	 }
 }
 ?>

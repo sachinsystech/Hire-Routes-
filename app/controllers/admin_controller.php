@@ -1,8 +1,8 @@
 <?php
 class AdminController extends AppController {
 
-    var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers','Invitation',
-    					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker');
+    var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers','Invitation','PointLabels',
+    					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker','NetworkersTitle');
 	var $helpers = array('Form','Number','Time','Paginator','Js');
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility','RequestHandler');
 	
@@ -38,7 +38,8 @@ class AdminController extends AppController {
 		$this->Auth->allow('jobs');
 		$this->Auth->allow('jobSpecificData');
 		$this->Auth->allow('usersInvitations');	
-
+		$this->Auth->allow('points');
+		$this->Auth->allow('editPointsLevelInfo');			
 		$this->layout = "admin";
 	}
 	
@@ -93,6 +94,10 @@ class AdminController extends AppController {
 				$arosAcosData['_update'] = 1;
 				$arosAcosData['_delete'] = 1;	
 				// activate user's account
+				if(!$this->Utility->setNetworkerPoints($user )){
+					$this->Session->setFlash('Internal error.', 'error');
+					$this->redirect("/admin/companiesList");
+				}
 				if($this->ArosAcos->save($arosAcosData)){
 					$this->saveCompanyStatus($user['User'],$process);
 				}else{
@@ -810,7 +815,7 @@ class AdminController extends AppController {
 	}
 	
 	function usersInvitations()
-	{
+	{	
 		if(isset($this->params['id'])){
 			$this->paginate=array(
 				'limit'=>10,
@@ -819,6 +824,8 @@ class AdminController extends AppController {
 			);
 			$invitations=$this->paginate('Invitation');
 			$this->set('invitations',$invitations);
+		}else{
+			$this->set('invitations',"");
 		}
 	}
 	
@@ -1453,6 +1460,58 @@ class AdminController extends AppController {
 			'limit'=>10,
 		);
 		return $this->paginate('Jobseeker');
+	}
+	
+	function points(){
+
+		$config = $this->Config->find('all',array('conditions'=>
+													array('Config.key'=>
+													array("jobseekers_point_number" ,"company_point_number")),
+
+											'fields'=>'Config.*',)
+									);
+	    if(isset($this->data['Config']) && $config != null){
+	    	
+	    	$js = $this->data['Config']['jobseekers_point_number'];
+	    	$cr = $this->data['Config']['company_point_number'] ;
+	    	if( ( $js!= null && is_numeric($js) ) &&  ($cr != null && is_numeric($cr) )){
+				$configData[0]['id']= $config[0]['Config']['id'];
+				$configData[0]['value']= $this->data['Config']['company_point_number'];
+				$configData[1]['id']= $config[1]['Config']['id'];
+				$configData[1]['value']= $this->data['Config']['jobseekers_point_number'];
+				$this->Config->saveAll($configData);
+				$this->Session->setFlash('The Points Configuration have been updated.', 'success');	    		
+			}else{
+				$this->set("error", "Both fields are requried and must be numeric");
+			}
+		}
+		$config = $this->Config->find('all',array('conditions'=>
+													array('Config.key'=>
+													array("company_point_number", "jobseekers_point_number")),
+
+											'fields'=>'Config.*',)
+								);
+		if($config != null){
+			$this->set('config', $config);
+		}else{
+			$this->Session->setFlash('Please fill the point configuration for jobseeker and networker.', 'warning');	    		
+		}
+		$pointLables = $this->PointLabels->find('all');
+		//echo "<pre>";print_r($pointLables); exit;
+		//$points = array('0 - 150','151 - 300','301 - 500','501 - 750','751 - 1000',
+		//				'1001 - 1300','1301 - 1700','1701 - 2000','2001 - 2500','2500+');
+		//$this->set("points",$points);
+		$this->set('pointLables',$pointLables);
+	}
+	
+	public function editPointsLevelInfo(){
+		$pointsLevelData = $this->data['PointLabels'];
+		if( $this->PointLabels->saveAll($pointsLevelData))
+			$this->Session->setFlash('Points Information updated successfully.', 'success');	    		
+		else	
+			$this->Session->setFlash('Internal Error.', 'error');	    		
+		$this->redirect("/admin/points");
+
 	}
 }
 

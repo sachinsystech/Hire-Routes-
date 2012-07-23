@@ -13,6 +13,7 @@
     	$this->Auth->allow('getLinkedinFriendList');
     	$this->Auth->allow('sendMessagetoLinkedinUser');
     	$this->Auth->allow('getResonse');
+    	$this->Auth->allow('getLinkedinObject');
 	}
     
     function getLinkedinFriendList(){
@@ -164,7 +165,6 @@
                 		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
                 	}
                 	$message = $this->params['form']['message']." Connect with us >> ";//.$invitationUrl;
-                	
                 	$xml_response = $linkedin->sendMessage($fbuser->id,$subject,$message);
                     $xml_response = simplexml_load_string($xml_response);
                     
@@ -184,7 +184,7 @@
 					$this->Invitation->create();
 					$this->Invitation->save($inviteData);					
 					/* End*/					
-                }catch(Exception $e){
+                }catch(Exception $e){ echo $e;
                     return json_encode(array('error'=>1));      
                 }
             }

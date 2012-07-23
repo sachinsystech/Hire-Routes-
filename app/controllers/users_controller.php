@@ -520,6 +520,8 @@ class UsersController extends AppController {
 			if($user['User']['is_active']!=2 && $user['User']['is_active']==0){
 				$user['User']['is_active'] = '1';
 				$user['User']['confirm_code']="";
+				$this->Utility->setNetworkerPoints($user);
+				
 				$aros = $this->Aros->find('first',array('conditions'=>array('Aros.foreign_key'=>$userId)));
 				$arosAcosData['aro_id'] = $aros['Aros']['id'];
 				$arosAcosData['aco_id'] = 47;

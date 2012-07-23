@@ -2,7 +2,7 @@
 	<div class="invitationData">
 		<?php if(empty($invitations)){ ?>
 			<div style="height:30px;font-size:16px;padding:5px;text-align:center;">
-				No invitations exits;
+				No invitations exits.
 			</div>
 		<?php }else {?>
 			<?php

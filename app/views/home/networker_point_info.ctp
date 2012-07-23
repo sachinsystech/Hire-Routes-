@@ -6,7 +6,7 @@
     $(document).ready(function(){
         $('.newWindow').click(function (event){
 
-            var url = "/users/hrInvitationsDetail";
+            var url = "/home/hrInvitationsDetail";
             var windowName = "popUp";
             var windowSize = windowSizeArray[0];
             window.open(url, windowName, windowSize);

@@ -110,11 +110,14 @@
 		<div class="nav-divider">&nbsp;</div>
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
-			<li><a href="/admin/rewardPayment/"><b>Rewards/Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+			<li><a ><b>Rewards</b></a>
+				<ul>
+					<li><a href="/admin/rewardPayment/"><b>Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+					<li><a href="/admin/points/"><b>Points</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+				</ul>
+			</li>
 		</ul>
-		
 
-		
 		<div class="nav-divider">&nbsp;</div>
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
