@@ -2,7 +2,8 @@
 class AdminController extends AppController {
 
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers','Invitation','PointLabels',
-    					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker','NetworkersTitle');
+    					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker','NetworkersTitle',
+    					'GraduateUniversityBreakdown','University',);
 	var $helpers = array('Form','Number','Time','Paginator','Js');
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility','RequestHandler');
 	
@@ -880,7 +881,7 @@ class AdminController extends AppController {
 		$this->paginate=array(
 			'fields'=>'User.id, User.parent_user_id, User.account_email, User.created,
 				count(DISTINCT Jobseeker.id) as jobseekerCount, Networker.contact_name, 
-				GraduateUniversity.name ,GraduateDegree.degree,
+				GraduateUniversity.name ,GraduateDegree.degree, Networker.points,
 				Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount, University.name',
 			'recursive'=>-1,
 			'joins'=>array(
@@ -941,6 +942,7 @@ class AdminController extends AppController {
 		$this->User->virtualFields['sharedJobsCount'] = 'count(DISTINCT SharedJob.job_id)';
 		$this->User->virtualFields['notification'] = 'Networker.notification';
 		$this->User->virtualFields['university'] = 'University.name';
+		$this->User->virtualFields['points'] = 'Networker.points';
 		$networkersData = $this->paginate('User');
 													
 		foreach($networkersData as $key => $value){
@@ -1490,11 +1492,9 @@ class AdminController extends AppController {
 		$config = $this->Config->find('all',array('conditions'=>
 													array('Config.key'=>
 													array("jobseekers_point_number" ,"company_point_number")),
-
 											'fields'=>'Config.*',)
 									);
 	    if(isset($this->data['Config']) && $config != null){
-	    	
 	    	$js = $this->data['Config']['jobseekers_point_number'];
 	    	$cr = $this->data['Config']['company_point_number'] ;
 	    	if( ( $js!= null && is_numeric($js) ) &&  ($cr != null && is_numeric($cr) )){
@@ -1508,6 +1508,7 @@ class AdminController extends AppController {
 				$this->set("error", "Both fields are requried and must be numeric");
 			}
 		}
+
 		$config = $this->Config->find('all',array('conditions'=>
 													array('Config.key'=>
 													array("company_point_number", "jobseekers_point_number")),
@@ -1519,22 +1520,36 @@ class AdminController extends AppController {
 		}else{
 			$this->Session->setFlash('Please fill the point configuration for jobseeker and networker.', 'warning');	    		
 		}
+		
+		$universities = $this->University->find('all', array(
+																'fields'=>array('University.*'),
+													));
+		//pr($universities); exit;
+		$graduateUniversities = $this->GraduateUniversityBreakdown->find('all', array(
+													'joins'=>array(
+															array(
+															'table'=>'graduate_degrees',
+															'alias'=>'GraduateDegrees',
+															'type'=>'inner',
+															'conditions'=>'GraduateDegrees.id = GraduateUniversityBreakdown.degree_type'
+													)),
+													'fields'=>array('GraduateDegrees.degree ,GraduateUniversityBreakdown.*'),
+													));
+		//pr($graduateUniversities);exit;
+		$this->set('universities',$universities);
+		$this->set('graduateUniversity',$graduateUniversities);
 		$pointLables = $this->PointLabels->find('all');
-		//echo "<pre>";print_r($pointLables); exit;
-		//$points = array('0 - 150','151 - 300','301 - 500','501 - 750','751 - 1000',
-		//				'1001 - 1300','1301 - 1700','1701 - 2000','2001 - 2500','2500+');
-		//$this->set("points",$points);
 		$this->set('pointLables',$pointLables);
 	}
 	
 	public function editPointsLevelInfo(){
 		$pointsLevelData = $this->data['PointLabels'];
-		if( $this->PointLabels->saveAll($pointsLevelData))
+		if( $this->PointLabels->saveAll($pointsLevelData)){
 			$this->Session->setFlash('Points Information updated successfully.', 'success');	    		
-		else	
-			$this->Session->setFlash('Internal Error.', 'error');	    		
+		}else{
+			$this->Session->setFlash('Internal Error.', 'error');
+		}
 		$this->redirect("/admin/points");
-
 	}
 
 	function rewardPoint() {

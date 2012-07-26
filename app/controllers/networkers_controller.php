@@ -1073,13 +1073,89 @@ class NetworkersController extends AppController {
 	
 		$userId = $session->getUserId();
 		
-		 $boardData = array( "Networker 45021", "Networker 45230", "Networker 45362", "Austin Root" ,"Networker 23432" );
-		 $user = $this->Networkers->find('first', array('conditions' => array('Networkers.user_id' => $userId) ));
-		 $pointLables = $this->PointLabels->find('first' ,array('conditions'=>array("point_from <=".$user['Networkers']['points']." and point_to >=".$user['Networkers']['points'])));
-		 //echo"<pre>" ;print_r($pointLables); print_r($user); exit;
-		 $this->set('pointLables',$pointLables);
-		 $this->set('user',$user);
-		 $this->set("boardData",$boardData);
+		$user = $this->Networkers->find('first', array('conditions' => array('Networkers.user_id' => $userId) ));
+		 
+		$pointLables = $this->PointLabels->find('first' ,array('conditions'=>array("point_from <=".$user['Networkers']['points']." and point_to >=".$user['Networkers']['points'])));
+		
+		$boardData = $this->UserList->find('all', 
+		 						array('joins'=>array(array('table' => 'networkers',
+												         'alias' => 'Networker',
+												         'type' => 'LEFT',
+												         'conditions' => array('Networker.user_id = UserList.id')
+											        )),
+		 								'limit'=>5 ,
+		 								'recursive'=>'-1',
+		 								'order' => array("Networker.points" => 'desc'),
+		 								'fields' =>array('UserList.account_email, UserList.id ,Networker.contact_name,Networker.points' )));
+			 
+		$networkerBonus =	$this->Networkers->find('first',array(
+			'fields'=>'sum(((PaymentHistory.amount*PaymentHistory.networker_reward_percent )/100)*PointLabels.bonus/100) as nr_bonus',
+			'recursive'=>'-1',
+			'joins'=>array(
+				array(
+					'table'=>'rewards_status',
+					'alias'=>'RewardsStatus',
+					'type'=>'left',
+					'conditions'=>'RewardsStatus.user_id = Networkers.user_id '
+				),
+				array(
+					'table'=>'payment_history',
+					'alias'=>'PaymentHistory',
+					'type'=>'left',
+					'conditions'=>'PaymentHistory.id = RewardsStatus.payment_history_id'
+				),
+				array(
+					'table'=>'point_labels',
+					'alias'=>'PointLabels',
+					'type'=>'left',
+					'conditions'=>'PointLabels.point_from <= Networkers.points and PointLabels.point_to >= Networkers.points'
+				),
+				array(
+					'table'=>'networkers',
+					'alias'=>'Networker',
+					'type'=>'left',
+					'conditions'=>'Networker.user_id = RewardsStatus.user_id '
+				)
+				
+			),
+			'conditions'=>array('Networker.user_id'=>$userId),
+			'group'=> 'RewardsStatus.user_id',
+		));
+		
+		$userRank = $this->Networkers->find('all',array(
+														'joins' =>array(
+														array(
+															'table'=>'rewards_status',
+															'alias'=>'RewardsStatus',
+															'type'=>'left',
+															'conditions'=>'RewardsStatus.user_id = Networkers.user_id '
+														),
+														array(
+															'table'=>'payment_history',
+															'alias'=>'PaymentHistory',
+															'type'=>'left',
+															'conditions'=>'PaymentHistory.id = RewardsStatus.payment_history_id'
+														)),
+														'order' => array("points" => 'desc',
+																		"amount" =>'desc',
+																		"Networkers.user_id" ),
+														'fields' => array('Networkers.user_id ')));
+											
+		$totalNr = count( $userRank);
+		$rank = $totalNr;
+
+		//echo array_search($userId ,$userRank);exit;
+		foreach($userRank as $key =>$data ){
+			if($data['Networkers']['user_id'] == $userId){
+				$rank = $key+1;
+				break;
+			}
+		}
+		$this->set("userRank" ,array("rank" =>$rank ,"totalNr"=>$totalNr ));
+		$this->set('boardData',$boardData);
+		$this->set('pointLables',$pointLables);
+		$this->set('user',$user);
+		$this->set("networkerBonus",$networkerBonus);
 	 }
 }
 ?>

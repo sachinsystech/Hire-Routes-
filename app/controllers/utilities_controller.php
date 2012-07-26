@@ -12,6 +12,7 @@ class UtilitiesController extends AppController {
 		$this->Auth->allow('getSpecificationOfIndustry');
 		$this->Auth->allow('getUniversities');
 		$this->Auth->allow('getGraduateDegrees');
+		$this->Auth->allow('getGraduateUniversities');
 	}
 
 /**
@@ -79,10 +80,14 @@ class UtilitiesController extends AppController {
 		$this->autoRender= false ;
 		$universities=$this->University->find('list',array('fields'=>'id, name', 'order'=>'id','conditions'=>array('name like '=>$this->params['named']['startWith']."%")));
 		$univs=null;
-		foreach($universities as $id=>$name){
-			$univs[]=array('id'=>$id,'name'=>$name);
+		if( $universities != null ){
+			foreach($universities as $id=>$name){
+				$univs[]=array('id'=>$id,'name'=>$name);
+			}
+			$universities=json_encode($univs);
+		}else{
+			$graduateUniversities=json_encode(array());
 		}
-		$universities=json_encode($univs);
 		return $universities;
 	}
 	
@@ -98,6 +103,25 @@ class UtilitiesController extends AppController {
 		return $GraduateDegree;
 
 	}
+	
+	function getGraduateUniversities(){
+		$this->autoRender= false ;
+		$degreeId = $this->params['named']['degree_id'];
+		
+		$universities=$this->GraduateUniversityBreakdown->find('list',array('conditions'=>array("degree_type"=>$degreeId, "graduate_college like "=>$this->params['named']['startWith']."%"),
+																			'fields'=>'id, graduate_college',
+																			'order'=>'id'));
+		if( $universities != null){ 
+			foreach($universities as $id=>$name){
+				$universitiesdata[]=array('id'=>$id,'name'=>$name);
+			}
+			$graduateUniversities=json_encode($universitiesdata);
+		}else
+			$graduateUniversities=json_encode(array());
+		return $graduateUniversities;
+	
+	}
+	
 	
 }
 ?>

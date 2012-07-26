@@ -155,6 +155,7 @@
 					$inviteData['from'] = "Facebook";
 					$inviteData['ic_code'] = $icc;
 					$inviteData['status '] = 0;
+					$inviteData['created'] = date('Y-m-d H:i:s');
 					$this->Invitation->create();
 					$this->Invitation->save($inviteData);					
                     

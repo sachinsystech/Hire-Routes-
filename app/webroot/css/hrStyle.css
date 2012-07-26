@@ -2459,6 +2459,7 @@ label.error_input_message{
     height: 70px;
 	width:180px;
    	text-align:center;
+	font-weight:bold;
 }
 .networker_points_heading_data{
 	height:70px;
@@ -2470,6 +2471,7 @@ label.error_input_message{
 	width:190px;
 	height:70px;
 	text-align:center;
+	font-weight:bold;
 }
 
 .networker_bonus_heading_data{
@@ -2480,9 +2482,12 @@ label.error_input_message{
 .networker_ranking_heading{
 	float:left;
 	text-align:center;
-	font-size:36px;
-	font-weight:bold;
 	width:260px;
+	font-weight:bold;
+}
+.networker_ranking_heading_data{
+	font-size:36px;
+
 }
 .networker_points_main_content{
 	margin-top:20px;
@@ -2494,6 +2499,7 @@ label.error_input_message{
 .points_experience_level{
 	height:80px;
 	text-align:center;	
+	font-weight:bold;	
 }
 .networker_point_experience div div{
 	font-size:36px;
@@ -2511,10 +2517,12 @@ label.error_input_message{
 	margin-left:30px;
 	height:30px;
 	text-align:left;
+		
 }
 .leader_heading{
 	margin: 0 !important;
     text-align: center !important;
+	font-weight:bold;
 }
 
 

@@ -386,15 +386,12 @@ class UsersController extends AppController {
  	private function saveUser($userData){
 		$userData['confirm_code'] = md5(uniqid(rand())); 
 		$userData['group_id'] = 0;
-		//$userData['last_login']=date('Y-m-d H:i:s'); 
-		
         if($parent = $this->Utility->getRecentUserIdFromCode()){
             $userData['parent_user_id'] = $parent;
 		}
 		
 		if(!$this->User->save($userData)){
 			$this->Session->setFlash('Internal Error1!', 'error');
-			//echo "<pre>";print_r($userData);exit;
 			$this->redirect("/");
 			return;
 		}

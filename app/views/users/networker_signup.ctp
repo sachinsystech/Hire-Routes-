@@ -45,14 +45,12 @@
                                  );
 			if(isset($codeErrors)):?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
 			<div class="required" style="padding:0;">
-			<?php echo $form->input('Networker.university',array('label'=> 'University',
-														'type'=>'select',
-														'options'=>$universities,
-														'empty' =>' -- Select University -- ',
-														'class' => 'net_select_university required'
-													));
-				if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
-			?>
+				<?php echo $form->input('university',array('label'=> 'University',
+															'type'=>'text',
+															'class' => 'text_field_bg required'
+														));
+					if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
+				?>
 			</div>
 			
 			<?php echo $form->input('Networker.graduate_degree_id',array('label'=> 'Graduate Degree (if applicable)',
@@ -63,18 +61,22 @@
 													));
 				if(isset($graduateErrors)):?><div class="error-message"><?php echo $graduateErrors;?></div><?php endif; 
 			?>
-			
-			<?php echo $form->input('Networker.graduate_university_id',array('label'=> 'Graduate University',
-														'type'=>'select',
-														'options'=>$universities,
-														'empty' =>' -- Select Gred University --',
-														'class' => 'net_select_gred_university'
+			<?php echo $form->input('graduate_university',array('label'=> 'Graduate University',
+														'type'=>'text',
+														'class' => 'text_field_bg'
 													));
 				if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
-			?>													
-
+			?>
 			
 	<?php  endif;?>
+	
+				<div style="display:none;">
+			<?php
+				echo $form->input('Networker.graduate_university_id',array('type'=>'text', 'value'=>''));
+				//echo $form->input('Networker.graduate_degree_id',array('type'=>'text', 'value'=>''));
+				echo $form->input('Networker.university',array('type'=>'text','value'=>''));
+			?>
+			</div>
 	<div class="signup_agree_condition">
 		<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
 															'type'  => 'checkbox',
@@ -117,7 +119,7 @@
 	
 </script>
 <script>
-/*
+
 	$(document).ready(function(){
 		$("#UserUniversity").autocomplete({
 			minLength:1,
@@ -149,11 +151,14 @@
 	});
 	
 	$(document).ready(function() {
+		$("#NetworkerGraduateDegreeId").change( function(){ 	
+			$("#UserGraduateUniversity").trigger('keydown');
+		});	
 		$( "#UserGraduateUniversity" ).autocomplete({
-			minLength:1,
+			minLength:0,
 			source: function( request, response ) {
 				$.ajax({
-					url: "/Utilities/getUniversities/startWith:"+request.term,
+					url: "/Utilities/getGraduateUniversities/startWith:"+request.term+"/degree_id:"+$("#NetworkerGraduateDegreeId").val(),
 					dataType: "json",
 					success: function( data ) {
 						if(data == null) return;
@@ -167,6 +172,7 @@
 				});
 			},
 			select: function( event, ui ) {
+				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 				$('#NetworkerGraduateUniversityId').val(ui.item.key);
 			},
 			open: function() {
@@ -206,7 +212,7 @@
 				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 			}
 		});
-	});*/
+	});
 	</script>
 	<!--
 		<div style='height: 30px;width: 199px;'>

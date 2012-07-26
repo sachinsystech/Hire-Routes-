@@ -5,7 +5,7 @@ class UtilityComponent extends Object
 	var $controller = true;
 	var $components = array('Session','Auth','Email');
 	var $uses = array('Industry','State','City','Specification','FacebookUsers','UserList','Config','Networkers',
-					'University','Companies','UserRoles','Job','GraduateDegree');
+					'University','Companies','UserRoles','Job','GraduateDegree','GraduateUniversityBreakdown',);
 	
 	function initialize(&$controller) {
 		if ($this->uses !== false) {
@@ -272,7 +272,7 @@ class UtilityComponent extends Object
 	}
 	
 	public function setNetworkerPoints($user){
- 				
+ 		
  		if(isset($user) && $user != null){
 	 		$parentUserId =$user['User']['parent_user_id'];
 			if(isset( $parentUserId) &&  $parentUserId != null){
@@ -284,12 +284,21 @@ class UtilityComponent extends Object
 					$point =  $this->Config->field("value", array("Config.key ='company_point_number'"));
 				}
 				if($user['UserRoles'][0]['role_id'] == NETWORKER && $parentData['UserRoles']['role_id'] == NETWORKER){
-					//$point =  $this->Config->field("value", array("Config.key ='jobseekers_point_number'"));
-					//if($this->Networkers->save($parentData['Networkers'], false)){ echo "success"; exit;}
+					$university = $this->University->find('first',
+							array('conditions' =>
+								array('id'=>$user['Networkers'][0]['university'])));
+					$point = isset($university['University']['points'] )
+								? $university['University']['points'] :0;
+					$graduateUniversity = $this->GraduateUniversityBreakdown->find('first',
+							array( 'conditions'=>
+							array('degree_type'=>$user['Networkers'][0]['graduate_degree_id'])));
+
+					$point +=  isset( $graduateUniversity['GraduateUniversityBreakdown']['points'] )
+								?$graduateUniversity['GraduateUniversityBreakdown']['points']: 0;
+
 				}
 				if( isset($point) && $point != null){		
 					$parentData['Networkers']['points']+= $point;
-			
 					if(!$this->Networkers->save($parentData['Networkers'], false)){ 
 						$this->Session->setFlash('Internal Error!', 'error');
 						$this->redirect("/");

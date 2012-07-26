@@ -884,6 +884,9 @@ div.message{
 
 
 
+
+
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -2046,18 +2049,19 @@ div .levelDataActiveBar{
 	padding-left:2px;
 }
 
-div .networkerInfo{
-	width:850px;
-	height:auto;
-	overflow:auto;
-	float:right;
-	text-align:center;
-	border:1px solid black;
+div .networkerInfo {
+    border: 1px solid black;
+    float: right;
+    height: auto;
+    overflow: scroll;
+    text-align: center;
+    width: 951px;
 }
+
 
 .networkerDataPaginatorBar{
 	height:20px;
-	float:left;
+	float:right;
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
@@ -2153,9 +2157,9 @@ div .NSData{
 }
 
 div .NSInfo{
-	width:900px;
+    overflow: scroll;
+    width: 992px;
 	height:auto;
-	overflow:auto;
 	float:right;
 	border:1px solid black;
 	text-align:center;
@@ -2730,7 +2734,6 @@ fieldset{
 
 .pointsLevelHeading{
 	width:350px;
-	height:20px;
 }
 .pointsLevelHeading a {
 	text-decoration: underline;
@@ -2802,18 +2805,36 @@ fieldset{
 .pointInputTitle{
 	width:100px;
 	float:left;
+	border:none;
+	padding:2px;	
 }
 .pointInputData{
-	width:46px;
+	width:40px;
 	float:left;
+	border:none;
+	padding:2px;
 }
 .pointInfoDataDiv{
 	width:70px;
 	height:25px;
 	float:left;
+
 }
 .pointEditHeading{
 	font-weight:bold;
 	font-size:14px;
 	height:25px;
+}
+.pointLevelFrom label{
+	margin-left:7px;
+}
+.pointLastFromInput{
+	width:140px;
+}
+.pointLastFromInput div{
+	margin: auto;
+    width: 68px;
+}
+.pointLastFromInput label{
+	margin-left:-15px;
 }

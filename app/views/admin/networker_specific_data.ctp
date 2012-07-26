@@ -124,6 +124,9 @@
 							<div class="networkersDataEmail" style="text-align:center">
 								<?php echo $this->Paginator->sort('User','User.account_email')?>
 							</div>
+							<div class="networkersData">
+								<?php echo $this->Paginator->sort('Points','points');?>
+							</div>
 							<div class="networkersDataOrigin">
 								<?php echo $this->Paginator->sort('University','university');?>
 							</div>
@@ -151,7 +154,9 @@
 							<div class="networkersDataEmail">
 								<?php echo $networkerInfo['User']['account_email'];?>
 							</div>
-
+							<div class="networkersData">
+								<?php echo $networkerInfo['Networker']['points']?>
+							</div>
 							<div class="networkersDataOrigin">
 
 								<?php echo isset($networkerInfo['University']['name'])? $networkerInfo['University']['name']:"------" ;?>

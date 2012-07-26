@@ -104,20 +104,21 @@
 			</div>
 		
 			<?php
-				foreach($networkersTitles as $key=>$data){
+				foreach($pointLables as $key=>$data){
 			?>
 				<div class ="pointsLevelHeading">
 					<div class = "networkerPoints">
-						<?php echo $points[$key-1]; ?>
+						<?php echo $data['PointLabels']['point_from']; ?>-
+						<?php echo $data['PointLabels']['point_to']; ?>						
 					</div>
 					<div class = "networkerLevel">
-						<?php echo $key; ?>
+						<?php echo $data['PointLabels']['level']; ?>
 					</div >
 					<div class="networkerBonus">
-						<span>+ <?php echo $key; ?> %</span>
+						<span>+ <?php echo $data['PointLabels']['bonus']; ?> %</span>
 					</div>
 					<div class="networkerTitle" >
-						<?php echo $data; ?>
+						<?php echo $data['PointLabels']['networker_title']; ?>
 					</div>			
 				</div>
 			<?

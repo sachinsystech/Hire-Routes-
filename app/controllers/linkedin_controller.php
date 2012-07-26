@@ -10,10 +10,14 @@
 
 	function beforeFilter(){
 		parent::beforeFilter();	
-    	$this->Auth->allow('getLinkedinFriendList');
-    	$this->Auth->allow('sendMessagetoLinkedinUser');
-    	$this->Auth->allow('getResonse');
-    	$this->Auth->allow('getLinkedinObject');
+    	$this->Auth->allow(array('getLinkedinFriendList',
+    						'sendMessagetoLinkedinUser',
+							'getResonse',
+							'getLinkedinObject',
+							'linkedinCallback',
+							'sendInvitation',
+							));
+    	
 	}
     
     function getLinkedinFriendList(){
@@ -181,6 +185,7 @@
 					$inviteData['from'] = "Linked-In";
 					$inviteData['ic_code'] = $icc;
 					$inviteData['status '] = 0;
+					$inviteData['created'] = date('Y-m-d H:i:s');
 					$this->Invitation->create();
 					$this->Invitation->save($inviteData);					
 					/* End*/					

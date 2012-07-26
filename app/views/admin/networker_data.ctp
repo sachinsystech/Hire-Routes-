@@ -53,6 +53,9 @@
 					<div class="networkersDataEmail" style="text-align:center">
 						<?php echo $this->Paginator->sort('User','User.account_email');?>
 					</div>
+					<div class="networkersData">
+						<?php echo $this->Paginator->sort('Points','points');?>
+					</div>
 					<div class="networkersDataOrigin">
 						<?php echo $this->Paginator->sort('University','university');?>
 					</div>
@@ -77,6 +80,7 @@
 			<?php foreach($networkersData as $key => $networkerInfo): ?>
 			<div class="dataBar networkerDataHover <?php if($count%2==0) echo 'even'; else echo 'odd'; ?>" onclick="networkerSpecificData(<?php echo $networkerInfo['User']['id'];?>);" >
 				<div class="networkersDataEmail"><?php echo $networkerInfo['User']['account_email'];?></div>
+				<div class="networkersData"><?php echo $networkerInfo['Networker']['points']?></div>
 				<div class="networkersDataOrigin"><?php echo isset($networkerInfo['University']['name']) ?$networkerInfo['University']['name']:"------";?></div>
 				<div class="networkersData"><?php echo $networkerInfo['networkersCount'];?></div>
 				<div class="networkersData"><?php echo $networkerInfo['0']['jobseekerCount'];?></div>
