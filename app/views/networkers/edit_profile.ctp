@@ -1,6 +1,6 @@
 <script> 	
     $(document).ready(function(){
-		$("#NetworkersEditProfileForm").validate({
+		$("#GraduateUniversityBreakdownEditProfileForm").validate({
 			errorClass: 'error_input_message',
 				errorPlacement: function (error, element) {
 					error.insertAfter(element)
@@ -131,6 +131,7 @@
 												'empty'=>"select",
 												'class' => 'networker_select_bg',
 												'style' => "float:right;width:208px;",
+												'onchange'=>"fillGraduateUniversity()",
 												'value' => isset($networker['graduate_degree_id'])?$networker['graduate_degree_id']:"",
 												)
 								 );
@@ -138,14 +139,16 @@
 						</div>
 
 						<div>
-							<?php	if(isset($networker)){ $university = $networker['graduate_university_id']; } else { $university = "";}
+							<?php	if(isset($networker) && isset( $graduateUniversity) ){ 
+										$university[$graduateUniversity['id']] = $graduateUniversity['graduate_college'];						
+									}else{ 
+										$university = "";
+									}
                                     echo $form->input('Networkers.graduate_university_id', array('label' => 'Graduate University:',
 												'type'  => 'select',
-												'options'=>$universities,
-												'empty'=>"select",
+												'options'=>$university,
 												'class' => 'networker_select_bg',
 												'style' => "float:right;width:208px;",
-												'value' => isset($networker['graduate_university_id'])?$networker['graduate_university_id']:"",
 												)
 								 );
 							?>
@@ -170,7 +173,36 @@
 
 <script>
 
-	$(document).ready(function(){
-		$("#NetworkersEditProfileForm").validate();
-	});     
+	function fillGraduateUniversity(){
+			$.ajax({
+				url: "/Utilities/getGraduateUniversities/startWith:/degree_id:"+$("#NetworkersGraduateDegreeId").val(),
+				dataType: "json",
+				beforeSend: function(){
+			 		$('#NetworkersGraduateUniversityId').parent("div").parent("div").css({"float":"left","width":"400px"});
+			 		$('#NetworkersGraduateUniversityId').parent("div").css({"float":"left","width":"350px"});
+			 		$('#NetworkersGraduateUniversityId').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+
+		   		},
+		   		complete: function(){
+		   	    	$('.loader').remove();
+		   		},
+				success: function( data ) {
+					if(data == null) return;
+					$('#NetworkersGraduateUniversityId').html("");
+					$('#NetworkersGraduateUniversityId').append($('<option>').text("select").attr('value',""));
+
+					$(data).each(function(){
+						$('#NetworkersGraduateUniversityId').append($('<option>').text(this.name).attr('value', this.id));
+					});
+				},
+			});
+		}
+	   
 </script>
+<style>
+.loader{
+	float:left;
+	overflow:visible;
+	width:30px;
+}
+</style>

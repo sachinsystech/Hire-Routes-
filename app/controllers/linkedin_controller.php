@@ -66,7 +66,7 @@
     function linkedinCallback(){
         $linkedin = $this->getLinkedinObject();
         $userId = $this->_getSession()->getUserId();
-        if( isset( $_REQUEST['oauth_problem'] ) &&  $_REQUEST['oauth_problem'] == "user_refused" ){
+        if( isset( $_REQUEST['oauth_problem'] ) &&  $_REQUEST['oauth_problem'] == "user_refused" && $userId ==null ){
         	$this->Session->setFlash('you have declined the request from Linkedin!', 'warning');
 			$this->redirect('/users');
         }

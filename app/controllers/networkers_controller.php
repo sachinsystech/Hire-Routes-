@@ -1,7 +1,8 @@
 <?php
 class NetworkersController extends AppController {
 	var $name = 'Networkers';
-	var $uses = array(	'Networkers',
+	var $uses = array(	'GraduateUniversityBreakdown',
+						'Networkers',
 						'NetworkerContact', 
 						'NetworkerCsvcontact', 
 						'NetworkerSettings',
@@ -66,8 +67,15 @@ class NetworkersController extends AppController {
 													'fields'=>array('UserList.*, networkers.*,universities.*,graduate_degrees.*'),
 													)
 								);
+			$graduateUniversity = $this->GraduateUniversityBreakdown->find('first',
+																		array('conditions'=>array('id'=>$user['networkers']['graduate_university_id'],'degree_type'=>$user['networkers']['graduate_degree_id']),
+																			'fields'=>array('id','graduate_college'),
+		));
 			$networkers = $user['networkers'];
 			$networkers['university']=$user['universities']['name'];
+			if(isset($graduateUniversity['GraduateUniversityBreakdown'])){
+				$this->set('graduateUniversity', $graduateUniversity['GraduateUniversityBreakdown']['graduate_college']);
+			}
 			if(!isset($networkers['contact_name']) || empty($networkers['contact_name'])){
 				$this->redirect("/Networkers/editProfile");						
 			}
@@ -165,7 +173,13 @@ class NetworkersController extends AppController {
 		$universities = $this->Utility->getUniversities();
 		$graduateDegrees =$this->Utility->getGraduateDegrees();
 		$user = $this->UserList->find('first',array('conditions'=>array('UserList.id'=>$userId)));
-		
+		$graduateUniversity = $this->GraduateUniversityBreakdown->find('first',
+																		array('conditions'=>array('id'=>$user['Networkers']['graduate_university_id'],'degree_type'=>$user['Networkers']['graduate_degree_id']),
+																			'fields'=>array('id','graduate_college'),
+		));
+		if(isset($graduateUniversity['GraduateUniversityBreakdown'])){
+			$this->set('graduateUniversity',$graduateUniversity['GraduateUniversityBreakdown']);
+		}
 		$this->set('user',$user['UserList']);
 		$this->set('universities',$universities);
 		$this->set('graduateDegrees',$graduateDegrees);
@@ -779,7 +793,7 @@ class NetworkersController extends AppController {
 	function jobData(){
 		$userId = $this->_getSession()->getUserId();		
 		
-		$payment = $this->PaymentHistory->find('all',array(
+		/*$payment = $this->PaymentHistory->find('all',array(
 												'conditions'=>array(
 													//'PaymentHistory.payment_status'=>1,
 													'FIND_IN_SET('.$userId.',jobseeker_apply.intermediate_users)>0'),
@@ -793,7 +807,7 @@ class NetworkersController extends AppController {
 												 							  'alias' => 'jobs',
 												                              'type' => 'LEFT',
 												                              'conditions' => array('PaymentHistory.job_id = jobs.id ')
-											     							),*/
+											     							),
 											     						array('table' => 'rewards_status',
 												 							  'alias' => 'RewardsStatus',
 												                              'type' => 'INNER',
@@ -806,8 +820,11 @@ class NetworkersController extends AppController {
 							
 														  )
 											 );
-		if($payment[0][0]['networker_reward']!=""){
-			$total_reward = $payment[0][0]['networker_reward'];
+		*/									 
+		$data = $this->User->query("select sum((amount*networker_reward_percent)/(count*100)) as reward from payment_history INNER JOIN (select count(networkers.user_id) AS count, payment_history_id AS PH_id from rewards_status inner join networkers on (networkers.user_id = rewards_status.user_id) where payment_history_id in (select payment_history_id from rewards_status where user_id = $userId) group by payment_history_id) AS Result ON (payment_history.id = Result.PH_id) where id in (select payment_history_id from rewards_status where user_id = $userId)");
+							 
+		if($data[0][0]['reward']!=""){
+			$total_reward = $data[0][0]['reward'];
 		}else{
 			$total_reward = 0;
 		}

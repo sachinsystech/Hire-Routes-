@@ -72,9 +72,10 @@
 	
 				<div style="display:none;">
 			<?php
-				echo $form->input('Networker.graduate_university_id',array('type'=>'text', 'value'=>''));
-				//echo $form->input('Networker.graduate_degree_id',array('type'=>'text', 'value'=>''));
-				echo $form->input('Networker.university',array('type'=>'text','value'=>''));
+				if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null)):
+					echo $form->input('Networker.graduate_university_id',array('type'=>'text', 'value'=>''));
+					echo $form->input('Networker.university',array('type'=>'text','value'=>''));
+				endif;
 			?>
 			</div>
 	<div class="signup_agree_condition">

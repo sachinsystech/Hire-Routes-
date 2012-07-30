@@ -1,5 +1,41 @@
 <script type="text/javascript">
+	function VaildPointInfo(){
+		var flag = true;
+		$(".pointLevelTo input[type=text]").each(function (i){
+			var point_from = $(this).parents(".pointLevelTo").prev(".pointLevelFrom").find("input[type=text]").val() ;
+			if( parseInt($(this).val()) <=  parseInt(point_from) ){
+				alert("Point_From value must be less than to Point_To value");
+				$(this).css({'color':'red','border':'1px solid red'});
+				flag = false;
+				return false;
+			}
+			var point_level = $(this).parents(".pointLevelTo").next(".pointLevelLevel").find("input[type=text]") ;
+
+			var next_point_level = $(this).parents(".pointDataRow").next(".pointDataRow").find(".pointLevelLevel input[type=text]").val() ;
+			if( parseInt($(point_level).val()) >= parseInt(next_point_level) ){
+				alert("Point_Level value must be less than to next Point_Level value");
+				$(point_level).css({'color':'red','border':'1px solid red'});
+				flag = false;
+				return false;
+			}else{
+				$(this).css({'color':'','border':''});
+			}
 	
+			var point_bonus = $(this).parents(".pointLevelTo").next("div").next(".pointLevelBonus").find("input[type=text]") ;
+			var next_point_bonus = $(this).parents(".pointDataRow").next(".pointDataRow").find(".pointLevelBonus input[type=text]").val() ;
+			if( parseInt($(point_bonus).val()) >= parseInt(next_point_bonus) ){
+				alert("Point_Bonus value must be less than to next Point_Bonus value");
+				$(point_bonus).css({'color':'red','border':'1px solid red'});
+				flag = false;									
+				return false;
+			}else{	
+				$(this).css({'color':'','border':''});
+			}
+		return true;
+		});
+		return flag;
+	}
+		
 	function editPointsInfo(){
 		$(document).ready(function(){
 			$("#editPointInfo").click(function(){
@@ -21,46 +57,7 @@
 					"Save": function() {
 							var i=0;
 							var flag = true;
-							var user = [];
 							$("input[type=text]").css({'color':'','border':''});
-							
-							$(".pointLevelTo input[type=text]").each(function (i){
-								var point_from = $(this).parents(".pointLevelTo").prev(".pointLevelFrom").find("input[type=text]").val() ;
-								if( parseInt($(this).val()) <=  parseInt(point_from) ){
-									alert("Point_From value must be less than to Point_To value");
-									$(this).css({'color':'red','border':'1px solid red'});
-									flag = false;
-									return false;
-								}
-								var point_level = $(this).parents(".pointLevelTo").next(".pointLevelLevel").find("input[type=text]") ;
-
-								var next_point_level = $(this).parents(".pointDataRow").next(".pointDataRow").find(".pointLevelLevel input[type=text]").val() ;
-								if( parseInt($(point_level).val()) >= parseInt(next_point_level) ){
-									alert("Point_Level value must be less than to next Point_Level value");
-									$(point_level).css({'color':'red','border':'1px solid red'});
-									flag = false;
-									return false;
-								}else{
-									$(this).css({'color':'','border':''});
-								}
-								
-								var point_bonus = $(this).parents(".pointLevelTo").next("div").next(".pointLevelBonus").find("input[type=text]") ;
-								var next_point_bonus = $(this).parents(".pointDataRow").next(".pointDataRow").find(".pointLevelBonus input[type=text]").val() ;
-								if( parseInt($(point_bonus).val()) >= parseInt(next_point_bonus) ){
-									alert("Point_Bonus value must be less than to next Point_Bonus value");
-									$(point_bonus).css({'color':'red','border':'1px solid red'});
-									flag = false;									
-									return false;
-								}else{	
-									$(this).css({'color':'','border':''});
-								}
-								
-								
-							});
-							
-							if(!flag){
-								return false;		
-							}
 							$("input[type=submit]").click();
 					},
 					"Cancel": function() {
@@ -77,11 +74,17 @@
 	}	
 	
 	$(document).ready(function(){
-
+		
+		
+		$("#EditPointsLevelInfoPointsForm").submit(function(){ 
+							if(! VaildPointInfo()){
+								return false;		
+							}
+		});
+		
 		$(".pointLevelTo input[type=text]").blur(function(){
 			var point_from = $(this).parents(".pointLevelTo").prev(".pointLevelFrom").find("input[type=text]").val() ;
 			if( parseInt($(this).val()) <=  parseInt(point_from) ){
-				alert("Point_From value must be less than to Point_To value");
 				$(this).css({'color':'red','border':'1px solid red'});
 				return false;
 			}else{
@@ -97,7 +100,6 @@
 			var prev_point_level = $(this).parents(".pointDataRow").prev(".pointDataRow").find(".pointLevelLevel input[type=text]").val() ;
 			var next_point_level = $(this).parents(".pointDataRow").next(".pointDataRow").find(".pointLevelLevel input[type=text]").val() ;
 			if( parseInt($(this).val()) >= parseInt(next_point_level) || parseInt($(this).val()) <= parseInt(prev_point_level) ){
-				alert("Point_Level value must be less than to next Point_Level value");
 				$(this).css({'color':'red','border':'1px solid red'});
 				return false;
 			}else{
@@ -110,7 +112,6 @@
 			var prev_point_bonus = $(this).parents(".pointDataRow").prev(".pointDataRow").find(".pointLevelBonus input[type=text]").val() ;		
 			var next_point_bonus = $(this).parents(".pointDataRow").next(".pointDataRow").find(".pointLevelBonus input[type=text]").val() ;
 			if( parseInt($(this).val()) >= parseInt(next_point_bonus) || parseInt($(this).val()) <= parseInt(prev_point_bonus)){
-				alert("Point_Bonus value must be less than to next Point_Bonus value");
 				$(this).css({'color':'red','border':'1px solid red'});
 				return false;
 			}else{	

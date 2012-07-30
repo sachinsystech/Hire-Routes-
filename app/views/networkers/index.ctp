@@ -65,10 +65,10 @@
 					</div>
 					<?php endif;?>
 
-					<?php if(isset($user['networkers']['graduate_university_id']) && $user['networkers']['graduate_university_id'] != 0 ): ?>
+					<?php if(isset($graduateUniversity) && $graduateUniversity != "" ): ?>
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">Graduate University:</div>
-						<div class="setting_profile_value"><?php echo $user['universities']['name'];?></div>
+						<div class="setting_profile_value"><?php echo $graduateUniversity;?></div>
 					</div>
 					<?php endif;?>
 					

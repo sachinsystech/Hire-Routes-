@@ -977,7 +977,7 @@ class AdminController extends AppController {
 			//End get Origin
 			
 			//To get Networkers Total Reward
-			$reward = $this->RewardsStatus->find(
+			/*$reward = $this->RewardsStatus->find(
 				'all',array(
 					'conditions'=>array(
 						'RewardsStatus.status'=>1,
@@ -1006,10 +1006,13 @@ class AdminController extends AppController {
 					),
 				)
 			);
-			if(empty($reward[0][0]['networker_reward'])){
+			*/
+			$reward = $this->User->query("select sum((amount*networker_reward_percent)/(count*100)) as reward from payment_history INNER JOIN (select count(networkers.user_id) AS count, payment_history_id AS PH_id from rewards_status inner join networkers on (networkers.user_id = rewards_status.user_id) where payment_history_id in (select payment_history_id from rewards_status where user_id = ".$networkersData[$key]['User']['id'].") group by payment_history_id) AS Result ON (payment_history.id = Result.PH_id) where id in (select payment_history_id from rewards_status where user_id = ".$networkersData[$key]['User']['id'].")");
+
+			if(empty($reward[0][0]['reward'])){
 				$networkersData[$key]['networkerRewards']=0;
 			}else{
-				$networkersData[$key]['networkerRewards']=$reward[0][0]['networker_reward'];
+				$networkersData[$key]['networkerRewards']=$reward[0][0]['reward'];
 			}
 		//End get Networkers Total Reward
 			

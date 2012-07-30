@@ -704,7 +704,7 @@ list archive jobs..
 						'JobseekerApply.*, jobseekers.contact_name, User.parent_user_id, Job.user_id, NetworkerUser.parent_user_id, NetworkerUser.account_email, Networker.contact_name,Networker.university',
 					),
 				);
-				$applicants = $this->paginate("JobseekerApply");//pr($applicants);exit;
+				$applicants = $this->paginate("JobseekerApply");
 				$this->set('NoOfApplicants',count($applicants));
 				$this->set('applicants',$applicants);
 				$this->set('jobId',$jobId);
@@ -893,7 +893,7 @@ list archive jobs..
 			if(isset($paymentInfo['PaymentInfo'])){
 			
 				$appliedJob = $this->appliedJob($appliedJobId);
-										
+			
 				if(isset($appliedJob['Job']) && isset($appliedJob['JobseekerapplyJob'])){
 					$this->set('job',$appliedJob['Job']);
 					$this->set('appliedJobId',$appliedJobId);
@@ -932,7 +932,6 @@ list archive jobs..
 		    );
 		    
 		    $appliedJob = $this->appliedJob($appliedJobId);
-		    
 		    if(!isset($appliedJob) || !isset($appliedJob['JobseekerapplyJob'])){
 				$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
 				$this->redirect("/companies/newJob");
@@ -1103,9 +1102,35 @@ list archive jobs..
     	$userId = $this->_getSession()->getUserId();
     	$companyUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
     	$JobseekerUserInfo = $this->User->find('first',array('conditions'=>array('User.id'=>$appliedJob['JobseekerapplyJob']['user_id'])));
-    	$rewardPercenatage = $this->Config->find('first',array('conditions'=>array('Config.key'=>'rewardPercent')));
-    	$rewardPercenatage = $rewardPercenatage['Config']['value'];
+    	    	
+    	$payment_detail = $this->PaymentHistory->find('first',array(
+			'fields'=>array(' ((PaymentHistory.amount *PaymentHistory.jobseeker_reward_percent )/100 ) as reward'
+			),
+			'recursive'=>-1,
+			'order' => array('paid_date' => 'desc'),
+			'joins'=>array(
+				array(
+					'table'=>'jobseeker_apply',
+					'alias'=>'JobseekerApply',
+					'type'=>'left',
+					'fields'=>'user_id, intermediate_users, is_active',
+					'conditions'=>'PaymentHistory.applied_job_id = JobseekerApply.id'
+				),
+				array(
+					'table'=>'jobseekers',
+					'alias'=>'Jobseeker',
+					'type'=>'left',
+					'fields'=>'id,user_id, contact_name',
+					'conditions'=>'JobseekerApply.user_id = Jobseeker.user_id'
+				),
+			),			
+			'conditions'=>array('Jobseeker.user_id'=>$appliedJob['JobseekerapplyJob']['user_id'],
+				'JobseekerApply.is_active'=>'1',
+				"PaymentHistory.applied_job_id"=>$appliedJob['JobseekerapplyJob']['id'],
+			)
+		));
     	$jobDetails = $this->getJob($appliedJob['Job']['id']);    	
+    	
     	$interMeedUsers = count(explode(',',$appliedJob['JobseekerapplyJob']['intermediate_users']));
     	$appliedOn = date("m/d/Y",strtotime($appliedJob['JobseekerapplyJob']['created']));
     	$jobTyps = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary');
@@ -1115,7 +1140,7 @@ list archive jobs..
     	$emailMsgInfo['company']['url'] = $companyUserInfo['Companies']['0']['company_url'];
     	$emailMsgInfo['jobseker']['name'] = $JobseekerUserInfo['Jobseekers']['0']['contact_name'];
     	$emailMsgInfo['job']['title'] = $jobDetails['Job']['title'];
-    	$emailMsgInfo['job']['reward'] = ($interMeedUsers===1)?"<b>Reward for you : </b>".(($jobDetails['Job']['reward']*(100-$rewardPercenatage))/100). "<b>$</b>":"";
+    	$emailMsgInfo['job']['reward'] = ($interMeedUsers===1)?"<b>Reward for you : </b>".$payment_detail[0]['reward']."<b>$</b>":"0";
     	$emailMsgInfo['job']['description'] = $jobDetails['Job']['short_description'];
     	$emailMsgInfo['job']['industry'] = isset($jobDetails['ind']['name'])?$jobDetails['ind']['name']:"";
     	$emailMsgInfo['job']['specification'] = isset($jobDetails['spec']['name'])?$jobDetails['spec']['name']:"";
