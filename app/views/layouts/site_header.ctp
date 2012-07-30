@@ -1,59 +1,37 @@
-<!--
-<div>
-	<div id="tabs" style="float:left;">
-	  <ul style="float:left;">
-		<li></li>
-		<li><a href="/"><span> HOME </span></a></li>
-		<li><a href="#"><span> JOBS </span></a></li>
-		<li><a href="/blog/"><span>ABOUT</span></a></li>
-		
-		
-		<?php /*$current_user = $this->Session->read('Auth.User'); ?>
-		
-		<?php  if($current_user['id']==2):?>
-		  <li><a href="/users/login"><span>LOG IN</span></a></li>
-		  <li><a href="/users"><span>SIGN UP</span></a></li>
-   	    <?php endif; ?>
-
-	  </ul>
-	</div>
-
-	<div style="float:right; margin-top: 15px;">
-		  <?php echo $databaseMenus->auth_links(); */?>
-	</div>
+<?php $current_user = $this->Session->read('Auth.User'); ?>
+<div class="nav">
+	<ul>
+	  <li><a href="/">home</a></li>
+	  <li><a href="#">about us</a></li>
+	  <li><a href="/jobs">jobs</a></li>
+	  <li><a href="/contactUs">contact us</a></li>
+	</ul>
+	<div class="clr"></div>
 </div>
--->
-	<?php $current_user = $this->Session->read('Auth.User'); ?>
+<!-- main-nav --> 
 
-
-	<div id="tabs" style="clear:both;">
-	  <ul style="float:left;">
-		<li></li>
-		<li><a href="/"><span> HOME </span></a></li>
-		<li><a href="/jobs"><span> JOBS </span></a></li>
-		<li><a href="/blog/"><span>BLOG</span></a></li>	
-	  </ul>
-
-	  <ul style="float:right;">
-		<?php  if($current_user['id']==2 || !isset($current_user)):?>
-		<?php require_once(APP_DIR.'/vendors/facebook/hr_facebook.php'); ?>
-		<!-- li><a href="<?php echo $facebook->getLoginUrl(array('scope' => 'email,read_stream')); ?>"><span>Facebook</span></a></li -->
-		<li><a href="/users/login"><span>LOG IN</span></a></li>
-		<li><a href="/users"><span>SIGN UP</span></a></li>
-		<li><a href="/contactUs"><span>CONTACT US</span></a></li>
-   	    <?php endif; ?>
-
-		<?php  if($current_user['id']==1):?>
-		<li><a href="/users/firstTime"><span>MY ACCOUNT</span></a></li>
-		<li><a href="/users/logout"><span>LOG OUT</span></a></li>
-		<li><a href="/contactUs"><span>CONTACT US</span></a></li>
-	    <?php endif; ?>
-
-		<?php  if($current_user['id']>2):?>
-		<li><a href="/users/myAccount"><span>MY ACCOUNT</span></a></li>
-		<li><a href="/users/logout"><span>LOG OUT</span></a></li>
-		<li><a href="/contactUs"><span>CONTACT US</span></a></li>
-	    <?php endif; ?>
-	  </ul>
-	</div>
+<!-- main-nav -->
+<div class="nav" id="services">
+	<ul>
+	  <li><a href="#">fast facts</a></li>
+	  <li class="how-works"><a href="/howItWorks">how it works</a></li>
+	  <li class="news"><a href="#">news</a></li>
+	</ul>
+	<div class="clr"></div>
+</div>
+	<!-- main-nav -->
+<div class="login_signup">
+	<?php  if($current_user['id']==2 || !isset($current_user)):?>
+		<div class="login"> <a href="/users/login">Login</a></div>
+		<div class="signup"><a href="/users">Sign up</a></div>
+	<?php endif; ?>
+	<?php  if($current_user['id']==1):?>
+		<div class="login"> <a href="/users/firstTime">Account</a></div>
+		<div class="signup"><a href="/users/logout">Logout</a></div>
+	<?php endif; ?>
+	<?php  if($current_user['id']>2):?>
+		<div class="login"> <a href="/users/myAccount">Account</a></div>
+		<div class="signup"><a href="/users/logout">Logout</a></div>		
+    <?php endif; ?>
+</div>
 

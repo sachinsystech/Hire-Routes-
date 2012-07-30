@@ -1,99 +1,71 @@
-<!-- start content-->
-<div style="clear:both">
-	<?php echo $this->Session->flash('auth');?>
-	
-	<ul class="home-image">
-		<li>
-			<?php 
-				echo $html->link($html->image("../img/media/1.png",array('width' => 240)), array('controller'=>'home', 'action' => 'companyInformation'), array('escape' => false));
-			?>
-		</li>
-		<li>
-			<?php 
-				echo $html->link($html->image("../img/media/2.png",array('width' => 240)), array('controller'=>'home', 'action' => 'networkerInformation'), array('escape' => false));
-			?>
-		</li>
-		<li>
-			<?php 
-				echo $html->link($html->image("../img/media/3.png",array('width' => 240)), array('controller'=>'home', 'action' => 'jobseekerInformation'), array('escape' => false));
-			?>
-		</li>
-	</ul>
-</div>
-<div id="HomeContanier">
-	<div>
-		<?php
-			echo $this->Form->create('SearchJob', array('url' => array('controller' => 'Jobs', 'action' => 'searchJob')));
-		?>
-		<div style="border:1px solid;overflow:auto;padding:0px;width:850px;">
-		<?php
-			echo $this->Form->input('what', array('label' => '',
-							                'type' => 'text',
-        	                                'id' => 'SearchInput',
-        	                                'div'=>false
-        	                                )
-        	                            );
-			echo $this->Form->submit('Find Job',array('id'=>'FindJob',
-													'div'=>false
-												)
-										);
-		?>
-		</div>
-		<?php
-			echo $this->Form->end();
-		?>
+<div id="wrapper-middle">
+<!-- Hire Route -->
+	<div class="top">
+	  <div class="Hire-Routes"> </div>
+	  <div class="icons">
+		<ul>
+		  <li> <a href="" class="twit"> </a> </li>
+		  <li> <a href="#<?php //echo $FBLoginUrl; ?>" class="fb"> </a></li>
+		  <li> <a href="#<?php //echo $LILoginUrl; ?>" class="in"> </a> </li>
+		</ul>
+	  
+	  </div>
 	</div>
-	<div style="width:283px;overflow:auto;float:left;">
-		<center>
-			<div id="HeadingHome">HOW IT WORKS VIDEO</div>
-			<div class="Video">video</div>
-			<div id='GetStart' onclick="getStarted();"> Get Started </div>
-		</center>
-	</div>
-	<div style="width:283px;overflow:auto;float:left;">
-		<div id="HeadingHome">	WHY HIRE ROUTES?</div>
-		<div class="WhyHireRoutes">
-			<div class="WhyHireRoutesData">1: Job Search </div>
-			<div class="WhyHireRoutesData">2: Share Job </div>
-			<div class="WhyHireRoutesData">3: Earn Reward </div>
-			<div class="WhyHireRoutesData">4: Hire Routes </div>
-		</div>
-	</div>
-	<div style="width:283px;overflow:auto;float:left;">
-		<div id="HeadingHome">JOBS</div>
-		<div id="JobListOnHome">
-			<?php foreach($jobs as $job):?>
-				<div class="JobListData">
-					<?php
-						echo $this->Html->link(ucfirst($job['Job']['title']), '/jobs/jobDetail/'.$job['Job']['id']);
-					?>
-					<span style="float:right">
-						<?php
-							echo "<b>$</b>".number_format($job['Job']['reward'],'2','.','');
-						?>
-					</span>
+	<div class="middle">
+		<h1 class="title-emp">Empowering Social Networks to <span> Help People Find Jobs </span></h1>
+		<a href="/users/userSelection" class="get-started"></a>
+		<div class="content">
+			<div class="box" id="company">
+				<div class="box-content company">
+					<img src="../images/company.png" />
+					<h2>COMPANIES / RECRUITERS</h2>
+					<h3>UTILIZE YOUR NETWORK</h3>
+					<p>Empower your networks to find talent through trusted channels...</p>
+					<div class="button-orange"> <a href="/companyInformation">LEARN MORE</a></div>
+					<div class="clr"></div>
 				</div>
-				<div>	
-					<?php 
-						if(!empty($job['companies']['company_name'])) 
-							echo $job['companies']['company_name'].",&nbsp;";
-						echo $job['ind']['name'];
-					?>
+				<div class="clr"></div>
+			</div>
+			<div class="box" id="networker">
+				<div class="box-content network"> <img src="../images/network.png" />
+					<h2>NETWORKER</h2>
+					<h3> MAKE CONNECTIONS, MAKE MONEY</h3>
+					<p>Use your social networks to get paid for helping people find jobs...</p>
+					<div class="button-blue"> <a href="/networkerInformation">LEARN MORE</a></div>
+					<div class="clr"></div>
 				</div>
-				<?php
-					endforeach;
-				?>
+				<div class="clr"></div>
+			</div>
+			<div class="box" id="jobseeker">
+				<div class="box-content job"> 
+					<img src="../images/job.png" />
+					<h2>JOB SEEKERS</h2>
+					<h3> FIND JOBS HERE</h3>
+					<p>Get the jobs you are looking for 
+						  sent right to your email inbox...</p>
+					<div class="button-green"> <a href="/jobseekerInformation">LEARN MORE</a></div>
+				</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
 		</div>
-		<div id="ContanierForSearch">
-			<label>Be in know</label>
-			<input type="text" style="width:180px; border: 1px solid #000000;;height:20px;">
-			<div id="Go" onclick="">Go</div>
+		<div class="clr"></div>
 		</div>
-	</div>
+	<div class="clr"></div>
 </div>
-<script>
-function getStarted(){
-    window.location.href="/users/userSelection";			
-}
+<script type="text/javascript">
+  $(".box").mouseover(function() {
+	$(this).addClass('hover');
+  }).mouseout(function(){
+       $(this).removeClass('hover');
+  });
+	$("div.box").click(function() {
+		var userType = $(this).attr('id');
+		if(userType== "company")
+			window.location.href = "/companyInformation";
+		else if(userType== "networker")
+			window.location.href = "/networkerInformation";
+		else if(userType== "jobseeker")
+			window.location.href = "/jobseekerInformation";			
+  });
 </script>
-<!-- end content-->

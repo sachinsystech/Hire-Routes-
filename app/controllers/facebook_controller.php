@@ -9,10 +9,11 @@
 		parent::beforeFilter();	
     	$this->Auth->allow('getFaceBookFriendList');
     	$this->Auth->allow('commentAtFacebook');
+    	$this->Auth->allow('facebookObject');
 	}
 	/******	Facebook Handling	******/
 	
-	private function facebookObject() {
+	public function facebookObject() {
 	require_once(APP_DIR.'/vendors/facebook/facebook.php');
 		$facebook = new Facebook(array(
 		  'appId'  => FB_API_KEY,

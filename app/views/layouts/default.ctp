@@ -44,7 +44,6 @@
 		echo $html->script('jquery_min.js');	
 		echo $html->script('jquery-ui.min.js');
 		
-		//echo $html->script('jquery-latest.js');	
 		echo $html->script('jquery.validate.js');
 	
 		echo $scripts_for_layout;
@@ -88,31 +87,30 @@ function invite(){
 	
 	</div>
 	<?php }?>
-	<div id="container">
-		<div id="header">
-			<h1><?php //echo $this->Html->link(__('Hire Routes', true), '/'); ?></h1>
-			<?php include("site_header.ctp");?>
-
-		</div>
-		<div id="content">
-		<?php //echo "<pre>"; print_r($this->Session->read()); exit;?>
-			<!-- ******		welcome User **** -->
-			<?php if($this->Session->read('Auth.User.id')):?>
-				<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
-					<div style=" margin-left:10px">
-						Welcome <span><?php echo ucfirst($this->Session->read('welcomeName'));?>,</span>
-					</div>
-				<?php endif; ?>
+	<div id="wrapper-top"> 
+	  <!-- main-nav -->
+	  <?php include("site_header.ctp");?>
+	</div>
+	<div id="content">
+	<?php //echo "<pre>"; print_r($this->Session->read()); exit;?>
+		<!-- ******		welcome User **** -->
+		<?php if($this->Session->read('Auth.User.id')):?>
+			<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<div style=" margin-left:10px">
+					Welcome <span><?php echo ucfirst($this->Session->read('welcomeName'));?>,</span>
+				</div>
 			<?php endif; ?>
+		<?php endif; ?>
 
-			<!-- ******		End welcome User **** -->
-			<?php echo $this->Session->flash(); ?>
-			<?php echo $content_for_layout; ?>
+		<!-- ******		End welcome User **** -->
+		<?php echo $this->Session->flash(); ?>
+		<?php echo $content_for_layout; ?>
 
-		</div>
-		<div id="footer">
-			<?php include("site_footer.ctp");?>
-		</div>
+	</div>
+	<div class="footer-wrap"> 
+	  <!-- footer-content-->
+	  <?php include("site_footer.ctp");?>
+	  <!-- footer-content --> 
 	</div>
 	<?php //echo $this->element('sql_dump'); ?>
 </body>

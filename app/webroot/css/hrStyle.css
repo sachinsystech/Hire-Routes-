@@ -22,13 +22,15 @@
 }
 
 /** General Style Info **/
-body {
-/*	background: #003d4c;*/
+/*body {
+	background: #003d4c;
 	color: #000000;
 	font-family:'lucida grande',verdana,helvetica,arial,sans-serif;
 	font-size:90%;
 	margin: 0;
+
 }
+
 a {
 	color: #003d4c;
 	text-decoration: underline;
@@ -69,7 +71,7 @@ h4 {
 ul, li {
 	margin: 0 12px;
 }
-
+*/
 /** Invite button**/
 #invite_button {
     background: url("../img/media/invite.png") repeat scroll 0 0 transparent;
@@ -116,12 +118,13 @@ ul, li {
 	text-decoration: underline;
 }
 #content{
-	background: #fff;
-	clear: both;
+	/*background: #fff;
 	color: #333;
+	border-top: 1px solid;*/
 	padding: 10px 20px 40px 20px;
+	clear: both;
 	overflow: auto;
-	border-top: 1px solid;
+	font-size:88%;
 }
 #footer {
 	clear: both;
@@ -2524,5 +2527,101 @@ label.error_input_message{
     text-align: center !important;
 	font-weight:bold;
 }
+/******* =========================   Css for HR templeate ========================== ****************/
+Paste the CSS source code you want to compress herehtml,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;vertical-align:baseline;margin:0;padding:0}
 
+@font-face {
+    font-family: 'OpenSansCondensedBold';
+    src: url('../fonts/opensans-condbold-webfont.eot');
+    src: url('../fonts/opensans-condbold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/opensans-condbold-webfont.woff') format('woff'),
+         url('../fonts/opensans-condbold-webfont.ttf') format('truetype'),
+         url('../fonts/opensans-condbold-webfont.svg#OpenSansCondensedBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+a{color: #50a947;text-decoration: underline;}
+a:hover, ul li a{ text-decoration:none}
+/*::::::wrapper-top::::::*/
+#wrapper-top{ width:925px; margin:0 auto; height:35px; border:0px solid red;}
+.clr{ margin:0; padding:0; clear:both; height:0;}
+
+/*::::::::::Headings::::::*/
+h1{font-size: 21pt; line-height: normal; color: #4a4947; font-family: Lucida Sans Unicode, Sans-serif;}
+h2{font-size:14pt; line-height: normal; text-transform: uppercase; color: #f75605 (orange), #2d9d97 (blue), #3a9031 (green);  font-family: 'OpenSansCondensedBold';}
+h3{font-size: 10pt; line-height: normal; text-transform: uppercase; color: #382f2b;  font-family: 'OpenSansCondensedBold';}
+
+/*:::::Main-nav:::::::*/
+.nav{border:0px solid red; width:350px; float:left}
+.nav ul{ margin:2px 0 0; padding:0; height:29px}
+.nav ul li{display:block; float:left; *display:inline; list-style-type:none; line-height:22px;}
+.nav ul li a{color: #382F2B;font-size:10pt;margin: 0 15px; text-decoration: none; text-transform: uppercase; font-family: 'OpenSansCondensedBold';}
+.nav ul li:first-child a{ margin-left:0}
+
+.nav ul li a:hover{ color:#f66b26;}
+#services.nav {margin-left: 82px;width: 349px;}
+#services.nav ul li:first-child a{ margin-left:9px}
+#services.nav li{background: url("../images/nav-icons.png") no-repeat scroll -16px 2px transparent; padding-left: 12px; height:25px; margin-right:10px;}
+#services.nav li.how-works {background-position:-16px -28px;}
+#services.nav li.news{background-position: -16px -58px}
+#services.nav li:hover{ background-position:-18px -88px}
+#services.nav li.how-works:hover{ background-position:-18px -118px}
+#services.nav li.news:hover{background-position:-18px -148px}
+.login_signup	{background:#382f2b; width:142px; height:34px;float:right;}
+.login {color:#FFF; border-right:1px solid #AFACAA; width:66px; height:18px; font-size:13px; font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif; float:left;margin: 7px 0 0; text-align:center;}
+.login a {text-decoration:none; color:#FFF;}
+.signup {color:#FFF;font-size:13px; font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif; float:right; width:74px; height:22px;margin: 7px 0 0; text-align:center;}
+.signup a {text-decoration:none; color:#FFF;}
+#wrapper-middle{width:935px; margin:0 auto; height:auto;}
+.top {height:197px; width:935px; border-bottom:1px solid #D4CCC1;}
+.Hire-Routes { background:url(../images/header.png) -82px -12px no-repeat; width:478px; height:176px; float:left;margin: 8px 0 0 80px;}
+.icons {margin: 76px 15px 0 80px; padding:0; float:left; width:auto;}
+.icons ul { margin:0; padding:0;}
+.icons ul li{display:block; float:left; list-style:none;margin: 2px 50px 0 0;}
+.icons a {display:block;}
+.twit {background:url(../images/header.png) -641px -82px no-repeat; width:34px; height:27px;margin: 1px 0 0;}
+.fb {background:url(../images/header.png) -724px -78px no-repeat; width:17px; height:33px;margin: -4px 0 0;}
+.in {background:url(../images/header.png) -791px -79px no-repeat; width:31px; height:29px;}
+.twit:hover { background:url(../images/header.png) -640px -130px; width:34px; height:27px; margin:1px 0 0;}
+.fb:hover { background:url(../images/header.png) -723px -126px no-repeat; width:17px; height:33px;}
+.in:hover {background:url(../images/header.png) -790px -127px no-repeat; width:31px; height:29px;}
+.middle {margin:0 auto;}
+.title-emp{text-align:center; margin:20px 0 0 0; font-weight:normal;}
+.title-emp span {color:#50a947;}
+.get-started {margin:auto; background:url(../images/get-started-button.png) no-repeat; width:200px; height:62px; display:block;}
+
+.center-column {height:367px; width:865px; margin: 33px auto 0;}
+.column{width:288px; height:367px;float:left;}
+
+.comp {color:#f75605;margin-top: 25px;}
+.utilize {color:#382f2b; font-size:14px;}
+/* .text {color:#382f2b; font-size:15px; font-family:Arial, Helvetica, sans-serif; margin-top:27px;} */
+.networks {background:url(../images/body-image.png) -220px -1px no-repeat; height:173px; width:202px;}
+.netw {color:#2d9d97; font-size:15px;margin-top: 10px;}
+.jobseeker {background:url(../images/body-image.png) -421px -4px no-repeat; height:162px; width:210px;}
+.jobs {color:#3a9031; font-size:15px;margin-top: 20px;}
+
+/*::::::::footer-wrap::::::::::::*/
+.footer-wrap{background: url(../images/footer-wrap-bg.jpg) repeat-x; height:558px; color:#ded7c4; overflow:hidden}
+.footer-wrap .footer-content{width:925px; margin:auto; padding:60px 0 0; height:498px;}
+.footer-wrap .footer-content .footer-block{height:247px; border-left:2px solid #4e4540; width:226px; float:left; padding:0 40px 160px;}
+.footer-wrap .footer-content .footer-block.first{ border:none;background: url(../images/new-york-based.jpg) no-repeat left bottom;}
+.footer-wrap .footer-content .footer-block.second{background: url(../images/social-media-icon.jpg) no-repeat left bottom;}
+.footer-wrap .footer-content .footer-block p{font-size:10pt; margin-bottom:30px; line-height:20px;}
+.footer-wrap .footer-content .footer-block.third{background: url(../images/people-mil.jpg) no-repeat left bottom;}
+.footer-wrap .footer-content h3{ color:#ded7c4;font-family: 'OpenSansCondensedBold'; font-size:11pt; font-style:normal; margin-bottom:28px;}
+.footer-wrap .footer-content ul{margin:0; padding:0;}
+.footer-wrap .footer-content ul li{list-style-type:none; margin-bottom:3px;}
+.footer-wrap .footer-content ul li a{ color:#ded7c4; font-size:11pt; font-family:Arial, Helvetica, sans-serif; margin-bottom:9px;}
+.footer-wrap .footer-content .copyright{margin-top:63px;font-size:10pt;}
+.footer-wrap .footer-content .copyright .foot-right{ float:right; *margin-top:-18px;}
+.footer-wrap .footer-content .copyright .foot-right ul{margin:0; padding:0;} 
+.footer-wrap .footer-content .copyright .foot-right ul li{ display:block; float:left; *display:inline; border-left:1px solid #a9a8a6; padding:0 13px}
+.footer-wrap .footer-content .copyright .foot-right ul li:first-child{ border:0;}
+
+body{background:url(../images/body-bg.jpg) repeat-x #ffffff; line-height: normal; color: #1d1d1d; font-family: Arial regular, Sans-serif;}
+
+/******* ========================= End Hr templeate css  =========================== **************/
 

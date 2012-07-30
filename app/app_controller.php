@@ -38,6 +38,10 @@ class AppController extends Controller {
 		}
         //here we get intermidiate user id from URLs
         $this->setIntermidiateUser();
+		$recentJobs = $this->Utility->getRecentJobs();
+		if(isset($recentJobs) && $recentJobs != null){
+			$this->Session->write('recentJobs',$recentJobs);
+      	}
         $this->setICC();
 		/* SMTP Options for GMAIL */
 	  	$this->Email->smtpOptions = array(
