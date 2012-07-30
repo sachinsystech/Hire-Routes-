@@ -42,7 +42,7 @@
 				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers/newJob"><span>My Jobs</span></a></li>
 				<li <?php if(in_array($this->action,$my_networks_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers/personal"><span>My Network</span></a></li>
 				<li <?php if(in_array($this->action,$my_accounts_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers">My Account</a></li>
-				<!--<li <?php if(in_array($this->action,$my_invitations_actions)) echo "class='active'";?>><a class="menu_item" href="/networkers/invitations">Invitations</a></li>-->
+				
 
 			</ul>
 		<?php
