@@ -34,7 +34,8 @@
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
-		echo $this->Html->css('hrStyle');
+		$time = time();
+		echo $this->Html->css('hrStyle.css?'.$time);
 		echo $this->Html->css('jquery_accordion');
 		echo $this->Html->css('jquery-ui');
 		
