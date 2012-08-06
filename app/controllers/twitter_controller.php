@@ -86,7 +86,9 @@ class TwitterController extends AppController {
         }
         $userId = $session->getUserId();
 		$fbUsers = json_decode($this->params['form']['user']);
-        $invitationCode = $this->params['form']['invitationCode'];
+        //$invitationCode = $this->params['form']['invitationCode'];
+        $traceId = -1*(time()%10000000);
+        $invitationCode = $this->Utility->getCode($traceId,$userId);
         
         $user = $this->User->find('first', array('fields'=> array('twitter_token','twitter_token_secret'),
         														'conditions'=> array('id'=>$userId,

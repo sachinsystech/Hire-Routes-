@@ -154,7 +154,9 @@
         $linkedin = $this->getLinkedinObject();
         $userId = $session->getUserId();
 		$fbUsers = json_decode($this->params['form']['user']);
-        $invitationCode = isset($this->params['form']['invitationCode'])?$this->params['form']['invitationCode']:"";
+        //$invitationCode = isset($this->params['form']['invitationCode'])?$this->params['form']['invitationCode']:"";
+        $traceId = -1*(time()%10000000);
+        $invitationCode = $this->Utility->getCode($traceId,$userId);
         $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'NULL')));
 
 		if(!empty($fbUsers) &&  $user){

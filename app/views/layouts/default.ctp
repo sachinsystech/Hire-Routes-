@@ -48,8 +48,6 @@
 		echo $html->script('jquery.validate.js');
 	
 		echo $scripts_for_layout;
-
-		if($session->check('Auth.User.id') && $session->read('Auth.User.id') >2){ 
 	?>
 	<script type="text/javascript" charset="utf-8">
   var is_ssl = ("https:" == document.location.protocol);
@@ -67,7 +65,7 @@
   feedback_widget_options.style = "idea";
   var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 </script>
-	<?php }?>
+
 <script>
 	function hideMessage(){
 		$('.message').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.message');
@@ -77,17 +75,16 @@
 </script>
 <script>
 function invite(){
-	window.location.href="/users/invitations";			
+	//window.location.href="/users/invitations";
+	showView(4);			
 }
 </script>
 </head>
 <body onload="hideMessage();">
-	<?php		if($session->check('Auth.User.id') && $session->read('Auth.User.id') >2){ 
-	?>
 	<div onclick="return invite();" id="invite_button" >
-	
+
 	</div>
-	<?php }?>
+
 	<div id="wrapper-top"> 
 	  <!-- main-nav -->
 	  <?php include("site_header.ctp");?>
@@ -116,3 +113,12 @@ function invite(){
 	<?php //echo $this->element('sql_dump'); ?>
 </body>
 </html>
+<div style= "display:hidden;"> 
+<?php echo $this->element('invite_friend');?>
+</div>
+<script>
+	$(document).ready(function() {
+
+	});
+</script>
+

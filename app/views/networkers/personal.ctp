@@ -14,8 +14,8 @@
 		<div class="topMenu">
 			<?php echo $this->element('top_menu');?>
 		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
+		<!-- middle content top menu end -->
+		<!-- middle content list -->
 		
 			<div class="network_contact_middleBox">
 			  <?php if(count($contacts)):?>
@@ -51,10 +51,12 @@
 				</div>
 				<table style="width:85%;margin: auto;" class="contacts">
 					<tr>
-						<th style="width:8%;text-align:center"><input type="checkbox" onclick="toggleChecked(this.checked)"></th>
+						<th style="width:8%;text-align:center">
+							<input type="checkbox" onclick="toggleChecked(this.checked)" style="float:none;">
+						</th>
 						<th style="width:35%;text-align:center"> Name </th>
-						<th style="width:50%;text-align:center"> E-Mail </th>
-						<th style="width:7%;text-align:center"></th>
+						<th style="width:45%;text-align:center"> E-Mail </th>
+						<th style="width:10%;text-align:center"></th>
 					</tr>
 					<?php $i=0;?>
 					

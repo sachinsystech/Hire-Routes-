@@ -4,7 +4,7 @@
 			errorClass: 'error_input_message',
 				errorPlacement: function (error, element) {
 					error.insertAfter(element)
-					error.css({'margin-left':'147px','width':'230px'});
+					error.css({'margin-left':'164px','width':'230px'});
 			}
 		});
     });	
@@ -31,7 +31,7 @@
 						<div>
 							<?php	echo $form->input('User.id', array('label' => '',
 																	'type'  => 'hidden',
-																	'value' => $user['id']
+																	'value' => $user['UserList']['id']
 																	)
 														 );
 							?>
@@ -110,17 +110,13 @@
 							?>
 						</div>
 						<div style="clear:both"></div>
-
 						<div class="required">
-							<?php	echo $form->input('Networkers.university', array('label' => 'University:',
-												'type'  => 'select',
-												'options'=>$universities,
-												'empty'=>"select",
-												'class' => 'networker_select_bg  required',
-												'style' => "float:right;width:208px;",
-												'value' => isset($networker['university'])?$networker['university']:"",
-												)
-								 );
+							<?php echo $form->input('university',array('label'=> 'University',
+																		'type'=>'text',
+																		'class' => 'text_field_bg required',
+																		'value' => isset($user['Universities'])?$user['Universities']['name']:"",
+																	));
+								if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
 							?>
 						</div>
 						
@@ -128,31 +124,44 @@
 							<?php	echo $form->input('Networkers.graduate_degree_id', array('label' => 'Graduate Degree:',
 												'type'  => 'select',
 												'options'=>$graduateDegrees,
-												'empty'=>"select",
+												'empty' =>' -- Select Gred Degree --',
 												'class' => 'networker_select_bg',
 												'style' => "float:right;width:208px;",
-												'onchange'=>"fillGraduateUniversity()",
 												'value' => isset($networker['graduate_degree_id'])?$networker['graduate_degree_id']:"",
 												)
 								 );
 							?>
 						</div>
-
 						<div>
-							<?php	if(isset($networker) && isset( $graduateUniversity) ){ 
-										$university[$graduateUniversity['id']] = $graduateUniversity['graduate_college'];						
-									}else{ 
-										$university = "";
-									}
-                                    echo $form->input('Networkers.graduate_university_id', array('label' => 'Graduate University:',
-												'type'  => 'select',
-												'options'=>$university,
-												'class' => 'networker_select_bg',
-												'style' => "float:right;width:208px;",
-												)
-								 );
-							?>
+						<?php if(isset($networker) && isset( $graduateUniversity) ){ 
+								$university[$graduateUniversity['id']] = $graduateUniversity['graduate_college'];						
+								}else{ 
+									$university = "";
+								}
+								echo $form->input('graduate_university',array('label'=> 'Graduate University',
+																	'type'=>'text',
+																	'class' => 'text_field_bg',
+																	'options'=>$university,
+																	'value'=>isset($user['GUB']['graduate_college'])?$user['GUB']['graduate_college']:"",
+																));
+							if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
+						?>
+						</div>
+						
+						<div style="display:none;">
+						<?php
+							echo $form->input('Networkers.university',
+											array('type'=>'text',
+											'value'=>isset($networker["university"])?$networker["university"]:"",
+											));		
+							echo $form->input('Networkers.graduate_university_id',
+											array('type'=>'text', 
+											'value'=>isset($networker["graduate_university_id"])?$networker["graduate_university_id"]:"",
+											));
+
+						?>
 						</div>						
+												
 						<div class="company_profile_field_row">
 							<div style="float:right;margin-right:20px">
 								<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>	
@@ -171,34 +180,7 @@
 
 </div>
 
-<script>
 
-	function fillGraduateUniversity(){
-			$.ajax({
-				url: "/Utilities/getGraduateUniversities/startWith:/degree_id:"+$("#NetworkersGraduateDegreeId").val(),
-				dataType: "json",
-				beforeSend: function(){
-			 		$('#NetworkersGraduateUniversityId').parent("div").parent("div").css({"float":"left","width":"400px"});
-			 		$('#NetworkersGraduateUniversityId').parent("div").css({"float":"left","width":"350px"});
-			 		$('#NetworkersGraduateUniversityId').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
-
-		   		},
-		   		complete: function(){
-		   	    	$('.loader').remove();
-		   		},
-				success: function( data ) {
-					if(data == null) return;
-					$('#NetworkersGraduateUniversityId').html("");
-					$('#NetworkersGraduateUniversityId').append($('<option>').text("select").attr('value',""));
-
-					$(data).each(function(){
-						$('#NetworkersGraduateUniversityId').append($('<option>').text(this.name).attr('value', this.id));
-					});
-				},
-			});
-		}
-	   
-</script>
 <style>
 .loader{
 	float:left;
@@ -206,3 +188,113 @@
 	width:30px;
 }
 </style>
+<script>
+
+	$(document).ready(function(){
+		$("#GraduateUniversityBreakdownUniversity").autocomplete({
+			minLength:1,
+			source: function( request, response ) {
+				$.ajax({
+					url: "/Utilities/getUniversities/startWith:"+request.term,
+					dataType: "json",
+					beforeSend: function(){
+				 		$('#GraduateUniversityBreakdownUniversity').parent("div").parent("div").css({"float":"left","width":"450px"});
+				 		$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"374px"});
+				 		$('#GraduateUniversityBreakdownUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+
+			   		},
+			   		complete: function(){
+			   	    	$('.loader').remove();
+			   		},
+					success: function( data ) {
+						if(data == null) return;	
+						response( $.map( data, function(item) {
+							if(data == null) return;
+							return {
+								value: item.name,
+								key: item.id
+							}
+						}));
+					}
+				});
+			},
+			select: function( event, ui ) {
+				$('#NetworkersUniversity').val(ui.item.key);
+				$( this ).removeClass( "ui-corner-all" );
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-all" );
+			}
+		});
+	});
+	
+	$(document).ready(function() {
+		$("#NetworkersGraduateDegreeId").change( function(){ 
+			$("#GraduateUniversityBreakdownGraduateUniversity").trigger('keydown');
+		});	
+		$( "#GraduateUniversityBreakdownGraduateUniversity" ).autocomplete({
+			minLength:0,
+			source: function( request, response ) {
+				$.ajax({
+					url: "/Utilities/getGraduateUniversities/startWith:"+request.term+"/degree_id:"+$("#NetworkersGraduateDegreeId").val(),
+					dataType: "json",
+					beforeSend: function(){
+				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").parent("div").css({"float":"left","width":"450px"});
+				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").css({"float":"left","width":"373px"});
+				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+
+			   		},
+			   		complete: function(){
+			   	    	$('.loader').remove();
+			   		},
+					
+					success: function( data ) {
+						if(data == null) return;
+						response( $.map( data, function(item) {
+							return {
+								value: item.name,
+								key: item.id
+							}
+						}));
+					},
+				});
+			},
+			select: function( event, ui ) {
+				$('#NetworkersGraduateUniversityId').val(ui.item.key);
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-all" );
+			}
+		});
+	});
+	
+</script>
+
+<script>
+	function goTo(){
+		window.location.href="/companies/postJob";			
+	}
+</script>
+<style>
+.ui-autocomplete {
+    font-size: 12px;
+    max-height: 154px;
+    max-width: 205px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+}
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {
+	height: 100px;
+}
+</style>
+

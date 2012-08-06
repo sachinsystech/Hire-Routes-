@@ -18,14 +18,48 @@
     <!-- footer-block-->
     <div class="footer-block second">
       <h3>fast facts</h3>
-      <p> 10 business #strategies that will the you network <a href="#">bit.ly/2345234</a> <br />
-        <strong>- tweeted 2 hours ago</strong> </p>
-      <p> Big opening for #LawFirm in<br />
-        #NewYork <a href="#">bit.ly/93475</a> &#64;HRtweet <br />
-        <strong>- tweeted 2 hours ago</strong></p>
-      <p>Big opening for #Administrative<br />
-        &#64;HRtweets check it out... <br />
-        <strong>- tweeted 2 hours ago</strong></p>
+		<script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+		<script>
+		new TWTR.Widget({
+		  version: 2,
+		  type: 'profile',
+		  rpp: 3,
+		  interval: 30000,
+		  width: 250,
+		  height: 230,
+		  theme: {
+			shell: {
+			  background: 'url("../images/footer-wrap-bg.jpg") repeat-x scroll 0 0 transparent;',
+			  color: '#ffffff'
+			},
+			tweets: {
+			  background: 'url("../images/footer-wrap-bg.jpg") repeat-x scroll 0 0 transparent;',
+			  color: '#DED7C4',
+			  links: '#50A947'
+			}
+		  },
+		  features: {
+			scrollbar: false,
+			loop: true,
+			live: true,
+			behavior: 'all'
+		  }
+		}).render().setUser('Traineest').start();
+		</script>
+		<style>
+		.twtr-hd{
+			display:none;
+		}
+		.twtr-widget a img {
+			display: none;
+		}
+		.twtr-widget p {
+			line-height: 20px !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			width: auto !important;
+		}
+		</style>
     </div>
     <!-- footer-block --> 
     

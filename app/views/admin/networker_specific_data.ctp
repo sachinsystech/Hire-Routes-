@@ -58,7 +58,7 @@
 			</div>
 			<div class="NSDRowRight">
 				<div class="NSDInfoHeading">Graduate University:</div>
-				<div class="NSDInfo"><?php echo $networkerData['GraduateUniversity']['name'];?></div>
+				<div class="NSDInfo"><?php echo $networkerData['GraduateUniversity']['graduate_college'];?></div>
 			</div>
 		<?php } ?>
 		<?php if(isset($networkerData['University']['name'])){ ?>

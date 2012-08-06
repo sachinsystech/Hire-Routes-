@@ -16,52 +16,52 @@
 		<!-- middle conyent list -->
 			<div class="middleBox">
 				<div class="setting_profile">
-					<?php if(isset($user['networkers']['contact_name'])): ?>
+					<?php if(isset($user['Networkers']['contact_name'])): ?>
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">Name:</div>
-						<div class="setting_profile_value"><?php echo ucfirst($user['networkers']['contact_name']);?></div>
+						<div class="setting_profile_value"><?php echo ucfirst($user['Networkers']['contact_name']);?></div>
 					</div>
 					<?php endif;?>
 
-					<?php if(isset($user['networkers']['address'])): ?>
+					<?php if(isset($user['Networkers']['address'])): ?>
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">Address:</div>
-						<div class="setting_profile_value"><?php echo $user['networkers']['address'];?></div>
+						<div class="setting_profile_value"><?php echo $user['Networkers']['address'];?></div>
 					</div>
 					<?php endif;?>
 
-					<?php if(isset($user['networkers']['city'])): ?>
+					<?php if(isset($user['Networkers']['city'])): ?>
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">City:</div>
-						<div class="setting_profile_value"><?php echo $user['networkers']['city'];?></div>
+						<div class="setting_profile_value"><?php echo $user['Networkers']['city'];?></div>
 					</div>
 					<?php endif;?>
 
-					<?php if(isset($user['networkers']['state'])): ?>
+					<?php if(isset($user['Networkers']['state'])): ?>
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">State:</div>
-						<div class="setting_profile_value"><?php echo $user['networkers']['state'];?></div>
+						<div class="setting_profile_value"><?php echo $user['Networkers']['state'];?></div>
 					</div>
 					<?php endif;?>
 
-					<?php if(isset($user['networkers']['contact_phone'])): ?>
+					<?php if(isset($user['Networkers']['contact_phone'])): ?>
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">Phone:</div>
-						<div class="setting_profile_value"><?php echo $user['networkers']['contact_phone'];?></div>
+						<div class="setting_profile_value"><?php echo $user['Networkers']['contact_phone'];?></div>
 					</div>
 					<?php endif;?>
 					
-					<?php if(isset($user['universities']['name'])): ?>
+					<?php if(isset($user['Universities']['name'])): ?>
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">University:</div>
-						<div class="setting_profile_value"><?php echo $user['universities']['name'];?></div>
+						<div class="setting_profile_value"><?php echo $user['Universities']['name'];?></div>
 					</div>
 					<?php endif;?>
 
-					<?php if(isset($user['graduate_degrees']['degree'])): ?>
+					<?php if(isset($user['GraduateDegrees']['degree'])): ?>
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">Graduate Degree:</div>
-						<div class="setting_profile_value"><?php echo $user['graduate_degrees']['degree'];?></div>
+						<div class="setting_profile_value"><?php echo $user['GraduateDegrees']['degree'];?></div>
 					</div>
 					<?php endif;?>
 

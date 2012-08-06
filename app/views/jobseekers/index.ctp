@@ -58,8 +58,28 @@
 					
 					<div class="setting_profile_row">
 						<div class="setting_profile_field">Email:</div>
-						<div class="setting_profile_value"><?php echo $user['account_email'];?></div>
+						<div class="setting_profile_value"><?php echo $user['UserList']['account_email'];?></div>
 					</div>
+					<?php if(isset($jobseeker['university_id']) && $jobseeker['university_id'] != 0 ): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">University:</div>
+						<div class="setting_profile_value"><?php echo $user['Universities']['name'];?></div>
+					</div>
+					<?php endif;?>
+					
+					<?php if(isset($jobseeker['graduate_degree_id']) && $jobseeker['graduate_degree_id'] != null ): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">Graduate Degree:</div>
+						<div class="setting_profile_value"><?php echo $user['GraduateDegrees']['degree'];?></div>
+					</div>
+					<?php endif;?>
+					
+					<?php if(isset($user['GUB']['graduate_college']) && $user['GUB'] != null): ?>
+					<div class="setting_profile_row">
+						<div class="setting_profile_field">Graduate College:</div>
+						<div class="setting_profile_value"><?php echo $user['GUB']['graduate_college'];?></div>
+					</div>
+					<?php endif;?>
 				</div>
 			</div>
 			

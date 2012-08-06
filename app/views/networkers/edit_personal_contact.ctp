@@ -16,14 +16,9 @@
 	<div class="rightBox" >
 		<!-- middle content top menu start -->
 		<div class="topMenu">
-			<ul style="float:left">
-				<li class="active"><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/personal"><span>Personal</span></a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/addContacts"><span>Add Contact(s)</span></a></li>
-				<li><a style="color: #000000;text-decoration: none;font-weight: normal;" href="/networkers/networkerData"><span>Data</span></a></li>
-			</ul>
+			<?php echo $this->element('top_menu');?>
 		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
+		<!-- middle content list -->
 			<div class="network_contact_edit_middleBox">
 				<div class="edit_contact_form">
 					<?php echo $this->Form->create('editContact', array('url' => array('controller' => 'networkers', 'action' => 'editContact'))); ?>

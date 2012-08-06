@@ -203,7 +203,6 @@ class AdminController extends AppController {
 				'JobseekerApply.is_active'=>'1'
 			)
 		));
-		
 		if(empty($payment_detail)){
 			$this->Session->setFlash('You click on old link or entered manually.','error');
 			$this->redirect('/admin/rewardPayment/');
@@ -881,7 +880,7 @@ class AdminController extends AppController {
 		$this->paginate=array(
 			'fields'=>'User.id, User.parent_user_id, User.account_email, User.created,
 				count(DISTINCT Jobseeker.id) as jobseekerCount, Networker.contact_name, 
-				GraduateUniversity.name ,GraduateDegree.degree, Networker.points,
+				GraduateUniversity.graduate_college ,GraduateDegree.degree, Networker.points,
 				Networker.notification, count(DISTINCT SharedJob.job_id) as sharedJobsCount, University.name',
 			'recursive'=>-1,
 			'joins'=>array(
@@ -913,13 +912,15 @@ class AdminController extends AppController {
 					'table'=>'universities',
 					'alias'=>'University',
 					'type'=>'LEFT',
-					'conditions'=>'Networker.graduate_university_id=University.id'
+					'conditions'=>'Networker.university=University.id'
 				),
 				array(
-					'table'=>'universities',
+					'table'=>'graduate_university_breakdown',
 					'alias'=>'GraduateUniversity',
 					'type'=>'LEFT',
-					'conditions'=>'Networker.university=GraduateUniversity.id'
+					'conditions'=>array('Networker.graduate_degree_id=GraduateUniversity.degree_type',
+					'Networker.graduate_university_id = GraduateUniversity.id'
+					),
 				),
 				array(
 					'table'=>'graduate_degrees',

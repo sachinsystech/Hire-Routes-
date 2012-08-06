@@ -194,7 +194,7 @@ function showView(type){
 			$('.s_w_e').hide();
 			$('.selectedFriends').show();
 			fillFacebookFriend();
-			$("#share").click(facebookComment);
+			$("#share").click(facebookCommentInvitation);
 			$('#autocomplete').val('Search Friends Here...');
 			$('#ff_list').hide();
 			$('#ff_list').html('');
@@ -205,7 +205,7 @@ function showView(type){
 			$('.s_w_e').hide();
 			$('.selectedFriends').show();
 			fillLinkedinFriend();
-			$("#share").click(linkedInComment);
+			$("#share").click(linkedInCommentInvitation);
 			$('#autocomplete').val('Search Friends Here...');
 			$('#ff_list').hide();
 			$('#ff_list').html('');
@@ -216,7 +216,7 @@ function showView(type){
 			$('.s_w_e').hide();
 			$('.selectedFriends').show();
 			fillTwitterFriend();
-			$("#share").click(TwitterComment);
+			$("#share").click(TwitterCommentInvitation);
 			$('#autocomplete').val('Search Friends Here...');
 			$('#ff_list').hide();
 			$('#ff_list').html('');
@@ -227,7 +227,7 @@ function showView(type){
 			$('.selectedFriends').hide();
 			$('#imageDiv').hide();
 			setView('Email');
-			$("#share").click(shareEmail);
+			$("#share").click(emailInvitaion);
 			break;
 	}
 }
@@ -479,7 +479,7 @@ $( "#dialog" ).dialog( "close" );
 });
 }
 /************************* Email Sharing ***********************/
-function shareEmail(){
+function emailInvitaion(){
 	var to_email=$('#ShareToEmail').val();
 	if(!validateEmail(to_email)){
 		return false;
@@ -556,7 +556,7 @@ function filterFriendList(){
 	return false;
 }
 
-function facebookComment(){
+function facebookCommentInvitation(){
 	if(!validateCheckedUser()){
 		return false;
 	}
@@ -613,7 +613,7 @@ function facebookComment(){
 }
 /****** linked in comment ******/
 
-function linkedInComment(){
+function linkedInCommentInvitation(){
 	if(!validateCheckedUser()){
 		return false;
 	}
@@ -676,7 +676,7 @@ function linkedInComment(){
 
 /****** Twitter comment ******/
 
-function TwitterComment(){
+function TwitterCommentInvitation(){
 	if(!validateCheckedUser()){
 		return false;
 	}
