@@ -128,7 +128,17 @@
 				$.ajax({
 					url: "/Utilities/getUniversities/startWith:"+request.term,
 					dataType: "json",
+					beforeSend: function(){
+				 		//$('#UserUniversity').parent("div").parent("div").css({"float":"left","width":"450px"});
+				 		//$('#UserUniversity').parent("div").css({"float":"left","width":"446px"});
+				 		$('#UserUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+
+			   		},
+			   		complete: function(){
+			   	    	$('.loader').remove();
+			   		},
 					success: function( data ) {
+						if(data == null) return;
 						response( $.map( data, function(item) {
 							if(data == null) return;
 							return {
@@ -143,10 +153,10 @@
 				$('#NetworkerUniversity').val(ui.item.key);
 			},
 			open: function() {
-				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+				$( this ).removeClass( "ui-corner-all" );
 			},
 			close: function() {
-				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+				$( this ).removeClass( "ui-corner-all" );
 			}
 		});
 	});
@@ -185,38 +195,20 @@
 		});
 	});
 	
-	$(document).ready(function() {
-		$("#UserGraduateDegreeId").autocomplete({
-			minLength:1,
-			source: function( request, response ) {
-				$.ajax({
-					url: "/Utilities/getGraduateDegrees/startWith:"+request.term,
-					dataType: "json",
-					success: function( data ) {
-						if(data == null) return;
-						response( $.map( data, function(item) {
-							return {
-								value: item.name,
-								key: item.id
-							}
-						}));
-					},
-				});
-			},
-			select: function( event, ui ) {
-				$('#NetworkerGraduateDegreeId').val(ui.item.key);
-			},
-			open: function() {
-				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-			},
-			close: function() {
-				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-			}
-		});
-	});
-	</script>
-	<!--
-		<div style='height: 30px;width: 199px;'>
-		<a href="<?php echo $LILoginUrl;?>" > LinkedIn signup</a>
-	</div>
-	-->
+</script>
+<style>
+	.ui-autocomplete {
+	font-size: 12px;
+	max-height: 154px;
+	max-width: 205px;
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	}
+	/* IE 6 doesn't support max-height
+	* we use height instead, but this forces the menu to always be this tall
+	*/
+	* html .ui-autocomplete {
+	height: 100px;
+	}
+</style>

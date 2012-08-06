@@ -70,7 +70,6 @@ class UtilityComponent extends Object
 	        $saveCode = $this->Session->read('intermediateCode');
     	    if($saveCode){
     	        $str = base64_decode($saveCode);
-		    //echo $str;
     	        $code="";
     	        $data = explode("^",$str);
     	        $jobId = $data[0];
@@ -87,6 +86,9 @@ class UtilityComponent extends Object
     	            return $code;
             	}
         	}
+        }
+        if($userRole==JOBSEEKER){
+        	return null;
         }
         return base64_encode($passJobId."^".$userId);
     }

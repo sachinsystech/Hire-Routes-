@@ -197,22 +197,22 @@
 			<div><input type="" id="jobUrl" value="<?php echo  $jobUrl ?>"></div>
 
 	<div style="clear:both;margin-top:5px;padding: 5px;">
-		<img src="/img/mail_it.png" style="float: left;cursor:pointer" onclick='showView(4);'/>
+		<img src="/img/mail_it.png" style="float: left;cursor:pointer" onclick='shareJobShowView(4);'/>
 		<span>Mail It</span>
 	</div>
 
 	<div style="clear:both;margin-top: 5px;padding: 5px;">
-		<img src="/img/facebook_post.png" style="float: left;cursor:pointer" onclick='showView(1);'/>
+		<img src="/img/facebook_post.png" style="float: left;cursor:pointer" onclick='shareJobShowView(1);'/>
 		<span>Share It on Facebook</span>
 	</div>
 
 	<div style="clear:both;margin-top: 5px;padding: 5px;">
-		<img src="/img/linkedin_post.png" style="float: left;cursor:pointer" onclick='showView(2);'/>
+		<img src="/img/linkedin_post.png" style="float: left;cursor:pointer" onclick='shareJobShowView(2);'/>
 		<span>	Post on LinkedIn</span>
 	</div>
 
 	<div style="clear:both;margin-top: 5px;padding: 5px;">
-		<img src="/img/tweeter_post.png" style="float: left;cursor:pointer" onclick='showView(3);'/>
+		<img src="/img/tweeter_post.png" style="float: left;cursor:pointer" onclick='shareJobShowView(3);'/>
 		<span>Tweet It</span>
 	</div>
 	<?php	} ?>

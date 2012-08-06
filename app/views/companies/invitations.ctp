@@ -88,15 +88,4 @@
 	<!-- middle section end -->
 
 </div>
-<div style= "display:hidden;"> 
-<?php echo $this->element('invite_friend');?>
-</div>
-<?php
-	if( $this->params["url"]["url"] == "companies/invitations"){
-?>
-	<script>
-		$(document).ready(function() {
-			showView(4);
-		});
-	</script>
-<?php } ?>
+

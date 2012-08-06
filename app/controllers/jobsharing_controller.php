@@ -64,7 +64,9 @@ class JobsharingController extends AppController {
 
 		if(isset($this->params['form']['toEmail'])){
 
-			$invitationCode = $this->params['form']['invitationCode'];
+			//$invitationCode = $this->params['form']['invitationCode'];
+			$traceId = -1*(time()%10000000);
+        	$invitationCode = $this->Utility->getCode($traceId,$userId);
 			$template = 'invitation';
 			$subject = "Hire-Routes Invitation";
 			$tos = explode(",", trim($this->params['form']['toEmail']));

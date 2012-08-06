@@ -395,7 +395,7 @@ class UsersController extends AppController {
 			$this->redirect("/");
 			return;
 		}
-		$this->Session->delete('intermediateCode');
+		//$this->Session->delete('intermediateCode');
 	    return $this->User->id;
 	}
 /**

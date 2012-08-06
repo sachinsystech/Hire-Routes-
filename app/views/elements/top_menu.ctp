@@ -194,11 +194,11 @@
 					</li>
 				</ul>
 			<?php
-			}elseif($this->action=='personal'||$this->action=='addContacts'||$this->action=='networkerData' || $this->action=='invitations' || $this->action=='networkerPoints'){
+			}elseif($this->action=='personal'||$this->action=='addContacts'||$this->action=='networkerData' || $this->action=='invitations' || $this->action=='networkerPoints' || $this->action=='editPersonalContact'){
 			?>
 				<ul style="float:left"  class="top_mene_hover">
 
-					<li <?php if($this->action=='personal') echo "class='active'";?>>
+					<li <?php if($this->action=='personal' || $this->action=='editPersonalContact' ) echo "class='active'";?>>
 						<a class="menu_item" href="/networkers/personal">Personal</a>
 					</li>
 					<li <?php if($this->action=='networkerPoints') echo "class='active'";?>>

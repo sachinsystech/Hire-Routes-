@@ -45,38 +45,44 @@ class NetworkersController extends AppController {
 		$userId = $this->_getSession()->getUserId();		
         if($userId){
         	/* User Info*/			
-			$user = $this->UserList->find('first',array('conditions'=>array('UserList.id'=>$userId),
-													'joins'=>array(
-																array(
-																	'table'=>'networkers',
-																	'type'=>'LEFT',
-																	'conditions'=>array("networkers.user_id"=>$userId) 
-																),
-																array(
-																'table'=>'universities',
-																'type'=>'LEFT',
-													'conditions'=>array('universities.id=networkers.university'),
-																),
-																array(
-																'table'=>'graduate_degrees',
-																'type'=>'LEFT',
-													'conditions'=>array('graduate_degrees.id=
-													networkers.graduate_degree_id'),
-																),
-																),
-													'fields'=>array('UserList.*, networkers.*,universities.*,graduate_degrees.*'),
-													)
-								);
-			$graduateUniversity = $this->GraduateUniversityBreakdown->find('first',
-																		array('conditions'=>array('id'=>$user['networkers']['graduate_university_id'],'degree_type'=>$user['networkers']['graduate_degree_id']),
-																			'fields'=>array('id','graduate_college'),
-		));
-			$networkers = $user['networkers'];
-			$networkers['university']=$user['universities']['name'];
-			if(isset($graduateUniversity['GraduateUniversityBreakdown'])){
-				$this->set('graduateUniversity', $graduateUniversity['GraduateUniversityBreakdown']['graduate_college']);
+			$user = $this->UserList->find('first', array('conditions'=>array('UserList.id'=>$userId),
+														'recursive'=>"-1",
+														'joins'=>array(
+														array(
+															'table'=>'networkers',
+															'alias'=>'Networkers',
+															'type'=>'left',
+															'conditions'=>'UserList.id = Networkers.user_id',
+														),
+														array(
+															'table'=>'universities',
+															'type'=>'left',
+															'alias'=>'Universities',
+															'conditions'=>'Universities.id=Networkers.university',
+														),
+														array(
+															'table'=>'graduate_degrees',
+															'type'=>'left',
+															'alias'=>'GraduateDegrees',
+															'conditions'=>'GraduateDegrees.id=Networkers.graduate_degree_id',
+														),
+														array(
+															'table'=>'graduate_university_breakdown',
+															'type'=>'left',
+															'alias'=>'GUB',
+															'conditions'=>array(
+																		'GUB.id=Networkers.graduate_university_id',
+																		'GUB.degree_type=Networkers.graduate_degree_id')
+),
+														
+														),'fields'=>array('Networkers.*,GUB.id,GUB.graduate_college,Universities.id,Universities.name,UserList.*,GraduateDegrees.*'),
+														));						
+
+			$networkers['university'] = $user['Universities']['name'];
+			if(isset($user['GUB']['graduate_college'])){
+				$this->set('graduateUniversity', $user['GUB']['graduate_college']);
 			}
-			if(!isset($networkers['contact_name']) || empty($networkers['contact_name'])){
+			if(!isset($user['Networkers']['contact_name']) || empty($user['Networkers']['contact_name'])){
 				$this->redirect("/Networkers/editProfile");						
 			}
 			$this->set('user',$user);
@@ -170,18 +176,44 @@ class NetworkersController extends AppController {
 				}	
 			}
 		}
-		$universities = $this->Utility->getUniversities();
+		
+		$user = $this->UserList->find('first', array('conditions'=>array('UserList.id'=>$userId),
+														'recursive'=>"-1",
+														'joins'=>array(
+														array(
+															'table'=>'networkers',
+															'alias'=>'Networkers',
+															'type'=>'left',
+															'conditions'=>'UserList.id = Networkers.user_id',
+														),
+														array(
+															'table'=>'universities',
+															'type'=>'left',
+															'alias'=>'Universities',
+															'conditions'=>'Universities.id=Networkers.university',
+														),
+														array(
+															'table'=>'graduate_degrees',
+															'type'=>'left',
+															'alias'=>'GraduateDegrees',
+															'conditions'=>'GraduateDegrees.id=Networkers.graduate_degree_id',
+														),
+														array(
+															'table'=>'graduate_university_breakdown',
+															'type'=>'left',
+															'alias'=>'GUB',
+															'conditions'=>array(
+																		'GUB.id=Networkers.graduate_university_id',
+																		'GUB.degree_type=Networkers.graduate_degree_id')
+),
+														
+														),'fields'=>array('Networkers.*,GUB.id,GUB.graduate_college,Universities.id,Universities.name,UserList.*,GraduateDegrees.*'),
+														));	
 		$graduateDegrees =$this->Utility->getGraduateDegrees();
-		$user = $this->UserList->find('first',array('conditions'=>array('UserList.id'=>$userId)));
-		$graduateUniversity = $this->GraduateUniversityBreakdown->find('first',
-																		array('conditions'=>array('id'=>$user['Networkers']['graduate_university_id'],'degree_type'=>$user['Networkers']['graduate_degree_id']),
-																			'fields'=>array('id','graduate_college'),
-		));
 		if(isset($graduateUniversity['GraduateUniversityBreakdown'])){
 			$this->set('graduateUniversity',$graduateUniversity['GraduateUniversityBreakdown']);
 		}
-		$this->set('user',$user['UserList']);
-		$this->set('universities',$universities);
+		$this->set('user',$user);
 		$this->set('graduateDegrees',$graduateDegrees);
         if(isset($user['Networkers'])){
         	$this->set('networker',$user['Networkers']);
@@ -1035,7 +1067,7 @@ class NetworkersController extends AppController {
 		}
 	
 		$userId = $session->getUserId();
-		$traceId = -1;
+		$traceId = -1*(time()%10000000);
 		/*** code for networker trac **/
         if($userId){
             if($this->userRole == NETWORKER){

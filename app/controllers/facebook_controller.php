@@ -135,7 +135,9 @@
         $userId = $session->getUserId();
 
 		$fbUsers = json_decode($this->params['form']['user']);
-        $invitationCode = $this->params['form']['invitationCode'];
+		$traceId = -1*(time()%10000000);
+        $invitationCode = $this->Utility->getCode($traceId,$userId);
+        //$invitationCode = $this->params['form']['invitationCode'];
         $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
         
         if(!empty($fbUsers) &&  $User){

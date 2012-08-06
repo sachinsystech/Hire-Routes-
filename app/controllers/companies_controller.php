@@ -1028,7 +1028,7 @@ list archive jobs..
 									$paymentHistory['scenario']=3;
 							}else{
 								if(in_array($jobSeekerParent['Networker']['user_id'],$intermediate_user_ids))
-									$paymentHistory['scenario']=3;
+									$paymentHistory['scenario']=1;
 								else{
 									$paymentHistory['scenario']=2;
 									if(empty($intermediate_user_ids[0]))

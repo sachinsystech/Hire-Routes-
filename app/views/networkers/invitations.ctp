@@ -88,14 +88,4 @@
 	<!-- middle section end -->
 
 </div>
-<?php echo $this->element('invite_friend');?>
-<?php
 
-	if( $this->params["url"]["url"] == "networkers/invitations"){
-?>
-	<script>
-		$(document).ready(function() {
-			showView(4);
-		});
-	</script>
-<?php } ?>

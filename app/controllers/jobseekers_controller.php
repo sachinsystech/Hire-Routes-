@@ -31,13 +31,43 @@ class JobseekersController extends AppController {
 	function index(){
 		$userId = $this->_getSession()->getUserId();		
         if($userId){
-        	/* User Info*/			
-			$user = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
-			$jobseeker = $user['Jobseekers'][0];
+			$user = $this->UserList->find('first', array('conditions'=>array('UserList.id'=>$userId),
+														'recursive'=>"-1",
+														'joins'=>array(
+														array(
+															'table'=>'jobseekers',
+															'alias'=>'Jobseeker',
+															'type'=>'left',
+															'conditions'=>'UserList.id = Jobseeker.user_id',
+														),
+														array(
+															'table'=>'universities',
+															'type'=>'left',
+															'alias'=>'Universities',
+															'conditions'=>'Universities.id=Jobseeker.university_id',
+														),
+														array(
+															'table'=>'graduate_degrees',
+															'type'=>'left',
+															'alias'=>'GraduateDegrees',
+															'conditions'=>'GraduateDegrees.id=Jobseeker.graduate_degree_id',
+														),
+														array(
+															'table'=>'graduate_university_breakdown',
+															'type'=>'left',
+															'alias'=>'GUB',
+															'conditions'=>array(
+																		'GUB.id=Jobseeker.graduate_university_id',
+																		'GUB.degree_type=Jobseeker.graduate_degree_id')
+),
+														
+														),'fields'=>array('Jobseeker.*,GUB.id,GUB.graduate_college,Universities.id,Universities.name,UserList.*,GraduateDegrees.*'),
+														));
+			$jobseeker = $user['Jobseeker'];
 			if(!isset($jobseeker['contact_name']) || empty($jobseeker['contact_name'])){
 				$this->redirect("/jobseekers/editProfile");						
 			}
-			$this->set('user',$user['User']);
+			$this->set('user',$user);
 			$this->set('jobseeker',$jobseeker);
 		}
 		else{		
@@ -93,7 +123,6 @@ class JobseekersController extends AppController {
 		if(isset($this->data['User'])){
 			$this->data['User']['group_id'] = 0;
 			$this->User->save($this->data['User']);
-
 			if($this->Jobseekers->save($this->data['Jobseekers'])){
 				$session->start();
 				$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
@@ -104,14 +133,43 @@ class JobseekersController extends AppController {
 				}else{
 					$this->redirect('/jobseekers');	
 				}
+			}else{
+				$this->Session->setFlash('May be you click on old link or manually enter URL.', 'error'); 
 			}
 		}
-		
-		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-		$this->set('user',$user['User']);
 
-        if(isset($user['Jobseekers'][0])){
-        	$this->set('jobseeker',$user['Jobseekers'][0]);
+		$graduateDegrees =$this->Utility->getGraduateDegrees();
+		
+		$user = $this->UserList->find('first', array('conditions'=>array('UserList.id'=>$userId),
+														'recursive'=>"-1",
+														'joins'=>array(
+														array(
+															'table'=>'jobseekers',
+															'alias'=>'Jobseeker',
+															'type'=>'left',
+															'conditions'=>'UserList.id = Jobseeker.user_id',
+														),
+														array(
+															'table'=>'universities',
+															'type'=>'left',
+															'alias'=>'Universities',
+															'conditions'=>'Universities.id=Jobseeker.university_id',
+														),
+														array(
+															'table'=>'graduate_university_breakdown',
+															'type'=>'left',
+															'alias'=>'GUB',
+															'conditions'=>array(
+																		'GUB.id=Jobseeker.graduate_university_id',
+																		'GUB.degree_type=Jobseeker.graduate_degree_id')
+),
+														
+														),'fields'=>array('Jobseeker.*,GUB.id,GUB.graduate_college,Universities.id,Universities.name,UserList.*'),
+														));
+       	$this->set('user',$user);
+       	$this->set('graduateDegrees',$graduateDegrees);
+        if(isset($user['Jobseeker'])){
+        	$this->set('jobseeker',$user['Jobseeker']);
         }
 	}
 
