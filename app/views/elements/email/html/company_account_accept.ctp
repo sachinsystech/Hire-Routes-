@@ -1,16 +1,14 @@
-<b>Hire Routes</b>
-<p>
-Welcome to Hire Routes.
-<p>
-Your account for Email: <?php echo $message['account_email'];?> is accepted and confirmed.
-</p>
 <?php $login_url = Configure::read('httpRootURL')."users/login/";?>
-Now, you can <a href="<?php echo $login_url; ?>"><span style="color: #1E7EC8;">login</span></a> into our system.
-<p>
 <?php $contact_url = Configure::read('httpRootURL')."contactUs";?> 
-Please <a href="<?php echo $contact_url; ?>"><span style="color: #1E7EC8;">contact-us </span></a> at
-<a target="_blank" href="mailto:support@hireroutes.com;?>">support@hireroutes.com</a>, for detailed information.
-<p>
-<p>
-Thank you again,<br> Hire Routes
 
+<p>Welcome to Hire Routes!</p>
+
+<p>Your request has been accepted and confirmed for <?php echo ucfirst($message['contact_name']);?> at <?php echo $message['company_name']; ?>.</p>
+
+<p>You can now <a href="<?php echo $login_url; ?>"><span style="color: #1E7EC8;">login</span></a> using your username : <?php echo $message['account_email'];?> and password : [password]</p>
+
+<p>Please contact us at <a target="_blank" href="info@hireroutes.com;?>">info@hireroutes.com</a> if you have any questions or you simply have something on your mind...anything at all!</p>
+<p> </p>
+<p>Thanks again for signing up!</p>
+<p> </p>
+<p>Sincerely, Hire Routes</p>

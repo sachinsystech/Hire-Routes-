@@ -280,12 +280,33 @@
 						<tr class="<?php echo $class; ?>" > 
 							<td style="padding:7px;text-align:center;" ><?php echo $sno++;?>
 							
-							</td> 
+							</td>
+							<?php
+								switch($user['role_id']){
+									case COMPANY:
+											$urlspecUrlLink = '/employerSpecificData';
+											break;
+									case JOBSEEKER:
+											$urlspecUrlLink = '/jobseekerSpecificData';
+											break;
+									case NETWORKER:
+											$urlspecUrlLink = '/networkerSpecificData';
+											break;
+								}
+							?>
 							<td>
 								<div class="employerLoginStatusBar" style="float:left;margin-top:2px" id="<?php echo "user_".$user['id'];?>" idfield="<?php echo $user['id']; ?>">	
 								</div>
-								<?php echo ucfirst($user['contact_name']);?></td> 
-							<td><?php echo $user['account_email']?></td>
+								
+								<a href="/admin<?php echo $urlspecUrlLink."/".$user['id'];?>/">
+									<?php echo ucfirst($user['contact_name']);?>
+								</a>
+							</td> 
+							<td>
+								<a href="/admin<?php echo $urlspecUrlLink."/".$user['id'];?>/">
+									<?php echo $user['account_email']?>
+								</a>	
+							</td>
 							<td style="text-align:center;"> <?php echo $user['role'];?> </td> 
 							<td style="text-align:center;"> <?php echo $user['contact_phone'];?> </td>
 							<td style="text-align:center;"> <?php echo $user['networkCount'];?> </td>

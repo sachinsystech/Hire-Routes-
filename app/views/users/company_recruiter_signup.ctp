@@ -67,14 +67,14 @@
     ?>
     <?php	echo $form->input('Companies.company_url', array('label' => 'Company Website',
                                            			'type'  => 'text',
-													'class' => 'text_field_bg required url',
+													'class' => 'text_field_bg url',
 													'minlength' => '8',
 													
                                            			)
                                  );
     ?>
 
-	<?php	echo $form->input('account_email', array('label' => 'Account Email',
+	<?php	echo $form->input('account_email', array('label' => 'Email',
                                            			'type'  => 'text',
 													'class' => 'text_field_bg required email',
                                            			)
