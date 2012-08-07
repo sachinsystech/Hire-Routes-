@@ -17,6 +17,7 @@ class HomeController extends AppController {
 		$this->Auth->allow('companyInformation');		
 		$this->Auth->allow('hrInvitationsDetail');
 		$this->Auth->allow('networkerPointInfo');
+		$this->Auth->allow('about');
 	}
 
 	function index(){
@@ -47,7 +48,12 @@ class HomeController extends AppController {
 	function howItWorks(){
 
 	}
-	
+
+	function about(){
+	$this->layout ="home";
+
+	}	
+
 	function networkerPointInfo(){
 		$networkersTitles = $this->NetworkersTitle->find('list');
 		$points = array('0 - 150','151 - 300','301 - 500','501 - 750','751 - 1000',
@@ -58,6 +64,7 @@ class HomeController extends AppController {
 	
 		$this->set('networkersTitles',$networkersTitles);
 	 }
+	 
 	 function hrInvitationsDetail(){
 	 
 	 }

@@ -15,7 +15,6 @@
 	<ul>
 	  <li><a href="#">fast facts</a></li>
 	  <li class="how-works"><a href="/howItWorks">how it works</a></li>
-	  <li class="news"><a href="#">news</a></li>
 	</ul>
 	<div class="clr"></div>
 </div>
