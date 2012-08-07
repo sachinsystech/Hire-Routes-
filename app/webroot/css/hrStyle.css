@@ -74,20 +74,14 @@ ul, li {
 */
 /** Invite button**/
 #invite_button {
-    background: url("../img/media/invite.png") repeat scroll 0 0 transparent;
-    color: #FFFFFF;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    height: 86px;
-    margin-left: -7px;
-    padding: 4px;
     position: fixed;
-    text-align: center;
     top: 45%;
+    background: url("../images/buttons.png") no-repeat scroll -129px -227px transparent;
+    height: 102px;
+    margin: 12px 0 0;
     width: 35px;
 }
-
 #invite_button:hover {
     margin-left: -3px;
 }
