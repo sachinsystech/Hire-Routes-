@@ -2,7 +2,7 @@
 <div class="nav">
 	<ul>
 	  <li><a href="/">home</a></li>
-	  <li><a href="#">about us</a></li>
+	  <li><a href="/about">about us</a></li>
 	  <li><a href="/jobs">jobs</a></li>
 	  <li><a href="/contactUs">contact us</a></li>
 	</ul>
