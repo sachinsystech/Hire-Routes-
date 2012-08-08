@@ -39,7 +39,7 @@
 <div style="width:480px; margin-top:20px;">
 <?php echo $form->create('User', array('action' => 'jobseekerSignup','onsubmit'=>'return checkform()')); ?>
 
-	<?php	echo $form->input('account_email', array('label' => 'Account Email',
+	<?php	echo $form->input('account_email', array('label' => 'Email',
                                            			'type'  => 'text',
 													'class' => 'text_field_bg required email',
                                            			)

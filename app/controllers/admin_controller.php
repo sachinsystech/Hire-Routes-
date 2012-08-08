@@ -117,7 +117,7 @@ class AdminController extends AppController {
 	}
 	
 	/**** To save company status Activated/Deactivated ****/
-	private function saveCompanyStatus($userData,$process){
+	function saveCompanyStatus($userData,$process){
 	
  		if($this->User->save($userData)){
 			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userData['id'])));
@@ -125,6 +125,8 @@ class AdminController extends AppController {
 			$subject = 'Hire Routes : '.$process.' Account Request';
 			$template = 'company_account_'.$process;
 			$message = $user['User'];
+			$message['contact_name'] = $user['Companies'][0]['contact_name'];
+			$message['company_name'] = $user['Companies'][0]['company_name'];
 			$this->sendEmail($to,$subject,$template,$message);		
 			$this->Session->setFlash('User has been '.$process.'ed.', 'success');
 		}else{

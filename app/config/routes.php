@@ -76,6 +76,8 @@
 	Router::connect('/contactUs', array('controller'=> 'home', 'action'=>'contactUs'));
 	Router::connect('/contactUs/:jobId', array('controller'=> 'home', 'action'=>'contactUs'));
 	
+	Router::connect('/about',array('controller'=>'home','action'=>'about'));
+	Router::connect('/about/:jobId',array('controller'=>'home','action'=>'about'));
 	
 	Router::connect('/howItWorks',array('controller'=>'home','action'=>'howItWorks'));
 	Router::connect('/howItWorks/:jobId',array('controller'=>'home','action'=>'howItWorks'));

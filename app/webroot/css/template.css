@@ -1,4 +1,4 @@
-Paste the CSS source code you want to compress herehtml,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;vertical-align:baseline;margin:0;padding:0}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;vertical-align:baseline;margin:0;padding:0}
 
 @font-face {
     font-family: 'OpenSansCondensedBold';
@@ -138,6 +138,29 @@ h3{font-size: 10pt; line-height: normal; text-transform: uppercase; color: #382f
 
 .content .box.hover{ background:#f4f0e3; border:9px solid #f4f0e3; border-bottom:0; border-right:0}
 .content .box.click{ background:#f4f0e3; border:9px solid #dfd7c3;  border-bottom:0; border-right:0}
+
+
+
+
+/*:::::::::::::::::::::ABOUT US::::::::::::::::::*/
+#inner .content{ width:881px; padding:37px 37px 89px 32px;}
+.content .left{ width:260px; float:left; min-height:300px;}
+.content .left p{color: #382F2B; font-family: Arial,Helvetica,sans-serif; font-size: 15px; line-height: 24px;margin-top: 27px;}
+.content .right {background:url("../images/about-right-bg.jpg") repeat-y scroll 0 0 transparent;  border: 1px solid #CFC8BE; float: right; min-height: 300px; width: 534px;}
+.about-border {background:url("../images/about-border-image.png") no-repeat scroll 0 0 transparent; float: left; min-height: 277px; padding-left: 15px;padding-top: 14px;width: 252px;}
+.team-member{width: 266px;float:left; min-height:435px; position:relative;}
+.member-info{margin-left: 20px; width: 225px;}
+.member-info h3{ font-size:11pt; color:#382f2b;}
+.member-info span {color: #382F2B;display: block;font-size: 12pt;font-weight: normal;margin:3px 0 7px}
+.link-mouseover { background: none repeat scroll 0 0 #1D1D1D; border: 0 none; color: #FFFFFF; font-size: 14pt; height: 142px; left: 15px; opacity: 0.6;  padding-top: 97px; position: absolute; text-align: center; top: 14px; width: 237px;font-family: 'OpenSansCondensedBold';   z-index: 33;display:none;}
+.about-border:hover .link-mouseover{ display:block}
+
+.member-info ul{margin:0; padding:0; list-style-type:none}
+.member-info ul li{background: url("../images/member-social-icon.png") no-repeat scroll 0 3px transparent;margin: 5px 0;padding-left: 17px; font-size: 14px;}
+.member-info ul li.member-facebook{ background-position:0 -16px}
+.member-info ul li.member-linkedin{ background-position:0 -37px}
+.member-info ul li a{text-decoration:underline; }
+.member-info ul li a:hover{ text-decoration:none; color:#382F2B}
 
 
 
