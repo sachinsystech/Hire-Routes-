@@ -978,38 +978,23 @@ class AdminController extends AppController {
 			//End get Origin
 			
 			//To get Networkers Total Reward
-			/*$reward = $this->RewardsStatus->find(
-				'all',array(
-					'conditions'=>array(
-						'RewardsStatus.status'=>1,
-						'RewardsStatus.user_id'=>$networkersData[$key]['User']['id']
-					),
-					'joins'=>array(
-						array(
- 							'table' => 'payment_history',
-	 						'alias' => 'PaymentHistory',
-	                        'type' => 'INNER',
-	                        'conditions' => array('RewardsStatus.payment_history_id =PaymentHistory.id')
-     					),
-						array(
-							'table' => 'jobseeker_apply',
-	  						'alias' => 'JobseekerApply',
-	  						'type' => 'INNER',
-	  						'conditions' => array('PaymentHistory.applied_job_id = JobseekerApply.id 
-	  							AND FIND_IN_SET('.$networkersData[$key]['User']['id'].', 
-	  							JobseekerApply.intermediate_users)'
-	  						)
-     					),
-					),
-					'fields'=>array(
-						'SUM(((PaymentHistory.amount)*(PaymentHistory.networker_reward_percent))
-						/(substrCount(JobseekerApply.intermediate_users,",")*100)) as networker_reward'
-					),
-				)
-			);
-			*/
-			$reward = $this->User->query("select sum((amount*networker_reward_percent)/(count*100)) as reward from payment_history INNER JOIN (select count(networkers.user_id) AS count, payment_history_id AS PH_id from rewards_status inner join networkers on (networkers.user_id = rewards_status.user_id) where payment_history_id in (select payment_history_id from rewards_status where user_id = ".$networkersData[$key]['User']['id'].") group by payment_history_id) AS Result ON (payment_history.id = Result.PH_id) where id in (select payment_history_id from rewards_status where user_id = ".$networkersData[$key]['User']['id'].")");
+		
+			$reward = $this->User->query("select sum(reward) as reward from (
 
+                           select 
+                               payment_history.id,(networker_reward_percent*amount/(100*count(payment_history.id))) as reward
+                           from 
+                               payment_history 
+                           join 
+                               rewards_status on payment_history.id = payment_history_id  
+                           join 
+                               networkers on networkers.user_id = rewards_status.user_id  
+                           group by 
+                               payment_history.id 
+                       ) 
+       as new_table join rewards_status on new_table.id = payment_history_id  
+where user_id =".$networkersData[$key]['User']['id']."");
+			
 			if(empty($reward[0][0]['reward'])){
 				$networkersData[$key]['networkerRewards']=0;
 			}else{

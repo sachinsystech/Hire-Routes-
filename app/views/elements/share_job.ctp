@@ -356,41 +356,40 @@ $('#shareJobImageDiv').html('<p class="sharejob_ajax_loader"><img src="/images/f
 '<img src="/images/fb_loading.gif" /></p>');
 $('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
 $.ajax({
-type: 'POST',
-url: '/facebook/getFaceBookFriendList',
-dataType: 'json',
-success: function(response){
-switch(response.error){
-case 0: // success
-createHTMLforFillingShareFriends(response.data);
-filterFriendListShareJob();
-$("#autocompleteFind").show();
-//$("#shareJobImageDiv").css({visibility: "hidden"});
-
-break;
-case 1: // we don't have user's facebook token
-alert(response.message);
-window.open(response.URL);
-break;
-case 2: // something went wrong when we connect with facebook.Need to login by facebook
-if(response.message){
-$( "#dialog-messageshare" ).html(response.message);
-}
-else{
-$( "#dialog-messageshare" ).html("Something went wrong. Please try later or contact to site admin");
-}
-$( "#dialog-messageshare" ).dialog("open");
-$( "#shareJobDialog" ).dialog( "close" );
-break;
-case 3:
-alert(response.message);
-location.reload();
-break;
-}
-},
-error: function(message){
-alert(message);
-}
+	type: 'POST',
+	url: '/facebook/getFaceBookFriendList',
+	dataType: 'json',
+	success: function(response){
+		switch(response.error){
+			case 0: // success
+				createHTMLforFillingShareFriends(response.data);
+				filterFriendListShareJob();
+				$("#autocompleteFind").show();
+				//$("#shareJobImageDiv").css({visibility: "hidden"});
+				break;
+			case 1: // we don't have user's facebook token
+				alert(response.message);
+				window.open(response.URL);
+				break;
+			case 2: // something went wrong when we connect with facebook.Need to login by facebook
+				if(response.message){
+					$( "#dialog-messageshare" ).html(response.message);
+				}
+				else{
+					$( "#dialog-messageshare" ).html("Something went wrong. Please try later or contact to site admin");
+				}
+				$( "#dialog-messageshare" ).dialog("open");
+				$( "#shareJobDialog" ).dialog( "close" );
+				break;
+			case 3:
+				alert(response.message);
+				location.reload();
+				break;
+		}
+	},
+	error: function(message){
+	alert(message);
+	}
 });
 }
 
@@ -564,8 +563,8 @@ function facebookComment(){
 	if(!validateFormField()){
 		return false;
 	}
-	usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
-	usersNames = $("input[class=facebookfriend]:checked").map(function () {
+	usersId=$(".contactBox input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+	usersNames = $(".contactBox input[class=facebookfriend]:checked").map(function () {
 					if(this.title){
 						return this.title;
 					}
@@ -617,8 +616,8 @@ function linkedInComment(){
 	if(!validateFormField()){
 		return false;
 	}
-	usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
-	usersNames = $("input[class=facebookfriend]:checked").map(function () {
+	usersId=$(".contactBox input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+	usersNames = $(".contactBox input[class=facebookfriend]:checked").map(function () {
 					if(this.title){
 						return this.title;
 					}
@@ -677,8 +676,8 @@ return false;
 if(!validateFormField()){
 return false;
 }
-	usersId=$("input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
-	usersNames = $("input[class=facebookfriend]:checked").map(function () {
+	usersId=$(".contactBox input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+	usersNames = $(".contactBox input[class=facebookfriend]:checked").map(function () {
 					if(this.title){
 						return this.title;
 					}

@@ -2410,8 +2410,9 @@ label.error_input_message{
 	margin-top: -2px;
 }
 .net_select_gred_degree {
+	clear: none !important;
+    float: right;
     height: 24px;
-    margin-left: 34px;
     width: 210px;
 }
 .pointsLevelHeading{
@@ -2648,4 +2649,15 @@ h3{font-size: 10pt; line-height: normal; text-transform: uppercase; color: #382f
 body{background:url(../images/body-bg.jpg) repeat-x #ffffff; line-height: normal; color: #1d1d1d; font-family: Arial regular, Sans-serif;}
 
 /******* ========================= End Hr templeate css  =========================== **************/
-
+		.net_gred_degree{
+			width:211px;
+			height:24px;
+			float: right;
+			clear: none !important;
+			margin-right: 27px;
+		    width: 212px;			
+		}
+		.text_field{
+			float: left;
+			width: 420px;
+		}

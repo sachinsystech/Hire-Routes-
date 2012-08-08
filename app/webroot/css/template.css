@@ -158,3 +158,22 @@ h3{font-size: 10pt; line-height: normal; text-transform: uppercase; color: #382f
 .footer-wrap .footer-content .copyright .foot-right ul{margin:0; padding:0;} 
 .footer-wrap .footer-content .copyright .foot-right ul li{ display:block; float:left; *display:inline; border-left:1px solid #a9a8a6; padding:0 13px}
 .footer-wrap .footer-content .copyright .foot-right ul li:first-child{ border:0;}
+
+#invite_button {
+    background: url("../img/media/invite.png") repeat scroll 0 0 transparent;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    height: 86px;
+    margin-left: -7px;
+    padding: 4px;
+    position: fixed;
+    text-align: center;
+    top: 45%;
+    width: 35px;
+}
+
+#invite_button:hover {
+    margin-left: -3px;
+}

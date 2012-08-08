@@ -49,6 +49,7 @@
 	
 		echo $scripts_for_layout;
 	?>
+	<script src= "/js/twitter.js" type="text/javascript"></script>
 	<script type="text/javascript" charset="utf-8">
   var is_ssl = ("https:" == document.location.protocol);
   var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
@@ -73,10 +74,23 @@
 		$('.warning').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.warning');
 	}
 </script>
+
 <script>
+
 function invite(){
-	//window.location.href="/users/invitations";
-	showView(4);			
+	$.ajax({
+		type: 'POST',
+		url: '/users/invitations',
+		dataType: 'json',
+		success: function(response){
+			if(response['status'] == 1){
+				showView(4);
+			}else{
+				window.location.href= "/users/login" ;
+			}
+			return;				
+		}
+	});
 }
 </script>
 </head>

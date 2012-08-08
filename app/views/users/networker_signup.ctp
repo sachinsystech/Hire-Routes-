@@ -4,7 +4,7 @@
 <div>You will be able to apply for jobs and share job posts with your network.</div>
 <div>Please submit the form below and you will receive an email confirmation to complete you registration.</div>
 <?php if( $this->Session->read('intermediateCode')!="" || $this->Session->read('intermediateCode')!=null){ ?>
-	<div class="fb"><a href="<?php echo $FBLoginUrl; ?>"><button class="facebook"></button></a></div>
+	<div class=""><a href="<?php echo $FBLoginUrl; ?>"><button class="facebook"></button></a></div>
 	<!------------- Linked In sign up--------------->
 	<div class="li"><a href="<?php echo $LILoginUrl;?>" > <button class="linkedin"></button></a></div>
 <?php } ?>
@@ -44,6 +44,7 @@
                                            			)
                                  );
 			if(isset($codeErrors)):?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
+			<?php  endif;?>
 			<div class="required" style="padding:0;">
 				<?php echo $form->input('university',array('label'=> 'University',
 															'type'=>'text',
@@ -68,14 +69,12 @@
 				if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
 			?>
 			
-	<?php  endif;?>
+	
 	
 				<div style="display:none;">
 			<?php
-				if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null)):
 					echo $form->input('Networker.graduate_university_id',array('type'=>'text', 'value'=>''));
 					echo $form->input('Networker.university',array('type'=>'text','value'=>''));
-				endif;
 			?>
 			</div>
 	<div class="signup_agree_condition">
@@ -187,10 +186,10 @@
 				$('#NetworkerGraduateUniversityId').val(ui.item.key);
 			},
 			open: function() {
-				$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+				$( this ).removeClass( "ui-corner-all" );
 			},
 			close: function() {
-				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+				$( this ).removeClass( "ui-corner-all" );
 			}
 		});
 	});

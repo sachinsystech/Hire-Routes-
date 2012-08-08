@@ -664,13 +664,22 @@ class UsersController extends AppController {
 	function saveFacebookUser(){
 		$facebook = $this->facebookObject();
 		$fb_user_profile = $facebook->api('/me');
-
 		$userData = array();
 		$userData['fb_user_id'] = $fb_user_profile['id'];
 		$userData['facebook_token'] = $facebook->getAccessToken();
 	
 		$userData['account_email'] = isset($fb_user_profile['email'])?$fb_user_profile['email']:$fb_user_profile['id']."_fbuser@dummy.mail";
 		$userData['password'] = 'NULL';			
+		if($this->params['userType'] ==3 ){
+			if(isset($this->data['Networkers']) && $this->data['Networkers']['university']!= null ){
+				$user['graduate_degree_id'] = $this->data['Networkers']['graduate_degree_id'];
+				$user['graduate_university_id'] = $this->data['Networkers']['graduate_university_id'];
+				$user['university'] = $this->data['Networkers']['university'];
+			}else{
+				$this->Session->setFlash("Please fill correct information.","error");
+				$this->redirect("/users/facebookUserSelection");
+			}
+		}
 		if($userId = $this->saveUser($userData)){
 			$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
 			$this->saveUserRoles($userId,$userRole);
@@ -780,6 +789,8 @@ class UsersController extends AppController {
  * @access public
  */	
 	function facebookUserSelection(){
+		$graduateDegrees = $this->GraduateDegree->find('list',array('fields'=>'id, degree'));	
+		$this->set("graduateDegrees",$graduateDegrees);
 		$facebook = $this->facebookObject();
 		$FBUserId = $facebook->getUser();
 		if(!$FBUserId){
@@ -1073,8 +1084,11 @@ class UsersController extends AppController {
 			$url ="/users/invitations"; 
 			$session->setBeforeAuthUrl($url);	
 			$this->Session->setFlash('Please loign to send invitation.', 'error');				
-			$this->redirect("/users/login");
-		
+			$this->autoRender =false;
+			return json_encode(array("status"=>"0"));
+		}else{
+			$this->autoRender =false;
+			return json_encode(array("status"=>"1"));
 		}
 
  	 	$userId = $session->getUserId();
@@ -1104,10 +1118,19 @@ class UsersController extends AppController {
     	$firstName = "first-name";
     	if( isset($response->id) ){
 			$userData = array();
-
-			$userData['account_email'] =  $response->$firstName."@linkedin.com";
+			$userData['account_email'] =  $response->$firstName.rand(10,100)."@linkedin.com";
 			$userData['linkedin_token'] = serialize($linkedin->access_token);
 			$userData['password'] = 'NULL';
+			if($this->params['userType'] ==3 ){
+				if(isset($this->data['Networkers']) && $this->data['Networkers']['university']!= null ){
+					$user['graduate_degree_id'] = $this->data['Networkers']['graduate_degree_id'];
+					$user['graduate_university_id'] = $this->data['Networkers']['graduate_university_id'];
+					$user['university'] = $this->data['Networkers']['university'];
+				}else{
+					$this->Session->setFlash("Please fill correct information.","error");
+					$this->redirect("/users/facebookUserSelection");
+				}
+			}
 			if($userId = $this->saveUser($userData)){
 				$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
 				$this->saveUserRoles($userId,$userRole);
@@ -1148,6 +1171,8 @@ class UsersController extends AppController {
 		if($session->isLoggedIn()){
 			$this->redirect('loginSuccess');
 		}
+		$graduateDegrees = $this->GraduateDegree->find('list',array('fields'=>'id, degree'));	
+		$this->set("graduateDegrees",$graduateDegrees);
 		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
     	$linkedin->request_token = unserialize($this->Session->read("requestToken"));
         $verifier = unserialize( $this->Session->read("verifier"));

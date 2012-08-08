@@ -50,8 +50,8 @@
 	
 		echo $scripts_for_layout;
 
-		if($session->check('Auth.User.id') && $session->read('Auth.User.id') >2){ 
-	?>
+		?>
+		<script src= "/js/twitter.js" type="text/javascript"></script>
 		<script type="text/javascript" charset="utf-8">
 			var is_ssl = ("https:" == document.location.protocol);
 			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
@@ -66,7 +66,6 @@
 			feedback_widget_options.style = "idea";
 			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 		</script>
-	<?php }?>
 	<script>
 		function hideMessage(){
 			$('.message').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.message');
@@ -74,9 +73,31 @@
 			$('.warning').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.warning');
 		}
 	</script>
+	
+	<script>
+
+	function invite(){
+		$.ajax({
+			type: 'POST',
+			url: '/users/invitations',
+			dataType: 'json',
+			success: function(response){
+				if(response['status'] == 1){
+					showView(4);
+				}else{
+					window.location.href= "/users/login" ;
+				}
+				return;				
+			}
+		});
+	}
+	</script>
 </head>
 
 <body>
+	<div onclick="return invite();" id="invite_button" >
+
+	</div>
 	<!-- Wrapper-top -->
 	<div id="wrapper-top"> 
 	  <!-- main-nav -->
