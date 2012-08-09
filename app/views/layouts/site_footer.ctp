@@ -18,13 +18,11 @@
     <!-- footer-block-->
     <div class="footer-block second">
       <h3>fast facts</h3>
-		<script type="text/javascript" charset="utf-8">
-			$(document).ready(function () {
-				JQTWEET.loadTweets();
-			});
-		</script>
-		<div id="jstwitter">
-		</div>
+		<?php
+			include(APP_DIR.'/vendors/twitter/twitterstatus.php');
+			$t = new TwitterStatus('hireroutes', 3);
+			echo $t->Render();
+		?>
 
 		<style type="text/css">
 
