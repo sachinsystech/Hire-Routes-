@@ -9,6 +9,7 @@ Refer to http://blogs.sitepoint.com/create-your-own-twitter-widget-1
 
 This code can be used without any restrictions, but please don't expect support either!
 */
+
 class TwitterStatus
 {
 
@@ -50,7 +51,7 @@ class TwitterStatus
 	}
 	// ______________________________________________
 	// returns formatted feed widget
-	public function Render() {
+	public function __render() {
 		
 		// returned HTML string
 		$render = '';
@@ -90,14 +91,28 @@ class TwitterStatus
 		
 		}
 		
-		// fetch from cache
+		/* fetch from cache
 		if ($render == '' && $cacheage > 0) {
 			$render = file_get_contents($cache);
 		}
 		
 		return $this->ParseDates($render);
+		*/
 	
 	}
+	
+	function render(){
+			$render = '';
+		
+		// cached file available?
+		$cache = $this->cache . $this->ID . '-' . $this->Count . '.html';
+		$cacheage = (file_exists($cache) ? time() - filemtime($cache) : -1);
+		if ($render == '' && $cacheage > 0) {
+			$render = file_get_contents($cache);
+		}
+		return $this->ParseDates($render);
+	}
+	
 	
 
 	// ______________________________________________
