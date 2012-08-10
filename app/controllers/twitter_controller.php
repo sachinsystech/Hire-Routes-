@@ -261,7 +261,7 @@ class TwitterController extends AppController {
     
     public function twitterWidget(){
 		require_once(APP_DIR.'/vendors/twitter/twitterstatus.php');
-		$t = new TwitterStatus('atulasati87', 3);
+		$t = new TwitterStatus('hireroutes', 3);
 		$t->__render();
 		echo "===============>  cron run sussessfully . ".time()." <================ \n";
 		$this->autoRender =false;

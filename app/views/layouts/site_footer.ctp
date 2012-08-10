@@ -20,7 +20,7 @@
       <h3>fast facts</h3>
 		<?php
 			include(APP_DIR.'/vendors/twitter/twitterstatus.php');
-			$t = new TwitterStatus('atulasati87', 3);
+			$t = new TwitterStatus('hireroutes', 3);
 			//$t->__render();
 			
 			echo $t->render();
