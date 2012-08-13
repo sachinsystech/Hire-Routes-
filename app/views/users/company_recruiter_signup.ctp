@@ -1,16 +1,4 @@
 <script>
-	$(document).ready(function(){
-		$("#UserCompanyRecruiterSignupForm").validate({
-			  errorClass: 'error_input_message',
-			  rules: {
-				'data[User][password]': "required",
-				'data[User][repeat_password]': {
-				  equalTo: "#UserPassword"
-				}
-			  }
-			});
-	});
-    
   function checkform() {
     var isAgreeCondition = $('input:checkbox[id=UserAgreeCondition]:checked').val();
     if(!isAgreeCondition){
@@ -21,6 +9,38 @@
       $("#agree_condition_error").removeClass().html("");  
     }
   }
+  $(document).ready(function(){
+		$("#UserCompanyRecruiterSignupForm").validate({
+			  errorClass: 'error_input_message',
+			  rules: {
+				'data[User][password]': "required",
+				'data[User][repeat_password]': {
+				  equalTo: "#UserPassword"
+				}
+			  }
+			});
+  
+		$('[_placeholder]').focus(function() {
+		  var input = $(this);
+		  if (input.val() == input.attr('_placeholder')) {
+			input.val('');
+			input.removeClass('_placeholder');
+		  }
+		}).blur(function() {
+		  var input = $(this);
+		  if (input.val() == '' || input.val() == input.attr('_placeholder')) {
+			input.addClass('_placeholder');
+			input.val(input.attr('_placeholder'));
+		  }
+		}).blur().parents('form').submit(function() {
+		  $(this).find('[_placeholder]').each(function() {
+			var input = $(this);
+			if (input.val() == input.attr('_placeholder')) {
+			  input.val('');
+			}
+		  })
+		});
+  });
       
 </script>
 <div style="width:550px;margin:auto;">
@@ -45,6 +65,7 @@
                                            			'type'  => 'text',
 													'class' => 'text_field_bg required alphabets',
 													'minlength' => '3',
+													'_placeholder'=>"Company Name",
                                            			)
                                  );
     ?>
@@ -53,6 +74,7 @@
                                            			'type'  => 'text',
 													'class' => 'text_field_bg required alphabets',
 													'minlength' => '3',
+													'_placeholder'=>"Contact Name",
                                            			)
                                  );
     ?>

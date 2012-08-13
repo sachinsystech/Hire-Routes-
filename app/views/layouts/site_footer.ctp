@@ -21,7 +21,7 @@
 		<?php
 			include(APP_DIR.'/vendors/twitter/twitterstatus.php');
 			$t = new TwitterStatus('HireRoutes', 3);
-			echo $t->Render();
+			echo $t->render();
 		?>
     </div>
     <!-- footer-block --> 

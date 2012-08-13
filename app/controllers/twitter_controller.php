@@ -7,6 +7,7 @@ class TwitterController extends AppController {
 		parent::beforeFilter();
     	$this->Auth->allow('sendMessageToTwitterFollwer');
     	$this->Auth->allow('getTwitterFriendList');
+    	$this->Auth->allow('twitterWidget');
 	}
 	
 /**		*****	Twitter :: Handling	*****	**/
@@ -256,6 +257,14 @@ class TwitterController extends AppController {
                 echo json_encode(array('error'=>1,'message'=>'User not authenticate from Twitter.','URL'=>$this->getTwitterObject()->getAuthorizationUrl()));
             }
         }
+    }
+    
+    public function twitterWidget(){
+		require_once(APP_DIR.'/vendors/twitter/twitterstatus.php');
+		$t = new TwitterStatus('hireroutes', 2);
+		$t->__render();
+		echo "===============>  cron run sussessfully . ".time()." <================ \n";
+		$this->autoRender =false;
     }
     
    /**		*****	End of Twitter :: Handling	*****	**/  	
