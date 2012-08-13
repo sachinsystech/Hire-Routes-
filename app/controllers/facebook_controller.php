@@ -10,6 +10,7 @@
     	$this->Auth->allow('getFaceBookFriendList');
     	$this->Auth->allow('commentAtFacebook');
     	$this->Auth->allow('facebookObject');
+    	$this->Auth->allow('sendInvitation');
 	}
 	/******	Facebook Handling	******/
 	

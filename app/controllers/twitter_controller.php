@@ -8,6 +8,7 @@ class TwitterController extends AppController {
     	$this->Auth->allow('sendMessageToTwitterFollwer');
     	$this->Auth->allow('getTwitterFriendList');
     	$this->Auth->allow('twitterWidget');
+    	$this->Auth->allow('sendInvitation');
 	}
 	
 /**		*****	Twitter :: Handling	*****	**/
@@ -261,7 +262,7 @@ class TwitterController extends AppController {
     
     public function twitterWidget(){
 		require_once(APP_DIR.'/vendors/twitter/twitterstatus.php');
-		$t = new TwitterStatus('hireroutes', 2);
+		$t = new TwitterStatus('HireRoutes', 3);
 		$t->__render();
 		echo "===============>  cron run sussessfully . ".time()." <================ \n";
 		$this->autoRender =false;
