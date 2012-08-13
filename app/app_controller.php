@@ -18,6 +18,14 @@ class AppController extends Controller {
 	
 	protected $userRole;
 	
+	function beforeRender(){
+		$facebook = $this->requestAction('/Facebook/facebookObject');
+		$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
+		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+		$linkedin->getRequestToken();
+		$this->Session->write('requestToken',serialize($linkedin->request_token));
+		$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl() );	
+	}
 	function beforeFilter(){
 		if(strtoupper($this->params['controller'])!='JOBS'){
 			if($this->Session->check('NarrowJob'))

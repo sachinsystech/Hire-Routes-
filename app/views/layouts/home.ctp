@@ -23,111 +23,87 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<?php echo $this->Html->charset(); ?>
 	<title>
 		<?php __('Hire Routes'); ?>
 		<?php echo $title_for_layout; ?>
 
 	</title>
-	<!--<title>Hire Routes</title>-->
 
 	<?php
 		echo $this->Html->meta('icon');
-
 		echo $this->Html->css('cake.generic');
-		echo $this->Html->css('template');
-
+		$time = time();
+		echo $this->Html->css('template.css?'.$time);
 		echo $this->Html->css('jquery_accordion');
 		echo $this->Html->css('jquery-ui');
-		
-
 		echo $html->script('hr.js');
 		echo $html->script('hr_ajax.js');
 		echo $html->script('jquery_min.js');	
 		echo $html->script('jquery-ui.min.js');
-		
 		echo $html->script('jquery.validate.js');
-	
 		echo $scripts_for_layout;
+	?>
+	<script src= "/js/twitter.js" type="text/javascript"></script>
+	<script type="text/javascript" charset="utf-8">
+  var is_ssl = ("https:" == document.location.protocol);
+  var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
+  document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
 
-		?>
-		<script src= "/js/twitter.js" type="text/javascript"></script>
-		<script type="text/javascript" charset="utf-8">
-			var is_ssl = ("https:" == document.location.protocol);
-			var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";
-			document.write(unescape("%3Cscript src='" + asset_host + "javascripts/feedback-v2.js' type='text/javascript'%3E%3C/script%3E"));
-		</script>
-		<script type="text/javascript" charset="utf-8">
-			var feedback_widget_options = {};
-			feedback_widget_options.display = "overlay";  
-			feedback_widget_options.company = "hire-routes";
-			feedback_widget_options.placement = "left";
-			feedback_widget_options.color = "#222";
-			feedback_widget_options.style = "idea";
-			var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
-		</script>
-	<script>
-		function hideMessage(){
-			$('.message').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.message');
-			$('.success').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.success');
-			$('.warning').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.warning');
-		}
-	</script>
-	
-	<script>
+<script type="text/javascript" charset="utf-8">
+	var feedback_widget_options = {};
+	feedback_widget_options.display = "overlay";  
+	feedback_widget_options.company = "hire-routes";
+	feedback_widget_options.placement = "left";
+	feedback_widget_options.color = "#222";
+	feedback_widget_options.style = "idea";
+	var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 
-	function invite(){
-		$.ajax({
-			type: 'POST',
-			url: '/users/invitations',
-			dataType: 'json',
-			success: function(response){
-				if(response['status'] == 1){
-					showView(4);
-				}else{
-					window.location.href= "/users/login" ;
-				}
-				return;				
-			}
-		});
+	function hideMessage(){
+		$('.message').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.message');
+		$('.success').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.success');
+		$('.warning').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.warning');
 	}
-	</script>
+</script>
 </head>
-
-<body>
-	<div onclick="return invite();" id="invite_button" >
-
-	</div>
-	<!-- Wrapper-top -->
+<body onload="hideMessage();">
 	<div id="wrapper-top"> 
 	  <!-- main-nav -->
 	  <?php include("site_header.ctp");?>
 	</div>
-	<!-- Wrapper-top --> 
-
 	<!-- Wrapper-middle -->
-	<!-- ****** welcome User **** -->
-	<?php if($this->Session->read('Auth.User.id')):?>
-		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
-			<div style=" margin-left:10px">
-				Welcome <span><?php echo ucfirst($this->Session->read('welcomeName'));?>,</span>
-			</div>
-		<?php endif; ?>
-	<?php endif; ?>
+	<div id="wrapper-middle">
+		<div class="middle">
+		<!-- Hire Route -->
+			
+			<!-----------------------  Content for layout ---------------------------->
+				<!-- ******		welcome User **** -->
+				<?php if($this->Session->read('Auth.User.id')):?>
+					<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+						<!--<div style=" margin-left:10px">
+							Welcome <span><?php //echo ucfirst($this->Session->read('welcomeName'));?>,</span>
+						</div>
+						-->
+					<?php endif; ?>
+				<?php endif; ?>
 
-	<!-- ******		End welcome User **** -->
-	<?php echo $this->Session->flash(); ?>
-	<?php echo $content_for_layout; ?>
-	<!-- wrapper-middle end -->
-	
-	<!-- footer-wrap -->
-	<div class="footer-wrap"> 
-	  <!-- footer-content-->
-	  <?php include("site_footer.ctp");?>
-	  <!-- footer-content --> 
+				<!-- ******		End welcome User **** -->
+				<?php echo $content_for_layout; ?>
+			<!--------------------- End content for layout -------------------------->
+		</div>
 	</div>
-	<!-- footer-wrap -->
+	<!-- wrapper-middle end -->
+	<div class="footer-wrap"> 
+		<!-- footer-content-->
+		<?php include("site_footer.ctp");?>
+		<!-- footer-content --> 
+	</div>
+	<div style= "display:hidden;"> 
+		<?php echo $this->element('invite_friend');?>
+	</div>
 </body>
+</html>
 <script type="text/javascript">
   $(".box").mouseover(function() {
 	$(this).addClass('hover');
@@ -137,6 +113,17 @@
 	$("div.box").click(function() {
 	$(this).addClass('click');	
   });
+	$("document").ready(function(){
+		$(".feedback").click(function(){
+			$("#fdbk_tab").click();
+		});
+	});
 </script>
-</html>
-
+<style>
+#fdbk_tab{
+	display:none;
+}
+.invite:hover ,.feedback:hover{
+    margin-left: -3px;
+}
+</style>

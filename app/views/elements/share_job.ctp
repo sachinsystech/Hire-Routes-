@@ -440,43 +440,42 @@ $( "#shareJobDialog" ).dialog( "close" );
 }
 /**************************** 3). Fill Twitter Friends ******************************/
 function fillTwitterFriendShareJob(){
-$('#shareJobImageDiv').html('<p class="sharejob_ajax_loader"><img src="/images/twitterLoader.gif" width="50px" />'+
-'<img src="/images/li_loading.gif" /></p>');
-$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
-$.ajax({
-type: 'POST',
-url: '/twitter/getTwitterFriendList',
-dataType: 'json',
-success: function(response){
-switch(response.error){
-case 0: // success
-createHTMLforFillingShareFriends(response.data);
-filterFriendListShareJob();
-$("#autocompleteFind").show();
-//$("#shareJobImageDiv").css({visibility: "hidden"});
-break;
-case 1: // we don't have user's twitter token
-alert(response.message);
-window.open(response.URL);
-break;
-case 2: // something went wrong when we connect with facebook.Need to login by facebook
-$( "#dialog-messageshare" ).html("something went wrong.Please contact to site admin");
-$( "#dialog-messageshare" ).dialog("open");
-$( "#shareJobDialog" ).dialog( "close" );
-break;
-case 3:
-alert(response.message);
-location.reload();
-break;
-}
-},
-error: function(message){
-$('#submitLoaderImg').html('');
-$( "#dialog-messageshare" ).html("Something went wrong please try later or contact to site admin.");
-$( "#dialog-messageshare" ).dialog("open");
-$( "#shareJobDialog" ).dialog( "close" );
-}
-});
+	$('#shareJobImageDiv').html('<p class="sharejob_ajax_loader"><img src="/images/twitterLoader.gif" width="50px" />'+'<img src="/images/li_loading.gif" /></p>');
+	$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
+	$.ajax({
+		type: 'POST',
+		url: '/twitter/getTwitterFriendList',
+		dataType: 'json',
+		success: function(response){
+		switch(response.error){
+			case 0: // success
+				createHTMLforFillingShareFriends(response.data);
+				filterFriendListShareJob();
+				$("#autocompleteFind").show();
+				//$("#shareJobImageDiv").css({visibility: "hidden"});
+				break;
+			case 1: // we don't have user's twitter token
+				alert(response.message);
+				window.open(response.URL);
+				break;
+			case 2: // something went wrong when we connect with facebook.Need to login by facebook
+				$( "#dialog-messageshare" ).html("something went wrong.Please contact to site admin");
+				$( "#dialog-messageshare" ).dialog("open");
+				$( "#shareJobDialog" ).dialog( "close" );
+				break;
+			case 3:
+				alert(response.message);
+				location.reload();
+				break;
+		}
+	},
+	error: function(message){
+	$('#submitLoaderImg').html('');
+	$( "#dialog-messageshare" ).html("Something went wrong please try later or contact to site admin.");
+	$( "#dialog-messageshare" ).dialog("open");
+	$( "#shareJobDialog" ).dialog( "close" );
+	}
+	});
 }
 /************************* Email Sharing ***********************/
 function shareEmail(){
@@ -534,26 +533,26 @@ function shareEmail(){
 	return false;
 }
 function filterFriendListShareJob(){
-var textValue = $('#autocompleteFind').val();
-var user = jQuery.makeArray();
-$('.s_w_e input:checked').attr('checked', false);
-var foundFrd=false;
-$('#ff_list_share_job').css("display","none");
-if(textValue=='' || textValue=='Search Friends Here...'){
-$("#shareJobImageDiv").css("visibility","visible");
-$('#shareJobImageDiv .contactBox').css({"display":"block","visibility":"visible"});
-lastTextValue="";
-return false;
-}
-textValue = textValue.toLowerCase();
-$('#shareJobImageDiv .contactBox').css({"display":"none"});
+	var textValue = $('#autocompleteFind').val();
+	var user = jQuery.makeArray();
+	$('.s_w_e input:checked').attr('checked', false);
+	var foundFrd=false;
+	$('#ff_list_share_job').css("display","none");
+	if(textValue=='' || textValue=='Search Friends Here...'){
+		$("#shareJobImageDiv").css("visibility","visible");
+		$('#shareJobImageDiv .contactBox').css({"display":"block","visibility":"visible"});
+		lastTextValue="";
+		return false;
+	}
+	textValue = textValue.toLowerCase();
+	$('#shareJobImageDiv .contactBox').css({"display":"none"});
 
-$(".contactImageShare img[title]").filter(function(){ if((this.title.toLowerCase()).indexOf(textValue)===0)
-return foundFrd=true;else return false; }).parents(".contactBox").css({"display":"block"});
-if(foundFrd === false)
-$("#ff_list_share_job").css("display","block").html("<div align='center'>No result found</div>");
+	$(".contactImageShare img[title]").filter(function(){ if((this.title.toLowerCase()).indexOf(textValue)===0)
+	return foundFrd=true;else return false; }).parents(".contactBox").css({"display":"block"});
+	if(foundFrd === false)
+		$("#ff_list_share_job").css("display","block").html("<div align='center'>No result found</div>");
 
-return false;
+	return false;
 }
 
 function facebookComment(){
@@ -735,5 +734,7 @@ alert(name[index]);
 </script>
 
 <script>
-$("#ShareJobForm").validate();
+$(document).ready(function(){
+	$("#ShareJobForm").validate();
+});
 </script>

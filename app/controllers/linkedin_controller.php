@@ -71,6 +71,10 @@
 			$this->redirect('/users');
         }
         if(isset($_REQUEST['oauth_token']) && $userId == null && isset($_REQUEST['oauth_verifier'])){
+        	if(!$this->Session->check('intermediateCode')){
+				$this->Session->setFlash("Please the vreification from HR user to sign up with linkedin.","error");
+	       	 	$this->redirect("/Users/login");        	
+        	}
         	$linkedin->request_token = unserialize($this->Session->read("requestToken"));
             $verifier = $this->params['url']['oauth_verifier'];
             $this->Session->write("verifier" , serialize($verifier));

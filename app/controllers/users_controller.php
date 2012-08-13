@@ -15,7 +15,7 @@ require_once(APP_DIR.'/vendors/facebook/facebook.php');
  */
 class UsersController extends AppController {
     var $uses = array('User', 'Companies', 'UserRoles', 'Networkers', 'Jobseekers', 'NetworkerSettings', 'JobseekerSettings', 'Acos', 'Aros',	'ArosAcos',	'Code','ReceivedJob','University','GraduateDegree','Invitation');
-	var $components = array('Email', 'Session', 'Bcp.AclCached', 'Cookie', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility');
+	var $components = array('Email', 'Session', 'Bcp.AclCached', 'Cookie', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility','RequestHandler');
 				
 	var $helpers = array('Form');
 
@@ -629,27 +629,33 @@ class UsersController extends AppController {
 		if($FBUserId){
 			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$FBUserId)));
 			if(!$FBUser){
-				$fbUserMail = isset($fbUserProfile['email'])?$fbUserProfile['email']:''; // Retrieve mail from FB
-				$getUser = $this->User->find('first',array(	
-										'conditions'=>array('User.account_email'=>$fbUserMail), 
-										'fields'=>'User.account_email,User.password'
-										)
-									);
-				if($getUser['User']){			
-					$userData['id'] = $getUser['User']['id'];
-					$userData['fb_user_id'] = $fbUserProfile['id'];
-					$userData['facebook_token'] = $facebook->getAccessToken();
-					if($this->User->save($userData)){
-						$setUserAsLoggedIn['account_email'] = $getUser['User']['account_email'];
-						$setUserAsLoggedIn['password'] = $getUser['User']['password'];
-						$this->setUserAsLoggedIn($setUserAsLoggedIn);
-						$this->redirect("/users/firstTime");
-						return;
-					}		
+				if($this->Session->check('intermediateCode')){
+					$fbUserMail = isset($fbUserProfile['email'])?$fbUserProfile['email']:'';// Retrieve mail from FB
+					$getUser = $this->User->find('first',array(	
+												'conditions'=>array('User.account_email'=>$fbUserMail), 
+												'fields'=>'User.account_email,User.password'	
+												)
+												);
+					if($getUser['User']){			
+						$userData['id'] = $getUser['User']['id'];
+						$userData['fb_user_id'] = $fbUserProfile['id'];
+						$userData['facebook_token'] = $facebook->getAccessToken();
+						if($this->User->save($userData)){
+							$setUserAsLoggedIn['account_email'] = $getUser['User']['account_email'];
+							$setUserAsLoggedIn['password'] = $getUser['User']['password'];
+							$this->setUserAsLoggedIn($setUserAsLoggedIn);
+							$this->redirect("/users/firstTime");
+							return;
+						}		
+					}
+					else{
+						$this->redirect("/users/facebookUserSelection");
+					}
+				}else{
+					$this->Session->setFlash("Please make vreification from HR user to sign up with face book.","error");
+					$this->redirect("/");
 				}
-				else{
-					$this->redirect("/users/facebookUserSelection");
-				}	
+					
 			}
 			if($FBUser){
 				$this->setUserAsLoggedIn($FBUser['User']);
@@ -1080,30 +1086,32 @@ class UsersController extends AppController {
 	
 	public function invitations() {
  	 	$session = $this->_getSession();
-		if(!$session->isLoggedIn()){
-			$url ="/users/invitations"; 
-			$session->setBeforeAuthUrl($url);	
-			$this->Session->setFlash('Please loign to send invitation.', 'error');				
-			$this->autoRender =false;
-			return json_encode(array("status"=>"0"));
-		}else{
-			$this->autoRender =false;
-			return json_encode(array("status"=>"1"));
+		if($this->RequestHandler->isAjax()){
+			if(!$session->isLoggedIn()){
+				$url ="/users/invitations"; 
+				$session->setBeforeAuthUrl($url);	
+				$this->Session->setFlash('Please loign to send invitation.', 'error');				
+				$this->autoRender =false;
+				return json_encode(array("status"=>"0"));
+			}else{
+				$this->autoRender =false;
+				return json_encode(array("status"=>"1"));
+			}
 		}
-
- 	 	$userId = $session->getUserId();
-		switch($session->getUserRole()){		
-			case COMPANY:
-					$this->redirect("/companies/invitations");
-					break;
-			case JOBSEEKER:
-					$this->redirect("/jobseekers/invitations");
-					break;
-			case NETWORKER:
-					$this->redirect("/networkers/invitations");
-					break;		
-		}
-        
+ 	 	if(!$session->isLoggedIn()){
+ 	 		$userId = $session->getUserId();
+			switch($session->getUserRole()){		
+				case COMPANY:
+						$this->redirect("/companies/invitations");
+						break;
+				case JOBSEEKER:
+						$this->redirect("/jobseekers/invitations");
+						break;
+				case NETWORKER:
+						$this->redirect("/networkers/invitations");
+						break;		
+			}
+        }
 	 }
 	 
 	 function saveLinkedinUser(){

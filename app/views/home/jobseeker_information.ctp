@@ -1,68 +1,20 @@
-<?php 
-/*
-Page for job seeker information
-*/
-?>
-<center><b><h3>Jobseeker Information</h3></b></center>
-<div>
-<b>Get sent the right job for you automatically!
-</b> <br>
-Sed	ut perspicia-s unde	omnis iste natus error sit .........
+
+    <h1 class="title-emp"><span>Job Seekers:</span> Get hired get Paid Help</h1>
+    <div class="infographic-buttons-container">
+    <div class="infographic-buttons-company infographic-button-text"><a href="/companyInformation">COMPANY</a></div>
+    <div class="infographic-buttons-networker infographic-button-text"><a href="/networkerInformation">NETWORKER</a></div>
+    <div class="infographic-buttons-jobseeker-active infographic-button-text"><a href="/users">GET STARTED</a></div>
+    </div>
+
+  	<div class="info-jobseeker-img">
+    <div class="info-js-text">Visit our website to view the current Job listings and their commissions</div>
+    <div class="info-js-text-comp">1. COMPANIES/RECRUITERS POST JOBS</div>
+    <div class="info-js-text-jobs">2. HIRE ROUTES SHARES JOBS WITH YOU</div>
+    <div class="info-js-text-netshare">3. OUR NETWORKERS SHARE...</div>
+    <div class="info-js-text-rightjobs">4. YOU GET THE RIGHT JOBS</div>
+    <div class="info-js-text2">Have Job opportunities sent directly to your as per your specifications</div>
+    <div class="info-js-text-gethired">5. GET HIRED, GET PAID!</div>
+    <div class="info-js-text3">When you get Hired we share a portion of the reward with you</div>
+    </div>
   
-</div>  
-<br>
-<p></p>
-<center>
-<div class="information-navigation">
-  <span> COMPANY? </span>
-  <button  class="left-button" onclick="informationPage(1);"></button>
-    HOW IT WORKS ILLUSTRATION 
-  <button class="right-button" onclick="informationPage(3);"></button>
-  <span> NETWORKER? </span>
-</div>
-<div class="selection-button">
-  <button onclick="getStarted();">Get Started</button>
-</div>
-</center>
-<div >
-	<div class="LeftContainer">
-		<div class="HeadingInformation"  >HOW TO WORK VIDEO</div>
-		<div class="Video">video</div>
-		<div id="GetStart" onclick="return getStarted()">Get Started </div>
-		<div >
-			<div class="HeadingInformation">	WHY HIRE ROUTES?</div>
-			<div class="WhyHireRoutes">
-				<div class="WhyHireRoutesData">1: Hire Routes </div>
-				<div class="WhyHireRoutesData">2: Hire Routes </div>
-				<div class="WhyHireRoutesData">3: Hire Routes </div>
-				<div class="WhyHireRoutesData">4: Hire Routes </div>
-			</div>
-		</div>
-	</div>
-	<div class="InformationImage">
-		<?php echo $this->Html->image('/../img/job_seeker_info.png', array('style'=>'width:600px;height:510px;','usemap'=>'#network_info'));?>
-		<map name="network_info">
-			<area shape="rect" coords="205,445,430,475" href="/users/userSelection">
-		</map>
-	</div>
-</div>
-<script>
-function informationPage(redirect){
-	switch(redirect){
-		case 1:
-			window.location.href="/companyInformation";			
-			break;
-
-		case 2:
-			window.location.href="/jobseekerInformation";			
-			break;
-
-		case 3:
-			window.location.href="/networkerInformation";			
-			break;
-	}
-}
-function getStarted(){
-    window.location.href="/users/userSelection";			
-}
-</script>
+   <div class="clr"></div>

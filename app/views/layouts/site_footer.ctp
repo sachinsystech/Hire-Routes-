@@ -1,17 +1,17 @@
 <div class="footer-content"> 
     <!-- footer-block-->
     <div class="footer-block first">
-      <h3>sitemap</h3>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="/jobs">Job Postings</a></li>
-        <li><a href="/contactUs">Contact Us</a></li>
-        <li><a href="#">Fast Facts</a></li>
-        <li><a href="/howItWorks">How it Works</a></li>
-        <li><a href="#">News</a></li>
-        <li><a href="#">Terms &amp; Conditions</a></li>
-      </ul>
+		<h3>sitemap</h3>
+		<ul>
+		<li><a href="/">Home</a></li>
+		<li><a href="/about">About Us</a></li>
+		<li><a href="/jobs">Job Postings</a></li>
+		<li><a href="/contactUs">Contact Us</a></li>
+		<li><a href="#">Fast Facts</a></li>
+		<li><a href="/howItWorks">How it Works</a></li>
+		<li><a href="#">News</a></li>
+		<li><a href="#">Terms &amp; Conditions</a></li>
+		</ul>
     </div>
     <!-- footer-block --> 
     
@@ -20,37 +20,9 @@
       <h3>fast facts</h3>
 		<?php
 			include(APP_DIR.'/vendors/twitter/twitterstatus.php');
-			$t = new TwitterStatus('hireroutes', 3);
+			$t = new TwitterStatus('HireRoutes', 3);
 			echo $t->Render();
 		?>
-
-		<style type="text/css">
-
-		#jstwitter {
-			width: 300px;
-			font-family: Arial regular,Sans-serif;
-			font-size: 15px;
-			color: ##DED7C4;
-		}
-		
-		#jstwitter .tweet {
-			border-bottom: 1px dotted #ccc;
-		}
-		
-		#jstwitter .tweet a {
-			text-decoration: none;
-			color: #13c9d0;
-		}
-
-		#jstwitter .tweet a:hover {
-			text-decoration: underline;
-		}
-		
-		#jstwitter .tweet .time {
-			font-style: italic;
-			color: #DED7C4;
-		}
-		</style>
     </div>
     <!-- footer-block --> 
     
@@ -91,7 +63,7 @@
     <!-- copyright -->
     
     <div class="clr"></div>
-  </div>
+</div>
 
 <script type="text/javascript">
 
