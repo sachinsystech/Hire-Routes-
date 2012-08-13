@@ -1,5 +1,4 @@
 <div style="width:550px;margin:auto;">
-<?php //require_once(APP_DIR.'/vendors/facebook/hr_facebook.php'); ?>
 <div class="sigup_heading"><u>Register</u></div>
 <div>You will be able to apply for jobs and share job posts with your network.</div>
 <div>Please submit the form below and you will receive an email confirmation to complete you registration.</div>

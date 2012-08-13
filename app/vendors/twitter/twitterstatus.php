@@ -30,7 +30,7 @@ class TwitterStatus
 
 		// constants
 		$this->cache = APP.'vendors/twitter/cache/';	// cache location
-		$this->CacheFor = 120;					// cache feed for 2 minutes
+		$this->CacheFor = 180;					// cache feed for 2 minutes
 	
 		$this->ID = $id;
 		$this->Count = $count;
@@ -76,7 +76,7 @@ class TwitterStatus
 					if ($t == 0) {
 						$widget .= $this->ParseStatus($json[$t], $this->WidgetTemplate);
 					}
-					
+					//$json[$t]['text'] = preg_replace('~\s+\S+$~', '',trim(substr($json[$t]['text'],0,70)))."  ...";
 					// parse tweet
 					$status .= $this->ParseStatus($json[$t], $this->TweetTemplate);
 				}
@@ -141,7 +141,6 @@ class TwitterStatus
 	// ______________________________________________
 	// parses tweet data
 	private function ParseStatus($data, $template) {
-	
 		// replace all {tags}
 		preg_match_all('/{(.+)}/U', $template, $m);
 		for ($i = 0, $il = count($m[0]); $i < $il; $i++) {
@@ -166,6 +165,13 @@ class TwitterStatus
 					case 'text':
 						if ($this->ParseLinks) {
 							$d = $this->ParseTwitterLinks($d);
+							$d =trim($this->html_cut($d, 75)); 
+							if(! preg_match("/^.*<\/a>$/", $d)){
+								$d =preg_replace('~\s+\S+$~', '',$d)." ..."; 							
+							}else{
+								$d =$d." ..."; 							
+							}
+							//$d =preg_replace('~\s+\S+$~', '',trim($this->html_cut($d, 75)))." ..."; 
 						}
 						break;
 						
@@ -175,9 +181,8 @@ class TwitterStatus
 						break;
 				
 				}
-			
+				
 				$template = str_replace($m[0][$i], $d, $template);
-
 			}
 		
 		}
@@ -265,5 +270,105 @@ class TwitterStatus
 
 		return $str;
 	}
+	
+	function html_cut($text, $max_length)
+	{
+		$tags   = array();
+		$result = "";
+
+		$is_open   = false;
+		$grab_open = false;
+		$is_close  = false;
+		$in_double_quotes = false;
+		$in_single_quotes = false;
+		$tag = "";
+
+		$i = 0;
+		$stripped = 0;
+
+		$stripped_text = strip_tags($text);
+
+		while ($i < strlen($text) && $stripped < strlen($stripped_text) && $stripped < $max_length)
+		{
+		    $symbol  = $text{$i};
+		    $result .= $symbol;
+
+		    switch ($symbol)
+		    {
+		       case '<':
+		            $is_open   = true;
+		            $grab_open = true;
+		            break;
+
+		       case '"':
+		           if ($in_double_quotes)
+		               $in_double_quotes = false;
+		           else
+		               $in_double_quotes = true;
+
+		        break;
+
+		        case "'":
+		          if ($in_single_quotes)
+		              $in_single_quotes = false;
+		          else
+		              $in_single_quotes = true;
+
+		        break;
+
+		        case '/':
+		            if ($is_open && !$in_double_quotes && !$in_single_quotes)
+		            {
+		                $is_close  = true;
+		                $is_open   = false;
+		                $grab_open = false;
+		            }
+
+		            break;
+
+		        case ' ':
+		            if ($is_open)
+		                $grab_open = false;
+		            else
+		                $stripped++;
+
+		            break;
+
+		        case '>':
+		            if ($is_open)
+		            {
+		                $is_open   = false;
+		                $grab_open = false;
+		                array_push($tags, $tag);
+		                $tag = "";
+		            }
+		            else if ($is_close)
+		            {
+		                $is_close = false;
+		                array_pop($tags);
+		                $tag = "";
+		            }
+
+		            break;
+
+		        default:
+		            if ($grab_open || $is_close)
+
+		                $tag .= $symbol;
+
+		            if (!$is_open && !$is_close)
+		                $stripped++;
+		    }
+
+		    $i++;
+		}
+
+		while ($tags)
+		    $result .= "</".array_pop($tags).">";
+
+		return $result;
+	}
+
+
 	
 }

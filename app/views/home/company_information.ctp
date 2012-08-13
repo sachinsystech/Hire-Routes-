@@ -1,65 +1,22 @@
-<?php  ?>
-<center><b><h3>Company Information</h3></b></center>
-<div>
-<b>Take the Hire Routes to find Talent!</b> <br>
-Sed	ut perspicia-s unde	omnis iste natus error sit .........
+    <h1 class="title-emp"> <span class="company-orange"> Companies & Recruiters: </span> Take the Hire Route to Find Talent</h1>
+    <div class="infographic-buttons-container">
+    <div class="infographic-buttons-company-active infographic-button-text"><a href="/users">GET STARTED</a></div>
+    	<div class="infographic-buttons-networker infographic-button-text"><a href="/networkerInformation">NETWORKER</a></div>
+    	<div class="infographic-buttons-jobseeker infographic-button-text"><a href="/jobseekerInformation">JOB SEEKER</a></div>
+    </div>
+
+  	<div class="info-company-img">
+    	<div class="info-js-text-comp top-1">1. YOU POST AND SHARE JOBS </div>
+    	<div class="info-js-text-jobs top-2">2. ACCESS THE HIRE ROUTES NETWORKS</div>
+    	<div class="info-js-text-netshare top-3">3. OUR NETWORKERS SHARE...</div>
+    	<div class="info-js-text-rightjobs top-4">4. CANDIDATES RECEIVE YOUR POSTS</div>
+    	<div class="info-js-text-gethired top-5">5. HIRE THE BEST TALENT!</div>
+        <div class="info-comp-text">Hire Routes will share your job posts with its reliable and select networks to help you find the perfect hire</div>
+        <div class="info-comp-text1">Post Jobs with rewards & share them with your trusted networks...</div>
+        <div class="info-comp-text2">...use email, facebook, LinkedIn, and twitter to share jobs</div>
+        <div class="info-comp-text3">Choose the perfect candidate from a large pool of top-notch applicants</div>
+
+    	
+    </div>
   
-</div>  
-<br>
-<p></p>
-<center>
-<div class="information-navigation">
-  <span>JOBSEEKER? </span>
-  <button  class="left-button" onclick="informationPage(2);"></button>
-   HOW IT WORKS ILLUSTRATION  
-  <button class="right-button" onclick="informationPage(3);"></button>
-  <span>NETWORKER? </span>
-</div>
-<div class="selection-button">
-  <button onclick="getStarted();">Get Started</button>
-</div>
-</center>
-<div >
-	<div class="LeftContainer">
-		<div class="HeadingInformation"  >HOW TO WORK VIDEO</div>
-		<div class="Video">video</div>
-		<div id="GetStart" onclick="return getStarted();">Get Started </div>
-		<div >
-			<div class="HeadingInformation">	WHY HIRE ROUTES?</div>
-			<div class="WhyHireRoutes">
-				<div class="WhyHireRoutesData">1: Hire Routes </div>
-				<div class="WhyHireRoutesData">2: Hire Routes </div>
-				<div class="WhyHireRoutesData">3: Hire Routes </div>
-				<div class="WhyHireRoutesData">4: Hire Routes </div>
-			</div>
-		</div>
-	</div>
-	<div class="InformationImage">
-		<?php echo $this->Html->image('/../img/company_info.png', array('style'=>'width:600px;height:510px;','usemap'=>'#network_info'));?>
-		<map name="network_info">
-			<area shape="rect" coords="180,455,380,490" href="/users/userSelection">
-			<area shape="rect" coords="410,455,570,500" href="home/howItWorks">
-		</map>
-	</div>
-</div>
-<script>
-function informationPage(redirect){
-	switch(redirect){
-		case 1:
-			window.location.href="/companyInformation";			
-			break;
-
-		case 2:
-			window.location.href="/jobseekerInformation";			
-			break;
-
-		case 3:
-			window.location.href="/networkerInformation";			
-			break;
-	}
-}
-function getStarted(){
-    window.location.href="/users/userSelection";			
-}
-
-</script>
+   <div class="clr"></div>

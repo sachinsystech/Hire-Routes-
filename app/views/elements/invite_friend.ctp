@@ -749,5 +749,7 @@ alert(name[index]);
 </script>
 
 <script>
-$("#ShareJobForm").validate();
+$(document).ready(function(){
+	$("#ShareJobForm").validate();
+});
 </script>
