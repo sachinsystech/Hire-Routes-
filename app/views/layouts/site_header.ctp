@@ -1,6 +1,6 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
-		invite(0);
+		//invite(0);
 	});
 
 	function invite( onclick ){
