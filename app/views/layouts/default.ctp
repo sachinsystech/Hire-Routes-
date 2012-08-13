@@ -134,4 +134,11 @@
 		});
 	});
 </script>
-
+<style>
+#fdbk_tab{
+	display:none;
+}
+.invite:hover ,.feedback:hover{
+    margin-left: -3px;
+}
+</style>

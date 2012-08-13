@@ -7,6 +7,7 @@ class JobsharingController extends AppController {
 	function beforeFilter(){
 		parent::beforeFilter();
     	$this->Auth->allow('shareJobByEmail');
+    	$this->Auth->allow('sendEmailInvitaion');
 	}
 	
 	function shareJobByEmail(){

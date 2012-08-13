@@ -2633,13 +2633,17 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .content .box{ width:301px; height:413px !important; float:left; border:9px solid transparent; border-bottom:0; border-right:0; cursor:pointer;}
 .content .box1{ height:260px !important;}
 .content .box-content{width:230px; margin:auto}
-.content .box-content p{ font-size:14px; color:#1d1d1d; line-height:18px}
+.content .box-content p{ font-size:10pt; color:#1d1d1d; line-height:18px}
 .content .box-content.company, .content .box-content.network , .content .box-content.job{margin-top:25px;}
 .content .box-content h3{font-size:14px; color:#382f2b; margin-bottom:25px;}
 .content .box-content.company h2{ font-size:13pt; color:#f75605; margin-top:17px;}
 .content .box-content.network h2{ font-size:13pt; color:#2d9d97; margin-top:17px;}
 .content .box-content.job h2{ font-size:13pt; color:#3a9031; margin-top:17px;}
 
+.button-return-to-search {background:url(../images/buttons.png) no-repeat -425px 0 ; width:200px; height:62px; margin: 10px auto 0; padding:8px 0 0 8px;}
+.button-return-to-search:hover {background:url(../images/buttons.png) no-repeat -425px -74px;}
+.button-return-to-search:active {background:url(../images/buttons.png) no-repeat -425px -149px; width:200px; height:62px; margin: 10px auto 0; padding:8px 0 0 8px;}
+.button-return-to-search a {color:#FFF; text-decoration:none; font-family:'OpenSansCondensedBold'; width:185px; height:40px; display:block; font-size: 14pt;line-height: 42px;text-shadow: 1px 1px 1px #444343;text-align: center;}
 .button-orange { background: url(../images/buttons.png) repeat scroll 0 -308px transparent; height: 32px; margin-top: 21px; width: 109px;}
 .button-orange a {border-radius: 0 65px 65px 0; color: #FFFFFF; display: block; font-family: 'OpenSansCondensedBold'; font-size: 14px; height: 25px; padding: 7px 0 0 13px;text-decoration: none; text-shadow: 1px 1px 1px #444343; width: 95px;}
 .button-blue{ background:url(../images/buttons.png) repeat scroll 0 -227px transparent; height: 32px; margin-top: 23px; width: 109px;}
@@ -3020,41 +3024,6 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .footer-wrap .footer-content .copyright .foot-right ul{margin:0; padding:0;} 
 .footer-wrap .footer-content .copyright .foot-right ul li{ display:block; float:left; *display:inline; border-left:1px solid #a9a8a6; padding:0 13px}
 .footer-wrap .footer-content .copyright .foot-right ul li:first-child{ border:0;}
-/*================For invite button =====================*/
-.invite:hover ,.feedback:hover{
-    margin-left: -3px;
-}
-#fdbk_tab{
-	display:none;
-}
-div.message {
-    background: none repeat scroll 0 0 #FAEBE7;
-    border: 1px solid red;
-    clear: both;
-    color: #FF0000;
-    margin: auto;
-    padding: 5px;
-    text-align: center;
-    position:absolute;
-    width:96%;
-    -moz-border-radius: 15px;
-	border-radius: 15px;
-}
-.success {
-    background: none repeat scroll 0 0 #EFF5EA;
-    border: 1px solid #446423;
-    clear: both;
-    color: #4AA02C;
-    height: 20px;
-    margin: 3px;
-    padding: 5px;
-    text-align: center;
-    position:absolute;
-    width:96%;
-    -moz-border-radius: 15px;
-	border-radius: 15px;
-}
-
 /******* ========================= End Hr templeate css  =========================== **************/
 		.net_gred_degree{
 			width:211px;

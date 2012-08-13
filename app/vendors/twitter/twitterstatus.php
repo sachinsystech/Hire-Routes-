@@ -30,7 +30,7 @@ class TwitterStatus
 
 		// constants
 		$this->cache = APP.'vendors/twitter/cache/';	// cache location
-		$this->CacheFor = 180;					// cache feed for 2 minutes
+		$this->CacheFor = 10;					// cache feed for 2 minutes
 	
 		$this->ID = $id;
 		$this->Count = $count;
@@ -91,8 +91,8 @@ class TwitterStatus
 		
 		}
 		
-		/* fetch from cache
-		if ($render == '' && $cacheage > 0) {
+		// fetch from cache
+		/*if ($render == '' && $cacheage > 0) {
 			$render = file_get_contents($cache);
 		}
 		
@@ -114,6 +114,7 @@ class TwitterStatus
 	}
 	
 	
+	
 
 	// ______________________________________________
 	// returns JSON-formatted status feed or false on failure
@@ -124,11 +125,12 @@ class TwitterStatus
 			// fetch feed
 			$c = curl_init();
 			curl_setopt_array($c, array(
-				CURLOPT_URL => 'http://twitter.com/statuses/user_timeline/' . $this->ID . '.json?count=' . $this->Count,
+				CURLOPT_URL => 'https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=' . $this->ID . '&count=' . $this->Count,
 				CURLOPT_HEADER => false,
 				CURLOPT_TIMEOUT => 10,
 				CURLOPT_RETURNTRANSFER => true
 			));
+
 			$r = curl_exec($c);
 			curl_close($c);
 		}
@@ -166,11 +168,12 @@ class TwitterStatus
 						if ($this->ParseLinks) {
 							$d = $this->ParseTwitterLinks($d);
 							$d =trim($this->html_cut($d, 75)); 
-							if(! preg_match("/^.*<\/a>$/", $d)){
+							/*if(! preg_match("/^.*<\/a>$/", $d)){
 								$d =preg_replace('~\s+\S+$~', '',$d)." ..."; 							
 							}else{
 								$d =$d." ..."; 							
 							}
+							*/
 							//$d =preg_replace('~\s+\S+$~', '',trim($this->html_cut($d, 75)))." ..."; 
 						}
 						break;
