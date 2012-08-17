@@ -27,9 +27,16 @@ $(document).ready(function(){
 		$( "#about-dialog").dialog({
 			hide: "explode",
 			width:510,
-			closeOnEscape: false
+			closeOnEscape: false,
+			modal:true,
 		});
-		$( "#about-dialog" ).parent("div").css({"height":"1282px","left":"411px","top":"330px","opacity":"0.9"});
+		$("#about-dialog").position({
+		   my: "center",
+		   at: "center",
+		   of: window
+		});
+
+		$( "#about-dialog" ).parent("div").css({"height":"1282px","opacity":"0.9"});
 		return false;
 	});
 	

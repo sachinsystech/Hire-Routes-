@@ -85,10 +85,15 @@
 		
 		<div class="nav-divider">&nbsp;</div>
 		
-		<ul class="<?php echo  $this->params['action']==''?'current':'select'; ?>"><li><a href="/admin/codes"><b>Code</b><!--[if IE 7]><!--></a><!--<![endif]-->
-	
-		</li>
+		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
+			<li><a ><b>Code</b></a>
+				<ul>
+					<li><a href="/admin/codes/"><b>Code</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+					<li><a href="/admin/invitationCode/"><b>Invite's Code</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+				</ul>
+			</li>
 		</ul>
+		
 		
 		<div class="nav-divider">&nbsp;</div>
 		

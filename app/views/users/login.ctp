@@ -6,29 +6,54 @@
 			  errorClass: 'error_input_message',
 			   errorPlacement: function (error, element) {
 			       error.insertAfter(element)
-			       error.css({'margin-left':'110px'});
             	}
 		});
 	});
 </script>
-<div class="page">
-<div style="width:350px;margin:auto;">
-<div class="sigup_heading"><u>Login</u></div>
-<?php
-	echo $this->Session->flash('auth');
-	echo $this->Form->create('User');
-	echo "<div class='required'>".$this->Form->input('username',array("class"=>'text_field_bg required'))."</div>";
-	echo "<div class='required'>".$this->Form->input('password',array("class"=>'text_field_bg required'))."</div>";
-	echo $this->Form->input('rememberMe', array('label' => 'Remember me next time', 'type' => 'checkbox', )); 
-	echo $this->Form->end('Login');
-	echo $this->Html->link('Forgot password',array('controller'=>'users','action'=>'forgotPassword'),
-											 array('style'=>'color: #1E7EC8;'));
-?>
-</div>
-</div>
+	<h1 class="title-emp">Login to Hire Routes</h1>
+	<?php
+		echo $this->Session->flash('auth');
+		echo $this->Form->create('User');
+	?>	
+	<div class='text-box'> <?php echo $this->Form->input('username',array('type'=>'text',
+																'class'=>'required',
+																'div'=>false,
+																'label' => false,
+																'placeholder' =>'Username'));
+									?>
+	</div>
+	<div class='text-box text-box-below'> <?php echo $this->Form->input('password',
+																		array('class'=>'required',
+																			'type'=>'password',
+																			'div'=>false,
+																			'label' => false,
+																			'placeholder' =>'Password'));
+																			?>
+	</div>
+	<div class="check-button">
+    	<div class="cross-button">
+    	<?php
+     		echo $this->Form->input('rememberMe', array('type' => 'checkbox',
+     													'div'=>false,
+											     		'format' => array('before', 'input', 'after', 'error'),
+											     		'class' =>'false',
+     					 )); 
+		?>
+		</div>
+		<div class="remember-me">Remember me next time</div>
+	</div>
+	<div class="login-button">
+    	<input type="submit" value="LOGIN"/>
+    	<div class="clr"></div>
+    </div>
+	<div class="forgot-password"><a href="/users/forgotPassword">Forgot Password</a></div>
+	<div style="display:none;">
+	<?php
+		echo $this->Form->end('Login');
+	?>
+	</div>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#UserLoginForm").validate();	
 	$("#UserLoginForm").submit(function(){ 
 		if($("#UserRememberMe").is(':checked')){		
 			saveCookie(); 
@@ -77,5 +102,5 @@ function saveCookie(){
 	document.cookie="password="+escape(password)+("; expires="+exDate.toUTCString()+"; security=true;");
 	return ;
 }
-
 </script>
+

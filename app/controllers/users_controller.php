@@ -75,6 +75,7 @@ class UsersController extends AppController {
  * Display Company/Recruiter registration view.
 **/ 
 	function companyRecruiterSignup(){
+		$this->layout = "home" ;
 		if($this->_getSession()->isLoggedIn()){
 			$this->loginSuccess();	
 		}
@@ -102,6 +103,7 @@ class UsersController extends AppController {
 				$company['act_as'] = $this->data['Companies']['role'];
 				if($this->Companies->save($company) ){			
 					$this->sendConfirmationEmail($userId);
+					$this->Utility->deleteInvitationCode();
 					$this->redirect("confirmation/".$userId);
 					return;
 				}
@@ -157,11 +159,12 @@ class UsersController extends AppController {
                 return;
 			}
 			/*	Validating Restrict_Code	*/
-			if( ( $this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null )){
+			if( ( $this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null ) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null )){
 				if(!$this->validateCode()){
 					return;
 				}
 			}else{ 
+				
 				$codeFlag=false;
 				$jobId=$this->Utility->getJobIdFromCode(NULL, $this->Session->read('intermediateCode'));
 			}
@@ -198,6 +201,7 @@ class UsersController extends AppController {
 						return;
 					}			
 					$this->Session->delete('icc');
+					$this->Utility->deleteInvitationCode();
 					$this->sendConfirmationEmail($userId);
 					if($codeFlag){
 						$code = $this->findCodeFor('Networker');
@@ -229,7 +233,7 @@ class UsersController extends AppController {
  * Save Jobseeker info.
 **/ 
 	function jobseekerSignup(){
-
+		$this->layout = "home" ;
 		if($this->_getSession()->isLoggedIn()){
 			$this->loginSuccess();	
 		}
@@ -271,7 +275,7 @@ class UsersController extends AppController {
 				return;
 			}
 			/*	Validating Restrict_Code	*/
-			if( ( $this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null )){
+			if( ( $this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null ) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null )){
 				if(!$this->validateCode()){
 					return;
 				}
@@ -309,6 +313,7 @@ class UsersController extends AppController {
 				$jobseeker['user_id'] = $userId;
 				if($this->Jobseekers->save($jobseeker,false)){
 					$this->sendConfirmationEmail($userId);
+					$this->Utility->deleteInvitationCode();
 					if($codeFlag){
 						$code = $this->findCodeFor('Jobseeker');
 						$code['remianing_signups']--;
@@ -629,7 +634,7 @@ class UsersController extends AppController {
 		if($FBUserId){
 			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$FBUserId)));
 			if(!$FBUser){
-				if($this->Session->check('intermediateCode')){
+				if($this->Session->check('intermediateCode') || ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null )){
 					$fbUserMail = isset($fbUserProfile['email'])?$fbUserProfile['email']:'';// Retrieve mail from FB
 					$getUser = $this->User->find('first',array(	
 												'conditions'=>array('User.account_email'=>$fbUserMail), 
@@ -704,6 +709,7 @@ class UsersController extends AppController {
 				case JOBSEEKER:
 								if($this->Jobseekers->save($user,false) ){
 									$this->confirmAccount($userId,$userData['confirm_code']);
+									$this->Utility->deleteInvitationCode();
 									$fbData['userRole']='Jobseeker';
 									$this->fbNewAccountEmail($fbData);
 									$this->redirect("/users/firstTime");
@@ -712,6 +718,7 @@ class UsersController extends AppController {
 				case NETWORKER:
 								if($this->Networkers->save($user,false) ){	
 									$this->confirmAccount($userId,$userData['confirm_code']);
+									$this->Utility->deleteInvitationCode();
 									$fbData['userRole']='Networker';									
 									$this->fbNewAccountEmail($fbData);									
 									$this->redirect("/users/firstTime");
@@ -729,7 +736,7 @@ class UsersController extends AppController {
  * @access public
  */
 	function login() {
-		
+		$this->layout = "home" ;
 		$session = $this->_getSession();
 		if($session->isLoggedIn()){
 			$this->redirect('loginSuccess');
@@ -1087,15 +1094,21 @@ class UsersController extends AppController {
 	public function invitations() {
  	 	$session = $this->_getSession();
 		if($this->RequestHandler->isAjax()){
-			if(!$session->isLoggedIn()){
-				$url ="/users/invitations"; 
-				$session->setBeforeAuthUrl($url);	
+			$this->autoRender =false;
+			if(!$session->isLoggedIn() && $this->params['form']['source'] == 1){
+				$this->Session->write('inviteFlag',1);
 				$this->Session->setFlash('Please loign to send invitation.', 'error');				
-				$this->autoRender =false;
 				return json_encode(array("status"=>"0"));
 			}else{
-				$this->autoRender =false;
-				return json_encode(array("status"=>"1"));
+				if($session->isLoggedIn() && $this->params['form']['source'] == 1){
+					return json_encode(array("status"=>"3"));
+				}
+				if($this->Session->read('inviteFlag') == 1 && $session->isLoggedIn() ){
+					$this->Session->delete('inviteFlag',0);
+					return json_encode(array("status"=>"1"));
+				}else{
+					return json_encode(array("status"=>"2"));
+				}
 			}
 		}
  	 	if(!$session->isLoggedIn()){
@@ -1152,6 +1165,7 @@ class UsersController extends AppController {
 				switch($userRole){
 					case JOBSEEKER:
 						if($this->Jobseekers->save($user,false) ){
+							$this->Utility->deleteInvitationCode();
 							$this->confirmAccount($userId,$userData['confirm_code']);
 							$this->Session->delete('requestToken');
 							$this->Session->delete("accessToken");
@@ -1160,6 +1174,7 @@ class UsersController extends AppController {
 						break;
 					case NETWORKER:
 						if($this->Networkers->save($user,false) ){	
+							$this->Utility->deleteInvitationCode();
 							$this->confirmAccount($userId,$userData['confirm_code']);
 							$this->Session->delete('requestToken');										
 							$this->Session->delete("accessToken");										
@@ -1183,7 +1198,7 @@ class UsersController extends AppController {
 		$this->set("graduateDegrees",$graduateDegrees);
 		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
     	$linkedin->request_token = unserialize($this->Session->read("requestToken"));
-        $verifier = unserialize( $this->Session->read("verifier"));
+        $verifier = unserialize($this->Session->read("verifier"));
         $linkedin->oauth_verifier = $verifier;
         $linkedin->getAccessToken($verifier);
 		if( isset( $linkedin->access_token)){
@@ -1202,6 +1217,7 @@ class UsersController extends AppController {
 			$this->redirect("/users/login");
 		}
 	 }
+	 
 
 
 }

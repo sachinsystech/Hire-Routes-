@@ -1,23 +1,28 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
-		//invite(0);
+		invite(0);
 	});
 
 	function invite( onclick ){
 		$.ajax({
 			type: 'POST',
 			url: '/users/invitations',
-			data: "source="+onclick,
+			data: "&source="+onclick,
 			dataType: 'json',
 			success: function(response){
 				if(response['status'] == 1){
 					showView(4);
+					return;
 				}
 				if(response['status'] == 2){
 					return;
 				}
 				if(response['status'] == 0){
 					window.location.href= "/users/login" ;
+				}
+				if(response['status'] == 3){
+					showView(4);
+					return;
 				}
 				return;				
 			}

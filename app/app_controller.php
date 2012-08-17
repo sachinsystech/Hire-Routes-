@@ -10,7 +10,7 @@
 
 class AppController extends Controller {
 
-	var $uses = array('Invitations');
+	var $uses = array('Invitations','InvitaionCode');
 	
 	public $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus','TrackUser','ApiSession','Utility');
 	
@@ -51,6 +51,7 @@ class AppController extends Controller {
 			$this->Session->write('recentJobs',$recentJobs);
       	}
         $this->setICC();
+        $this->setInvitationCode();
 		/* SMTP Options for GMAIL */
 	  	$this->Email->smtpOptions = array(
 		   'port'=>'465',
@@ -149,6 +150,24 @@ class AppController extends Controller {
 			$this->Session->write('icc',$icCode);
 		}
 	}
+	
+	protected function setInvitationCode() {
+		if(isset($this->params['url']['inviteCode'])){
+			$inviteCode = $this->params['url']['inviteCode'];  
+			$invitationDetail = $this->InvitaionCode->find('first', array('conditions'=>
+																			array('invitaion_code'=>$inviteCode,
+																				  'status'=>0,
+					)));
+			if(!isset($invitationDetail ) || $invitationDetail == null){
+				$this->Session->delete('intermediateCode');
+				$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
+				$this->redirect("/");
+				return;
+			}
+			$this->Session->write('invitationCode',$inviteCode);
+		}
+	}
+	//http://127.0.0.1/?inviteCode=bb028775b9405d0abd5b01b5321d94b6
 	
 }
 

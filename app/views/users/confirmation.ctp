@@ -4,9 +4,6 @@
 <div class="sub-title-ce">Thank you for signing up with us, we will analyze your data and get back with in next 24 hours.
 </div>
 <div class="hr-computer-image"></div>
-<div class="sub-content">
-	Thank you for signing up with us, we will analyze your data and get back with in next 24 hours.
-</div>
 <?php	
 }
 else{

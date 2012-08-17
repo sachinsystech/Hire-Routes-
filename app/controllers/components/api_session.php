@@ -170,6 +170,7 @@ class ApiSessionComponent extends Object
 		$this->Session->delete('UserRole');
 		$this->Session->delete('welcomeName');
 		$this->Session->delete('icc');
+		$this->Session->delete('invitationCode');
 		$this->Session->delete('beforeAuthUrl');
 	}
 }
