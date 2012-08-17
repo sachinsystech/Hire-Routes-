@@ -14,7 +14,7 @@
       <div class="box-content network-up"> <img src="/images/network_1.png" />
         <div class="clr"></div>
       </div>
-      <div class="button-network" > <a href="/users/networkerSignup">NETWORKER </a></div>
+      <div class="button-network" > <a href="/users/networkerSignup">NETWORKERS </a></div>
       <div class="clr"></div>
     </div>
     <div class="box box1" onclick="registrationInto(2);">
