@@ -887,6 +887,7 @@ div.message{
 
 
 
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -1782,6 +1783,7 @@ label.error {
     height: 23px;
     text-align: center;
     width: 112px;
+    font-size:12px;
 }
 .flip:hover{
 	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#7E7E7E));
@@ -2732,6 +2734,7 @@ fieldset{
 	text-align:center;
 }
 
+
 .pointsLevelHeading{
 	width:350px;
 }
@@ -2837,4 +2840,13 @@ fieldset{
 }
 .pointLastFromInput label{
 	margin-left:-15px;
+}
+
+.invitationUrl{
+    font-size: 12px;
+    font-weight: bold;
+    width: 400px;
+    border:none;
+    height:22px;
+    padding:3px;
 }

@@ -48,6 +48,11 @@
 	Router::connect('/admin/codes/*', array('controller' => 'codes','action' => 'add'));
 	Router::connect('/codes/delete/:id', array('controller' => 'codes','action' => 'delete'));	
 	
+	Router::connect('/admin/invitationCode', array('controller' => 'admin','action' => 'invitationCode'));
+	Router::connect('/admin/invitationCode/*', array('controller' => 'admin','action' => 'invitationCode'));
+	Router::connect('/admin/invitationCodeDelete/:id', array('controller' => 'admin','action' => 'invitationCodeDelete'));
+	
+	
 	Router::connect('/', array('controller' => 'home', 'action' => 'index', 'home'));
 	Router::connect('/companyInformation', array('controller' => 'home', 'action' => 'companyInformation'));	
 	Router::connect('/networkerInformation', array('controller' => 'home', 'action' => 'networkerInformation'));		
@@ -65,6 +70,7 @@
 	Router::connect('/users/saveFacebookUser/:userType', array('controller' => 'users', 'action' => 'saveFacebookUser'));
 
 	Router::connect('/users/saveLinkedinUser/:userType', array('controller' => 'users', 'action' => 'saveLinkedinUser'));
+
 
 	
 /**

@@ -9,7 +9,6 @@
 		<li><a href="/contactUs">Contact Us</a></li>
 		<li><a href="#">Fast Facts</a></li>
 		<li><a href="/howItWorks">How it Works</a></li>
-		<li><a href="#">News</a></li>
 		<li><a href="#">Terms &amp; Conditions</a></li>
 		</ul>
     </div>
@@ -20,7 +19,6 @@
       <h3>fast facts</h3>
 		<?php
 			include(APP_DIR.'/vendors/twitter/twitterstatus.php');
-
 			$t = new TwitterStatus('HireRoutes', 3);
 			echo $t->render();
 		?>

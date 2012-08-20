@@ -3,7 +3,7 @@ class AdminController extends AppController {
 
     var $uses = array('Companies','User','ArosAcos','Aros','PaymentHistory','Networkers','Invitation','PointLabels',
     					'UserList','Config','Job','JobseekerApply','RewardsStatus','Jobseeker','NetworkersTitle',
-    					'GraduateUniversityBreakdown','University',);
+    					'GraduateUniversityBreakdown','University','InvitaionCode');
 	var $helpers = array('Form','Number','Time','Paginator','Js');
 	var $components = array('Email','Session','Bcp.AclCached', 'Auth', 'Security', 'Bcp.DatabaseMenus', 'Acl', 'TrackUser', 'Utility','RequestHandler');
 	
@@ -42,6 +42,8 @@ class AdminController extends AppController {
 		$this->Auth->allow('editPointsLevelInfo');			
 		$this->Auth->allow('rewardPoint');
 		$this->Auth->allow('usersInvitations');	
+		$this->Auth->allow('invitationCode');
+		$this->Auth->allow('invitationCodeDelete');
 		$this->layout = "admin";
 	}
 	
@@ -1545,6 +1547,39 @@ where user_id =".$networkersData[$key]['User']['id']."");
 
 	function rewardPoint() {
 
+	}
+	
+	function invitationCode(){
+		if(isset($this->data['InvitaionCode'])){
+			for($i=0 ;  $i <= $this->data['InvitaionCode']['signups'] ; $i++){
+				$data[$i]['invitaion_code'] = md5(rand() . microtime()) ;
+				echo $data[$i]['invitaion_code'] ."<br>";
+			}
+			$this->InvitaionCode->saveAll($data);
+		}
+		$this->paginate = array(
+						    'conditions' => array("status" => "0"),
+							'limit' => 10, // put display per page
+							'order by'=>'created',
+						);
+		$code = $this->paginate("InvitaionCode");
+		$codes = $this->set('codes',$code);
+	}
+	
+	function invitationCodeDelete(){
+		$id = $this->params['id'];
+		if($id){
+			if(!$this->InvitaionCode->delete($id)){
+				$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');	
+				$this->redirect("/admin/invitationCode");
+				return;			
+			}
+			$this->Session->setFlash('Code has been deleted successfuly.', 'success');				
+		}
+		else{
+			$this->Session->setFlash('You may be clicked on old link or entered menualy.', 'error');				
+		}
+		$this->redirect("/admin/invitationCode");
 	}
 
 }

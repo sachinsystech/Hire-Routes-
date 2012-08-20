@@ -19,7 +19,8 @@
 				}
 			  }
 			});
-  
+  		
+		/*
 		$('[_placeholder]').focus(function() {
 		  var input = $(this);
 		  if (input.val() == input.attr('_placeholder')) {
@@ -40,102 +41,133 @@
 			}
 		  })
 		});
+		*/
+	  
   });
       
 </script>
-<div style="width:550px;margin:auto;">
-<div class="sigup_heading"><u>Companies/Recruiters  Registration Request</u></div>
-<div class="sigup_head_description">Please fill the registration request below, we will analyze your data and get back with in next 24 hours.</div>
-<div class="sigup_form" >
+ <h1 class="title-emp">Companies/Recruiters Registration Request</h1>
+    <div class="sub-title-cs">Please fill the registration request below, we will analyze your data and get back with in next 24 hours.</div>
+    
 <?php echo $form->create('User', array('action' => 'companyRecruiterSignup','onsubmit'=>'return checkform();')); ?>
-	<?php  echo $form -> input('Companies.role',array(
-                                                 'before' => '<strong style="font-weight:bold">',
-                                                 'after' => '</strong>',
-                                                 'legend' => false,
-                                                 'type'=>'radio',
-                                                 'class' => 'required',
-                                                 'label'=>'',
-                                                 'options'=>array('company'=>"I'm a company",'recruiter'=>"I'm a recruiter"),
-										),
-										array('checked'=>0)
-							);
-    ?>
-    <div></div>
-	<?php	echo $form->input('Companies.company_name', array('label' => 'Company / Recruiter Name',
+
+    
+	<div class="company-recruiter-checkbox">
+		<div class="cross-button bottom-margin">
+			<input id="CompaniesRoleCompany" name="data[Companies][role]" type="radio" value="" class = 'required'/>
+		</div>
+		<div class="comp-recruiter-text">I'm a Company</div>
+		<div class="clr"></div>
+		<div class="cross-button bottom-margin">
+			<input id="CompaniesRoleRecruiter" name="data[Companies][role]" type="radio" value="" class='required'/>
+		</div>
+		<div class="comp-recruiter-text">I'm a Recruiter</div>
+	</div>
+    
+    
+    
+	<div class="text-box"> 
+	<?php	echo $form->input('Companies.company_name', array('label' => false,
                                            			'type'  => 'text',
-													'class' => 'text_field_bg required alphabets',
+                                           			'div' 	=>false,
+													'class' => 'required alphabets',
 													'minlength' => '3',
-													'_placeholder'=>"Company Name",
+													'placeholder'=>'Company/Recruiter Name',
                                            			)
                                  );
     ?>
-
-	<?php	echo $form->input('Companies.contact_name', array('label' => 'Contact Name',
+	</div>
+	<div class="text-box text-box-below">
+	<?php	echo $form->input('Companies.contact_name', array('label' => false,
                                            			'type'  => 'text',
-													'class' => 'text_field_bg required alphabets',
+                                           			'div'	=> false,
+													'class' => 'required alphabets',
 													'minlength' => '3',
-													'_placeholder'=>"Contact Name",
+													'placeholder'=>'Contact Name',
+													'value' =>"",													
                                            			)
                                  );
     ?>
-
-	<?php	echo $form->input('Companies.contact_phone', array('label' => 'Contact Phone',
+	</div>
+	<div class="text-box text-box-below">
+	<?php	echo $form->input('Companies.contact_phone', array('label' => false,
                                            			'type'  => 'text',
-													'class' => 'text_field_bg required number',
+                                           			'div'	=>false,
+													'class' => 'required number',
 													'minlength' => '10',
-													
+													'placeholder'=>'Contact Phone',
+													'value' =>"",
                                            			)
                                  );
     ?>
-    <?php	echo $form->input('Companies.company_url', array('label' => 'Company Website',
+    </div>
+    <div class="text-box text-box-below">
+    <?php	echo $form->input('Companies.company_url', array('label' => false,
                                            			'type'  => 'text',
-													'class' => 'text_field_bg url',
+                                           			'div'=> false,
+													'class' => 'url',
 													'minlength' => '8',
-													
+													'placeholder'=> 'Company Website',
+													'value' =>"",													
                                            			)
                                  );
     ?>
-
-	<?php	echo $form->input('account_email', array('label' => 'Email',
+	</div>
+	<div class="text-box text-box-below">
+	<?php	echo $form->input('account_email', array('label' => false,
                                            			'type'  => 'text',
-													'class' => 'text_field_bg required email',
+                                           			'div' 	=>false,
+													'class' => 'required email',
+													'placeholder'=> 'Account Email',
+													'value' =>"",													
                                            			)
                                  );
     ?>
-
-	<?php	echo $form->input('password', array('label' => 'Password',
+	</div>
+	<div class="text-box text-box-below">
+	<?php	echo $form->input('password', array('label' => false,
                                            			'type'  => 'password',
+                                           			'div'	=> false,
 													'name'  => "data[User][password]",
-													'class' => 'text_field_bg password',
+													'class' => 'password',
 													'minlength' => '6',
+													'placeholder'=> 'Password',
                                            			)
                                  );
     ?>
-
-	<?php	echo $form->input('repeat_password', array('label' => 'Repeat Password',
+	</div>
+	<div class="text-box text-box-below">
+	<?php	echo $form->input('repeat_password', array('label' => false,
                                            			'type'  => 'password',
 													'name'  => "data[User][repeat_password]",
-													'class' => 'text_field_bg required'
+													'class' => 'required',
+													'div' => false,
+													'placeholder'=> 'Repeat Password',
                                            			)
                                  );
     ?>
-
-
-	<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
-                                           			'type'  => 'checkbox',
-													'name'  => "data[User][agree_condition]",
-													
-                                           			)
-                                 );
-    ?>
-    
-    <div id="agree_condition_error"></div>
-    <?php if(isset($errors)): ?>
-     	<div class="error-message" ><?php echo $errors;?></div>
-    <?php endif; ?>
-    
-    <?php echo $form->submit('Send A Request',array('div'=>false,)); ?>
+	</div>
+	
+		<div class="check-button">
+    	<div class="cross-button">
+		<?php	echo $form->input('agree_condition', array('label' => false,
+		                                       			'type'  => 'checkbox',
+														'name'  => "data[User][agree_condition]",
+														'div' =>false,
+		                                       			)
+		                             );
+		?>
+		</div>
+		<div class="remember-me agree-with">Agree with <a href="#">Terms & Conditions</a></div>
+		<div id="agree_condition_error"></div>
+		<?php if(isset($errors)): ?>
+		 	<div class="error-message" ><?php echo $errors;?></div>
+		<?php endif; ?>
+	</div>
+	<div class="login-button">
+    	<input type="submit" value="SEND REQUEST"/>
+    	<div class="clr"></div>
+    </div>
     <?php echo $form->end(); ?>	
-</div>
-<div style="margin-top:50px;"><a href="/companyInformation">Don't know about Company/Recruiters</a> </div>
-</div>
+	<div class="forgot-password dont-know-width"><a href="/companyInformation">Don't know about Companies/Recruiters?</a></div>
+

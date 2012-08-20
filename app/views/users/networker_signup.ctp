@@ -34,7 +34,7 @@
                                  );
     ?>
 	<?php
-		if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null)):
+		if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null)):
 			echo $form->input('Code.code', array('label' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",

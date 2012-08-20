@@ -165,7 +165,8 @@ class JobsController extends AppController {
 
      
 /****	Applying job	******/     
-	function applyJob(){	
+	function applyJob(){
+		$this->layout= "home";	
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
 			$this->redirect("/users/login");
@@ -190,7 +191,7 @@ class JobsController extends AppController {
 										            		  'conditions' => array('Job.company_id = comp.id',)),	  
 											),
 										 'conditions'=>array('Job.id'=>$id),
-										'fields'=>array('Job.*, comp.company_name'),));
+										'fields'=>array('Job.*, comp.company_name,comp.company_url'),));
 			if($job['Job']){
 				
 				// If user doesnt have filled profile //
@@ -296,7 +297,7 @@ class JobsController extends AppController {
         			$this->redirect('/jobseekers/appliedJob');     
         		}
 				$this->set('job',$job['Job']);
-				$this->set('jobCompany',$job['comp']['company_name']);
+				$this->set('jobCompany',$job['comp']);
 			}else{
 				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/');
@@ -355,15 +356,8 @@ class JobsController extends AppController {
 	} 
 
 	function jobDetail(){
+		$this->layout= "home";
 		$session = $this->_getSession();
-		if(!$session->isLoggedIn()){
-			$url ="/jobs/jobDetail/".$this->params['jobId']; 
-			//echo $url;exit;
-			$session->setBeforeAuthUrl($url);	
-			$this->Session->setFlash('Please loign to continue with job.', 'error');				
-			$this->redirect("/users/login");
-		}
-	
 		$userId = $session->getUserId();
 		
 		if(isset($this->params['jobId'])){
@@ -447,6 +441,11 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 		}else{
 				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/');
+		}
+		if($session->isLoggedIn()){
+			$this->render("/jobs/member_job_detail");
+		}else{
+			$this->render("/jobs/guest_job_detail");
 		}       
                        
 	}

@@ -1,5 +1,5 @@
 
-    <h1 class="title-emp"><span>Job Seekers:</span> Get hired get Paid Help</h1>
+    <h1 class="title-emp"><span>Job Seekers:</span> Get Hired Get Paid</h1>
     <div class="infographic-buttons-container">
     <div class="infographic-buttons-company infographic-button-text"><a href="/companyInformation">COMPANY</a></div>
     <div class="infographic-buttons-networker infographic-button-text"><a href="/networkerInformation">NETWORKER</a></div>

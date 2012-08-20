@@ -34,6 +34,7 @@
 		echo $this->Html->meta('icon');
 		echo $this->Html->css('cake.generic');
 		$time = time();
+		echo $this->Html->css('default.css?'.$time);
 		echo $this->Html->css('template.css?'.$time);
 		echo $this->Html->css('jquery_accordion');
 		echo $this->Html->css('jquery-ui');
@@ -119,11 +120,4 @@
 		});
 	});
 </script>
-<style>
-#fdbk_tab{
-	display:none;
-}
-.invite:hover ,.feedback:hover{
-    margin-left: -3px;
-}
-</style>
+

@@ -222,6 +222,7 @@ class NetworkersController extends AppController {
 	
 	/*	Add contact by single entry	*/
 	function addContacts() {
+		$this->layout= "home";
 		if(isset($this->params['url']['error'])){
     		$this->Session->setFlash('You have declined the request!', 'warning');
     		$this->redirect('/networkers/addContacts');
@@ -292,15 +293,17 @@ class NetworkersController extends AppController {
 			}
 			$this->redirect('/networkers/personal');			
 		}
+		if(isset($this->data['Contact']['CSVFILE']['tmp_name']) && $this->data['Contact']['CSVFILE']['tmp_name']!= null ){
+			$this->importCsv($this->data['Contact']['CSVFILE']['tmp_name']);
+		}
 		
 		if(isset($this->data['Contact'])){
 			$userId = $this->_getSession()->getUserId();
 			$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 			$this->data['Contact']['user_id'] = $userId;
 			$this->data['Contact']['networker_id'] = $user['Networkers'][0]['id'];
-			$this->data['Contact'] = $this->Utility->stripTags($this->data['Contact']);
-			if($this->data['Contact']['contact_name']=='Enter Name'){
-				$this->data['Contact']['contact_name'] = "";			
+			if($this->data['Contact']['contact_name']==="Enter Name"){
+				unset($this->data['Contact']['contact_name']);// = null;			
 			}
 			if($this->data['Contact']['contact_email']=='Enter E-mail'){
 				$this->data['Contact']['contact_email'] = "";			
@@ -325,6 +328,36 @@ class NetworkersController extends AppController {
 			$this->set('validationErrors',$this->NetworkerContact->validationErrors);
 			$this->set('NetworkerContact',$this->NetworkerContact->data['NetworkerContact']);
 		}
+		
+				$userId = $this->_getSession()->getUserId();
+		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
+		
+		$paginateCondition = array(
+									'AND' => array(
+												array('NetworkerContact.user_id'=>$userId),
+												array('NetworkerContact.contact_email LIKE' => "$startWith%")
+											)
+								);
+		
+		$this->paginate = array('conditions'=>$paginateCondition,
+                                'limit' => 10,
+                                'order' => array("NetworkerContact.id" => 'asc',));             
+        $contacts = $this->paginate('NetworkerContact');
+
+        $alphabets = array();
+        foreach(range('A','Z') AS $alphabet){
+        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.user_id'=>$userId,
+        																					  'NetworkerContact.contact_email LIKE' => "$alphabet%"
+        																					  )
+        																  )
+        													);
+            $alphabets[$alphabet] = $contacts_count; 
+        }
+		
+        $this->set('alphabets',$alphabets);
+        $this->set('contacts',$contacts);
+        $this->set('contact',null);
+        $this->set('startWith',$startWith);
 	}
 	
 	private function getGmailContacts($authcode){
@@ -502,10 +535,10 @@ class NetworkersController extends AppController {
 
 	
 	/*	Adding contacts by Importing CSV	*/
-	function importCsv() {
+	function importCsv($fileName) {
 		$userId = $this->_getSession()->getUserId();
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-		$file = fopen($this->data['networkers']['CSVFILE']['tmp_name'],'r');
+		$file = fopen($fileName,'r');
 		$values = array();
 		$contacts = array();
 		try{
@@ -580,7 +613,8 @@ class NetworkersController extends AppController {
 			$duplicate_count_msg = "$duplicate_count duplicate contacts found.";
 		}
 		$this->Session->setFlash($added_count_msg." ".$duplicate_count_msg, 'success');	
-		$this->redirect('/networkers/addContacts');
+		//$this->redirect('/networkers/addContacts');
+		return;
 	}
 	
 	/*	delete multiple contacts.....*/
@@ -597,7 +631,7 @@ class NetworkersController extends AppController {
 		if($this->NetworkerContact->delete($ids)){
 			$this->Session->setFlash('contact(s) have been deleted successfuly.', 'success');				
 		}	
-		$this->redirect('/networkers/personal');
+		$this->redirect('/networkers/addContacts');
 	}
 		  
 	function archiveJob(){
@@ -1100,7 +1134,7 @@ where user_id =".$userId."");
 	 }
 	 
 	 function networkerPoints(){
-	 	 	
+	 	$this->layout ="home";
  	 	$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
 			$this->redirect("/users/login");

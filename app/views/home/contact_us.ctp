@@ -11,7 +11,7 @@
 <div><b>Email us:</b></div>
 <div>
 	<a href="#">
-		hireroutes@hireroutes.com
+		info@hireroutes.com
 	</a><br/>
 </div>
 </div>

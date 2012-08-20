@@ -2733,7 +2733,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 /*::::::::::: Confirmation-page - Thank-You css start ::::::::::::*/
 
-.sub-title-ty {  width:316px; height:35px; text-align:center; margin:44px auto 0; font-size:15px;}
+.sub-title-ty {  width:345px; height:35px; text-align:center; margin:44px auto 0; font-size:15px;}
 .button-setting {background:url(../images/buttons.png) -425px 0 no-repeat; width:200px; height:62px; margin: 17px auto 0; padding:8px 0 0 8px;}
 .button-setting:hover {background:url(../images/buttons.png) -425px -74px no-repeat;}
 .button-setting:active {background:url(../images/buttons.png) -425px -149px no-repeat;width:200px; height:62px; margin: 17px auto 0; padding:8px 0 0 8px;}
@@ -2745,27 +2745,28 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .text-box input { background: url("../images/text-box.png") no-repeat; border: 0 none; color: #847A6C; height: 28px; padding: 0 0 0 11px; width: 277px; font-size: 13px; font-family:Arial, Helvetica, sans-serif; line-height:28px;}
 .text-box-below {height: 29px; margin-top: 13px !important; width: 289px;}
 .check-button { width: 289px; height:24px; margin:20px auto 0;}
-.cross-button {background:url(../images/checkbox-button.png) -7px -7px no-repeat; width:24px; height:24px; float:left;}
-.cross-button a {width:24px; height:24px; display:block;}
-.cross-button:hover {background:url(../images/checkbox-button.png) -7px -51px no-repeat;}
-.cross-button:active {background:url(../images/checkbox-button.png) -7px -94px no-repeat;  width:24px; height:24px;}
-.remember-me { margin-left:16px; float:left; line-height:26px; font-size: 15px;}
-.forgot-password {margin:-10px auto 0; text-decoration:underline; color:#3a9031;width:114px; height:17px; font-size: 15px;}
+.cross-button { width:24px; height:24px; float:left;}
+.cross-button input {margin: 7px 0 0 5px;}
+.remember-me { margin-left:16px; float:left; line-height:30px; font-size: 15px;}
+.forgot-password {margin:0 auto;color:#3a9031;width:123px; height:17px; font-size: 15px; text-align:center;}
 .forgot-password a{text-decoration:underline;color:#3a9031;}
-.login-button {margin:20px auto 0 !important;}
+.login-button { background:url(../images/bttn_sprite.png) no-repeat 0 0; margin:20px auto 0 !important; height:62px; width:207px;}
+.login-button input {background:url(../images/bttn_sprite.png) no-repeat -11px -80px;cursor: pointer; margin: 10px 0 0 11px;height: 36px; width: 181px; border:none; font:20px 'OpenSansCondensedBold'; color:#fff;}
+.login-button input:hover {background:url(../images/bttn_sprite.png) no-repeat -11px -121px;}
+.login-button input:active {background:url(../images/bttn_sprite.png) no-repeat -11px -165px;}
 
 /*:::::Middle-Block - Form - Jobseeker Signup - page css start :::::::*/
-.sub-title-js {color:#382f2b; font-family:Arial, Helvetica, sans-serif; width:671px; height:35px; text-align:center;font-size: 15px; margin:17px auto 0;}
+.sub-title-js {color:#382f2b; font-family:Arial, Helvetica, sans-serif; width:674px; height:35px; text-align:center;font-size: 15px; margin:17px auto 0;}
 .agree-with a {color:#3a9031; text-decoration:underline;}
-.register-button-margin { margin-top:43px !important;}
-.networker-width {width:199px !important;}
+.register-button-margin { margin-top:33px !important;}
+.networker-width {width:232px !important; text-align:center;}
 
 /*:::::Middle-Block - Form - Company Signup - page css start :::::::*/
-.sub-title-cs {color:#382f2b; font-family:Arial, Helvetica, sans-serif; width:671px; height:19px; text-align:center;font-size: 15px; margin:15px auto 0;}
-.company-recruiter-checkbox {margin:31px 0 0 323px; width:150px;}
-.comp-recruiter-text {margin-left:15px; line-height: 26px; margin-left: 40px; font-size:15px;}
+.sub-title-cs {color:#382f2b; font-family:Arial, Helvetica, sans-serif; width:678px; height:19px; text-align:center;font-size: 15px; margin:15px auto 0;}
+.company-recruiter-checkbox {margin:31px 0 0 323px; width:155px; }
+.comp-recruiter-text { margin-left: 40px; font-size:15px; line-height:30px; height:20px;}
 .bottom-margin {margin-bottom:13px;}
-.dont-know-width {width:281px !important;}
+.dont-know-width {width:312px !important; text-align:center;}
 
 /*:::::Middle-Block - Jobs - Search Listing - page css start :::::::*/
 .top-heading {color:#4fa34b; height:55px; width:935px; margin-left:15px; font-family:'OpenSansCondensedBold'; font-size:20px;line-height: 53px;}

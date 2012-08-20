@@ -15,7 +15,7 @@
     </div>
     <div class="box" id="networker">
       <div class="box-content network"> <img src="images/network.png" />
-        <h2>NETWORKER</h2>
+        <h2>NETWORKERS</h2>
         <h3> MAKE CONNECTIONS, MAKE MONEY</h3>
         <p>Use your social networks to get paid for helping people find jobs...</p>
         <div class="button-blue"> <a href="/networkerInformation">LEARN MORE</a></div>

@@ -1,90 +1,55 @@
-
-<?php ?>
-
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
+<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
+</div>
+<div class="job_container">
+	<div class="job_container_top_row">
+		<!------------------------ Start Networker side menu ------------------------->
 			<?php echo $this->element('side_menu');?>
-		</div>
-	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle content top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle content top menu end -->
-		<!-- middle content list -->
-		
-			<div class="network_points_middleBox">
-				<div class= "networker_points_content">
-					<div class ="networker_points_top_content">
-						<div class="networker_points_heading">
-							<div>
-								<span>Your Total Points</span>
-							</div>
-							<div class="networker_points_heading_data">
-								<span><?php echo $user['Networkers']['points']?></span>
-							</div>
-						</div>
-						<div class="networker_bonus_heading">
-							<div>
-								<span>Your Bonus Rewards</span>
-							</div>
-							<div class="networker_bonus_heading_data">
-								<span><?php echo $this->Number->format(
-										$networkerBonus[0]['nr_bonus'],
-										array(
-											'places' => 2,
-											'before' => '$',
-											'decimals' => '.',
-											'thousands' => ',')
-										);?>
-								</span>
-							</div>
-						</div>
-						<div class="networker_ranking_heading">
-							<div>
-								Ranking
-							</div>
-							<div class="networker_ranking_heading_data">
-								<span> <?php echo $userRank['rank']; ?> Out Of <?php echo $userRank['totalNr'] ?></span>
-							</div>						
-						</div>	
-					</div>
-					<div class="networker_points_main_content">
-						<div class ="networker_point_experience">
-							<div class ="points_experience_level">
-								<span>Experience Level</span>
-								<div><span > <?php echo $pointLables['PointLabels']['level'] ?></span></div>
-							</div>
-							<div class ="points_experience_level">
-								<span>Bonus</span>
-								<div><span > + <?php echo $pointLables['PointLabels']['bonus'] ?> %</span></div>
-							</div>
-							<div class ="points_experience_level">
-								<span>Networker Title</span>
-								<div><span ><?php echo $pointLables['PointLabels']['networker_title'] ?></span></div>
-							</div>
-						</div>
-						<div class ="points_leader_board">
-							<div class="leader_heading"><span> Leader Board</span> </div>
-							<?php $i = 1; ?>
-							<?php foreach( $boardData as $key =>$data) {?>
-								<div>
-									<b><?php echo $i++ ; ?></b>
-									<?php echo ".  ".$data['UserList']['account_email'] ?>
-								</div>
-							<?php } ?>
-						</div>
-					</div>
+		<!------------------------ End Networker side menu ------------------------->
+		<div class="job_right_bar">
+			<div class="job-right-top-content1">
+				<div class="job-right-top-left">
+            		<h2>POINTS</h2>
+                    <p>Your Total Points: <span><?php echo $user['Networkers']['points']?></span></p>
+                    <p>Your Bonus Rewards: <span><?php echo $this->Number->format(
+													$networkerBonus[0]['nr_bonus'],
+													array(
+														'places' => 2,
+														'before' => '$',
+														'decimals' => '.',
+														'thousands' => ',')
+													);?>
+													</span>
+					</p>
+					<p>Ranking: <span><?php echo $userRank['rank']; ?> Of <?php echo $userRank['totalNr'] ?></span></p>
+					<p>Your Experience Level: <span> <?php echo $pointLables['PointLabels']['level'] ?></span></p>
+					<p>Your Bonus: <span>+ <?php echo $pointLables['PointLabels']['bonus'] ?> %</span></p>
+					<p>Networker Title: <span><?php echo $pointLables['PointLabels']['networker_title'] ?></span></p>
+				</div>
+                <div class="job-pts-right-top-left">
+                	<h2>LEADERBOARD</h2>
+                    <ul>
+                   		<?php $i = 1; 
+							 foreach( $boardData as $key =>$data) {?>
+						<li><?php if($data['Networker']['contact_name'] != null && $data['Networker']['contact_name'] != ""){	
+									 echo $data['Networker']['contact_name']." , ".$data['UserList']['account_email'];
+								 }else{
+								 	 echo $data['UserList']['account_email'];
+								 }
+							?>
+						</li>
+						<?php } ?>
+                   </ul>
 				</div>
 			</div>
-		<!-- middle content list -->
-
+		</div>
+		<div class="clr"></div>
 	</div>
-	<!-- middle section end -->
-
+    <div class="job_pagination_bottm_bar"></div>
+ 	<div class="clr"></div>
 </div>
+

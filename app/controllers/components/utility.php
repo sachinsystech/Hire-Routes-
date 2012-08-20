@@ -5,7 +5,8 @@ class UtilityComponent extends Object
 	var $controller = true;
 	var $components = array('Session','Auth','Email');
 	var $uses = array('Industry','State','City','Specification','FacebookUsers','UserList','Config','Networkers',
-					'University','Companies','UserRoles','Job','GraduateDegree','GraduateUniversityBreakdown',);
+					'University','Companies','UserRoles','Job','GraduateDegree','GraduateUniversityBreakdown',
+					'InvitaionCode');
 	
 	function initialize(&$controller) {
 		if ($this->uses !== false) {
@@ -340,6 +341,15 @@ class UtilityComponent extends Object
 										'fields'=>array('Job.id,Job.title,Job.reward, companies.company_name, state.state  as name,city.city as name,ind.name, spec.name'),));
 										
 			return $jobs;							
+ 	}
+ 	
+ 	function deleteInvitationCode(){
+ 		$inviteCode = $this->Session->read('invitationCode');
+ 		$this->InvitaionCode->updateAll(array("status"=>1), array('invitaion_code'=>$inviteCode,
+																  'status'=>0,
+		));
+		
+		$this->Session->delete('invitationCode');
  	}
 	
 }

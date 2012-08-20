@@ -14,7 +14,7 @@
 	 function checkform() {
 		var isAgreeCondition = $('input:checkbox[id=UserAgreeCondition]:checked').val();
 		if(!isAgreeCondition){
-			$("#agree_condition_error").removeClass().addClass("error").html("This is required field.");
+			$("#agree_condition_error").removeClass().addClass("error_input_message").html("This is required field.");
 			return false;
 		}
 		if(isAgreeCondition){
@@ -22,74 +22,93 @@
 		}
 	}
 </script>
+    <h1 class="title-emp">Job Seeker Registration Request</h1>
+    <div class="sub-title-js">You will be able to apply for jobs and share job posts with your network.<br />Please submit the form below and you will receive an email confirmation to complete you registration.</div>
 
-<div style="width:550px;margin:auto;">
-<?php //require_once(APP_DIR.'/vendors/facebook/hr_facebook.php'); ?>
-<div style="font-weight:bold;font-size: 20px; "><u>Register</u></div>
-<div>You will be able to apply for jobs and share job posts with your network.</div>
-<div>Please submit the form below and you will receive an email confirmation to complete your registration.</div>
-
-<div class="facebook-login">
-	<?php if($this->Session->read('intermediateCode')!="" || $this->Session->read('intermediateCode')!=null){ ?>
-		<div class=""><a href="<?php echo $FBLoginUrl;?>"><button class="facebook"></button></a></div>
-		<!------------- Linked In sign up--------------->
-		<div class="li"><a href="<?php echo $LILoginUrl;?>" > <button class="linkedin"></button></a></div>
-	<?php }?>
-</div>
-<div style="width:480px; margin-top:20px;">
 <?php echo $form->create('User', array('action' => 'jobseekerSignup','onsubmit'=>'return checkform()')); ?>
-
-	<?php	echo $form->input('account_email', array('label' => 'Email',
+    <div class="text-box">
+	<?php	echo $form->input('account_email', array('label' => false,
+													'div'	=> false,
                                            			'type'  => 'text',
-													'class' => 'text_field_bg required email',
+                                           			'placeholder' => 'Account Email',
+													'class' => 'required email',
                                            			)
                                  );
     ?>
-
-	<?php	echo $form->input('password', array('label' => 'Password',
+	</div>
+	<div class="text-box text-box-below">
+	<?php	echo $form->input('password', array('label' => false,
+                                           			'placeholder' => 'Password',
+													'div'	=> false,	
                                            			'type'  => 'password',
 													'name'  => "data[User][password]",
-													'class' => 'text_field_bg password',
+													'class' => 'password',
 													'minlength' => '6',
                                            			)
                               );
     ?>
-
-	<?php	echo $form->input('repeat_password', array('label' => 'Repeat Password',
-                                           			'type'  => 'password',
+	</div>
+	<div class="text-box text-box-below">
+	<?php	echo $form->input('repeat_password', array('label' => false,
+                                           			'placeholder' => 'Confirm Password',	
+                                           			'div' => false,                                           														'type'  => 'password',
 													'name'  => "data[User][repeat_password]",
-													'class' => 'text_field_bg required'
+													'class' => 'required'
                                            			)
                               );
     ?>
-	
+	</div>
+	<div class="text-box text-box-below">
 	<?php	
-		if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null)){
-			echo $form->input('Code.code', array('label' => 'Code',
+		if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null)){
+			echo $form->input('Code.code', array('label' => false,
+													'div' => false,
+                                           			'placeholder' => 'Code',
                                            			'type'  => 'text',
 													'name'  => "data[Code][code]",
-													'class' => 'text_field_bg required'
+													'class' => 'required'
                                            			)
                               );	
 		}
     ?>
     
-	<?php if(isset($codeErrors)): ?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
-
-	<?php echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
-                                           			'type'  => 'checkbox',
-													'name'  => "data[User][agree_condition]",
+	<?php if(isset($codeErrors)): ?><div class="error_input_message"><?php echo $codeErrors;?></div><?php endif; ?>
+	</div>
+	
+	<div class="check-button">
+		<div class="cross-button">	
+			<?php echo $form->input('agree_condition', array('label' =>false,
+        		                                   			'type'  => 'checkbox',
+															'name'  => "data[User][agree_condition]",
+															'div' =>false,
 													)
                               );
     ?>
-	<div id="agree_condition_error"  class="error-message">
-		 <?php if(isset($errors)):	echo $errors; endif; ?>
-	</div>
-	<div>
-		<div>
-			<?php echo $form->submit('Register',array('div'=>false,)); ?>
+    	</div>
+		<div class="remember-me agree-with">Agree with <a href="#">Terms & Conditions</a></div>
+		<div id="agree_condition_error"  class="error_input_message">
+			 <?php if(isset($errors)):	echo $errors; endif; ?>
 		</div>
-		<?php echo $form->end(); ?>
-	</div>
-	<div style="margin-top:50px;"><a href="/jobseekerInformation">Don't know about Jobseeker</a> </div>
+    </div>
+	<div class="login-button">
+    	<input type="submit" value="REGISTER"/>
+    	<div class="clr"></div>
+    </div>
+	<?php echo $form->end(); ?>
+	<div class="forgot-password networker-width"><a href="/jobseekerInformation">Don't know about Jobseekers?</a></div>
 </div>
+
+<!--    <h1 class="title-emp">Job Seeker Registration Request</h1>
+    <div class="sub-title-js">You will be able to apply for jobs and share job posts with your network.<br />Please submit the form below and you will receive an email confirmation to complete you registration.</div>
+    <div class="text-box"> <input type="text" _placeholder="Account Email" /></div>
+    <div class="text-box text-box-below"> <input type="text" _placeholder="Password" /></div>
+    <div class="text-box text-box-below"> <input type="text" _placeholder="Repeat Password" /></div>
+    <div class="text-box text-box-below"> <input type="text" _placeholder="Code" /></div>
+    <div class="check-button">
+     <div class="cross-button"><input name="" type="checkbox" value="" /></div>
+     <div class="remember-me agree-with">Agree with <a href="#">Terms & Conditions</a></div>
+    </div>
+    <div class="button-return-to-search register-button-margin"><a href="#">REGISTER</a></div>
+    <div class="forgot-password networker-width"><a href="#">Don't know about Networkers?</a></div>
+    
+    ->
