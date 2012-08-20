@@ -1,9 +1,3 @@
-<?php 
-
-/*
- * Change Password
- */
-?>
 <script>
 	$(document).ready(function(){
 		$("#UserChangePasswordForm").validate({
@@ -16,91 +10,91 @@
 			errorClass: 'error_input_message',
 				errorPlacement: function (error, element) {
 					error.insertAfter(element)
-					error.css({'margin':'0px 0px 0px 134px','width':'230px'});
 			}
 			});
+		$("#clear_all").click(function(){ 
+			$("input[type=password]").val("");		
+			return false;
+		});
 	});
 </script>
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu'); ?>
-		</div>
-	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox">
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-		<div class="middleBox">                                 
-			<div class="change_password">
-               	<?php echo $form->create('User',array('action'=>'changePassword'))?>
-				<div class="required">
-					<?php
-						echo $form->input('User.oldPassword',array(
-											'label' => 'Old Password:',
-											'type'  => ($facebookUserData!=null)?'hidden':'password',
-											'class' => 'text_field_bg required',
-											'minlength' => '6',
-										)
-						);
-					?>
-				</div>
-				<?php if(isset($old_password_error)):?>
-				<label class="error">
-					<?php echo $old_password_error;?>
-				</label>
-				<?php endif;?>
-				<div style="clear:both"></div>
-				<div>
-					<?php echo $form->input('User.password', array('label' => 'New Password:',
+<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+			<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
+</div>
+<div class="job_container">
+	<div class="job_container_top_row">
+      <!-- Job- Left - Sidebar -->
+      <?php echo $this->element('side_menu');?>
+	 <!-- Job - left- sidebar Ends --> 
+	 <div class="job_container_top_row">
+		<div class="job_right_bar">
+		<div class="job_network_password">
+			<h2>CHANGE PASSWORD</h2>
+			<?php echo $form->create('User',array('action'=>'changePassword'))?>
+			<div class="job-text-box"> 
+			<?php
+				echo $form->input('User.oldPassword',array(
+									'label' => false,
+									'type'  => ($facebookUserData!=null)?'hidden':'password',
+									'class' => 'required',
+									'div'	=> false,
+									'minlength' => '6',
+									'placeholder'=>"Old Password",
+								)
+				);
+			?>
+			</div>
+			<?php if(isset($old_password_error)):?>
+			<label class="error">
+				<?php echo $old_password_error;?>
+			</label>
+			<?php endif;?>
+			<div class="job-text-box"> 
+				<?php echo $form->input('User.password', array('label' => false,
 												'type'  => 'password',
 												'name'  => "data[User][password]",
-												'class' => 'text_field_bg password',
+												'class' => 'required',
 												'minlength' => '6',
+												'div'	=> false,
+												'placeholder'	=> "New Password",
                                           			)
                                 );
     				?>
-    			</div>
-    			<div style="clear:both"></div>
-    			<div>
-					<?php echo $form->input('repeat_password', array('label' => 'Repeat Password:',
+			</div>
+			<div class="job-text-box text-box-below"> 
+			<?php echo $form->input('repeat_password', array('label' => false,
                                        			'type'  => 'password',
 												'name'  => "data[User][repeat_password]",
-												'class' => 'text_field_bg required',
+												'class' => 'required',
+												'div'	=> false,
+												'placeholder'	=> "Repeat Password",
                                           		)
                                 );
-					?>
-				</div>
-				<div style="clear:both"></div>
-				<div>
-						<?php echo $form->submit('Change',array('lable'=>'',
-												'type'=>'submit',
+			?>
+			</div>
+			</div>
+			<div class="job-clear-all"><a href="#" id="clear_all">Clear All</a></div>
+			<div class="login-button job-login">
+			<?php echo $form->submit('Change',array('type'=>'submit',
 												'value'=>'Change',
-												'style'=>'float:left;margin-left:100px;width:80px;',
+												'div'	=>false,
 												)
 											);
-						?>
-						<?php
-							echo $form->button('Clear',array(
-													'type'=>'Reset',
-													'class'=>'clear_button button_field div_hover',
-													)
-												);
-						?>
-					
-				</div>
-				<div style="clear:both"></div>
-				<?php echo $form->end();?>
+			?>
 			</div>
+			<?php echo $form->end();?>
+			<div class="clr"></div>
 		</div>
-		<!-- middle conyent list -->
 	</div>
-	<!-- middle section end -->
+    <div class="clr"></div>
+</div>
+    <div class="job_pagination_bottm_bar"></div>
+ 	<div class="clr"></div>
+</div>
+</div>
 </div>
 

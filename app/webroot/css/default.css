@@ -86,4 +86,6 @@ li.current {
 }
 label.contact-error { color: red; display: block; float: left; font-family: Arial regular,Sans-serif; font-size: 10px;
 font-weight: normal !important; vertical-align: top; width: 206px;}
-
+.job-right-text p a {text-decoration:underline;}
+.job-right-heading a{text-decoration:none;}
+.job-right-heading a:hover,.job-right-heading a:active{text-decoration:underline;}

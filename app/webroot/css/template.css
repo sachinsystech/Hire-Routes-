@@ -435,15 +435,41 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-right-how-payout {font:15px Arial, Helvetica, sans-serif;}
 .job-right-reward {font:15px Arial, Helvetica, sans-serif;}
 .job-right-how-payout {float:right; margin:9px 12px 0 0;}
-.job-right-how-payout a{ text-decoration:none;}
-.job-right-how-payout a:hover {text-decoration:underline;}
+.job-right-how-payout a{ text-decoration:underline;}
+.job-right-how-payout a:hover {text-decoration:none;}
 .job-right-text { width:425px; height:auto; margin:38px 0 0 27px; font:normal 15px Arial, Helvetica, sans-serif;}
 .job-right-text-heading {margin-bottom:16px;}
 .job-right-text-heading a{font:bold 30px 'OpenSansCondensedBold'; color:#50a64e;}
 .job-right-text span { font:bold 15px Arial, Helvetica, sans-serif;}
-.job-right-text a{text-decoration:none;}
-.job-right-text a:hover{text-decoration:underline;}
+.job-right-text a{text-decoration:underline;}
+.job-right-text a:hover{text-decoration:none;}
 
+/*:::::::::::::Jobs page - Jobs - Guest Job Detail - page css start :::::::*/
+
+
+.job_container1 {width:935px; height:818px;}
+.job_guest_container {height:781px !important;}
+.job_detail_guest_left {background:none !important; height:745px !important; padding:35px 0 0 18px; width:204px !important;}
+.job_detail_guest_right {height:780px !important;}
+.job_top-heading_guest {width:570px; margin:20px auto;}
+.job_top_one {width:235px; margin:0 auto; text-align:center; height:auto; float:left;}
+.job_top_one a {color:#2d9d97; text-decoration:underline;}
+.job_top_one a:hover {text-decoration:none;}
+.job_top_heading1 { font:15px Arial, Helvetica, sans-serif;}
+.job_top_share_job {width:207px; height:62px; text-align:center;margin-left: 18px;padding: 3px 0 0;}
+.job_top_two { font:24px "OpenSansCondensedBold";text-align: center; width: 100px; float:left;margin-top: 22px;}
+.job_top_apply {width:207px; height:62px; text-align:center;margin-left: 18px;padding-top: 3px;}
+.job-apply-button {margin:0 !important;}
+.job-apply-button input { margin:10px 0 0 -3px !important;}
+.job_apply_color a{color:#50a64e; text-decoration:underline; text-align:center;}
+.job_apply_color a:hover{text-decoration:none; }
+.job_detail_guest_left h2 {color:#1d1d1d; font:24px 'OpenSansCondensedBold';margin-bottom: 28px;}
+.job_detail_guest_left ul li {list-style:decimal outside; font:15px/20px Arial, Helvetica, sans-serif; margin:16px 0 0 19px;}
+.job_backtosearch {color: #4FA34B; font:20px 'OpenSansCondensedBold'; margin-bottom:25px;}
+.job_right_rightmost { background:#eae6d7; height: 97px; position: absolute; right: 0; width: 207px;}
+.job_right_rightmost a {font:15px Arial, Helvetica, sans-serif; text-decoration:underline;padding-left: 23px;}
+.job_right_rightmost a:hover {text-decoration:none;}
+.job_reward_text {padding-bottom:7px !important;}
 
 /*:::::::::::::Jobs page - Company Listings/Settings - page css start :::::::*/
 .job-submission-margin {line-height:38px !important;}
@@ -492,7 +518,10 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-table-subheading ul li {list-style:none; float:left; text-align:center;border-left: 1px solid #D6D2CC;border-bottom: 1px solid #D6D2CC;line-height: 48px;}
 .job-table-align {height:21px !important;}
 
+
 /*:::::::::::::Jobs page - Jobs - Network Settings - Change Password - page css start :::::::*/
+
+
 
 
 .job_network_password { margin:35px 0 0 25px;}
@@ -501,7 +530,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-text-box input { background: url("../images/text-box.png") no-repeat;border: 0 none;color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;height: 28px;line-height: 28px; padding: 0 0 0 11px; width: 277px;}
 .job-clear-all {font:15px Arial, Helvetica, sans-serif; margin:34px 0 0 66px;}
 .job-clear-all a {text-decoration:underline;}
-
+.job-login {margin:2px 0 0 14px !important; *margin-left:0 !important;*position:relative !important; *float:left !important; *left:14px !important;}
 
 /*:::::::::::::Jobs page - Jobs - Network Settings - Add Contact - page css start :::::::*/
 
@@ -661,6 +690,21 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 	text-decoration:none;
 }
 
+/*::::::::Global CSS::::::::::::*/
+
+
+.login-button { background:url(../images/bttn_sprite.png) no-repeat 0 0; margin:20px auto 0; height:62px; width:207px;}
+.login-button input {background:url(../images/bttn_sprite.png) no-repeat -11px -80px;cursor: pointer; margin: 10px 0 0 11px;height: 36px; width: 181px; border:none; font:20px 'OpenSansCondensedBold'; color:#fff;}
+.login-button input:hover {background:url(../images/bttn_sprite.png) no-repeat -11px -121px;}
+.login-button input:active {background:url(../images/bttn_sprite.png) no-repeat -11px -165px;}
+.button-orange1 { background:url(../images/bttn_sprite.png) no-repeat 0 0; margin:20px auto 0; height:62px; width:207px;}
+.button-orange1 input {background:url(../images/bttn_sprite.png) no-repeat -431px -80px;cursor: pointer; margin: 10px 0 0 11px;height: 36px; width: 181px; border:none; font:20px 'OpenSansCondensedBold'; color:#fff;}
+.button-orange1 input:hover {background:url(../images/bttn_sprite.png) no-repeat -431px -123px;}
+.button-orange1 input:active {background:url(../images/bttn_sprite.png) no-repeat -431px -164px;}
+.button-blue1 { background:url(../images/bttn_sprite.png) no-repeat 0 0; height:62px; width:207px;}
+.button-blue1 input {background:url(../images/bttn_sprite.png) no-repeat -225px -80px;cursor: pointer; margin: 11px 0 0 -2px;height: 36px; width: 181px; border:none; font:20px 'OpenSansCondensedBold'; color:#fff;}
+.button-blue1 input:hover {background:url(../images/bttn_sprite.png) no-repeat -225px -123px;}
+.button-blue1 input:active {background:url(../images/bttn_sprite.png) no-repeat -225px -165px;}
 
 /*::::::::footer-wrap::::::::::::*/
 .footer-wrap{background: url(../images/footer-wrap-bg.jpg) repeat-x; height:558px; color:#ded7c4; margin-top:200px;}

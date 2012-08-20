@@ -862,6 +862,7 @@ class UsersController extends AppController {
  */
 
 	public function changePassword(){
+		$this->layout = "home";
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
 			$this->redirect("/users/login");

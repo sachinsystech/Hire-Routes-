@@ -356,15 +356,8 @@ class JobsController extends AppController {
 	} 
 
 	function jobDetail(){
+		$this->layout= "home";
 		$session = $this->_getSession();
-		if(!$session->isLoggedIn()){
-			$url ="/jobs/jobDetail/".$this->params['jobId']; 
-			//echo $url;exit;
-			$session->setBeforeAuthUrl($url);	
-			$this->Session->setFlash('Please loign to continue with job.', 'error');				
-			$this->redirect("/users/login");
-		}
-	
 		$userId = $session->getUserId();
 		
 		if(isset($this->params['jobId'])){
@@ -448,6 +441,11 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 		}else{
 				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/');
+		}
+		if($session->isLoggedIn()){
+			$this->render("/jobs/member_job_detail");
+		}else{
+			$this->render("/jobs/guest_job_detail");
 		}       
                        
 	}
