@@ -33,7 +33,12 @@
 
 <!-- Start: page-top -->
 <div id="page-top">
-
+<style>
+.nav li ul {
+    display: none;
+    width: 154px;
+}
+</style>
 	<!-- start logo -->
 	<div id="logo">
 		Hire-Routes
@@ -88,7 +93,7 @@
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a ><b>Code</b></a>
 				<ul>
-					<li><a href="/admin/codes/"><b>Code</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+					<li><a href="/admin/codes/"><b>Registration Code</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 					<li><a href="/admin/invitationCode/"><b>Invite's Code</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 				</ul>
 			</li>

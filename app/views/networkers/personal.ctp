@@ -1,155 +1,81 @@
-<?php ?>
-
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
+<div class="middle">
+	<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):
+		if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+			<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif;
+		endif;
+		$status = array("Pending","Accepted");
+	?>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle content top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle content top menu end -->
-		<!-- middle content list -->
-		
-			<div class="network_contact_middleBox">
-			  <?php if(count($contacts)):?>
-				<?php echo $this->Form->create('deleteContacts', array('onsubmit'=>'return checkMultipleDelete();',
-																	   'url' => array('controller' => 'networkers',
-																					  'action' => 'deleteContacts',
-																					  
-																					  ),
-																	   
-																	   )
-											   );
-				?>
-				<div style="margin: auto; font-weight: bold; width: 570px; font-size: 88%;">
-					<a class="button" href="/networkers/personal">All</a>
-					<?php
-						
-						foreach($alphabets AS $alphabet=>$count){
-							$class = 'button';
-							$url = "/networkers/personal/alpha:$alphabet";
-							$urlLink = "<a href=".$url.">". $alphabet ."</a>";
-							if($startWith ==$alphabet || $count<1){
-								$class = 'current';
-								$urlLink = $alphabet;
-							}
-							?>
-							<span class="<?php echo $class; ?>" style="font-size:13px"> <?php echo $urlLink; ?></a> </span>
-							<?php
-							if($alphabet !="Z"){
-								echo " | ";
-							}	
-						}
-					?>
-				</div>
-				<table style="width:85%;margin: auto;" class="contacts">
-					<tr>
-						<th style="width:8%;text-align:center">
-							<input type="checkbox" onclick="toggleChecked(this.checked)" style="float:none;">
-						</th>
-						<th style="width:35%;text-align:center"> Name </th>
-						<th style="width:45%;text-align:center"> E-Mail </th>
-						<th style="width:10%;text-align:center"></th>
-					</tr>
-					<?php $i=0;?>
-					
-					<?php foreach($contacts AS $contact):?>	
-					<tr>
-						<td>
-							<?php	$i++;
-									echo $form->input($contact['NetworkerContact']['id'], array(
-																						'label' => "$i",
-																						'type'  => 'checkbox',
-																						'value' => $contact['NetworkerContact']['id'],
-																						'class' => 'contact_checkbox'
-																						)
-													  );
-							?>
-						</td>
-						<td><?php echo $contact['NetworkerContact']['contact_name']?></td>
-						<td><?php echo $contact['NetworkerContact']['contact_email']?></td>
-						<td>
-							<img src="/img/media/b_edit.png" alt="Edit" onclick="return edit(<?php echo $contact['NetworkerContact']['id'] ?>)" style="cursor:pointer" />
-							<img src="/img/media/b_drop.png" alt="Delete" onclick="return drop(<?php echo $contact['NetworkerContact']['id'] ?>)" style="cursor:pointer" />							
-						</td>
-					</tr>
+    <div class="job_container">
+    	<div class="job_container_top_row">
+    		<?php echo $this->element('side_menu');?>
+    		<div class="job_right_bar">
+            	<div class="job-right-top-content1">
+                	<div class="job-right-top-left"> 
+                    	<h2>NETWORKER STATS</h2>
+                    	<p>Total: <span>678</span></p>
+                    	<p>1st°: <span>20</span></p>
+                    	<p>2nd°: <span>105</span></p>
+                    	<p>3rd°: <span>367</span></p>
+                    	<p>4th°: <span>400</span></p>
+                    </div>
+                    <div class="job-right-top-right" >
+                    	<h2>INVITATIONS</h2>
+                    	<div class="job-list-head">
+                        <ul class="job-list-heading job-list-head-margin">
+                        	<li class="job-list-name">NAME/EMAIL</li>
+                            <li class="job-list-status">STATUS</li>
+                            <li class="job-list-origin">ORIGIN</li>
+                    	</ul>
+                        </div>
+                        <?php $i=0;?>
+                        <?php foreach($invitations AS $contact):?>	
+						<div class="job-list-subhead">
+		                    <ul class="job-list-subcontent" >
+			                   	<li class="<?php if($i%2==0) echo'dark';?>"><?php echo $contact['Invitation']['name_email']?></li>
+								<li class="center-align <?php if($i%2==0) echo'dark';?>">
+								<?php echo $status[ $contact['Invitation']['status'] ]; ?></li>
+								<li class="margin-last-child-job <?php if($i%2==0) echo'dark';?>"><?php echo $contact['Invitation']['from']?></li>
+								
+		                	</ul>
+                    	</div>
+                    	<?php $i++;?>
 					<?php endforeach;?>
-				</table>
-				<?php echo $form->submit('Delete Selected',array('div'=>false,)); ?>
-				<?php echo $form->end(); ?>
-				<div style="clear:both;"></div>
-				<div style="float:right;font-size: 93%;margin-right:50px">
-					
-				 <?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
-				 <?php echo $paginator->prev('<< '.__('Previous', true), array(), null, array('class'=>'disabled'));?>
-				 < <  <?php echo $this->Paginator->numbers(array('class'=>'numbers','modulus'=>4)); ?>  > >
-				 <?php echo $paginator->next(__('Next', true).' >>', array(), null, array('class'=>'disabled'));?>
-				 <?php echo $paginator->last(' Last'); ?>
-				 <?php }?>
-				</div>
-			  <?php else:?>
-				<div class="empty_concats_msg"> No Contacts added..</div>
-			  <?php endif;?>
-			</div>
-		<!-- middle conyent list -->
-
-	</div>
-	<!-- middle section end -->
-
+						<?php	if($invitations == null){?>
+						<div class="job-list-subhead">
+				            <div class="inviation-message">
+				            	No Invitaion Found.
+				            </div>
+                    	</div>
+					<?php	} ?>
+                    </div>
+                    <div class="clr"></div>
+                </div>
+                <div class="job-right-bottom-right" >
+                	<h2>MY NETWORKERS</h2>
+                    <div class="job-table-heading">
+                    		<ul>
+                            	<li class="job-table-name job-table-align">Name/Email</li>
+                                <li class="job-table-netw job-table-align">Networkers</li>
+                                <li class="job-table-degree job-table-align">Degree</li>
+                                <li class="job-table-points job-table-align">Points</li>
+                                <li class="job-table-reward job-table-align">Reward</li>
+                                <li class="job-table-level job-table-level-align job-table-align">Level</li>
+                            </ul>
+                    </div>
+                    <div class="networkers-message">
+                    	No Networkers Found.
+                    </div>
+                </div>
+            </div>
+        <div class="clr"></div>
+    </div>
+    <div class="job_pagination_bottm_bar"></div>
+ 	<div class="clr"></div>
 </div>
+</div>
+</div>
+<!======================================================>
 
-
-<script>
-
-function edit(id){
-	window.location.href="/networkers/editPersonalContact/"+id;
-}
-function drop(ids){
-	var r=confirm("Do you really want to delete this?");
-	if (r==true){
-		window.location.href="/networkers/deleteContacts/"+ids;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-function checkMultipleDelete(){
-	var flag = false;
-	var msg = "";
-	$(".contact_checkbox").each( function() {
-		if($(this).attr("checked")){
-			//msg += "\n"+$(this).val();
-			flag  = true;
-		}
-	})
-	if(!flag){
-		alert("You did not select any contact.");
-		return false;
-	}
-	if(flag){
-		var r = confirm("Do you really want to delete selected contact(s)?");
-		if (r==true){
-			window.location.href="/networkers/deleteContacts/"+ids;
-		}
-		else
-		{
-			return false;
-		}
-	}
-}
-
-function toggleChecked(status) {
-	$(".contact_checkbox").each( function() {
-		$(this).attr("checked",status);
-	})
-}
-</script>

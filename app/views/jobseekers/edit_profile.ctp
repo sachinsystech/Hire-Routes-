@@ -1,3 +1,4 @@
+
 <script> 	
     $(document).ready(function(){
    		$("#JobseekerSettingsEditProfileForm").validate({
@@ -9,26 +10,20 @@
 		});
     });	
 </script>
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
+	<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
-			<div class="setting_middleBox">
-				<div class="networker_edit_form">
-					<?php echo $this->Form->create('', array('url' => array('controller' => 'jobseekers', 'action' => 'editProfile'))); ?>
+    <div class="job_container">
+    	<div class="job_container_top_row">
+           <?php echo $this->element('side_menu');?>
+            <div class="job_right_bar">
+            	<div class="job-right-top-content1">
+                	<div class="job-right-top-left job-profile">
+                		<?php echo $this->Form->create('', array('url' => array('controller' => 'jobseekers', 'action' => 'editProfile'))); ?>
 						<div>
 							<?php	echo $form->input('User.id', array('label' => '',
 																	'type'  => 'hidden',
@@ -43,120 +38,120 @@
 																	)
 														 );
 							?>
-						</div>						
-						<div style="clear:both"></div>
-
-                        <div>
-							<?php	$name = "";
+						</div>	
+                    	<h2>EDIT PROFILE</h2>
+                    	<div class="edit-profile-text-box">
+                    	<?php	$name = "";
                                     if(isset($fbinfo)){ $name = $fbinfo['first_name']." ".$fbinfo['last_name']; }
                                     if(isset($jobseeker) && $jobseeker['contact_name']!=""){ $name = $jobseeker['contact_name']; } 
-                                    echo $form->input('Jobseekers.contact_name', array('label' => 'Contact Name:',
+                                    echo $form->input('Jobseekers.contact_name', array('label' => "<span>Name:</span>",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $name,
+												'div'=> false,
 												)
 								 );
 							?>
-						</div>		
-						<div style="clear:both"></div>
-						
-						<div>
+   
+						</div>
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">							
 							<?php	if(isset($jobseeker)){ $address = $jobseeker['address']; } else { $address = "";}
-                                    echo $form->input('Jobseekers.address', array('label' => 'Address:',
+                                    echo $form->input('Jobseekers.address', array('label'=>'<span>Address:</span>:',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $address,
+												'div'=> false,
 
 												)
 								 );
 							?>
-						</div>		
-						<div style="clear:both"></div>
-												
-						<div>
+						</div>
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">
 							<?php	if(isset($jobseeker)){ $city = $jobseeker['city']; } else { $city = "";}
-                                    echo $form->input('Jobseekers.city', array('label' => 'City:',
+                                    echo $form->input('Jobseekers.city', array('label' => "<span>City:</span> ",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $city,
+												'div'=> false,
 												)
 								 );
 							?>
-						</div>						
-						<div style="clear:both"></div>
-
-                        <div>
+                    	</div>
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">							
 							<?php	if(isset($jobseeker)){ $state = $jobseeker['state']; } else { $state = "";}
-                                    echo $form->input('Jobseekers.state', array('label' => 'State:',
+                                    echo $form->input('Jobseekers.state', array('label' => "<span>State:</span> ",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $state,
+												'div'=> false,
 												)
 								 );
 							?>
-						</div>						
-						<div style="clear:both"></div>
-
-						<div>
+						</div>
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">													
 							<?php	if(isset($jobseeker)){ $phone = $jobseeker['contact_phone']; } else { $phone = "";}
-                                    echo $form->input('Jobseekers.contact_phone', array('label' => 'Contact Phone:',
+                                    echo $form->input('Jobseekers.contact_phone', 
+                                    		array('label' => "<span>Phone:</span> ",
 												'type'  => 'text',
 												'class' => 'text_field_bg required number',
 												'minlength' => '10',
 												'value' => $phone,
+												'div'=> false,
 
 												)
 								 );
 							?>
 						</div>
-						<div style="clear:both"></div>
-						
-						<div class="required">
-							<?php echo $form->input('university',array('label'=> 'University',
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">	
+                    		<?php echo $form->input('university',array('label'=>"<span>University:</span> ",
 																		'type'=>'text',
 																		'class' => 'text_field_bg required',
+																		'div'=> false,
 																		'value' => isset($user['Universities'])?$user['Universities']['name']:"",
 																	));
 								if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
 							?>
-						</div>
-						<div style="clear:both"></div>
-						<div>			
-						<?php echo $form->input('Jobseekers.graduate_degree_id',array('label'=> 'Graduate Degree',
+                    		
+                    	</div>					
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">
+                    		<?php echo $form->input('Jobseekers.graduate_degree_id',array('label'=>"<span>Graduate Degree:</span>",
 																	'type'=>'select',
+																	'div'=> false,
 																	'options'=>$graduateDegrees,
 																	'empty' =>' -- Select Gred Degree --',
 																	'class' => 'job_select_gred_degree',
 																	'value' => isset($jobseeker['graduate_degree_id'])?$jobseeker['graduate_degree_id']:"",
 																));
-							if(isset($graduateErrors)):?><div class="error-message"><?php echo $graduateErrors;?></div><?php endif; 
-						?>
-						</div>
-						<div style="clear:both"></div>
-						<div>
-						<?php if(isset($jobseekers) && isset( $graduateUniversity) ){ 
+								if(isset($graduateErrors)):?><div class="error-message"><?php echo $graduateErrors;?></div><?php endif; 
+							?>
+
+                    	</div> 
+                    	<div class="clr"></div>                  		
+                    	<div class="edit-profile-text-box">
+							<?php if(isset($jobseekers) && isset( $graduateUniversity) ){ 
 									$university[$graduateUniversity['id']] = $graduateUniversity['graduate_college'];						
 								}else{ 
 									$university = "";
 								}
-								echo $form->input('graduate_university',array('label'=> 'Graduate University',
+								echo $form->input('graduate_university',array('label'=> '<span>Graduate University:</span>',
 																	'type'=>'text',
 																	'class' => 'text_field_bg',
 																	'options'=>$university,
+																	'div'=> false,
 																	'value'=>isset($user['GUB']['graduate_college'])?$user['GUB']['graduate_college']:"",
 																));
-							if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
-						?>
-						</div>
-						<div style="clear:both"></div>
-
-						<div class="company_profile_field_row">
-							<div style="float:right;margin-right:20px">
-								<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>	
-							</div>
-						</div>
-						<div style="clear:both"></div>						
-						<div style="display:none;">
+								if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
+							?>
+							
+						</div>                        
+                        <div class="clr"></div>
+                        <div style="display:none;">
 						<?php
 							echo $form->input('Jobseekers.university_id',
 											array('type'=>'text',
@@ -169,16 +164,30 @@
 
 						?>
 						</div>
-					<?php echo $form->end(); ?>	
+						<div class="clr"></div>
+						<div class="edit-profile-clear-all">
+							<label id="clearAll">Clear All</label>
+						</div>
+						<div class="clr"></div>
+						<div class="save-profile-button">
+							<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>
+						</div>
+						<?php echo $form->end(); ?>	
+					</div>
 				</div>
-				
 			</div>
-			
-		<!-- middle conyent list -->
-
-	</div>
-	<!-- middle section end -->
-</div>
+			<div class="clr"></div>
+		</div>
+		<div class="job_pagination_bottm_bar"></div>
+		<div class="clr"></div>
+	</div>	
+<style>
+.loader{
+	float:right;
+	overflow:visible;
+	width:30px;
+}
+</style>
 
 <script>
 
@@ -190,13 +199,13 @@
 					url: "/Utilities/getUniversities/startWith:"+request.term,
 					dataType: "json",
 					beforeSend: function(){
-				 		$('#JobseekerSettingsUniversity').parent("div").parent("div").css({"float":"left","width":"450px"});
-				 		$('#JobseekerSettingsUniversity').parent("div").css({"float":"left","width":"384px"});
-				 		$('#JobseekerSettingsUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#JobseekerSettingsUniversity').parent("div").css({"float":"left","width":"490px"});
+				 		$('#JobseekerSettingsUniversity').parent("div").children("label").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
 
 			   		},
 			   		complete: function(){
 			   	    	$('.loader').remove();
+				 		$('#JobseekerSettingsUniversity').parent("div").css({"float":"left","width":"460px"});
 			   		},
 					success: function( data ) {
 						if(data == null) return;	
@@ -224,6 +233,10 @@
 	});
 	
 	$(document).ready(function() {
+		$("#clearAll").click(function(){
+			$("input[type=text]").val("");
+		});
+	
 		$("#JobseekersGraduateDegreeId").change( function(){ 
 			$("#JobseekerSettingsGraduateUniversity").trigger('keydown');
 		});	
@@ -234,13 +247,13 @@
 					url: "/Utilities/getGraduateUniversities/startWith:"+request.term+"/degree_id:"+$("#JobseekersGraduateDegreeId").val(),
 					dataType: "json",
 					beforeSend: function(){
-				 		$('#JobseekerSettingsGraduateUniversity').parent("div").parent("div").css({"float":"left","width":"450px"});
-				 		$('#JobseekerSettingsGraduateUniversity').parent("div").css({"float":"left","width":"384px"});
-				 		$('#JobseekerSettingsGraduateUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#JobseekerSettingsGraduateUniversity').parent("div").css({"float":"left","width":"490px"});
+				 		$('#JobseekerSettingsGraduateUniversity').parent("div").children("label").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
 
 			   		},
 			   		complete: function(){
 			   	    	$('.loader').remove();
+			   	    	$('#JobseekerSettingsGraduateUniversity').parent("div").css({"float":"left","width":"460px"});
 			   		},
 					
 					success: function( data ) {
@@ -277,7 +290,7 @@
 .ui-autocomplete {
     font-size: 12px;
     max-height: 154px;
-    max-width: 205px;
+    max-width: 350px;
     overflow-x: hidden;
     overflow-y: auto;
 

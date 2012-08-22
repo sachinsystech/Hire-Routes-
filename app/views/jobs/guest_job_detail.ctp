@@ -13,7 +13,7 @@
 					<div class="clr"></div>
 				</div>
             </div>
-        	<a href="/howItWorks">How it works</a>
+        	<a href="/networkerInformation">How it works</a>
         </div>
 	</div>
 	<div class="job_top_two">OR</div>
@@ -26,7 +26,7 @@
 					</div>
                     <div class="clr"></div>
 				</div>
-			<div class="job_apply_color"><a href="/howItWorks">How it works</a></div>
+			<div class="job_apply_color"><a href="/jobseekerInformation">How it works</a></div>
 		</div>
 		<div class="clr"></div>
 	</div>

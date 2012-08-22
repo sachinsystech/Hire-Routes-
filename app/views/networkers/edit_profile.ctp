@@ -1,154 +1,140 @@
-<script> 	
-    $(document).ready(function(){
-		$("#GraduateUniversityBreakdownEditProfileForm").validate({
-			errorClass: 'error_input_message',
-				errorPlacement: function (error, element) {
-					error.insertAfter(element)
-					error.css({'margin-left':'164px','width':'230px'});
-			}
-		});
-    });	
-</script>
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
+	<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-			<div class="setting_middleBox">
-				<div class="networker_edit_form">
-					<?php echo $this->Form->create('', array('url' => array('controller' => 'networkers', 'action' => 'editProfile'))); ?>
-						<div>
-							<?php	echo $form->input('User.id', array('label' => '',
-																	'type'  => 'hidden',
-																	'value' => $user['UserList']['id']
-																	)
-														 );
-							?>
-							<?php	if(isset($networker)){ $id = $networker['id']; } else { $id = "";}
-                                    echo $form->input('Networkers.id', array('label' => '',
-																	'type'  => 'hidden',
-																	'value' => $id
-																	)
-														 );
-							?>
-						</div>						
-						<div style="clear:both"></div>
-
-                       <div>
-							<?php	$name = "";
+    <div class="job_container">
+    	<div class="job_container_top_row">
+           <?php echo $this->element('side_menu');?>
+            <div class="job_right_bar">
+            	<div class="job-right-top-content1">
+                	<div class="job-right-top-left job-profile">
+                		<?php echo $this->Form->create('', array('url' => array('controller' => 'networkers', 'action' => 'editProfile'))); ?>
+						<?php	echo $form->input('User.id', array('label' => '',
+																'type'  => 'hidden',
+																'value' => $user['UserList']['id']
+																)
+													 );
+						?>
+						<?php	if(isset($networker)){ $id = $networker['id']; } else { $id = "";}
+                                echo $form->input('Networkers.id', array('label' => '',
+																'type'  => 'hidden',
+																'value' => $id
+																)
+													 );
+						?>
+                    	<h2>EDIT PROFILE</h2>
+                    	<div class="edit-profile-text-box">
+                    	<?php	$name = "";
                                     if(isset($fbinfo)){ $name = $fbinfo['first_name']." ".$fbinfo['last_name']; }
                                     if(isset($networker) && $networker['contact_name']!=""){ $name = $networker['contact_name']; } 
-                                    echo $form->input('Networkers.contact_name', array('label' => 'Contact Name:',
+                                    echo $form->input('Networkers.contact_name', array('label' => "<span>Name:</span>",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $name,
-
-												)
-								 );
-							?>
-						</div>		
-						<div style="clear:both"></div>
-						
-						<div>
-							<?php	if(isset($networker)){ $address = $networker['address']; } else { $address = "";}
-                                    echo $form->input('Networkers.address', array('label' => 'Address:',
-												'type'  => 'text',
-												'class' => 'text_field_bg required',
-												'value' => $address,
-
-												)
-								 );
-							?>
-						</div>		
-						<div style="clear:both"></div>
-												
-						<div>
-							<?php	if(isset($networker)){ $city = $networker['city']; } else { $city = "";}
-                                    echo $form->input('Networkers.city', array('label' => 'City:',
-												'type'  => 'text',
-												'class' => 'text_field_bg required',
-												'value' => $city,
-												)
-								 );
-							?>
-						</div>						
-						<div style="clear:both"></div>
-
-                        <div>
-							<?php	if(isset($networker)){ $state = $networker['state']; } else { $state = "";}
-                                    echo $form->input('Networkers.state', array('label' => 'State:',
-												'type'  => 'text',
-												'class' => 'text_field_bg required',
-												'value' => $state,
-												)
-								 );
-							?>
-						</div>						
-						<div style="clear:both"></div>
-
-						<div>
-							<?php	if(isset($networker)){ $phone = $networker['contact_phone']; } else { $phone = "";}
-                                    echo $form->input('Networkers.contact_phone', array('label' => 'Contact Phone:',
-												'type'  => 'text',
-												'class' => 'text_field_bg required number',
-												'minlength' => '10',
-												'value' => $phone,
-
+												'div'=> false,
 												)
 								 );
 							?>
 						</div>
-						<div style="clear:both"></div>
-						<div class="required">
-							<?php echo $form->input('university',array('label'=> 'University',
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">							
+							<?php	if(isset($networker)){ $address = $networker['address']; } else { $address = "";}
+                                    echo $form->input('Networkers.address', array('label' => "<span>Address:</span> ",
+												'type'  => 'text',
+												'class' => 'text_field_bg required',
+												'value' => $address,
+												'div'=> false,
+												)
+								 );
+							?>
+						</div>
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">
+                    		<?php	if(isset($networker)){ $city = $networker['city']; } else { $city = "";}
+                                    echo $form->input('Networkers.city', array('label' => "<span>City:</span> ",
+												'type'  => 'text',
+												'class' => 'text_field_bg required',
+												'value' => $city,
+												'div'=> false,												
+												)
+								 );
+							?>
+                    	</div>
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">							
+                   			<?php	if(isset($networker)){ $state = $networker['state']; } else { $state = "";}
+                                    echo $form->input('Networkers.state', array('label' => "<span>State:</span> ",
+												'type'  => 'text',
+												'class' => 'text_field_bg required',
+												'value' => $state,
+												'div'=> false,												
+												)
+								 );
+							?>
+						</div>
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">													
+							<?php	if(isset($networker)){ $phone = $networker['contact_phone']; } else { $phone = "";}
+                                    echo $form->input('Networkers.contact_phone', 
+                                    		array('label' => "<span>Phone:</span> ",
+												'type'  => 'text',
+												'class' => 'text_field_bg required number',
+												'minlength' => '10',
+												'value' => $phone,
+												'div'=> false,
+												)
+								 );
+								?>
+						</div>
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">	
+                    		<?php echo $form->input('university',array('label'=> "<span>University:</span> ",
 																		'type'=>'text',
+																		'div'=> false,
 																		'class' => 'text_field_bg required',
 																		'value' => isset($user['Universities'])?$user['Universities']['name']:"",
 																	));
 								if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
 							?>
-						</div>
-						
-						<div >
-							<?php	echo $form->input('Networkers.graduate_degree_id', array('label' => 'Graduate Degree:',
-												'type'  => 'select',
-												'options'=>$graduateDegrees,
-												'empty' =>' -- Select Gred Degree --',
-												'class' => 'networker_select_bg',
-												'style' => "float:right;width:208px;",
-												'value' => isset($networker['graduate_degree_id'])?$networker['graduate_degree_id']:"",
+                    	</div>					
+                    	<div class="clr"></div>
+                    	<div class="edit-profile-text-box">
+                    		<?php	echo $form->input('Networkers.graduate_degree_id', 
+                    							array('label' => "<span>Graduate Degree:</span>",
+													'type'  => 'select',
+													'div'=> false,
+													'options'=>$graduateDegrees,
+													'empty' =>' -- Select Gred Degree --',
+													'class' => 'networker_select_bg',
+													'value' => isset($networker['graduate_degree_id'])?$networker['graduate_degree_id']:"",
 												)
 								 );
 							?>
-						</div>
-						<div>
-						<?php if(isset($networker) && isset( $graduateUniversity) ){ 
+                    	</div> 
+                    	<div class="clr"></div>                  		
+                    	<div class="edit-profile-text-box">
+							<?php if(isset($networker) && isset( $graduateUniversity) ){ 
 								$university[$graduateUniversity['id']] = $graduateUniversity['graduate_college'];						
 								}else{ 
 									$university = "";
 								}
-								echo $form->input('graduate_university',array('label'=> 'Graduate University',
+								echo $form->input('graduate_university',array('label'=> "<span>Graduate University:</span>",
 																	'type'=>'text',
 																	'class' => 'text_field_bg',
 																	'options'=>$university,
+																	'div'=> false,
 																	'value'=>isset($user['GUB']['graduate_college'])?$user['GUB']['graduate_college']:"",
 																));
-							if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
+							?>
+							<?php if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
 						?>
-						</div>
-						
-						<div style="display:none;">
+							
+						</div>                        
+                        <div class="clr"></div>
+                        <div style="display:none;">
 						<?php
 							echo $form->input('Networkers.university',
 											array('type'=>'text',
@@ -160,30 +146,26 @@
 											));
 
 						?>
-						</div>						
-												
-						<div class="company_profile_field_row">
-							<div style="float:right;margin-right:20px">
-								<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>	
-							</div>
 						</div>
-						<div style="clear:both"></div>						
-
-					<?php echo $form->end(); ?>	
+						<div class="clr"></div>
+						<div class="edit-profile-clear-all">
+							<label id="clearAll">Clear All</label>
+						</div>
+						<div class="save-profile-button">
+							<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>
+						</div>
+						<?php echo $form->end(); ?>	
+					</div>
 				</div>
 			</div>
-			
-		<!-- middle conyent list -->
-
-	</div>
-	<!-- middle section end -->
-
-</div>
-
-
+			<div class="clr"></div>
+		</div>
+		<div class="job_pagination_bottm_bar"></div>
+		<div class="clr"></div>
+	</div>	
 <style>
 .loader{
-	float:left;
+	float:right;
 	overflow:visible;
 	width:30px;
 }
@@ -191,6 +173,9 @@
 <script>
 
 	$(document).ready(function(){
+		$("#clearAll").click(function(){
+			$("input[type=text]").val("");
+		});
 		$("#GraduateUniversityBreakdownUniversity").autocomplete({
 			minLength:1,
 			source: function( request, response ) {
@@ -198,8 +183,8 @@
 					url: "/Utilities/getUniversities/startWith:"+request.term,
 					dataType: "json",
 					beforeSend: function(){
-				 		$('#GraduateUniversityBreakdownUniversity').parent("div").parent("div").css({"float":"left","width":"450px"});
-				 		$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"374px"});
+				 		$('#GraduateUniversityBreakdownUniversity').parent("div").parent("div").css({"float":"left","width":"480px"});
+				 		$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"460px"});
 				 		$('#GraduateUniversityBreakdownUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
 
 			   		},
@@ -242,13 +227,13 @@
 					url: "/Utilities/getGraduateUniversities/startWith:"+request.term+"/degree_id:"+$("#NetworkersGraduateDegreeId").val(),
 					dataType: "json",
 					beforeSend: function(){
-				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").parent("div").css({"float":"left","width":"450px"});
-				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").css({"float":"left","width":"373px"});
-				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").css({"float":"left","width":"490px"});
+				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").children("label").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
 
 			   		},
 			   		complete: function(){
-			   	    	$('.loader').remove();
+			   	    	$('.loader').hide();
+			   	    	$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").css({"float":"left","width":"460px"});
 			   		},
 					
 					success: function( data ) {
@@ -280,12 +265,25 @@
 	function goTo(){
 		window.location.href="/companies/postJob";			
 	}
+
+
+    $(document).ready(function(){
+   		$("#GraduateUniversityBreakdownEditProfileForm").validate({
+			errorClass: 'error_input_message',
+				errorPlacement: function (error, element) {
+					error.insertAfter(element)
+					error.css({'margin-left':'172px','width':'236px'});
+			}
+		});
+    });	
+	
+
 </script>
 <style>
 .ui-autocomplete {
     font-size: 12px;
     max-height: 154px;
-    max-width: 205px;
+    max-width: 350px;
     overflow-x: hidden;
     overflow-y: auto;
 
@@ -297,4 +295,3 @@
 	height: 100px;
 }
 </style>
-

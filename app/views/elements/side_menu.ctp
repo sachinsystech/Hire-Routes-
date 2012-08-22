@@ -45,23 +45,15 @@
                                 </ul>
                             </div>
                         </li>
-                      	<li><a class="plus_icon" href="#">My Account</a>
-                        	<div style="display:none;" class="job_menus_submenu">
-                        		<ul>
-                                    <li><a href="#" <?php if($this->action=='setting')echo $class;?>>Job Profile</a></li>
-									<li><a href="#" <?php if($this->action=='setting')echo $class;?>>Subscription</a></li>
-                                    <li><a href="#" <?php if($this->action=='setting')echo $class;?>>Profile</a></li>
-                                    <li><a href="#" <?php if($this->action=='setting')echo $class;?>><?php echo $passwordLable; ?></a></li>
-                            	</ul>
-                             </div>
-                        </li>
-                         
+                        
                         <li><a class="plus_icon" href="#">My Account</a>
-                        	<div style="display:none;" class="job_menus_submenu">
+                        	<div <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword'))
+                        			echo "style='display:none;'";?>class="job_menus_submenu">
                         		<ul>
+	                        		<li><a href="/jobseekers/jobProfile"" <?php if($this->action=='jobProfile')echo $class;?>>Job Profile</a></li>
                                     <li><a href="/jobseekers/setting" <?php if($this->action=='setting')echo $class;?>>Settings/Subscription</a></li>
 									<li><a href="/jobseekers"  <?php if($this->action=='index'||$this->action=='editProfile') echo $class;?>>Profile</a></li>
-                                    <li><a href="/users/changePassword" <?php if($this->action=='changePassword') echo $class;?>>Change password</a></li>
+                                    <li><a href="/users/changePassword" <?php if($this->action=='changePassword') echo $class;?>><?php echo $passwordLable; ?></a></li>
                                 </ul>
                              </div>
                         </li>
@@ -109,11 +101,13 @@
                          </li>
                          
                         <li><a class="plus_icon" href="#">My Account</a>
-                        	<div style="display:none;" class="job_menus_submenu">
+                        	<div <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword'))
+                        			echo "style='display:none;'";?> class="job_menus_submenu">
                         		<ul>
-                                    <li><a href="#">Settings/Subscription</a></li>
-									<li><a href="#">Profile</a></li>
-                                    <li><a href="/users/changePassword" <?php if($this->action=='changePassword') echo $class;?>>Change password</a></li>
+                                    <li><a href="/networkers/setting" <?php if($this->action=='setting') echo $class;?>>Settings/Subscription</a></li>
+									<li><a href="/networkers" <?php if($this->action=='index' || $this->action=='editProfile') echo $class;?>>Profile</a></li>
+                                    <li><a href="/users/changePassword" <?php if($this->action=='changePassword') echo $class;?>><?php echo $passwordLable; ?></a></li>
+
                                 </ul>
                              </div>
                         </li>
