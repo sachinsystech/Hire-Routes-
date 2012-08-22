@@ -91,9 +91,10 @@ class CompaniesController extends AppController {
 	}
 	
 	function newJob(){
+		$this->layout ="home";
 		$session = $this->_getSession();
 		$userId = $session->getUserId();
-		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
+		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:6;
 	    $this->set('displayPageNo',$displayPageNo);
 		if(isset($this->params['named']['shortby'])){
 		    $shortBy = $this->params['named']['shortby'];

@@ -1,15 +1,21 @@
-<?php ?>
-<script>
+	<script>
 	
 	$(document).ready(function(){
-	    $("#switch_display").change(onSelectChange);
-		$("#short_by").change(onSelectChange);
+	    //$("#switch_display").change(onSelectChange);
+		//$("#short_by1").change(onSelectChange);
+		$("#short_by1").change(function(){
+			onSelectChange($("#short_by1").val());
+		});
+		$("#short_by2").change(function(){
+			onSelectChange($("#short_by2").val());
+		});
 	});
 
-	function onSelectChange(){
-	    var displaySelected = $("#switch_display option:selected");
+	function onSelectChange(sortby){
+	    //var displaySelected = $("#switch_display option:selected");
 		var shortSelected = $("#short_by option:selected"); 
-		window.location.href="/companies/newJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
+		//window.location.href="/companies/newJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
+		window.location.href="/companies/newJob/shortby:"+sortby;
 	}
 		
 	function onDelete(id)
@@ -40,126 +46,131 @@
 		window.location.href="/companies/postJob";			
 	}
 </script>
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
+	
+	
+	<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-			<div class="middleBox">
-			<table style="width:100%">
-				<tr >
-					<td colspan="100%">
-						<div style="float:left;width:50%;">
-							SORT BY<select  id="short_by">
+    <div class="job_container">
+    	<div class="job_container_top_row">
+            <?php echo $this->element('side_menu'); ?>
+            <div class="job_right_bar">
+                <div class="job_right_top_bar">
+                    <div class="job_right_sortby">
+                        <div class="job_right_shortby_txt">Sort By:</div>
+                        <div class="job_right_shortby_field">
+                        	<select id="short_by1">
+								<option value="date-added" <?php echo $shortBy=="date-added"?"selected":"" ?> >Date Added</option>
+								<option value="industry" <?php echo $shortBy=="industry"?"selected":"" ?> >Industry</option>
+								<option value="salary" <?php echo $shortBy=="salary"?"selected":"" ?> >Salary</option>
+                            </select>
+							
+                        </div>
+                    </div>
+                    					
+					<div class="job_right_pagination">
+                	<div>
+		            	<?php if($this->Paginator->numbers()){?>
+						<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
+		                <ul>
+						<?php echo $this->Paginator->numbers(array('modulus'=>8,
+																	'tag'=>'li',
+																	'separator'=>false,)); ?>
+						</ul>
+		                <?php echo $paginator->last(">>", array("class"=>"arrow_margin",
+		                    											)); }?>
+		                 <!---<a class="arrow_margin" href="#">&gt;&gt;</a>-->
+                     </div>
+					
+				</div>
+                    <div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
+                    <div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?>
+                    </div>
+                    
+                </div>
+				
+                <?php if(empty($jobs)){ ?>
+					Sorry, No job found.
+				</tr>
+				<?php } ?>
+				
+				 <?php foreach($jobs as $job):?>
+                <div class="job_right_section job_right_hover">
+                    <div class="job_right_section_left">
+                        <h2><a href="/companies/editJob/<?php echo $job['Job']['id'] ?>" ><?php echo ucfirst($job['Job']['title']) ?></a></h2>
+                        <p class="job-right-section-p">Posted: <?php echo $time->timeAgoInWords($job['Job']['created'],'m/d/Y');?></p>
+                        <p class="job-submission-margin">Submissions: <span><?php echo $job[0]['submissions']; ?></span></p>
+                    </div>
+                    <div class="job-right-rightmost">
+						
+						<?php
+							if($job['Job']['is_active']==3)
+								$url=null;
+							else
+								$url="/jobs/jobDetail/".$job['Job']['id'];
+						?>
+						
+						<a class="job-details" href="<?php echo $url; ?>" ></a>
+						<a class="job-archive" href="/companies/archiveJob/<?php echo $job['Job']['id'] ?>" ></a>
+							<?php
+								if($job['Job']['is_active']==3)
+									$url=null;
+								else
+									$url="/companies/showApplicant/".$job['Job']['id'];
+							?>	
+						<a class="job-person" href="<?php echo $url; ?>" ></a>
+							<?php
+								if($job['Job']['is_active']==3)
+									$url=null;
+								else
+									$url="/companies/jobStats/".$job['Job']['id'];
+							?>
+						<a class="job-stats" href="<?php echo $url; ?>" ></a>
+						
+						<a class="job-edit" href="/companies/editJob/<?php echo $job['Job']['id'] ?>" ></a>
+						<a class="job-cancel" href="javascript:void(0);" onclick="return onDelete(<?php echo $job['Job']['id']; ?>)"></a>
+                    </div>                   
+                </div>
+                <?php endforeach; ?>
+                
+            </div>
+        </div>
+        <div class="job_pagination_bottm_bar">
+        	<div class="job_right_sortby">
+                	<div class="job_right_shortby_txt">Sort By:</div>
+                    <div class="job_right_shortby_field">
+                    	<select id="short_by2">
 							<option value="date-added" <?php echo $shortBy=="date-added"?"selected":"" ?> >Date Added</option>
 							<option value="industry" <?php echo $shortBy=="industry"?"selected":"" ?> >Industry</option>
 							<option value="salary" <?php echo $shortBy=="salary"?"selected":"" ?> >Salary</option>
-							</select>
-						</div>
-						<div style="float:right;width:50%;text-align: right;">
-						<?php echo $paginator->first(' << ', null, null, array("class"=>"disableText"));?>
-						<?php echo $this->Paginator->prev(' < ', null, null, array("class"=>"disableText")); ?>
-						<?php echo $this->Paginator->numbers(array('modulus'=>4)); ?>
-						<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>
-						<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
-						DISPLAYING 
-						<select id="switch_display">
-							<option <?php echo $displayPageNo=="10"?"selected":"" ?>>10</option>
-							<option <?php echo $displayPageNo=="20"?"selected":"" ?>>20</option>
-							<option <?php echo $displayPageNo=="50"?"selected":"" ?>>50</option>
 						</select>
-						</div>
-					</td></tr>
-				<tr>
-					<th style="width:53%">Title</th>
-					<th style="width:20%">Submissions</th>
-					<th  style="width:27%">Action</th>
-				</tr>
-				<?php if(empty($jobs)){ ?>
-				<tr>
-					<td colspan="100%">Sorry, No job found.</td>
-				</tr>
+                    </div>
+                </div>
+                <div class="job_right_pagination">
+					<div>
+						<?php if($this->Paginator->numbers()){?>
+						<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
+						<ul>
+						<?php echo $this->Paginator->numbers(array('modulus'=>8,
+																	'tag'=>'li',
+																	'separator'=>false,)); ?>
+						</ul>
+						<?php echo $paginator->last(">>", array("class"=>"arrow_margin",
+																		));?>
+						 <!---<a class="arrow_margin" href="#">&gt;&gt;</a>-->
+					 </div>
+				</div>
+                <div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?>
+				</div>
+				<div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?>
+				</div>
 				<?php } ?>
-				<?php foreach($jobs as $job):?>
-				<?php 
-					if($job['Job']['is_active']==3)
-					echo "<tr class='post_later_jobs'>";
-					else echo "<tr>";
-				?>
-					<td><?php echo $this->Html->link(ucfirst($job['Job']['title']), '/companies/editJob/'.$job['Job']['id']);
-						  echo "<br>Posted ". $time->timeAgoInWords($job['Job']['created'],'m/d/Y');
-						if($job['Job']['is_active']==3)	  
-						  echo "<a href='/companies/editJob/".$job['Job']['id']."' style='float:right;'>Post & Share</a>";
-					?></td>
-					<td><?php echo $job[0]['submissions']; ?> submissions</td>
-					<td><?php
-						if($job['Job']['is_active']==3){
-							$url=null;
-						}else
-							$url="/jobs/jobDetail/".$job['Job']['id'];
-						
-						 echo $this->Html->image("/img/icon/detail.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' =>  $url,
-                        'title'=> 'Detail'
-						));
-						
-						echo $this->Html->image("/img/icon/edit.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' =>  '/companies/editJob/'.$job['Job']['id'],
-                        'title'=> 'Edit'
-						));
-						echo $this->Html->image("/img/icon/archive_remove.png", array(
-						"alt" => "D",'url' => "/companies/archiveJob/".$job['Job']['id'],
-                        'title'=>'Archive',
-						'onclick'=>"return confirm('Do you want to Archive  it ?');"
-						));
-						if($job['Job']['is_active']==3){
-							$url=null;
-						}else
-							$url="/companies/showApplicant/".$job['Job']['id'];
-							
-						echo $this->Html->image("/img/icon/person.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => $url,
-                        'title'=>'Applicant'
-						));
-						if($job['Job']['is_active']==3){
-							$url=null;
-						}else
-							$url="/companies/jobStats/".$job['Job']['id'];
-						
-						echo $this->Html->image("/img/icon/static.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url' => $url,
-                        'title'=>'Statistics'
-						));
-						echo $this->Html->image("/img/icon/delete.png", array(
-						"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:2px;",
-						'url'=>'javascript:void(0);',
-                        'title'=>'Delete',
-						'onclick'=>"return onDelete(".$job['Job']['id'].");"
-						));
- ?>
-					</td>
-				</tr>
-			
-				<?php endforeach; ?>			
-			</table>
-		</div>
-		<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
-		<!-- middle conyent list -->
-		</div>
-	<!-- middle section end -->
-</div>
+        </div>
+        <div class="clr"></div>
+    </div>
+ 	<div class="clr"></div>
+
