@@ -15,12 +15,48 @@
 			$my_employees_actions=array('employees','#','#');
 			$my_invitations_actions = array('invitations');
 ?>
-			<ul  class="top_mene_hover">
-				<li <?php if(in_array($this->action,$my_jobs_actions)) echo "class='active'";?>><a class="menu_item" href="/companies/newJob"><span>My Jobs</span></a></li>
-				<li <?php if(in_array($this->action,$my_accounts_actions)) echo "class='active'";?>><a class="menu_item" href="/companies">My Account</a></li>
-				<li <?php if(in_array($this->action,$my_employees_actions)) echo "class='active'";?>><a class="menu_item" href="/companies/employees">My Employees</a></li>
-				<li <?php if(in_array($this->action,$my_invitations_actions)) echo "class='active'";?>><a class="menu_item" href="/companies/invitations">Invitations</a></li>
-			</ul>
+			
+			
+			<div class="job_left_bar">
+                <div class="job_left_menu">
+                    <ul>
+                         <li><a class="plus_icon" href="#">My Jobs</a>
+                            <div style="" class="job_menus_submenu">
+                                <ul>
+                                    <li><a href="/companies/newJob">Jobs - <?php echo $activejobCount;?></a></li>
+                                    <li><a href="/companies/showArchiveJobs">Archive - <?php echo $archJobCount; ?></a></li>
+                                    <li><a href="/companies/companyData">Data</a></li> 
+                                </ul>
+                            </div>
+                        </li>
+                        
+                     
+                        
+                        <li><a class="plus_icon" href="#">My Account</a>
+                        	<div style="display:none;" class="job_menus_submenu">
+                        		<ul>
+                                    <li><a href="/companies">Personal</a></li>
+									<li><a href="/companies/paymentInfo">Payment Info</a></li>
+                                    <li><a href="/companies/paymentHistory">Payment History</a></li>
+									<li><a href="/users/changePassword"><?php echo $passwordLable; ?></a></li>
+                            	</ul>
+                             </div>
+                         </li>
+                         
+                        <li><a class="plus_icon" href="#">My Employees</a>
+                        	<div style="display:none;" class="job_menus_submenu">
+                        		<ul>
+                                    <li><a href="/companies/employees">Employees</a></li>
+                                </ul>
+                             </div>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+			
+			
+			
 		<?php 
 		}
 		elseif(isset($userRoleId) && $userRoleId==JOBSEEKER)

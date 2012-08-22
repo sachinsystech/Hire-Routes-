@@ -58,7 +58,7 @@
 				<td align="center" ><?php echo $company["Companies"]["act_as"]; ?></td>
 				<td align="center" ><?php echo $company["User"]["created"]; ?></td>
 				<td>
-					<?php echo $html->link($html->image("activate.png",array('alt'=>'Accept','url')), array('action' => 'processCompanyRequest',$company['Companies']['user_id'],"accept"),
+					<?php echo $html->link($html->image("active.jpg",array('alt'=>'Accept','url')), array('action' => 'processCompanyRequest',$company['Companies']['user_id'],"accept"),
 													 array('escape' => false, 
 													 'onclick'=>"return disableLinks('accept');"));?>
 					<?php echo $html->link($html->image("de-activate.jpg"), array('action' => 'processCompanyRequest',

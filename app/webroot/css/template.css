@@ -468,16 +468,24 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job_left_menu ul {margin:0; padding:0;}
 .job_left_menu ul li {list-style:none; display:block; background:url(../images/left_bar_menu_bg.png) no-repeat; height:auto; width:222px;}
 .job_left_menu ul li:hover {background:url(../images/left_bar_menu_bg.png) no-repeat 0 -44px;}
-.job_left_menu ul li a {width:212px; height:25px; display:block; font:bold 15px Arial, Helvetica, sans-serif; color:#1d1d1d; padding:5px 0 0 10px; text-decoration:none;} 
+.job_left_menu ul li a {width:auto; height:25px; display:block; font:bold 15px Arial, Helvetica, sans-serif; color:#1d1d1d; padding:5px 0 0 10px; text-decoration:none;} 
 .plus_icon { background:url(../images/plus_icon.png) no-repeat 200px 11px;}
 .minus_icon { background:url(../images/minus_icon.png) no-repeat 200px 14px;}
-.job_menus_submenu {width:222px; background:#eee7d9; height:auto; padding:10px 0;} 
+/*.job_menus_submenu {width:222px; background:#eee7d9; height:auto; padding:10px 0;} 
 .job_menus_submenu ul {margin:0; padding:0;}
 .job_menus_submenu ul li {width:222px; list-style:none; display:block; background:none; height:auto;}
 .job_menus_submenu ul li a {font:normal 13px "Lucida Sans Unicode", "Lucida Grande"; color:#1d1d1d; line-height:18px; text-decoration:none; padding:0 0 0 10px; height:auto;}
 .job_menus_submenu ul li:hover {background:none;}
-.job_menus_submenu ul li a:hover {color:#4fa149; text-decoration:underline;}
+.job_menus_submenu ul li a:hover {color:#4fa149; text-decoration:underline;}*/
 .job_submenu_active {color:#4fa149 !important; text-decoration:underline !important;}
+
+.job_menus_submenu_main {width:222px; background:#eee7d9; height:200px; padding:10px 0;}
+.job_menus_submenu {width:190px; list-style:none; display:block; background:none; height:auto; padding:2px 0;}
+.job_menus_submenu label a {font:normal 13px Lucida Sans Unicode, Lucida Grande !important; color:#1d1d1d; line-height:18px; text-decoration:none; height:auto !important; float:left; width:auto !important;}
+.job_menus_submenu label a:hover {color:#4fa149; text-decoration:underline;}
+.job_menus_submenu input {float:right; margin-top:5px; visibility:hidden;}
+
+
 .job_left_search_row {
 	width:222px;
 	height:auto;
@@ -546,8 +554,8 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 .job_right_bar {width:710px; border:solid 1px #d6d2cc; float:left; height:857px;}
 .job_right_top_bar {width:710px; background:#eae6d7; height:35px;}
-.job_right_sortby {width:220px; height:20px; float:left; margin:10px 0 0 20px;}
-.job_right_shortby_txt {width:auto; font:bold 15px Arial, Helvetica, sans-serif; color:#1d1d1d; margin:0 20px 0 0; float:left;}
+.job_right_sortby {width:220px; height:20px; float:left; margin:8px 0 0 20px;}
+.job_right_shortby_txt {width:auto; font:bold 15px Arial, Helvetica, sans-serif; color:#1d1d1d; margin:6px 20px 0 0; float:left;}
 .job_right_shortby_field {float:left;}
 .job_right_pagination {width:320px; height:auto; float:left; margin:8px 10px 0 60px;}
 .job_right_pagination div {float:right;}
@@ -686,17 +694,17 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-right-top-content1 h2 {margin-bottom:25px;}
 .job-right-top-left span {font-size:20px; line-height: normal; color:#1d1d1d;  font-family: 'OpenSansCondensedBold';}
 .job-right-top-left p { font:15px Arial, Helvetica, sans-serif; line-height:30px;}
-.job-right-top-right {width:415px; height:auto; float:right; margin-right:50px;}
+.job-right-top-right {width:378px; height:auto; float:right; margin-right:50px;}
 .job-list-heading {font:15px 'OpenSansCondensedBold';}
-.job-list-head ul {width:415px;display: block;height: 28px;}
-.job-list-head ul li {list-style:none; float:left; width:82px; }
+.job-list-head ul {width:378px;display: block;height: 28px;}
+.job-list-head ul li {list-style:none; float:left; width:99px; }
 .job-list-head-margin li {margin-bottom:15px;}
-.job-list-subhead { width:415px;font:15px Arial, Helvetica, sans-serif;}
-.job-list-subhead ul li {list-style:none; float:left; width:74px; padding: 3px 0;}
-.job-list-subhead ul li:first-child { padding-left:4px;width: 238px !important;}
-.job-list-status{margin-left:165px;}
+.job-list-subhead { width:378px;font:15px Arial, Helvetica, sans-serif;}
+.job-list-subhead ul li {list-style:none; float:left; width:116px; padding: 3px 0;}
+.job-list-subhead ul li:first-child { padding-left:4px;}
+.job-list-status{margin-left:49px;}
 .job-list-name {padding-left:4px;}
-.job-list-origin {margin-left:-15px; text-align:center;}
+.job-list-origin {margin-left:8px;}
 .job-list-subcontent { font:15px Arial, Helvetica, sans-serif;}
 .job-right-bottom-right h2 {margin:58px 0 28px 26px;}
 .margin-last-child-job {padding-left:25px !important;}
@@ -1178,7 +1186,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 
 
-/*::::::::footer-wrap::::::::::::*/
+/*::::::::footer-wrap::::::::::::
 
 .footer-wrap{background: url(../images/footer-wrap-bg.jpg) repeat-x; height:558px; color:#ded7c4; margin-top:200px;}
 .footer-wrap .footer-content{width:925px; margin:auto; padding:60px 0 0; height:498px;}
@@ -1197,11 +1205,11 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .footer-wrap .footer-content .copyright .foot-right ul li{ display:block; float:left; *display:inline; border-left:1px solid #a9a8a6; padding:0 13px}
 .footer-wrap .footer-content .copyright .foot-right ul li:first-child{ border:0;}
 
+*/
 
 
 
-
-/*::::::::footer-wrap::::::::::::
+/*::::::::footer-wrap::::::::::::*/
 .footer-wrap{background: url(../images/footer-wrap-bg.jpg) repeat-x; height:558px; color:#ded7c4; margin-top:200px;}
 .footer-wrap .footer-content{width:925px; margin:auto; padding:0; height:498px;}
 .footer-wrap .footer-content .footer-block{height:207px; border-left:2px solid #4e4540; width:226px; float:left; padding:40px 40px 160px;}
@@ -1219,4 +1227,3 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .footer-wrap .footer-content .copyright .foot-right ul{margin:0; padding:0;} 
 .footer-wrap .footer-content .copyright .foot-right ul li{ display:block; float:left; *display:inline; border-left:1px solid #a9a8a6; padding:0 13px}
 .footer-wrap .footer-content .copyright .foot-right ul li:first-child{ border:0;}
-*/
