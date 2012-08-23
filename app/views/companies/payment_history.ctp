@@ -1,4 +1,35 @@
 <?php ?>
+<style>
+.ui-dialog-titlebar { display:none; }
+.ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-draggable .ui-resizable{
+display: block;
+    height: auto;
+    left: 350px;
+    outline: 0 none;
+    position: absolute;
+    visibility: visible;
+    width: 510px;
+    z-index: 1004;
+}
+.ui-widget-overlay{
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.6;
+}
+#paymentHistoryInfo {
+    background: url("../images/about_popup_bg.png") repeat scroll 0 0 transparent;
+    height: 328;
+    overflow: hidden;
+}
+.pi_popup_cancel_bttn {
+    background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    height: 72px;
+    position: absolute;
+    right: 31px;
+    top: -14px;
+    width: 72px;
+}
+</style>
+
 <script>
 
 function paymentHistoryInfo(user_id,transaction_id){
@@ -12,8 +43,9 @@ function paymentHistoryInfo(user_id,transaction_id){
 		success:function(response){
 			
 			$("#paymentHistoryInfo").dialog({
-				height:400,
+				height:335,
 				width:477,
+				top:20,
 				modal:true,
 				resizable: false ,
 				draggable: false,
@@ -21,135 +53,121 @@ function paymentHistoryInfo(user_id,transaction_id){
 						effect: 'drop', 
 						direction: "up" 
 				},
-				buttons: {
-				Ok: function() {
-					$( this ).dialog( "close" );
-				}
-			}
+				
 			});
+			
 			if(response['error']===1){
 				$( "#paymentHistoryInfo" ).dialog({ height: 200 });
 				$("#paymentHistoryInfo").html(response['message']);
 				return ;
 			}
 			$("#paymentHistoryInfo").html(
+			'<div class="about_popup_cancel_bttn_row">'+
+				'<div class="pi_popup_cancel_bttn">'+
+					'<a id="close" href="#"></a>'+
+				'</div>'+
+			'</div>	'+
 			'<div>'+
-				'<div style="font-weight: bold;margin:10px;"><u>PAYMENT INFO</u> ::</div>'+
-				'<table class="phi_table">'+
-					'<tr >'+
-						'<td style="width: 32%;"><b>Transaction id : </b></td><td>'+response['transaction_id']+'</td>'+
-					'</tr>'+
-					'<tr>'+
-						'<td><b>Paid Date : </b></td><td>'+response['paid_date']+'</td>'+
-					'</tr>'+
-					'<tr>'+
-						'<td><b>amount : </b></td><td> $'+response['amount']+'</td>'+
-					'</tr>'+
-				'</table>'+
-				'<div style="clear:both;font-weight: bold;margin:10px;"><u>JOB INFO</u> ::</div>'+
-				'<table class="phi_table">'+
-					'<tr>'+
-						'<td style="width: 32%;"><b>Jobseeker : </b></td><td>'+response['contact_name']+'</td>'+
-					'</tr>'+
-					'<tr>'+
-						'<td style="width: 32%;"><b>Job Title : </b></td><td>'+response['job_title']+'</td>'+
-					'</tr>'+
-					'<tr>'+
-						'<td><b>Description : </b></td><td>'+response['description']+'</td>'+
-					'</tr>'+
-					'<tr>'+
-						'<td><b>Industry : </b></td><td>'+response['industry']+'</td>'+
-					'</tr>'+
-					'<tr>'+
-						'<td><b>location : </b></td><td>'+response['location']+'</td>'+
-					'</tr>'+
-				'</table>'+		
+				'<div class="job-right-top-left job-profile" style="margin-top: 15px;">'+
+					'<h2>PAYMENT INFO</h2>'+
+					'<p><span>Transaction id : </span>'+response['transaction_id']+
+					'<p><span>Paid Date : </span>'+response['paid_date']+
+					'<p><span>Amount : </span>'+response['amount']+
+				'</div>'+	
+
+				'<div class="job-right-top-left job-profile" style="margin-top: 15px;">'+
+					'<h2>JOB INFO</h2>'+
+					'<p><span>Jobseeker : </span>'+response['contact_name']+
+					'<p><span>Job Title : </span>'+response['job_title']+
+					'<p><span>Description : </span>'+response['description']+
+					'<p><span>Industry : </span>'+response['industry']+
+					'<p><span>Location : </span>'+response['location']+
+				'</div>'+
 			'</div>');
+			$("#paymentHistoryInfo" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","top":"0"});
+			
 		}
-	}); 
+	});
+
 }
-
-
 </script>
 
-<div id="paymentHistoryInfo" style="display:none;">
 
+<div id="paymentHistoryInfo" style="display:none;">
+	
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#paymentHistoryInfo").click(function(){
+		$("#paymentHistoryInfo" ).dialog("close");
+	});	
+});
+</script>
+<!--	Payment History  -->
+<div class="job_top-heading">
+<?php if($this->Session->read('Auth.User.id')):?>
+	<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+			<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+	<?php endif; ?>
+<?php endif; ?>
 </div>
 
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
-	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
 
-			<div class="middleBox">
-				<div class="job_data">
-					<table style="width:100%">
-						<tr >
-							<td colspan="100%">
-								<div style="float:right;width:50%;text-align: right;">
-								<?php echo $paginator->first(' << ', null, null, array("class"=>"disableText"));?>
-								<?php echo $this->Paginator->prev(' < ', null, null, array("class"=>"disableText")); ?>
-								<?php echo $this->Paginator->numbers(array('modulus'=>4)); ?>
-								<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>		
-								<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
-						</div>
-					</td>
-					</tr>
-						<tr>
-							<td style="text-align:center;"><strong>#</strong></td>
-							<td style="text-align:center;"><strong>Transaction-Id</strong></td>
-							<td style="text-align:center;"><strong>Date</strong></td>
-							<td style="text-align:center;width: 25%;"><strong>Payment Amount</strong></td>
-						</tr>
-						<?php $sn=1;?>
-						<?php if(empty($PaymentHistory)){ ?>
-						<tr>
-							<td colspan="100%">Sorry, No Payment History found.</td>
-						</tr>
-						<?php } ?>
-						<?php foreach($PaymentHistory as $PH):?>	
-						<tr>
-							<td style="text-align:center;"><?php echo $sn++; ?></td>
-							<td style="text-align:center;"> 
-							<a href="#" 
+<div class="job_container">
+    	<div class="job_container_top_row">
+    		<?php echo $this->element('side_menu');?>
+    		<div class="job_right_bar">
+            	<div class="job-right-top-content1">
+                	<div class="job-right-top-left" >
+                    	<h2>PAYMENT HISTORY</h2>
+                    	<div class="job-list-head">
+                        <ul class="job-list-heading job-list-head-margin">
+                        	<li class="job-list-name">TRANSACTION-ID</li>
+                            <li class="job-list-status">DATE</li>
+                            <li class="job-list-origin">AMOUNT</li>
+                    	</ul>
+                        </div>
+                        <?php $i=0;?>
+                        <?php foreach($PaymentHistory AS $PH):?>	
+						<div class="job-list-subhead">
+		                    <ul class="job-list-subcontent" >
+			                   	<li class="<?php if($i%2==0) echo'dark';?>">
+									<a href="#" 
 onclick="return paymentHistoryInfo(<?php echo $PH['PaymentHistory']['id'] ;?>,
-'<?php echo $PH['PaymentHistory']['transaction_id'];?>');"> <?php echo $PH['PaymentHistory']['transaction_id'] ?> </a> </td>
-							<td style="text-align:center;"><?php echo $this->Time->format('m/d/Y',$PH['PaymentHistory']['paid_date']); ?></td>
-							<td><span style="float: right; margin-right: 30px;"><?php echo $this->Number->format(
+'<?php echo $PH['PaymentHistory']['transaction_id'];?>');"> <?php echo $PH['PaymentHistory']['transaction_id'] ?> </a> 
+								</li>
+								<li class="center-align <?php if($i%2==0) echo'dark';?>">
+									<?php echo $this->Time->format('m/d/Y',$PH['PaymentHistory']['paid_date']); ?>
+								</li>
+								<li class="margin-last-child-job <?php if($i%2==0) echo'dark';?>">
+									<?php echo $this->Number->format(
 										$PH['PaymentHistory']['amount'],
 										array(
 											'places' => 2,
 											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										);?></span></td>
-						</tr>
-						<?php endforeach; ?>
-					</table>
-				</div>
-			</div>	
-		<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
-		<!-- middle conyent list -->
-
-	</div>
-	<!-- middle section end -->
-
+										);?>
+								</li>
+								
+		                	</ul>
+                    	</div>
+                    	<?php $i++;?>
+						<?php endforeach;?>
+						<?php	if($PaymentHistory == null){?>
+						<div class="job-list-subhead">
+				            <div class="inviation-message">
+				            	No History Found.
+				            </div>
+                    	</div>
+						<?php	} ?>
+                    </div>
+                    <div class="clr"></div>
+                </div>
+            </div>
+        <div class="clr"></div>
+    </div>
+    <div class="job_pagination_bottm_bar"></div>
+ 	<div class="clr"></div>
 </div>
-
-<script>
-function goTo(){
-	window.location.href="/companies/postJob";			
-}
-</script>
+</div>

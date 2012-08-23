@@ -203,6 +203,7 @@ list archive jobs..
 	
 	/* Company data starts*/
 	function companyData(){
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$jobPosted = $this->Job->find(
 			'all',array(
@@ -359,6 +360,7 @@ list archive jobs..
 
 	
 	function accountProfile() {
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 			$this->set('user',$user['User']);
@@ -387,6 +389,7 @@ list archive jobs..
 	}
 
 	function paymentInfo() {
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();		
         $user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
@@ -486,6 +489,7 @@ list archive jobs..
 	}
 
 	function paymentHistory() {
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$tid = isset($this->params['tid'])?$this->params['tid']:"";
 		

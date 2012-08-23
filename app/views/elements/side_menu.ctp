@@ -33,7 +33,7 @@
                      
                         
                         <li><a class="plus_icon" href="#">My Account</a>
-                        	<div style="display:none;" class="job_menus_submenu">
+                        	<div style="display:block;" class="job_menus_submenu">
                         		<ul>
                                     <li><a href="/companies">Personal</a></li>
 									<li><a href="/companies/paymentInfo">Payment Info</a></li>
@@ -44,7 +44,7 @@
                          </li>
                          
                         <li><a class="plus_icon" href="#">My Employees</a>
-                        	<div style="display:none;" class="job_menus_submenu">
+                        	<div style="display:block;" class="job_menus_submenu">
                         		<ul>
                                     <li><a href="/companies/employees">Employees</a></li>
                                 </ul>
