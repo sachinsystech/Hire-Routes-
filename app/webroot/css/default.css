@@ -178,6 +178,10 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .dark ul li {background-color: #F6F1E2;}
 
 /* ------ End for jobseeker invitations --------*/
+
+
+/* *********************  ********************** ********************** */
+/* ------ css for networker data --------*/
 .job-data div {
     font: 14px Arial,Helvetica,sans-serif;
     width: 260px;
@@ -186,3 +190,49 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 	width:150px;
 	float:right;
 }
+/* ------ End for networker data --------*/
+
+
+
+
+/* *********************  ********************** ********************** */
+/* ------ Company Payment Info --------*/
+.cc_expiray_date{
+	float: left;
+}
+.cc_exp_month{
+    float: left !important;
+    margin-left: 90px !important;
+    width: 140px !important;
+}
+.cc_exp_yr{
+    float: left !important;
+    margin-left: 8px !important;
+    width: 140px !important;
+}
+
+.edit-profile-text-box input {
+    background: url("../images/text-box.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #302D2D;
+    font: 13px/30px Arial,Helvetica,sans-serif;
+    height: 29px;
+    outline: medium none;
+    padding: 0 5px 0 10px;
+    width: 274px;
+}
+
+.cc_address{
+    float: right;
+    background: url("../images/textarea.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #302D2D;
+    font: 13px/30px Arial,Helvetica,sans-serif;
+    height: 56px;
+    outline: medium none;
+    padding: 0 5px 0 10px;
+    width: 274px;
+	resize:none;
+}
+
+

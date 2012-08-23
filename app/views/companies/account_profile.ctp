@@ -1,59 +1,55 @@
-<?php
-/*
-	page for companie account
-*/
-?>
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
+	<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
+    <div class="job_container">
+    	<div class="job_container_top_row">
+           <?php echo $this->element('side_menu');?>
+            <div class="job_right_bar">
+            	<div class="job-right-top-content1">
+                	<div class="job-right-top-left job-profile">
+                    	<h2>PROFILE</h2>
+                    	<p><span>Company:</span>
+							<?php echo ucfirst($company['company_name']);?>
+							<a href="/companies/editProfile">edit</a>
+						</p>
+												
+                    	<p><span>Company Name:</span> 
+                    		<?php echo $company['contact_name'];?>
+							<a href="/companies/editProfile">edit</a>
+						</p>
+                    	<p><span>Contact Phone:</span> 
+                    		<?php echo $company['contact_phone'];?>
+							<a href="/companies/editProfile">edit</a>
+						</p>
+                        <p><span>Email:</span> 
+                        	<?php echo $user['account_email'];?>
+							<a href="/companies/editProfile">edit</a>
+                        </p>
+                    </div>
+               </div>
+			</div>
+			<div class="clr"></div>
 		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-
-			<div class="middleBox">
-				<div class="setting_profile">
-
-					<?php if(isset($company['company_name'])): ?>
-					<div class="setting_profile_row">
-						<div class="cr_setting_profile_field">Company:</div>
-						<div class="setting_profile_value"><?php echo $company['company_name'];?></div>
-					</div>
-					<?php endif;?>
-
-					<div class="setting_profile_row">
-						<div class="cr_setting_profile_field">Company Name:</div>
-						<div class="setting_profile_value"><?php echo $company['contact_name'];?></div>
-					</div>
-			
-					<div class="setting_profile_row">
-						<div class="cr_setting_profile_field">Contact Phone:</div>
-						<div class="setting_profile_value"><?php echo $company['contact_phone'];?></div>
-					</div>
-					
-					<div class="setting_profile_row">
-						<div class="cr_setting_profile_field">Email:</div>
-						<div class="setting_profile_value"><?php echo $user['account_email'];?></div>
-					</div>
-				</div>
-			</div>			
-			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
-		<!-- middle conyent list -->
-	</div>
-	<!-- middle section end -->
-</div>
-
+		<div class="job_pagination_bottm_bar"></div>
+		<div class="clr"></div>
+	</div>	
 <script>
-function goTo(){
-	window.location.href="/companies/postJob";			
-}
+$(document).ready(function(){
+	$("#edit").click(function(){
+		$(this).parent("p").next("div").show();
+		$(this).parent("p").hide();
+		return false;
+	});
+	$("#cancel").click(function(){
+		$(this).parent("p").next("div").hide();
+		$(this).parent("p").show();
+		return false;
+	});
+	
+});
 </script>
+

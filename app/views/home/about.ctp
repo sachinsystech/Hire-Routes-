@@ -16,7 +16,11 @@ display: block;
     width: 510px;
     z-index: 1004;
 }
-	</style>
+.ui-widget-overlay{
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.6;
+}
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("a#close").click(function(){
@@ -38,7 +42,7 @@ $(document).ready(function(){
 		});
 		*/
 		$( "#about-dialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"1000px","top":"0"});
-		return false;
+		//return false;
 	});
 	
 });
