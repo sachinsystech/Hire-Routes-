@@ -7,7 +7,7 @@
 		$.ajax({
 			type: 'POST',
 			url: '/users/invitations',
-			data: "&source="+onclick,
+			data: "&source="+onclick+"&invitaionUrl="+window.location.href,
 			dataType: 'json',
 			success: function(response){
 				if(response['status'] == 1){
@@ -33,6 +33,13 @@
 .feedback, .invite{
 cursor:pointer;
 }
+.selected_menu{
+	color : #50A947 !important;
+	text-decoration:underline !important;
+}
+<?php
+$class= "class='selected_menu'";
+?>
 </style>
 	<!-- left Tags -->
 	<div class="tegs">
@@ -43,10 +50,10 @@ cursor:pointer;
   <?php $current_user = $this->Session->read('Auth.User'); ?>
 	<div class="nav">
 		<ul>
-		  <li><a href="/">home</a></li>
-		  <li><a href="/about">about us</a></li>
-		  <li><a href="/jobs">jobs</a></li>
-		  <li><a href="/contactUs">contact us</a></li>
+		  <li><a href="/" <?php if($this->action=="index" && $this->params['controller'] =="home") echo $class; ?> >home</a></li>
+		  <li><a href="/about" <?php if($this->action=="about") echo $class; ?>>about us</a></li>
+		  <li><a href="/jobs" <?php if($this->action=="index" && $this->params['controller'] =="jobs") echo $class; ?>>jobs</a></li>
+		  <li><a href="/contactUs" <?php if($this->action=="contactUs") echo $class; ?>>contact us</a></li>
 		</ul>
 		<div class="clr"></div>
 	</div>
@@ -56,8 +63,8 @@ cursor:pointer;
 	<!-- main-nav -->
 	<div class="nav" id="services">
 		<ul>
-			<li><a href="#">fast facts</a></li>
-			<li class="how-works"><a href="/howItWorks">how it works</a></li>
+			<li><a href="#" <?php if($this->action=="#") echo $class; ?>>fast facts</a></li>
+			<li class="how-works"><a href="/howItWorks" <?php if($this->action=="companyInformation" ||$this->action=="networkerInformation"||$this->action=="jobseekerInformation") echo $class; ?> >how it works</a></li>
 		</ul>
 		<div class="clr"></div>
 	</div>

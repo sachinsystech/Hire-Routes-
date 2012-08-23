@@ -18,10 +18,11 @@ class JobsController extends AppController {
      }
 	
 	function index(){
+        $this->layout = "home";
         $conditions = array();
         $salaryFrom = null;
         $salaryTo = null;
-
+		
         if( (isset($this->params['form']['search']) && $this->params['form']['search'] =="Find Job" ) || $this->Session->read("FilterJob")){
             if(!isset($this->data['FilterJob'])){
                 $this->data['FilterJob'] = $this->Session->read("FilterJob");
@@ -129,7 +130,7 @@ class JobsController extends AppController {
         $this->set('salaryTo',isset($salaryFrom)?$salaryTo:500);  
 		$this->paginate = array(
 				            'conditions' => $conditions,
-				"limit"=>isset($displayPageNo)?$displayPageNo:5,
+				"limit"=>isset($displayPageNo)?$displayPageNo:6,
 				'joins'=>array(
                                     array('table' => 'companies',
 	                                       'alias' => 'company',

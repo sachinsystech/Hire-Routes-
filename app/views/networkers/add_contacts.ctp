@@ -112,7 +112,7 @@
                     <div class="job-table-subheading job-table-heading-border">
                     		<ul>
                             	<li class="job-table-name"><?php echo $contact['NetworkerContact']['contact_email']?></li>
-                            	<li class="job-table-status"><?php echo $contact['NetworkerContact']['contact_name']?></li>
+                            	<li class="job-table-status">&nbsp;<?php echo $contact['NetworkerContact']['contact_name']?></li>
                                 <li class="job-table-source">
                                 	<span onclick="return edit(<?php echo $contact['NetworkerContact']['id'] ?>)" style="cursor:pointer;color:#4FA149 !important" >Edit</span>
 									<span onclick="return drop(<?php echo $contact['NetworkerContact']['id'] ?>)" style="cursor:pointer;color:#4FA149 !important;" >Delete</span>

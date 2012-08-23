@@ -122,6 +122,7 @@ class UsersController extends AppController {
 **/ 
 
 	function networkerSignup() {
+		$this->layout= "home";
 		if($this->_getSession()->isLoggedIn()){
 			$this->loginSuccess();	
 		}
@@ -1098,6 +1099,7 @@ class UsersController extends AppController {
 			$this->autoRender =false;
 			if(!$session->isLoggedIn() && $this->params['form']['source'] == 1){
 				$this->Session->write('inviteFlag',1);
+				$this->Session->write('invitaionUrl',$this->params['form']['invitaionUrl']);
 				$this->Session->setFlash('Please loign to send invitation.', 'error');				
 				return json_encode(array("status"=>"0"));
 			}else{

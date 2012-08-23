@@ -42,6 +42,7 @@ class NetworkersController extends AppController {
 		
 	/* 	Networker's Account-Profile page*/
 	function index(){
+		$this->layout = "home";
 		$userId = $this->_getSession()->getUserId();		
         if($userId){
         	/* User Info*/			
@@ -98,14 +99,19 @@ class NetworkersController extends AppController {
 	
 	function sendNotifyEmail(){
 		$userId = $this->_getSession()->getUserId();
-		if($this->Networkers->updateAll($this->data['Networkers'],array('user_id'=>$userId))){
-			$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
+		if(isset($this->data['Networkers'])){
+			if($this->Networkers->updateAll($this->data['Networkers'],array('user_id'=>$userId))){
+				$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
+			}
+		}else{
+			$this->Session->setFlash('Internal error has been occured...', 'error');
 		}
 		$this->redirect('/networkers/setting');		
 	}
 	
 	/* 	Setting and Subscriptoin page*/
 	function setting() {
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		if(isset($this->data['NetworkerSettings'])){
 			$this->data['NetworkerSettings']['user_id'] = $userId;
@@ -163,6 +169,7 @@ class NetworkersController extends AppController {
    
 	/* 	Edit Networker's Account-Profile*/   
 	function editProfile() {
+		$this->layout= "home";
 		$session = $this->_getSession();
 		$userId = $session->getUserId();
 		
@@ -438,6 +445,7 @@ class NetworkersController extends AppController {
 
 	/*	displaying all personal contacts	*/
 	function personal() {
+		$this->layout = "home";
 		$userId = $this->_getSession()->getUserId();
 		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
 		
@@ -463,10 +471,19 @@ class NetworkersController extends AppController {
             $alphabets[$alphabet] = $contacts_count; 
         }
 		
+		$this->paginate = array('conditions'=>array('Invitation.user_id'=>$userId),
+                                'limit' => 10,
+                                'order' => array("Invitation.id" => 'asc',));  
+		 	 	
+        $Invitations = $this->paginate('Invitation');
+
+		$this->set("invitations", $Invitations);        
+ 
         $this->set('alphabets',$alphabets);
         $this->set('contacts',$contacts);
         $this->set('contact',null);
         $this->set('startWith',$startWith);
+        
 	}
 	
 	/*	show personal contact to Edit..	*/
@@ -1226,5 +1243,8 @@ where user_id =".$userId."");
 		$this->set('user',$user);
 		$this->set("networkerBonus",$networkerBonus);
 	 }
+	 
+	 
+	 
 }
 ?>

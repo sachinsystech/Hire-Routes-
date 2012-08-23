@@ -1,5 +1,5 @@
 <?php echo $this->Session->flash();?>
-<div id="page-heading"><h1>Code For User Sign-Up Request</h1></div>
+<div id="page-heading"><h1>Invitation code for guest users.</h1></div>
 <?php $isError =0 ;//= count($codeValue->validationErrors);  ?>
 <div style="clear:both"></div>
 

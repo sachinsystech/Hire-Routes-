@@ -26,17 +26,18 @@ $(document).ready(function(){
 		$( "#about-dialog").show();
 		$( "#about-dialog").dialog({
 			hide: "explode",
-			width:510,
+			width:548,
+			height:1000,
 			closeOnEscape: false,
 			modal:true,
 		});
-		$("#about-dialog").position({
+		/*$("#about-dialog").position({
 		   my: "center",
 		   at: "center",
 		   of: window
 		});
-
-		$( "#about-dialog" ).parent("div").css({"height":"1282px","opacity":"0.9"});
+		*/
+		$( "#about-dialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"1000px","top":"0"});
 		return false;
 	});
 	
@@ -170,8 +171,59 @@ $(document).ready(function(){
   </div>
   <div class="clr"></div>
 </div>
+<style>
+	#about-dialog{
+		background:url("../images/about_popup_bg.png") repeat scroll 0 0 transparent;	
+		padding: 0 !impotant;
+		height:1000px;
+		overflow:hidden;
+	}
+	#popup_box{
+		background:url("../images/about_popup_bg.png") repeat scroll 0 0 transparent;
+		padding:0;
+		border: none !important;
+	}
+	.about_popup_cancel_bttn {
+		background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+		height: 72px;
+		position: absolute;
+		right: -33px;
+		top: -14px;
+		width: 72px;
+	}
+</style>
 
 <div style="display:none;" id = "about-dialog">
-	 <a id="close" style="float:right;margin:-10px;">close</a>
-	<p class="text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+	<div class="about_popup" id="popup_box">
+		<div class="about_popup_cancel_bttn_row">
+			<div class="about_popup_cancel_bttn"><a id="close" href="#"></a></div>
+		</div>
+	    <div class="about_popup_img_row">
+	    	<div class="about_popup_img"><img src="images/about.jpg" alt="" border="0" /></div>
+	        <h2>AUSTIN ROOT</h2>
+	        <p>- Head Hire Router</p>
+	        <p class="space2">We are based in New rough any of your active channels. Take the Hire routes to get where you're going. Take the Hire routes to get where. We are based in New York but we live online.</p>
+	        
+	        <h3>Hire Routes Role:</h3>
+	        <p>Honestly, I feel it's different everyday but I generally just try to keep people going, keep them happy, help them out when I can and just keep on innovating</p>
+	        
+	        <h3>Inspirations:</h3>
+	        <p>My friends and family keep me going and from the long list of historical figures.....mmmm.... I would have to go with Leonardo da Vinci and Lao- Tzu.</p>
+	
+	        <h3>Favorite Quote:</h3>
+	        <p>"Humility is the solid foundation of all Virtues." - Confucius </p>
+	        
+	        <h3>Favorite Books:</h3>
+	        <p>"The Count of Monte Cristo","The Fountain Head" and "The Catcher in the Rye"</p>
+
+			<h3>What you love:</h3>
+	        <p>People, soccer, sweating to some form of physical activity, food & drink and exploring exciting new cultures and all the marvelous places this wonderful world of ours has to offer.</p>
+	        
+	        <h3>Random and Embarrassing:</h3>
+	        <p>I lost my virginity in Florence, Italy at the ripe old age of 21 and I used to love to play Dungeon & Dragons....I read all the Dragonlance books, Sword of Shannara books....you name it. I'm still upset my Dungeon Master never gave me that +5 Broad Sword!</p>
+	        
+	        <div class="clr"></div>
+	    </div>
+		<div class="clr"></div>
+	</div>
 </div>

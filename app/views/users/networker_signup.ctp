@@ -1,97 +1,135 @@
-<div style="width:550px;margin:auto;">
-<div class="sigup_heading"><u>Register</u></div>
-<div>You will be able to apply for jobs and share job posts with your network.</div>
-<div>Please submit the form below and you will receive an email confirmation to complete you registration.</div>
-<?php if( $this->Session->read('intermediateCode')!="" || $this->Session->read('intermediateCode')!=null){ ?>
-	<div class=""><a href="<?php echo $FBLoginUrl; ?>"><button class="facebook"></button></a></div>
-	<!------------- Linked In sign up--------------->
-	<div class="li"><a href="<?php echo $LILoginUrl;?>" > <button class="linkedin"></button></a></div>
-<?php } ?>
-<div style="width:480px; margin-top:20px;">
-<?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkform()')); ?>
-
-	<?php	echo $form->input('account_email', array('label' => 'Email',
+<h1 class="title-emp">Networker Registration Request</h1>
+<div class="sub-title-ty application_top_submenu network_top_txt">You will be able to apply for jobs and share job posts with your network.<br />
+Please submit the form below and you will receive an email confirmation to complete your registration.</div>
+<!---  application form start --->
+<div class="application_form_main">
+	<?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkform()')); ?>
+	<div class="network_form_row">
+		<?php	echo $form->input('account_email', array('label' => false,
                                            			'type'  => 'text',
-													'class' => 'text_field_bg required email',
+													'class' => 'required email',
+													'div'=> false,
+													'placeholder' => "Account Email",
                                            			)
                                  );
-    ?>
+    	?>
+	</div>
+	
+	<div class="network_form_row">
+		<?php	echo $form->input('password', array('label' => false,
+		                                       			'type'  => 'password',
+														'name'  => "data[User][password]",
+														'class' => 'password',
+														'minlength' => '6',
+														'placeholder'=>'Password',
+														'div'=>false,
+		                                       			)
+		                             );
+		?>
 
-	<?php	echo $form->input('password', array('label' => 'Password',
+	</div>
+	
+	<div class="network_form_row">
+		<?php if(isset($pwd_error)): ?><div class="error-message"><?php //echo $pwd_error;?></div><?php endif; ?>
+		<?php	echo $form->input('repeat_password', array('label' => false,
                                            			'type'  => 'password',
-													'name'  => "data[User][password]",
-													'class' => 'text_field_bg password',
-													'minlength' => '6',
-                                           			)
-                                 );
-    ?>
-	<?php if(isset($pwd_error)): ?><div class="error-message"><?php //echo $pwd_error;?></div><?php endif; ?>
-	<?php	echo $form->input('repeat_password', array('label' => 'Repeat Password',
-                                           			'type'  => 'password',
+                                           			'div'=> false,
 													'name'  => "data[User][repeat_password]",
-													'class' => 'text_field_bg required'
+													'class' => 'required',
+													'placeholder' => 'Repeat Password',
                                            			)
                                  );
-    ?>
-	<?php
-		if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null)):
-			echo $form->input('Code.code', array('label' => 'Code',
-                                           			'type'  => 'text',
+    	?>
+	</div>
+	
+	<div class="network_form_row">
+		<?php
+			if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null)):
+				echo $form->input('Code.code', array('label' => false,
+            	                           			'type'  => 'text',
 													'name'  => "data[Code][code]",
-													'class' => 'text_field_bg required',
-													'style'=>'margin-top: -2px;'
+													'class' => 'required',
+													'div'	=> false,
+													'placeholder'=>'Code',
                                            			)
                                  );
 			if(isset($codeErrors)):?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
 			<?php  endif;?>
-			<div class="required" style="padding:0;">
-				<?php echo $form->input('university',array('label'=> 'University',
-															'type'=>'text',
-															'class' => 'text_field_bg required'
-														));
-					if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
-				?>
-			</div>
-			
-			<?php echo $form->input('Networker.graduate_degree_id',array('label'=> 'Graduate Degree (if applicable)',
+	
+	</div>
+        
+	<div class="network_form_row space">
+		<?php echo $form->input('university',array('label'=>false,
+													'type'=>'text',
+													'class' => 'required',
+													'placeholder'=>'University',
+													'div'=>false,
+								));
+			if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
+		?>
+	</div>
+        
+	<div class="network_form_row">
+		<p>Graduate Degree</p>
+        <p><?php echo $form->input('Networker.graduate_degree_id',
+        										array('label'=> false,
 														'type'=>'select',
 														'options'=>$graduateDegrees,
 														'empty' =>' -- Select Gred Degree --',
-														'class' => 'net_select_gred_degree'
+														'div'=> false,
+														'style'=>"width:272px",
 													));
-				if(isset($graduateErrors)):?><div class="error-message"><?php echo $graduateErrors;?></div><?php endif; 
-			?>
-			<?php echo $form->input('graduate_university',array('label'=> 'Graduate University',
+			if(isset($graduateErrors)):?><div class="error-message"><?php echo $graduateErrors;?></div><?php endif; 
+		?>
+		</p>
+        <div class="clr"></div>
+	</div>
+        
+	<div class="network_form_row space">
+		<?php echo $form->input('graduate_university',array('label'=> false,
 														'type'=>'text',
-														'class' => 'text_field_bg'
+														'div'=> false,
+														'class' => '',
+														'placeholder'=>'Graduate University',
 													));
-				if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
-			?>
-			
-	
-	
-				<div style="display:none;">
-			<?php
-					echo $form->input('Networker.graduate_university_id',array('type'=>'text', 'value'=>''));
-					echo $form->input('Networker.university',array('type'=>'text','value'=>''));
-			?>
-			</div>
-	<div class="signup_agree_condition">
-		<?php	echo $form->input('agree_condition', array('label' => '<span class="agree_condition">Agree with </span><span class="terms">Terms and Conditions</span>',
-															'type'  => 'checkbox',
-															'name'  => "data[User][agree_condition]",
-															)
-									 );
-		?>	
-	
+			if(isset($graduateUniErrors)):?><div class="error-message"><?php echo $graduateUniErrors;?></div><?php endif; 
+		?>
+		
 	</div>
-	<div id="agree_condition_error"  class="error-message">
-		<?php if(isset($tcErrors)): echo $tcErrors; endif; ?>
+    <div style="display:none;">
+		<?php
+			echo $form->input('Networker.graduate_university_id',array('type'=>'text', 'value'=>''));
+			echo $form->input('Networker.university',array('type'=>'text','value'=>''));
+		?>
+	</div> 
+        
+        
+	<div class="network_form_row space1">
+		<div class="network_checkbox">
+			<?php	echo $form->input('agree_condition', array('label' => false,
+																'type'  => 'checkbox',
+																'name'  => "data[User][agree_condition]",
+																'div'	=> false,
+																)
+										 );
+			?>	
+		</div>
+        <div class="network_checkbox_txt">Agree with <a href="#">Terms & Conditions</a></div>	
+		<div id="agree_condition_error"  class="error-message">
+			<?php if(isset($tcErrors)): echo $tcErrors; endif; ?>
+		</div>
+        <div class="clr"></div>
 	</div>
-	<?php echo $form->submit('Register',array('div'=>false,)); ?>
-	<?php echo $form->end(); ?>
-</div>
-<div style="margin-top:50px;"><a href="/networkerInformation">Don't know about Networker</a> </div>
+        
+	<div class="network_form_row space">
+		<div class="network_register_bttn">
+			<?php echo $form->submit('Register',array('div'=>false,)); ?>
+		</div>
+		<div class="application_delete_resume_row network_bttnbottm_txt">
+			<a href="/networkerInformation">Don't know about Networkers?</a>
+		</div>
+	</div>
+	<?php echo $form->end(); ?>        
 </div>
 <script>
 	$(document).ready(function(){
@@ -108,7 +146,7 @@
 	function checkform() {
 		var isAgreeCondition = $('input:checkbox[id=UserAgreeCondition]:checked').val();
 		if(!isAgreeCondition){
-			$("#agree_condition_error").removeClass().addClass("error").html("This is required field.");
+			$("#agree_condition_error").removeClass().addClass("error_input_message").html("This is required field.");
 			return false;
 		}
 		if(isAgreeCondition){
@@ -198,7 +236,7 @@
 	.ui-autocomplete {
 	font-size: 12px;
 	max-height: 154px;
-	max-width: 205px;
+	max-width: 350px;
 	overflow-x: hidden;
 	overflow-y: auto;
 
@@ -210,3 +248,9 @@
 	height: 100px;
 	}
 </style>
+
+
+
+
+
+<div class="clr"></div>

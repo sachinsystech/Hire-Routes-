@@ -29,6 +29,7 @@ class JobseekersController extends AppController {
 
 	/* 	Jobseeker's Account-Profile page*/
 	function index(){
+		$this->layout= "home";
 		$userId = $this->_getSession()->getUserId();		
         if($userId){
 			$user = $this->UserList->find('first', array('conditions'=>array('UserList.id'=>$userId),
@@ -78,6 +79,7 @@ class JobseekersController extends AppController {
 
 	/* 	Setting and Subscriptoin page*/
 	function setting(){
+		$this->layout="home";
 		$session = $this->_getSession();
 		$userId = $session->getUserId();		
 		$jobseeker = $this->Jobseekers->find('first',array('conditions'=>array('user_id'=>$userId)));
@@ -117,6 +119,7 @@ class JobseekersController extends AppController {
 
 	/* 	Edit Jobseeker's Account-Profile*/   
     function editProfile() {
+    	$this->layout = "home";
 		$session = $this->_getSession();
 		$userId = $session->getUserId();
 		
@@ -576,6 +579,7 @@ class JobseekersController extends AppController {
    }
 
 	function jobProfile(){
+		$this->layout = "home";
 		$userId = $this->_getSession()->getUserId();
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId),
 																  'joins'=>array(

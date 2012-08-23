@@ -25,23 +25,23 @@ class HomeController extends AppController {
 	}
 
 	function companyInformation(){
-		
+		$this->layout ="home";
 	}
 
 	function networkerInformation(){
-		
+		$this->layout ="home";
 	}
 
 	function jobseekerInformation(){
-	
+		$this->layout ="home";
 	}
 
 	function contactUs(){
-
+		$this->layout ="home";
 	}
 
 	function howItWorks(){
-		
+		$this->redirect("/networkerInformation");
 	}
 
 	function about(){
