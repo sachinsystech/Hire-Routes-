@@ -139,3 +139,36 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .industry-specification-1{height:150px;width:600px;}
 .industries-select{float:left;}
 /* ------ End css for jobseeker settings --------*/
+
+/* ------ css for jobseeker job profile --------*/
+.job_profile_form{ height: auto; margin: 15px 0 0;width:700px;}
+.job_profile_form_row{height: auto;margin: 15px 0 0;width: 685px;}
+.job_profile_form_text{color: #1D1D1D;float: left;font: 15px Arial,Helvetica,sans-serif;height: 20px;text-align: right;width: 340px;}
+.job_profile_form_buttn_row .left_bttn {float: left;height: auto;margin-left: 130px;width: 207px;}
+.job_profile_form_buttn_row {
+    height: auto;
+    margin: 50px auto 0;
+    width: 450px;
+}
+.job_profile_form_buttn_row .uploadresume_bttn {
+	width:207px;
+	height:62px;
+	background:url(../images/bttn_sprite.png) no-repeat 0 0px;
+}
+.job_profile_form_buttn_row .uploadresume_bttn input {
+	width:181px;
+	height:36px;
+	border:none;
+	background:url(../images/bttn_sprite.png) no-repeat -11px -80px;
+	margin:10px 0 0 11px;
+	color:#FFF ;
+	text-shadow: 1px 1px 1px #444343; 
+	text-decoration:none; 
+	font-family: "OpenSansCondensedBold";font-size: 20px;
+}
+.job_profile_form_buttn_row .uploadresume_bttn input:hover {background:url(../images/bttn_sprite.png) no-repeat -11px -121px;}
+.job_profile_form_buttn_row .uploadresume_bttn input:active { background:url(../images/bttn_sprite.png) no-repeat -11px -165px;}
+.job_profile_browse_field{float: left;margin: 0 0 0 15px;width: 109px;}
+.upload_resume{font-size:13px;}
+
+/* ------ End for jobseeker job profile --------*/
