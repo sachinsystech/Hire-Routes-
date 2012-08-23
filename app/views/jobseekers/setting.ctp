@@ -31,91 +31,95 @@ div .checkbox{
 		}
 	}	
 </script>
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
+	<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-		<div class="jobseeker_setting_middleBox">
-			<?php if($jobseekerData):?>
-				<div>Welcome back, <?php echo $jobseekerData['contact_name'];?>!</div>
-			<?php endif;?>
-			<div class="form_content"  style="margin:auto;">
-				<?php echo $form->create('JobseekerSettings', array('id'=>'JobseekerSettingsForm','url' => '/jobseekers/setting','onsubmit'=>'return check_email_subs();')); ?>
-					<?php echo $form->input('id', array('label' => 'Your Name',
+    <div class="job_container">
+    	<div class="job_container_top_row">
+      		<?php echo $this->element('side_menu');?>
+            <div class="job_right_bar">
+            	<div class="job-right-content">
+                	<h2>SETTINGS/SUBSCRIPTIONS</h2>
+                    <p>This is where some text can go to explain what this section is for and can go onto a second line but I wouldnt go much farther</p>
+                 </div>   
+                    <div class="job-subs">
+						<?php echo $form->create('JobseekerSettings', array('id'=>'JobseekerSettingsForm','url' => '/jobseekers/setting','onsubmit'=>'return check_email_subs();')); ?>
+						<?php echo $form->input('id', array('label' => '',
 														'type'  => 'hidden',
 														'value' => isset($jobseekerData['id'])?$jobseekerData['id']:""
 																	));?>
-					<?php echo $form->input('Jobseekers.contact_name', array('label' => 'Your Name',
+						<?php echo $form->input('Jobseekers.contact_name',
+														 array('label' => false,
 														  'type'  => 'text',
+														  'placeholder'=>'Name',
 														  'class' => 'jobseekers_text required',
 														  'name' => 'data[Jobseekers][contact_name]',
 														  'value' => isset($jobseekerData['contact_name'])?$jobseekerData['contact_name']:""));?>
-					<div id="industry_specification_1">
-						<div style="float:left;margin-left: -7px;clear: both;">
-							<?php $industry_array = array('1'=>'Industry1',
-														  '2'=>'Industry2',
-														  '3'=>'Industry3',
-														  '4'=>'Industry4');?>
-						  	<?php echo $form -> input('industry_1',array('type'=>'select',
+						<div id="industry_specification_1">
+                    		<div class="industry-specification-1">
+                        	    <div class="industries-select">
+									<?php $industry_array = array('1'=>'Industry1',
+																  '2'=>'Industry2',
+																  '3'=>'Industry3',
+																  '4'=>'Industry4');?>
+								  	<?php echo $form -> input('industry_1',
+								  									array('type'=>'select',
 																	     'label'=>'Industry 1:',
 																	     'options'=>$industries,
 																	     'empty' =>'Select Industry',
 																	     'onchange'=>'return fillSpecification(this.value,"JobseekerSettingsIndustrySpecification1","specification_1_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
-						</div>
-						<div id="specification_1_loader" style="float:left;"></div>
-						<div style="float:left;width: 270px;">
-							<?php $industry_specification_array = array('1'=>'Industry specification 1',
+								</div>
+                           		<div class="industries-select">
+									<?php $industry_specification_array = 
+																array('1'=>'Industry specification 1',
 																		'2'=>'Industry specification 2',
 																		'3'=>'Industry specification 3',
 																		'4'=>'Industry specification 4');?>
-							<?php echo $form -> input('industry_specification_1',array('type'=>'select',
-																					   'label'=>'',
-																	                   'multiple'=>'multiple',
-																	                   'size' => '4',
-																	                   //'options'=>$specifications,
-																	                   'class'=>'jobseeker_select__i_s required',
-											                                           'selected'=>isset($jobseekerData['specification_1'])?explode(",",$jobseekerData['specification_1']):""));?>
+									<?php echo $form -> input('industry_specification_1',
+																	array('type'=>'select',
+																	   'label'=>'',
+																	   'multiple'=>'multiple',
+																	   'size' => '4',
+																	   //'options'=>$specifications,
+																	    'class'=>'jobseeker_select__i_s required',
+											                            'selected'=>isset($jobseekerData['specification_1'])?explode(",",$jobseekerData['specification_1']):""));?>
+								</div>
+								<div id="specification_1_loader" style="float:left;"></div>
+							</div>			
 						</div>
-					</div>
-					<div>
-						<div style="float:left;margin-left: -7px;clear: both;">
-							<?php echo $form -> input('industry_2',array('type'=>'select',
+
+						<div id="industry_specification_1">
+                    		<div class="industry-specification-1">
+	                            <div class="industries-select">
+								<?php echo $form -> input('industry_2',array('type'=>'select',
 																	     'label'=>'Industry 2:',
 																	     'options'=>$industries,
 																	     'empty' =>'Select Industry',
 																	     'onchange'=>'return fillSpecification(this.value,"JobseekerSettingsIndustrySpecification2","specification_2_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:""));?>
-						</div>
-						<div id="specification_2_loader" style="float:left;"></div>
-						<div style="float:left;width: 270px;">
-							<?php echo $form -> input('industry_specification_2',array('type'=>'select',
+								</div>
+	                           	<div class="industries-select">
+								<?php echo $form -> input('industry_specification_2',array('type'=>'select',
 																	                   'label'=>'',
 																	                   'multiple'=>'multiple',
 																	                   'size' => '4',
 																	                   //'options'=>$specifications,
 																	                   'class'=>'jobseeker_select__i_s required',
 											                                           'selected'=>isset($jobseekerData['specification_2'])?explode(",",$jobseekerData['specification_2']):""));?>
+    	                       	</div>
+    	                       	<div id="specification_2_loader" style="float:left;"></div>
+							</div>
+							
 						</div>
-					</div>
-					
-							  <!-- 	Location :: State wise cities....	-->
-	  
- <div style="float:left;margin-left: 0px;clear: both;">
+						<div id="industry_specification_1">
+                            <div class="industries-select">
 <?php echo $form -> input('state',array(
 											'type'=>'select',
 											'label'=>'Location: ',
@@ -127,80 +131,86 @@ div .checkbox{
 									)
 						);
 ?>
-</div>
-<div id="city_loader" style="float:left;">&nbsp;</div>
-<div style="float:left;">
-<?php echo $form -> input('city',array(
-											'type'=>'select',
-											'label'=>'',
-											'empty' =>'All Cities',
-											'class'=>'js_select_city',
-											'selected' => isset($jobseekerData['city'])?$jobseekerData['city']:""
-									)
-						);
-?>							
-</div>
-	  
-	  
-      <!-- 	End of Location fields...	-->
-	  
-	  <div style=" clear :both;">
-
-					
-					<div style=" clear :both;">
-						<?php $salary_array = array('25'=>'20K-30K','35'=>'30K-40K','45'=>'40K-50K','55'=>'50K-60K'); ?>
-						<?php // echo $form -> input('salary_range',array('type'=>'select',
-							  //										   'label'=>'Annual Salary Range',
-							  //										   'options'=>$salary_array,
-							  //										   'class'=>'jobseeker_select_salary',
-							  //										   'selected' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>
-						<?php echo $form->input('salary_range', array('label' => 'Annual Salary Range ($):',
+							</div>
+                       		<div class="industries-select">
+									<?php echo $form -> input('city',array(
+																'type'=>'select',
+																'label'=>'',
+																'empty' =>'All Cities',
+																'class'=>'js_select_city',
+																'selected' => isset($jobseekerData['city'])?$jobseekerData['city']:""
+																)
+															);
+									?>	
+							</div>
+							<div id="city_loader" style="float:left;">&nbsp;</div>
+						</div>
+						<div id="industry_specification_1">
+                    		<div class="industry-specification-1">
+		                        <?php echo $form->input('salary_range', 
+		                        							array('label' => 'Annual Salary Range ($):',
 																  'type'  => 'text',
 																  'class' => 'jobseekers_text_salary_range required number',
 																  'min' =>1000,
-																  'value' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>
-					<div>
-						<div style="float:left;margin-right:15px;">
-							<b>Job notifications by email for</b>
-						</div>
-						<div style="float:left;width:375px;">
-							<?php /*if(isset($jobseekerData['notification']) && $jobseekerData['notification']==1){?>
-							<?php echo $form->input('notification', array('label' => '',
-																          'type'  => 'checkbox',
-																		  'class' => '',
-                                                                          'checked' => 'checked',
-																		  'value' => isset($jobseekerData['notification'])?$jobseekerData['notification']:""));?>
-							<?php }else{ ?>
-							<?php echo $form->input('notification', array('label' => '',
-																          'type'  => 'checkbox',
-																          'class' => '',));?>
-							<?php }?>
-							<span style=" margin-left:10px;font-size: 87%;">I would like to receive job notifications by email based on my information:<span>
-							<?php */?>
-							<div style="float:left;margin-top: -12px;width: 129px;">
-							<?php $emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
+																  'value' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>   	
+                           	
+		                    	<?php $emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
 								<?php echo $form -> input('subscribe_email',array('type'=>'select',
-																              'label'=>'',
-																              //'empty'=>'Select',
-																              'options'=>$emil_post_array,
-																              'class'=>'networker_select_job_notify',
-																              'selected' => isset($jobseekerData['subscribe_email'])?$jobseekerData['subscribe_email']:""));?>
-							<div id="email_setting"></div>
+																	              'label'=>'',
+																	              //'empty'=>'Select',
+																	              'options'=>$emil_post_array,
+																	              'class'=>'networker_select_job_notify',
+																	              'selected' => isset($jobseekerData['subscribe_email'])?$jobseekerData['subscribe_email']:""));?>
+							</div>
 						</div>
-							
-							
-						</div>
-						
-					</div>
 					<?php echo $form ->submit('Save');?>
-					<?php echo $form->end(); ?>
+					<?php echo $form->end(); ?>       	
 				</div>
 			</div>
 		</div>
-		<!-- middle conyent list -->
+		<div class="clr"></div>
+		<div class="job_pagination_bottm_bar"></div>
 	</div>
-	<!-- middle section end -->
+	<div class="clr"></div>
 </div>
+<!--------------------------->
+<style>
+div .checkbox{
+	float:left;
+	width:12px;
+	margin-top:0px;
+	overflow:auto;
+}
+</style>
+<script>
+	$(document).ready(function(){
+	    $("#NetworkersNotification").click(onCheckChange);
+	});
+	
+	function onCheckChange(){
+		if ($('#NetworkersNotification').attr('checked')) {
+			$("#subs_div").show();
+		}else{
+    		$("#subs_div").hide();
+			$("select#NetworkersSubscribeEmail").val('0');
+			$("#email_setting").html(""); 
+		}
+
+	}
+
+	function check_email_subs(){
+		var sel_val = $("#NetworkersSubscribeEmail").val();
+		/*if (!$('#NetworkersNotification').attr('checked')) {
+			$("#email_setting").removeClass().addClass("js_terms-condition-error").html("Please Check for email notifications.*");
+			return false;
+		}*/
+		if (/*$('#NetworkersNotification').attr('checked') && */sel_val=='') {
+			$("#email_setting").removeClass().addClass("js_terms-condition-error").html("Please Select Email Settings for Job Notifications*");
+			return false;
+		}
+	}	
+</script>
+
 <script>
 $("#JobseekerSettingsForm").validate();
 </script>
@@ -238,3 +248,9 @@ $(document).ready(function(){
 	?>
 });
 </script>
+<style>
+.industries-select select{
+	width:150px;
+	height:auto;
+}
+</style>

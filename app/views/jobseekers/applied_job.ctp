@@ -1,105 +1,119 @@
-<script>
-    $(document).ready(function(){
-	    $("#switch_display").change(onSelectChange);
-		$("#short_by").change(onSelectChange);
-	});
-	function onSelectChange(){
+	<script>
+		$(document).ready(function(){
+			$("#switch_display").change(onSelectChange);
+			$("#short_by").change(onSelectChange);
+		});
+		function onSelectChange(){
 
-	    var displaySelected = $("#switch_display option:selected");
-		var shortSelected = $("#short_by option:selected"); 
-		window.location.href="/jobseekers/appliedJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
-	}
-</script>
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
+			var displaySelected = $("#switch_display option:selected");
+			var shortSelected = $("#short_by option:selected"); 
+			window.location.href="/jobseekers/appliedJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
+		}
+	</script>
+	<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<div class="middleBox">
-        	<div class="jobs_topMenu">
-				<div>
-					<?php if(isset($jobs)&&!empty($jobs)):?>
-					<div style="float:left;">
+    <div class="job_container">
+    	<div class="job_container_top_row">
+            <?php echo $this->element("side_menu"); ?>
+            <div class="job_right_bar">
+               <?php if(isset($jobs)&&!empty($jobs)):?>
+                <div class="job_right_top_bar">
+                    <div class="job_right_sortby">
+                        <div class="job_right_shortby_txt">Sort By:</div>
+                        <div class="job_right_shortby_field">
 						<?php echo $form -> input('short_by',array(
 												  'type'=>'select',
-												  'label'=>'SORT BY ',
+												  'label'=>false,
 												  'options'=>array('date-added' => 'Date Added', 'company-name' => 'Company Name', 'industry' => 'Industry', 'salary' => 'Salary'),
 												  'class'=>'job_select_shortby',
+												  'div'=> false,
 												  'selected'=>isset($shortBy)?$shortBy:'date-added',));?>
-					</div>
-					<div style="float:right">
-						<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
-						<?php 
-							echo $form -> input('switch_display',array(
-												  'type'=>'select',
-												  'label'=>"".($this->Paginator->numbers()) ?$paginator->first(' << ', null, null, array("class"=>"disableText"))." ".$this->Paginator->prev(' < ', null, null, array("class"=>"disableText"))." ".$this->Paginator->numbers(array('modulus'=>4))." ".$this->Paginator->next(' > ', null, null, array("class"=>"disableText"))." ".$paginator->last(' >> ', null, null, array("class"=>"disableText"))." DISPLAYING":" DISPLAYING",
-												  'options'=>$display_page_no,
-												  'class'=>'job_select_diplay',
-												  'selected'=>isset($displayPageNo)?$displayPageNo:5,)); ?>
-					</div>
-				</div>	
-			</div>		
-		<!-- middle conyent list -->
-			<?php $job_array = array('1'=>'Full Time',
-									 '2'=>'Part Time',
-									 '3'=>'Contract',
-									 '4'=>'Internship',
-									 '5'=>'Temporary'); ?>
-			<?php $job_status = array('0'=>'Applied',
-									  '1'=>'Selected',
-									  '2'=>'Rejected'); ?>
-			<div>
-				<table>
-					<?php foreach($jobs as $job):?>	
-						<tr>
-							<td>
-								<div>
-									<div>
-										<?php	echo $this->Html->link(ucfirst($job['job']['title']), '/jobs/jobDetail/'.$job['job']['id']); ?>
-									</div>									
-								</div>
-								<div style="clear:both"></div>
-                                <div style="float:right"> <?php echo $job_status[$job['JobseekerApply']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['job']['id']); ?></div>		
-								<div>
-									<?php	
-										if(!empty($job['comp']['company_name']))
-											echo $job['comp']['company_name']."&nbsp;-&nbsp;";
-									?>
-									<?php
-										if(!empty($job['city']['city']))
-											echo $job['city']['city'].",&nbsp;";
-									?>
-									<?php
-											echo $job['state']['state']."<br>";
-											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
-											echo $job_array[$job['job']['job_type']]."<br>";
-											echo $job['job']['short_description']."<br>";?>
-                                 </div>                                 
-                                 <div style="float:left">
-									Posted 
-                                    <?php  echo $time->timeAgoInWords($job['job']['created'],'m/d/Y')." <br><br>";?>							
-								 </div>	
-                                 <div style="padding-left:550px;">
-                                    <?php	echo $this->Html->link('Read More', '/jobs/jobDetail/'.$job['job']['id']); ?>
-                                 </div>                                	
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-				<?php else:?>
+                        </div>
+                    </div>
+					<?php if($this->Paginator->numbers()){?>
+                    <div class="job_right_pagination">
+                        <div>
+								<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
+				          
+				            <ul>
+								<?php echo $this->Paginator->numbers(array('modulus'=>8,
+																			'tag'=>'li',
+																			'separator'=>false,)); ?>
+							</ul>
+				            <?php echo $paginator->last(">>", array("class"=>"arrow_margin",
+				            											));?>
+                        </div>
+                    </div>
+                    <div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
+                    <div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?>
+                    </div>
+					<?php } ?>                    
+				</div> 
+				<?php $job_array = array('1'=>'Full Time',
+										 '2'=>'Part Time',
+										 '3'=>'Contract',
+										 '4'=>'Internship',
+										 '5'=>'Temporary'); ?>
+				<?php $job_status = array('0'=>'Applied',
+										  '1'=>'Selected',
+										  '2'=>'Rejected'); ?>
+				<?php foreach($jobs as $job):?>										 
+                <div class="job_right_section">
+                    <div class="job_right_section_left">
+                        <h2><?php	echo $this->Html->link(strtoupper($job['job']['title']), '/jobs/jobDetail/'.$job['job']['id']); ?></h2>
+                        <p>
+	                        <?php	
+								if(!empty($job['comp']['company_name']))
+									echo $job['comp']['company_name']."&nbsp;-&nbsp;";
+							?>
+							<?php
+								if(!empty($job['city']['city']))
+									echo $job['city']['city'].",&nbsp;";
+							?>
+							<?php
+								echo $job['state']['state'];
+							?>
+						</p>
+						<p>
+							<?php
+								echo $job['ind']['industry_name'].", ".$job['spec']['specification_name'];
+							?>
+						</p>
+                        <p><?php echo $job_array[$job['job']['job_type']]; ?></p>
+                        <p>Posted: <?php echo date("d/m/Y" ,strtotime($job['job']['created']) ) ;?></p>
+                    </div>
+                    <div class="job_right_section_right body1">
+                        Reward: <span><?php echo $this->Number->format(
+										$job['job']['reward'],
+										array(
+											'places' => 0,
+											'before' => '$',
+											'decimals' => '.',
+											'thousands' => ',')
+										);?>
+								</span>
+						<div style="float:right"> <?php echo $job_status[$job['JobseekerApply']['is_active']];?> <br><?php	echo $this->Html->link('Delete', '/jobseekers/delete/'.$job['job']['id']); ?>
+						</div>
+								
+                    </div>
+                    <div class="clr"></div>
+                </div>
+                <?php endforeach; ?>
+                <?php else:?>
 					<div id='NoJobMessage'><h4>There is no job found for this search.</h4></div>
 				<?php endif;?>
 			</div>
-			<!-- middle conyent list -->
 		</div>
-	<!-- middle section end -->
-	</div>
-</div>
+        <div class="job_pagination_bottm_bar">
+        	
+        </div>
+        <div class="clr"></div>
+    </div>
+ 	<div class="clr"></div>
+
+

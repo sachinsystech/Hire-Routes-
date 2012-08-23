@@ -17,97 +17,100 @@
 	    }
 	}	
 </script>
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
+<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-    
-	<div class="rightBox" >
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu'); ?>
-		</div>
-<div class="middleBox">
-        <div class="jobs_topMenu">
-			<div>
-				<?php if(isset($jobs) && !empty($jobs)):?>
-				<div style="float:left;">
-					<?php echo $form -> input('short_by',array(
-												'type'=>'select',
-												'label'=>'SORT BY ',
-												'options'=>array('date-added' => 'Date Added', 'company-name' => 'Company Name', 'industry' => 'Industry', 'salary' => 'Salary'),
-												'class'=>'job_select_shortby',
-												'selected'=>isset($shortBy)?$shortBy:'date-added',
-										)
-							);
-					?>
-				</div>
-				
-				<div style="float: right;">
-					<?php $display_page_no = array('5' => '5', '10' => '10', '15' => '15', '20' => '20');?>
-					<?php
-						echo $form -> input('switch_display',array(
-												'type'=>'select',
-												'label'=>"".($this->Paginator->numbers()) ?$paginator->first(' << ', null, null, array("class"=>"disableText"))." ".$this->Paginator->prev(' < ', null, null, array("class"=>"disableText"))." ".$this->Paginator->numbers(array('modulus'=>4))." ".$this->Paginator->next(' > ', null, null, array("class"=>"disableText"))." ".$paginator->last(' >> ', null, null, array("class"=>"disableText"))." DISPLAYING":" DISPLAYING",
-												'options'=>$display_page_no,
-												'class'=>'job_select_diplay',
-												'selected'=>isset($displayPageNo)?$displayPageNo:5,
-												));
-					?>
-				</div>
-			</div>	
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
-			<div>
-				<table>
-					<?php foreach($jobs as $job):?>	
-						<tr>
-							<td>
-								<div>
-									<div style="float:left">
-										<b><?php echo ucfirst($job['Job']['title']);?></b>
-									</div>									
-								</div>
-								<div style="clear:both"></div>
-                                <div>
-									<?php	
-										if(!empty($job['comp']['company_name']))
-											echo $job['comp']['company_name']."&nbsp;-&nbsp;";
-									?>
-									<?php
-										if(!empty($job['city']['city']))
-											echo $job['city']['city'].",&nbsp;";
-									?>
-									<?php
-											echo $job['state']['state']."<br>";
-											echo $job['ind']['industry_name'].", ".$job['spec']['specification_name']."<br>";
-											echo $job_array[$job['Job']['job_type']]."<br>";
-											echo $job['Job']['short_description']."<br>";
-									?>
-                                 </div>
-                                 
-                                 <div style="float:left">
-				                 	Posted <?php  echo $time->timeAgoInWords($job['Job']['created'],'m/d/Y')." <br><br>";?>							
-								</div>	
-                          
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</table>
-				<?php else:?>
-					<div id='NoJobMessage'><h4>There is no job found for your setting.</h4></div>
+    <div class="job_container">
+    	<div class="job_container_top_row">
+            <?php echo $this->element("side_menu"); ?>
+            <div class="job_right_bar">
+               <?php if(isset($jobs) && !empty($jobs)):?>
+                <div class="job_right_top_bar">
+                    <div class="job_right_sortby">
+                        <div class="job_right_shortby_txt">Sort By:</div>
+                        <div class="job_right_shortby_field">
+						<?php echo $form -> input('short_by',array(
+													'type'=>'select',
+													'label'=> false,
+													'div'=> false,
+													'options'=>array('date-added' => 'Date Added', 'company-name' => 'Company Name', 'industry' => 'Industry', 'salary' => 'Salary'),
+													'class'=>'job_select_shortby',
+													'selected'=>isset($shortBy)?$shortBy:'date-added',
+											)
+								);
+						?>
+                        </div>
+                        
+                    </div>
+					<?php if($this->Paginator->numbers()){?>
+                    <div class="job_right_pagination">
+                        <div>
+								<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
+				          
+				            <ul>
+								<?php echo $this->Paginator->numbers(array('modulus'=>8,
+																			'tag'=>'li',
+																			'separator'=>false,)); ?>
+							</ul>
+				            <?php echo $paginator->last(">>", array("class"=>"arrow_margin",
+				            											));?>
+
+                        </div>
+                    </div>
+                    <div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
+                    <div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?>
+                    </div>
+					<?php } ?>                    
+				</div> 
+                <?php $job_array = array('1'=>'Full Time',
+									 '2'=>'Part Time',
+									 '3'=>'Contract',
+									 '4'=>'Internship',
+									 '5'=>'Temporary'); ?>
+				<?php foreach($jobs as $job):?>										 
+                <div class="job_right_section">
+                    <div class="job_right_section_left">
+                        <h2>
+                        	<?php echo strtoupper($job['Job']['title']);?>
+						</h2>
+                        <p><?php	
+								if(!empty($job['comp']['company_name']))
+									echo $job['comp']['company_name']."&nbsp;-&nbsp;";
+							?>
+							<?php
+								if(!empty($job['city']['city']))
+									echo $job['city']['city'].",&nbsp;";
+							?>
+							<?php
+								echo $job['state']['state'];
+							?>
+						</p>
+						<p>
+								<?php
+									echo $job['ind']['industry_name'].", ".$job['spec']['specification_name'];
+								?>
+						</p>
+                        <p><?php echo $job_array[$job['Job']['job_type']];?></p>
+                        <p>Posted: <?php echo date("d/m/Y" ,strtotime($job['Job']['created']) ) ;?></p>
+                    </div>
+                    <div class="job_right_section_right body1">
+                    </div>
+                    <div class="clr"></div>
+                </div>
+                <?php endforeach; ?>
+                <?php else:?>
+					<div id='NoJobMessage'><h4>There is no job found for this search.</h4></div>
 				<?php endif;?>
-			</div>			
-		<!-- middle conyent list -->
+			</div>
 		</div>
-	</div>
-	<!-- middle section end -->
-</div>
+        <div class="job_pagination_bottm_bar">
+        	
+        </div>
+        <div class="clr"></div>
+    </div>
+ 	<div class="clr"></div>
 

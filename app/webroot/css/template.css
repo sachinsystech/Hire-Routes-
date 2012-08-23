@@ -550,10 +550,10 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 .job_right_bar {width:710px; border:solid 1px #d6d2cc; float:left; height:857px;}
 .job_right_top_bar {width:710px; background:#eae6d7; height:35px;}
-.job_right_sortby {width:200px; height:20px; float:left; margin:10px 0 0 20px;}
+.job_right_sortby {width:220px; height:20px; float:left; margin:10px 0 0 20px;}
 .job_right_shortby_txt {width:auto; font:bold 15px Arial, Helvetica, sans-serif; color:#1d1d1d; margin:0 20px 0 0; float:left;}
 .job_right_shortby_field {float:left;}
-.job_right_pagination {width:320px; height:auto; float:left; margin:8px 10px 0 80px;}
+.job_right_pagination {width:320px; height:auto; float:left; margin:8px 10px 0 60px;}
 .job_right_pagination div {float:right;}
 .job_right_pagination a { float:left; text-decoration:none; color:#1d1d1d; font:normal 15px Arial, Helvetica, sans-serif;}
 .job_right_pagination ul {margin:0; padding:0; float:left;}

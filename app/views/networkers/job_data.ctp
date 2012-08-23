@@ -1,38 +1,31 @@
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
+	<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle content top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-		<div class="middleBox">
-			<div class="setting_profile">
-					<div class="setting_profile_row">
-						<div class="cr_setting_profile_field">Job Received:</div>
-						<div class="setting_profile_value"><?php echo $NewJobs;?></div>
-					</div>
-					<div class="setting_profile_row">
-						<div class="cr_setting_profile_field">Job Shared:</div>
-						<div class="setting_profile_value"><?php echo $SharedJobs;?></div>
-					</div>
-					<div class="setting_profile_row">
-						<div class="cr_setting_profile_field">Job Filled:</div>
-						<div class="setting_profile_value">
+    <div class="job_container">
+    	<div class="job_container_top_row">
+           <?php echo $this->element('side_menu');?>
+            <div class="job_right_bar">
+            	<div class="job-right-top-content1">
+                	<div class="job-right-top-left job-profile job-data">
+                    	<h2>Jobs Data</h2>
+                    	<div><span>Job Received:</span>
+       	 					<div><?php echo $NewJobs;?></div>
 						</div>
-					</div>
-					<div class="setting_profile_row">
-						<div class="cr_setting_profile_field">Rewards:</div>
-						<div class="setting_profile_value">
-							<?php echo $this->Number->format(
+						<div class="clr"></div>
+                    	<div><span>Job Shared:</span> 
+                    		<div ><?php echo $SharedJobs;?></div>
+						</div>
+						<div class="clr"></div>
+                    	<div><span>Job Filled:</span>
+                    		<div></div> 
+						</div>
+						<div class="clr"></div>
+                    	<div><span>Rewards:</span> 
+		   					<div><?php echo $this->Number->format(
 										$TotalReward,
 										array(
 											'places' => 2,
@@ -40,13 +33,30 @@
 											'decimals' => '.',
 											'thousands' => ',')
 							);?>
-						</div>
-					</div>
-				</div>
+							</div>
+                    	</div>
+                    	<div class="clr"></div>
+                    </div>
+               </div>
 			</div>
-		<!-- middle conyent list -->
+			<div class="clr"></div>
+		</div>
+		<div class="job_pagination_bottm_bar"></div>
+		<div class="clr"></div>
+	</div>	
+<script>
+$(document).ready(function(){
+	$("#edit").click(function(){
+		$(this).parent("p").next("div").show();
+		$(this).parent("p").hide();
+		return false;
+	});
+	$("#cancel").click(function(){
+		$(this).parent("p").next("div").hide();
+		$(this).parent("p").show();
+		return false;
+	});
+	
+});
+</script>
 
-	</div>
-	<!-- middle section end -->
-
-</div>

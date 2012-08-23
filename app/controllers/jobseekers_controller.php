@@ -177,7 +177,7 @@ class JobseekersController extends AppController {
 	}
 
       function appliedJob() {
-
+		$this->layout ="home";
         $userId = $this->_getSession()->getUserId();	
         $shortByItem = 'JobseekerApply.created';
 		$order		 = 'desc';
@@ -213,7 +213,7 @@ class JobseekersController extends AppController {
 		
 		$this->paginate = array(
             'conditions'=>array('JobseekerApply.user_id'=>$userId,'job.is_active'=>1),
-            'limit' => isset($displayPageNo)?$displayPageNo:5,
+            'limit' => isset($displayPageNo)?$displayPageNo:6,
 								'joins'=>array(
 												array('table' => 'jobs',
 										             'alias' => 'job',
@@ -260,6 +260,7 @@ class JobseekersController extends AppController {
      }
 
 	function newJob(){
+		$this->layout= "home";
 		$userId = $this->_getSession()->getUserId();	
 	
 		$receivedJobs=$this->ReceivedJob->find('list',array('conditions'=>array('user_id'=>$userId),'fields'=>'job_id'));
@@ -352,7 +353,7 @@ class JobseekersController extends AppController {
 
 
 		$this->paginate = array('conditions'=>$cond,
-            'limit' => isset($displayPageNo)?$displayPageNo:5,
+            'limit' => isset($displayPageNo)?$displayPageNo:6,
 								'joins'=>array(array('table' => 'industry',
 										             'alias' => 'ind',
 										             'type' => 'LEFT',
@@ -390,6 +391,7 @@ class JobseekersController extends AppController {
 	}
 
 	function archivedJob(){
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();	
 	
 		$jobseeker_settings = $this->getJobseekerSettings($userId);
@@ -497,7 +499,7 @@ class JobseekersController extends AppController {
 
 
 		$this->paginate = array('conditions'=>$cond,
-            'limit' => isset($displayPageNo)?$displayPageNo:5,
+            'limit' => isset($displayPageNo)?$displayPageNo:6,
 								'joins'=>array(array(
 													'table' => 'industry',
 										            'alias' => 'ind',
@@ -813,6 +815,7 @@ class JobseekersController extends AppController {
 	 }
 	 
 	 function invitations() {
+	 	$this->layout ="home";
  	 	$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
 			$this->redirect("/users/login");

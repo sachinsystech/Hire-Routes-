@@ -70,18 +70,16 @@ Please submit the form below and you will receive an email confirmation to compl
 	</div>
         
 	<div class="network_form_row">
-		<p>Graduate Degree</p>
-        <p><?php echo $form->input('Networker.graduate_degree_id',
+		<?php echo $form->input('Networker.graduate_degree_id',
         										array('label'=> false,
 														'type'=>'select',
 														'options'=>$graduateDegrees,
-														'empty' =>' -- Select Gred Degree --',
+														'empty' =>' -- Select Graduate Degree --',
 														'div'=> false,
-														'style'=>"width:272px",
+														'style'=>"width:289px",
 													));
 			if(isset($graduateErrors)):?><div class="error-message"><?php echo $graduateErrors;?></div><?php endif; 
 		?>
-		</p>
         <div class="clr"></div>
 	</div>
         

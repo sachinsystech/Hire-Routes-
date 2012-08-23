@@ -160,10 +160,10 @@
 												'selected'=>isset($shortBy)?$shortBy:'date-added',));?>
                          </div>
                     </div>
+					<?php if($this->Paginator->numbers()){?>
                     <div class="job_right_pagination">
 		               <!--         <a class="arrow_margin" href="#">&lt;&lt; </a>-->
                         <div>
-				            <?php if($this->Paginator->numbers()){?>
 								<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
 				          
 				            <ul>

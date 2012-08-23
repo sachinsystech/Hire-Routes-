@@ -1,92 +1,100 @@
-<?php ?>
-
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
+<?php
+	/*
+	 * Archived Job for Jobseeker
+	 */
+?>
+	<div class="job_top-heading">
+	<?php if($this->Session->read('Auth.User.id')):?>
+		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+		<?php endif; ?>
+	<?php endif; ?>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle content top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-		
-			<div class="network_contact_middleBox">
-			  <?php if(count($invitations)):?>
-				<?php echo $this->Form->create('invitations');
-				?>
-				<div style="margin: auto; font-weight: bold; width: 570px; font-size: 88%;">
-					<a class="button" href="/jobseekers/invitations">All</a>
-					<?php
-						
-						foreach($alphabets AS $alphabet=>$count){
-							$class = 'button';
-							$url = "/jobseekers/invitations/alpha:$alphabet";
-							$urlLink = "<a href=".$url.">". $alphabet ."</a>";
-							if($startWith ==$alphabet || $count<1){
-								$class = 'current';
-								$urlLink = $alphabet;
+    <div class="job_container">
+    	<div class="job_container_top_row">
+            <?php echo $this->element("side_menu"); ?>
+            <div class="job_right_bar">
+               <?php if(isset($invitations)&&!empty($invitations)):?>
+                <div class="job_right_top_bar">
+                    <div class="job_right_sortby">
+                        <div class="job_right_shortby_txt">Invitations</div>
+					</div>
+					<?php if($this->Paginator->numbers()){?>
+	                <div class="job_right_pagination">
+	                    <div>
+								<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
+					      
+					        <ul>
+								<?php echo $this->Paginator->numbers(array('modulus'=>8,
+																			'tag'=>'li',
+																			'separator'=>false,)); ?>
+							</ul>
+					        <?php echo $paginator->last(">>", array("class"=>"arrow_margin",
+					        											));?>
+	                    </div>
+	                </div>
+	                <div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
+	                <div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?></div>
+					<?php } ?> 
+					<div class="clr"></div>
+					<div class="job_right_pagination job-sort-by contacts-sort-by">
+	                   	<div class="job_sort">Sort By:</div>
+						<ul>
+							<li style="width:16px;"><a class="link-button" href="/jobseekers/invitations">All</a></li>
+							<?php
+								foreach($alphabets AS $alphabet=>$count){
+									$class = 'link-button';
+									$url = "/jobseekers/invitations/alpha:$alphabet";
+									$urlLink = "<a href=".$url.">". $alphabet ."</a>";
+									if($startWith ==$alphabet || $count<1){
+										$class = 'current';
+										$urlLink = $alphabet;
+									}
+							?>
+							<li class="<?php echo $class; ?>" style="font:15px Arial,Helvetica,sans-serif;"><?php echo $urlLink; ?></a></li>
+							<?php
 							}
 							?>
-							<span class="<?php echo $class; ?>" style="font-size:13px"> <?php echo $urlLink; ?></a> </span>
-							<?php
-							if($alphabet !="Z"){
-								echo " | ";
-							}	
-						}
-					?>
+						</ul>
+					</div>
 				</div>
-				<?php
-					$status = array("Pending","Accepted");
-				?>
-				<table style="width:85%;margin: auto;" class="contacts">
-					<tr>
-						<th style="width:10%;text-align:center">#</th>
-						<th style="width:35%;text-align:center"> Name / E-mail </th>
-						<th style="width:35%;text-align:center"> From </th>
-						<th style="width:20%;text-align:center">Status</th>
-					</tr>
-					<?php $i=0;?>
-					
-					<?php foreach($invitations AS $contact):?>	
-					<tr>
-						<td>
-							<?php $i++;echo $i;
-							?>
-						</td>
-						<td><?php echo $contact['Invitation']['name_email']?></td>
-						<td><?php echo $contact['Invitation']['from']?></td>
-						<td><?php echo $status[ $contact['Invitation']['status'] ]; ?></td>
-					</tr>
-					<?php endforeach;?>
-				</table>
-				<?php echo $form->end(); ?>
-				<div style="clear:both;"></div>
-				<div style="float:right;font-size: 93%;margin-right:50px">
-					
-				 <?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
-					 <?php echo $paginator->prev('<< '.__('Previous', true), array(), null, array('class'=>'disabled'));?>
-					 < <  <?php echo $this->Paginator->numbers(array('class'=>'numbers','modulus'=>4)); ?>  > >
-					 <?php echo $paginator->next(__('Next', true).' >>', array(), null, array('class'=>'disabled'));?>
-					 <?php echo $paginator->last(' Last'); ?>
-					 <?php 
-				 }?>
-				</div>
-			  <?php else:?>
-				<div class="empty_concats_msg"> No Contacts added..</div>
-			  <?php endif;?>
-			</div>
-		<!-- middle conyent list -->
-
+    	        <div class="clr"></div>
+			<div class="job-table-heading job-table-heading-border">
+				<ul>
+					<li class="job-table-name job-table-align2">Email</li>
+					<li class="job-table-source job-table-align2">Source</li>
+					<li class="job-table-status job-table-align2">Status</li>
+				</ul>
+	        </div>
+		    <?php
+				$status = array("Pending","Accepted");
+				$i=0;
+			?>
+		    <?php foreach($invitations AS $contact):?>
+		    <?php $i++;?>
+    	    <div class="job-table-subheading job-table-heading-border <?php if($i%2==0) echo 'light';else echo 'dark'; ?>">
+				<ul >
+					<li class="job-table-name"><?php echo $contact['Invitation']['name_email']?></li>
+				
+					<li class="job-table-source">
+						<?php echo $contact['Invitation']['from']?>
+					</li>
+					<li class="job-table-status"><?php echo $status[ $contact['Invitation']['status'] ];?></li>
+				</ul>
+    	    </div>
+    	   	<?php endforeach;?>
+    	    <div class="clr"></div>
+    	    <?php else:?>
+			<div id='NoJobMessage'><h4>There are no invited friends.</h4></div>
+			<?php endif;?>
+		</div>
 	</div>
-	<!-- middle section end -->
-
+	<div class="job_pagination_bottm_bar">
+	</div>
+	<div class="clr"></div>
 </div>
-
+<div class="clr"></div>
+<style>
+.contacts-sort-by div {float:left;}
+</style>
 

@@ -652,6 +652,7 @@ class NetworkersController extends AppController {
 	}
 		  
 	function archiveJob(){
+		$this->layout = "home";
 		$userId = $this->_getSession()->getUserId();		
 		    
     	$networker_settings = $this->getNetworkerSettings($userId);
@@ -714,7 +715,7 @@ class NetworkersController extends AppController {
 						   'AND' => array(array('is_active' => 0))); 
 
 			$this->paginate = array('conditions'=>$cond,
-		                            'limit' => isset($displayPageNo)?$displayPageNo:5,
+		                            'limit' => isset($displayPageNo)?$displayPageNo:6,
 									'joins'=>array(array('table' => 'industry',
 												         'alias' => 'ind',
 												         'type' => 'LEFT',
@@ -752,6 +753,7 @@ class NetworkersController extends AppController {
 	}
 
 	function newJob(){
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();	
 		
 		$receivedJobs=$this->ReceivedJob->find('list',array('conditions'=>array('user_id'=>$userId),'fields'=>'job_id'));
@@ -830,7 +832,7 @@ class NetworkersController extends AppController {
 						 ); 
 
 			$this->paginate = array('conditions'=>$cond,
-		                            'limit' => isset($displayPageNo)?$displayPageNo:5,
+		                            'limit' => isset($displayPageNo)?$displayPageNo:6,
 									'joins'=>array(array('table' => 'industry',
 												         'alias' => 'ind',
 												         'type' => 'LEFT',
@@ -874,6 +876,7 @@ class NetworkersController extends AppController {
 	}
 
 	function jobData(){
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();		
 							 
 		$data = $this->User->query("select sum(reward) as reward from (
@@ -908,6 +911,7 @@ where user_id =".$userId."");
 	 *	shared Job
 	 */
 	 function sharedJob(){
+	 	$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();	
 		        	
 		    if(isset($this->params['named']['display'])){
@@ -940,7 +944,7 @@ where user_id =".$userId."");
 			$cond = array('SharedJob.user_id'=>$userId); 
 			$jobCounts=$this->jobCounts();
 			$this->paginate = array('conditions'=>$cond,
-		                            'limit' => isset($displayPageNo)?$displayPageNo:5,
+		                            'limit' => isset($displayPageNo)?$displayPageNo:6,
 									'joins'=>array(array('table' => 'jobs',
 												         'alias' => 'Job',
 												         'type' => 'LEFT',

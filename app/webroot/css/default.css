@@ -172,3 +172,17 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .upload_resume{font-size:13px;}
 
 /* ------ End for jobseeker job profile --------*/
+
+/* ------ css for jobseeker invitations --------*/
+.light ul li{background:#ffffff;}
+.dark ul li {background-color: #F6F1E2;}
+
+/* ------ End for jobseeker invitations --------*/
+.job-data div {
+    font: 14px Arial,Helvetica,sans-serif;
+    width: 260px;
+}
+.job-data div div{
+	width:150px;
+	float:right;
+}

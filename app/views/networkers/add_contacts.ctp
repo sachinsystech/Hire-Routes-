@@ -1,3 +1,6 @@
+<style>
+.contacts-sort-by div {float:left;}
+</style>
 <div class="job_top-heading">
 	<?php if($this->Session->read('Auth.User.id')):?>
 		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
@@ -81,7 +84,7 @@
                 </div>
                 
                 <div class="job-right-bottom-right">
-                	<div class="job_right_pagination job-sort-by">
+                	<div class="job_right_pagination job-sort-by contacts-sort-by">
                     	<div class="job_sort">Sort By:</div>
 						<ul>
 							<li style="width:16px;"><a class="link-button" href="/networkers/addContacts">All</a></li>
