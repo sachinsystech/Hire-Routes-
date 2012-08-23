@@ -150,8 +150,9 @@ list archive jobs..
 */
 
 	function showArchiveJobs(){
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
-		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:10;
+		$displayPageNo = isset($this->params['named']['display'])?$this->params['named']['display']:6;
 	    $this->set('displayPageNo',$displayPageNo);
 	    
 		if(isset($this->params['named']['shortby'])){
