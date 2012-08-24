@@ -23,9 +23,9 @@
                          <li><a class="plus_icon" href="#">My Jobs</a>
                             <div style="" class="job_menus_submenu">
                                 <ul>
-                                    <li><a href="/companies/newJob">Jobs - <?php echo $activejobCount;?></a></li>
-                                    <li><a href="/companies/showArchiveJobs">Archive - <?php echo $archJobCount; ?></a></li>
-                                    <li><a href="/companies/companyData">Data</a></li> 
+                                    <li><a href="/companies/newJob" <?php if($this->action=='newJob')echo $class;?> >Jobs - <?php echo $activejobCount;?></a></li>
+                                    <li><a href="/companies/showArchiveJobs" <?php if($this->action=='showArchiveJobs')echo $class;?> >Archive - <?php echo $archJobCount; ?></a></li>
+                                    <li><a href="/companies/companyData" <?php if($this->action=='companyData')echo $class;?>>Data</a></li> 
                                 </ul>
                             </div>
                         </li>
@@ -35,10 +35,10 @@
                         <li><a class="plus_icon" href="#">My Account</a>
                         	<div style="display:block;" class="job_menus_submenu">
                         		<ul>
-                                    <li><a href="/companies">Personal</a></li>
-									<li><a href="/companies/paymentInfo">Payment Info</a></li>
-                                    <li><a href="/companies/paymentHistory">Payment History</a></li>
-									<li><a href="/users/changePassword"><?php echo $passwordLable; ?></a></li>
+                                    <li><a href="/companies"  <?php if($this->action=='accountProfile')echo $class;?>>Personal</a></li>
+									<li><a href="/companies/paymentInfo" <?php if($this->action=='paymentInfo')echo $class;?>>Payment Info</a></li>
+                                    <li><a href="/companies/paymentHistory" <?php if($this->action=='paymentHistory')echo $class;?>>Payment History</a></li>
+									<li><a href="/users/changePassword" <?php if($this->action=='changePassword')echo $class;?>><?php echo $passwordLable; ?></a></li>
                             	</ul>
                              </div>
                          </li>
@@ -46,7 +46,7 @@
                         <li><a class="plus_icon" href="#">My Employees</a>
                         	<div style="display:block;" class="job_menus_submenu">
                         		<ul>
-                                    <li><a href="/companies/employees">Employees</a></li>
+                                    <li><a href="/companies/employees" <?php if($this->action=='employees')echo $class;?>>Employees</a></li>
                                 </ul>
                              </div>
                         </li>
@@ -69,8 +69,7 @@
                 <div class="job_left_menu">
                     <ul>
                         <li><a class="plus_icon" href="#">My Jobs</a>
-                            <div <?php if( !($this->action=='newJob'||$this->action=='appliedJob'||$this->action=='archivedJob' ))
-                        			echo "style='display:none;'";?> class="job_menus_submenu">
+                            <div style="display:none;" class="job_menus_submenu">
                                 <ul>
                                     <li><a href="/jobseekers/newJob" <?php if($this->action=='newJob')echo $class;?>>Inbox - <?php echo $NewJobs;?></a></li>
                                     <li>
@@ -84,14 +83,13 @@
                         </li>
                         
                         <li><a class="plus_icon" href="#">My Account</a>
-                        	<div <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword' || $this->action=='invitations'))
+                        	<div <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword'))
                         			echo "style='display:none;'";?>class="job_menus_submenu">
                         		<ul>
 	                        		<li><a href="/jobseekers/jobProfile"" <?php if($this->action=='jobProfile')echo $class;?>>Job Profile</a></li>
                                     <li><a href="/jobseekers/setting" <?php if($this->action=='setting')echo $class;?>>Settings/Subscription</a></li>
 									<li><a href="/jobseekers"  <?php if($this->action=='index'||$this->action=='editProfile') echo $class;?>>Profile</a></li>
                                     <li><a href="/users/changePassword" <?php if($this->action=='changePassword') echo $class;?>><?php echo $passwordLable; ?></a></li>
-									<li><a href="/jobseekers/invitations" <?php if($this->action=='invitations')echo $class;?>>invitations</a></li>
                                 </ul>
                              </div>
                         </li>
@@ -110,13 +108,13 @@
                 <div class="job_left_menu">
                     <ul>
                          <li><a class="plus_icon" href="#">My Jobs</a>
-                            <div <?php if( !($this->action=='newJob'||$this->action=='sharedJob'||$this->action=='archiveJob' || $this->action=='jobData'  ) )echo "style='display:none;'";?> class="job_menus_submenu">
+                            <div style="display:none;" class="job_menus_submenu">
                                 <ul>
                                     <li>
-                                    	<a href="/networkers/newJob" <?php if($this->action=='newJob'|| $this->action=='#') echo $class;?>>Inbox - <?php echo $NewJobs;?></a>
+                                    	<a href="/networkers/newJob" <?php if($this->action=='newJob'|| $this->action=='#') echo $class;?>>Inbox - 11</a>
                                     </li>
-                                    <li><a href="/networkers/sharedJob" <?php if($this->action=='sharedJob') echo $class;?> >Shared - <?php echo $SharedJobs;?></a></li>
-                                    <li><a href="/networkers/archiveJob"  <?php if($this->action=='archiveJob') echo $class;?> >Archive - <?php echo $ArchiveJobs;?></a></li>
+                                    <li><a href="/networkers/sharedJob" <?php if($this->action=='sharedJob') echo $class;?> >Shared - 3</a></li>
+                                    <li><a href="/networkers/archiveJob"  <?php if($this->action=='archiveJob') echo $class;?> >Archive - 0</a></li>
                                     <li><a href="/networkers/jobData" <?php if($this->action=='jobData') echo $class;?> >Data</a></li> 
                                 </ul>
                             </div>
