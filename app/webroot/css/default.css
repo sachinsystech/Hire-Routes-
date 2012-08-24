@@ -1,4 +1,4 @@
-div.message {
+.message {
     background: none repeat scroll 0 0 #FAEBE7;
     border: 1px solid red;
     border-radius: 15px 15px 15px 15px;
@@ -65,6 +65,7 @@ label.error{
     width:96%;
     -moz-border-radius: 15px;
 	border-radius: 15px;
+	margin-top:38px;
 }
 
 div.paging a.current {
@@ -77,12 +78,19 @@ li.current {
 	font-size: 15px;
 }
 .warning {
-    background: url("../img/message-warn.png") no-repeat scroll 7px 7px lightyellow;
-    border: 1px solid #DAA520;
-    margin: 1em 0;
-    padding: 10px 10px 10px 35px;
+    background: url("../img/message-warn.png") no-repeat scroll 10px 5px lightyellow;
+    border: 1px solid #446423;
+    clear: both;
+    color: #4AA02C;
+    height: 22px;
+    margin: 3px;
+    padding: 5px;
     text-align: center;
-    color: #8B4513;
+    position:absolute;
+    width:96%;
+    -moz-border-radius: 15px;
+	border-radius: 15px;
+	margin-top:38px;
 }
 label.contact-error { color: red; display: block; float: left; font-family: Arial regular,Sans-serif; font-size: 10px;
 font-weight: normal !important; vertical-align: top; width: 206px;}
@@ -90,7 +98,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .job-right-heading a{text-decoration:none;}
 .job-right-heading a:hover,.job-right-heading a:active{text-decoration:underline;}
 .job_right_pagination ul li.current{color: #9D9DA0;font-size: 14px;font-weight: normal;}
-.networkers-message{padding-top: 45px;text-align: center;}
+.networkers-message{padding-top: 30px;text-align: center;}
 .inviation-message{text-align: center;}
 /*-------- css for edit profile */
 .edit-profile-text-box { height: auto; width: 460px;margin-top:4px;}
@@ -234,5 +242,6 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     width: 274px;
 	resize:none;
 }
-
+/************************************** ************************/
+.job-empty-message{ text-align:center;margin-top:10px;}
 

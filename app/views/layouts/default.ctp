@@ -65,7 +65,7 @@
 		$('.success').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.success');
 		$('.warning').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.warning');
 	}
-	function invite(){
+/*	function invite(){
 		$.ajax({
 			type: 'POST',
 			url: '/users/invitations',
@@ -80,6 +80,7 @@
 			}
 		});
 	}
+*/
 </script>
 </head>
 <body onload="hideMessage();">

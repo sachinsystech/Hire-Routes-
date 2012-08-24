@@ -121,7 +121,7 @@
                 </div>
                 <?php endforeach; ?>
                 <?php else:?>
-					<div id='NoJobMessage'><h4>There is no job found for this search.</h4></div>
+					<div class='job-empty-message'>There is no job found for this search.</div>
 				<?php endif;?>
 			</div>
 		</div>

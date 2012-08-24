@@ -70,7 +70,7 @@
                     <ul>
                         <li><a class="plus_icon" href="#">My Jobs</a>
                             <div <?php if( !($this->action=='newJob'||$this->action=='appliedJob'||$this->action=='archivedJob' ))
-                        			echo "style='display:none;'";?> class="job_menus_submenu">
+                        			echo "";?> class="job_menus_submenu">
                                 <ul>
                                     <li><a href="/jobseekers/newJob" <?php if($this->action=='newJob')echo $class;?>>Inbox - <?php echo $NewJobs;?></a></li>
                                     <li>
@@ -85,7 +85,7 @@
                         
                         <li><a class="plus_icon" href="#">My Account</a>
                         	<div <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword' || $this->action=='invitations'))
-                        			echo "style='display:none;'";?>class="job_menus_submenu">
+                        			echo "";?>class="job_menus_submenu">
                         		<ul>
 	                        		<li><a href="/jobseekers/jobProfile"" <?php if($this->action=='jobProfile')echo $class;?>>Job Profile</a></li>
                                     <li><a href="/jobseekers/setting" <?php if($this->action=='setting')echo $class;?>>Settings/Subscription</a></li>
@@ -110,7 +110,7 @@
                 <div class="job_left_menu">
                     <ul>
                          <li><a class="plus_icon" href="#">My Jobs</a>
-                            <div <?php if( !($this->action=='newJob'||$this->action=='sharedJob'||$this->action=='archiveJob' || $this->action=='jobData'  ) )echo "style='display:none;'";?> class="job_menus_submenu">
+                            <div <?php if( !($this->action=='newJob'||$this->action=='sharedJob'||$this->action=='archiveJob' || $this->action=='jobData'  ) )echo "";?> class="job_menus_submenu">
                                 <ul>
                                     <li>
                                     	<a href="/networkers/newJob" <?php if($this->action=='newJob'|| $this->action=='#') echo $class;?>>Inbox - <?php echo $NewJobs;?></a>
@@ -140,7 +140,7 @@
                          
                         <li><a class="plus_icon" href="#">My Account</a>
                         	<div <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword'))
-                        			echo "style='display:none;'";?> class="job_menus_submenu">
+                        			echo "";?> class="job_menus_submenu">
                         		<ul>
                                     <li><a href="/networkers/setting" <?php if($this->action=='setting') echo $class;?>>Settings/Subscription</a></li>
 									<li><a href="/networkers" <?php if($this->action=='index' || $this->action=='editProfile') echo $class;?>>Profile</a></li>

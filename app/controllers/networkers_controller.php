@@ -29,7 +29,13 @@ class NetworkersController extends AppController {
 		if($this->userRole!=NETWORKER){
 			$this->redirect("/users/loginSuccess");
 		}
-		$this->Auth->allow('getGmailContacts');
+		$this->Auth->allow("getGmailContacts");
+		$this->Auth->allow("jobCounts");
+		$this->Auth->allow("getNetworkerSettings");
+				$jobCounts=$this->jobCounts();
+		$this->set('SharedJobs',$jobCounts['sharedJobs']);
+		$this->set('ArchiveJobs',$jobCounts['archivejobs']);
+		$this->set('NewJobs',$jobCounts['newJobs']);
 	}
 	
 	/* Delete Subscription */
@@ -861,17 +867,8 @@ class NetworkersController extends AppController {
 									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, ind.name as industry_name, spec.name as specification_name'),);
 		    
 		    $jobs = $this->paginate('Job');
-		    
-//			$jobCounts=$this->jobCounts();
-	//		$this->set('SharedJobs',$jobCounts['sharedJobs']);
-		//	$this->set('ArchiveJobs',$jobCounts['archivejobs']);
-			//$this->set('NewJobs',$jobCounts['newJobs']);
 			$this->set('jobs',$jobs);	
 		}
-		$jobCounts=$this->jobCounts();
-		$this->set('SharedJobs',$jobCounts['sharedJobs']);
-		$this->set('ArchiveJobs',$jobCounts['archivejobs']);
-		$this->set('NewJobs',$jobCounts['newJobs']);
 		
 	}
 
@@ -902,9 +899,7 @@ where user_id =".$userId."");
 		}
 		$this->set('TotalReward',$total_reward);
 		$jobCounts=$this->jobCounts();
-		$this->set('SharedJobs',$jobCounts['sharedJobs']);
-		$this->set('ArchiveJobs',$jobCounts['archivejobs']);
-		$this->set('NewJobs',$jobCounts['newJobs']);
+
 	}
 	
 	/**
@@ -940,9 +935,8 @@ where user_id =".$userId."");
 			    				$this->redirect('/networkers/sharedJob');        		        	
 			    }
 			}
-			
+			$jobCounts = $this->jobCounts();
 			$cond = array('SharedJob.user_id'=>$userId); 
-			$jobCounts=$this->jobCounts();
 			$this->paginate = array('conditions'=>$cond,
 		                            'limit' => isset($displayPageNo)?$displayPageNo:6,
 									'joins'=>array(array('table' => 'jobs',
@@ -980,9 +974,6 @@ where user_id =".$userId."");
 									'fields'=>array('Job.id ,Job.user_id,Job.title,comp.company_name,city.city,state.state,Job.job_type,Job.short_description, Job.reward, Job.created, Job.is_active, ind.name as industry_name, spec.name as specification_name'),);
 		    
 		    $jobs = $this->paginate('SharedJob');	
-			$this->set('SharedJobs',$jobCounts['sharedJobs']);
-			$this->set('ArchiveJobs',$jobCounts['archivejobs']);
-			$this->set('NewJobs',$jobCounts['newJobs']);
 			$this->set('jobs',$jobs);			
 	}
 
@@ -990,7 +981,7 @@ where user_id =".$userId."");
 	 * To find job counts
 	 *
 	 */
-	private function jobCounts(){
+	public function jobCounts(){
 		$userId = $this->_getSession()->getUserId();		
 		
 		$receivedJobs=$this->ReceivedJob->find('list',array('conditions'=>array('user_id'=>$userId),'fields'=>'job_id'));
@@ -1074,7 +1065,7 @@ where user_id =".$userId."");
 	/**
 	 * To get Networker Settings
 	 */
-	 private function getNetworkerSettings($userId){
+	 public function getNetworkerSettings($userId){
 	 	return $this->NetworkerSettings->find('all',array('conditions'=>array('user_id'=>$userId)));
 	 }
 	 

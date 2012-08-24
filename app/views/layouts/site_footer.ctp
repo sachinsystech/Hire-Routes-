@@ -49,7 +49,7 @@
     <!-- footer-block -->
     <div class="clr"></div>
     <!-- copyright -->
-    <div class="copyright"> &copy; Hire Routes Inc. All rights Reserved. <a href="#">info@hireroutes.com</a>
+    <div class="copyright"> &copy; Hire Routes Inc. All rights Reserved. <a href="mailto:info@hireroutes.com">info@hireroutes.com</a>
       <div class="foot-right">
         <ul>
 	       	<?php  if($current_user['id']==2 || !isset($current_user)):?>

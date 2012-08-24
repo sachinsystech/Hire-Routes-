@@ -9,7 +9,7 @@
    		<div class="job_top_heading1">Share this post with your network
        		<div class="job_top_share_job">
             	<div class="button-blue1">
-					<input type="button" value="SHARE JOB" onclick='shareJobShowView(4);'>
+					<input type="button" value="SHARE JOB" onclick='window.location.href="/jobs/shareJob/jobId=<?php echo $job['Job']['id'];?>";'>
 					<div class="clr"></div>
 				</div>
             </div>

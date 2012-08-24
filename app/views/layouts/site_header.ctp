@@ -52,7 +52,7 @@ $class= "class='selected_menu'";
 		<ul>
 		  <li><a href="/" <?php if($this->action=="index" && $this->params['controller'] =="home") echo $class; ?> >home</a></li>
 		  <li><a href="/about" <?php if($this->action=="about") echo $class; ?>>about us</a></li>
-		  <li><a href="/jobs" <?php if($this->action=="index" && $this->params['controller'] =="jobs") echo $class; ?>>jobs</a></li>
+		  <li><a href="/jobs" <?php if(($this->action=="index" && $this->params['controller'] =="jobs") || $this->action=="jobDetail") echo $class; ?>>jobs</a></li>
 		  <li><a href="/contactUs" <?php if($this->action=="contactUs") echo $class; ?>>contact us</a></li>
 		</ul>
 		<div class="clr"></div>

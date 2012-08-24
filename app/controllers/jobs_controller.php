@@ -15,6 +15,20 @@ class JobsController extends AppController {
 		$this->Auth->allow('applyJob');
 		$this->Auth->allow('jobDetail');
 		$this->Auth->allow('viewResume');
+		$this->Auth->allow('shareJob');
+		$session = $this->_getSession();
+		if($session->getUserRole()==NETWORKER){
+			$jobCounts = $this->requestAction("/Networkers/jobCounts");
+			$this->set('SharedJobs',$jobCounts['sharedJobs']);
+			$this->set('ArchiveJobs',$jobCounts['archivejobs']);
+			$this->set('NewJobs',$jobCounts['newJobs']);	
+		}
+		if($session->getUserRole()==JOBSEEKER){
+			$jobCounts = $this->requestAction("/Jobseekers/jobCounts");
+			$this->set('AppliedJobs',$jobCounts['appliedJob']);
+			$this->set('NewJobs',$jobCounts['newJob']);
+			$this->set('Archivedjobs',$jobCounts['archiveJob']);
+		}
      }
 	
 	function index(){
@@ -515,6 +529,18 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 		$this->set('states',$this->Utility->getState());
 		$this->set('companies',$this->Utility->getCompany());
 		$this->render('/jobs/index');
+	}
+	
+	function shareJob(){
+		$session = $this->_getSession();
+		if(!$session->isLoggedIn()){
+			$this->Session->setFlash("please login to share jobs.","warning");
+			//echo "her login"; exit;
+			$this->redirect("/users/login");
+		}else{
+
+			$this->redirect("/jobs/jobDetail/$this->params['jobId']");
+		}
 	}
 
 }
