@@ -14,6 +14,10 @@ class JobseekersController extends AppController {
 		if($this->userRole!=JOBSEEKER){
 			$this->redirect("/users/loginSuccess");
 		}
+		$jobCounts=$this->jobCounts();
+		$this->set('AppliedJobs',$jobCounts['appliedJob']);
+		$this->set('NewJobs',$jobCounts['newJob']);
+		$this->set('Archivedjobs',$jobCounts['archiveJob']);
 	}
 	
 	function sendNotifyEmail(){
@@ -250,12 +254,6 @@ class JobseekersController extends AppController {
 								'fields'=>array('job.id ,job.user_id,job.title,comp.company_name,city.city,state.state,job.job_type,job.short_description, job.reward, job.created, JobseekerApply.is_active, ind.name as industry_name, spec.name as specification_name'),);
 
 		$jobs = $this->paginate('JobseekerApply');	      
-		
-		$jobCounts=$this->jobCounts();
-		$this->set('AppliedJobs',$jobCounts['appliedJob']);
-		$this->set('NewJobs',$jobCounts['newJob']);
-		$this->set('Archivedjobs',$jobCounts['archiveJob']);
-
 		$this->set('jobs',$jobs);
      }
 
@@ -384,10 +382,6 @@ class JobseekersController extends AppController {
 
 		$jobs = $this->paginate('Job');
 		$this->set('jobs',$jobs);
-		$jobCounts=$this->jobCounts();
-		$this->set('AppliedJobs',$jobCounts['appliedJob']);
-		$this->set('NewJobs',$jobCounts['newJob']);
-		$this->set('Archivedjobs',$jobCounts['archiveJob']);
 	}
 
 	function archivedJob(){
@@ -544,12 +538,6 @@ class JobseekersController extends AppController {
 		$newjobs = $this->Job->find('count',array('conditions'=>$cond));     
            
 		$jobs = $this->paginate('Job');
-		
-		$jobCounts=$this->jobCounts();
-		$this->set('AppliedJobs',$jobCounts['appliedJob']);
-		$this->set('NewJobs',$jobCounts['newJob']);
-		$this->set('Archivedjobs',$jobCounts['archiveJob']);
-
 		$this->set('jobs',$jobs);
 
 	}
@@ -711,7 +699,7 @@ class JobseekersController extends AppController {
 		}		
 	}
 
-	private function jobCounts(){
+	public function jobCounts(){
 		$userId = $this->_getSession()->getUserId();
 		
 		$receivedJobs=$this->ReceivedJob->find('list',array('conditions'=>array('user_id'=>$userId),'fields'=>'job_id'));
@@ -810,7 +798,7 @@ class JobseekersController extends AppController {
 	/**
 	 * To get Jobseeker settings
 	 */
-	 private function getJobseekerSettings($userId){
+	 public function getJobseekerSettings($userId){
 	 	return $this->JobseekerSettings->find('first',array('conditions'=>array('user_id'=>$userId)));
 	 }
 	 

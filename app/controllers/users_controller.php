@@ -981,6 +981,19 @@ class UsersController extends AppController {
 			unset($this->data['User']);
 			$this->render("change_password","admin");
 		}
+		if($session->getUserRole()==NETWORKER){
+			$jobCounts = $this->requestAction("/Networkers/jobCounts");
+			$this->set('SharedJobs',$jobCounts['sharedJobs']);
+			$this->set('ArchiveJobs',$jobCounts['archivejobs']);
+			$this->set('NewJobs',$jobCounts['newJobs']);	
+		}
+		if($session->getUserRole()==JOBSEEKER){
+			$jobCounts = $this->requestAction("/Jobseekers/jobCounts");
+			$this->set('AppliedJobs',$jobCounts['appliedJob']);
+			$this->set('NewJobs',$jobCounts['newJob']);
+			$this->set('Archivedjobs',$jobCounts['archiveJob']);
+		}
+		
 	}
 
 	function forgotPassword(){

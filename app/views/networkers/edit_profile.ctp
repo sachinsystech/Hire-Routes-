@@ -107,7 +107,7 @@
 													'type'  => 'select',
 													'div'=> false,
 													'options'=>$graduateDegrees,
-													'empty' =>' -- Select Gred Degree --',
+													'empty' =>' -- Select Graduate Degree --',
 													'class' => 'networker_select_bg',
 													'value' => isset($networker['graduate_degree_id'])?$networker['graduate_degree_id']:"",
 												)
@@ -175,6 +175,7 @@
 	$(document).ready(function(){
 		$("#clearAll").click(function(){
 			$("input[type=text]").val("");
+			$("#NetworkersGraduateDegreeId").val("");
 		});
 		$("#GraduateUniversityBreakdownUniversity").autocomplete({
 			minLength:1,
@@ -183,13 +184,13 @@
 					url: "/Utilities/getUniversities/startWith:"+request.term,
 					dataType: "json",
 					beforeSend: function(){
-				 		$('#GraduateUniversityBreakdownUniversity').parent("div").parent("div").css({"float":"left","width":"480px"});
-				 		$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"460px"});
-				 		$('#GraduateUniversityBreakdownUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"490px"});
+				 		$('#GraduateUniversityBreakdownUniversity').parent("div").children("label").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
 
 			   		},
 			   		complete: function(){
 			   	    	$('.loader').remove();
+				 		$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"460px"});
 			   		},
 					success: function( data ) {
 						if(data == null) return;	
@@ -229,7 +230,6 @@
 					beforeSend: function(){
 				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").css({"float":"left","width":"490px"});
 				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").children("label").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
-
 			   		},
 			   		complete: function(){
 			   	    	$('.loader').hide();
@@ -265,7 +265,6 @@
 	function goTo(){
 		window.location.href="/companies/postJob";			
 	}
-
 
     $(document).ready(function(){
    		$("#GraduateUniversityBreakdownEditProfileForm").validate({

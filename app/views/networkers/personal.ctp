@@ -45,7 +45,7 @@
 					<?php endforeach;?>
 						<?php	if($invitations == null){?>
 						<div class="job-list-subhead">
-				            <div class="inviation-message">
+				            <div class="inviation-message job-empty-message">
 				            	No Invitaion Found.
 				            </div>
                     	</div>
@@ -65,7 +65,7 @@
                                 <li class="job-table-level job-table-level-align job-table-align">Level</li>
                             </ul>
                     </div>
-                    <div class="networkers-message">
+                    <div class="networkers-message job-empty-message">
                     	No Networkers Found.
                     </div>
                 </div>

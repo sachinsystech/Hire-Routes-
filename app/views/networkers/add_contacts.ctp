@@ -103,7 +103,8 @@
 							}
 							?>
 						</ul>
-					</div>       	
+					</div>
+					<?php if( isset($contacts) && $contacts!= null){ ?>       	
                     <div class="job-table-heading job-table-heading-border">
                     		<ul>
                             	<li class="job-table-name job-table-align2">Email</li>
@@ -123,6 +124,9 @@
                             </ul>
                     </div>
                 	<?php endforeach;?>
+                	<?php }else{ ?>
+                	<div class="job-empty-message">No contacts added.</div>
+                	<?php } ?>
                 </div>
     
             </div>
