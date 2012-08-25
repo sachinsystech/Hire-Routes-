@@ -81,7 +81,7 @@
 					<div class="clr"></div>
 					
 					<div class="edit-profile-clear-all">
-						<label id="clearAll">Clear All</label>
+						<label id="clearAll" onclick=" clear_fields();">Clear All</label>
 					</div>
 					<div class="save-profile-button">
 						<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>
@@ -95,3 +95,22 @@
 	<div class="job_pagination_bottm_bar"></div>
 	<div class="clr"></div>
 </div>
+
+<script>
+	function goTo(){
+		window.location.href="/companies/postJob";			
+	}
+	$(document).ready(function(){
+		$("#UserEditProfileForm").validate({
+			errorClass: 'error_input_message',
+			errorPlacement: function (error, element) {
+				error.insertAfter(element)
+				error.css({'margin-left':'120px','width':'230px'});
+			}
+		});
+	});     
+	function clear_fields(){
+		$('select, :text').val("");
+		return false;
+	}
+</script>
