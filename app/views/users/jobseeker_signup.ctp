@@ -22,7 +22,7 @@
 		}
 	}
 </script>
-    <h1 class="title-emp">Job Seeker Registration Request</h1>
+    <h1 class="title-emp">Job Seeker Registration</h1>
     <div class="sub-title-js">You will be able to apply for jobs and share job posts with your network.<br />Please submit the form below and you will receive an email confirmation to complete you registration.</div>
 
 <?php echo $form->create('User', array('action' => 'jobseekerSignup','onsubmit'=>'return checkform()')); ?>
@@ -95,20 +95,6 @@
     	<div class="clr"></div>
     </div>
 	<?php echo $form->end(); ?>
-	<div class="forgot-password networker-width"><a href="/jobseekerInformation">Don't know about Jobseekers?</a></div>
+	<div class="forgot-password networker-link-width"><a href="/jobseekerInformation">Don't know about Jobseekers?</a></div>
 </div>
 
-<!--    <h1 class="title-emp">Job Seeker Registration Request</h1>
-    <div class="sub-title-js">You will be able to apply for jobs and share job posts with your network.<br />Please submit the form below and you will receive an email confirmation to complete you registration.</div>
-    <div class="text-box"> <input type="text" _placeholder="Account Email" /></div>
-    <div class="text-box text-box-below"> <input type="text" _placeholder="Password" /></div>
-    <div class="text-box text-box-below"> <input type="text" _placeholder="Repeat Password" /></div>
-    <div class="text-box text-box-below"> <input type="text" _placeholder="Code" /></div>
-    <div class="check-button">
-     <div class="cross-button"><input name="" type="checkbox" value="" /></div>
-     <div class="remember-me agree-with">Agree with <a href="#">Terms & Conditions</a></div>
-    </div>
-    <div class="button-return-to-search register-button-margin"><a href="#">REGISTER</a></div>
-    <div class="forgot-password networker-width"><a href="#">Don't know about Networkers?</a></div>
-    
-    ->

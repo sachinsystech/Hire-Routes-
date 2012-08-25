@@ -56,7 +56,6 @@ label.error{
     border: 1px solid #446423;
     clear: both;
     color: #4AA02C;
-    font-weight: bold;
     height: 20px;
     margin: 3px;
     padding: 5px;
@@ -78,7 +77,7 @@ li.current {
 	font-size: 15px;
 }
 .warning {
-    background: url("../img/message-warn.png") no-repeat scroll 10px 5px lightyellow;
+    background: url("../img/message-warn.png") no-repeat scroll 10px 4px lightyellow;
     border: 1px solid #446423;
     clear: both;
     color: #4AA02C;
@@ -176,7 +175,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 }
 .job_profile_form_buttn_row .uploadresume_bttn input:hover {background:url(../images/bttn_sprite.png) no-repeat -11px -121px;}
 .job_profile_form_buttn_row .uploadresume_bttn input:active { background:url(../images/bttn_sprite.png) no-repeat -11px -165px;}
-.job_profile_browse_field{float: left;margin: 0 0 0 15px;width: 109px;}
+.job_profile_browse_field{float: left;margin: 0 0 0 15px;width: 116px;}
 .upload_resume{font-size:13px;}
 
 /* ------ End for jobseeker job profile --------*/
@@ -244,4 +243,42 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 }
 /************************************** ************************/
 .job-empty-message{ text-align:center;margin-top:10px;}
-
+/*********************Css for payments detail popup dialog ***********************/
+.payment_popup_cancel_bttn {
+	width:72px;
+	height:72px;
+	background:url(../images/popup_cancel_bttn.png) no-repeat;
+	position:absolute;
+	right:-20px;
+	top:-15px;
+}
+.payment_popup_cancel_bttn a {
+	width:50px;
+	height:50px;
+	display:block;
+	margin:7px 0 0 8px;
+}
+.company-recruiter-check-box{margin:31px 0 0 323px; width:166px; }
+.dont-know{ width:316px !important;}
+.networker-link-width {width: 240px !important;}
+.forgot-password {width: 129px !important;}
+.job_apply_buttn {margin: 50px auto 0 380px !important;}
+.sub-title-ty{width:auto !important;}
+.job_right_section_left h2 span{color:#4FA34B;}
+/*-------------------- css for jobseeker invitations ----------------------*/
+.job-sort-by {
+    background: none  !important;
+    border-bottom: 1px solid #D6D2CC;
+    height: 26px;
+    margin: 0 !important;
+    padding: 10px 0 0 0px !important;
+    width: 682px !important;
+}
+.invitaion_right_pagination div {
+    float: left !important;
+}
+.invitaion_pagination {
+    width: 520px !important;
+}
+.invitation-table-name {width:278px; height:48px;}
+/*-------------------- End for jobseeker invitations ----------------------*/

@@ -197,7 +197,7 @@
         
         </div>
         
-        <div class="application_form_buttn_row">
+        <div class="application_form_buttn_row job_apply_buttn">
         	<div class="left_bttn">
 				<div class="uploadresume_bttn">
 					<?php  echo $form->submit('Apply',array('div'=>false,

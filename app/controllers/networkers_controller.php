@@ -988,7 +988,7 @@ where user_id =".$userId."");
 		        
     	$networker_settings = $this->getNetworkerSettings($userId);
     	if(!(count($networker_settings)>0))
-    		$this->Session->setFlash('Please fill you settings in order to get jobs matching your profile.', 'warning');
+    		$this->Session->setFlash('Please fill your settings in order to get jobs matching your profile.', 'warning');
     	
     	$shared_job = $this->SharedJob->find('all',array('conditions'=>array('user_id'=>$userId),
 															   'fields'=>'SharedJob.job_id',

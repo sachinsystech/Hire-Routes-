@@ -1,4 +1,4 @@
-<h1 class="title-emp">Networker Registration Request</h1>
+<h1 class="title-emp">Networker Registration</h1>
 <div class="sub-title-ty application_top_submenu network_top_txt">You will be able to apply for jobs and share job posts with your network.<br />
 Please submit the form below and you will receive an email confirmation to complete your registration.</div>
 <!---  application form start --->

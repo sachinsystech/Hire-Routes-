@@ -66,6 +66,7 @@ class UsersController extends AppController {
  * Redirecting respactive my-account page (If user logged-in). 
 **/
 	function userSelection(){
+		$this->layout = "home";
 		if($this->_getSession()->isLoggedIn()){
 			$this->loginSuccess();	
 		}

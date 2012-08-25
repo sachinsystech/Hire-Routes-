@@ -13,75 +13,39 @@
                 	<div class="job-right-top-left job-profile">
                     	<h2>PROFILE</h2>
                     	<p><span>Name:</span>
-       	 					<?php if(isset($user['Networkers']['contact_name'])): 
-									echo ucfirst($user['Networkers']['contact_name']);
-								endif;
-							?>
+       	 					<?php echo ucfirst($user['Networkers']['contact_name']); ?>
 							<a href="/networkers/editProfile">edit</a>
 						</p>
-						<!---<div style="display:none;" class="edit-profile-text-box">
-							<?php	$name = "";
-                                if(isset($fbinfo)){ $name = $fbinfo['first_name']." ".$fbinfo['last_name']; }
-                                if(isset($networker) && $user['contact_name']!=""){ $name = $user['contact_name']; } 
-                                echo $form->input('Networkers.contact_name', array('label' => false,
-											'type'  => 'text',
-											'class' => 'required',
-											'value' => $name,
-											'div' => false,
-											'placeholder' =>'Contact Name',
-											)
-							 	);
-							 ?>
-							 <a href="#" id="cancel">cancel</a>
-						</div>
-						---->							
                     	<p><span>Address:</span> 
-                    		<?php if(isset($user['Networkers']['address'])): echo $user['Networkers']['address'];
-								endif;
-							?>
+                    		<?php echo $user['Networkers']['address']; ?>
 							<a href="/networkers/editProfile">edit</a>
 						</p>
                     	<p><span>City:</span> 
-                    		<?php if(isset($user['Networkers']['city'])):echo $user['Networkers']['city'];
-								endif;
-							?>
+                    		<?php echo $user['Networkers']['city'];?>
 							<a href="/networkers/editProfile">edit</a>
 						</p>
                     	<p><span>State:</span> 
-   							<?php if(isset($user['Networkers']['state'])): echo $user['Networkers']['state'];
-								endif;?>
+   							<?php echo $user['Networkers']['state'];?>
                     		<a href="/networkers/editProfile">edit</a>
                     	</p>
                     	<p><span>Phone:</span> 
-      						<?php if(isset($user['Networkers']['contact_phone'])):
-      								echo $user['Networkers']['contact_phone'];
-      						 	endif;
-      						 ?>
+      						<?php echo $user['Networkers']['contact_phone'];?>
 	                    	<a href="/networkers/editProfile">edit</a>
 	                    </p>
                         <p><span>University:</span> 
-           					<?php if(isset($user['Universities']['name'])):
-           							echo $user['Universities']['name'];
-								endif;?>
+           					<?php echo $user['Universities']['name'];?>
                         	<a href="/networkers/editProfile">edit</a>
                         </p>
                         <p><span>Graduate Degree:</span> 
-							<?php if(isset($user['GraduateDegrees']['degree'])):
-								 echo $user['GraduateDegrees']['degree'];
-							endif;?>
+							<?php echo $user['GraduateDegrees']['degree'];?>
                         	<a href="/networkers/editProfile">edit</a>
                         </p>                        
                         <p><span>Graduate University:</span> 
-							<?php if(isset($graduateUniversity) && $graduateUniversity != "" ):
-								 echo $graduateUniversity;
-							endif;?>
+							<?php echo $graduateUniversity;?>
                         	<a href="/networkers/editProfile">edit</a>
                         </p>                        
-                        
-                        
                         <p><span>Email:</span> 
                         	<a href="mailto:<?php echo $user['UserList']['account_email']; ?>"><span><?php echo $user['UserList']['account_email']; ?></span></a>
-                        	<!--<a href="/networkers/editProfile">edit</a>-->
                         </p>
                     </div>
                </div>
