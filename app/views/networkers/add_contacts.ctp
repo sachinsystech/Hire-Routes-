@@ -179,6 +179,8 @@ function validateEmail(elementValue){
 
 <script>
 $(document).ready(function(){
+
+	
 	$("#clear").click(function(){
 		$("input[type=text]").val("");
 		$("input[type=file]").val("");
@@ -289,20 +291,6 @@ function importFromGmail(){
 	</div>	
 </div>
 <script>
-	$("#gmailContacts").dialog({
-		height:430,
-		width:550,
-		modal:true,
-		resizable: false ,
-		draggable: true,
-		title:"Gmail Contacts: <br> ",
-		show: { 
-			effect: 'drop', 
-			direction: "up" 
-		},
-	});
-	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"1000px","top":"0","width":"581px", "background":"none","border":"none"});
-	});
 	function toggleChecked(status) {
 		$("input:checkbox").each( function() {
 			$(this).attr("checked",status);
@@ -344,17 +332,22 @@ $(document).ready(function(){
 		$("#about-dialog" ).dialog( "close" );
 		return false;
 	});
-	$(".about-border" ).click(function(){
-		$( "#about-dialog").show();
-		$( "#about-dialog").dialog({
-			hide: "explode",
-			width:548,
-			height:1000,
-			closeOnEscape: false,
-			modal:true,
-		});
-		$( "#about-dialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"1000px","top":"0","width":"581px", "background":"none","border":"none"});
+	$("#gmailContacts").dialog({
+		height:430,
+		width:550,
+		modal:true,
+		resizable: false ,
+		draggable: true,
+		title:"Gmail Contacts: <br> ",
+		show: { 
+			effect: 'drop', 
+			direction: "up" 
+		},
 	});
+	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"1000px","top":"0","width":"581px", "background":"none","border":"none"});
+	<?php if(isset($GmailContacts)){?>
+		$( "#about-dialog").show();
+	<?php } ?>
 	
 });
 </script>
