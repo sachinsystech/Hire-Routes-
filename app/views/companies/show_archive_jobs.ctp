@@ -81,13 +81,13 @@
 					 <!---<a class="arrow_margin" href="#">&gt;&gt;</a>-->
 				 </div>
 				
-			</div>
-				<?php if($this->Paginator->numbers()){?>
-				<div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
-				<div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?>
 				</div>
-				<?php } ?>
-			</div>
+					<?php if($this->Paginator->numbers()){?>
+					<div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
+					<div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?>
+					</div>
+					<?php } ?>
+				</div>
 			
 			<?php if(empty($jobs)){ ?>
 				Sorry, No job found.

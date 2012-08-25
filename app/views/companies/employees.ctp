@@ -62,45 +62,33 @@
 		$('select, :text').val("");
 		return false;
 	}
-</script>
-<script>
+
 	function goTo(){
 		window.location.href="/companies/postJob";			
 	}
 </script>
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
-	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" style=width:860px;">
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-			<div class="middleBox">
-			<table style="width:100%">
-				<tr>
-					
+
+
+<div class="job_top-heading">
+<?php if($this->Session->read('Auth.User.id')):?>
+	<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+			<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+	<?php endif; ?>
+<?php endif; ?>
+</div>
+
+<div class="job_container">
+    	<div class="job_container_top_row">
+    		<?php echo $this->element('side_menu');?>
+    		<div class="job_right_bar">
+            	<div class="job-right-top-content1">
+                	<div class="job-right-top-left" >
+                    	<h2>EMPLOYEE</h2>
 						<?php echo $form->create('Companies',array('action'=>'employees','type'=>'get',
 																   'onsubmit'=>'return validateForm();')
-															)?>
-						</div>
-						<?php
-							/*
-							$date = new DateTime();
-							$date->modify(-30 . ' days');
-							$last_month= $date->format("m/d/Y");
-							*/
-							//$from_date=isset($from_date)?$from_date:"";
-							//$to_date=isset($to_date)?$to_date:"";
-							$findUrl=array("contact_name"=>isset($contact_name)?$contact_name:"",
+												);
+						
+						$findUrl=array("contact_name"=>isset($contact_name)?$contact_name:"",
 										   "contact_phone"=>isset($contact_phone)?$contact_phone:"",
 										   "address"=>isset($address)?$address:"",
 										   "account_email"=>isset($account_email)?$account_email:"",
@@ -108,150 +96,142 @@
 										   "to_date"=>isset($to_date)?date("Ymd",strtotime($to_date)):"",
 										   "page"=>isset($this->params['named']['page'])?$this->params['named']['page']:"1",
 										   );
-					
-							if($this->Paginator->numbers()){?>
-								<td colspan='100%'>
-									<div style="float:right;width:55%;text-align:right;">
-								<?php	
-								$this->Paginator->options(array('url' =>$findUrl));
-								echo $paginator->first('First  | '); 
-								echo $paginator->prev(' '.__(' Previous ', true), array(), null, array('class'=>'disabled'));
-								echo "  <  ".$this->Paginator->numbers(array('modulus'=>4))."   >   ";
-								echo $paginator->next(__('  Next ', true).' ', array(), null, array('class'=>'disabled'));
-								echo $paginator->last('  |  Last'); 
-								echo "</td></div>";	
-								}
-							?>
-						</div>
-					
-				</tr>
-				<tr>
-					<th style="width:5%">#</th>
-					<th style="width:15%;text-align:center;">
-						<?php echo $paginator->sort('Name','js.contact_name');?>
-					</th>
-					<th style="width:20%;text-align:center;">Address</th>					
-					<th style="width:25%;text-align:center;">Email</th>
-					<th style="width:20%;text-align:center;">Contact no.</th>
-					<th style="width:20%;text-align:center;">
-						<?php echo $paginator->sort('Date', 'paid_date');?>
-					</th>
-					<th></th>
-				</tr>
-				<tr>
-					<th></th>
-					<th>											
-						<?php
-							echo $form->input(" ",array("name"=>"contact_name",
-														"value"=>isset($contact_name)?$contact_name:"",
-														"class"=>'text_field_employee',
-														"title"=>'Enter Name',
-											));
 						?>
-					</th>
-					<th style="width:20%;text-align:center;">
-						<?php
-							echo $form->input("",array("name"=>"address",
-													   "value"=>isset($address)?$address:"",
-													   "class"=>'text_field_employee ',
-													   "title"=>'Enter Address',
-											));
-						?>
-					</th>
-					<th style="width:25%;text-align:center;">
-						<?php
-							echo $form->input("",array("name"=>"account_email",
-												   	   "value"=>isset($account_email)?$account_email:"",
-													  'class' => 'text_field_bg required email',
-													   "style"=>'width:200px;',
-													   "title"=>'Enter Email',	
-											));
-						?>
-					
-					</th>
-					<th style="width:20%;text-align:center;">
-						<?php
-							echo $form->input("",array("name"=>"contact_phone",
-												   	   "value"=>isset($contact_phone)?$contact_phone:"",
-													   "class"=>'text_field_employee number',
-													   "title"=>'Enter Contact Number',
-											));
-						?>
-					</th>
-					<th >
-						<div style="margin-left:10px;float:left;margin-right:5px;">
-							<font size='2px'>From</font>
+						<?php if($this->Paginator->numbers()):?>
+						<div class="pagination_main">
+							<div class="job_next_bttn pagination_next"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
+							<div class="job_preview_bttn pagination_pre"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?>
+							</div>
+							
+							<div class="pagination_new">
+								<div>
+									<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
+									<ul>
+									<?php echo $this->Paginator->numbers(array('modulus'=>8,
+																				'tag'=>'li',
+																				'separator'=>false,)); ?>
+									</ul>
+									<?php echo $paginator->last(">>", array("class"=>"arrow_margin",
+																					)); ?>
+			
+								</div>								   
+							 </div>  
+							<div class="clr"></div>
+						</div>  
+						<?php endif; ?>
+						
+                    	
+						<div class="list-head-i list-imply-margin">
+						<ul class="list-heading">
+							 <li><?php echo $paginator->sort('NAME','js.contact_name');?></li>
+							 <li class="list-email">EMAIL</li>
+							 <li>CONTACT</li>
+							 <li><?php echo $paginator->sort('DATE', 'paid_date');?></li>
+						</ul> 
+						<div class="clr"></div>
 						</div>
-						<div style="width:130px;">
-							<?php 
-								echo $this->Form->input('from_date',array(
-														'label'=>'',
-														'type'=>'text',
-														'readonly'=>"true",
-														'class' => 'date_field_employee',
-														'title'=>'From Date',
-														'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):""
-														));
-							?>
+						<div class="list-head-i">
+							<ul class="list-heading">
+								 <li>
+									<div class="textbox-name">
+										<?php
+											echo $form->input(" ",array("name"=>"contact_name",
+																		"value"=>isset($contact_name)?$contact_name:"",
+																		//"class"=>'text_field_employee',
+																		"title"=>'Enter Name',
+																		'div' =>'false'
+															));
+										?>
+									</div>
+								 </li>
+								 <li class="list-email">
+									<div class="textbox-email">
+										<?php
+											echo $form->input("",array("name"=>"account_email",
+																	   "value"=>isset($account_email)?$account_email:"",
+																	   "title"=>'Enter Email',
+																	   'div' =>'false'
+															));
+										?>
+									</div>
+								 </li>
+								 <li>
+									<div class="textbox-name">
+											<?php
+												echo $form->input("",array("name"=>"contact_phone",
+																		   "value"=>isset($contact_phone)?$contact_phone:"",
+																		   "title"=>'Enter Contact Number',
+																		   'div' =>'false'
+																));
+											?>
+									</div>
+								 </li>
+								 <li class="textbox-date-width">
+									<div class="textbox-date">
+										<span>FROM</span>
+										<?php 
+											echo $this->Form->input('from_date',array(
+																	'label'=>'',
+																	'type'=>'text',
+																	'readonly'=>"true",
+																	'title'=>'From Date',
+																	'value'=>isset($from_date)?date("m/d/Y",strtotime($from_date)):"",
+																	'div' =>'false'
+																	));
+										?>
+									</div>
+									<div class="textbox-date">
+										<span>TO</span>
+										<?php 
+												echo $this->Form->input('to_date',array(
+																		'label'=>'',
+																		'type'=>'text',
+																		'readonly'=>"true",
+																		'title'=>'To Date',
+																		'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):"",
+																		'div' =>'false'
+																		));
+											?>
+									</div>
+								 </li>
+							</ul> 
+						<div class="clr"></div>
 						</div>
-						<div style="margin-left:10px;margin-right:2px;float:left;clear:both;width:35px;">
-							<font size='2px'>To:</font>
+						<div class="bttn_find_clr">
+								<div class="find_clr_button">
+									<?php echo $form->submit('FIND',array('div'=>false,)); ?>	
+								</div>
+								<div class="find_clr_button">
+									<input type="button" value="CLEAR" onclick=" clear_fields();">
+								</div>
+						
 						</div>
-						<div style="width:130px;">
-							<?php 
-								echo $this->Form->input('to_date',array(
-														'label'=>'',
-														'type'=>'text',
-														'readonly'=>"true",
-														'class' => 'date_field_employee',
-														'title'=>'To Date',
-														'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):"",	
-														));
-							?>
-						</div>
-					</th> 
-					<th style="width:10%">
-						<div class="submit">
-							<input type="submit" value="Find" class="emp_search_button" name="find">
-							<input type="button" value="Clear" class="emp_search_button div_hover" onclick=" clear_fields();">
-						</div>
-					</th>
-				</tr>
-				<?php if(empty($employees)){ ?>
-				<tr>
-					  <td colspan="7" style="line-height:20px;text-align:center;">Sorry, no result found.</td>
-				</tr>
-				<?php } ?>
-				<?php $count=1; foreach($employees as $employee):?>	
-				<tr>
-					<td><? echo $count++; ?></td>
-					<?php if(!empty($employee['js']['contact_name']) ):?>
-					<td><?php echo ucFirst($employee['js']['contact_name']);?></td>
-						<?php else:?>
-						<td> -- -- -- </td>
-						<?php endif;?>
-					<td><?php echo  $employee['js']['address'].','.$employee['js']['city'].','.$employee['js']['state'];?></td>
-					<td><?php echo $employee['users']['account_email'];?></td>
-					<td><?php echo $employee['js']['contact_phone'];?></td>
-					<td><?php echo $this->Time->format('m/d/Y', $employee['PaymentHistory']['paid_date']);?></td>
-					<!--<td><?php /*echo $this->Html->image("/img/icon/delete.png",
-														array(
-															"alt" => "image",
-															"width"=>"24","height"=>"24",
-															'url'=>'javascript:void(0);',
-														    'title'=>'Delete',
-															)
-													);
- 						*/?>
-					</td>-->
-				</tr>
-				<?php endforeach; ?>	
-				<?php echo $form->end();?>		
-			</table>
-		</div>
-		<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
-		<!-- middle conyent list -->
-		</div>
-	<!-- middle section end -->
+						<?php $i=0; ?>
+						<?php foreach($employees as $employee):?>
+						 <div class="list-head-i">
+							<ul class="listing-i <?php if($i%2==0) echo'dark';?>">
+								<li>
+									<?php if(!empty($employee['js']['contact_name']) ):?>
+									<?php echo ucFirst($employee['js']['contact_name']);?>
+									<?php else:?>
+										-- -- --
+									<?php endif;?>
+								</li>
+								<li class="list-email"><?php echo $employee['users']['account_email'];?></li>
+								<li><?php echo $employee['js']['contact_phone'];?></li>
+								<li><?php echo $this->Time->format('m/d/Y', $employee['PaymentHistory']['paid_date']);?></li>
+							</ul> 
+						 </div>
+						 <?php $i++; ?>
+						<?php endforeach; ?>
+						<?php echo $form->end();?>
+                    <div class="clr"></div>
+                </div>
+            </div>
+			</div>
+        <div class="clr"></div>
+    </div>
+    <div class="job_pagination_bottm_bar"></div>
+ 	<div class="clr"></div>
 </div>
-
+</div>

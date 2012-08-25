@@ -368,6 +368,7 @@ list archive jobs..
 	}
 
 	function editProfile() {
+		$this->layout ="home";
 		$session = $this->_getSession();
 		$userId = $session->getUserId();
 		if(isset($this->data['User'])){
@@ -639,6 +640,7 @@ list archive jobs..
 
 	/** list of Applicant for given job **/
 	function showApplicant(){
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
@@ -771,6 +773,7 @@ list archive jobs..
 
 	/** Job Statistics/Data Details... **/
 	function jobStats(){
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['jobId'];
 		if($userId && $jobId){
@@ -1229,6 +1232,7 @@ list archive jobs..
     }
 
 	public function employees(){
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();	
 		$conditions[]="PaymentHistory.user_id=$userId";
 		if(isset($this->params['named'])){
