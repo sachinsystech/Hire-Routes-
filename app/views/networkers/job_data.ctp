@@ -13,19 +13,18 @@
                 	<div class="job-right-top-left job-profile job-data">
                     	<h2>Jobs Data</h2>
                     	<div><span>Job Received:</span>
-       	 					<div><?php echo $NewJobs;?></div>
+       	 					<?php echo $NewJobs;?>
 						</div>
 						<div class="clr"></div>
                     	<div><span>Job Shared:</span> 
-                    		<div ><?php echo $SharedJobs;?></div>
+                    		<?php echo $SharedJobs;?>
 						</div>
 						<div class="clr"></div>
                     	<div><span>Job Filled:</span>
-                    		<div></div> 
 						</div>
 						<div class="clr"></div>
                     	<div><span>Rewards:</span> 
-		   					<div><?php echo $this->Number->format(
+		   					<?php echo $this->Number->format(
 										$TotalReward,
 										array(
 											'places' => 2,
@@ -33,7 +32,6 @@
 											'decimals' => '.',
 											'thousands' => ',')
 							);?>
-							</div>
                     	</div>
                     	<div class="clr"></div>
                     </div>

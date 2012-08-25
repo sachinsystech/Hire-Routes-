@@ -889,6 +889,7 @@ div.message{
 
 
 
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -2843,11 +2844,11 @@ fieldset{
 	margin-left:-15px;
 }
 
-.invitationUrl{
+.invitationUrl {
+    border: medium none;
     font-size: 12px;
     font-weight: bold;
-    width: 400px;
-    border:none;
-    height:22px;
-    padding:3px;
+    height: 22px;
+    padding-left: 110px;
+    width: 550px;
 }

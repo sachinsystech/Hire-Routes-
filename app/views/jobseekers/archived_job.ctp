@@ -70,7 +70,7 @@
 				<?php foreach($jobs as $job):?>										 
                 <div class="job_right_section">
                     <div class="job_right_section_left">
-                        <h2><?php echo ucfirst($job['Job']['title']) ?></h2>
+                        <h2><span><?php echo ucfirst($job['Job']['title']) ?></span></h2>
                         <p>
 	                        <?php	
 								if(!empty($job['comp']['company_name']))

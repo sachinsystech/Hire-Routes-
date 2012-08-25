@@ -30,7 +30,7 @@
                     	<?php	$name = "";
                                     if(isset($fbinfo)){ $name = $fbinfo['first_name']." ".$fbinfo['last_name']; }
                                     if(isset($networker) && $networker['contact_name']!=""){ $name = $networker['contact_name']; } 
-                                    echo $form->input('Networkers.contact_name', array('label' => "<span>Name:</span>",
+                                    echo $form->input('Networkers.contact_name', array('label' => "<span>Name</span>",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $name,
@@ -42,7 +42,7 @@
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">							
 							<?php	if(isset($networker)){ $address = $networker['address']; } else { $address = "";}
-                                    echo $form->input('Networkers.address', array('label' => "<span>Address:</span> ",
+                                    echo $form->input('Networkers.address', array('label' => "<span>Address</span> ",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $address,
@@ -54,7 +54,7 @@
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">
                     		<?php	if(isset($networker)){ $city = $networker['city']; } else { $city = "";}
-                                    echo $form->input('Networkers.city', array('label' => "<span>City:</span> ",
+                                    echo $form->input('Networkers.city', array('label' => "<span>City</span> ",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $city,
@@ -66,7 +66,7 @@
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">							
                    			<?php	if(isset($networker)){ $state = $networker['state']; } else { $state = "";}
-                                    echo $form->input('Networkers.state', array('label' => "<span>State:</span> ",
+                                    echo $form->input('Networkers.state', array('label' => "<span>State</span> ",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $state,
@@ -79,7 +79,7 @@
                     	<div class="edit-profile-text-box">													
 							<?php	if(isset($networker)){ $phone = $networker['contact_phone']; } else { $phone = "";}
                                     echo $form->input('Networkers.contact_phone', 
-                                    		array('label' => "<span>Phone:</span> ",
+                                    		array('label' => "<span>Phone</span> ",
 												'type'  => 'text',
 												'class' => 'text_field_bg required number',
 												'minlength' => '10',
@@ -91,7 +91,7 @@
 						</div>
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">	
-                    		<?php echo $form->input('university',array('label'=> "<span>University:</span> ",
+                    		<?php echo $form->input('university',array('label'=> "<span>University</span> ",
 																		'type'=>'text',
 																		'div'=> false,
 																		'class' => 'text_field_bg required',
@@ -103,7 +103,7 @@
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">
                     		<?php	echo $form->input('Networkers.graduate_degree_id', 
-                    							array('label' => "<span>Graduate Degree:</span>",
+                    							array('label' => "<span>Graduate Degree</span>",
 													'type'  => 'select',
 													'div'=> false,
 													'options'=>$graduateDegrees,
@@ -121,7 +121,7 @@
 								}else{ 
 									$university = "";
 								}
-								echo $form->input('graduate_university',array('label'=> "<span>Graduate University:</span>",
+								echo $form->input('graduate_university',array('label'=> "<span>Graduate University</span>",
 																	'type'=>'text',
 																	'class' => 'text_field_bg',
 																	'options'=>$university,
