@@ -248,9 +248,9 @@ function importFromGmail(){
 </script>
 <?php if(isset($GmailContacts)){?>
 <div id="gmailContacts" >
-	<div class="about-border"> 
-		<a href="#"> <img src="/images/about/about.jpg" /> <span class="link-mouseover">READ MORE</span> </a> 
-	</div>
+	<div class="about_popup_cancel_bttn_row">
+    	<div class="about_popup_cancel_bttn"><a href="#" id="close"></a></div>
+    </div>
 	<?php  echo $this->Form->create('gmailContact', array('url' => array('controller' => 'networkers', 
 																		 'action' => 'addContacts')));?>
 	<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
@@ -344,7 +344,7 @@ $(document).ready(function(){
 			direction: "up" 
 		},
 	});
-	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"1000px","top":"0","width":"581px", "background":"none","border":"none"});
+	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"400px","top":"0","width":"581px", "background":"url('../images/about_popup_bg.png') repeat scroll 0 0 transparent","border":"none"});
 	<?php if(isset($GmailContacts)){?>
 		$( "#about-dialog").show();
 	<?php } ?>
