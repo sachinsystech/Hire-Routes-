@@ -1,168 +1,210 @@
-<?php ?>
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
-	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle conent top menu start -->
-		<div class="top_menu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-		<?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
-			<div class="job_middleBox">
-				<div style="width:600px;margin:auto;">
-					<div class="sigup_heading" >Post  New Job </div>
-						<?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'postJob') )); ?>
-					<div class="lable_error" style="overflow:auto;" >
-						<?php	echo $form->input('title', array('label' => 'Title:',
+
+<div class="job_top-heading">
+<?php if($this->Session->read('Auth.User.id')):?>
+	<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+			<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+	<?php endif; ?>
+<?php endif; ?>
+</div>
+
+<div class="job_container">
+    	<div class="job_container_top_row">
+    		<?php echo $this->element('side_menu');?>
+
+            <div class="job_right_bar">
+            	<div class="new_job">
+            		<h2>POST NEW JOB</h2>
+					<?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'postJob') )); ?>
+                	<div class="job_feild"> <span>Title:</span>
+                    <div class="job-share-tb-top job_feild_margin">
+						<?php	echo $form->input('title', array('label' => '',
 													'type'  => 'text',
-													'class' => 'text_field_job_title required',
+													'class' => 'required',
+													'placeholder'=>'Title',
+													'div'=>false
 													)
 								 );
-						?>
+						?>						
 					</div>
-					<div class="lable_error_rewards" style="overflow:auto;clear:both;margin:2px;">
-						<?php	echo $form->input('reward', array('label' => 'Reward$:',
+                    </div>
+                    
+                    <div class="job_feild"> <span>Reward$:</span>
+                        <div class="job-share-tb-top job_feild_margin">
+							<?php	echo $form->input('reward', array('label' => '',
 													'type'  => 'text',
-													'class' => 'text_field_bg required number',
+													'class' => 'required number',
 													'min' =>1000,
-													)
-									 );
-						?>
-					</div>
-					<div class="lable_error" style="overflow:auto;clear:both;" class="lable_error">
-						<?php echo $form->input('short_description', array('label' => 'Short_Description:',
-																		'type'  => 'textarea',
-																		'class' => 'textarea_bg_job required',
-															)
-											 );
-						?>
-					</div>
-					<div style="clear:both;overflow:auto;">
-						<div class="jobseeker_select_i_error" style="float:left;margin-left: -7px;clear: both;">
-							<?php $industry_array = array('1'=>'Industry1','2'=>'Industry2','3'=>'Industry3','4'=>'Industry4');?>
-							<?php echo $form -> input('industry',array(
+													'placeholder'=>'Rewards',
+													'div'=>false
+												)
+									      );
+						     ?>					
+                        </div>
+                    </div>
+                    
+                    <div class="job_feild"> <span>Short Description:</span>
+                            <div class="post_job_textbox">
+								   <?php echo $form->input('short_description', array('label' => '',
+															'type'  => 'textarea',
+															'class' => 'required',
+															'placeholder'=>'Short Description',
+												            'div'=>false
+														)
+											    );
+						           ?>
+                            </div>
+                            <div class="clr"></div>
+                    </div>
+                    <div class="job_feild"> <span>Category:</span>
+                            <div class="category_dropdown">
+                             	<!-- div class="jobseeker_select_i_error" style="float:left;margin-left: -7px;clear: both;" -->						 
+								 <?php echo $form -> input('industry',array(
 													  'type'=>'select',
-													  'label'=>'Category',
+													  'label'=>'',
 													  'options'=>$industries,
 													  'empty' =>'Select Industry',
 													  'onchange'=>'return fillSpecification(this.value,"JobSpecification","specification_loader");',
-													  'class'=>'jobseeker_select_i required',
-											  )
-								  );
-							  ?>
-						</div>
-						<div id="specification_loader" style="float:left;"></div>
-						<div style="float:right;">
-							<?php echo $form -> input('specification',array(
+													  'class'=>'required',
+													  'div'=>false
+											         )
+								                );
+							      ?>								  
+								  <?php echo $form -> input('specification',array(
 													  'type'=>'select',
 													  'label'=>'',
 													  'empty' =>'Select Specifications',
-													 // 'options'=>$specifications,
-													  'class'=>'job_select__i_s required',
-											  )
-								  );
-							?>
-						</div>
-					</div>
-					<div style=" clear :both;">
-						 <!-- 	Location :: State wise cities....	-->
-						<div class="jobseeker_select_i_error" style="float:left;margin-left: -7px;clear: both;">
-							<?php echo $form -> input('state',array(
+												      // 'options'=>$specifications,
+													  'class'=>'required',
+													  'div'=>false
+											          )
+								                );
+							      ?>								  
+                            </div>
+                    </div>
+                    <div class="job_feild"> <span>Location:</span>
+                            <div class="category_dropdown">
+							   <!-- div class="jobseeker_select_i_error" style="float:left;margin-left: -7px;clear: both;" -->	 				
+                               <?php echo $form -> input('state',array(
 												  'type'=>'select',
-												  'label'=>'Location:',
+												  'label'=>'',
 												  'options'=>$states,
 												  'empty' =>'All States',
-												  'class'=>'jobseeker_select_i required',
-												  'onchange'=>'return fillCities(this.value,"JobCity","city_loader");'
-									)
-								);
-							?>
-						</div>
-						<div id="city_loader" style="float:left;"></div>
-						<div style="float:right;">
-							<?php echo $form -> input('city',array(
+												  'class'=>'required',
+												  'onchange'=>'return fillCities(this.value,"JobCity","city_loader");',
+												  'div'=>false
+									            )
+								         );
+							    ?>
+								<?php echo $form -> input('city',array(
 											'type'=>'select',
 											'label'=>'',
 											'empty' =>'All Cities',
-											'class'=>'job_select__i_s',
-											'style'=>'margin-left:5px;'
-										)
-									);
-							?>							
-						</div>
-					</div>
-	  
-      <!-- 	End of Location fields...	-->
-	  
-			
-					<div style=" clear :both; width: 135px;float:left;">
-						<label>Annual salary   Range ($):</label>
-					</div>
-					<div class="salary_range" style="width:150px;float:left;padding:0;margin-left:9px;margin:0px;">	
-						<?php	echo $form->input('salary_from', array('label' => 'From',
+											'div'=>false
+										    )
+									    );
+							    ?>
+                            </div>
+                    </div>
+                    <div class="job_feild"> <span class="annual_sal_lh">Annual salary <br />Range ($):</span>
+                      	<div class="annual_field"> <span>From</span> 
+                        		<div class="from_date textbox-date">
+                                	<?php	echo $form->input('salary_from', array('label' => '',
 													'type'  => 'text',
-													'class' => 'job_text_field_from required number',
-													)
-								 );
-						?>
-					</div>
-					<div style="float:left;width:55px;">a year</div>
-					<div class= "job_text_field_to_error" style="width:145px;float:left;padding:0;margin:0px;">	
-						<?php	echo $form->input('salary_to', array('label' => 'To',
-													'type'  => 'text',
-													'class' => 'job_text_field_from required number',
-													)
-								 );
-						?>
-					</div>
-					<div style="float:left;width:50px;overflow:visible;">a year</div>
-					<div style="clear:both;margin-left:-5px;">
-						<?php $job_array = array('1'=>'Full Time',
-												'2'=>'Part Time',
-												'3'=>'Contract',
-												'4'=>'Internship', 													'5'=>'Temporary'); 
-						?>
-						<?php echo $form -> input('job_type',array(
+													'class' => 'required number',
+													'title'=> 'Enter aount in $',
+													'div'=>false
+												)
+								          );
+						            ?>			
+                                </div>
+                                <span>a year &nbsp;&nbsp;&nbsp; To:</span>
+                                <div class="from_date textbox-date">
+                                	<?php	echo $form->input('salary_to', array('label' => '',
+											'type'  => 'text',
+											'class' => 'required number',
+											'title'=> 'Enter aount in $',
+											'div'=>false
+											)
+								        );
+						            ?>
+                                </div>
+                                <span>a year</span>
+                         </div>     
+                    </div>
+                    <div class="job_feild"> <span class="job_float">Job Type:</span>
+                            <div class="category_dropdown_job">
+                                <?php
+								       $job_array = array(
+												  '1'=>'Full Time',
+												  '2'=>'Part Time',
+												  '3'=>'Contract',
+												  '4'=>'Internship',
+												  '5'=>'Temporary'
+												); 
+						               
+									   echo $form -> input('job_type',array(
 												  'type'=>'select',
-												  'label'=>'Job Type',
+												  'label'=>'',
 												  'options'=>$job_array,
-												  'class'=>'job_select_job_type required',
+												  'class'=>'required',
+												  'div'=>false
 												  )
 								  );
-						?>
-					</div>
-					<div class="lable_error" style="clear:both;margin-left:-5px;">  
-					<?php echo $form->input('description', array('label' => 'Description:',
+                                 ?>
+                            </div>
+                            <div class="clr"></div>
+                    </div>
+                    <div class="job_feild"> <span>Description:</span>
+                            <div class="post_job_textbox">
+                                   <?php echo $form->input('description', array('label' => '',
 													'type'  => 'textarea',
-													'class' => 'textarea_bg_job required',
-													)
-								 );
-					?>
-				</div>
-				<div style="clear: both;"></div>
-				<div style="text-align:left">
-					<?php echo $form->submit('Save for Later',array('div'=>false,
-																	'name'=>'save',
-																	'value'=>'later',
-																	'style'=>'margin-left:150px;')); 
-					?>
-				<?php echo $form->submit('Post and Share',array('div'=>false,'name'=>'save','value'=>'share')); ?>
-				</div>
-			 <?php echo $form->end(); ?>
-		</div>
-	</div>
-	<!-- middle conyent list -->
+													'class' => 'required',
+													'placeholder'=>'Description',
+												    'div'=>false
+												)
+								      );
+                                   ?>
+                            </div>
+                            <div class="clr"></div>
+                    </div>
+                    <div class="post_job_button">
+                        <div class="network_register_bttn post_job_left">
+                            <?php echo $form->submit('SAVE FOR LATER',array(
+												'name'=>'save',
+												'value'=>'later',
+												'div'=>false,
+												)
+									); 
+							?>					
+                        </div>
+                        <div class="network_register_bttn post_job_left">
+							<?php echo $form->submit('POST AND SHARE',array(
+												'div'=>false,
+												'name'=>'save',
+												'value'=>'share'
+												)
+                                        );
+							?>					
+                        </div>
+						<?php echo $form->end(); ?>
+                     </div>                  
+            	</div>
+          <div class="clr"></div>
+       </div>
+               
+            </div>
+     
+        
+        <div class="clr"></div>
+        <div class="job_pagination_bottm_bar"></div>									
+
+
+ 	<div class="clr"></div>
 </div>
-	<!-- middle section end -->
 </div>
+
+
+
 <script>
 	$(document).ready(function(){
 		$("#JobPostJobForm").validate();

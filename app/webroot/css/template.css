@@ -1207,6 +1207,25 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 
 
+/*:::::::::::::Post New Job - page css start :::::::*/
+.new_job {margin-top: 23px; padding: 0 0 0 36px; width: 674px; position:relative;}
+.job_feild{ height:auto; width:500px;}
+.job_feild span {font: 15px/42px Arial,Helvetica,sans-serif; *float:left;}
+.post_job_textbox{margin: 8px 78px 0 0;float: right;height:56px;width: 289px;}
+.post_job_textbox textarea{background: url("../images/textarea.png") no-repeat scroll 0 0 transparent; border: 0 none; color: #847A6C; font-family: Arial,Helvetica,sans-serif;font-size: 13px;height: 56px;line-height: 28px;padding: 0 0 0 11px; width: 277px; resize:none;}
+.job_feild_margin{ margin-right:78px !important;}
+.category_dropdown { float:right; width:370px;margin-top: 14px;}
+.category_dropdown select{ width:180px;float: left; margin-left: 5px; height:auto;}
+.annual_sal_lh{ line-height:normal !important;}
+.annual_field { float:right; widows:370px; margin-right:30px; *padding-top:10px;}
+.annual_field span {font: 15px Arial,Helvetica,sans-serif; float:left;}
+.from_date {float:left; margin:0 11px;}
+.from_date select { width:80px; height:auto;}
+.category_dropdown_job{ width:180px; margin:11px 0 0 72px; float:left;}
+.category_dropdown_job select {width:180px; height:auto;}
+.job_float {float:left;}
+.post_job_button { width:440px; height:auto; float:left;}
+.post_job_left {margin:15px 0 0 0 !important; float:left;}
 
 
 
