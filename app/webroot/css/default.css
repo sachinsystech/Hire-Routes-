@@ -282,3 +282,24 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 }
 .invitation-table-name {width:278px; height:48px;}
 /*-------------------- End for jobseeker invitations ----------------------*/
+
+.email_popup {
+	margin:10px 0 10px 30px;
+}
+#gmailContacts {
+	overflow:hidden !important;
+}
+#gmailContacts input {
+	margin-right:15px;
+}
+.gmail-submit{
+	width:90px;
+	float:right;
+    background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font: 20px 'OpenSansCondensedBold';
+    height: 36px;
+    margin: 10px 0 0 11px;
+}
