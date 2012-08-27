@@ -348,7 +348,6 @@ function importFromGmail(){
     top: -28px;
     width: 72px;
 }
-.edit_contact_popup {height: 346px !important;margin-top: 10px;overflow-y: scroll;width: 575px;}
 
 </style>
 <script type="text/javascript">
@@ -379,7 +378,7 @@ $(document).ready(function(){
     	<div class="gmail_popup_cancel_bttn">
            	<div class="payment_popup_cancel_bttn"><a href="#" id ="closeEditBox"></a></div>
    		</div>
-		<div class="edit_contact_popup">
+		<div class="edit_contact_popup_box">
 			<?php echo $this->Form->create('editContact', array('url' => array('controller' => 'networkers', 'action' => 'editContact'))); ?>
 			<div style="display:none;" >
 			<?php echo $form->input('id', array('label' => '',
