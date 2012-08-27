@@ -280,7 +280,7 @@ function importFromGmail(){
 																			 'action' => 'addContacts')));?>
 		<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
 		<div style="margin-top: 8px; border-bottom:1px solid">
-			<div style="float:left;width:178px;margin-left:20px;"> 
+			<div style="float:left;width:178px;"> 
 				<input type="checkbox" onclick="toggleChecked(this.checked)">
 			</div>
 			<div> <h2>E-Mail </h2> </div>
@@ -348,6 +348,7 @@ function importFromGmail(){
     top: -28px;
     width: 72px;
 }
+.edit_contact_popup {height: 346px !important;margin-top: 10px;overflow-y: scroll;width: 575px;}
 
 </style>
 <script type="text/javascript">
