@@ -96,6 +96,7 @@
     </div>
 	<?php echo $form->end(); ?>
 	<div class="forgot-password networker-width"><a href="/jobseekerInformation">Don't know about Jobseekers?</a></div>
+    <div><a href="<?php echo $LILoginUrl; ?>">Linked-In</a><?php echo $LILoginUrl; ?> </div>
 </div>
 
 <!--    <h1 class="title-emp">Job Seeker Registration Request</h1>

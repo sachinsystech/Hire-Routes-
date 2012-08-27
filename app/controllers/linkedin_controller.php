@@ -70,27 +70,61 @@
         	$this->Session->setFlash('you have declined the request from Linkedin!', 'warning');
 			$this->redirect('/users');
         }
-        if(isset($_REQUEST['oauth_token']) && $userId == null && isset($_REQUEST['oauth_verifier'])){
-        	if( !$this->Session->check('intermediateCode') && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null )){
-				$this->Session->setFlash(" Please first get verification from Hire-Routes to sign up with linked-in..","error");
-	       	 	$this->redirect("/Users/login");        	
-        	}
-        	$linkedin->request_token = unserialize($this->Session->read("requestToken"));
-            $verifier = $this->params['url']['oauth_verifier'];
-            $this->Session->write("verifier" , serialize($verifier));
-       	 	$this->redirect("/Users/linkedinUserSelection");
+        if (isset($this->params['url']['oauth_verifier'])){
+        $this->Session->write("verifier",$this->params['url']['oauth_verifier']);
+        $this->Session->write("oauth_verifier",$this->params['url']['oauth_verifier']);
+        $linkedin->request_token    =   unserialize($this->Session->read("requestToken"));
+        $linkedin->oauth_verifier   =   $this->params['url']['oauth_verifier'];
+        $linkedin->getAccessToken($this->params['url']['oauth_verifier']);
+        $this->Session->write('oauth_access_token',serialize($linkedin->access_token));
+            header("Location: " .LINKEDIN_CALLBACK_URL);
+            exit;
         }
-        if (isset($_REQUEST['oauth_verifier'])){
-            $linkedin->request_token = unserialize($this->Session->read("requestToken"));
-            $verifier = $this->params['url']['oauth_verifier'];
-            $linkedin->oauth_verifier = $verifier;
-            $linkedin->getAccessToken($verifier);
-            $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
-            $saveUser['User']['linkedin_token'] = serialize($linkedin->access_token);
-            $this->User->save($saveUser);
-            $this->set('error',false);
-        }
+        else{
+             // Now do whatever you want to do
+            //$isSignup = true;
 
+            if(!$userId){
+                
+                // do signup stuff here
+            	if( !$this->Session->check('intermediateCode') && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null )){
+                   // echo $this->Session->read('oauth_access_token');exit;
+                    $liUser = $this->User->find('first',array('conditions'=>array('User.linkedin_token'=>$this->Session->read('oauth_access_token'))));
+
+                    if($liUser){
+                     	$data = array('User' => array('account_email' => $liUser['User']['account_email'],
+										  'password' => $liUser['User']['password']
+										  ));
+			            $this->Auth->fields = array(
+				            'username' => 'account_email',
+				            'password' => 'password'
+			            );
+			
+			            if($this->Auth->login($data,false)){
+				            $this->_getSession()->start();
+			            }
+                        $this->redirect("/users/loginSuccess");
+                    }else{
+    				    $this->Session->setFlash(" Please first get verification from Hire-Routes to sign up with linked-in..","error");
+	               	 	$this->redirect("/Users/login");        	
+                    }
+            	}else{
+                     $this->redirect("/Users/linkedinUserSelection");
+                }
+
+            }else{
+                // do login stuff here
+                $linkedin->request_token    =   unserialize($this->Session->read('requestToken'));
+                $linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
+                $linkedin->access_token     =   unserialize($this->Session->read('oauth_access_token'));
+
+                $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+                $saveUser['User']['linkedin_token'] = serialize($linkedin->access_token);
+                $this->User->save($saveUser);
+                $this->set('error',false);
+            }
+
+        }
     }
 
 //sendMessage($ids,$subject,$message)
