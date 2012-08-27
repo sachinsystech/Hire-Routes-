@@ -247,22 +247,24 @@ function importFromGmail(){
 }
 </script>
 <?php if(isset($GmailContacts)){?>
-<div id="gmailContacts" >
-	<div class="about_popup_cancel_bttn_row">
-    	<div class="about_popup_cancel_bttn"><a href="#" id="close"></a></div>
-    </div>
-	<?php  echo $this->Form->create('gmailContact', array('url' => array('controller' => 'networkers', 
-																		 'action' => 'addContacts')));?>
-	<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
-	<div style="border-bottom:1px solid">
-		<div style="float:left;width:178px;margin-left:5px;"> 
-			<input type="checkbox" onclick="toggleChecked(this.checked)">
+<div style="display:none;" id = "gmailContacts">
+	<div class="job-share-content">
+    	<div class="about_popup_cancel_bttn_row1">
+           	<div class="payment_popup_cancel_bttn"><a href="#" id ="close"></a></div>
+   		</div>
+		 <div class="payout-content">
+			<?php  echo $this->Form->create('gmailContact', array('url' => array('controller' => 'networkers', 
+																			 'action' => 'addContacts')));?>
+		<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
+		<div style="border-bottom:1px solid">
+			<div style="float:left;width:178px;margin-left:5px;"> 
+				<input type="checkbox" onclick="toggleChecked(this.checked)">
+			</div>
+			<div> <b> E-Mail </b> </div>
 		</div>
-		<div> <b> E-Mail </b> </div>
-	</div>
-	<div style="height: 280px; margin: auto; overflow: auto;">
-	<?php	
-				echo $form->input("addGmailContact", array(	'class'=>'contact_checkbox',
+		<div style="height: 280px; margin: auto; overflow: auto;">
+		<?php	
+			echo $form->input("addGmailContact", array(	'class'=>'contact_checkbox',
 															'label' => '',
 															'type'  => 'select',
 															'multiple' => 'checkbox',
@@ -273,23 +275,24 @@ function importFromGmail(){
 								  );
 		  
 		  
-	?>
-
-	</div>
-	<div style="clear:both;margin: 7px 23px;">
-		<input type="submit" style="font-size:10px;font-weight:bold;width:90px;float:right;margin:3px;"
+		?>
+		</div>
+		<div style="clear:both;margin: 7px 23px;">
+			<input type="submit" style="font-size:10px;font-weight:bold;width:90px;float:right;margin:3px;"
 			value="Add Contacts" onclick="return checkGmailCheckbox()">
-		<?php }
-		else{ ?>
-			<div style="text-align:center;">
-				<span >No contacts Found</sapn> 
-			</div>
-		<?php } ?>
-	<?php echo $form->end(); ?>
-	<?php }?>
-	
-	</div>	
+			<?php }
+			else{ ?>
+				<div style="text-align:center;">
+					<span >No contacts Found</sapn> 
+				</div>
+			<?php } ?>
+			<?php echo $form->end(); ?>
+    	    <div class="clr"></div>
+    		</div>
+	    </div>
+	</div>
 </div>
+<?php }?>  
 <script>
 	function toggleChecked(status) {
 		$("input:checkbox").each( function() {
@@ -325,16 +328,36 @@ display: block;
     background: none repeat scroll 0 0 #000000;
     opacity: 0.6;
 }
+.about_popup_cancel_bttn_row {
+	width:504px;
+	height:1px;
+	position:relative;
+}
+.about_popup_cancel_bttn {
+	width:72px;
+	height:72px;
+	background:url(../images/popup_cancel_bttn.png) no-repeat;
+	position:absolute;
+	right:-81px;
+	top:--38px;
+}
+.about_popup_cancel_bttn a {
+	width:50px;
+	height:50px;
+	display:block;
+	margin:7px 0 0 8px;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("a#close").click(function(){
-		$("#about-dialog" ).dialog( "close" );
+		$("#gmailContacts" ).dialog( "close" );
 		return false;
 	});
 	$("#gmailContacts").dialog({
 		height:430,
-		width:550,
+		width:700,
+		hide: "explode",		
 		modal:true,
 		resizable: false ,
 		draggable: true,
@@ -344,7 +367,7 @@ $(document).ready(function(){
 			direction: "up" 
 		},
 	});
-	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"400px","top":"0","width":"581px", "background":"url('../images/about_popup_bg.png') repeat scroll 0 0 transparent","border":"none"});
+	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","top":"0", "background":"none","border":"none"});
 	<?php if(isset($GmailContacts)){?>
 		$( "#about-dialog").show();
 	<?php } ?>
