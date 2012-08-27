@@ -4,19 +4,12 @@
 <h1 class="title-emp">What type of user are you? </span></h1>
 <div class="button"> <a href="/networkerInformation">DON'T KNOW? </a> </div>
 <div class="content">
-    <div class="box box1" onclick="registrationInto(3);">
-      <div class="box-content network-up"> <img src="/images/network_1.png" />
-        <div class="clr"></div>
-      </div>
-      <div class="button-network" > <a href="#" onclick="registrationInto(3);">NETWORKERS </a></div>
-      <div class="clr"></div>
+    <div class="api_user_selection" onclick="registrationInto(3);">
+      <div class="api_button_networker" > <a href="#" onclick="registrationInto(3);">NETWORKER</a></div>
     </div>
     
-    <div class="box box1" onclick="registrationInto(2);">
-      <div class="box-content job-up"> <img src="/images/job_1.png" />
-      </div>
-      <div class="clr"></div>
-      <div class="button-jobseeker" > <a href="#" onclick="registrationInto(2);">JOB SEEKER </a></div>
+    <div class="api_jobseeker_selection2" onclick="registrationInto(2);">
+      <div class="api_button_jobseeker" > <a href="#" onclick="registrationInto(2);">JOB SEEKER </a></div>
     </div>
   </div>
 <div class="clr"></div>
