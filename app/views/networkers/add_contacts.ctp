@@ -359,11 +359,8 @@ $(document).ready(function(){
 		modal:true,
 		resizable: false ,
 		draggable: true,
+		position: 'center',
 		title:"Gmail Contacts: <br> ",
-		show: { 
-			effect: 'drop', 
-			direction: "up" 
-		},
 	});
 	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","top":"0","width":"630px", "background":"none","border":"none"});
 
