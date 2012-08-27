@@ -287,13 +287,14 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 	margin:10px 0 10px 30px;
 }
 #gmailContacts {
-	overflow:hidden !important;
+    overflow: hidden !important;
+    padding-top: 43px;
 }
 #gmailContacts input {
 	margin-right:15px;
 }
 .gmail-submit{
-	width:90px;
+	width:182px;
 	float:right;
     background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
     border: medium none;

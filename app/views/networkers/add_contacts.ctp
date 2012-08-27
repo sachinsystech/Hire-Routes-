@@ -247,20 +247,20 @@ function importFromGmail(){
 }
 </script>
 <?php if(isset($GmailContacts)){?>
-<div style="display:none;" id = "gmailContacts">
+<div style="display:none;width:470px" id = "gmailContacts">
 	<div class="job-share-content">
-    	<div class="about_popup_cancel_bttn_row1">
+    	<div class="gmail_popup_cancel_bttn">
            	<div class="payment_popup_cancel_bttn"><a href="#" id ="close"></a></div>
    		</div>
 		 <div class="payout-content">
 			<?php  echo $this->Form->create('gmailContact', array('url' => array('controller' => 'networkers', 
 																			 'action' => 'addContacts')));?>
 		<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
-		<div style="border-bottom:1px solid">
+		<div style="margin-top: 8px; border-bottom:1px solid">
 			<div style="float:left;width:178px;margin-left:5px;"> 
 				<input type="checkbox" onclick="toggleChecked(this.checked)">
 			</div>
-			<div> <h2>>E-Mail </h2> </div>
+			<div> <h2>E-Mail </h2> </div>
 		</div>
 		<div style="height: 328px; margin: 20px auto 0; overflow: auto;"" class="email_popup">
 		<?php	
@@ -312,33 +312,27 @@ function importFromGmail(){
 </script>
 <style>
 .ui-dialog-titlebar { display:none; }
-.ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-draggable .ui-resizable{
-display: block;
-    height: auto;
-    left: 350px;
-    outline: 0 none;
-    position: absolute;
-    top: 200px;
-    visibility: visible;
-    width: 510px;
-    z-index: 1004;
-}
 .ui-widget-overlay{
     background: none repeat scroll 0 0 #000000;
     opacity: 0.6;
 }
 .about_popup_cancel_bttn_row {
-	width:504px;
+	width:575px;
 	height:1px;
 	position:relative;
 }
-.about_popup_cancel_bttn {
-	width:72px;
-	height:72px;
-	background:url(../images/popup_cancel_bttn.png) no-repeat;
-	position:absolute;
-	right:-81px;
-	top:--38px;
+.payment_popup_cancel_bttn {
+    background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    height: 72px;
+    position: absolute;
+    right: -38px;
+    top: -33px;
+    width: 72px;
+}
+.gmail_popup_cancel_bttn{
+    height: 1px;
+    position: relative;
+    width: 575px;
 }
 .about_popup_cancel_bttn a {
 	width:50px;
@@ -348,9 +342,9 @@ display: block;
 }
 .job-share-content {
     background: none repeat scroll 0 0 #F6F1E2;
-    height: 420px;
+    height: 450px;
     margin: 0 auto;
-    width: 658px;
+    width: 575px;
 }
 </style>
 <script type="text/javascript">
@@ -361,7 +355,6 @@ $(document).ready(function(){
 	});
 	$("#gmailContacts").dialog({
 		height:430,
-		width:700,
 		hide: "explode",		
 		modal:true,
 		resizable: false ,
@@ -372,7 +365,7 @@ $(document).ready(function(){
 			direction: "up" 
 		},
 	});
-	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","top":"0", "background":"none","border":"none"});
+	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","top":"0","width":"630px" "background":"none","border":"none"});
 	<?php if(isset($GmailContacts)){?>
 		$( "#about-dialog").show();
 	<?php } ?>
