@@ -146,8 +146,7 @@ class CompaniesController extends AppController {
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
 		// end for job fetching...
-		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
-		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
+
 	}
 
 /*
@@ -202,8 +201,6 @@ list archive jobs..
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
 		// end for job fetching...
-		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
-		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 	
 	/* Company data starts*/
@@ -281,8 +278,6 @@ list archive jobs..
 		$this->set('RewardsPaid',$rewardPaid);
 		$this->set('Applicants',$applicants);
 		$this->set('Views',$jobViews);
-		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
-		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());		
 	}
 	/* Company data ends */
 	

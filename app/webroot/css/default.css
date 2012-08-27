@@ -312,3 +312,97 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     height: auto;
     width: 575px;
 }
+.gmail_popup_cancel_bttn{
+    height: 1px;
+    position: relative;
+    width: 575px;
+}
+.gmail-share-content {
+    background: none repeat scroll 0 0 #F6F1E2;
+    height: 450px;
+    margin: 0 auto;
+    width: 575px;
+}
+/*---------------- Edit gmail contacts  ********************/
+#editContacts{
+    height: 462px !important;
+    overflow: hidden !important;
+    padding-top: 43px;
+}
+.edit_contact_popup{
+    height: auto;
+    width: 575px;
+	margin-top:10px;    
+}
+.edit_contect_box{
+	margin-top:10px;    
+}
+.edit_conact_button{
+	clear:both;margin: 7px 23px;
+}
+/*-------------------- Linked in user selection --------------**/
+.text_field {
+    float: left;
+    width: 420px;
+}
+.text_field_bg {
+    border: 1px solid;
+    float: right;
+    width: 200px;
+}
+.network_popup_row {
+	width:420px;
+	height:auto;
+	margin-top:8px;
+}
+.network_popup_row input {
+	width:274px;
+	height:29px;
+	background:url(../images/text-box.png) no-repeat;
+	border:none;
+	font:13px Arial, Helvetica, sans-serif;
+	color:#847a6c;
+	padding:0 5px 0 10px;
+	line-height:30px;
+	outline:none;
+}
+.network_popup_row select {
+	float:right;
+	width:289px;
+}
+.network_university_popup_cancel_bttn {
+    height: 1px;
+    position: relative;
+}
+.network_popup_cancel_bttn {
+    background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    height: 72px;
+    overflow: hidden;
+    position: absolute;
+    right: -59px;
+    top: -44px;
+    width: 72px;
+}
+.networker_popup_inner_content{
+	background: url("../images/about_popup_bg.png") repeat scroll 0 0 transparent;
+    margin: 10px;
+    padding: 25px;
+    height:180px;
+}
+.network_popup_cancel_bttn a {
+    display: block;
+    height: 50px;
+    margin: 7px 0 0 8px;
+    width: 50px;
+}
+.networker-popup-submit{
+    background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    float: right;
+    font: 20px 'OpenSansCondensedBold';
+    height: 36px;
+    margin: 10px 0 0 11px;
+    width: 80px;
+}

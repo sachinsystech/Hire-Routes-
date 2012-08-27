@@ -99,10 +99,10 @@
 		                            	$explode = explode(' ',$desc);
 										$string  = '';
 										$dots = '...';
-										if(count($explode) <= 400){
+										if(count($explode) <= 130){
 											$dots = '';
 										}
-										$count  = count($explode)>= 400 ? 400 :count($explode) ;
+										$count  = count($explode)>= 130 ? 130 :count($explode) ;
 										for($i=0;$i<$count;$i++){
 											$string .= $explode[$i]." ";
 										}
@@ -115,7 +115,7 @@
 					<div class="description" id="full_description" style="display:none;">
 						<?php echo $job['Job']['description'];?>
 					</div>
-					<?php if(str_word_count($desc)>400){?>
+					<?php if(str_word_count($desc)>130){?>
 						<div id="more_info">
 							<a onclick="showDescription();">More Info</a>
 						</div>
