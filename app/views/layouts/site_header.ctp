@@ -91,7 +91,7 @@ $class= "class='selected_menu'";
 			<ul>
 				<li> <a href="" class="twit"> </a> </li>
 				<li> <a href="<?php echo $FBLoginUrl; ?>" class="fb" > </a></li>
-				<li> <a href="<?php echo $LILoginUrl; ?>" class="in"> </a> </li>
+				<li> <a href="<?php echo '' ?>" class="in"> </a> </li>
 			</ul>
 		</div>
 	</div>

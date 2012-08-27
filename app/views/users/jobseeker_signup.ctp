@@ -95,6 +95,9 @@
     	<div class="clr"></div>
     </div>
 	<?php echo $form->end(); ?>
-	<div class="forgot-password networker-link-width"><a href="/jobseekerInformation">Don't know about Jobseekers?</a></div>
+
+	<div class="forgot-password networker-width"><a href="/jobseekerInformation">Don't know about Jobseekers?</a></div>
+    <div><a href="<?php echo $LILoginUrl; ?>">Linked-In</a></div>
+
 </div>
 
