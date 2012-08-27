@@ -47,6 +47,7 @@ class CompaniesController extends AppController {
 	
 	/*	display a form to post new Job by company		*/
 	function postJob(){
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		if($userId){
 			$this->set('states',$this->Utility->getState());
@@ -297,6 +298,7 @@ list archive jobs..
 
 /*****	Companies edit their own Job :: 	*********/
 	function editJob(){
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['jobId'];
 		$shareJob=isset($this->params['form']['shareJob'])?true:false;
@@ -640,7 +642,7 @@ list archive jobs..
 
 	/** list of Applicant for given job **/
 	function showApplicant(){
-		$this->layout ="home";
+		//$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){

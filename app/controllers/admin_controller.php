@@ -1551,7 +1551,7 @@ where user_id =".$networkersData[$key]['User']['id']."");
 	
 	function invitationCode(){
 		if(isset($this->data['InvitaionCode'])){
-			for($i=0 ;  $i <= $this->data['InvitaionCode']['signups'] ; $i++){
+			for($i=1 ;  $i <= $this->data['InvitaionCode']['signups'] ; $i++){
 				$data[$i]['invitaion_code'] = md5(rand() . microtime()) ;
 				echo $data[$i]['invitaion_code'] ."<br>";
 			}

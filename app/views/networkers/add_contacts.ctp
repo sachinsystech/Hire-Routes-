@@ -17,7 +17,7 @@
             	<div class="job-right-top-content1">
                 	<div class="job-right-top-left job-add-contact-p"> 
                     	<h2>ADD NEW CONTACTS</h2>
-                    	<div class="job-gmail">Gmail: <input class="job-import"type="button" onclick="importFromGmail();"/></div>
+                    	<div class="job-gmail">Gmail<input class="job-import"type="button" onclick="importFromGmail();"/></div>
                        
                         <?php  echo $form->create('Contact', array('onsubmit'=>'return checkContact();',
 																	'url' => array('controller' => 'networkers',
@@ -27,14 +27,14 @@
 												);
 						?>
 						<div class="job-cv-part">
-							<div class="job-cv">CSV:</div>
+							<div class="job-cv">CSV</div>
 							<div class="job-cv_right">
 								<?php echo $form->file('CSVFILE',array('class'=>'required'));?>
 							</div>
 						</div>	
 
 						<div class="job-single-entry">
-                        	<div class="job-single">Single Entry:</div> 
+                        	<div class="job-single">Single Entry</div> 
                         	<div class="text-box-small"> 
                         		<?PHP $contact_name_value = isset($NetworkerContact['contact_name'])?$NetworkerContact['contact_name']:'Enter Name'?>
 								<?php echo $form->input('contact_name', array('label' => false,
@@ -150,7 +150,7 @@
 function checkContact(){
 	
 	if( ($("#ContactContactEmail").val()=="Enter E-mail" || $("#ContactContactEmail").val()=="" ) && $("#ContactCSVFILE").val()== "" || $("#ContactCSVFILE").val()== null ){
-		alert("Please fill atleast one in CSV or User Email");
+		alert("Please fill at least one field in CSV or User Email");
 		$("#ContactContactEmail").focus();
 		return false;	
 	}
@@ -179,8 +179,11 @@ function validateEmail(elementValue){
 
 <script>
 $(document).ready(function(){
-	$("#clear").click(function(){
+
 	
+	$("#clear").click(function(){
+		$("input[type=text]").val("");
+		$("input[type=file]").val("");
 	});
 	$("#networkersImportCsvForm").validate({
 	rules: {
@@ -245,6 +248,9 @@ function importFromGmail(){
 </script>
 <?php if(isset($GmailContacts)){?>
 <div id="gmailContacts" >
+	<div class="about-border"> 
+		<a href="#"> <img src="/images/about/about.jpg" /> <span class="link-mouseover">READ MORE</span> </a> 
+	</div>
 	<?php  echo $this->Form->create('gmailContact', array('url' => array('controller' => 'networkers', 
 																		 'action' => 'addContacts')));?>
 	<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
@@ -285,19 +291,6 @@ function importFromGmail(){
 	</div>	
 </div>
 <script>
-	$("#gmailContacts").dialog({
-		height:430,
-		width:550,
-		modal:true,
-		resizable: false ,
-		draggable: true,
-		title:"Gmail Contacts: <br> ",
-		show: { 
-			effect: 'drop', 
-			direction: "up" 
-		},
-	});
-	
 	function toggleChecked(status) {
 		$("input:checkbox").each( function() {
 			$(this).attr("checked",status);
@@ -315,4 +308,46 @@ function importFromGmail(){
 			return true;
 	}
 </script>
-
+<style>
+.ui-dialog-titlebar { display:none; }
+.ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-draggable .ui-resizable{
+display: block;
+    height: auto;
+    left: 350px;
+    outline: 0 none;
+    position: absolute;
+    top: 200px;
+    visibility: visible;
+    width: 510px;
+    z-index: 1004;
+}
+.ui-widget-overlay{
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.6;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("a#close").click(function(){
+		$("#about-dialog" ).dialog( "close" );
+		return false;
+	});
+	$("#gmailContacts").dialog({
+		height:430,
+		width:550,
+		modal:true,
+		resizable: false ,
+		draggable: true,
+		title:"Gmail Contacts: <br> ",
+		show: { 
+			effect: 'drop', 
+			direction: "up" 
+		},
+	});
+	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"1000px","top":"0","width":"581px", "background":"none","border":"none"});
+	<?php if(isset($GmailContacts)){?>
+		$( "#about-dialog").show();
+	<?php } ?>
+	
+});
+</script>

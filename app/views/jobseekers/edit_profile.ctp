@@ -44,7 +44,7 @@
                     	<?php	$name = "";
                                     if(isset($fbinfo)){ $name = $fbinfo['first_name']." ".$fbinfo['last_name']; }
                                     if(isset($jobseeker) && $jobseeker['contact_name']!=""){ $name = $jobseeker['contact_name']; } 
-                                    echo $form->input('Jobseekers.contact_name', array('label' => "<span>Name:</span>",
+                                    echo $form->input('Jobseekers.contact_name', array('label' => "<span>Name</span>",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $name,
@@ -57,7 +57,7 @@
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">							
 							<?php	if(isset($jobseeker)){ $address = $jobseeker['address']; } else { $address = "";}
-                                    echo $form->input('Jobseekers.address', array('label'=>'<span>Address:</span>:',
+                                    echo $form->input('Jobseekers.address', array('label'=>'<span>Address</span>',
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $address,
@@ -70,7 +70,7 @@
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">
 							<?php	if(isset($jobseeker)){ $city = $jobseeker['city']; } else { $city = "";}
-                                    echo $form->input('Jobseekers.city', array('label' => "<span>City:</span> ",
+                                    echo $form->input('Jobseekers.city', array('label' => "<span>City</span> ",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $city,
@@ -82,7 +82,7 @@
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">							
 							<?php	if(isset($jobseeker)){ $state = $jobseeker['state']; } else { $state = "";}
-                                    echo $form->input('Jobseekers.state', array('label' => "<span>State:</span> ",
+                                    echo $form->input('Jobseekers.state', array('label' => "<span>State</span> ",
 												'type'  => 'text',
 												'class' => 'text_field_bg required',
 												'value' => $state,
@@ -95,7 +95,7 @@
                     	<div class="edit-profile-text-box">													
 							<?php	if(isset($jobseeker)){ $phone = $jobseeker['contact_phone']; } else { $phone = "";}
                                     echo $form->input('Jobseekers.contact_phone', 
-                                    		array('label' => "<span>Phone:</span> ",
+                                    		array('label' => "<span>Phone</span> ",
 												'type'  => 'text',
 												'class' => 'text_field_bg required number',
 												'minlength' => '10',
@@ -108,7 +108,7 @@
 						</div>
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">	
-                    		<?php echo $form->input('university',array('label'=>"<span>University:</span> ",
+                    		<?php echo $form->input('university',array('label'=>"<span>University</span> ",
 																		'type'=>'text',
 																		'class' => 'text_field_bg required',
 																		'div'=> false,
@@ -120,11 +120,11 @@
                     	</div>					
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">
-                    		<?php echo $form->input('Jobseekers.graduate_degree_id',array('label'=>"<span>Graduate Degree:</span>",
+                    		<?php echo $form->input('Jobseekers.graduate_degree_id',array('label'=>"<span>Graduate Degree</span>",
 																	'type'=>'select',
 																	'div'=> false,
 																	'options'=>$graduateDegrees,
-																	'empty' =>' -- Select Gred Degree --',
+																	'empty' =>' -- Select Graduate Degree --',
 																	'class' => 'job_select_gred_degree',
 																	'value' => isset($jobseeker['graduate_degree_id'])?$jobseeker['graduate_degree_id']:"",
 																));
@@ -139,7 +139,7 @@
 								}else{ 
 									$university = "";
 								}
-								echo $form->input('graduate_university',array('label'=> '<span>Graduate University:</span>',
+								echo $form->input('graduate_university',array('label'=> '<span>Graduate University</span>',
 																	'type'=>'text',
 																	'class' => 'text_field_bg',
 																	'options'=>$university,

@@ -46,13 +46,13 @@
   });
       
 </script>
- <h1 class="title-emp">Companies/Recruiters Registration Request</h1>
+ <h1 class="title-emp">Companies/Recruiters Registration</h1>
     <div class="sub-title-cs">Please fill the registration request below, we will analyze your data and get back with in next 24 hours.</div>
     
 <?php echo $form->create('User', array('action' => 'companyRecruiterSignup','onsubmit'=>'return checkform();')); ?>
 
     
-	<div class="company-recruiter-checkbox">
+	<div class="company-recruiter-check-box">
 		<div class="cross-button bottom-margin">
 			<input id="CompaniesRoleCompany" name="data[Companies][role]" type="radio" value="" class = 'required'/>
 		</div>
@@ -169,5 +169,5 @@
     	<div class="clr"></div>
     </div>
     <?php echo $form->end(); ?>	
-	<div class="forgot-password dont-know-width"><a href="/companyInformation">Don't know about Companies/Recruiters?</a></div>
+	<div class="forgot-password dont-know"><a href="/companyInformation">Don't know about Companies/Recruiters?</a></div>
 

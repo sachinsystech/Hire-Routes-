@@ -13,7 +13,8 @@
 	});
 	function onSelectChange(shortSelected){
 	    var displaySelected = 6;//$("#switch_display option:selected");
-		window.location.href="/jobs/index/display:"+displaySelected+"/shortby:"+shortSelected;
+		//window.location.href="/jobs/index/display:"+displaySelected+"/shortby:"+shortSelected;
+		window.location.href="/jobs/index/shortby:"+shortSelected;		
 	}	
 
 </script>

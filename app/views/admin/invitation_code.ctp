@@ -102,7 +102,6 @@
 				
 			    <tr class="tableHeading">
 			    	<th>SN</th> 
-				    <th>Invitation Code</th>
 				    <th>Invitation Url</th>
 				    <th>Action</th>
 			    </tr>
@@ -114,8 +113,8 @@
                 ?>
 				<tr class="<?php echo $class; ?>"> 
 					<td align="center" width="5%"><?php echo $sno;?></td>
-					<td align="center" width="20%"><?php echo $code["InvitaionCode"]["invitaion_code"]; ?></td> 
-					<td width="30%">
+				<!--<td align="center" width="20%"><?php echo $code["InvitaionCode"]["invitaion_code"]; ?></td>--> 
+					<td width="85%">
 						<input class="invitationUrl <?php echo $class; ?>" value= '<?php echo Configure::read('httpRootURL').'?inviteCode='.$code["InvitaionCode"]["invitaion_code"]; ?>' readonly="readonly">
 					</td> 
 					<td align="center" width="10%">
