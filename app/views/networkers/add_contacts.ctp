@@ -247,12 +247,12 @@ function importFromGmail(){
 }
 </script>
 <?php if(isset($GmailContacts)){?>
-<div style="display:none;width:470px" id = "gmailContacts">
+<div style="display:none;" id = "gmailContacts">
 	<div class="job-share-content">
     	<div class="gmail_popup_cancel_bttn">
            	<div class="payment_popup_cancel_bttn"><a href="#" id ="close"></a></div>
    		</div>
-		 <div class="payout-content">
+		 <div class="gmail-content">
 			<?php  echo $this->Form->create('gmailContact', array('url' => array('controller' => 'networkers', 
 																			 'action' => 'addContacts')));?>
 		<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
@@ -262,7 +262,7 @@ function importFromGmail(){
 			</div>
 			<div> <h2>E-Mail </h2> </div>
 		</div>
-		<div style="height: 328px; margin: 20px auto 0; overflow: auto;"" class="email_popup">
+		<div class="email_popup">
 		<?php	
 			echo $form->input("addGmailContact", array(	'class'=>'contact_checkbox',
 															'label' => '',
@@ -365,6 +365,12 @@ $(document).ready(function(){
 			direction: "up" 
 		},
 	});
+	$("#gmailContacts").position({
+	   my: "center",
+	   at: "center",
+	   of: window
+	});
+
 	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","top":"0","width":"630px", "background":"none","border":"none"});
 	<?php if(isset($GmailContacts)){?>
 		$( "#about-dialog").show();
