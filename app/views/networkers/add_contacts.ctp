@@ -344,7 +344,7 @@ function importFromGmail(){
     background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
     height: 72px;
     position: absolute;
-    right: -32px;
+    right: -31px;
     top: -28px;
     width: 72px;
 }
@@ -363,8 +363,7 @@ $(document).ready(function(){
 		resizable: false ,
 		draggable: true,
 	});
-	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px",
-	"opacity":"0.9","height":"500px","top":"100px","left":"220px","width":"630px","background":"none","border":"none"});
+	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","top":"100","left":"222px","width":"630px", "background":"none","border":"none"});
 
 	<?php if(isset($GmailContacts)){?>
 		$( "#about-dialog").show();
