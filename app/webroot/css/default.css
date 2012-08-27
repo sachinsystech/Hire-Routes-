@@ -284,9 +284,13 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 /*-------------------- End for jobseeker invitations ----------------------*/
 
 .email_popup {
-	margin:10px 0 10px 30px;
+	height: 328px;
+    margin: 20px 20px 0;
+    overflow: auto;
+    width: 550px;
 }
 #gmailContacts {
+    height: 462px !important;
     overflow: hidden !important;
     padding-top: 43px;
 }

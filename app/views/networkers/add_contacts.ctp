@@ -257,7 +257,7 @@ function importFromGmail(){
 																			 'action' => 'addContacts')));?>
 		<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
 		<div style="margin-top: 8px; border-bottom:1px solid">
-			<div style="float:left;width:178px;margin-left:5px;"> 
+			<div style="float:left;width:178px;margin-left:20px;"> 
 				<input type="checkbox" onclick="toggleChecked(this.checked)">
 			</div>
 			<div> <h2>E-Mail </h2> </div>
