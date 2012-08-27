@@ -642,7 +642,7 @@ list archive jobs..
 
 	/** list of Applicant for given job **/
 	function showApplicant(){
-		$this->layout ="home";
+		//$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
