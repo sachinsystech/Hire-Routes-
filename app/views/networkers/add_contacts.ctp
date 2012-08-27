@@ -260,9 +260,9 @@ function importFromGmail(){
 			<div style="float:left;width:178px;margin-left:5px;"> 
 				<input type="checkbox" onclick="toggleChecked(this.checked)">
 			</div>
-			<div> <b> E-Mail </b> </div>
+			<div> <h2>>E-Mail </h2> </div>
 		</div>
-		<div style="height: 280px; margin: auto; overflow: auto;">
+		<div style="height: 328px; margin: 20px auto 0; overflow: auto;"" class="email_popup">
 		<?php	
 			echo $form->input("addGmailContact", array(	'class'=>'contact_checkbox',
 															'label' => '',
@@ -278,8 +278,7 @@ function importFromGmail(){
 		?>
 		</div>
 		<div style="clear:both;margin: 7px 23px;">
-			<input type="submit" style="font-size:10px;font-weight:bold;width:90px;float:right;margin:3px;"
-			value="Add Contacts" onclick="return checkGmailCheckbox()">
+			<input type="submit" value="Add Contacts" onclick="return checkGmailCheckbox()" class="gmail-submit">
 			<?php }
 			else{ ?>
 				<div style="text-align:center;">
@@ -346,6 +345,12 @@ display: block;
 	height:50px;
 	display:block;
 	margin:7px 0 0 8px;
+}
+.job-share-content {
+    background: none repeat scroll 0 0 #F6F1E2;
+    height: 420px;
+    margin: 0 auto;
+    width: 658px;
 }
 </style>
 <script type="text/javascript">
