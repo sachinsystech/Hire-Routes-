@@ -365,7 +365,7 @@ $(document).ready(function(){
 			direction: "up" 
 		},
 	});
-	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","top":"0","width":"630px" "background":"none","border":"none"});
+	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","top":"0","width":"630px", "background":"none","border":"none"});
 	<?php if(isset($GmailContacts)){?>
 		$( "#about-dialog").show();
 	<?php } ?>
