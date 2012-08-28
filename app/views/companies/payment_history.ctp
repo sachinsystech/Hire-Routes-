@@ -118,42 +118,65 @@ $(document).ready(function(){
     		<?php echo $this->element('side_menu');?>
     		<div class="job_right_bar">
             	<div class="job-right-top-content1">
-                	<div class="job-right-top-left" >
-                    	<h2>PAYMENT HISTORY</h2>
-                    	<div class="job-list-head">
-                        <ul class="job-list-heading job-list-head-margin">
-                        	<li class="job-list-name">TRANSACTION-ID</li>
-                            <li class="job-list-status">DATE</li>
-                            <li class="job-list-origin">AMOUNT</li>
-                    	</ul>
+                	
+					<div class="job-right-top-left">
+                        <h2>PAYMENT HISTORY</h2>
+						
+                        <?php if($this->Paginator->numbers()):?>
+						<div class="ph_pagination">
+							<div class="job_next_bttn pagination_next"><?php echo $paginator->next('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
+							<div class="job_preview_bttn pagination_pre"><?php echo $paginator->prev(__('', true).' ', array(), null, array('class'=>'disabled'));?>
+							</div>
+							<div class="pagination_new">
+								<div>
+									<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
+									<ul>
+									<?php echo $this->Paginator->numbers(array('modulus'=>8,
+																				'tag'=>'li',
+																				'separator'=>false,)); ?>
+									</ul>
+									<?php echo $paginator->last(">>", array("class"=>"arrow_margin",
+																					)); ?>
+								</div>
+							   
+							</div>  
+							<div class="clr"></div>						
+                        </div>						
+						<?php endif; ?>
+						
+                         <div class="ph-head">
+                            <ul>
+                                <li class="job-list-name app-trans">TRANSACTION-ID</li>
+                                <li class="app-date">DATE</li>
+                                <li class="app-amount">AMOUNT</li>
+                            </ul>
                         </div>
-                        <?php $i=0;?>
-                        <?php foreach($PaymentHistory AS $PH):?>	
-						<div class="job-list-subhead">
-		                    <ul class="job-list-subcontent" >
-			                   	<li class="<?php if($i%2==0) echo'dark';?>">
-									<a href="#" 
+                        
+						<?php $i=0;?>
+                        <?php foreach($PaymentHistory AS $PH):?>
+						
+						<div class="ph-subhead">
+                                <ul>
+                                    <li class="app-trans <?php if($i%2==0) echo'dark';?>">
+                                    <a href="#" 
 onclick="return paymentHistoryInfo(<?php echo $PH['PaymentHistory']['id'] ;?>,
 '<?php echo $PH['PaymentHistory']['transaction_id'];?>');"> <?php echo $PH['PaymentHistory']['transaction_id'] ?> </a> 
-								</li>
-								<li class="center-align <?php if($i%2==0) echo'dark';?>">
-									<?php echo $this->Time->format('m/d/Y',$PH['PaymentHistory']['paid_date']); ?>
-								</li>
-								<li class="margin-last-child-job <?php if($i%2==0) echo'dark';?>">
-									<?php echo $this->Number->format(
+                                    </li>
+                                    <li class="<?php if($i%2==0) echo'dark';?>"> <?php echo $this->Time->format('m/d/Y',$PH['PaymentHistory']['paid_date']); ?> </li>
+                                    <li class="margin-last-child-job <?php if($i%2==0) echo'dark';?>"> <?php echo $this->Number->format(
 										$PH['PaymentHistory']['amount'],
 										array(
 											'places' => 2,
 											'before' => '$',
 											'decimals' => '.',
 											'thousands' => ',')
-										);?>
-								</li>
-								
-		                	</ul>
-                    	</div>
-                    	<?php $i++;?>
+										);?> </li>
+                                </ul>
+                        </div>
+						<?php $i++;?>
 						<?php endforeach;?>
+						
+						
 						<?php	if($PaymentHistory == null){?>
 						<div class="job-list-subhead">
 				            <div class="inviation-message">
@@ -161,7 +184,10 @@ onclick="return paymentHistoryInfo(<?php echo $PH['PaymentHistory']['id'] ;?>,
 				            </div>
                     	</div>
 						<?php	} ?>
-                    </div>
+						
+						
+					</div>
+					
                     <div class="clr"></div>
                 </div>
             </div>

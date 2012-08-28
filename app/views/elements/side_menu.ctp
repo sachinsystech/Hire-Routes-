@@ -3,6 +3,7 @@
 	if($this->Session->check('UserRole'))
 	{
 		$class= " class='job_submenu_active'";
+		$menu_show = "id='menu_show'";
 		$userRoleId=$this->Session->read('UserRole');
 		$passwordLable='Change password';
 		if(isset($facebookUserData)){		
@@ -17,11 +18,11 @@
 ?>
 			
 			
-			<div class="job_left_bar">
-                <div class="job_left_menu">
+		<div class="job_left_bar">
+			    <div class="job_left_menu">
                     <ul>
-                         <li><a class="plus_icon" href="#">My Jobs</a>
-                            <div style="" class="job_menus_submenu">
+                         <li><a <? if(in_array($this->action,$my_jobs_actions)){ echo $menu_show;}?> class="HrMenu plus_icon" href="#">My Jobs</a>
+                            <div style="display:none;" class="job_menus_submenu">
                                 <ul>
                                     <li><a href="/companies/newJob" <?php if($this->action=='newJob')echo $class;?> >Jobs - <?php echo $activejobCount;?></a></li>
                                     <li><a href="/companies/showArchiveJobs" <?php if($this->action=='showArchiveJobs')echo $class;?> >Archive - <?php echo $archJobCount; ?></a></li>
@@ -32,8 +33,8 @@
                         
                      
                         
-                        <li><a class="plus_icon" href="#">My Account</a>
-                        	<div style="display:block;" class="job_menus_submenu">
+                        <li><a <? if(in_array($this->action,$my_accounts_actions)){ echo $menu_show;}?> class="HrMenu plus_icon" href="#">My Account</a>
+                        	<div style="display:none;" class="job_menus_submenu">
                         		<ul>
                                     <li><a href="/companies"  <?php if($this->action=='accountProfile')echo $class;?>>Personal</a></li>
 									<li><a href="/companies/paymentInfo" <?php if($this->action=='paymentInfo')echo $class;?>>Payment Info</a></li>
@@ -43,8 +44,8 @@
                              </div>
                          </li>
                          
-                        <li><a class="plus_icon" href="#">My Employees</a>
-                        	<div style="display:block;" class="job_menus_submenu">
+                        <li><a <? if(in_array($this->action,$my_employees_actions)){ echo $menu_show;}?> class="HrMenu plus_icon" href="#">My Employees</a>
+                        	<div style="display:none;" class="job_menus_submenu">
                         		<ul>
                                     <li><a href="/companies/employees" <?php if($this->action=='employees')echo $class;?>>Employees</a></li>
                                 </ul>
@@ -53,7 +54,8 @@
                         
                     </ul>
                 </div>
-            </div>
+        
+		</div>
 			
 			
 			
@@ -68,9 +70,9 @@
 			 <div class="job_left_bar">
                 <div class="job_left_menu">
                     <ul>
-                        <li><a class="plus_icon" href="#">My Jobs</a>
+                        <li><a <? if(in_array($this->action,$my_jobs_actions)){ echo $menu_show;}?>  class="HrMenu plus_icon" href="#">My Jobs</a>
 
-                            <div <?php if( !($this->action=='newJob'||$this->action=='appliedJob'||$this->action=='archivedJob' ))
+                            <div  style="display:none;" <?php if( !($this->action=='newJob'||$this->action=='appliedJob'||$this->action=='archivedJob' ))
                         			echo "";?> class="job_menus_submenu">
                                 <ul>
                                     <li><a href="/jobseekers/newJob" <?php if($this->action=='newJob')echo $class;?>>Inbox - <?php echo $NewJobs;?></a></li>
@@ -84,9 +86,9 @@
                             </div>
                         </li>
                         
-                        <li><a class="plus_icon" href="#">My Account</a>
+                        <li><a <? if(in_array($this->action,$my_accounts_actions)){ echo $menu_show;}?>  class="HrMenu plus_icon" href="#">My Account</a>
 
-                        	<div <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword' || $this->action=='invitations'))
+                        	<div   style="display:none;" <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword' || $this->action=='invitations'))
                         			echo "";?>class="job_menus_submenu">
 
                         		<ul>
@@ -111,7 +113,7 @@
 		<div class="job_left_bar">
                 <div class="job_left_menu">
                     <ul>
-                         <li><a class="plus_icon" href="#">My Jobs</a>
+                         <li><a <? if(in_array($this->action,$my_jobs_actions)){ echo $menu_show;}?>  class="HrMenu plus_icon" href="#">My Jobs</a>
 
                             <div <?php if( !($this->action=='newJob'||$this->action=='sharedJob'||$this->action=='archiveJob' || $this->action=='jobData'  ) )echo "";?> class="job_menus_submenu">
                                 <ul>
@@ -125,7 +127,7 @@
                             </div>
                         </li>
  
-                        <li><a class="minus_icon" href="#">My Network</a>
+                        <li><a  <? if(in_array($this->action,$my_networks_actions)){ echo $menu_show;}?> class="HrMenu minus_icon" href="#">My Network</a>
                         	<div class="job_menus_submenu">
                         		<ul>
                                     <li >
@@ -141,7 +143,7 @@
                              </div>
                          </li>
                          
-                        <li><a class="plus_icon" href="#">My Account</a>
+                        <li><a <? if(in_array($this->action,$my_accounts_actions)){ echo $menu_show;}?> class="HrMenu plus_icon" href="#">My Account</a>
                         	<div <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword'))
                         			echo "";?> class="job_menus_submenu">
                         		<ul>
@@ -160,3 +162,10 @@
 		}
 	}
 ?>
+
+<script>
+$(".HrMenu").click(function(){
+	$(".HrMenu").removeClass("minus_icon").addClass("plus_icon").next().slideUp();
+	$(this).removeClass("plus_icon").addClass("minus_icon").next().slideDown();
+});
+</script>

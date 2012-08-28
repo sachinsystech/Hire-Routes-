@@ -89,6 +89,8 @@ class CompaniesController extends AppController {
 				}
 			}
 		}
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 	
 	function newJob(){
@@ -357,6 +359,8 @@ list archive jobs..
 			$this->Session->setFlash('You may be clicked on old link.', 'error');				
 			$this->redirect('/companies/newJob');
 		}
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 	/*------- Fro  prevent the Xss----*/
 
@@ -365,8 +369,10 @@ list archive jobs..
 		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
-			$this->set('user',$user['User']);
-			$this->set('company',$user['Companies'][0]);
+		$this->set('user',$user['User']);
+		$this->set('company',$user['Companies'][0]);
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 
 	function editProfile() {
@@ -389,6 +395,8 @@ list archive jobs..
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$userId)));
 		$this->set('user',$user['User']);
 		$this->set('company',$user['Companies'][0]);
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 
 	function paymentInfo() {
@@ -408,9 +416,9 @@ list archive jobs..
 			}
 		}
 		$this->set('appliedJobId',$appliedJobId);
-		$submit_txt = "Save...";
+		$submit_txt = "SAVE";
 		if(isset($this->params['id'])){
-			$submit_txt = "Proceed to checkout..>>";
+			$submit_txt = "PROCEED TO CHECKOUT";
 		}
 		$this->set('submit_txt',$submit_txt);
 		if(isset($this->data['PaymentInfo'])){
@@ -488,7 +496,9 @@ list archive jobs..
 	            $this->Session->setFlash($error_msg, 'error');
 	            $this->redirect("/companies/paymentInfo/");
             }
-		}		
+		}
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());		
 	}
 
 	function paymentHistory() {
@@ -499,12 +509,15 @@ list archive jobs..
 		if($userId){
 			$conditions = array('PaymentHistory.user_id'=>$userId);
 			$this->paginate = array(
+				'limit'=>'10', 
 				'conditions' => $conditions,
 				'order' => array('paid_date' => 'desc'),
 			);
 			$PaymentHistory = $this->paginate("PaymentHistory");
 			$this->set('PaymentHistory',$PaymentHistory);	
 		}
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 	
 	function paymentHistoryInfo(){
@@ -576,6 +589,8 @@ list archive jobs..
 			$error=array('error'=>1,'message'=>'Something went wrong, please try again.');
 			return json_encode($error);
 		}
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 	
 	private function getJob($jobId){
@@ -642,7 +657,7 @@ list archive jobs..
 
 	/** list of Applicant for given job **/
 	function showApplicant(){
-		//$this->layout ="home";
+		$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$jobId = $this->params['id'];
 		if($userId && $jobId){
@@ -727,6 +742,8 @@ list archive jobs..
 			$this->redirect("/companies/newJob");
 		}
 		$this->set('jobId',$jobId);
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 
 	
@@ -855,10 +872,13 @@ list archive jobs..
 						)
 					)
 				);
-					
+				
+				$this->set('job',$jobs['Job']);	
 				$this->set('jobId',$jobId);
 				$this->set('jobStatusArray',$jobStatusArray);
 				$this->set('NoOfApplicants',$jobStatusArray['aat']);
+				$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+				$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 			}else{
 				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
 				$this->redirect("/companies/newJob");
@@ -872,6 +892,7 @@ list archive jobs..
 
 	/****** Reject Applicant for company Job *******/
 	function rejectApplicant(){
+		
 		$userId = $this->_getSession()->getUserId();
 		$id = $this->params['id'];
 		$JobId = $this->params['jobId']; 
@@ -895,6 +916,7 @@ list archive jobs..
 
 	/** accept applicant for given applied job **/
 	function checkout(){
+	$this->layout ="home";
 		$userId = $this->_getSession()->getUserId();
 		$appliedJobId = $this->params['id'];
 		if($userId && $appliedJobId){
@@ -926,6 +948,8 @@ list archive jobs..
 			$this->redirect("/companies/newJob");
 			return;
 		}
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 
 	/*	Do payment of reward amount for given applied-job...*/
@@ -1298,6 +1322,8 @@ list archive jobs..
 								);
 		$employees = $this->paginate("PaymentHistory");
 		$this->set('employees',$employees);
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 		// end for job fetching...
     }
 

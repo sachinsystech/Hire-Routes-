@@ -216,6 +216,8 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 
 
+
+
 /*:::::::::Confirmation-page - Confirmation Email css start :::::::::::*/
 
 
@@ -1229,6 +1231,62 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 
 
+
+
+
+
+
+
+/*:::::::::::::Applicant - page css start :::::::*/
+.applicants_left { width:280px; height:185px; float:left; margin-top: 20px;}
+.app_feild {width:280px; height:40px;}
+.app_feild span { font:15px Arial, Helvetica, sans-serif; float:left;}
+.app_selectbox {float:right;}
+.app_selectbox select {float: right; height:21px;width: 140px;}
+.applicants_right {width:280px; height:185px; float:left; margin:20px 0 0 30px;}
+.app_search { width:600px; height:auto;}
+.app_table {width: 710px; border-top:1px solid #D6D2CC;}
+.app_table_heading { height:60px !important; background:none !important;}
+.app_table_heading li{font:15px 'OpenSansCondensedBold' !important; padding-top:15px;padding-left: 10px !important;} 
+.app_table ul { width:710px; height:60px;}
+.app_table ul li { list-style:none; float:left;width: 107px; font:15px Arial, Helvetica, sans-serif; padding-left:11px}
+.app_dos { width: 100px !important;}
+.app_table_name { width:214px !important;}
+.app_table ul li span a{ font:15px Arial, Helvetica, sans-serif; color: #50A947; text-decoration:underline;}
+.app_table ul li p {font:13px Arial, Helvetica, sans-serif; color:1d1d1d;}
+.app_table ul li p a { color:#50A947; text-decoration:underline;}
+.app_action { width:60px;}
+.app_action_check { background:url(../images/check_cross_button.png) 0 -1px no-repeat; height:18px; width:23px; float:left;}
+.app_action_check:hover{background:url(../images/check_cross_button.png) -32px 0 no-repeat; }
+.app_action_check a {height:18px; width:23px;display:block;}
+.app_action_cross { background:url(../images/check_cross_button.png) -2px -31px no-repeat; height:18px; width:18px; float:left;margin-left: 10px;}
+.app_action_cross:hover {background:url(../images/check_cross_button.png) -38px -31px no-repeat;}
+.app_action_cross a{height:18px; width:18px; display:block;}
+.app_topmargin { padding-top:18px;}
+.app_search_bttn input { font-size:13px\0/IE8+9 !important;}
+
+
+
+/*:::::::::::::Payment History - page css start :::::::*/
+.ph_pagination { width:500px;background-color: #F6F1E2;height: 36px; margin: 8px 10px 20px 0;}
+.ph-head, .ph-head ul { display: block; height: 28px; width:500px;}
+.ph-head ul li {float: left;list-style: none; width: 94px; font:15px 'OpenSansCondensedBold';}
+.ph-subhead, .ph-subhead ul { display: block; height: auto; width:500px;}
+.ph-subhead ul li {float: left;list-style: none; width: 94px; font:15px Arial, Helvetica, sans-serif;padding: 3px 0 3px 4px;} 
+.ph-subhead ul li a{color: #50A947;}
+.app-amount {margin-left:24px;}
+.app-date { margin-left:5px;}
+.app-trans { width:279px !important;}
+
+
+
+/*:::::::::::::Checkout - page css start :::::::*/
+.co_container {float: left; width:710px; height:auto;}
+.co_container p{font:bold 15px/30px Arial,Helvetica,sans-serif;}
+.co_container span {font: 15px/30px Arial,Helvetica,sans-serif;margin-left: 5px;}
+
+
+
 /*::::::::Global CSS::::::::::::*/
 
 
@@ -1293,10 +1351,29 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 
 
+p
+{
+	font-size: 93%;
+/*	margin: 1em 0;*/
+}
+
+p.intro
+{
+	font-size: 116%;
+	padding: 10px;
+	background: #fff;
+
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+}
+/* For the form demo page */
 
 
 
 
+/*:::::::: Submenu slides ::::::::::::*/
 /*::::::::footer-wrap::::::::::::*/
 
 .footer-wrap{background: url(../images/footer-wrap-bg.jpg) repeat-x; height:558px; color:#ded7c4; margin-top:200px;}

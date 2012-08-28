@@ -1,60 +1,70 @@
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>
-	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
 
-			<div class="middleBox">
-				<div class="job_data">
-					<table>	
-						<tr>
-							<td>#</td>
-							<td><strong>All the Time</strong></td>
-							<td><strong>Last Month</strong></td>
-							<td><strong>Last Week</strong></td>
-						</tr>
-						<tr>
-							<td><strong>Applicants</strong></td>
-							<td><?php echo $jobStatusArray['aat'];?></td>
-							<td><?php echo $jobStatusArray['alm'];?></td>
-							<td><?php echo $jobStatusArray['alw'];?></td>
-						</tr>
-						<tr>
-							<td><strong>Shares<strong></td>
-							<td><?php echo $jobStatusArray['sat'];?></td>
-							<td><?php echo $jobStatusArray['slm'];?></td>
-							<td><?php echo $jobStatusArray['slw'];?></td>
-						</tr>
-						<tr>
-							<td><strong>Views</strong></td>
-							<td><?php echo $jobStatusArray['vat'];?></td>
-							<td><?php echo $jobStatusArray['vlm'];?></td>
-							<td><?php echo $jobStatusArray['vlw'];?></td>
-						</tr>
-					</table>
-				</div>
-			</div>	
-		<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
-		<!-- middle conyent list -->
-
-	</div>
-	<!-- middle section end -->
-
+<div class="job_top-heading">
+<?php if($this->Session->read('Auth.User.id')):?>
+	<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+			<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+	<?php endif; ?>
+<?php endif; ?>
 </div>
 
-<script>
-function goTo(){
-	window.location.href="/companies/postJob";			
-}
-</script>
+<div class="job_container">
+    <div class="job_container_top_row">
+		<?php echo $this->element('side_menu');?>
+
+		<div class="job_right_bar">
+            	<div class="new_job data_h2_margin">
+            		<h2>DATA</h2>
+                   
+                        <div class="job_right_section_left">
+                        <h2>
+                        <a href="#"><?php echo $job['title']?></a>
+                        </h2>
+                        <p class="job-right-section-p">Posted: <?php echo $time->timeAgoInWords($job['created'],'m/d/Y');?></p>
+                        <p class="job-submission-margin">
+							<?php echo $job['short_description'];?>
+                        </p>
+                        <div class="clr"></div>
+                     </div>
+                    <div class="clr"></div>
+                    <div class="data_table">
+                    	<ul>
+                        	<li>&nbsp;</li>
+                            <li class="data_table_font">ALL THE TIME</li>
+                            <li class="data_table_font">Last Month</li>
+                            <li class="data_table_font">Last Week</li>
+                        </ul>
+                        <ul>
+                        	<li class="data_table_font">Applicants</li>
+                            <li class="dark"><?php echo $jobStatusArray['aat'];?></li>
+                            <li class="dark"><?php echo $jobStatusArray['alm'];?></li>
+                            <li class="dark"><?php echo $jobStatusArray['alw'];?></li>
+                        </ul>
+                        <ul>
+                        	<li class="data_table_font">Shares</li>
+                            <li class="dark"><?php echo $jobStatusArray['sat'];?></li>
+                            <li class="dark"><?php echo $jobStatusArray['slm'];?></li>
+                            <li class="dark"><?php echo $jobStatusArray['slw'];?></li>
+                        </ul>
+                        <ul>
+                        	<li class="data_table_font">Views</li>
+                            <li class="dark"><?php echo $jobStatusArray['vat'];?></li>
+                            <li class="dark"><?php echo $jobStatusArray['vlm'];?></li>
+                            <li class="dark"><?php echo $jobStatusArray['vlw'];?></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+	</div>
+<div class="clr"></div>
+<div class="job_pagination_bottm_bar"></div>									
+
+
+<div class="clr"></div>
+</div>
+</div>
+
+
+
+
+
+

@@ -9,6 +9,11 @@
 			}
 		});
 		
+		$("#clear_all").click(function(){ 
+			$("input[type=text]").val("");
+			$("#PaymentInfoAddress").val("");
+			return false;
+		});
 		
     });	
 
@@ -224,7 +229,7 @@ function check_expdate() {
 					<div class="clr"></div>
 					
 					<div class="edit-profile-clear-all">
-						<label id="clearAll">Clear All</label>
+						<label id="clear_all">Clear All</label>
 					</div>
 					<div class="save-profile-button">
 						<?php echo $form->submit($submit_txt,array('div'=>false,)); ?>

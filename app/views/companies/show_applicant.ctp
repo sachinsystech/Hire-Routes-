@@ -1,5 +1,43 @@
 
 <?php echo $this->Session->flash();?>
+<style>
+	.js_terms-condition-error{
+		color: #FF0000;
+		font-size: 10px;
+		margin: auto;
+		width: 274px;
+	}
+</style>
+<style>
+.ui-dialog-titlebar { display:none; }
+.ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-draggable .ui-resizable{
+display: block;
+    height: auto;
+    left: 350px;
+    outline: 0 none;
+    position: absolute;
+    visibility: visible;
+    width: 510px;
+    z-index: 1004;
+}
+.ui-widget-overlay{
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.6;
+}
+#jobseekerApplyProfile {
+    background: url("../images/about_popup_bg.png") repeat scroll 0 0 transparent;
+    height: 328;
+    overflow: hidden;
+}
+.pi_popup_cancel_bttn {
+    background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    height: 72px;
+    position: absolute;
+    right: 31px;
+    top: -14px;
+    width: 72px;
+}
+</style>
 
 <script>
 function valid_form(){
@@ -14,7 +52,7 @@ function valid_form(){
 	answer9 = $("#UserAnswer9").val();
 	answer10 = $("#UserAnswer10").val();
 	if(answer1==="" && answer2==="" && answer3==="" && answer4==="" && answer5==="" && answer6==="" && answer7==="" && answer8==="" && answer9==="" && answer10===""){
-		$("#error_div").removeClass().addClass("js_terms-condition-error").html("Please select at least one option to filter results.*");
+		$("#error_div").removeClass().addClass("js_terms-condition-error").html("Please select at least one option to filter results.");
 		return false;
 	}
 }
@@ -30,6 +68,7 @@ function jobseekersDetail(jobseekerId, jobseekerName){
 			$(".jobseekerApplyProfile").dialog({
 				height:280,
 				width:725,
+				top : 0,
 				modal:true,
 				//show: { effect: 'drop', direction: "up" },
 				resizable: false ,
@@ -41,34 +80,27 @@ function jobseekersDetail(jobseekerId, jobseekerName){
 			}
 			});
 			$( ".ui-dialog" ).css("position", "fixed" );
-				$("#japdiv").html('<table>'+
-											'<tr>'+
-												'<td><b>Qualification : </b></td><td>'+response['qualificaiton']+'</td>'+
-												'<td><b>Experience : </b></td><td>'+response['experience']+'</td>'+
-											'</tr>'+
-											
-											'<tr>'+
-												'<td><b>Current CTC : </b></td><td>'+response['ctc_current']+'</td>'+
-												'<td><b>Expected CTC : </b></td><td>'+response['ctc_expected']+'</td>'+
-											'</tr>'+
-											
-											'<tr>'+
-												'<td><b>Job Type : </b></td><td>'+response['job_type']+'</td>'+
-												'<td><b>University/College : </b></td><td>'+response['university']+'</td>'+
-											'</tr>'+
-											
-											'<tr>'+
-												'<td><b>Shifts Availability : </b></td><td>'+response['shifts_available']+'</td>'+
-												'<td><b>Passport Availability : </b></td><td>'+response['passport_availability']+'</td>'+
-											'</tr>'+
-											
-											'<tr>'+
-												'<td><b>Travel Ability : </b></td><td>'+response['travel_availability']+'</td>'+
-												'<td><b>Training Needs : </b></td><td>'+response['training_needs']+'</td>'+
-											'</tr>'+
-											
-										 '</table>'
-										);
+				$("#japdiv").html(
+				'<div class="about_popup_cancel_bttn_row">'+
+					'<div class="pi_popup_cancel_bttn">'+
+						'<a id="close" href="#"></a>'+
+					'</div>'+
+				'</div>	'+
+				'<div>'+
+				'<div class="job-right-top-left job-profile" style="margin-top: 15px;">'+
+					'<h2>'+jobseekerName+'</h2>'+
+					'<p><span>Qualification : </span>'+response['qualificaiton']+
+					'<p><span>Experience : </span>'+response['experience']+
+					'<p><span>Current CTC :</span>'+response['ctc_current']+
+					'<p><span>Expected CTC : </span>'+response['ctc_expected']+
+					'<p><span>Job Type : </span>'+response['job_type']+
+					'<p><span>University/College : </span>'+response['university']+
+					'<p><span>Shifts Availability  : </span>'+response['shifts_available']+
+					'<p><span>Passport Availability  : </span>'+response['passport_availability']+
+					'<p><span>Travel Ability  : </span>'+response['travel_availability']+
+					'<p><span>Training Needs   : </span>'+response['training_needs']+
+				'</div>'+
+			'</div>');
 				
 		}		
 			
@@ -88,77 +120,63 @@ function clear_div(val){
 	<div id="japdiv"></div>
 </div>
 
+<div class="job_top-heading">
+<?php if($this->Session->read('Auth.User.id')):?>
+	<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
+			<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+	<?php endif; ?>
+<?php endif; ?>
+</div>
 
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
-		</div>		
-	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle conent top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
+<div class="job_container">
+    <div class="job_container_top_row">
+		<?php echo $this->element('side_menu');?>
 
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-		    <div class="middleBox">
-			<?php echo $form->create('', array('url' => array('controller' => 'companies', 'action' => 'showApplicant/'.$jobId),'name'=>'webform','onsubmit'=>'return valid_form();'));?>
-			<div>
-				<div>Search By</div>
-
-				<div style="float:left;" id="lbl">Qualification </div>
-				<div style="float:left;" id="field">
-					<?php $answer1_array = array(''=>'Select','High School'=>'High School','Diploma'=>'Diploma','Graduation'=>'Graduation','Post Graduation'=>'Post Graduation'); 
-                          echo $form->input('answer1', array('label'   => '',
-															 'type'    => 'select',
-															 'class'   => 'show_appl_filter_select',
-															 'options' =>$answer1_array,
-															 'value'   => isset($filterOpt['answer1'])?$filterOpt['answer1']:"",
-															 'onChange'=>"return clear_div(this.value);"));?>
-				</div> 
-
-				<div style="float:left;" id="lbl">Work Experience</div>
-				<div style="float:left;" id="field">
-					<?php $answer2_array = array(''=>'Select','0 to 2 year'=>'0 to 2 year','2 to 5 year'=>'2 to 5 year','More than 5 year'=>'More than 5 year'); 
-                          echo $form->input('answer2', array('label'   => '',
-															 'type'    => 'select',
-															 'class'   => 'show_appl_filter_select',
-															 'options' =>$answer2_array,
-															 'value'   => isset($filterOpt['answer2'])?$filterOpt['answer2']:"",
-															 'onChange'=>"return clear_div(this.value);"));?>
-				</div> 
-
-				<div style="float:left;" id="lbl">Current CTC</div>
-				<div style="float:left;" id="field">
-					<?php	$answer3_array = array(''=>'Select','Less than 1,20,000'=>'Less than 1,20,000','1,20,000 to 3,60,000'=>'1,20,000 to 3,60,000','More than 3,60,000'=>'More than 3,60,000'); 
+		<div class="job_right_bar">
+            	<div class="new_job">
+            		<h2>APPLICANTS</h2>
+                    <div class="applicants_left">
+						<?php echo $form->create('', array('url' => array('controller' => 'companies', 'action' => 'showApplicant/'.$jobId),'name'=>'webform','onsubmit'=>'return valid_form();'));?>
+                    
+                    	<div class="app_feild">
+                        	<span>Qualification</span>
+                        	<div class="app_selectbox">
+                            	
+								<?php $answer1_array = array(''=>'Select','High School'=>'High School','Diploma'=>'Diploma','Graduation'=>'Graduation','Post Graduation'=>'Post Graduation'); 
+									echo $form->input('answer1', array(
+															'label'   => '',
+															'type'    => 'select',
+															'class'   => 'show_appl_filter_select',
+															'options' =>$answer1_array,
+															'value'   => isset($filterOpt['answer1'])?$filterOpt['answer1']:"",
+															'onChange'=>"return clear_div(this.value);",
+															'div' =>false
+															)
+													  );
+								?>
+								
+								
+								
+                            </div>
+                        </div>
+                        <div class="app_feild">
+                        	<span>Current CTC</span>
+                        	<div class="app_selectbox">
+                            	<?php	$answer3_array = array(''=>'Select','Less than 1,20,000'=>'Less than 1,20,000','1,20,000 to 3,60,000'=>'1,20,000 to 3,60,000','More than 3,60,000'=>'More than 3,60,000'); 
 							echo $form->input('answer3', array('label'   => '',
 															   'type'    => 'select',
                                                                'class'   => 'show_appl_filter_select',
 															   'options' =>$answer3_array,
+															   'div' 	 =>false,
 															   'value'   => isset($filterOpt['answer3'])?$filterOpt['answer3']:"",
 																'onChange'=>"return clear_div(this.value);"
 															   ));?>
-				</div>
- 
-				<div style="float:left;" id="lbl">Expected CTC</div>
-				<div style="float:left;" id="field">
-					<?php echo $form->input('answer4', array('label'   => '',
-															 'type'    => 'select',
-                                                             'class'   => 'show_appl_filter_select',
-															 'options' =>$answer3_array,
-															 'value'   => isset($filterOpt['answer4'])?$filterOpt['answer4']:"",
-															 'onChange'=>"return clear_div(this.value);"
-															 ));?>
-				</div> 
-
-				<div style="float:left;" id="lbl" >Job Type</div>
-				<div style="float:left;" id="field">
-					<?php $answer5_array = array(''=>'Select',
+                            </div>
+                        </div>
+                        <div class="app_feild">
+                        	<span>Job Type</span>
+                        	<div class="app_selectbox">
+                            	<?php $answer5_array = array(''=>'Select',
 												 '1'=>'Full Time',
 									 			 '2'=>'Part Time',
 									 			 '3'=>'Contract',
@@ -169,177 +187,239 @@ function clear_div(val){
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
 															 'options' =>$answer5_array,
+															 'div'		=>false,
 															 'value'   => isset($filterOpt['answer5'])?$filterOpt['answer5']:"",
 															 'onChange'=>"return clear_div(this.value);"
 															 ));?>
-				</div>
- 
-				<div style="float:left;" id="lbl">University/College</div>
-				<div style="float:left;" id="field">
-					<?php 
+                            </div>
+                        </div>
+                        <div class="app_feild">
+                        	<span>Shifts Availability</span>
+                        	<div class="app_selectbox">
+                            	<?php $answer7_array = array(''=>'Select','Yes'=>'Yes','No'=>'No');  ?>
+								<?php echo $form->input('answer7', array('label'   => '',
+															 'type'    => 'select',
+                                                             'class'   => 'show_appl_filter_select',
+									                         'options' =>$answer7_array,
+															 'div'		=>false,
+															 'value'   => isset($filterOpt['answer7'])?$filterOpt['answer7']:"",
+															 'onChange'=>"return clear_div(this.value);"
+															 ));?>
+                            </div>
+                        </div>
+                        <div class="app_feild">
+                        	<span>Training Needs</span>
+                        	<div class="app_selectbox">
+                            	<?php echo $form->input('answer10', array('label'   => '',
+															  'type'    => 'select',
+                                                              'class'   => 'show_appl_filter_select',
+															  'options' =>$answer7_array,
+															  'div' =>false,
+															  'value'   => isset($filterOpt['answer10'])?$filterOpt['answer10']:"",
+															  'onChange'=>"return clear_div(this.value);"
+															 ));?>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                    </div>
+                    
+                    <div class="applicants_right">
+                    <div class="app_feild">
+                        	<span>Work Experience</span>
+                        	<div class="app_selectbox">
+                            	<?php $answer2_array = array(''=>'Select','0 to 2 year'=>'0 to 2 year','2 to 5 year'=>'2 to 5 year','More than 5 year'=>'More than 5 year'); 
+                          echo $form->input('answer2', array('label'   => '',
+															 'type'    => 'select',
+															 'class'   => 'show_appl_filter_select',
+															 'options' =>$answer2_array,
+															 'div'	   =>false,
+															 'value'   => isset($filterOpt['answer2'])?$filterOpt['answer2']:"",
+															 'onChange'=>"return clear_div(this.value);"));?>
+                            </div>
+                        </div>
+                        <div class="app_feild">
+                        	<span>Expected CTC</span>
+                        	<div class="app_selectbox">
+                            	<?php echo $form->input('answer4', array('label'   => '',
+															 'type'    => 'select',
+                                                             'class'   => 'show_appl_filter_select',
+															 'options' =>$answer3_array,
+															 'div'	   =>false,	
+															 'value'   => isset($filterOpt['answer4'])?$filterOpt['answer4']:"",
+															 'onChange'=>"return clear_div(this.value);"
+															 ));?>
+                            </div>
+                        </div>
+                        <div class="app_feild">
+                        	<span>University/College</span>
+                        	<div class="app_selectbox">
+                            	<?php 
                     	  echo $form->input('answer6', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
 															 'options' =>$universities,
 															 'empty'   =>"select",
+															 'div'		=>false,
 															 'value'   => isset($filterOpt['answer6'])?$filterOpt['answer6']:"",
 															 'onChange'=>"return clear_div(this.value);"
 															));?>
-				</div>
- 
-				<div style="float:left;" id="lbl">Shifts Availability</div>
-				<div style="float:left;" id="field">
-					<?php $answer7_array = array(''=>'Select','Yes'=>'Yes','No'=>'No');  ?>
-					<?php echo $form->input('answer7', array('label'   => '',
-															 'type'    => 'select',
-                                                             'class'   => 'show_appl_filter_select',
-									                         'options' =>$answer7_array,
-															 'value'   => isset($filterOpt['answer7'])?$filterOpt['answer7']:"",
-															 'onChange'=>"return clear_div(this.value);"
-															 ));?>
-				</div>
- 
-				<div style="float:left;" id="lbl">Passport Availability</div>
-				<div style="float:left;" id="field">
-					<?php echo $form->input('answer8', array('label'   => '',
+                            </div>
+                        </div>
+                        <div class="app_feild">
+                        	<span>Passport Availability</span>
+                        	<div class="app_selectbox">
+                            	<?php echo $form->input('answer8', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
 															 'options' =>$answer7_array,
+															 'div'		=>false,
 															 'value'   => isset($filterOpt['answer8'])?$filterOpt['answer8']:"",
 															 'onChange'=>"return clear_div(this.value);"
 															 ));?>
-				</div>
- 
-				<div style="float:left;" id="lbl">Travel Ability</div>
-				<div style="float:left;" id="field">
-					<?php echo $form->input('answer9', array('label'   => '',
+                            </div>
+                        </div>
+                        <div class="app_feild">
+                        	<span>Travel Ability</span>
+                        	<div class="app_selectbox">
+                            	<?php echo $form->input('answer9', array('label'   => '',
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
 															 'options' =>$answer7_array,
+															 'div'		=>false,
 															 'value'   => isset($filterOpt['answer9'])?$filterOpt['answer9']:"",
 														     'onChange'=>"return clear_div(this.value);"
 															 ));?>
-				</div> 
+                            </div>
+                        </div>    
+                    </div>
+					
+                    <div class="app_search">
+						<div id="error_div" style="color:#FF0000"></div> 
+                    	<div class="find_clr_button">
+						<?php	echo $form->submit('SEARCH',array('div'=>false,)); ?>	
+                        </div>
+						<?php echo $form->end();?>
+                        <div class="clr"></div>
+                    </div>
+                 
+                </div>
+					
+					
+                	<div class="app_table">
+                    	<ul class="app_table_heading">
+                        	<li class="app_table_name">Name</li>
+                            <li class="app_dos">Degree of Separation</li>
+                            <li>Network</li>
+                            <li>Networker</li>
+                            <li>Action</li>
+                        </ul>
+						
+						<?php if(empty($applicants)): ?>
+							<div style="font-size: 14px; margin: auto; width: 216px;">
+								<span>Sorry, No applicant found.</span>
+							</div>
+						<?php endif; ?>
+					
+						<?php $i=0;?>
+                        <?php foreach($applicants as $applicant):?>	
+                         <ul class="<?php if($i%2==0) echo'dark';?>">
+                        	<li class="app_table_name">
+                            	<span>
+									<a href="#" onclick="return jobseekersDetail(<?php echo $applicant['JobseekerApply']['id']; ?>, '<?php echo ucfirst($applicant['jobseekers']['contact_name']) ;?>')">
+										<?php echo ucFirst($applicant['jobseekers']['contact_name']); ?>
+									</a>
+								</span>
+                                <p>Submitted <?php echo $time->timeAgoInWords($applicant['JobseekerApply']['created']); ?></p>
+	                            
+								<p>
+								<?php if($applicant['JobseekerApply']['resume']!=''){
+										echo $html->link('view resume',array('controller'=>'/companies/','action' => '/viewResume/resume/'.$applicant['JobseekerApply']['id'])); }?>
+								<?php if($applicant['JobseekerApply']['resume']!='' && $applicant['JobseekerApply']['cover_letter']!=''){ echo " | "; }?>
+								<?php if($applicant['JobseekerApply']['cover_letter']!=''){ 
+										echo $html->link('view cover letter',array('controller'=>'/companies/','action' => '/viewResume/cover_letter/'.$applicant['JobseekerApply']['id'])); }?>
+								</p>
+								
+								
+                            </li>
+                            <li class="app_dos app_topmargin">
+								<?php 
+									$degree = 0;
+									if($applicant['JobseekerApply']['intermediate_users']!=''){
+									$intermediate_user_ids=explode(",",$applicant['JobseekerApply']['intermediate_users']);
+										$degree = count($intermediate_user_ids);
+									if(empty($intermediate_user_ids[0]) && $degree>1)
+										$degree=$degree-1;
+									} 
+									echo $degree+1;
+								?>
+							</li>
+                            <li class="app_topmargin">
+								<?php
+									// Match first networkers i.e. $applicant['User'] parent user
+									$networkerEmail="--------"; $networkerUniversity="";
+									if($applicant['User']['parent_user_id']==$applicant['Job']['user_id']&&$degree<1){
+											echo "Personal";
+									}elseif($applicant['NetworkerUser']['parent_user_id']==$applicant['Job']['user_id'] && $degree>=1){
+										$networkerEmail=$applicant["NetworkerUser"]["account_email"];
+										$networkerUniversity = $applicant["Networker"]["university"]!=0?"[".$universities[$applicant["Networker"]["university"]]."]":"";
+											echo "Extended-Personal";
+									}else{
+										if($degree<1)
+											echo "Hireroutes";
+										else
+											echo "Extended-Hireroutes";
+									} 
+								?>
+								
+							</li>
+                            <li class="app_topmargin">
+								<?php if(isset($networkerEmail)){
+										echo $networkerEmail."<br>".$networkerUniversity;
+									  }
+								 ?>
+							</li>
+                            <li class="app_topmargin">
+                            	<div class="app_action">
+                                	<div class="app_action_check">
+										
+										<?php									
+											echo $this->Html->image("", array(
+												"alt" => "","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
+												'url' => "/companies/checkout/".$applicant['JobseekerApply']['id'],
+												'title'=>'Accept'
+											));
+										?>
+										
+									</div>
+                                    <div class="app_action_cross" onclick="return deleteItem(<?php echo $applicant['JobseekerApply']['id']; ?>,<?php echo $applicant['JobseekerApply']['job_id']; ?>);">
+										<?php
+											echo $this->Html->image("", array(
+											"alt" => "","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
+											'url' => "",
+											'title'=>'Reject'
+											));
+										?>
+									</div>
+                                </div>
+								
+                            </li>
+                        </ul>
+                        <?php endforeach; ?>
+                        
+                    </div>
+            </div>
+     
+        </div>
+        <div class="clr"></div>
+        <div class="job_pagination_bottm_bar"></div>									
 
-				<div style="float:left;" id="lbl">Training Needs</div>
-				<div style="float:left;" id="field">
-					<?php echo $form->input('answer10', array('label'   => '',
-															  'type'    => 'select',
-                                                              'class'   => 'show_appl_filter_select',
-															  'options' =>$answer7_array,
-															  'value'   => isset($filterOpt['answer10'])?$filterOpt['answer10']:"",
-															  'onChange'=>"return clear_div(this.value);"
-															 ));?>
-				</div>
-				<div id="error_div"></div> 				
-			</div>			
-			<div style="float:right;margin:20px">
-				<?php	echo $form->submit('Search',array('div'=>false,)); ?>	
-			</div>
-			<?php echo $form->end();?>
-			<table style="width:100%;font-size:12px;">
-				<tr>
-					<td colspan="100%">
-						<div style="float:right;width:50%;text-align: right;">
-						<?php $this->Paginator->options(array('url' =>$jobId));?>
-						<?php echo $paginator->first(' << ', null, null, array("class"=>"disableText"));?>
-						<?php echo $this->Paginator->prev(' < ', null, null, array("class"=>"disableText")); ?>
-						<?php echo $this->Paginator->numbers(array('modulus'=>4)); ?>
-						<?php echo $this->Paginator->next(' > ', null, null, array("class"=>"disableText")); ?>
-						<?php echo $paginator->last(' >> ', null, null, array("class"=>"disableText"));?>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th style="width:30%">Name</th>
-					<th style="width:15%">Degree of Separation</th>
-					<th style="width:15%">Network</th>
-					<th style="width:15%">Networker</th>					
-					<th style="width:15%">Action</th>
-				</tr>
-				<?php if(empty($applicants)): ?>
-				<tr>
-					<td colspan="100%" style="line-height: 25px;">Sorry, No applicant found.</td>
-				</tr>
-				<?php endif; ?>
-				<?php foreach($applicants as $applicant):?>	
-				<tr>
-					<td>
-						<span class="employee_name" onclick="return jobseekersDetail(<?php echo $applicant['JobseekerApply']['id']; ?>, '<?php echo ucfirst($applicant['jobseekers']['contact_name']) ;?>')"><?php echo ucFirst($applicant['jobseekers']['contact_name']); ?></span>
-						<span style="font-size:11px"><?php echo "<br>Submitted ". $time->timeAgoInWords($applicant['JobseekerApply']['created']); ?> </span><br>
-						<span>
-						<?php if($applicant['JobseekerApply']['resume']!=''){
-								echo $html->link('view resume',array('controller'=>'/companies/','action' => '/viewResume/resume/'.$applicant['JobseekerApply']['id'])); }?>
-						<?php if($applicant['JobseekerApply']['resume']!='' && $applicant['JobseekerApply']['cover_letter']!=''){ echo " | "; }?>
-						<?php if($applicant['JobseekerApply']['cover_letter']!=''){ 
-								echo $html->link('view cover letter',array('controller'=>'/companies/','action' => '/viewResume/cover_letter/'.$applicant['JobseekerApply']['id'])); }?>
-						</span>
-					</td>
-					<td>
-						<?php 
-							$degree = 0;
-							if($applicant['JobseekerApply']['intermediate_users']!=''){
-							$intermediate_user_ids=explode(",",$applicant['JobseekerApply']['intermediate_users']);
-								$degree = count($intermediate_user_ids);
-							if(empty($intermediate_user_ids[0]) && $degree>1)
-								$degree=$degree-1;
-							} 
-							echo $degree+1;
-						?>
-					</td>
-					<td>
-						<?php
-							// Match first networkers i.e. $applicant['User'] parent user
-							$networkerEmail="--------"; $networkerUniversity="";
-							if($applicant['User']['parent_user_id']==$applicant['Job']['user_id']&&$degree<1){
-									echo "<span title='Personal'>Personal</span>";
-							}elseif($applicant['NetworkerUser']['parent_user_id']==$applicant['Job']['user_id'] && $degree>=1){
-								$networkerEmail=$applicant["NetworkerUser"]["account_email"];
-								$networkerUniversity = $applicant["Networker"]["university"]!=0?"[".$universities[$applicant["Networker"]["university"]]."]":"";
-									echo "<span title='Extended-Personal' >Extended-Personal</span>";
-							}else{
-								if($degree<1)
-									echo "<span title='Hireroutes'>Hireroutes</span>";
-								else
-									echo "<span title='Extended-Hireroutes' >Extended-Hireroutes</span>";
-							} 
-						?>
-					</td>
-					<td>
-						<?php if(isset($networkerEmail)){
-								echo $networkerEmail."<br>".$networkerUniversity;
-							  }
-						 ?>
-					</td>
-					<td align="center" width="10%">
-						<?php
-							
-							echo $this->Html->image("/img/icon/ok.png", array(
-								"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
-								'url' => "/companies/checkout/".$applicant['JobseekerApply']['id'],
-								'title'=>'Accept'
-							));
-							
-							echo $this->Html->image("/img/icon/delete.png", array(
-							"alt" => "D","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
-							'url' => "javascript:void();",
-							'onclick'=>'javascript:return deleteItem('.$applicant['JobseekerApply']['id'].','.$applicant['JobseekerApply']['job_id'].');',
-							'title'=>'Reject'
-							));
-						?>
-					</td>
-				</tr>
-				
-				<?php endforeach; ?>			
-			</table>
-			</div>
-			
-			<div class="postNewJob" onclick="goTo();">POST NEW JOB</div>
-		<!-- middle conyent list -->
-	</div>
-	<!-- middle section end -->
 
+<div class="clr"></div>
 </div>
+</div>
+
 
 <script>
 function goTo(){
@@ -347,10 +427,13 @@ function goTo(){
 }
 
 function deleteItem(id,jobid){
+
 	if (confirm("Are you sure to Reject?")){
 		window.location.href="/companies/rejectApplicant/"+id+"/"+jobid;
 	}
 	return false;
 }
 </script>
+
+
 

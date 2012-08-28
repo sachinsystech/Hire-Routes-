@@ -118,6 +118,8 @@
 		$(".feedback").click(function(){
 			$("#fdbk_tab").click();
 		});
+		
+		$("#menu_show").click();
 	});
 </script>
 

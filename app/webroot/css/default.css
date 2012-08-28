@@ -282,3 +282,20 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 }
 .invitation-table-name {width:278px; height:48px;}
 /*-------------------- End for jobseeker invitations ----------------------*/
+
+
+
+
+
+/*:::::::::::::Data - page css start :::::::*/
+.data_table { height:29px; width:360px; margin-top:25px;}
+.data_table ul {height:29px; width:360px;}
+.data_table ul li {list-style:none; text-transform:uppercase; float:left; width:85px; font:15px Arial, Helvetica, sans-serif; padding-left:5px;}
+.data_table_font {font-family:'OpenSansCondensedBold' !important;width: 90px !important; padding-left:0 !important;}
+.data_h2_margin h2{ margin-bottom:20px;}
+
+
+
+.job_left_bar a{
+	outline:none;
+}
