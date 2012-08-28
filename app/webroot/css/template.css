@@ -198,8 +198,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .company-recruiter-checkbox {margin:31px 0 0 323px; width:150px; }
 .comp-recruiter-text { margin-left: 40px; font-size:15px; line-height:30px; height:20px;}
 .bottom-margin {margin-bottom:13px;}
-.dont-know-width {width:281px !important;}
-
+.dont-know-width {text-align: center;width: 500px !important;}
 
 
 
@@ -429,13 +428,14 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 /*:::::::::::::Jobs page - Jobs - Network Settings - Subscription - page css start :::::::*/
 
+
 .job-right-content {height: auto; margin: 33px 0 0 26px; width:422px; font:15px Arial, Helvetica, sans-serif;}
 .job-right-content h2 {margin-bottom:16px;}
 .job-subs {font: 15px Arial,Helvetica,sans-serif; height: auto; margin: 33px 0 0 26px;height: 141px;width: 570px;}
-.job-subs-left {width:170px; height:auto; float:left;}
+.job-subs-left {width:176px; height:auto; float:left;}
 .job-subs-left p {margin:16px 0 6px 0;}
-.industries-select select{ width:119px; height:17px;}
-.state-select select { width:53px; height:17px;}
+.industries-select select{ width:150px; height:auto;}
+.state-select select { width:150px; height:auto;}
 .job-subscribe {float:left !important;margin: 69px 0 0 !important;}
 .job-current-subs {width:710px;border-top: 1px solid #D6D2CC;}
 .job-current-subs h2 {padding:24px 0 24px 26px;border-bottom: 1px solid #D6D2CC;}
@@ -448,6 +448,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-current-subs p {padding:29px 0 0 26px; font:15px Arial, Helvetica, sans-serif;}
 .job-subs-select {margin:5px 0 0 26px;}
 .job-save-setting {margin:18px 0 0 18px !important; *margin-left:0px !important; *position:relative; *left:18px;}
+
 
 
 /*:::::::::::::Jobs page - Jobs - Network Settings - Profile - page css start :::::::*/
@@ -776,7 +777,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .text-box-small { height: 29px; margin: 0 0 0 11px; width: 181px; float:left;}
 .text-box-small input { background: url("../images/text-box-small.png") no-repeat; border: 0 none; color: #847A6C; height: 28px; padding: 0 5px 0 5px; width: 170px; font-size: 13px; font-family:Arial, Helvetica, sans-serif; line-height:28px; float:left;}
 .job-add-contact-p p{ line-height:46px;}
-.job-sort-by {margin:0 !important; width:688px !important; background:#eae6d7; padding:10px 0 0 22px; height:26px;border-bottom: 1px solid #D6D2CC;}
+.job-sort-by {margin:0 !important; width:710px !important; background:#eae6d7; padding:10px 0 0 22px; height:26px;border-bottom: 1px solid #D6D2CC;}
 .job-sort-by ul li {width:12px; text-align:center;}
 .job-sort-by ul li a:hover {text-decoration:none !important;}
 .job_sort {font:bold 15px Arial, Helvetica, sans-serif; float:left; margin:2px 0 10px 0;}

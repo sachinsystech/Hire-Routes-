@@ -7,7 +7,7 @@ function fillSpecification($industry_id, specification_field_id,loader_id){
 	 	dataType:'json',
 	 	async:false,
 	 	beforeSend: function(){
-     		$('#'+loader_id).html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+     		$('#'+loader_id).html('<img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..." />');
    		},
 		complete: function(){
    	    	$('#'+loader_id).html("&nbsp;");
@@ -31,7 +31,7 @@ function fillCities(state_id, city_field_id, loader_id)
 	 	dataType:'json',
 	 	async:false,
 	 	beforeSend: function(){
-     		$('#'+loader_id).html('<img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..." />');
+     		$('#'+loader_id).html('<img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..." />');
    		},
 		complete: function(){
    	    	$('#'+loader_id).html("&nbsp;");

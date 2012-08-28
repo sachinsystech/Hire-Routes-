@@ -18,6 +18,8 @@ class HomeController extends AppController {
 		$this->Auth->allow('hrInvitationsDetail');
 		$this->Auth->allow('networkerPointInfo');
 		$this->Auth->allow('about');
+		$this->Auth->allow('termsOfUse');
+		$this->Auth->allow('privacyPolicy');
 	}
 
 	function index(){
@@ -50,14 +52,21 @@ class HomeController extends AppController {
 	}	
 
 	function networkerPointInfo(){
+		$this->layout ="home";
 		$pointLables = $this->PointLabels->find('all');
 		$this->set('pointLables',$pointLables);
-	
 	 }
 	 
 	 function hrInvitationsDetail(){
 	 
 	 }
+	 
+	 function termsOfUse(){
+	 	 $this->layout ="home";
+	 }
 
+	function privacyPolicy(){
+		$this->layout ="home";	
+	}
 }
 ?>

@@ -43,6 +43,7 @@
 		echo $html->script('jquery_min.js');	
 		echo $html->script('jquery-ui.min.js');
 		echo $html->script('jquery.validate.js');
+		echo $html->script('html5placeholder.jquery.js');		
 		echo $scripts_for_layout;
 	?>
 <script src= "/js/twitter.js" type="text/javascript"></script>
@@ -66,6 +67,7 @@
 		$('.success').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.success');
 		$('.warning').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.warning');
 	}
+
 </script>
 </head>
 <body onload="hideMessage();">
@@ -111,15 +113,23 @@
   }).mouseout(function(){
        $(this).removeClass('hover');
   });
-	$("div.box").click(function() {
+	$("div.box").mousedown(function() {
 	$(this).addClass('click');	
   });
-	$("document").ready(function(){
+  
+  $("div.box").mouseup(function() {
+	$(this).removeClass('click');	
+  });
+  
+  $("document").ready(function(){
 		$(".feedback").click(function(){
 			$("#fdbk_tab").click();
 		});
 		
 		$("#menu_show").click();
 	});
+		$(function(){
+$(':input[placeholder]').placeholder();
+}); 
 </script>
 

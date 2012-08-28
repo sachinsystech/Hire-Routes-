@@ -1,6 +1,3 @@
-<style>
-.contacts-sort-by div {float:left;}
-</style>
 <div class="job_top-heading">
 	<?php if($this->Session->read('Auth.User.id')):?>
 		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
@@ -118,7 +115,7 @@
                             	<li class="job-table-name"><?php echo $contact['NetworkerContact']['contact_email']?></li>
                             	<li class="job-table-status">&nbsp;<?php echo $contact['NetworkerContact']['contact_name']?></li>
                                 <li class="job-table-source">
-                                	<span onclick="return edit(<?php echo $contact['NetworkerContact']['id'] ?>)" style="cursor:pointer;color:#4FA149 !important" >Edit</span>
+                                	<span onclick="return edit(<?php echo $contact['NetworkerContact']['id'] ?>,'<?php echo $contact['NetworkerContact']['contact_name']?>','<?php echo $contact['NetworkerContact']['contact_email']?>')" style="cursor:pointer;color:#4FA149 !important" >Edit / </span>
 									<span onclick="return drop(<?php echo $contact['NetworkerContact']['id'] ?>)" style="cursor:pointer;color:#4FA149 !important;" >Delete</span>
                                 </li>
                             </ul>
@@ -195,9 +192,32 @@ $(document).ready(function(){
 	});
 });
 
-function edit(id){
-	window.location.href="/networkers/editPersonalContact/"+id;
+function edit(id, contact_name, email){
+	$(document).ready(function(){
+		$("a#closeEditBox").click(function(){
+			$("#editContacts" ).dialog( "close" );
+			return false;
+		});
+		$("#editContacts").dialog({
+			height:430,
+			hide: "explode",		
+			modal:true,
+			resizable: false ,
+			draggable: true,
+		});
+		$( "#editContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 	0px","opacity":"0.9","height":"230px","top":"100","left":"222px","width":"630px", "background":"none","border":"none"});
+		$("#editContactId").val(id);
+		$("#editContactContactName").val(contact_name);
+		$("#editContactContactEmail").val(email);		
+		$("#editContactAddContactsForm").validate();
+//		$("#editContactAddContactsForm").submit(function(){
+	//		$("#editContactAddContactsForm").validate();
+		//});
+		
+	});
 }
+
+
 function drop(ids){
 	var r=confirm("Do you really want to delete this?");
 	if (r==true){
@@ -247,22 +267,25 @@ function importFromGmail(){
 }
 </script>
 <?php if(isset($GmailContacts)){?>
-<div id="gmailContacts" >
-	<div class="about-border"> 
-		<a href="#"> <img src="/images/about/about.jpg" /> <span class="link-mouseover">READ MORE</span> </a> 
-	</div>
-	<?php  echo $this->Form->create('gmailContact', array('url' => array('controller' => 'networkers', 
-																		 'action' => 'addContacts')));?>
-	<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
-	<div style="border-bottom:1px solid">
-		<div style="float:left;width:178px;margin-left:5px;"> 
-			<input type="checkbox" onclick="toggleChecked(this.checked)">
+<div style="display:none;" id = "gmailContacts">
+	<div class="gmail-share-content">
+    	<div class="gmail_popup_cancel_bttn">
+           	<div class="payment_popup_cancel_bttn"><a href="#" id ="close"></a></div>
+   		</div>
+		 <div class="gmail-content">
+			<?php  echo $this->Form->create('gmailContact', array('url' => array('controller' => 'networkers', 
+																			 'action' => 'addContacts')));?>
+		<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
+		<div style="margin-top: 8px; border-bottom:1px solid">
+			<div style="float:left;width:178px;"> 
+				<input type="checkbox" onclick="toggleChecked(this.checked)">
+			</div>
+			<div> <h2>E-Mail </h2> </div>
 		</div>
-		<div> <b> E-Mail </b> </div>
-	</div>
-	<div style="height: 280px; margin: auto; overflow: auto;">
-	<?php	
-				echo $form->input("addGmailContact", array(	'class'=>'contact_checkbox',
+   	    <div class="clr"></div>
+		<div class="edit_contact_popup">
+		<?php	
+			echo $form->input("addGmailContact", array(	'class'=>'contact_checkbox',
 															'label' => '',
 															'type'  => 'select',
 															'multiple' => 'checkbox',
@@ -273,23 +296,23 @@ function importFromGmail(){
 								  );
 		  
 		  
-	?>
-
+		?>
+		</div>
+		<div style="clear:both;margin: 7px 23px;">
+			<input type="submit" value="Add Contacts" onclick="return checkGmailCheckbox()" class="gmail-submit">
+			<?php }
+			else{ ?>
+				<div style="text-align:center;">
+					<span >No contacts Found</sapn> 
+				</div>
+			<?php } ?>
+			<?php echo $form->end(); ?>
+    	    <div class="clr"></div>
+    		</div>
+	    </div>
 	</div>
-	<div style="clear:both;margin: 7px 23px;">
-		<input type="submit" style="font-size:10px;font-weight:bold;width:90px;float:right;margin:3px;"
-			value="Add Contacts" onclick="return checkGmailCheckbox()">
-		<?php }
-		else{ ?>
-			<div style="text-align:center;">
-				<span >No contacts Found</sapn> 
-			</div>
-		<?php } ?>
-	<?php echo $form->end(); ?>
-	<?php }?>
-	
-	</div>	
 </div>
+<?php }?>  
 <script>
 	function toggleChecked(status) {
 		$("input:checkbox").each( function() {
@@ -310,44 +333,88 @@ function importFromGmail(){
 </script>
 <style>
 .ui-dialog-titlebar { display:none; }
-.ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-draggable .ui-resizable{
-display: block;
-    height: auto;
-    left: 350px;
-    outline: 0 none;
-    position: absolute;
-    top: 200px;
-    visibility: visible;
-    width: 510px;
-    z-index: 1004;
-}
 .ui-widget-overlay{
     background: none repeat scroll 0 0 #000000;
     opacity: 0.6;
 }
+.payment_popup_cancel_bttn {
+    background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    height: 72px;
+    position: absolute;
+    right: -31px;
+    top: -28px;
+    width: 72px;
+}
+
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("a#close").click(function(){
-		$("#about-dialog" ).dialog( "close" );
+		$("#gmailContacts" ).dialog( "close" );
 		return false;
 	});
 	$("#gmailContacts").dialog({
 		height:430,
-		width:550,
+		hide: "explode",		
 		modal:true,
 		resizable: false ,
 		draggable: true,
-		title:"Gmail Contacts: <br> ",
-		show: { 
-			effect: 'drop', 
-			direction: "up" 
-		},
 	});
-	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"1000px","top":"0","width":"581px", "background":"none","border":"none"});
+	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","top":"100","left":"222px","width":"630px", "background":"none","border":"none"});
+
 	<?php if(isset($GmailContacts)){?>
 		$( "#about-dialog").show();
 	<?php } ?>
 	
 });
 </script>
+
+<!-------------- Pop up for edit contacts ------------->
+<div style="display:none;" id = "editContacts">
+	<div class="gmail-share-content">
+    	<div class="gmail_popup_cancel_bttn">
+           	<div class="payment_popup_cancel_bttn"><a href="#" id ="closeEditBox"></a></div>
+   		</div>
+		<div class="edit_contact_popup_box">
+			<?php echo $this->Form->create('editContact', array('url' => array('controller' => 'networkers', 'action' => 'editContact'))); ?>
+			<div style="display:none;" >
+			<?php echo $form->input('id', array('label' => '',
+											'type'  => 'text',
+											'id' 	=> 'editContactId'
+											));
+					?>			 
+			</div>
+			<div class="job-right-top-left job-profile">
+		    	<h2>EDIT CONTACT</h2>
+		    	<div class="edit_contect_box">
+					<div class="edit-profile-text-box">
+					<?php echo $form->input('contact_name', array('label' => "<span>Name</span>",
+											'type'  => 'text',
+											'class' => 'networker_contact_text_blk required alphabet',
+											'div'=> false,
+											)
+							 );
+						?>
+					</div>
+					<div class="clr"></div>
+					<div class="edit-profile-text-box">							
+						<?php echo $form->input('contact_email', array('label' => "<span>Email</span> ",
+											'type'  => 'text',
+											'class' => 'networker_contact_text_email required email',
+											'div'=> false,
+											)
+							 );
+						?>
+					</div>
+					<div><?php echo isset($validationErrors)?$validationErrors:""; ?> </div>
+				</div>
+			</div>		
+			<div class="edit_conact_button">
+				<?php echo $form->submit('Update',array('div'=>false,'class'=>'gmail-submit')); ?>
+			</div>
+			<div class="clr"></div>
+			<?php echo $form->end(); ?>			
+		</div>
+	</div>
+</div>
+

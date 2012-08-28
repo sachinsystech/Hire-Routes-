@@ -1,8 +1,14 @@
+<style>
+.placeholder_label{font: 0.75em/normal sans-serif; left: 5px; top: 3px; width: 147px; height: 15px; color: rgb(186, 186, 186); position: absolute; overflow-x: hidden; font-size-adjust: none; font-stretch: normal;};
+
+. text-box label{top:12px;color:red}
+
+</style>
 <script>
   function checkform() {
     var isAgreeCondition = $('input:checkbox[id=UserAgreeCondition]:checked').val();
     if(!isAgreeCondition){
-      $("#agree_condition_error").removeClass().addClass("error").html("This is required field.");
+      $("#agree_condition_error").removeClass().addClass("error_input_message").html("This is required field.");
       return false;
     }
     if(isAgreeCondition){
@@ -10,38 +16,27 @@
     }
   }
   $(document).ready(function(){
-		$("#UserCompanyRecruiterSignupForm").validate({
-			  errorClass: 'error_input_message',
-			  rules: {
-				'data[User][password]': "required",
-				'data[User][repeat_password]': {
-				  equalTo: "#UserPassword"
-				}
-			  }
-			});
-  		
-		/*
-		$('[_placeholder]').focus(function() {
-		  var input = $(this);
-		  if (input.val() == input.attr('_placeholder')) {
-			input.val('');
-			input.removeClass('_placeholder');
-		  }
-		}).blur(function() {
-		  var input = $(this);
-		  if (input.val() == '' || input.val() == input.attr('_placeholder')) {
-			input.addClass('_placeholder');
-			input.val(input.attr('_placeholder'));
-		  }
-		}).blur().parents('form').submit(function() {
-		  $(this).find('[_placeholder]').each(function() {
-			var input = $(this);
-			if (input.val() == input.attr('_placeholder')) {
-			  input.val('');
+	$("input[type=text]").each(function(){
+		//alert($(this).attr('placeholder'));
+		//$(this).after("<label class='placeholder_label' for="+this.id+">"+$(this).attr("placeholder")+"</label>");
+	});
+	$("#UserCompanyRecruiterSignupForm").validate({
+		  errorClass: 'error_input_message',
+		  rules: {
+			'data[User][password]': "required",
+			'data[User][repeat_password]': {
+			  equalTo: "#UserPassword"
 			}
-		  })
-		});
-		*/
+		  },
+		  errorPlacement: function (error, element) {
+		  	if($(".placehcss").length){
+				error.insertAfter(element.parent());
+				
+			}else{
+				error.insertAfter(element);
+			}
+		  }
+	});
 	  
   });
       
@@ -50,7 +45,6 @@
     <div class="sub-title-cs">Please fill the registration request below, we will analyze your data and get back with in next 24 hours.</div>
     
 <?php echo $form->create('User', array('action' => 'companyRecruiterSignup','onsubmit'=>'return checkform();')); ?>
-
     
 	<div class="company-recruiter-check-box">
 		<div class="cross-button bottom-margin">
@@ -169,5 +163,5 @@
     	<div class="clr"></div>
     </div>
     <?php echo $form->end(); ?>	
-	<div class="forgot-password dont-know"><a href="/companyInformation">Don't know about Companies/Recruiters?</a></div>
+	<div class="dont_know_company dont-know" style="width:300px;"><a href="/companyInformation">Don't know about Companies/Recruiters?</a></div>
 

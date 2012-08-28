@@ -19,12 +19,16 @@ class CompaniesController extends AppController {
 		if($session->getUserRole()!=COMPANY){
 			$this->redirect("/users/loginSuccess");
 		}
+		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
+		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 		
 		$this->Auth->authorize = 'actions';
 		$this->Auth->allow('accountProfile');		
 		$this->Auth->allow('archiveJob');
 		$this->Auth->allow('companyData');
 		$this->Auth->allow('checkout');
+		$this->Auth->allow('getCompanyActiveJobsCount');
+		$this->Auth->allow('getCompanyArchiveJobsCount');
 		$this->Auth->allow('deleteJob');
 		$this->Auth->allow('editJob');		
 		$this->Auth->allow('editProfile');		
@@ -144,8 +148,7 @@ class CompaniesController extends AppController {
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
 		// end for job fetching...
-		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
-		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
+
 	}
 
 /*
@@ -200,8 +203,6 @@ list archive jobs..
 		$jobs = $this->paginate("Job");
 		$this->set('jobs',$jobs);
 		// end for job fetching...
-		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
-		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
 	
 	/* Company data starts*/
@@ -279,19 +280,17 @@ list archive jobs..
 		$this->set('RewardsPaid',$rewardPaid);
 		$this->set('Applicants',$applicants);
 		$this->set('Views',$jobViews);
-		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
-		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());		
 	}
 	/* Company data ends */
 	
-	private function getCompanyActiveJobsCount(){
+	public function getCompanyActiveJobsCount(){
 		$userId = $this->_getSession()->getUserId();
 		$active_job_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
 		$activejobCount = $this->Job->find('count',array('conditions'=>$active_job_conditions));
 		return $activejobCount;
 	}
 
-	private function getCompanyArchiveJobsCount(){
+	public function getCompanyArchiveJobsCount(){
 		$userId = $this->_getSession()->getUserId();	
 		$arch_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>0);
 		$archJobCount = $this->Job->find('count',array('conditions'=>$arch_conditions));

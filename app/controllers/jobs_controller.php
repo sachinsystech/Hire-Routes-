@@ -29,6 +29,10 @@ class JobsController extends AppController {
 			$this->set('NewJobs',$jobCounts['newJob']);
 			$this->set('Archivedjobs',$jobCounts['archiveJob']);
 		}
+		if($session->getUserRole()==COMPANY){
+			$this->set('activejobCount', $this->requestAction("/Companies/getCompanyActiveJobsCount"));
+			$this->set('archJobCount',   $this->requestAction("/Companies/getCompanyArchiveJobsCount"));
+		}
      }
 	
 	function index(){

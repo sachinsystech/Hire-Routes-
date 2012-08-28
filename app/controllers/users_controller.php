@@ -248,7 +248,7 @@ class UsersController extends AppController {
 		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
 		$linkedin->getRequestToken();
 		$this->Session->write('requestToken',serialize($linkedin->request_token));
-		$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl() );
+		$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl());
 		
 		$facebook = $this->facebookObject();
 		$this->set('FBLoginUrl',$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
@@ -804,6 +804,7 @@ class UsersController extends AppController {
  * @access public
  */	
 	function facebookUserSelection(){
+		$this->layout = "home";
 		$graduateDegrees = $this->GraduateDegree->find('list',array('fields'=>'id, degree'));	
 		$this->set("graduateDegrees",$graduateDegrees);
 		$facebook = $this->facebookObject();
@@ -994,6 +995,10 @@ class UsersController extends AppController {
 			$this->set('NewJobs',$jobCounts['newJob']);
 			$this->set('Archivedjobs',$jobCounts['archiveJob']);
 		}
+		if($session->getUserRole()==COMPANY){
+			$this->set('activejobCount', $this->requestAction("/Companies/getCompanyActiveJobsCount"));
+			$this->set('archJobCount',   $this->requestAction("/Companies/getCompanyArchiveJobsCount"));
+		}
 		
 	}
 
@@ -1146,11 +1151,9 @@ class UsersController extends AppController {
 	 
 	 function saveLinkedinUser(){
 		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
-    	$linkedin->request_token = unserialize($this->Session->read("requestToken"));
-        $verifier = unserialize($this->Session->read("verifier"));
-        $linkedin->oauth_verifier = $verifier;
-        //$linkedin->getAccessToken($verifier);
-    	$linkedin->access_token = unserialize($this->Session->read("accessToken"));
+        $linkedin->request_token    =   unserialize($this->Session->read('requestToken'));
+        $linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
+        $linkedin->access_token     =   unserialize($this->Session->read('oauth_access_token'));
     	$xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url)");
     	$response=simplexml_load_string($xml_response);
     	$firstName = "first-name";
@@ -1207,17 +1210,17 @@ class UsersController extends AppController {
 	 }
 	 
 	 function linkedinUserSelection(){
+	 	$this->layout ="home";
 	 	$session = $this->_getSession();
 		if($session->isLoggedIn()){
 			$this->redirect('loginSuccess');
 		}
-		$graduateDegrees = $this->GraduateDegree->find('list',array('fields'=>'id, degree'));	
+ 		$graduateDegrees = $this->GraduateDegree->find('list',array('fields'=>'id, degree'));	
 		$this->set("graduateDegrees",$graduateDegrees);
 		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
-    	$linkedin->request_token = unserialize($this->Session->read("requestToken"));
-        $verifier = unserialize($this->Session->read("verifier"));
-        $linkedin->oauth_verifier = $verifier;
-        $linkedin->getAccessToken($verifier);
+        $linkedin->request_token    =   unserialize($this->Session->read('requestToken'));
+        $linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
+        $linkedin->access_token     =   unserialize($this->Session->read('oauth_access_token'));
 		if( isset( $linkedin->access_token)){
 	        $this->Session->write('accessToken', serialize($linkedin->access_token));
 	        

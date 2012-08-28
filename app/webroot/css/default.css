@@ -133,18 +133,15 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     background-color: #FDFDFD;
     border: 1px solid #000000;
     width: 200px;
-	margin-left: 27px;
 	height: 68px;
 }
 .jobseeker_select{
-    background-color: #FDFDFD;
-    border: 1px solid #000000;
     height: 23px;
     width: 196px;
 	margin-left: 27px;
 }
 .industry-specification-1{height:150px;width:600px;}
-.industries-select{float:left;}
+.industries-select{float:left;height:14px;}
 /* ------ End css for jobseeker settings --------*/
 
 /* ------ css for jobseeker job profile --------*/
@@ -280,10 +277,8 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .invitaion_pagination {
     width: 520px !important;
 }
-.invitation-table-name {width:278px; height:48px;}
+.invitation-table-name {width:278px; height:30px;}
 /*-------------------- End for jobseeker invitations ----------------------*/
-
-
 
 
 
@@ -299,3 +294,233 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .job_left_bar a{
 	outline:none;
 }
+
+.email_popup {
+	height: 328px;
+    margin: 20px 20px 0;
+    overflow: auto;
+    width: 555px !important;
+}
+#gmailContacts {
+    height: 462px !important;
+    overflow: hidden !important;
+    padding-top: 43px;
+}
+#gmailContacts input {
+    margin-left: 20px;
+    margin-right: 15px;
+}
+.gmail-submit{
+	width:110px;
+	float:right;
+    background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font: 20px 'OpenSansCondensedBold';
+    height: 36px;
+    margin: 10px 0 0 11px;
+}
+.gmail-content {
+    height: auto;
+    width: 575px;
+}
+.gmail_popup_cancel_bttn{
+    height: 1px;
+    position: relative;
+    width: 575px;
+}
+.gmail-share-content {
+    background: none repeat scroll 0 0 #F6F1E2;
+    height: 450px;
+    margin: 0 auto;
+    width: 575px;
+}
+/*---------------- Edit gmail contacts  ********************/
+#editContacts{
+    height: 462px !important;
+    overflow: hidden !important;
+    padding-top: 43px;
+}
+.edit_contact_popup {
+    height: 342px;
+    margin-top: 10px;
+    overflow-y: scroll;
+    width: 575px;
+}
+.edit_contect_box{
+	margin-top:10px;    
+}
+.edit_conact_button{
+	clear:both;margin: 7px 23px;
+}
+.edit_contact_popup_box {
+    height: 346px;
+    margin-top: 10px;
+    overflow: hidden;
+    width: 575px;
+}
+/*-------------------- Linked in user selection --------------**/
+.text_field {
+    float: left;
+    width: 420px;
+}
+.text_field_bg {
+    border: 1px solid;
+    float: right;
+    width: 200px;
+}
+.network_popup_row {
+	width:420px;
+	height:auto;
+	margin-top:8px;
+}
+.network_popup_row input {
+	width:274px;
+	height:29px;
+	background:url(../images/text-box.png) no-repeat;
+	border:none;
+	font:13px Arial, Helvetica, sans-serif;
+	color:#1B1915;
+	padding:0 5px 0 10px;
+	line-height:30px;
+	outline:none;
+}
+.network_popup_row select {
+	float:right;
+	width:289px;
+}
+.network_university_popup_cancel_bttn {
+    height: 1px;
+    position: relative;
+}
+.network_popup_cancel_bttn {
+    background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    height: 72px;
+    overflow: hidden;
+    position: absolute;
+    right: -59px;
+    top: -44px;
+    width: 72px;
+}
+.networker_popup_inner_content{
+	background: url("../images/about_popup_bg.png") repeat scroll 0 0 transparent;
+    margin: 10px;
+    padding: 25px;
+    height:180px;
+}
+.network_popup_cancel_bttn a {
+    display: block;
+    height: 50px;
+    margin: 7px 0 0 8px;
+    width: 50px;
+}
+.networker-popup-submit{
+    background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    float: right;
+    font: 20px 'OpenSansCondensedBold';
+    height: 36px;
+    margin: 10px 0 0 11px;
+    width: 80px;
+}
+/***---------------------------------------------****/
+.api_user_selection{
+	width:300px;
+	margin-left:220px;
+	float:left;
+	cursor:pointer;
+}
+.api_jobseeker_selection2{
+	width:300px;
+	float:left;
+	cursor:pointer;
+}
+.api_button_networker{
+    background: url("../images/buttons.png") no-repeat scroll -636px 0 transparent;
+    height: 62px;
+    padding: 9px 0 0 10px;
+    text-align: center;
+    width: 207px;
+
+}
+.api_button_jobseeker {
+    background: url("../images/buttons.png") no-repeat scroll -425px 0 transparent;
+    height: 62px;
+    padding: 9px 0 0 9px;
+    text-align: center;
+    width: 200px;
+}
+.api_button_jobseeker:hover {background:url(../images/buttons.png) -425px -74px no-repeat;}
+.api_button_jobseeker:active {background:url(../images/buttons.png) -425px -149px no-repeat;width:207px; height:62px; padding-top: 175x; text-align:center; margin:25px 0 0 69px;}
+
+.api_button_jobseeker a, .api_button_networker a{display:block; color:#FFF ;text-shadow: 1px 1px 1px #444343; text-decoration:none; font-family: "OpenSansCondensedBold";font-size: 20px; height: 39px; width: 184px;line-height: 40px;}
+
+.api_button_networker:hover {background:url(../images/buttons.png) -637px -74px no-repeat;}
+.api_button_networker:active {background:url(../images/buttons.png) -637px -149px no-repeat;width:207px; height:62px; padding-top: 175x; text-align:center; margin:4px 0 0 61px;}
+
+/***********************************************/
+
+#specification_loader{float:left;}
+.setting_specification{float:left;}
+.networker_select_city{float:left;}
+#city_loader{float:left;}
+
+.dont_know_company{margin:-10px auto 0; text-decoration:underline; color:#3a9031;text-align:center; height:17px; font-size: 15px;}
+.dont_know_company a {
+    color: #3A9031;
+    text-decoration: underline;
+}
+
+/***************** css for jobseeker settings. ************************/
+.industry-specification-1 {
+    height: 120px;
+    width: 620px;
+}
+
+.text {
+    color: #382F2B;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 15px;
+    margin: 25px 0;
+}
+.invitation-table-subheading ul li {
+    line-height: 30px !important;
+}
+.jobseeker_setting_button{
+    background: url("../images/bttn_sprite.png") no-repeat scroll 0 0 transparent;
+    height: 62px;
+    width: 207px;
+}
+.jobseeker_setting_button input{
+	background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
+    border: medium none;
+    color: #FFFFFF;
+    font-family: "OpenSansCondensedBold";
+    font-size: 20px;
+    height: 36px;
+    margin: 10px 0 0 11px;
+    text-decoration: none;
+    text-shadow: 1px 1px 1px #444343;
+    width: 181px;
+}
+.jobseeeker_seeting_name input {
+    background: url("../images/text-box-small.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #302D2D;
+    font: 13px/30px Arial,Helvetica,sans-serif;
+    height: 29px;
+    outline: medium none;
+    padding: 0 5px 0 10px;
+    width: 172px;
+}
+.multiple_select_box{width:320px !important;margin-left:5px;}
+.multiple_select{width:300px !important;margin-left:5px;}
+.jobseeeker_seeting_name label{margin-right:5px;}
+.jobseeker-settings{font: 15px Arial,Helvetica,sans-serif;height: 141px;margin: 33px 0 0 26px;width: 620px;}
+.industries-select-right{margin-left:10px;}
+.contacts-sort-by div {float:left !important;padding-left:24px;}
+.job_right_section_left h2{color:#4FA34B !important;}
+>>>>>>> 969f1dc28b609c7b989a5b1078c6f8def2287dd0

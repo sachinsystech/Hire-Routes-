@@ -136,7 +136,7 @@
 						?>
 						<?php foreach($invitations AS $contact):?>
 						<?php $i++;?>
-						<div class="job-table-subheading job-table-heading-border <?php if($i%2==0) echo 'light';else echo 'dark'; ?>">
+						<div class="job-table-subheading job-table-heading-border invitation-table-subheading <?php if($i%2==0) echo 'light';else echo 'dark'; ?>">
 							<ul >
 								<li class="invitation-table-name"><?php echo $contact['Invitation']['name_email']?></li>
 				

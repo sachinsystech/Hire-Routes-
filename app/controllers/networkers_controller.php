@@ -32,7 +32,8 @@ class NetworkersController extends AppController {
 		$this->Auth->allow("getGmailContacts");
 		$this->Auth->allow("jobCounts");
 		$this->Auth->allow("getNetworkerSettings");
-				$jobCounts=$this->jobCounts();
+		$this->Auth->allow("editContact");
+		$jobCounts=$this->jobCounts();
 		$this->set('SharedJobs',$jobCounts['sharedJobs']);
 		$this->set('ArchiveJobs',$jobCounts['archivejobs']);
 		$this->set('NewJobs',$jobCounts['newJobs']);
@@ -304,7 +305,7 @@ class NetworkersController extends AppController {
 			}else{
 				$this->Session->setFlash("you may be click on old link and enter manually.", 'error');	
 			}
-			$this->redirect('/networkers/personal');			
+			$this->redirect('/networkers/addContacts');			
 		}
 		if(isset($this->data['Contact']['CSVFILE']['tmp_name']) && $this->data['Contact']['CSVFILE']['tmp_name']!= null ){
 			$this->importCsv($this->data['Contact']['CSVFILE']['tmp_name']);
@@ -419,7 +420,7 @@ class NetworkersController extends AppController {
 	}
 
 	/*	Edit single contact	*/
-	function EditContact() {
+	function editContact() {
 		if(isset($this->data['editContact'])){
 			$userId = $this->_getSession()->getUserId();
 			$contactId = $this->data['editContact']['id'];
@@ -445,7 +446,10 @@ class NetworkersController extends AppController {
 		    if($this->NetworkerContact->save($this->data['editContact'])){
 				$this->Session->setFlash('Contact has been updated successfully.', 'success');	
 			}
-			$this->redirect('/networkers/personal');
+			$this->redirect('/networkers/addContacts');
+		}else{
+			$this->Session->setFlash('Please fill correct information for update emails.', 'error');	
+			$this->redirect('/networkers/addContacts');
 		}
 	}
 

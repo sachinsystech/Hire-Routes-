@@ -21,10 +21,10 @@ class AppController extends Controller {
 	function beforeRender(){
 		$facebook = $this->requestAction('/Facebook/facebookObject');
 		$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
-		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
-		$linkedin->getRequestToken();
-		$this->Session->write('requestToken',serialize($linkedin->request_token));
-		$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl() );	
+		//$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+		//$linkedin->getRequestToken();
+		//$this->Session->write('requestToken',serialize($linkedin->request_token));
+		//$this->set("LILoginUrl","");//$linkedin->generateAuthorizeUrl() );	
 	}
 	function beforeFilter(){
 		if(strtoupper($this->params['controller'])!='JOBS'){
@@ -167,7 +167,6 @@ class AppController extends Controller {
 			$this->Session->write('invitationCode',$inviteCode);
 		}
 	}
-	//http://127.0.0.1/?inviteCode=bb028775b9405d0abd5b01b5321d94b6
 	
 }
 
