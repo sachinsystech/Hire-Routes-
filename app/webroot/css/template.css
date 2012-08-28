@@ -634,7 +634,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-right-reward {background-color:#eae6d7; width:207px; height:183px; }
 .job_right_bar_position {position:relative;}
 .button-apply-margin { margin:2px 0 0 3px !important; height: 40px !important; width: 185px !important;}
-.job-right-reward-text {font:bold 27px 'OpenSansCondensedBold';  padding: 20px 0 10px 0;text-align: center;}
+.job-right-reward-text {font:bold 25px 'OpenSansCondensedBold';  padding: 20px 0 10px 0;text-align: center;}
 .job-right-reward-text span {color:#50a64e;}
 .job-right-top-bar-border { border-bottom:1px solid #D6D2CC;}
 .job-right-how-payout {font:15px Arial, Helvetica, sans-serif;}
