@@ -1,6 +1,13 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function(){
 		invite(0);
+		//Code Starts
+		$('.NewTab').click(function() {
+    	    $(this).target = "_blank";
+    	    window.open($(this).prop('href'));
+    	    return false;
+	   });
+	
 	});
 
 	function invite( onclick ){
@@ -63,7 +70,7 @@ $class= "class='selected_menu'";
 	<!-- main-nav -->
 	<div class="nav" id="services">
 		<ul>
-			<li><a href="#" <?php if($this->action=="#") echo $class; ?>>fast facts</a></li>
+			<li><a href="#fastFacts" <?php if($this->action=="#") echo $class; ?>>fast facts</a></li>
 			<li class="how-works"><a href="/howItWorks" <?php if($this->action=="companyInformation" ||$this->action=="networkerInformation"||$this->action=="jobseekerInformation") echo $class; ?> >how it works</a></li>
 		</ul>
 		<div class="clr"></div>
@@ -89,9 +96,9 @@ $class= "class='selected_menu'";
 		<div class="Hire-Routes"> </div>
 		<div class="icons">
 			<ul>
-				<li> <a href="" class="twit"> </a> </li>
-				<li> <a href="<?php echo $FBLoginUrl; ?>" class="fb" > </a></li>
-				<li> <a href="<?php echo '' ?>" class="in"> </a> </li>
+				<li> <a href="http://www.twitter.com/hireroutes" class="twit NewTab"> </a> </li>
+				<li> <a href="http://www.facebook.com/hireroutes" class="fb NewTab" > </a></li>
+				<li> <a href="http://www.linkedin.com/pub/austin-root/8/b29/163" class="in NewTab"> </a> </li>
 			</ul>
 		</div>
 	</div>

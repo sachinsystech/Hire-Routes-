@@ -7,15 +7,15 @@
 		<li><a href="/about">About Us</a></li>
 		<li><a href="/jobs">Job Postings</a></li>
 		<li><a href="/contactUs">Contact Us</a></li>
-		<li><a href="#">Fast Facts</a></li>
+		<li><a href="#fastFacts">Fast Facts</a></li>
 		<li><a href="/howItWorks">How it Works</a></li>
-		<li><a href="#">Terms &amp; Conditions</a></li>
+		<li><a href="/termsOfUse" class="">Terms &amp; Conditions</a></li>
 		</ul>
     </div>
     <!-- footer-block --> 
     
     <!-- footer-block-->
-    <div class="footer-block second">
+    <div class="footer-block second" id="fastFacts">
       <h3>fast facts</h3>
 		<?php
 			include(APP_DIR.'/vendors/twitter/twitterstatus.php');

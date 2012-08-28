@@ -97,7 +97,7 @@ class JobseekersController extends AppController {
 			$this->JobseekerSettings->set($this->data['JobseekerSettings']);
 			if( $this->JobseekerSettings->validates()  && $this->JobseekerSettings->save()){
 				$this->Jobseekers->id =$jobseekerId;
-				if($this->Jobseekers->saveField('contact_name', $this->data['Jobseekers']['contact_name'],true)){
+				if(isset($this->data['Jobseekers']['contact_name']) && $this->Jobseekers->saveField('contact_name', $this->data['Jobseekers']['contact_name'],true)){
 					$session->start();
 					$this->Session->setFlash('Your Setting has been saved successfully.', 'success');
 				}

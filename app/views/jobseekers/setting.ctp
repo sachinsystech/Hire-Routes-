@@ -46,19 +46,23 @@ div .checkbox{
                 	<h2>SETTINGS/SUBSCRIPTIONS</h2>
                     <p>This is where some text can go to explain what this section is for and can go onto a second line but I wouldnt go much farther</p>
                  </div>   
-                    <div class="job-subs">
+                    <div class="jobseeker-settings">
 						<?php echo $form->create('JobseekerSettings', array('id'=>'JobseekerSettingsForm','url' => '/jobseekers/setting','onsubmit'=>'return check_email_subs();')); ?>
 						<?php echo $form->input('id', array('label' => '',
 														'type'  => 'hidden',
 														'value' => isset($jobseekerData['id'])?$jobseekerData['id']:""
 																	));?>
-						<?php echo $form->input('Jobseekers.contact_name',
+						<div class="jobseeeker_seeting_name">
+						<?php if(!isset($jobseekerData['contact_name'])){
+							echo $form->input('Jobseekers.contact_name',
 														 array('label' => false,
 														  'type'  => 'text',
-														  'placeholder'=>'Name',
+														  'placeholder'=>'Contact Name',
 														  'class' => 'jobseekers_text required',
 														  'name' => 'data[Jobseekers][contact_name]',
-														  'value' => isset($jobseekerData['contact_name'])?$jobseekerData['contact_name']:""));?>
+													));		
+						}?>
+						</div>											  
 						<div id="industry_specification_1">
                     		<div class="industry-specification-1">
                         	    <div class="industries-select">
@@ -68,14 +72,14 @@ div .checkbox{
 																  '4'=>'Industry4');?>
 								  	<?php echo $form -> input('industry_1',
 								  									array('type'=>'select',
-																	     'label'=>'Industry 1:',
+																	     'label'=>'Industry 1',
 																	     'options'=>$industries,
 																	     'empty' =>'Select Industry',
 																	     'onchange'=>'return fillSpecification(this.value,"JobseekerSettingsIndustrySpecification1","specification_1_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
 								</div>
-                           		<div class="industries-select">
+                           		<div class="industries-select multiple_select_box">
 									<?php $industry_specification_array = 
 																array('1'=>'Industry specification 1',
 																		'2'=>'Industry specification 2',
@@ -87,7 +91,7 @@ div .checkbox{
 																	   'multiple'=>'multiple',
 																	   'size' => '4',
 																	   //'options'=>$specifications,
-																	    'class'=>'jobseeker_select__i_s required',
+																	    'class'=>'jobseeker_select__i_s required multiple_select',
 											                            'selected'=>isset($jobseekerData['specification_1'])?explode(",",$jobseekerData['specification_1']):""));?>
 								</div>
 								<div id="specification_1_loader" style="float:left;"></div>
@@ -98,20 +102,20 @@ div .checkbox{
                     		<div class="industry-specification-1">
 	                            <div class="industries-select">
 								<?php echo $form -> input('industry_2',array('type'=>'select',
-																	     'label'=>'Industry 2:',
+																	     'label'=>'Industry 2',
 																	     'options'=>$industries,
 																	     'empty' =>'Select Industry',
 																	     'onchange'=>'return fillSpecification(this.value,"JobseekerSettingsIndustrySpecification2","specification_2_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:""));?>
 								</div>
-	                           	<div class="industries-select">
+	                           	<div class="industries-select multiple_select_box">
 								<?php echo $form -> input('industry_specification_2',array('type'=>'select',
 																	                   'label'=>'',
 																	                   'multiple'=>'multiple',
 																	                   'size' => '4',
 																	                   //'options'=>$specifications,
-																	                   'class'=>'jobseeker_select__i_s required',
+																	                   'class'=>'jobseeker_select__i_s required multiple_select',
 											                                           'selected'=>isset($jobseekerData['specification_2'])?explode(",",$jobseekerData['specification_2']):""));?>
     	                       	</div>
     	                       	<div id="specification_2_loader" style="float:left;"></div>
@@ -119,10 +123,10 @@ div .checkbox{
 							
 						</div>
 						<div id="industry_specification_1">
-                            <div class="industries-select">
+                            <div class="industries-select industries-select-right">
 <?php echo $form -> input('state',array(
 											'type'=>'select',
-											'label'=>'Location: ',
+											'label'=>'Location',
 											'options'=>$states,
 											'empty' =>'All States',
 											'class'=>'js_select_ls',
@@ -132,7 +136,7 @@ div .checkbox{
 						);
 ?>
 							</div>
-                       		<div class="industries-select">
+                       		<div class="industries-select industries-select-right">
 									<?php echo $form -> input('city',array(
 																'type'=>'select',
 																'label'=>'',
@@ -146,14 +150,14 @@ div .checkbox{
 							<div id="city_loader" style="float:left;">&nbsp;</div>
 						</div>
 						<div id="industry_specification_1">
-                    		<div class="industry-specification-1">
+                    		<div class="industry-specification-1 jobseeeker_seeting_name">
 		                        <?php echo $form->input('salary_range', 
-		                        							array('label' => 'Annual Salary Range ($):',
+		                        							array('label' => 'Annual Salary Range ($)',
 																  'type'  => 'text',
 																  'class' => 'jobseekers_text_salary_range required number',
 																  'min' =>1000,
 																  'value' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>   	
-                           	
+
 		                    	<?php $emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
 								<?php echo $form -> input('subscribe_email',array('type'=>'select',
 																	              'label'=>'',
@@ -163,7 +167,11 @@ div .checkbox{
 																	              'selected' => isset($jobseekerData['subscribe_email'])?$jobseekerData['subscribe_email']:""));?>
 							</div>
 						</div>
-					<?php echo $form ->submit('Save');?>
+						<div class="jobseeker_setting_button">
+							<?php  echo $form->submit('Save',array('div'=>false,
+																	'type'=>'submit',
+																	)); ?>
+						</div>  
 					<?php echo $form->end(); ?>       	
 				</div>
 			</div>

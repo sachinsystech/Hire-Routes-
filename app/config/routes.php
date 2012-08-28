@@ -58,7 +58,9 @@
 	Router::connect('/networkerInformation', array('controller' => 'home', 'action' => 'networkerInformation'));		
 	Router::connect('/jobseekerInformation', array('controller' => 'home', 'action' => 'jobseekerInformation'));		
 	Router::connect('/howItWorks', array('controller' => 'home', 'action' => 'howItWorks'));	
-	
+	Router::connect('/termsOfUse', array('controller' => 'home', 'action' => 'termsOfUse'));		
+	Router::connect('/privacyPolicy', array('controller' => 'home', 'action' => 'privacyPolicy'));	
+
 	
 	Router::connect('/companies/archiveJob/:id', array('controller' => 'companies','action' => 'archiveJob'),array('id' => '[0-9]+')); 
 	Router::connect('/companies/showApplicant/:id/*', array('controller' => 'companies','action' => 'showApplicant'),array('id' => '[0-9]+')); 

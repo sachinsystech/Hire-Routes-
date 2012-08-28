@@ -12,30 +12,30 @@
             	<div class="job-right-content">
                 	<h2>SETTINGS/SUBSCRIPTIONS</h2>
                     <p>This is where some text can go to explain what this section is for and can go onto a second line but I wouldnt go much farther</p>
-                 </div>   
-                    <div class="job-subs">
-	                    <?php echo $form->create('NetworkerSettings', array('id'=>'NetworkerSettingsForm','url' => '/networkers/setting')); ?>
+                 </div>  
+                 <!------------------------------------->
+                 <div class="job-subs">
+                    <?php echo $form->create('NetworkerSettings', array('id'=>'NetworkerSettingsForm','url' => '/networkers/setting')); ?>
+
                     	<div class="job-subs-left">
                         	<p>Industries</p>
                             <div class="industries-select">
                                 <?php echo $form -> input('industry',array(
 																	'type'=>'select',
 																	'label'=>false,
-																	//'options'=>$industries,
 																	'value'=>'1',
-																	//'empty' =>'Select Industry ',
 																	'style'=>'margin-left:0px;',
 																	'class'=>'required',
 																	'div'	=> false,
-																	'after'	=>'<div id="specification_loader"></div>',
 																	'onchange'=>'return fillSpecification(this.value,"NetworkerSettingsSpecification","specification_loader");'
 															)
 												);
-							?>
+								?>
                             </div>
+                            <div class="clr"></div>
                             <p>State</p>
                             <div class="state-select">
-							<?php echo $form -> input('state',array(
+	                			<?php echo $form -> input('state',array(
 													'type'=>'select',
 													'label'=>false,
 													'empty' =>' All States ',
@@ -45,42 +45,47 @@
 													'div'=> false,
 													)
 											);
-									?>
+								?>
                             </div>
                         </div>
                     
-                    	<div class="job-subs-left">
-                        	<p>Specifications</p>
-                           	<div class="industries-select">
-								<?php echo $form -> input('specification',array(
-																		'type'=>'select',
-																		'label'=>false,
-																		'empty' =>'Select Specification',
-																		'class'=>'',
-																		'div'=> false,
-																)
-													);
-								?>
-                           	</div>
-                           	<p>City</p>
-                           	<div class="industries-select">
-								<?php echo $form -> input('city',array(
+                    		<div class="job-subs-left">
+                        		<p>Specifications</p>
+                            	<div class="industries-select">
+									<?php echo $form -> input('specification',array(
+																			'type'=>'select',
+																			'label'=>false,
+																			'empty' =>'Select Specification',
+																			'class'=>'setting_specification',
+																			'after'	=>'<div id="specification_loader"></div>',
+																			'div'=> false,
+																	)
+														);
+									?>
+                            	</div>
+                            	<div class="clr"></div>
+                            	<p>City</p>
+                            	<div class="industries-select">
+									<?php echo $form -> input('city',array(
 															'type'=>'select',
 															'label'=>false,
 															'empty' =>' All Cities ',
-															'class'=>'networker_select_city',
+															'class'=>'networker_select_city setting_specification',
+															'after'	=>'<div id="city_loader"></div>',
 															'div'	=> false,
 													)
 											);
 									?>
-                           	</div>
-                        </div>
-                        <div class="login-button job-subscribe">
-							<?php echo $form ->submit('SUBSCRIBE');?>
+                            	</div>
+                        	</div>
+                            	<div class="login-button job-subscribe">
+							<input type="submit" value="SUBSCRIBE">
 							<div class="clr"></div>
 						</div>
-						<?php echo $form->end(); ?>						
-					</div>
+						<?php echo $form->end(); ?>												
+                      </div>
+                 
+                 <!-----------------------------------------------------> 
 					<div class="job-current-subs">
 						<?php echo $form->create('Networkers', array('name'=>'Subscriptions',
 															'controller'=>'networkers',

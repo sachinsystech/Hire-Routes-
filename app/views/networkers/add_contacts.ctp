@@ -1,6 +1,3 @@
-<style>
-.contacts-sort-by div {float:left;}
-</style>
 <div class="job_top-heading">
 	<?php if($this->Session->read('Auth.User.id')):?>
 		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
