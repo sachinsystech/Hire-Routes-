@@ -1101,17 +1101,17 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 }
 .job-share-content { background:#f6f1e2; width:658px; height:548px; margin:0 auto;}
 .job-share-left , .job-share-left ul{ width:163px;height:548px; float:left;}
-.job-share-left ul li {list-style:none; height:80px; margin:28px 0 0 36px;}
-.job-share-fb {background:url(../images/pop_up_buttons.png) -6px -7px no-repeat; height:80px; width:80px; display:block;}
+.job-share-left ul li {list-style:none; height:84px; margin:28px 0 0 36px;}
+.job-share-fb {background:url(../images/pop_up_buttons.png) -6px -7px no-repeat; height:84px; width:80px; display:block;}
 .job-share-fb:hover {background:url(../images/pop_up_buttons.png) -114px -7px no-repeat;}
 .job-share-fb:active {background:url(../images/pop_up_buttons.png) -225px -10px no-repeat;}
-.job-share-in {background:url(../images/pop_up_buttons.png) -6px -114px no-repeat; height:80px; width:80px;display:block;}
+.job-share-in {background:url(../images/pop_up_buttons.png) -6px -114px no-repeat; height:84px; width:80px;display:block;}
 .job-share-in:hover {background:url(../images/pop_up_buttons.png) -114px -114px no-repeat;}
 .job-share-in:active {background:url(../images/pop_up_buttons.png) -225px -118px no-repeat;}
-.job-share-twit {background:url(../images/pop_up_buttons.png) -6px -220px no-repeat; height:80px; width:80px;display:block;}
+.job-share-twit {background:url(../images/pop_up_buttons.png) -6px -220px no-repeat; height:80px; width:84px;display:block;}
 .job-share-twit:hover {background:url(../images/pop_up_buttons.png) -114px -220px no-repeat;}
 .job-share-twit:active {background:url(../images/pop_up_buttons.png) -225px -223px no-repeat;}
-.job-share-mail {background:url(../images/pop_up_buttons.png) -6px -328px no-repeat; height:80px; width:80px;display:block;}
+.job-share-mail {background:url(../images/pop_up_buttons.png) -6px -328px no-repeat; height:84px; width:80px;display:block;}
 .job-share-mail:hover {background:url(../images/pop_up_buttons.png) -115px -328px no-repeat;}
 .job-share-mail:active {background:url(../images/pop_up_buttons.png) -226px -332px no-repeat;}
 .job-share-right {width:496; height:548px; float:left;}

@@ -74,7 +74,7 @@ div.paging a.current {
 li.current {
 	color: #9D9DA0;
 	font-weight:normal;
-	font-size: 15px;
+	font-size: 14.5px;
 }
 .warning {
     background: url("../img/message-warn.png") no-repeat scroll 10px 4px lightyellow;
@@ -523,4 +523,29 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .industries-select-right{margin-left:10px;}
 .contacts-sort-by div {float:left !important;padding-left:24px;}
 .job_right_section_left h2{color:#4FA34B !important;}
->>>>>>> 969f1dc28b609c7b989a5b1078c6f8def2287dd0
+
+/**********************************************/
+.networker_right_invitaion_pagination {
+    float: left;
+    height: auto;
+    width:358px !important;
+}
+.networker_right_invitaion_pagination div {float:right;}
+.networker_right_invitaion_pagination a { float:left; text-decoration:none; color:#1d1d1d; font:normal 15px Arial, Helvetica, sans-serif;}
+.networker_right_invitaion_pagination ul {margin:0; padding:0; float:left;}
+.networker_right_invitaion_pagination ul li {list-style:none; display:block; margin:2px 0; padding:0 5px; border-left:solid 1px #000; float:left; width:16px; text-align:center;}
+.networker_right_invitaion_pagination ul li a { text-decoration:none; font:normal 15px Arial, Helvetica, sans-serif; color:#1d1d1d; width:16px;}
+.networker_right_invitaion_pagination ul li a:hover, .job_right_pagination ul li a:active {font-weight:bold; text-decoration:underline;} 
+.networker_right_invitaion_pagination ul li:first-child {border:none;}
+.networker_invitaion_next_bttn {
+    background: url("../images/job_prev_next_bttn.png") no-repeat scroll -41px -6px transparent;
+    float: left;
+    height: 28px;
+    width: 28px;
+}
+.networker_invitaion_preview_bttn {
+    background: url("../images/job_prev_next_bttn.png") no-repeat scroll -6px -6px transparent;
+    float: left;
+    height: 28px;
+    width: 28px;
+}

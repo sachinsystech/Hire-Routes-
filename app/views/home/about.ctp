@@ -27,7 +27,7 @@ $(document).ready(function(){
 		$("#about-dialog" ).dialog( "close" );
 		return false;
 	});
-	$(".about-border" ).click(function(){
+	$("#read-more-austin" ).click(function(){
 		$( "#about-dialog").show();
 		$( "#about-dialog").dialog({
 			hide: "explode",
@@ -37,7 +37,9 @@ $(document).ready(function(){
 			modal:true,
 		});
 		$( "#about-dialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"1000px","top":"0","width":"581px", "background":"none","border":"none"});
+		return false;
 	});
+	
 	
 });
 </script>
@@ -56,7 +58,7 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 	<div class="right"> 
 		<!-- Team member -->
 		<div class="team-member">
-			<div class="about-border"> 
+			<div class="about-border" id="read-more-austin"> 
 				<a href="#"> <img src="/images/about/about.jpg" /> <span class="link-mouseover">READ MORE</span> </a> 
 			</div>
 			<div class="clr"></div>
@@ -65,9 +67,27 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 				<h3>AUSTIN ROOT</h3>
 				<span>Head Hire Router</span>
 				<ul>
-					<li class="member-twitter"> <a href="https://www.twitter.com/aroot1977">twitter</a> </li>
-					<li class="member-facebook"> <a href="https://www.facebook.com/aroot1977">facebook</a> </li>
-					<li class="member-linkedin"> <a href="https://www.linkedin.com/pub/austin-root/8/b29/163">linkedin</a> </li>
+					<li class="member-twitter"> <a href="https://www.twitter.com/aroot1977" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="https://www.facebook.com/aroot1977" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="https://www.linkedin.com/pub/austin-root/8/b29/163" class="NewTab">linkedin</a> </li>
+				</ul>
+			</div>
+			<!-- member-info --> 
+		</div>
+		<!-- Team member --> <!-- Team member -->
+		<div class="team-member">
+			<div class="about-border" >
+				<a href="#"> <img src="/images/about/Tim_img.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+			</div>
+			<div class="clr"></div>
+			<!-- member-info -->
+			<div class="member-info">
+				<h3>TIM RODGERS</h3>
+				<span></span>
+				<ul>
+					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/in/timnotjim" class="NewTab">linkedin</a> </li>
 				</ul>
 			</div>
 			<!-- member-info --> 
@@ -75,7 +95,7 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border">
-				<a href="#"> <img src="/images/about/sjat.jpg" /> <span class="link-mouseover">READ MORE</span> </a> 
+				<a href="#"> <img src="/images/about/sjat.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
@@ -83,86 +103,15 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 				<h3>SACHIN</h3>
 				<span>Tech. Team Member</span>
 				<ul>
-					<li class="member-twitter"> <a href="<?php echo $tw_url ;?>">twitter</a> </li>
-					<li class="member-facebook"> <a href="<?php echo $fb_url ;?>">facebook</a> </li>
-					<li class="member-linkedin"> <a href="#">linkedin</a> </li>
+					<li class="member-twitter"> <a href="<?php echo $tw_url ;?>" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="<?php echo $fb_url ;?>" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="#" class="NewTab">linkedin</a> </li>
 				</ul>
 			</div>
 			<!-- member-info --> 
 		</div>
 		<!-- Team member --> <!-- Team member -->
-		<div class="team-member">
-			<div class="about-border">
-				<a href="#"> <img src="/images/about/about.jpg" /> <span class="link-mouseover">READ MORE</span> </a>
-			</div>
-			<div class="clr"></div>
-			<!-- member-info -->
-			<div class="member-info">
-				<h3>AUSTIN ROOT</h3>
-				<span>Head Hire Router</span>
-				<ul>
-					<li class="member-twitter"> <a href="<?php echo $tw_url ;?>">twitter</a> </li>
-					<li class="member-facebook"> <a href="<?php echo $fb_url ;?>">facebook</a> </li>
-					<li class="member-linkedin"> <a href="#">linkedin</a> </li>
-				</ul>
-			</div>
-			<!-- member-info --> 
-		</div>
-		<!-- Team member --> <!-- Team member -->
-		<div class="team-member">
-			<div class="about-border">
-				<a href="#"> <img src="/images/about/sjat.jpg" /> <span class="link-mouseover">READ MORE</span> </a>
-			</div>
-			<div class="clr"></div>
-			<!-- member-info -->
-			<div class="member-info">
-				<h3>SACHIN</h3>
-				<span>Tech. Team Member</span>
-				<ul>
-					<li class="member-twitter"> <a href="<?php echo $tw_url ;?>">twitter</a> </li>
-					<li class="member-facebook"> <a href="<?php echo $fb_url ;?>">facebook</a> </li>
-					<li class="member-linkedin"> <a href="#">linkedin</a> </li>
-				</ul>
-			</div>
-			<!-- member-info --> 
-		</div>
-		<!-- Team member --> <!-- Team member -->
-		<div class="team-member">
-			<div class="about-border">
-				<a href="#"> <img src="/images/about/about.jpg" /> <span class="link-mouseover">READ MORE</span> </a>
-			</div>
-			<div class="clr"></div>
-			<!-- member-info -->
-			<div class="member-info">
-				<h3>AUSTIN ROOT</h3>
-				<span>Head Hire Router</span>
-				<ul>
-					<li class="member-twitter"> <a href="<?php echo $tw_url ;?>">twitter</a> </li>
-					<li class="member-facebook"> <a href="<?php echo $fb_url ;?>">facebook</a> </li>
-					<li class="member-linkedin"> <a href="#">linkedin</a> </li>
-				</ul>
-			</div>
-			<!-- member-info --> 
-		</div>
-		<!-- Team member --> <!-- Team member -->
-		<div class="team-member">
-			<div class="about-border">
-				<a href="#"> <img src="/images/about/sjat.jpg" /> <span class="link-mouseover">READ MORE</span> </a>
-			</div>
-			<div class="clr"></div>
-			<!-- member-info -->
-			<div class="member-info">
-				<h3>SACHIN </h3>
-				<span>Tech. Team Member</span>
-				<ul>
-					<li class="member-twitter"> <a href="<?php echo $tw_url ;?>">twitter</a> </li>
-					<li class="member-facebook"> <a href="<?php echo $fb_url ;?>">facebook</a> </li>
-					<li class="member-linkedin"> <a href="#">linkedin</a> </li>
-				</ul>
-			</div>
-			<!-- member-info --> 
-		</div>
-      </div>
+		
       <!-- right -->
       <div class="clr"></div>
     </div>

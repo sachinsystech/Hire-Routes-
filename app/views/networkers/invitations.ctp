@@ -1,91 +1,51 @@
-<?php ?>
-
-<div class="page">
-	<!-- left section start -->	
-	<div class="leftPanel">
-		<div class="sideMenu">
-			<?php echo $this->element('side_menu');?>
+<h2>INVITATIONS</h2>
+<?php if($this->Paginator->numbers()){?>
+<div id="pagination">
+	<div class="networker_right_invitaion_pagination">
+		<div>
+			<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
+	  
+		<ul>
+			<?php echo $this->Paginator->numbers(array('modulus'=>8,
+														'tag'=>'li',
+														'separator'=>false,)); ?>
+		</ul>
+			<?php echo $paginator->last(">>", array("class"=>"arrow_margin",
+													));?>
 		</div>
 	</div>
-	<!-- left section end -->
-	<!-- middle section start -->
-	<div class="rightBox" >
-		<!-- middle content top menu start -->
-		<div class="topMenu">
-			<?php echo $this->element('top_menu');?>
-		</div>
-		<!-- middle conyent top menu end -->
-		<!-- middle conyent list -->
-		
-			<div class="network_contact_middleBox">
-			  <?php if(count($invitations)):?>
-				<?php echo $this->Form->create('invitations');
-				?>
-				<div style="margin: auto; font-weight: bold; width: 570px; font-size: 88%;">
-					<a class="button" href="/networkers/invitations">All</a>
-					<?php
-						
-						foreach($alphabets AS $alphabet=>$count){
-							$class = 'button';
-							$url = "/networkers/invitations/alpha:$alphabet";
-							$urlLink = "<a href=".$url.">". $alphabet ."</a>";
-							if($startWith ==$alphabet || $count<1){
-								$class = 'current';
-								$urlLink = $alphabet;
-							}
-							?>
-							<span class="<?php echo $class; ?>" style="font-size:13px"> <?php echo $urlLink; ?></a> </span>
-							<?php
-							if($alphabet !="Z"){
-								echo " | ";
-							}	
-						}
-					?>
-				</div>
-				<?php
-					$status = array("Pending","Accepted");
-				?>
-				<table style="width:85%;margin: auto;" class="contacts">
-					<tr>
-						<th style="width:10%;text-align:center">#</th>
-						<th style="width:35%;text-align:center"> Name / E-mail </th>
-						<th style="width:35%;text-align:center"> From </th>
-						<th style="width:20%;text-align:center">Status</th>
-					</tr>
-					<?php $i=0;?>
-					
-					<?php foreach($invitations AS $contact):?>	
-					<tr>
-						<td>
-							<?php $i++;echo $i;
-							?>
-						</td>
-						<td><?php echo $contact['Invitation']['name_email']?></td>
-						<td><?php echo $contact['Invitation']['from']?></td>
-						<td><?php echo $status[ $contact['Invitation']['status'] ]; ?></td>
-					</tr>
-					<?php endforeach;?>
-				</table>
-				<?php echo $form->end(); ?>
-				<div style="clear:both;"></div>
-				<div style="float:right;font-size: 93%;margin-right:50px">
-					
-				 <?php if($this->Paginator->numbers()){ echo $paginator->first('First '); ?>	
-					 <?php echo $paginator->prev('<< '.__('Previous', true), array(), null, array('class'=>'disabled'));?>
-					 < <  <?php echo $this->Paginator->numbers(array('class'=>'numbers','modulus'=>4)); ?>  > >
-					 <?php echo $paginator->next(__('Next', true).' >>', array(), null, array('class'=>'disabled'));?>
-					 <?php echo $paginator->last(' Last'); ?>
-					 <?php 
-				 }?>
-				</div>
-			  <?php else:?>
-				<div class="empty_concats_msg"> No Contacts added..</div>
-			  <?php endif;?>
-			</div>
-		<!-- middle conyent list -->
-
-	</div>
-	<!-- middle section end -->
-
+	<div class="networker_invitaion_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
+	<div class="networker_invitaion_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?></div>
 </div>
+<?php } ?> 
+<div class="clr"></div>
+<div class="job-list-head">
+<ul class="job-list-heading job-list-head-margin">
+	<li class="job-list-name">NAME/EMAIL</li>
+    <li class="job-list-status">STATUS</li>
+    <li class="job-list-origin">ORIGIN</li>
+</ul>
+</div>
+<?php $i=0;
+	$status = array("Pending","Accepted");
+?>
+<?php foreach($invitations AS $contact):?>	
+<div class="job-list-subhead">
+    <ul class="job-list-subcontent" >
+       	<li class="<?php if($i%2==0) echo'dark';?>"><?php echo $contact['Invitation']['name_email']?></li>
+		<li class="center-align <?php if($i%2==0) echo'dark';?>">
+		<?php echo $status[ $contact['Invitation']['status'] ]; ?></li>
+		<li class="margin-last-child-job <?php if($i%2==0) echo'dark';?>"><?php echo $contact['Invitation']['from']?></li>
+		
+	</ul>
+</div>
+<?php $i++;?>
+<?php endforeach;?>
+<?php	if($invitations == null){?>
+<div class="job-list-subhead">
+    <div class="inviation-message job-empty-message">
+    	No Invitaion Found.
+    </div>
+</div>
+<?php	} ?>
 

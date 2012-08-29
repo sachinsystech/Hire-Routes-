@@ -33,6 +33,7 @@ class NetworkersController extends AppController {
 		$this->Auth->allow("jobCounts");
 		$this->Auth->allow("getNetworkerSettings");
 		$this->Auth->allow("editContact");
+		$this->Auth->allow("invitations");
 		$jobCounts=$this->jobCounts();
 		$this->set('SharedJobs',$jobCounts['sharedJobs']);
 		$this->set('ArchiveJobs',$jobCounts['archivejobs']);
@@ -1096,16 +1097,22 @@ where user_id =".$userId."");
 	 }
 	 
 	 function invitations() {
- 	 	
+ 	 	$this->layout = false;
  	 	$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
 			$this->redirect("/users/login");
 		}
-	
+		$userId = $session->getUserId();
+		$this->paginate = array('conditions'=>array('Invitation.user_id'=>$userId),
+                                'limit' => 8,
+                                'order' => array("Invitation.id" => 'asc',));  
+		 	 	
+        $Invitations = $this->paginate('Invitation');
+		$this->set("invitations", $Invitations);  
+		/*
 		$userId = $session->getUserId();
 		$traceId = -1*(time()%10000000);
-		/*** code for networker trac **/
-        if($userId){
+		if($userId){
             if($this->userRole == NETWORKER){
             	$code=$this->Utility->getCode($traceId,$userId);
                 $this->set('intermediateCode',$code);
@@ -1115,7 +1122,7 @@ where user_id =".$userId."");
 		       	$this->set('invitationCode',$code);
 		    }   	
         }
-        /**** end code ***/	
+        
  	 	
 		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
 	
@@ -1146,6 +1153,7 @@ where user_id =".$userId."");
 		$this->set("invitations", $Invitations);        
         $this->set('contact',null);
         $this->set('startWith',$startWith);
+        */
  
 	 }
 	 
