@@ -1,4 +1,4 @@
-<?php //echo $this->Session->flash(); ?>
+
 <script>
 	$(document).ready(function(){
 		
@@ -11,47 +11,63 @@
 	});
 </script>
 	<h1 class="title-emp">Login to Hire Routes</h1>
-	<?php
-		echo $this->Session->flash('auth');
-		echo $this->Form->create('User');
-	?>	
-	<div class='text-box'> <?php echo $this->Form->input('username',array('type'=>'text',
+    
+    <div class="login_middle_main">
+        <div class="login_middle_left_box">
+        	<?php
+				echo $this->Session->flash('auth');
+				echo $this->Form->create('User');
+			?>	
+
+            <div class="text-box">
+             <?php echo $this->Form->input('username',array('type'=>'text',
 																'class'=>'required',
 																'div'=>false,
 																'label' => false,
 																'placeholder' =>'Username'));
 									?>
-	</div>
-	<div class='text-box text-box-below'> <?php echo $this->Form->input('password',
+            </div>
+            <div class="text-box text-box-below"> 
+             <?php echo $this->Form->input('password',
 																		array('class'=>'required',
 																			'type'=>'password',
 																			'div'=>false,
 																			'label' => false,
 																			'placeholder' =>'Password'));
 																			?>
+             </div>
+             <div class="check-button">
+             <div class="cross-button">
+          	   <?php
+		 			echo $this->Form->input('rememberMe', array('type' => 'checkbox',
+		 													'div'=>false,
+													 		'format' => array('before', 'input', 'after', 'error'),
+													 		'class' =>'false',
+		 					 )); 
+				?>
+             </div>
+             <div class="remember-me">Remember me next time</div>
+             </div>
+             <div class="login-button">
+                <input type="submit" value="LOGIN"/>
+                <div class="clr"></div>
+             </div>
+             <div class="forgot-password"><a href="/users/forgotPassword">Forgot Password</a></div>
+			<?php
+				echo $this->Form->end();
+			?>
+        </div>
+        <div class="login_middle_center_box"><strong>OR</strong></div>
+        <div class="login_middle_right_box">
+            <ul>
+                <li><a class="job-share-fb" href="<?php echo $FBLoginUrl; ?>"></a></li>
+                <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
+            </ul>
+        </div>
+		<div class="clr"></div>
 	</div>
-	<div class="check-button">
-    	<div class="cross-button">
-    	<?php
-     		echo $this->Form->input('rememberMe', array('type' => 'checkbox',
-     													'div'=>false,
-											     		'format' => array('before', 'input', 'after', 'error'),
-											     		'class' =>'false',
-     					 )); 
-		?>
-		</div>
-		<div class="remember-me">Remember me next time</div>
-	</div>
-	<div class="login-button">
-    	<input type="submit" value="LOGIN"/>
-    	<div class="clr"></div>
-    </div>
-	<div class="forgot-password"><a href="/users/forgotPassword">Forgot Password</a></div>
-	<div style="display:none;">
-	<?php
-		echo $this->Form->end('Login');
-	?>
-	</div>
+
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#UserLoginForm").submit(function(){ 

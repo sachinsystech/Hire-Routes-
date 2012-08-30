@@ -29,7 +29,7 @@
                 </div>
                 <div class="job-right-bottom-right" >
                 	<h2>MY NETWORKERS</h2>
-	                	<?php if($this->Paginator->numbers()){?>
+	                	<?php if(isset($this->Paginator) && $this->Paginator->numbers()){?>
 			            <div class="job_right_pagination invitaion_pagination ">
 			                <div>
 									<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
@@ -46,8 +46,7 @@
 			            <div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
 			            <div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?></div>
 						<?php } ?> 
-						
-                	
+					
                     <div class="job-table-heading">
                     		<ul>
                             	<li class="job-table-name job-table-align">Name/Email</li>

@@ -47,6 +47,14 @@ class UsersController extends AppController {
 		$this->Auth->allow('userSelection');
 		$this->Auth->allow('invitations');
 		$this->Auth->allow('linkedinUserSelection');
+		if($this->params['action']=='companyRecruiterSignup' || $this->params['action']== 'jobseekerSignup' || $this->params['action']=='networkerSignup'|| $this->params['action']== "login"){
+			$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+			$linkedin->getRequestToken();
+			$this->Session->write('requestToken',serialize($linkedin->request_token));
+			$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl());
+			$facebook = $this->facebookObject();
+			$this->set('FBLoginUrl',$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
+		}
 
 	}
 
@@ -245,13 +253,7 @@ class UsersController extends AppController {
 			$this->redirect("/");
 			return;
 		}
-		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
-		$linkedin->getRequestToken();
-		$this->Session->write('requestToken',serialize($linkedin->request_token));
-		$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl());
-		
-		$facebook = $this->facebookObject();
-		$this->set('FBLoginUrl',$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
+
 		/***	manage facebook user after success callback ***/
 		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
 			$facebook = $this->facebookObject();

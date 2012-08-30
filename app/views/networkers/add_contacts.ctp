@@ -79,7 +79,23 @@
                     
                     <div class="clr"></div>
                 </div>
-                
+                <?php if($this->Paginator->numbers()){?>
+					<div class="networker_right_invitaion_pagination" style="width:643px !important;">
+						<div>
+							<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
+										  
+						<ul>
+							<?php echo $this->Paginator->numbers(array('modulus'=>8,
+																		'tag'=>'li',
+																		'separator'=>false,)); ?>
+						</ul>
+							<?php echo $paginator->last(">>", array("class"=>"arrow_margin",
+																	));?>
+						</div>
+					</div>
+					<div class="networker_invitaion_preview_bttn"><?php echo $paginator->prev(''.__('', true), array(), null, array('class'=>'disabled'));?></div>
+					<div class="networker_invitaion_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?></div>
+				<?php } ?> 
                 <div class="job-right-bottom-right">
                 	<div class="job_right_pagination job-sort-by contacts-sort-by">
                     	<div class="job_sort">Sort By:</div>

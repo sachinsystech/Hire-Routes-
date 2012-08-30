@@ -101,11 +101,11 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 			<!-- member-info -->
 			<div class="member-info">
 				<h3>SACHIN</h3>
-				<span>Tech. Team Member</span>
+				<span>Code Architect</span>
 				<ul>
-					<li class="member-twitter"> <a href="<?php echo $tw_url ;?>" class="NewTab">twitter</a> </li>
-					<li class="member-facebook"> <a href="<?php echo $fb_url ;?>" class="NewTab">facebook</a> </li>
-					<li class="member-linkedin"> <a href="#" class="NewTab">linkedin</a> </li>
+					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/er.sachin.jat" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="http://in.linkedin.com/pub/sachin-jat/26/570/501" class="NewTab">linkedin</a> </li>
 				</ul>
 			</div>
 			<!-- member-info --> 

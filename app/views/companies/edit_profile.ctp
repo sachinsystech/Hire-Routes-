@@ -14,27 +14,27 @@
 			<div class="job-right-top-content1">
 				<div class="job-right-top-left job-profile">
 					<h2>EDIT PROFILE</h2>
-					<div class="edit-profile-text-box">
 					<?php echo $this->Form->create('', array('url' => array('controller' => 'companies', 'action' => 'editProfile'))); ?>
+					<div class="edit-profile-text-box">
+					
 					<?php echo $form->input('id', array('label' => '',
 															'type'  => 'hidden',
 															'value' => isset($payment['id'])?$payment['id']:""
 															)
 										 );
 					?>
-
 					<?php	echo $form->input('User.id', array('label' => '',
 																	'type'  => 'hidden',
 																	'value' => $user['id']
 																	)
 													);
-					   ?>
-					   <?php	echo $form->input('Companies.id', array('label' => '',
+					?>
+					<?php	echo $form->input('Companies.id', array('label' => '',
 															   'type'  => 'hidden',
 															   'value' => $company['id']
 															   )
 													);
-					   ?>
+					?>
 					</div>
 					
 					<div class="clr"></div>
@@ -105,7 +105,7 @@
 			errorClass: 'error_input_message',
 			errorPlacement: function (error, element) {
 				error.insertAfter(element)
-				error.css({'margin-left':'120px','width':'230px'});
+				error.css({'margin-left':'170px','width':'290px','margin-top':'3px'});
 			}
 		});
 	});     

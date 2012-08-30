@@ -59,7 +59,7 @@ function registrationInto(redirect){
 
 				<div style="clear:both"></div>
 				<div class="network_popup_row">
-					<?php	echo $form->input('Networkers.graduate_degree_id', array('label' => 'Graduate Degree:',
+					<?php	echo $form->input('Networkers.graduate_degree_id', array('label' => 'Graduate Degree',
 									'type'  => 'select',
 									'options'=>$graduateDegrees,
 									'empty' =>'Select Graduate Degree',

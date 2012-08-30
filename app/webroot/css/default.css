@@ -524,7 +524,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .contacts-sort-by div {float:left !important;padding-left:24px;}
 .job_right_section_left h2{color:#4FA34B !important;}
 
-/**********************************************/
+/***************** css for networker sign up *****************************/
 .networker_right_invitaion_pagination {
     float: left;
     height: auto;
@@ -549,3 +549,110 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     height: 28px;
     width: 28px;
 }
+
+/************** css for login and sign up using fb, li ********/
+.login_middle_main {
+    width:600px;
+    height:auto;
+    margin:0 auto;
+}
+.login_middle_left_box  {
+    width:289px;
+    height:auto;
+    float:left;
+}
+.login_middle_center_box {
+    width:30px;
+    height:auto;
+    float:left;
+    margin:60px 20px 0 40px;
+}
+.login_middle_right_box {
+    width:200px;
+    height:auto;
+    float:right;
+    margin-top:30px;
+}
+.login_middle_right_box ul {
+    margin:0;
+    padding:0;
+}
+
+.login_middle_right_box ul li {
+    list-style: none;
+    display:block;
+    float:left;
+    margin:0 10px;
+}
+.login_middle_right_box ul li a {
+    text-decoration:none;
+}
+.signup_middle_topallign {
+    margin-left:0 !important;
+}
+.signup_middle_allign {
+    margin-right:0 !important;
+    margin-left:0 !important;;
+}
+.signup_middle_allign_send_request {
+    margin-right:0 !important;
+    margin-left:40px !important;;
+}
+.signup_or_txt_box {
+    margin-top:248px !important;
+}
+.signup_social_box {
+    margin-top:185px !important;
+}
+.nr_signup_or_txt_box{margin-top: 152px !important;}
+.nr_signup_social_box {margin-top: 100px !important;}
+.signup_social_box_txt {
+    width:222px;
+    overflow:visible;
+    height:auto;
+    font:normal 15px Arial, Helvetica, sans-serif;
+    color:#1d1d1d;
+    margin:0 0 10px 12px;
+    line-height:20px;
+}
+.js_middle_center_box{
+float: left;
+    height: auto;
+    margin: 101px 20px 0 40px;
+    width: 30px;
+}
+
+.js_middle_right_box{float: right;
+    height: auto;
+    margin-top: 70px;
+    width: 200px;
+}
+.js_middle_right_box ul {
+    margin:0;
+    padding:0;
+}
+
+.js_middle_right_box ul li {
+    list-style: none;
+    display:block;
+    float:left;
+    margin:0 10px;
+}
+.js_middle_right_box ul li a {
+    text-decoration:none;
+}
+.networker_invitaion_preview_bttn a {
+    display: block;
+    height: 25px;
+    width: 25px;
+}
+.networker_invitaion_next_bttn a {
+    display: block;
+    height: 25px;
+    width: 25px;
+}
+.networker_invitaion_next_bttn a:hover {background:url(../images/job_prev_next_bttn.png) no-repeat -41px -45px;}
+.networker_invitaion_next_bttn a:active {background:url(../images/job_prev_next_bttn.png) no-repeat -41px -86px;}
+.networker_invitaion_preview_bttn a:hover {background:url(../images/job_prev_next_bttn.png) no-repeat -6px -45px;}
+.networker_invitaion_preview_bttn a:active {background:url(../images/job_prev_next_bttn.png) no-repeat -6px -86px;}
+.profile-text{margin:5px;}
