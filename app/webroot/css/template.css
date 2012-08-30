@@ -1128,7 +1128,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-tb input, .job-share-tb-top input {background:url(../images/text-box.png) 0 0 no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif; font-size: 13px; height: 28px; line-height: 28px; padding: 0 0 0 11px; width: 277px;}
 .job-share-tb-top {margin-top:8px !important;}
 .job-share-tb1 {width:343px; height:98px; float:right;margin-top: 8px;}
-.job-share-tb1 textarea {background:url(../images/text-box.png) -2px -40px no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif; font-size: 13px; height: 93px; line-height: 20px; padding: 6px 0 0 11px; width: 332px;resize: none;overflow: auto;}
+.job-share-tb1 textarea {background:url(../images/sj-text-box.png) -2px -40px no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif; font-size: 13px; height: 93px; line-height: 20px; padding: 6px 0 0 11px; width: 332px;resize: none;overflow: auto;}
 .job-share-margin {padding-top:13px !important;}
 .job-share-ppl { width:414px; height:172px; margin-top:27px; overflow:auto;}
 .job-share-ppl ul {margin:0; padding:0;}
@@ -1237,6 +1237,27 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .post_job_left {margin:15px 0 0 0 !important; float:left;}
 
 
+/*:::::::::::::Edit Job - page css start :::::::*/
+.ej_icon a{
+	cursor:pointer;
+}
+.edit_job_icon { position:absolute;right: 18px; top: -10px;}
+.ej_icon, .ej_icon ul {float: left; height: 248px; width: 38px;}
+.ej_icon ul li {list-style:none; height:32px; margin:10px 0 0 0;}
+.ej-fb {background:url(../images/fb_tw_li_buttons.png) -6px -6px no-repeat; height:37px; width:37px; display:block;}
+.ej-fb:hover {background:url(../images/fb_tw_li_buttons.png) -51px -6px no-repeat;}
+.ej-fb:active {background:url(../images/fb_tw_li_buttons.png) -96px -8px no-repeat;}
+.ej-in {background:url(../images/fb_tw_li_buttons.png) -6px -50px no-repeat; height:37px; width:37px;display:block;}
+.ej-in:hover {background:url(../images/fb_tw_li_buttons.png) -51px -50px no-repeat;}
+.ej-in:active {background:url(../images/fb_tw_li_buttons.png) -96px -51px no-repeat;}
+.ej-twit {background:url(../images/fb_tw_li_buttons.png) -6px -94px no-repeat; height:37px; width:37px;display:block;}
+.ej-twit:hover {background:url(../images/fb_tw_li_buttons.png) -51px -94px no-repeat;}
+.ej-twit:active {background:url(../images/fb_tw_li_buttons.png) -96px -95px no-repeat;}
+.ej-mail {background:url(../images/fb_tw_li_buttons.png) -6px -137px no-repeat; height:37px; width:37px;display:block;}
+.ej-mail:hover {background:url(../images/fb_tw_li_buttons.png) -51px -137px no-repeat;}
+.ej-mail:active {background:url(../images/fb_tw_li_buttons.png) -97px -138px no-repeat;}
+.post_job_button_save { float: left; height: auto; margin: 0 auto; width: 502px;}
+.ej_save_button { margin: 15px auto 0 !important; width: 207px;}
 
 
 

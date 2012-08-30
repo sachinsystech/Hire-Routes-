@@ -157,6 +157,7 @@
                     	$errorMessage = convert_uudecode(convert_uuencode($errorMessage));
                     	return json_encode(array('error'=>2,'message'=>$errorMessage));      
                     }
+                    
                     //save here job sharing details..
                 	$shareJobData['job_id'] = $jobId;
                 	//$shareJobData['user_id'] = $userId;
@@ -173,6 +174,7 @@
                 	$this->SharedJob->save($shareJobData);
                 	//return json_encode(array('error'=>0));					
                 }catch(Exception $e){
+                	
                     return json_encode(array('error'=>1));      
                 }
 

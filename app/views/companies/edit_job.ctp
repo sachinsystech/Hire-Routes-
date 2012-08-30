@@ -209,6 +209,7 @@
 								); 
 						?>					
 					</div>
+					
 					<?php if($job['is_active']==3){ ?>
 					<div class="network_register_bttn post_job_left">
 						<?php echo $form->submit('POST AND SHARE',array(
@@ -221,7 +222,21 @@
 					</div>
 					<?php }?>
 					<?php echo $form->end(); ?>
-				 </div>                  
+				 </div>
+				 
+				
+					<div class="edit_job_icon">
+                          <div class="ej_icon">
+                            <ul>
+                                <li><a class="ej-fb" onclick='shareJobShowView(1);' ></a></li>
+                                <li><a class="ej-in" onclick='shareJobShowView(2);' ></a></li>
+                                <li><a class="ej-twit" onclick='shareJobShowView(3);' ></a></li>
+                                <li><a class="ej-mail" onclick='shareJobShowView(4);' ></a></li>
+                            </ul>
+                         </div> 
+                     </div>   
+				
+				
 			</div>
 			<div class="clr"></div>
 		</div>

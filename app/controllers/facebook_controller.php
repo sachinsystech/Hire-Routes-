@@ -79,6 +79,7 @@
                     }
                     return json_encode(array('error'=>0,'data'=>$users));
                 }catch(Exception $e){
+                	
                     return json_encode(array('error'=>2,'message'=>'Error in facebook connection. Please try after some time.'));
                 }
             }else{
@@ -118,6 +119,7 @@
 		           	//$this->SharedJob->save($shareJobData);
                 	//return json_encode(array('error'=>0));
                 }catch(Exception $e){
+                	print_r($e);
                     return json_encode(array('error'=>1));      
                 }
             }

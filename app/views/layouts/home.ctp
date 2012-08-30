@@ -36,7 +36,7 @@
 		$time = time();
 		echo $this->Html->css('default.css?'.$time);
 		echo $this->Html->css('template.css?'.$time);
-		echo $this->Html->css('jquery_accordion');
+		//echo $this->Html->css('jquery_accordion');
 		echo $this->Html->css('jquery-ui');
 		echo $html->script('hr.js');
 		echo $html->script('hr_ajax.js');
@@ -103,7 +103,7 @@
 		<!-- footer-content --> 
 	</div>
 	<div style= "display:hidden;"> 
-		<?php echo $this->element('invite_friend');?>
+		<?php //echo $this->element('invite_friend');?>
 	</div>
 </body>
 </html>
