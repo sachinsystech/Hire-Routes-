@@ -657,3 +657,45 @@ float: left;
 .networker_invitaion_preview_bttn a:hover {background:url(../images/job_prev_next_bttn.png) no-repeat -6px -45px;}
 .networker_invitaion_preview_bttn a:active {background:url(../images/job_prev_next_bttn.png) no-repeat -6px -86px;}
 .profile-text{margin:5px;}
+.job-save-setting input{margin-left:8px !important;}
+.employee_date_row{text-align:center;}
+employee_contact_row{width:115px !important;}
+/* for slider */
+.salary_range_slider{
+    border: medium none;
+    color: #F6931F;
+    font-weight: bold;
+    width: 42px;
+    margin-bottom: 5px;
+}
+.salary_range_seperator{
+    color: #F6931F;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 7px;
+}
+
+.job_salary_txt_row .job_salary_txt1 {
+	width:50px!important;
+	height:20px;
+	float:left;
+	color: #4FA34B;
+	background:transparent;
+	border:none;
+}
+
+
+.job_salary_txt_row .job_salary_txt2 {
+	width:50px !important;
+	height:20px;
+	float:left;
+	color: #4FA34B;
+	background:transparent;
+	border:none;
+}
+
+#slider-range{
+	width:170px;
+	margin:auto;
+}

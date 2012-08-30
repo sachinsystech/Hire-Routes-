@@ -436,15 +436,19 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-subscribe {float:left !important;margin: 69px 0 0 !important;}
 .job-current-subs {width:710px;border-top: 1px solid #D6D2CC;}
 .job-current-subs h2 {padding:24px 0 24px 26px;border-bottom: 1px solid #D6D2CC;}
-.job-current-subs ul {list-style:none;}
-.job-current-subs ul li {font:15px Arial, Helvetica, sans-serif;border-bottom: 1px solid #D6D2CC;height: 45px;width: 710px;}
-.job-subs-table-left {float:left; padding:16px 0 0 26px;}
+.job-current-subs ul {list-style:none; height:350px;}
+.job-current-subs ul li {font:15px Arial, Helvetica, sans-serif;border-bottom: 1px solid #D6D2CC;height:auto;width: 710px;}
+.job-subs-table-left {padding:16px 0 16px 26px;}
 .job-current-subs ul li:hover { background:#faf8f4; cursor:pointer;}
-.job-subs-table-right {float:right; padding: 16px 9px 0 0;}
+.job-subs-table-right {float:right; padding: 0 9px 0 0;}
 .job-subs-table-right a {text-decoration:underline;}
 .job-current-subs p {padding:29px 0 0 26px; font:15px Arial, Helvetica, sans-serif;}
 .job-subs-select {margin:5px 0 0 26px;}
 .job-save-setting {margin:18px 0 0 18px !important; *margin-left:0px !important; *position:relative; *left:18px;}
+.job-sub-subcontaint {margin-left:24px;}
+.job-sub-matter { float:left; padding-bottom:3px;width: 668px; height:21px;}
+.job-sub-p{font: 15px Arial,Helvetica,sans-serif;padding: 0 !important; width: auto; float:left;}
+.job-subs-scroll { overflow:auto; height:350px; width:710px; overflow-x:hidden; border-top:none !important;}
 
 
 
@@ -461,6 +465,11 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 /*:::::::::::::Jobs page - networkers - Search Listing - page css start :::::::*/
 
+.net_sl_right { float:right; width:auto;height: 33px;}
+.net_sl_textbox { margin:0 20px 0 0; width:140px; height:20px; float: left;}
+.net_sl_textbox input{ background:url("../images/textboxes_points.png") no-repeat 0 -31px; float:left;height: 20px;width: 135px;border: 0 none;color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;padding-left: 5px;}
+.h2_float { float:left;}
+.net_sl_bttn {margin-top: -13px;}
 
 
 .job_top-heading { height:35px; width:920px; padding:20px 0 0 15px;}
@@ -1170,15 +1179,15 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 .list-employee {margin-top: 23px; padding: 0 0 0 36px; width: 645px;}
 .list-head-i { width:645px;}
-.list-head-i ul li{width:140px; float:left; list-style:none;font-family: arial; font-size: 15px; padding-left:5px;}
+.list-head-i ul li{width:115px; float:left; list-style:none;font-family: arial; font-size: 15px; padding-left:5px;}
 .list-imply-margin ul li{ margin-bottom:7px !important;font-family:'OpenSansCondensedBold' !important;}
 .listing-i {width:auto; float:left; width:642px; line-height:23px;color:#1d1d1d; margin:2px 0;}
-.list-email {width:197px !important;}
+.list-email {width:240px !important;}
 .list-imply-margin{margin-bottom:7px !important;}
 .textbox-name { margin:0 0 5px 0;}
-.textbox-name input{ background:url(../images/textboxes_points.png) 0 -31px; width:140px; height:20px;border: 0 none; color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;}
+.textbox-name input{ background:url(../images/text_field1_115x20.png) no-repeat 0px; width:115px; height:20px;border: 0 none; color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;}
 .textbox-email { margin:0 0 5px 0;}
-.textbox-email input{ background:url(../images/textboxes_points.png) 0 -61px; width:197px; height:19px;border: 0 none; color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;}
+.textbox-email input{ background:url(../images/text_field1_240x20.png)  no-repeat 0px; width:240px; height:19px;border: 0 none; color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;}
 .textbox-date { margin:0 5px 5px 0; float:left; position:relative;}
 .textbox-date input{ background:url(../images/textboxes_points.png) 0 0; width:67px; height:19px;border: 0 none; color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;float:left;}
 .textbox-date span {position:absolute;top: -14px;left: 3px; font:13px 'OpenSansCondensedBold';}

@@ -200,7 +200,7 @@
 					dataType: "json",
 					beforeSend: function(){
 				 		$('#JobseekerSettingsUniversity').parent("div").css({"float":"left","width":"490px"});
-				 		$('#JobseekerSettingsUniversity').parent("div").children("label").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#JobseekerSettingsUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  /></div>');
 
 			   		},
 			   		complete: function(){
@@ -248,7 +248,7 @@
 					dataType: "json",
 					beforeSend: function(){
 				 		$('#JobseekerSettingsGraduateUniversity').parent("div").css({"float":"left","width":"490px"});
-				 		$('#JobseekerSettingsGraduateUniversity').parent("div").children("label").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#JobseekerSettingsGraduateUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  /></div>');
 
 			   		},
 			   		complete: function(){

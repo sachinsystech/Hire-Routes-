@@ -218,8 +218,8 @@
 									<?php endif;?>
 								</li>
 								<li class="list-email"><?php echo $employee['users']['account_email'];?></li>
-								<li><?php echo $employee['js']['contact_phone'];?></li>
-								<li><?php echo $this->Time->format('m/d/Y', $employee['PaymentHistory']['paid_date']);?></li>
+								<li class="employee_contact_row"><?php echo $employee['js']['contact_phone'];?></li>
+								<li class="employee_date_row"><?php echo $this->Time->format('m/d/Y', $employee['PaymentHistory']['paid_date']);?></li>
 							</ul> 
 						 </div>
 						 <?php $i++; ?>
