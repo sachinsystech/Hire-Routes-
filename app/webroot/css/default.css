@@ -454,12 +454,13 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     width: 200px;
 }
 .api_button_jobseeker:hover {background:url(../images/buttons.png) -425px -74px no-repeat;}
-.api_button_jobseeker:active {background:url(../images/buttons.png) -425px -149px no-repeat;width:207px; height:62px; padding-top: 175x; text-align:center; margin:25px 0 0 69px;}
+.api_button_jobseeker:active {background:url(../images/buttons.png) -425px -149px no-repeat;width:207px; height:62px;  padding: 9px 0 0 9px;}
 
 .api_button_jobseeker a, .api_button_networker a{display:block; color:#FFF ;text-shadow: 1px 1px 1px #444343; text-decoration:none; font-family: "OpenSansCondensedBold";font-size: 20px; height: 39px; width: 184px;line-height: 40px;}
 
 .api_button_networker:hover {background:url(../images/buttons.png) -637px -74px no-repeat;}
-.api_button_networker:active {background:url(../images/buttons.png) -637px -149px no-repeat;width:207px; height:62px; padding-top: 175x; text-align:center; margin:4px 0 0 61px;}
+.api_button_networker:active {background:url(../images/buttons.png) -637px -149px no-repeat;width:207px; height:62px; padding: 9px 0 0 10px; text-align:center; }
+    
 
 /***********************************************/
 

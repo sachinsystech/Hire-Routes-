@@ -806,6 +806,10 @@ class UsersController extends AppController {
  * @access public
  */	
 	function facebookUserSelection(){
+		$session = $this->_getSession();
+		if($session->isLoggedIn()){
+			$this->redirect('loginSuccess');
+		}
 		$this->layout = "home";
 		$graduateDegrees = $this->GraduateDegree->find('list',array('fields'=>'id, degree'));	
 		$this->set("graduateDegrees",$graduateDegrees);
