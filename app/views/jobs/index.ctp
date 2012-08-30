@@ -108,7 +108,7 @@
                             </div>
                         </li>
                         
-                        <li><a class="HrMenu plus_icon" id="Salary" class="minus_icon" href="javascript:void(0);">Salary</a>
+                        <li><a class="HrMenu minus_icon" id="Salary" href="javascript:void(0);">Salary</a>
                         	<div style="height:65px;" id="Salary_submenu" class="job_menus_submenu_main">
 <p>
 						<label for="amount"></label>
