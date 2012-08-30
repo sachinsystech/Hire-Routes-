@@ -122,13 +122,13 @@
 						
                     	
 						<div class="list-head-i list-imply-margin">
-						<ul class="list-heading">
-							 <li><?php echo $paginator->sort('NAME','js.contact_name');?></li>
-							 <li class="list-email">EMAIL</li>
-							 <li>CONTACT</li>
-							 <li><?php echo $paginator->sort('DATE', 'paid_date');?></li>
-						</ul> 
-						<div class="clr"></div>
+							<ul class="list-heading">
+								 <li><?php echo $paginator->sort('NAME','js.contact_name');?></li>
+								 <li class="list-email">EMAIL</li>
+								 <li>CONTACT</li>
+								 <li><?php echo $paginator->sort('DATE', 'paid_date');?></li>
+							</ul> 
+							<div class="clr"></div>
 						</div>
 						<div class="list-head-i">
 							<ul class="list-heading">
@@ -199,7 +199,7 @@
 						</div>
 						<div class="bttn_find_clr">
 								<div class="find_clr_button">
-									<?php echo $form->submit('FIND',array('div'=>false,)); ?>	
+									<?php echo $form->submit('FIND',array('div'=>false,'name'=>'find')); ?>	
 								</div>
 								<div class="find_clr_button">
 									<input type="button" value="CLEAR" onclick=" clear_fields();">
@@ -224,6 +224,11 @@
 						 </div>
 						 <?php $i++; ?>
 						<?php endforeach; ?>
+						<?php if(empty($employees)){ ?>
+						 <div class="list-head-i">
+								<div class='job-empty-message'>No result found.</div>
+						 </div>
+						<?php } ?>
 						<?php echo $form->end();?>
                     <div class="clr"></div>
                 </div>

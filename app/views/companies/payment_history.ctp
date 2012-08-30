@@ -1,33 +1,34 @@
 <?php ?>
 <style>
 .ui-dialog-titlebar { display:none; }
-.ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-draggable .ui-resizable{
-display: block;
-    height: auto;
-    left: 350px;
-    outline: 0 none;
-    position: absolute;
-    visibility: visible;
-    width: 510px;
-    z-index: 1004;
-}
 .ui-widget-overlay{
     background: none repeat scroll 0 0 #000000;
     opacity: 0.6;
 }
-#paymentHistoryInfo {
-    background: url("../images/about_popup_bg.png") repeat scroll 0 0 transparent;
-    height: 328;
-    overflow: hidden;
+#paymentHistoryInfo{
+    margin: 50px;
+    overflow:visible;
+}
+.pi_popup_cancel_bttn a {
+    display: block;
+    height: 50px;
+    margin: 7px 0 0 8px;
+    width: 50px;
+}
+.japdiv {
+    background: url("/images/about_popup_bg.png") repeat scroll 0 0 transparent;
+    height: 400px;
+    overflow: visible;
 }
 .pi_popup_cancel_bttn {
-    background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    background: url("/images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
     height: 72px;
     position: absolute;
-    right: 31px;
-    top: -14px;
+    right: 38px;
+    top: -24px;
     width: 72px;
 }
+
 </style>
 
 <script>
@@ -45,14 +46,9 @@ function paymentHistoryInfo(user_id,transaction_id){
 			$("#paymentHistoryInfo").dialog({
 				height:335,
 				width:477,
-				top:20,
 				modal:true,
 				resizable: false ,
 				draggable: false,
-				show: { 
-						effect: 'drop', 
-						direction: "up" 
-				},
 				
 			});
 			
@@ -61,7 +57,7 @@ function paymentHistoryInfo(user_id,transaction_id){
 				$("#paymentHistoryInfo").html(response['message']);
 				return ;
 			}
-			$("#paymentHistoryInfo").html(
+			$(".japdiv").html(
 			'<div class="about_popup_cancel_bttn_row">'+
 				'<div class="pi_popup_cancel_bttn">'+
 					'<a id="close" href="#"></a>'+
@@ -84,8 +80,8 @@ function paymentHistoryInfo(user_id,transaction_id){
 					'<p><span>Location : </span>'+response['location']+
 				'</div>'+
 			'</div>');
-			$("#paymentHistoryInfo" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","top":"0"});
-			
+			$( "#paymentHistoryInfo" ).parent("div").css({"padding":"0","opacity":"0.9","height":"500px","top":"100px","left":"222px","width":"574px", "background":"none","border":"none"});
+		
 		}
 	});
 
@@ -94,7 +90,7 @@ function paymentHistoryInfo(user_id,transaction_id){
 
 
 <div id="paymentHistoryInfo" style="display:none;">
-	
+	<div class="japdiv"></div>
 </div>
 <script type="text/javascript">
 $(document).ready(function(){

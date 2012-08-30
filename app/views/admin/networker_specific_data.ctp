@@ -325,7 +325,7 @@ function loadPiece(href,divName) {
 </script>
 
 <div id="invitationList">
-<?php echo $this->element("users_invitations");?>
+<?php //echo $this->element("users_invitations");?>
 </div> 
 
 

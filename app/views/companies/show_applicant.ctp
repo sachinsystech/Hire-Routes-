@@ -7,39 +7,38 @@
 		margin: auto;
 		width: 274px;
 	}
-</style>
-<style>
 .ui-dialog-titlebar { display:none; }
-.ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-draggable .ui-resizable{
-display: block;
-    height: auto;
-    left: 350px;
-    outline: 0 none;
-    position: absolute;
-    visibility: visible;
-    width: 510px;
-    z-index: 1004;
-}
 .ui-widget-overlay{
     background: none repeat scroll 0 0 #000000;
     opacity: 0.6;
 }
-#jobseekerApplyProfile {
-    background: url("../images/about_popup_bg.png") repeat scroll 0 0 transparent;
-    height: 328;
-    overflow: hidden;
+#jobseekerApplyProfile{
+    margin: 50px;
+    overflow:visible;
+}
+.pi_popup_cancel_bttn a {
+    display: block;
+    height: 50px;
+    margin: 7px 0 0 8px;
+    width: 50px;
+}
+.japdiv {
+    background: url("/images/about_popup_bg.png") repeat scroll 0 0 transparent;
+    height: 400px;
+    overflow: visible;
 }
 .pi_popup_cancel_bttn {
-    background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    background: url("/images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
     height: 72px;
     position: absolute;
-    right: 31px;
-    top: -14px;
+    right: 38px;
+    top: -24px;
     width: 72px;
 }
 </style>
 
 <script>
+
 function valid_form(){
 	answer1 = $("#UserAnswer1").val();
 	answer2 = $("#UserAnswer2").val();
@@ -65,22 +64,17 @@ function jobseekersDetail(jobseekerId, jobseekerName){
 		data: {jobseekerId:jobseekerId},
 		success:function(response){
 			
-			$(".jobseekerApplyProfile").dialog({
-				height:280,
-				width:725,
+			$("#jobseekerApplyProfile").dialog({
+				height:550,
+				width:500,
 				top : 0,
 				modal:true,
 				//show: { effect: 'drop', direction: "up" },
 				resizable: false ,
-				title:jobseekerName,
-				buttons: {
-				Ok: function() {
-					$( this ).dialog( "close" );
-				}
-			}
+				title:jobseekerName
 			});
-			$( ".ui-dialog" ).css("position", "fixed" );
-				$("#japdiv").html(
+			//$( ".ui-dialog" ).css("position", "fixed" );
+				$(".japdiv").html(
 				'<div class="about_popup_cancel_bttn_row">'+
 					'<div class="pi_popup_cancel_bttn">'+
 						'<a id="close" href="#"></a>'+
@@ -101,7 +95,13 @@ function jobseekersDetail(jobseekerId, jobseekerName){
 					'<p><span>Training Needs   : </span>'+response['training_needs']+
 				'</div>'+
 			'</div>');
-				
+				$( "#jobseekerApplyProfile" ).parent("div").css({"padding":"0","opacity":"0.9","height":"500px","top":"100px","left":"222px","width":"574px", "background":"none","border":"none"});
+				$(document).ready(function(){
+					$("a#close").click(function(){
+						$("#jobseekerApplyProfile" ).dialog( "close" );
+						return false;
+					});
+				});	
 		}		
 			
 	});
@@ -112,12 +112,12 @@ function clear_div(val){
 		$("#error_div").html(""); 
 	}
 }
-		
+	
 </script>
 
 
-<div class="jobseekerApplyProfile" style="display:none;">
-	<div id="japdiv"></div>
+<div id="jobseekerApplyProfile" style="display:none;">
+	<div class="japdiv"></div>
 </div>
 
 <div class="job_top-heading">
@@ -383,7 +383,6 @@ function clear_div(val){
                             <li class="app_topmargin">
                             	<div class="app_action">
                                 	<div class="app_action_check">
-										
 										<?php									
 											echo $this->Html->image("", array(
 												"alt" => "","width"=>"24","height"=>"24","style"=>"margin-left:10px;",

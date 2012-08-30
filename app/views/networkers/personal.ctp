@@ -5,7 +5,6 @@
 			<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
 		<?php endif;
 		endif;
-		$status = array("Pending","Accepted");
 	?>
 	</div>
     <div class="job_container">
@@ -22,39 +21,32 @@
                     	<p>4th°: <span>400</span></p>
                     </div>
                     <div class="job-right-top-right" >
-                    	<h2>INVITATIONS</h2>
-                    	<div class="job-list-head">
-                        <ul class="job-list-heading job-list-head-margin">
-                        	<li class="job-list-name">NAME/EMAIL</li>
-                            <li class="job-list-status">STATUS</li>
-                            <li class="job-list-origin">ORIGIN</li>
-                    	</ul>
-                        </div>
-                        <?php $i=0;?>
-                        <?php foreach($invitations AS $contact):?>	
-						<div class="job-list-subhead">
-		                    <ul class="job-list-subcontent" >
-			                   	<li class="<?php if($i%2==0) echo'dark';?>"><?php echo $contact['Invitation']['name_email']?></li>
-								<li class="center-align <?php if($i%2==0) echo'dark';?>">
-								<?php echo $status[ $contact['Invitation']['status'] ]; ?></li>
-								<li class="margin-last-child-job <?php if($i%2==0) echo'dark';?>"><?php echo $contact['Invitation']['from']?></li>
-								
-		                	</ul>
-                    	</div>
-                    	<?php $i++;?>
-					<?php endforeach;?>
-						<?php	if($invitations == null){?>
-						<div class="job-list-subhead">
-				            <div class="inviation-message job-empty-message">
-				            	No Invitaion Found.
-				            </div>
-                    	</div>
-					<?php	} ?>
+                    	<div id="invitationList">
+							<?php //echo $this->element("networker_invitations");?>
+						</div> 
                     </div>
                     <div class="clr"></div>
                 </div>
                 <div class="job-right-bottom-right" >
                 	<h2>MY NETWORKERS</h2>
+	                	<?php if(isset($this->Paginator) && $this->Paginator->numbers()){?>
+			            <div class="job_right_pagination invitaion_pagination ">
+			                <div>
+									<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
+							  
+							    <ul>
+									<?php echo $this->Paginator->numbers(array('modulus'=>8,
+																				'tag'=>'li',
+																				'separator'=>false,)); ?>
+								</ul>
+							    <?php echo $paginator->last(">>", array("class"=>"arrow_margin",
+							    											));?>
+			                </div>
+			            </div>
+			            <div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
+			            <div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?></div>
+						<?php } ?> 
+					
                     <div class="job-table-heading">
                     		<ul>
                             	<li class="job-table-name job-table-align">Name/Email</li>
@@ -78,4 +70,27 @@
 </div>
 </div>
 <!======================================================>
-
+<script type="text/javascript">
+	$(document).ready(function() {
+		loadPiece("<?php echo $html->url(array('controller'=>'Networkers','action'=>'invitations'));?>","#invitationList");
+	});
+</script>
+<script type="text/javascript">
+function loadPiece(href,divName) {    
+    $(divName).load(href, {}, function(){
+        var divPaginationLinks = divName+" #pagination a";
+        $(".invitaionHeading div a").click(function(){
+           var thisHref = $(this).attr("href");
+            loadPiece(thisHref,divName);
+            return false;
+        });
+        
+        
+        $(divPaginationLinks).click(function() {     
+            var thisHref = $(this).attr("href");
+            loadPiece(thisHref,divName);
+            return false;
+        });
+    });
+} 
+</script>

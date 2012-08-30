@@ -195,10 +195,9 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 
 .sub-title-cs {color:#382f2b; font-family:Arial, Helvetica, sans-serif; width:678px; height:19px; text-align:center;font-size: 15px; margin:15px auto 0;}
-.company-recruiter-checkbox {margin:31px 0 0 323px; width:150px; }
 .comp-recruiter-text { margin-left: 40px; font-size:15px; line-height:30px; height:20px;}
 .bottom-margin {margin-bottom:13px;}
-.dont-know-width {text-align: center;width: 500px !important;}
+.dont-know-width {text-align: center;width: 314px !important;}
 
 
 
@@ -258,17 +257,15 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .sub-title-js {color:#382f2b; font-family:Arial, Helvetica, sans-serif; width:671px; height:35px; text-align:center;font-size: 15px; margin:17px auto 0;}
 .agree-with a {color:#3a9031; text-decoration:underline;}
 .register-button-margin { margin-top:43px !important;}
-.networker-width {width:199px !important;}
+.networker-width {width:240px !important;}
 
 
 /*:::::Middle-Block - Form - Company Signup - page css start :::::::*/
 
 .sub-title-cs {color:#382f2b; font-family:Arial, Helvetica, sans-serif; width:671px; height:19px; text-align:center;font-size: 15px; margin:15px auto 0;}
-.company-recruiter-checkbox {margin:31px 0 0 323px; width:150px;}
+.company-recruiter-checkbox {margin:31px 0 0 323px; width:160px;}
 .comp-recruiter-text {margin-left:15px; line-height: 26px; margin-left: 40px; font-size:15px;}
 .bottom-margin {margin-bottom:13px;}
-.dont-know-width {width:281px !important;}
-
 
 /*:::::Middle-Block - Jobs - Search Listing - page css start :::::::*/
 
@@ -1101,19 +1098,28 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 }
 .job-share-content { background:#f6f1e2; width:658px; height:548px; margin:0 auto;}
 .job-share-left , .job-share-left ul{ width:163px;height:548px; float:left;}
-.job-share-left ul li {list-style:none; height:80px; margin:28px 0 0 36px;}
-.job-share-fb {background:url(../images/pop_up_buttons.png) -6px -7px no-repeat; height:80px; width:80px; display:block;}
+.job-share-left ul li {list-style:none; height:84px; margin:28px 0 0 36px;}
+.job-share-fb {background:url(../images/pop_up_buttons.png) -6px -7px no-repeat; height:84px; width:80px; display:block;}
 .job-share-fb:hover {background:url(../images/pop_up_buttons.png) -114px -7px no-repeat;}
-.job-share-fb:active {background:url(../images/pop_up_buttons.png) -225px -10px no-repeat;}
-.job-share-in {background:url(../images/pop_up_buttons.png) -6px -114px no-repeat; height:80px; width:80px;display:block;}
+.job-share-fb:active {background: url("../images/pop_up_buttons.png") no-repeat scroll -226px -9px transparent;}
+.job-share-in {background:url(../images/pop_up_buttons.png) -6px -114px no-repeat; height:84px; width:80px;display:block;}
 .job-share-in:hover {background:url(../images/pop_up_buttons.png) -114px -114px no-repeat;}
-.job-share-in:active {background:url(../images/pop_up_buttons.png) -225px -118px no-repeat;}
-.job-share-twit {background:url(../images/pop_up_buttons.png) -6px -220px no-repeat; height:80px; width:80px;display:block;}
+.job-share-in:active {
+    background: url("../images/pop_up_buttons.png") no-repeat scroll -226px -116px transparent;
+}
+.job-share-twit {background:url(../images/pop_up_buttons.png) -6px -220px no-repeat; height:80px; width:84px;display:block;}
 .job-share-twit:hover {background:url(../images/pop_up_buttons.png) -114px -220px no-repeat;}
-.job-share-twit:active {background:url(../images/pop_up_buttons.png) -225px -223px no-repeat;}
-.job-share-mail {background:url(../images/pop_up_buttons.png) -6px -328px no-repeat; height:80px; width:80px;display:block;}
-.job-share-mail:hover {background:url(../images/pop_up_buttons.png) -115px -328px no-repeat;}
-.job-share-mail:active {background:url(../images/pop_up_buttons.png) -226px -332px no-repeat;}
+.job-share-twit:active {
+    background: url("../images/pop_up_buttons.png") no-repeat scroll -226px -222px transparent;
+}
+.job-share-mail {background:url(../images/pop_up_buttons.png) -6px -328px no-repeat; height:84px; width:80px;display:block;}
+.job-share-mail:hover {
+    background: url("../images/pop_up_buttons.png") no-repeat scroll -114px -328px transparent;
+}
+.job-share-mail:active {
+    background: url("../images/pop_up_buttons.png") no-repeat scroll -226px -330px transparent;
+}
+
 .job-share-right {width:496; height:548px; float:left;}
 .job-share-right h2 {padding:28px 0 0 0; height:37px;border-bottom: 1px solid #D6D2CC; width:414px;}
 .job-share-field {width:414px; height:auto;}

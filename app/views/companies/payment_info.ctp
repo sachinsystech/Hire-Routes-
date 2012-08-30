@@ -5,7 +5,7 @@
 			errorClass: 'error_input_message',
 				errorPlacement: function (error, element) {
 					error.insertAfter(element)
-					error.css({'margin-left':'150px','width':'230px'});
+					error.css({'margin-left':'170px','width':'230px'});
 			}
 		});
 		
@@ -48,8 +48,9 @@ function check_expdate() {
 			<div class="job-right-top-content1">
 				<div class="job-right-top-left job-profile">
 					<h2>PAYMENT INFORMATION</h2>
-					<div class="edit-profile-text-box">
 					<?php echo $this->Form->create('PaymentInfo', array('url' => array('controller' => 'companies', 'action' => 'paymentInfo'),'onsubmit'=>'return check_expdate();')); ?>
+					<div class="edit-profile-text-box">
+
 					 <?php echo $form->input('id', array('label' => '',
 															'type'  => 'hidden',
 															'value' => isset($payment['id'])?$payment['id']:""
