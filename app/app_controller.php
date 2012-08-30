@@ -19,8 +19,8 @@ class AppController extends Controller {
 	protected $userRole;
 	
 	function beforeRender(){
-		$facebook = $this->requestAction('/Facebook/facebookObject');
-		$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
+		//$facebook = $this->requestAction('/Facebook/facebookObject');
+		//$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
 		//$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
 		//$linkedin->getRequestToken();
 		//$this->Session->write('requestToken',serialize($linkedin->request_token));
