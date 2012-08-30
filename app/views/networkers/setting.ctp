@@ -95,39 +95,35 @@
                   		<h2>CURRENT SUBSCRIPTIONS</h2>
                   		<?php endif;?>
                   		<?php $oldIndustry = null; ?>
-                  		
-                  		<ul>
-                  		<?php foreach($NetworkerData as $NSI): ?>
-							<?php
-								$indtemp = $NSI['ind']['name'];
-							if($oldIndustry != $indtemp && $oldIndustry != null)
-								echo "</div>";
-							if($oldIndustry != $indtemp){
-							?>
-							<li>
-								<div class="job-subs-table-left"><?php echo $NSI['ind']['name']; ?></div>
-							</li>
-							<?php
-							}
-							if($oldIndustry != $indtemp){
-							?>
-							<div style="font-size: 14px;">
-							<?php }
-							$oldIndustry = $indtemp;
-							?>
-							<div style="margin-top:2px">
-								<span><?php echo isset($NSI['spec']['name'])?$NSI['spec']['name']:"All Specifications"?>,
-								<?php echo isset($NSI['state']['name'])?$NSI['state']['name']:"All Location"?>
-								<?php echo isset($NSI['city']['name'])?", ".$NSI['city']['name']:""; ?></span>
-								<div class="job-subs-table-right"><a href="#" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">delete</a></div>
-							</div>
-							
-						<?php endforeach;?>
-                  		</ul>
-                             
-						<p>Job Notifications by Email</p>
-                        <?php $emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
-                        <?php if(isset($SubscriptionData)){
+                           <div class="job-subs-scroll job-current-subs" id="subscriptions">
+				          		<ul>
+				          		<?php foreach($NetworkerData as $NSI): ?>
+									<?php
+										$indtemp = $NSI['ind']['name'];
+									if($oldIndustry != $indtemp && $oldIndustry != null)
+										echo "</div><div class='clr'></div></li>";
+									if($oldIndustry != $indtemp){
+									?>
+									<li><a class="HrMenu plus_icon">
+											<div class="job-subs-table-left"><?php echo $NSI['ind']['name']; ?></div>
+										</a>
+										<div style="display:none;" class="job-sub-subcontaint">
+									<?php
+									}
+									$oldIndustry = $indtemp;
+									?>
+										<div class="job-sub-matter">
+											<div class="job-sub-p"><?php echo isset($NSI['spec']['name'])?$NSI['spec']['name']:"All Specifications"?><?php echo isset($NSI['state']['name'])? ", ".$NSI['state']['name']:"All Location"?> <?php echo isset($NSI['city']['name'])?", ".$NSI['city']['name']:""; ?></div>
+											 <div class="job-subs-table-right"><a href="#" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">delete</a></div>
+										</div>
+
+								<?php endforeach;?>
+								<div class='clr'></div></li>
+				          		</ul>
+                            </div> 
+							<p>Job Notifications by Email</p>
+                        	<?php $emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
+                        	<?php if(isset($SubscriptionData)){
                         		$id = $SubscriptionData['id'];
                            	}else{
 								$id = "";
@@ -137,7 +133,7 @@
 																		'value' => $id
 																		)
 														 );?>
-                      	<div class="industries-select job-subs-select">
+	                      	<div class="industries-select job-subs-select">
                       		<?php echo $form -> input('subscribe_email',array('type'=>'select',
 																              'label'=>false,
 																              //'empty'=>'Select',
@@ -220,7 +216,9 @@ div .checkbox{
 </script>
 <script>
 $(".HrMenu").click(function(){
-	$(".net_set_box").next().slideUp();
+
+	$(".HrMenu").next().slideUp();
+
 	$(this).next().slideDown();
 });
 </script>

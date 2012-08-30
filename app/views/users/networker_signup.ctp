@@ -178,7 +178,7 @@ Please submit the form below and you will receive an email confirmation to compl
 					beforeSend: function(){
 				 		//$('#UserUniversity').parent("div").parent("div").css({"float":"left","width":"450px"});
 				 		//$('#UserUniversity').parent("div").css({"float":"left","width":"446px"});
-				 		$('#UserUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#UserUniversity').parent("div").parent("div").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  /></div>');
 
 			   		},
 			   		complete: function(){

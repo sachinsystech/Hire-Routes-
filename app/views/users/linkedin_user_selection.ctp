@@ -142,7 +142,7 @@ function registrationInto(redirect){
 					beforeSend: function(){
 				 		$('#UsersUniversity').parent("div").parent("div").css({"float":"left","width":"450px"});
 				 		$('#UsersUniversity').parent("div").css({"float":"left","width":"420px"});
-				 		$('#UsersUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#UsersUniversity').parent("div").parent("div").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  /></div>');
 
 			   		},
 			   		complete: function(){
@@ -181,7 +181,7 @@ function registrationInto(redirect){
 					dataType: "json",
 					beforeSend: function(){
 				 		$('#UsersGraduateUniversity').parent("div").parent("div").css({"float":"left","width":"450px"});
-				 		$('#UsersGraduateUniversity').parent("div").parent("div").append('<div class="loader"><img src="/img/ajax-loader.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#UsersGraduateUniversity').parent("div").parent("div").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  /></div>');
 
 			   		},
 			   		complete: function(){

@@ -16,8 +16,7 @@
 			$my_employees_actions=array('employees','#','#');
 			$my_invitations_actions = array('invitations');
 ?>
-			
-			
+	
 		<div class="job_left_bar">
 			    <div class="job_left_menu">
                     <ul>
