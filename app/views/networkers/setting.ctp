@@ -218,4 +218,9 @@ div .checkbox{
 		}
 	}	
 </script>
-
+<script>
+$(".HrMenu").click(function(){
+	$(".net_set_box").next().slideUp();
+	$(this).next().slideDown();
+});
+</script>
