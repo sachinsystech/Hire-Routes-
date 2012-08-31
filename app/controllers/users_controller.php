@@ -461,6 +461,7 @@ class UsersController extends AppController {
  * Display account confirmaiton message after sigining-up.
 **/    
 	function confirmation(){
+		$this->layout = "home";
 		$id = isset($this->params['id'])?$this->params['id']:"";
 		if(!isset($id)){
 			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
@@ -829,12 +830,18 @@ class UsersController extends AppController {
 		}
 		
 		/***	manage facebook user after success callback ***/
-		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
+		if(isset($this->params['url']['state'])){
 			$facebook = $this->facebookObject();
 			$FBUserId = $facebook->getUser();
 			if($FBUserId){
 				$this->manageFBUser();
 			}
+		}
+		
+		else{
+			$this->Session->setFlash('Something went wrong, please contact to side admin.', 'warning');
+			$this->redirect('/users');
+			return false;
 		}
 	
 	}

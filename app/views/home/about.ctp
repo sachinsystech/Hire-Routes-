@@ -65,7 +65,7 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
   			<!-- member-info -->
   			<div class="member-info">
 				<h3>AUSTIN ROOT</h3>
-				<span>Head Hire Router</span>
+				<span>Dreamer and Innovation Craftsman</span>
 				<ul>
 					<li class="member-twitter"> <a href="https://www.twitter.com/aroot1977" class="NewTab">twitter</a> </li>
 					<li class="member-facebook"> <a href="https://www.facebook.com/aroot1977" class="NewTab">facebook</a> </li>
@@ -106,6 +106,25 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
 					<li class="member-facebook"> <a href="http://www.facebook.com/er.sachin.jat" class="NewTab">facebook</a> </li>
 					<li class="member-linkedin"> <a href="http://in.linkedin.com/pub/sachin-jat/26/570/501" class="NewTab">linkedin</a> </li>
+				</ul>
+			</div>
+			<!-- member-info --> 
+		</div>
+		<!-- Team member --> <!-- Team member -->
+		<!-- Team member --> <!-- Team member -->
+		<div class="team-member">
+			<div class="about-border">
+				<a href="#"> <img src="/images/about/Talulah.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+			</div>
+			<div class="clr"></div>
+			<!-- member-info -->
+			<div class="member-info">
+				<h3>Talulah Machock</h3>
+				<span>Director of Fun</span>
+				<ul>
+					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="#" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="#" class="NewTab">linkedin</a> </li>
 				</ul>
 			</div>
 			<!-- member-info --> 

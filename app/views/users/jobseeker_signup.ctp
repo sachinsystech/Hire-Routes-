@@ -93,7 +93,7 @@
 			</div>
 		</div>
 		<div class="login-button">
-			<input type="submit" value="REGISTER"/>
+			<?php echo $form->submit('Register',array('div'=>false,)); ?>
 			<div class="clr"></div>
 		</div>
 		<?php echo $form->end(); ?>

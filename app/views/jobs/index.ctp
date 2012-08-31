@@ -46,7 +46,7 @@
 	<div class="job_top-heading">
 		<?php if($this->Session->read('Auth.User.id')):?>
 			<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
-					<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+					<h2 class="h2_float">WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
 			<?php endif; ?>
 		<?php endif; ?>
 		 <?php  echo $this->Form->create('FilterJob', array('url' => array('controller' => 'Jobs', 'action' => 'index')));?>
@@ -86,7 +86,7 @@
 
                 <div class="job_left_menu">
                     <ul>
-                        <li><a class="HrMenu plus_icon" id="Industries" href="javascript:void(0);">Industries</a>
+                        <li><a class="HrMenu <?php echo isset($industry)?'minus_icon':'plus_icon';?>" id="Industries" href="javascript:void(0);">Industries</a>
                             <div style="<?php echo isset($industry)?'':'display:none;' ?>" id="Industries_submenu" class="job_menus_submenu_main">
                             
                             	<div class="scroll-pane">
@@ -108,7 +108,8 @@
                             </div>
                         </li>
                         
-                        <li><a class="HrMenu plus_icon" id="Salary" class="minus_icon" href="javascript:void(0);">Salary</a>
+
+                        <li><a class="HrMenu <?php echo isset($salaryFrom)?'minus_icon':'plus_icon';?>" id="Salary" href="javascript:void(0);">Salary</a>
                         	<div style="height:65px;" id="Salary_submenu" class="job_menus_submenu_main">
 <p>
 						<label for="amount"></label>
@@ -144,7 +145,7 @@
                             </div>
                         </li>
                         
-                        <li><a class="HrMenu plus_icon" id="Location" href="javascript:void(0);">Location</a>
+                        <li><a class="HrMenu <?php echo isset($location)?'minus_icon':'plus_icon';?>" id="Location" href="javascript:void(0);">Location</a>
                         	<div style="height:150px;<?php echo isset($location)?'':'display:none;' ?>" id="Location_submenu" tyle="s" class="job_menus_submenu_main">
                             <div class="scroll-pane scroll-pane_location">
                                	<p>
@@ -169,7 +170,7 @@
                          						'3'=>'Contract',
 												'4'=>'Internship',
 												'5'=>'Temporary'); ?>
-                        <li><a class="HrMenu plus_icon" id="Job_type" href="javascript:void(0);">Job Type</a>
+                        <li><a class="HrMenu <?php echo isset($job_type)?'minus_icon':'plus_icon';?>" id="Job_type" href="javascript:void(0);">Job Type</a>
                         	<div style="height:110px;<?php echo isset($job_type)?'':'display:none;' ?>" id="Job_type_submenu" style="" class="job_menus_submenu_main">
                             <div class="">
                               <p>
@@ -188,7 +189,7 @@
                              </div>
                         </li>
                         
-                        <li><a id="Company" class="plus_icon" href="javascript:void(0);">Company</a>
+                        <li><a id="Company" class="HrMenu <?php echo isset($company_name)?'minus_icon':'plus_icon';?>" href="javascript:void(0);">Company</a>
                         	<div style="height:68px;<?php echo isset($company_name)?'':'display:none;' ?>" id="Company_submenu" style="display:none" class="job_menus_submenu_main">
                             <div class="scroll-pane scroll-pane_company">
                               <p>
@@ -430,7 +431,7 @@
 .job_left_menu ul li a {width:auto; height:25px; display:block; font:bold 15px Arial, Helvetica, sans-serif; color:#1d1d1d; padding:5px 0 0 10px; text-decoration:none;} 
 .plus_icon { background:url(/images/plus_icon.png) no-repeat 200px 11px;}
 .minus_icon { background:url(/images/minus_icon.png) no-repeat 200px 14px;}
-/*.job_menus_submenu {width:222px; background:#eee7d9; height:auto; padding:10px 0;} 
+/*.job_menus_submenu {width:222px; background:#eee7d9; height:auto; padding:10px 0;clear:both;} 
 .job_menus_submenu ul {margin:0; padding:0;}
 .job_menus_submenu ul li {width:222px; list-style:none; display:block; background:none; height:auto;}
 .job_menus_submenu ul li a {font:normal 13px "Lucida Sans Unicode", "Lucida Grande"; color:#1d1d1d; line-height:18px; text-decoration:none; padding:0 0 0 10px; height:auto;}
@@ -439,7 +440,7 @@
 .job_submenu_active {color:#4fa149 !important; text-decoration:underline !important;}
 
 .job_menus_submenu_main {width:222px; background:#eee7d9; height:195px; padding:2px 0;}
-.job_menus_submenu {width:190px; list-style:none; display:block; background:none; height:18px; padding:0;}
+.job_menus_submenu {width:190px; list-style:none; display:block; background:none; height:18px; padding:0;clear:both;}
 .job_menus_submenu label {
     color: #1D1D1D;
     float: left;
@@ -648,6 +649,28 @@
 	height:20px;
 	margin:0 auto;
 }
+<!----------------------------Css for salery slider.-------------------------------------------->
+/* Component containers
+----------------------------------*/
+.ui-widget { font-family: Verdana,Arial,sans-serif/*{ffDefault}*/; font-size: 1.1em/*{fsDefault}*/; }
+.ui-widget .ui-widget { font-size: 1em; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif/*{ffDefault}*/; font-size: 1em; }
+.ui-widget-content { border:none !important; background: url(/images/slider_dark_bg.png) repeat-x/*{bgContentRepeat}*/; color: #222222/*{fcContent}*/;height:8px !important; }
+.ui-widget-content a { color: #222222/*{fcContent}*/; }
+.ui-widget-header {border:none !important; background:url(/images/slider_light_bg.png) repeat-x ; color: #222222/*{fcHeader}*/; font-weight: bold; height:8px !important;}
+.ui-widget-header a { color: #222222/*{fcHeader}*/; }
+
+/* Interaction states
+----------------------------------*/
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border:none 
+!important;background:url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent/*{bgDefaultRepeat}*/; font-weight: normal/*{fwDefault}*/; color: #555555/*{fcDefault}*/; }
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #555555/*{fcDefault}*/; text-decoration: none; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {background: url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent; font-weight: normal/*{fwDefault}*/; color: #212121/*{fcHover}*/; }
+.ui-state-hover a, .ui-state-hover a:hover {background: url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent;text-decoration: none; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { background: /*{bgColorActive}*/ url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent; font-weight: normal/*{fwDefault}*/; color: #212121/*{fcActive}*/; }
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #212121/*{fcActive}*/; text-decoration: none; }
+.ui-widget :active { outline: none; }
+<!----------------------------End css for slider      --------->
 
 </style>
 

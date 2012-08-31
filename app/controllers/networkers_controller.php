@@ -376,9 +376,9 @@ class NetworkersController extends AppController {
 	}
 	
 	private function getGmailContacts($authcode){
-		$clientid='570913376629-e30ao1afv415iu3e8e1t1tatgqjpspm7.apps.googleusercontent.com';
-		$clientsecret='IiJFcDk6WYmujXAxbdC4ZxiR';
-		$redirecturi='http://qa.hireroutes.com/networkers/addContacts';
+		$clientid='79643144563-rck00gk919jbv7enntdj5edin5tdjjbm.apps.googleusercontent.com';
+		$clientsecret='djH0P5Zu4CO8YHCgH7KeANsF';
+		$redirecturi='http://www.hireroutes.com/networkers/addContacts';
 		$fields=array(
 			'code'=>  urlencode($authcode),
 			'client_id'=>  urlencode($clientid),
@@ -1158,7 +1158,7 @@ where user_id =".$userId."");
 		}
 	
 		$userId = $session->getUserId();
-		
+
 		$user = $this->Networkers->find('first', array('conditions' => array('Networkers.user_id' => $userId) ));
 		 
 		$pointLables = $this->PointLabels->find('first' ,array('conditions'=>array("point_from <=".$user['Networkers']['points']." and point_to >=".$user['Networkers']['points'])));
@@ -1167,7 +1167,9 @@ where user_id =".$userId."");
 		 						array('joins'=>array(array('table' => 'networkers',
 												         'alias' => 'Networker',
 												         'type' => 'LEFT',
-												         'conditions' => array('Networker.user_id = UserList.id')
+												         'conditions' => array('Networker.user_id = UserList.id',
+													         'NOT'=>array('UserList.id'=>
+													         			array(1,2))),
 											        )),
 		 								'limit'=>5 ,
 		 								'recursive'=>'-1',
