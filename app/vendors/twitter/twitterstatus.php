@@ -30,7 +30,7 @@ class TwitterStatus
 
 		// constants
 		$this->cache = APP.'vendors/twitter/cache/';	// cache location
-		$this->CacheFor = 60;					// cache feed for 2 minutes
+		$this->CacheFor = 120;					// cache feed for 2 minutes
 	
 		$this->ID = $id;
 		$this->Count = $count;
@@ -167,7 +167,7 @@ class TwitterStatus
 					case 'text':
 						if ($this->ParseLinks) {
 							$d = $this->ParseTwitterLinks($d);
-							$d =trim($this->html_cut($d, 65)); 
+							$d =trim($this->html_cut($d, 63)); 
 							/*if(! preg_match("/^.*<\/a>$/", $d)){
 								$d =preg_replace('~\s+\S+$~', '',$d)." ..."; 							
 							}else{
