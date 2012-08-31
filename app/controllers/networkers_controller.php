@@ -1158,7 +1158,7 @@ where user_id =".$userId."");
 		}
 	
 		$userId = $session->getUserId();
-		
+
 		$user = $this->Networkers->find('first', array('conditions' => array('Networkers.user_id' => $userId) ));
 		 
 		$pointLables = $this->PointLabels->find('first' ,array('conditions'=>array("point_from <=".$user['Networkers']['points']." and point_to >=".$user['Networkers']['points'])));
@@ -1167,7 +1167,9 @@ where user_id =".$userId."");
 		 						array('joins'=>array(array('table' => 'networkers',
 												         'alias' => 'Networker',
 												         'type' => 'LEFT',
-												         'conditions' => array('Networker.user_id = UserList.id')
+												         'conditions' => array('Networker.user_id = UserList.id',
+													         'NOT'=>array('UserList.id'=>
+													         			array(1,2))),
 											        )),
 		 								'limit'=>5 ,
 		 								'recursive'=>'-1',

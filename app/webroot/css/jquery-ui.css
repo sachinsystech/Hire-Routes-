@@ -232,21 +232,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 /* Component containers
 ----------------------------------*/
-.ui-widget { font-family: Verdana,Arial,sans-serif/*{ffDefault}*/; font-size: 1.1em/*{fsDefault}*/; }
-.ui-widget .ui-widget { font-size: 1em; }
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif/*{ffDefault}*/; font-size: 1em; }
-.ui-widget-content { background: url(/images/slider_dark_bg.png) repeat-x/*{bgContentRepeat}*/; color: #222222/*{fcContent}*/;height:8px !important; }
-.ui-widget-content a { color: #222222/*{fcContent}*/; }
-.ui-widget-header {background:url(/images/slider_light_bg.png) repeat-x ; color: #222222/*{fcHeader}*/; font-weight: bold; height:8px !important;}
-.ui-widget-header a { color: #222222/*{fcHeader}*/; }
 
-/* Interaction states
-----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {background:url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent/*{bgDefaultRepeat}*/; font-weight: normal/*{fwDefault}*/; color: #555555/*{fcDefault}*/; }
-.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #555555/*{fcDefault}*/; text-decoration: none; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {background: url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent; font-weight: normal/*{fwDefault}*/; color: #212121/*{fcHover}*/; }
-.ui-state-hover a, .ui-state-hover a:hover {background: url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent;text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { background: /*{bgColorActive}*/ url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent; font-weight: normal/*{fwDefault}*/; color: #212121/*{fcActive}*/; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #212121/*{fcActive}*/; text-decoration: none; }
 .ui-widget :active { outline: none; }
 

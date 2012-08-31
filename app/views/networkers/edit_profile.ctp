@@ -107,7 +107,7 @@
 													'type'  => 'select',
 													'div'=> false,
 													'options'=>$graduateDegrees,
-													'empty' =>' -- Select Graduate Degree --',
+													'empty' =>'Select Graduate Degree',
 													'class' => 'networker_select_bg',
 													'value' => isset($networker['graduate_degree_id'])?$networker['graduate_degree_id']:"",
 												)
@@ -229,7 +229,7 @@
 					dataType: "json",
 					beforeSend: function(){
 				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").css({"float":"left","width":"490px"});
-				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt=".."  /></div>');
 			   		},
 			   		complete: function(){
 			   	    	$('.loader').hide();

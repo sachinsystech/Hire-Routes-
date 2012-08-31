@@ -104,7 +104,7 @@
 										echo "</div><div class='clr'></div></li>";
 									if($oldIndustry != $indtemp){
 									?>
-									<li><a class="HrMenu plus_icon">
+									<li><a class="HrSettingMenu plus_icon">
 											<div class="job-subs-table-left"><?php echo $NSI['ind']['name']; ?></div>
 										</a>
 										<div style="display:none;" class="job-sub-subcontaint">
@@ -215,9 +215,9 @@ div .checkbox{
 	}	
 </script>
 <script>
-$(".HrMenu").click(function(){
+$(".HrSettingMenu").click(function(){
 
-	$(".HrMenu").next().slideUp();
+	$(".HrSettingMenu").next().slideUp();
 
 	$(this).next().slideDown();
 });
