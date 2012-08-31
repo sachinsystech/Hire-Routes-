@@ -167,7 +167,7 @@ class TwitterStatus
 					case 'text':
 						if ($this->ParseLinks) {
 							$d = $this->ParseTwitterLinks($d);
-							$d =trim($this->html_cut($d, 75)); 
+							$d =trim($this->html_cut($d, 70)); 
 							/*if(! preg_match("/^.*<\/a>$/", $d)){
 								$d =preg_replace('~\s+\S+$~', '',$d)." ..."; 							
 							}else{
