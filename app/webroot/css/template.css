@@ -473,7 +473,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 /*:::::::::::::Jobs page - networkers - Search Listing - page css start :::::::*/
 
-.net_sl_right { float:right; width:auto;height: 33px;}
+.net_sl_right { float:right; width:400px;height: 33px;}
 .net_sl_textbox { margin:0 20px 0 0; width:140px; height:20px; float: left;}
 .net_sl_textbox input{ background:url("../images/textboxes_points.png") no-repeat 0 -31px; float:left;height: 20px;width: 135px;border: 0 none;color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;padding-left: 5px;}
 .h2_float { float:left;}
@@ -1369,7 +1369,9 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .nav-active { color:#50a947 !important; text-decoration:underline !important;}
 .space1 {margin-top:40px !important;}
 .space2 {margin-top:30px !important;}
-
+ .job_menus_last {
+   height: 747px !important;
+}
 
 /*::::::::Checkbox CSS::::::::::::*/
 

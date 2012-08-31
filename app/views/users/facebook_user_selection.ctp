@@ -89,7 +89,7 @@ function registrationInto(redirect){
 				?>
 				</div>
 				<div class="edit_conact_button">
-					<?php echo $form->submit('Save',array('div'=>false,'class'=>'networker-popup-submit')); ?>
+					<?php echo $form->submit('SAVE',array('div'=>false,'class'=>'networker-popup-submit')); ?>
 				</div>
 	
 				

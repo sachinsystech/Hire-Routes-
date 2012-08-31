@@ -44,7 +44,7 @@
 							?>
 						</li>
 						<?php } ?>
-					<?php }else{
+					<?php }else{?>
 						<div class="empty_concats_msg"> No Subscription found.</div>
 					<?php } ?>
                    </ul>

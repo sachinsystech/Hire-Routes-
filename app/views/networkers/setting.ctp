@@ -145,7 +145,7 @@
 																              'selected' => isset($SubscriptionData['subscribe_email'])?$SubscriptionData['subscribe_email']:""));?>
 						</div>
                         <div class="login-button job-save-setting">
-							<?php echo $form->submit('Save Notification');?>
+							<?php echo $form->submit('SAVE NOTIFICATION');?>
 								<!--<input type="submit" value="SAVE SETTINGS">-->
 							<div class="clr"></div>
 						</div>

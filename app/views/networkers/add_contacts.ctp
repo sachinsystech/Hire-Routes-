@@ -29,7 +29,7 @@
 								<?php echo $form->file('CSVFILE',array('class'=>'required'));?>
 							</div>
 						</div>	
-
+						<div class="clr"></div>	
 						<div class="job-single-entry">
                         	<div class="job-single">Single Entry</div> 
                         	<div class="text-box-small"> 
@@ -79,7 +79,7 @@
                     
                     <div class="clr"></div>
                 </div>
-                <?php if($this->Paginator->numbers()){?>
+                <?php if(isset($this->Paginator) && $this->Paginator->numbers()){?>
 					<div class="networker_right_invitaion_pagination" style="width:643px !important;">
 						<div>
 							<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
@@ -100,7 +100,7 @@
                 	<div class="job_right_pagination job-sort-by contacts-sort-by">
                     	<div class="job_sort">Sort By:</div>
 						<ul>
-							<li style="width:16px;"><a class="link-button" href="/networkers/addContacts">All</a></li>
+							<li style="width:16px;"><a class="link-button" href="/networkers/addContacts">All</a></li>	
 							<?php
 								foreach($alphabets AS $alphabet=>$count){
 									$class = 'link-button';
@@ -315,7 +315,7 @@ function importFromGmail(){
 		?>
 		</div>
 		<div style="clear:both;margin: 7px 23px;">
-			<input type="submit" value="Add Contacts" onclick="return checkGmailCheckbox()" class="gmail-submit">
+			<input type="submit" value="ADD CONTACTS" onclick="return checkGmailCheckbox()" class="gmail-submit">
 			<?php }
 			else{ ?>
 				<div style="text-align:center;">
