@@ -14,15 +14,6 @@
 .ui-dialog-titlebar{
 	display:none;
 }
-.ui-widget input{
-	font-family: Arial,Helvetica,sans-serif;
-    font-size: 13px;
-}
-
-.ui-widget textarea{
-	font-family: Arial,Helvetica,sans-serif;
-    font-size: 13px;
-}
 .friend_checkbox{
 	margin-left:-15px;
 	margin-top:2px;
@@ -129,7 +120,7 @@ $(function() {
             </div>
             
             <div class="job-share-right">
-            	<h2>SHARE A JOB TO...</h2>
+            	<h2>SHARE A JOB...</h2>
 				<?php echo $form->create('Share', array('action'=>'job', 'onsubmit'=>'return validateForm(ShareToEmail.value);')); ?>
                 <?php echo $form->input('jobId', array('label' => '',
 												'type' => 'hidden',
@@ -201,14 +192,19 @@ $(function() {
                     </ul>
                     <div class="clr"></div>
                 </div>
-                <div class="job-share-bottom">
-					<span id="invite_all">Invite All</span> 
-                	<div class="small-check-box-popup">
-                        <span class="checkbox_selected" onclick="make_bg_change(this);"></span>
-						<input type="checkbox" class="styled" id="gender_checkbox" >                                          
-               		</div> 
-                	<a href="#"><input type="button" value="Clear All">Clear All</a>
-                </div>
+				
+               	<div class="job-share-bottom">
+                       <div class="js_invite">
+							<div class="js_invite_all">Invite All</div>
+							<div class="js-check-box-popup">
+								<span class="checkbox_selected" onclick="make_bg_change(this);"></span>
+								<input type="checkbox" class="styled" id="gender_checkbox" >                                         
+							</div>
+					   </div>
+					   
+                        <div class="js_clear_all"><a href="#"><input type="button" value="Clear All">Clear All</a></div>
+				</div>
+				
 				
                 <div class="login-button pop-up-button">
 						<input type="submit" value="SHARE JOB" id='shareJob' >
@@ -230,9 +226,6 @@ function shareJobShowView(type){
 	$('#e-mail').hide();
 	$('.job-share-ppl').show();
 
-	$('#invite_all').hide();
-	$('.small-check-box-popup').hide();
-		
 	$("#shareJob").unbind();
 	$("#autocompleteFind").unbind();
 	$("#autocompleteFind").hide();
@@ -249,7 +242,7 @@ function shareJobShowView(type){
 			$('.selectedFriends').show();
 			
 			$('.job-share-ppl').show();
-			$('.job-share-bottom').show();
+			
 			fillFacebookFriendShareJob();
 			$("#shareJob").click(facebookComment);
 			$('#autocompleteFind').val('Search Friends Here...');
@@ -262,10 +255,7 @@ function shareJobShowView(type){
 			$('.s_w_e').hide();
 			$('.selectedFriends').show();
 			$('.job-share-ppl').show();
-			
-			$('#invite_all').hide();
-			$('.small-check-box-popup').hide();
-			
+		
 			fillLinkedinFriendShareJob();
 			$("#shareJob").click(linkedInComment);
 			$('#autocompleteFind').val('Search Friends Here...');
@@ -293,9 +283,7 @@ function shareJobShowView(type){
 			$('#e-mail').show();
 			$('.job-share-ppl').hide();
 			
-			$('#invite_all').show();
-			$('.small-check-box-popup').show();
-		
+					
 			setShareJobView('Email');
 			$("#shareJob").click(shareEmail);
 			break;
