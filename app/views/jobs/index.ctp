@@ -108,6 +108,7 @@
                             </div>
                         </li>
                         
+
                         <li><a class="HrMenu <?php echo isset($salaryFrom)?'minus_icon':'plus_icon';?>" id="Salary" href="javascript:void(0);">Salary</a>
                         	<div style="height:65px;" id="Salary_submenu" class="job_menus_submenu_main">
 <p>

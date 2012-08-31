@@ -279,7 +279,7 @@ function toggleChecked(status) {
 
 <script>
 function importFromGmail(){
-	window.location.href="https://accounts.google.com/o/oauth2/auth?client_id=570913376629-e30ao1afv415iu3e8e1t1tatgqjpspm7.apps.googleusercontent.com&redirect_uri=http://qa.hireroutes.com/networkers/addContacts&scope=https://www.google.com/m8/feeds/&response_type=code";
+	window.location.href="https://accounts.google.com/o/oauth2/auth?client_id=79643144563-rck00gk919jbv7enntdj5edin5tdjjbm.apps.googleusercontent.com&redirect_uri=http://www.hireroutes.com/networkers/addContacts&scope=https://www.google.com/m8/feeds/&response_type=code";
 }
 </script>
 <?php if(isset($GmailContacts)){?>

@@ -39,7 +39,7 @@
     
 	<?php echo $form->create('User', array('action' => 'companyRecruiterSignup','onsubmit'=>'return checkform();')); ?>
     <div class="login_middle_main"> 
-		<div class="login_middle_left_box"> 
+		<div class="login_middle_left_box" style="float:none;margin:auto;"> 
         	<div class="company-recruiter-checkbox signup_middle_topallign">
         		<div class="company-recruiter-radio">
         		<?php  echo $form -> input('Companies.role',array(
@@ -177,15 +177,6 @@
 				
     	        <div class="forgot-password dont-know-width signup_middle_forget_txt"><a href="/companyInformation">Don't know about Companies/Recruiters?</a></div>
 			</div>
-			<div class="login_middle_center_box signup_or_txt_box"><strong>OR</strong></div>
-			<div class="login_middle_right_box signup_social_box">
-	        <div class="signup_social_box_txt">Sign in with Your Social network</div>
-	        	<ul>
-	        	    <li><a class="job-share-fb" href="<?php echo $FBLoginUrl; ?>"></a></li>
-	        	    <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
-	        	</ul>
-			</div>
-			<div class="clr"></div>
 		</div>
 		<?php echo $form->end(); ?>	
 	</div>
