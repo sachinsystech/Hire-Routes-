@@ -149,10 +149,10 @@
 				<?php endif; ?>
         	    </div>
         	    <div class="login-button">
-					<input type="submit" value="SEND REQUEST"/>
+        	    	<?php echo $form->submit('SEND REQUEST',array('div'=>false,)); ?>
 				</div>
-				<?php echo $form->end(); ?>	
-    	        <div class="forgot-password dont-know-width signup_middle_forget_txt"><a href="#">Don't know about Companies/Recruiters?</a></div>
+				
+    	        <div class="forgot-password dont-know-width signup_middle_forget_txt"><a href="/companyInformation">Don't know about Companies/Recruiters?</a></div>
 			</div>
 			<div class="login_middle_center_box signup_or_txt_box"><strong>OR</strong></div>
 			<div class="login_middle_right_box signup_social_box">
@@ -164,4 +164,5 @@
 			</div>
 			<div class="clr"></div>
 		</div>
+		<?php echo $form->end(); ?>	
 	</div>
