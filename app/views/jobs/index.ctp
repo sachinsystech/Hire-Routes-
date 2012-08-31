@@ -431,7 +431,7 @@
 .job_left_menu ul li a {width:auto; height:25px; display:block; font:bold 15px Arial, Helvetica, sans-serif; color:#1d1d1d; padding:5px 0 0 10px; text-decoration:none;} 
 .plus_icon { background:url(/images/plus_icon.png) no-repeat 200px 11px;}
 .minus_icon { background:url(/images/minus_icon.png) no-repeat 200px 14px;}
-/*.job_menus_submenu {width:222px; background:#eee7d9; height:auto; padding:10px 0;} 
+/*.job_menus_submenu {width:222px; background:#eee7d9; height:auto; padding:10px 0;clear:both;} 
 .job_menus_submenu ul {margin:0; padding:0;}
 .job_menus_submenu ul li {width:222px; list-style:none; display:block; background:none; height:auto;}
 .job_menus_submenu ul li a {font:normal 13px "Lucida Sans Unicode", "Lucida Grande"; color:#1d1d1d; line-height:18px; text-decoration:none; padding:0 0 0 10px; height:auto;}
@@ -440,7 +440,7 @@
 .job_submenu_active {color:#4fa149 !important; text-decoration:underline !important;}
 
 .job_menus_submenu_main {width:222px; background:#eee7d9; height:195px; padding:2px 0;}
-.job_menus_submenu {width:190px; list-style:none; display:block; background:none; height:18px; padding:0;}
+.job_menus_submenu {width:190px; list-style:none; display:block; background:none; height:18px; padding:0;clear:both;}
 .job_menus_submenu label {
     color: #1D1D1D;
     float: left;

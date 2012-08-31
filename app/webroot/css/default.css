@@ -698,6 +698,7 @@ employee_contact_row{width:115px !important;}
 #slider-range{
 	width:170px;
 	margin:auto;
+	height:7px;
 }
 .h2_float { float:left;}
 .company-recruiter-radio{width:158px;overflow:visible;}
