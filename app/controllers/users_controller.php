@@ -831,12 +831,18 @@ class UsersController extends AppController {
 		}
 		
 		/***	manage facebook user after success callback ***/
-		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
+		if(isset($this->params['url']['state'])){
 			$facebook = $this->facebookObject();
 			$FBUserId = $facebook->getUser();
 			if($FBUserId){
 				$this->manageFBUser();
 			}
+		}
+		
+		else{
+			$this->Session->setFlash('Something went wrong, please contact to side admin.', 'warning');
+			$this->redirect('/users');
+			return false;
 		}
 	
 	}
