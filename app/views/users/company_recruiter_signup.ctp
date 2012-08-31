@@ -19,11 +19,14 @@
 			}
 		  },
 		  errorPlacement: function (error, element) {
-		  	if($(".placehcss").length){
-				error.insertAfter(element.parent());
-				
-			}else{
-				error.insertAfter(element);
+		  	if($(element).attr("type")== "radio"){
+		  		error.insertAfter(element.parent("div"));
+		  	}else{
+			  	if($(".placehcss").length){
+					error.insertAfter(element.parent());
+				}else{
+					error.insertAfter(element);
+				}
 			}
 		  }
 	});
@@ -38,6 +41,24 @@
     <div class="login_middle_main"> 
 		<div class="login_middle_left_box"> 
         	<div class="company-recruiter-checkbox signup_middle_topallign">
+        		<div class="company-recruiter-radio">
+        		<?php  echo $form -> input('Companies.role',array(
+                                                 //'before' => '<div>',
+                                                 //'after' => '</div>',
+                                                 'legend' => false,
+                                                 'type'=>'radio',
+                                                 'div'=> false,
+                                                 'class' => 'required company-recruiter-radio-input',
+                                                 'label'=>'',
+                                                 'options'=>array('company'=>"I'm a company </br>",'recruiter'=>"I'm a recruiter"),
+										),
+										array('checked'=>0)
+							);
+    ?>
+    			
+        		</div>
+        		
+        		<!----------
         		<div class="cross-button bottom-margin">
         			<input id="CompaniesRoleCompany" name="data[Companies][role]" type="radio" value="" class = 'required'/>
         		</div>
@@ -47,6 +68,8 @@
 					<input id="CompaniesRoleRecruiter" name="data[Companies][role]" type="radio" value="" class='required'/>
                 </div>
                 <div class="comp-recruiter-text">I'm a Recruiter</div>
+                
+                --->
 			</div>
 			<div class="text-box signup_middle_allign">
 				<?php	echo $form->input('Companies.company_name', array('label' => false,

@@ -46,7 +46,7 @@
 	<div class="job_top-heading">
 		<?php if($this->Session->read('Auth.User.id')):?>
 			<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
-					<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
+					<h2 class="h2_float">WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
 			<?php endif; ?>
 		<?php endif; ?>
 		 <?php  echo $this->Form->create('FilterJob', array('url' => array('controller' => 'Jobs', 'action' => 'index')));?>
@@ -86,7 +86,7 @@
 
                 <div class="job_left_menu">
                     <ul>
-                        <li><a class="HrMenu plus_icon" id="Industries" href="javascript:void(0);">Industries</a>
+                        <li><a class="HrMenu <?php echo isset($industry)?'minus_icon':'plus_icon';?>" id="Industries" href="javascript:void(0);">Industries</a>
                             <div style="<?php echo isset($industry)?'':'display:none;' ?>" id="Industries_submenu" class="job_menus_submenu_main">
                             
                             	<div class="scroll-pane">
@@ -108,7 +108,7 @@
                             </div>
                         </li>
                         
-                        <li><a class="HrMenu plus_icon" id="Salary" class="minus_icon" href="javascript:void(0);">Salary</a>
+                        <li><a class="HrMenu <?php echo isset($salaryFrom)?'minus_icon':'plus_icon';?>" id="Salary" href="javascript:void(0);">Salary</a>
                         	<div style="height:65px;" id="Salary_submenu" class="job_menus_submenu_main">
 <p>
 						<label for="amount"></label>
@@ -144,7 +144,7 @@
                             </div>
                         </li>
                         
-                        <li><a class="HrMenu plus_icon" id="Location" href="javascript:void(0);">Location</a>
+                        <li><a class="HrMenu <?php echo isset($location)?'minus_icon':'plus_icon';?>" id="Location" href="javascript:void(0);">Location</a>
                         	<div style="height:150px;<?php echo isset($location)?'':'display:none;' ?>" id="Location_submenu" tyle="s" class="job_menus_submenu_main">
                             <div class="scroll-pane scroll-pane_location">
                                	<p>
@@ -169,7 +169,7 @@
                          						'3'=>'Contract',
 												'4'=>'Internship',
 												'5'=>'Temporary'); ?>
-                        <li><a class="HrMenu plus_icon" id="Job_type" href="javascript:void(0);">Job Type</a>
+                        <li><a class="HrMenu <?php echo isset($job_type)?'minus_icon':'plus_icon';?>" id="Job_type" href="javascript:void(0);">Job Type</a>
                         	<div style="height:110px;<?php echo isset($job_type)?'':'display:none;' ?>" id="Job_type_submenu" style="" class="job_menus_submenu_main">
                             <div class="">
                               <p>
@@ -188,7 +188,7 @@
                              </div>
                         </li>
                         
-                        <li><a id="Company" class="plus_icon" href="javascript:void(0);">Company</a>
+                        <li><a id="Company" class="HrMenu <?php echo isset($company_name)?'minus_icon':'plus_icon';?>" href="javascript:void(0);">Company</a>
                         	<div style="height:68px;<?php echo isset($company_name)?'':'display:none;' ?>" id="Company_submenu" style="display:none" class="job_menus_submenu_main">
                             <div class="scroll-pane scroll-pane_company">
                               <p>

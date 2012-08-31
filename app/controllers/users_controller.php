@@ -461,6 +461,7 @@ class UsersController extends AppController {
  * Display account confirmaiton message after sigining-up.
 **/    
 	function confirmation(){
+		$this->layout = "home";
 		$id = isset($this->params['id'])?$this->params['id']:"";
 		if(!isset($id)){
 			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
