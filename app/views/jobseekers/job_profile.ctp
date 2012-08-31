@@ -228,7 +228,7 @@
 						<div class="job_profile_form_buttn_row">
 							<div class="left_bttn">
 								<div class="uploadresume_bttn">
-									<?php  echo $form->submit('Save',array('div'=>false,
+									<?php  echo $form->submit('SAVE',array('div'=>false,
 																		'type'=>'submit',
 																		)); ?>
 								</div>            											

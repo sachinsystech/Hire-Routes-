@@ -79,7 +79,7 @@
 			</div>
 			<div class="job-clear-all"><a href="#" id="clear_all">Clear All</a></div>
 			<div class="login-button job-login">
-			<?php echo $form->submit('Change',array('type'=>'submit',
+			<?php echo $form->submit('CHANGE',array('type'=>'submit',
 												'value'=>'Change',
 												'div'	=>false,
 												)

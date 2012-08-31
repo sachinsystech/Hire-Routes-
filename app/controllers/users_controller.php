@@ -461,6 +461,7 @@ class UsersController extends AppController {
  * Display account confirmaiton message after sigining-up.
 **/    
 	function confirmation(){
+		$this->layout = "home";
 		$id = isset($this->params['id'])?$this->params['id']:"";
 		if(!isset($id)){
 			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
@@ -579,6 +580,7 @@ class UsersController extends AppController {
  * redirect users to respective setting pages if they setting up their account.
  */
 	function firstTime() {
+		$this->layout ="home";
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
 			$this->redirect("/users/login");
@@ -806,11 +808,11 @@ class UsersController extends AppController {
  * @access public
  */	
 	function facebookUserSelection(){
+		$this->layout = "home";
 		$session = $this->_getSession();
 		if($session->isLoggedIn()){
 			$this->redirect('loginSuccess');
 		}
-		$this->layout = "home";
 		$graduateDegrees = $this->GraduateDegree->find('list',array('fields'=>'id, degree'));	
 		$this->set("graduateDegrees",$graduateDegrees);
 		$facebook = $this->facebookObject();
@@ -821,7 +823,7 @@ class UsersController extends AppController {
 	}
 	
 	function facebookUser(){
-		
+		$this->layput="home";
 		/***	manage facebook user after cancel callback(denied permission from FB-App) ***/		
 		if(isset($this->params['url']['error_reason'])){
 			$this->Session->setFlash('you have declined the request from Facebook!', 'warning');
@@ -829,12 +831,18 @@ class UsersController extends AppController {
 		}
 		
 		/***	manage facebook user after success callback ***/
-		if(isset($this->params['url']['state']) && isset($this->params['url']['state'])){
+		if(isset($this->params['url']['state'])){
 			$facebook = $this->facebookObject();
 			$FBUserId = $facebook->getUser();
 			if($FBUserId){
 				$this->manageFBUser();
 			}
+		}
+		
+		else{
+			$this->Session->setFlash('Something went wrong, please contact to side admin.', 'warning');
+			$this->redirect('/users');
+			return false;
 		}
 	
 	}
@@ -1009,7 +1017,7 @@ class UsersController extends AppController {
 	}
 
 	function forgotPassword(){
-		
+		$this->layout= "home";
 		$session = $this->_getSession();
 		if($session->isLoggedIn()){
 			$this->redirect('loginSuccess');

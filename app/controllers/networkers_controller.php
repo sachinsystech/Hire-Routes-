@@ -238,6 +238,66 @@ class NetworkersController extends AppController {
 	/*	Add contact by single entry	*/
 	function addContacts() {
 		$this->layout= "home";
+				$userId = $this->_getSession()->getUserId();
+		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
+		
+		$paginateCondition = array(
+									'AND' => array(
+												array('NetworkerContact.user_id'=>$userId),
+												array('NetworkerContact.contact_email LIKE' => "$startWith%")
+											)
+								);
+		
+		$this->paginate = array('conditions'=>$paginateCondition,
+                                'limit' => 6,
+                                'order' => array("NetworkerContact.id" => 'asc',));             
+        $contacts = $this->paginate('NetworkerContact');
+
+        $alphabets = array();
+        foreach(range('A','Z') AS $alphabet){
+        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.user_id'=>$userId,
+        																					  'NetworkerContact.contact_email LIKE' => "$alphabet%"
+        																					  )
+        																  )
+        													);
+            $alphabets[$alphabet] = $contacts_count; 
+        }
+		
+        $this->set('alphabets',$alphabets);
+        $this->set('contacts',$contacts);
+        $this->set('contact',null);
+        $this->set('startWith',$startWith);
+				$userId = $this->_getSession()->getUserId();
+		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
+		
+		$paginateCondition = array(
+									'AND' => array(
+												array('NetworkerContact.user_id'=>$userId),
+												array('NetworkerContact.contact_email LIKE' => "$startWith%")
+											)
+								);
+		
+		$this->paginate = array('conditions'=>$paginateCondition,
+                                'limit' => 6,
+                                'order' => array("NetworkerContact.id" => 'asc',));             
+        $contacts = $this->paginate('NetworkerContact');
+
+        $alphabets = array();
+        foreach(range('A','Z') AS $alphabet){
+        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.user_id'=>$userId,
+        																					  'NetworkerContact.contact_email LIKE' => "$alphabet%"
+        																					  )
+        																  )
+        													);
+            $alphabets[$alphabet] = $contacts_count; 
+        }
+		
+        $this->set('alphabets',$alphabets);
+        $this->set('contacts',$contacts);
+        $this->set('contact',null);
+        $this->set('startWith',$startWith);
+		
+		
 		if(isset($this->params['url']['error'])){
     		$this->Session->setFlash('You have declined the request!', 'warning');
     		$this->redirect('/networkers/addContacts');
@@ -344,35 +404,7 @@ class NetworkersController extends AppController {
 			$this->set('NetworkerContact',$this->NetworkerContact->data['NetworkerContact']);
 		}
 		
-				$userId = $this->_getSession()->getUserId();
-		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
-		
-		$paginateCondition = array(
-									'AND' => array(
-												array('NetworkerContact.user_id'=>$userId),
-												array('NetworkerContact.contact_email LIKE' => "$startWith%")
-											)
-								);
-		
-		$this->paginate = array('conditions'=>$paginateCondition,
-                                'limit' => 6,
-                                'order' => array("NetworkerContact.id" => 'asc',));             
-        $contacts = $this->paginate('NetworkerContact');
 
-        $alphabets = array();
-        foreach(range('A','Z') AS $alphabet){
-        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.user_id'=>$userId,
-        																					  'NetworkerContact.contact_email LIKE' => "$alphabet%"
-        																					  )
-        																  )
-        													);
-            $alphabets[$alphabet] = $contacts_count; 
-        }
-		
-        $this->set('alphabets',$alphabets);
-        $this->set('contacts',$contacts);
-        $this->set('contact',null);
-        $this->set('startWith',$startWith);
 	}
 	
 	private function getGmailContacts($authcode){
@@ -1158,7 +1190,7 @@ where user_id =".$userId."");
 		}
 	
 		$userId = $session->getUserId();
-		
+
 		$user = $this->Networkers->find('first', array('conditions' => array('Networkers.user_id' => $userId) ));
 		 
 		$pointLables = $this->PointLabels->find('first' ,array('conditions'=>array("point_from <=".$user['Networkers']['points']." and point_to >=".$user['Networkers']['points'])));
@@ -1167,7 +1199,9 @@ where user_id =".$userId."");
 		 						array('joins'=>array(array('table' => 'networkers',
 												         'alias' => 'Networker',
 												         'type' => 'LEFT',
-												         'conditions' => array('Networker.user_id = UserList.id')
+												         'conditions' => array('Networker.user_id = UserList.id',
+													         'NOT'=>array('UserList.id'=>
+													         			array(1,2))),
 											        )),
 		 								'limit'=>5 ,
 		 								'recursive'=>'-1',

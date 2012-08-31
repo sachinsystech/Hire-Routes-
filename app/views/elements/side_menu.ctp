@@ -44,7 +44,7 @@
                          </li>
                          
                         <li><a <? if(in_array($this->action,$my_employees_actions)){ echo $menu_show;}?> class="HrMenu plus_icon" href="#">My Employees</a>
-                        	<div style="display:none;" class="job_menus_submenu">
+                        	<div style="display:none;" class="job_menus_submenu job_menus_last">
                         		<ul>
                                     <li><a href="/companies/employees" <?php if($this->action=='employees')echo $class;?>>Employees</a></li>
                                 </ul>
@@ -88,7 +88,7 @@
                         <li><a <? if(in_array($this->action,$my_accounts_actions)){ echo $menu_show;}?>  class="HrMenu plus_icon" href="#">My Account</a>
 
                         	<div   style="display:none;" <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword' || $this->action=='invitations'))
-                        			echo "";?>class="job_menus_submenu">
+                        			echo "";?> class="job_menus_submenu job_menus_last">
 
                         		<ul>
 	                        		<li><a href="/jobseekers/jobProfile"" <?php if($this->action=='jobProfile')echo $class;?>>Job Profile</a></li>
@@ -120,7 +120,7 @@
                                     	<a href="/networkers/newJob" <?php if($this->action=='newJob'|| $this->action=='#') echo $class;?>>Inbox - <?php echo $NewJobs;?></a>
                                     </li>
                                     <li><a href="/networkers/sharedJob" <?php if($this->action=='sharedJob') echo $class;?> >Shared - <?php echo $SharedJobs;?></a></li>
-                                    <li><a href="/networkers/archiveJob"  <?php if($this->action=='archiveJob') echo $class;?> >Archive - <?php echo $ArchiveJobs;?></a></li>
+                                    <li><a href="/networkers/archiveJob"  <?php if($this->action=='archiveJob') echo $class;?> >Archive -  <?php echo $ArchiveJobs;?></a></li>
                                     <li><a href="/networkers/jobData" <?php if($this->action=='jobData') echo $class;?> >Data</a></li> 
                                 </ul>
                             </div>
@@ -144,7 +144,7 @@
                          
                         <li><a <? if(in_array($this->action,$my_accounts_actions)){ echo $menu_show;}?> class="HrMenu plus_icon" href="#">My Account</a>
                         	<div <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword'))
-                        			echo "";?> class="job_menus_submenu">
+                        			echo "";?> class="job_menus_submenu job_menus_last">
                         		<ul>
                                     <li><a href="/networkers/setting" <?php if($this->action=='setting') echo $class;?>>Settings/Subscription</a></li>
 									<li><a href="/networkers" <?php if($this->action=='index' || $this->action=='editProfile') echo $class;?>>Profile</a></li>

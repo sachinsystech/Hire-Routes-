@@ -22,6 +22,7 @@
 												'type'  => 'text',
 												'div'=>false,
 												'value' => $jobUrl,
+												'readonly'=>true,
 												)
 							 );
 					?>						

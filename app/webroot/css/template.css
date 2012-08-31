@@ -88,8 +88,8 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 
 .content{width:950px; margin:auto;}
-.content .box{ width:301px; height:413px !important; float:left; border:9px solid transparent; border-bottom:0; border-right:0; cursor:pointer;}
-.content .box1{ height:260px !important;}
+.content .box{ width:301px; float:left; border:9px solid transparent; border-bottom:0; border-right:0; cursor:pointer;}
+.content .box1 {width:301px; float:left; cursor: inherit !important; height: auto !important; padding: 0 !important;}
 .content .box-content{width:230px; margin:auto}
 .content .box-content p{ font-size:10pt; color:#1d1d1d; line-height:18px}
 .content .box-content.company, .content .box-content.network , .content .box-content.job{margin-top:25px;}
@@ -144,23 +144,23 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 
 .middle {margin:0 auto;}
-.button {background:url(../images/buttons.png) 0 0 no-repeat; height: 62px;margin: 8px 0 0 361px;padding: 9px 0 0 10px; width: 200px;}
+.button {background:url(../images/buttons.png) 0 0 no-repeat; height: 62px;margin: 8px auto 0;padding: 9px 0 0 10px; width: 200px;}
 .button:hover {background:url(../images/buttons.png) 0 -74px no-repeat;}
 .button:active {background:url(../images/buttons.png) 0 -149px no-repeat; width:207px; height:62px;}
 .button a{display:block; text-decoration:none; color:#FFF; font-family:"OpenSansCondensedBold"; font-size:20px; width:185px; height:40px;line-height: 40px; text-align:center;}
 .content .box{ width:301px; height:auto; float:left; border-bottom:0; border-right:0; padding:0 0 50px 0; }
 .content .box-cursor {cursor:auto;}
-.content .box-content.company-up, .content .box-content.network-up , .content .box-content.job-up{margin:5px 0 0 65px;}
+.content .box-content.company-up, .content .box-content.network-up , .content .box-content.job-up{margin:5px 0 0 50px;}
 .button-company {background:url(../images/buttons.png) -211px 0 no-repeat; width:200px; height:62px; text-align:center; margin:20px 0 0 52px; padding: 9px 0 0 10px; *padding-left:0px;}
 .button-company a, .button-network a, .button-jobseeker a {display:block; color:#FFF ;text-shadow: 1px 1px 1px #444343; text-decoration:none; font-family: "OpenSansCondensedBold";font-size: 20px; height: 39px; width: 184px;line-height: 40px;}
 .button-company:hover {background:url(../images/buttons.png) -211px -74px no-repeat;}
-.button-company:active {background:url(../images/buttons.png) -211px -149px no-repeat;width:207px; height:62px; padding-top: 175x; text-align:center; margin:20px 0 0 52px;}
-.button-network {background:url(../images/buttons.png) -636px 0 no-repeat; width:207px; height:62px; padding-top: 175x; text-align:center; margin:4px 0 0 61px;padding: 9px 0 0 10px; *padding-left:0;}
+.button-company:active {background:url(../images/buttons.png) -211px -149px no-repeat;width:207px; height:60px;}
+.button-network {background:url(../images/buttons.png) -636px 0 no-repeat; width:207px; height:62px; padding-top: 175x; text-align:center; margin:4px 0 0 50px;padding: 9px 0 0 10px; *padding-left:0;}
 .button-network:hover {background:url(../images/buttons.png) -637px -74px no-repeat;}
-.button-network:active {background:url(../images/buttons.png) -637px -149px no-repeat;width:207px; height:62px; padding-top: 175x; text-align:center; margin:4px 0 0 61px;}
+.button-network:active {background:url(../images/buttons.png) -637px -149px no-repeat;width:207px; height:58px;}
 .button-jobseeker {background:url(../images/buttons.png) -425px 0 no-repeat; width:200px; height:62px; padding-top: 175x; text-align:center; margin:25px 0 0 69px;padding: 9px 0 0 9px; *padding-left:0;}
 .button-jobseeker:hover {background:url(../images/buttons.png) -425px -74px no-repeat;}
-.button-jobseeker:active {background:url(../images/buttons.png) -425px -149px no-repeat;width:207px; height:62px; padding-top: 175x; text-align:center; margin:25px 0 0 69px;}
+.button-jobseeker:active {background:url(../images/buttons.png) -425px -149px no-repeat;width:207px; height:58px; padding-top: 175x; text-align:center; margin:25px 0 0 69px;}
 
 
 
@@ -318,7 +318,13 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .info-js-text2 {height:52px; width:154px; font-size:15px; color:#1d1d1d; position:absolute; right:2px; top:348px;}
 .info-js-text-gethired {font:18px 'OpenSansCondensedBold';position:absolute; color:#FFF; left:514px; bottom:70px;}
 .info-js-text3 {font-size:15px; color:#1d1d1d; position:absolute; bottom:29px; right:207px; width:210px; height:32px;}
-
+.info-comp-payout_txt {
+ 
+    font-size: 17px;
+    font-weight: bold;
+    position: relative;
+}
+.info-comp-payout_txt a {text-decoration:underline;}
 
 
 /*:::::Middle-Block - Infographic - Networker css start :::::::*/
@@ -330,11 +336,13 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .infographic-buttons-jobseeker:hover {background: url("../images/buttons.png") -425px 0 no-repeat;height:62px; width:207px;}
 .info-networker-img {background:url(../images/infographic-networker-image.png) no-repeat; width:935px; height:616px; position:relative;margin-top: 10px;}
 .info-net-text1 { font-size:15px; color:#1d1d1d; position:absolute; width:137px; height:auto; top:347px; left:396px;}
-.info-net-text2 {font-size:15px; color:#1d1d1d; position:absolute; width:113px; height:auto; text-align:right;top:347px; left:612px;}
+.info-net-text2 {font-size:15px; color:#1d1d1d; position:absolute; width:121px; height:auto; text-align:right;top:347px; left:605px;}
+.info-net-text2 a {font-weight:bold; text-decoration:underline;}
 .info-net-text3 {font-size:15px; color:#1d1d1d; position:absolute; width:122px; height:auto ;top:347px; left:778px;}
-.info-net-text3 a{text-decoration:underline;}
+.info-net-text3 a{text-decoration:underline;font-weight:bold;}
 .info-net-orshare {font:18px 'OpenSansCondensedBold';position:absolute; color:#FFF; top:310px; left:652px}
-
+.info-comp-text3_top{top:550px !important; left:532px !important; font-size:17px !important; font-weight:bold;}
+.info-comp-text3_top a {text-decoration:underline;}
 
 
 /*:::::Middle-Block - Infographic - Company css start :::::::*/
@@ -350,7 +358,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .info-comp-text { width:245px; height:auto;left: 331px;position: absolute;top: 48px; font-size:15px;}
 .info-comp-text1 {width:156px; height:auto; position:absolute; font-size:15px; top:463px; left:49px;}
 .info-comp-text2 {width:151px; height:auto; position:absolute; font-size:15px;left: 390px;top: 372px;}
-.info-comp-text3 {width:235px; height:auto; position:absolute; font-size:15px;top:544px;right: 178px;}
+.info-comp-text3 {width:285px; height:auto; position:absolute; font-size:15px;top:544px;right: 121px;}
 
 
 
@@ -465,7 +473,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 /*:::::::::::::Jobs page - networkers - Search Listing - page css start :::::::*/
 
-.net_sl_right { float:right; width:auto;height: 33px;}
+.net_sl_right { float:right; width:400px;height: 33px;}
 .net_sl_textbox { margin:0 20px 0 0; width:140px; height:20px; float: left;}
 .net_sl_textbox input{ background:url("../images/textboxes_points.png") no-repeat 0 -31px; float:left;height: 20px;width: 135px;border: 0 none;color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;padding-left: 5px;}
 .h2_float { float:left;}
@@ -775,7 +783,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 .job-single-entry {float:left; margin:5px 0 22px 0; width:500px;}
 .job-single {font:15px/26px Arial, Helvetica, sans-serif; width:90px; float:left;}
-.job-import {width:72px; height:29px; background:url(../images/button-blue.png); cursor:pointer; border:none; margin:0 0 0 2px;}
+.job-import {width:72px; height:29px; background:url(../images/button-blue.png); cursor:pointer; border:none; margin:0 0 -8px 8px;*margin-bottom:-4px;}
 .job-gmail {font:15px/46px Arial, Helvetica, sans-serif;}
 .job-cv-part {width:500px; height:auto;}
 .job-cv {font:15px/46px Arial, Helvetica, sans-serif; width:47px; float:left;}
@@ -1143,13 +1151,32 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-ppl ul {margin:0; padding:0;}
 .job-share-ppl ul li {float:left; margin:0 7px 7px 0; list-style:none;}
 .job-share-ppl ul li img { width:47px; height:50px;}
-.job-share-bottom {font:15px Arial, Helvetica, sans-serif; padding-top:25px;}
-.job-share-bottom a {text-decoration:underline; padding-left:56px;}
-.job-share-bottom a input {cursor: pointer; height: 19px; opacity: 0; position: absolute; width: 57px;filter: alpha(opacity = 0);}
-.pop-up-button {bottom: 17px; left: 283px; margin: 0 !important; position: relative;}
+.pop-up-button {bottom:25px; left:176px; position: relative;*left:140px;}
 
+.js_invite { width:auto;float: left;font: 15px Arial,Helvetica,sans-serif;}
+.js_invite_all{
+	float:left;
+}
+.job-share-bottom {
+    font: 15px Arial,Helvetica,sans-serif;
+    padding-top: 25px;
+}
 
+.js_clear_all { width:auto; float:left;}
+.js_clear_all a {text-decoration:underline; padding-left:20px;}
+.js_clear_all a input {cursor: pointer; height: 19px; opacity: 0; position: absolute; width: 57px; filter:alpha(opacity=0);}
+.js-check-box-popup {
+    float: right;
+    height: 24px;
+    position: relative;
+    right: -5px;
+    top: -2px;
+    width: 24px;
+}
 
+.js-check-box-popup input{
+	/*opacity: 0;*/
+}
 
 
 /*:::::::::::::Payout - Pop-up - page css start :::::::*/
@@ -1342,7 +1369,9 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .nav-active { color:#50a947 !important; text-decoration:underline !important;}
 .space1 {margin-top:40px !important;}
 .space2 {margin-top:30px !important;}
-
+ .job_menus_last {
+   height: 747px !important;
+}
 
 /*::::::::Checkbox CSS::::::::::::*/
 

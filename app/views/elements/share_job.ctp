@@ -14,15 +14,6 @@
 .ui-dialog-titlebar{
 	display:none;
 }
-.ui-widget input{
-	font-family: Arial,Helvetica,sans-serif;
-    font-size: 13px;
-}
-
-.ui-widget textarea{
-	font-family: Arial,Helvetica,sans-serif;
-    font-size: 13px;
-}
 .friend_checkbox{
 	margin-left:-15px;
 	margin-top:2px;
@@ -102,8 +93,20 @@ $(function() {
 			}
 		}
 	});
+	
+	$( "#clear-all").click(function() {
+		$("#ShareSubject").val("");
+		$('#ShareMessage').val("");
+		return false;
+	});
+	
 });
 
+function toggleAllChecked(status) {
+	$(".friend_checkbox").each( function() {
+		$(this).attr("checked",status);
+	})
+}
 </script>
 
 
@@ -129,7 +132,7 @@ $(function() {
             </div>
             
             <div class="job-share-right">
-            	<h2>SHARE A JOB TO...</h2>
+            	<h2>SHARE A JOB...</h2>
 				<?php echo $form->create('Share', array('action'=>'job', 'onsubmit'=>'return validateForm(ShareToEmail.value);')); ?>
                 <?php echo $form->input('jobId', array('label' => '',
 												'type' => 'hidden',
@@ -144,7 +147,7 @@ $(function() {
 
 				<div class="job-share-field" id="e-mail">
                 	<div class="job-share-text">EMAIL</div>
-                    <div class="job-share-tb"><input type="text" placeholder="Enter a friend's email address" /></input></div>
+                    <div class="job-share-tb"><input id="ShareToEmail" type="text" placeholder="Enter a friend's email address" /></input></div>
                     <div class="clr"></div>
                 </div>
 			
@@ -166,7 +169,8 @@ $(function() {
                     <div class="job-share-tb1">
 						<?php echo $form->input('message', array('label' => '',
 							'type' => 'textarea',
-							'class'=> 'msg_txtarear required',
+							'class'=> 'msg_txtarear',
+							'placeholder'=> 'Type message here ..',
 							'value'=>"I'd like to bring a job opportunity to your attention. - (".$jobUrl.")"
 						));?>
 					</div>
@@ -177,38 +181,43 @@ $(function() {
 				
                 <div class="job-share-ppl">
                 	<ul>
-                    	<li> <img src="../images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
-                        <li><img src="images/icon_image.jpg" /></li>
+                    	<li> <img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
                     </ul>
                     <div class="clr"></div>
                 </div>
-                <div class="job-share-bottom">
-					<span id="invite_all">Invite All</span> 
-                	<div class="small-check-box-popup">
-                        <span class="checkbox_selected" onclick="make_bg_change(this);"></span>
-						<input type="checkbox" class="styled" id="gender_checkbox" >                                          
-               		</div> 
-                	<a href="#"><input type="button" value="Clear All">Clear All</a>
-                </div>
+				
+               	<div class="job-share-bottom">
+                       <div class="js_invite">
+							<div class="js_invite_all">Invite All</div>
+							<div class="js-check-box-popup">
+								<!-- span class="checkbox_selected" onclick="make_bg_change(this);"></span -->
+								<input type="checkbox" class="styled" id="gender_checkbox" onclick="toggleAllChecked(this.checked)">                                         
+							</div>
+					   </div>
+					   
+                        <div class="js_clear_all"><a href="#"><input id="clear-all" type="button" value="Clear All">Clear All</a></div>
+				</div>
+				
 				
                 <div class="login-button pop-up-button">
 						<input type="submit" value="SHARE JOB" id='shareJob' >
@@ -228,11 +237,10 @@ $(function() {
 <script>
 function shareJobShowView(type){
 	$('#e-mail').hide();
+	$('.js_invite').css("visibility", "visible");
 	$('.job-share-ppl').show();
-
-	$('#invite_all').hide();
-	$('.small-check-box-popup').hide();
-		
+	
+	
 	$("#shareJob").unbind();
 	$("#autocompleteFind").unbind();
 	$("#autocompleteFind").hide();
@@ -249,29 +257,28 @@ function shareJobShowView(type){
 			$('.selectedFriends').show();
 			
 			$('.job-share-ppl').show();
-			$('.job-share-bottom').show();
+			
 			fillFacebookFriendShareJob();
-			$("#shareJob").click(facebookComment);
-			$('#autocompleteFind').val('Search Friends Here...');
-			$('#ff_list_share_job').hide();
-			$('#ff_list_share_job').html('');
-			$("#autocompleteFind").keyup(filterFriendListShareJob);
+			return false;
+			//$("#shareJob").click(facebookComment);
+			//$('#autocompleteFind').val('Search Friends Here...');
+			//$('#ff_list_share_job').hide();
+			//$('#ff_list_share_job').html('');
+			//$("#autocompleteFind").keyup(filterFriendListShareJob);
 			break;
 		case 2:
 			setShareJobView('LinkedIn');
 			$('.s_w_e').hide();
 			$('.selectedFriends').show();
-			$('.job-share-ppl').show();
 			
-			$('#invite_all').hide();
-			$('.small-check-box-popup').hide();
-			
+		
 			fillLinkedinFriendShareJob();
+			$('.job-share-ppl').show();
 			$("#shareJob").click(linkedInComment);
-			$('#autocompleteFind').val('Search Friends Here...');
-			$('#ff_list_share_job').hide();
-			$('#ff_list_share_job').html('');
-			$("#autocompleteFind").keyup(filterFriendListShareJob);
+			//$('#autocompleteFind').val('Search Friends Here...');
+			//$('#ff_list_share_job').hide();
+			//$('#ff_list_share_job').html('');
+			//$("#autocompleteFind").keyup(filterFriendListShareJob);
 			break;
 		case 3:
 			setShareJobView('Twitter');
@@ -287,15 +294,9 @@ function shareJobShowView(type){
 			$("#autocompleteFind").keyup(filterFriendListShareJob);
 			break;
 		case 4:
-			//$('#ff_list_share_job').hide();
-			//$('.selectedFriends').hide();
-			//$('#shareJobImageDiv').hide();
 			$('#e-mail').show();
+			$('.js_invite').css("visibility", "hidden");
 			$('.job-share-ppl').hide();
-			
-			$('#invite_all').show();
-			$('.small-check-box-popup').show();
-		
 			setShareJobView('Email');
 			$("#shareJob").click(shareEmail);
 			break;
@@ -333,7 +334,8 @@ function validateForm(elementValue){
 		alert("Invalid Email addresses!");
 		return false;
 	}
-	return true;
+	
+	return validateFormField();
 }
 
 function validateCheckedUser(){
@@ -351,15 +353,15 @@ function validateCheckedUser(){
 }
 
 function validateFormField(){
-if($('#ShareSubject').val()==""){
-alert('Subject cant be empty.');
-return false;
-}
-if($('#ShareMessage').val()==""){
-alert('Please enter message.');
-return false;
-}
-return true;
+	if($('#ShareSubject').val()==""){
+		alert('Subject cant be empty.');
+		return false;
+	}
+	if($('#ShareMessage').val()==""){
+		alert('Please enter message.');
+		return false;
+	}
+	return true;
 }
 
 function createHTMLforFillingShareFriends(friends){

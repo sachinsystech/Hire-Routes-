@@ -44,6 +44,9 @@
 										);?> 
 		</p>
 	<? } ?>
+	<?php if($jobs == null ):?>
+		<p>No job found.</p>
+	<?php endif; ?>
     </div>
     	
     <!-- footer-block -->

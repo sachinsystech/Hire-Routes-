@@ -91,8 +91,10 @@
 															'controller'=>'networkers',
 															'action' => 'sendNotifyEmail',
 															'onsubmit'=>'return check_email_subs();')); ?>
-						<?php if(!empty($NetworkerData)):?>															
+												
                   		<h2>CURRENT SUBSCRIPTIONS</h2>
+                  		<?php if(empty($NetworkerData)):?>	
+                  			<div class="empty_concats_msg"> No Subscription found.</div>
                   		<?php endif;?>
                   		<?php $oldIndustry = null; ?>
                            <div class="job-subs-scroll job-current-subs" id="subscriptions">
@@ -104,7 +106,7 @@
 										echo "</div><div class='clr'></div></li>";
 									if($oldIndustry != $indtemp){
 									?>
-									<li><a class="HrMenu plus_icon">
+									<li><a class="HrSettingMenu plus_icon">
 											<div class="job-subs-table-left"><?php echo $NSI['ind']['name']; ?></div>
 										</a>
 										<div style="display:none;" class="job-sub-subcontaint">
@@ -143,7 +145,7 @@
 																              'selected' => isset($SubscriptionData['subscribe_email'])?$SubscriptionData['subscribe_email']:""));?>
 						</div>
                         <div class="login-button job-save-setting">
-							<?php echo $form->submit('Save Notification');?>
+							<?php echo $form->submit('SAVE NOTIFICATION');?>
 								<!--<input type="submit" value="SAVE SETTINGS">-->
 							<div class="clr"></div>
 						</div>
@@ -215,9 +217,9 @@ div .checkbox{
 	}	
 </script>
 <script>
-$(".HrMenu").click(function(){
+$(".HrSettingMenu").click(function(){
 
-	$(".HrMenu").next().slideUp();
+	$(".HrSettingMenu").next().slideUp();
 
 	$(this).next().slideDown();
 });
