@@ -426,7 +426,7 @@ $(document).ready(function(){
 				</div>
 			</div>		
 			<div class="edit_conact_button">
-				<?php echo $form->submit('Update',array('div'=>false,'class'=>'gmail-submit')); ?>
+				<?php echo $form->submit('UPDATE',array('div'=>false,'class'=>'gmail-submit')); ?>
 			</div>
 			<div class="clr"></div>
 			<?php echo $form->end(); ?>			

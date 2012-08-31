@@ -152,7 +152,7 @@
 							<label id="clearAll">Clear All</label>
 						</div>
 						<div class="save-profile-button">
-							<?php echo $form->submit('Save Changes',array('div'=>false,)); ?>
+							<?php echo $form->submit('SAVE CHANGES',array('div'=>false,)); ?>
 						</div>
 						<?php echo $form->end(); ?>	
 					</div>
