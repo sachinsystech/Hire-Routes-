@@ -70,7 +70,7 @@
                                                       'class' => 'text_field_bg'));?>
 			</div>
             <div class="find_clr_button net_sl_bttn">
-            	<?php echo $form->submit('Find',array('div'=>false,'name'=>'search','value'=>'Find Job'));?>
+            	<?php echo $form->submit('FIND',array('div'=>false,'name'=>'search','value'=>'Find Job'));?>
             </div>
         </div>
         <?php echo $form->end();?>
@@ -530,7 +530,7 @@
 .job_right_bar {width:710px; border:solid 1px #d6d2cc; float:left; height:857px;}
 .job_right_top_bar {width:710px; background:#eae6d7; height:35px;}
 .job_right_sortby {width:220px; height:20px; float:left; margin:8px 0 0 20px;}
-.job_right_shortby_txt {width:auto; font:bold 15px Arial, Helvetica, sans-serif; color:#1d1d1d; margin:6px 20px 0 0; float:left;}
+.job_right_shortby_txt {width:auto; font:bold 15px Arial, Helvetica, sans-serif; color:#1d1d1d; margin:2px 20px 0 0; float:left;}
 .job_right_shortby_field {float:left;}
 .job_right_pagination {width:320px; height:auto; float:left; margin:8px 10px 0 60px;}
 .job_right_pagination div {float:right;}
@@ -663,11 +663,11 @@
 /* Interaction states
 ----------------------------------*/
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border:none 
-!important;background:url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent/*{bgDefaultRepeat}*/; font-weight: normal/*{fwDefault}*/; color: #555555/*{fcDefault}*/; }
+!important;background:url("/images/slider_bttn.png") no-repeat scroll 0 -1px transparent/*{bgDefaultRepeat}*/; font-weight: normal/*{fwDefault}*/; color: #555555/*{fcDefault}*/; }
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #555555/*{fcDefault}*/; text-decoration: none; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {background: url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent; font-weight: normal/*{fwDefault}*/; color: #212121/*{fcHover}*/; }
-.ui-state-hover a, .ui-state-hover a:hover {background: url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent;text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { background: /*{bgColorActive}*/ url("../images/slider_bttn.png") no-repeat scroll 0 -1px transparent; font-weight: normal/*{fwDefault}*/; color: #212121/*{fcActive}*/; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {background: url("/images/slider_bttn.png") no-repeat scroll 0 -1px transparent; font-weight: normal/*{fwDefault}*/; color: #212121/*{fcHover}*/; }
+.ui-state-hover a, .ui-state-hover a:hover {background: url("/images/slider_bttn.png") no-repeat scroll 0 -1px transparent;text-decoration: none; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { background: /*{bgColorActive}*/ url("/images/slider_bttn.png") no-repeat scroll 0 -1px transparent; font-weight: normal/*{fwDefault}*/; color: #212121/*{fcActive}*/; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #212121/*{fcActive}*/; text-decoration: none; }
 .ui-widget :active { outline: none; }
 <!----------------------------End css for slider      --------->

@@ -580,6 +580,7 @@ class UsersController extends AppController {
  * redirect users to respective setting pages if they setting up their account.
  */
 	function firstTime() {
+		$this->layout ="home";
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
 			$this->redirect("/users/login");
@@ -807,11 +808,11 @@ class UsersController extends AppController {
  * @access public
  */	
 	function facebookUserSelection(){
+		$this->layout = "home";
 		$session = $this->_getSession();
 		if($session->isLoggedIn()){
 			$this->redirect('loginSuccess');
 		}
-		$this->layout = "home";
 		$graduateDegrees = $this->GraduateDegree->find('list',array('fields'=>'id, degree'));	
 		$this->set("graduateDegrees",$graduateDegrees);
 		$facebook = $this->facebookObject();
@@ -822,7 +823,7 @@ class UsersController extends AppController {
 	}
 	
 	function facebookUser(){
-		
+		$this->layput="home";
 		/***	manage facebook user after cancel callback(denied permission from FB-App) ***/		
 		if(isset($this->params['url']['error_reason'])){
 			$this->Session->setFlash('you have declined the request from Facebook!', 'warning');
@@ -1016,7 +1017,7 @@ class UsersController extends AppController {
 	}
 
 	function forgotPassword(){
-		
+		$this->layout= "home";
 		$session = $this->_getSession();
 		if($session->isLoggedIn()){
 			$this->redirect('loginSuccess');

@@ -705,3 +705,15 @@ employee_contact_row{width:115px !important;}
 .company-recruiter-radio input{margin-right:15px;}
 .company-recruiter-radio-input{width: 18px !important;
 float: left;}
+.empty_concats_msg{
+    background: none repeat scroll 0 0 #FAF8CC;
+    border: 1px solid #446423;
+    clear: both;
+    color: #4AA02C;
+    font-weight: bold;
+    height: 20px;
+    margin: 3px;
+    padding: 5px;
+    text-align: center;
+}
+

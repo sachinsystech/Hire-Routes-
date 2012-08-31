@@ -91,8 +91,10 @@
 															'controller'=>'networkers',
 															'action' => 'sendNotifyEmail',
 															'onsubmit'=>'return check_email_subs();')); ?>
-						<?php if(!empty($NetworkerData)):?>															
+												
                   		<h2>CURRENT SUBSCRIPTIONS</h2>
+                  		<?php if(empty($NetworkerData)):?>	
+                  			<div class="empty_concats_msg"> No Subscription found.</div>
                   		<?php endif;?>
                   		<?php $oldIndustry = null; ?>
                            <div class="job-subs-scroll job-current-subs" id="subscriptions">
@@ -143,7 +145,7 @@
 																              'selected' => isset($SubscriptionData['subscribe_email'])?$SubscriptionData['subscribe_email']:""));?>
 						</div>
                         <div class="login-button job-save-setting">
-							<?php echo $form->submit('Save Notification');?>
+							<?php echo $form->submit('SAVE NOTIFICATION');?>
 								<!--<input type="submit" value="SAVE SETTINGS">-->
 							<div class="clr"></div>
 						</div>

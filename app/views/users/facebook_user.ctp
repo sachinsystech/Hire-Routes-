@@ -5,12 +5,13 @@
 <div style="margin-top:35px">
 	<div class="facebook-login">
 		<div>
-			<a href="<?php echo $FBloginlogoutUrl; ?>"><button class="<?php echo $fbButtonClass; ?>"></button></a>
+			<a href="<?php echo isset($FBloginlogoutUrl)?$FBloginlogoutUrl:""; ?>">
+				<button class="<?php echo $fbButtonClass; ?>"></button></a>
 		</div>	
 		
 	<div>
 </div>
-<?php if($faceBookUserData):?>
+<?php if(isset($faceBookUserData)):?>
 	<center><b>Welcome <?php echo $faceBookUserData['first_name']." ".$faceBookUserData['last_name']." !" ?></p>
 		<img src="https://graph.facebook.com/<?php echo $faceBookUserData['facebook_id']; ?>/picture">
 	</center>

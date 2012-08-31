@@ -1,4 +1,4 @@
-<h1 class="title-emp">Harnessing Social Networks to <span> Find Talent and Get Paid </span></h1>
+<h1 class="title-emp">Harnessing Social Networks to Find Talent and Get Paid</h1>
 
   <div class="button-return-to-search"><a href="/users">GET STARTED</a></div>
   <div class="content">

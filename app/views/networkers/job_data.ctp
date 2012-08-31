@@ -19,9 +19,10 @@
                     	<div><span>Job Shared:</span> 
                     		<?php echo $SharedJobs;?>
 						</div>
-						<div class="clr"></div>
+						<!--<div class="clr"></div>
                     	<div><span>Job Filled:</span>
 						</div>
+						-->
 						<div class="clr"></div>
                     	<div><span>Rewards:</span> 
 		   					<?php echo $this->Number->format(

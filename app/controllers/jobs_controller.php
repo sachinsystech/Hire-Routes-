@@ -40,7 +40,7 @@ class JobsController extends AppController {
         $conditions = array();
         $salaryFrom = null;
         $salaryTo = null;
-        if( (isset($this->params['form']['search']) && $this->params['form']['search'] =="Find" ) || $this->Session->read("FilterJob")){
+        if( (isset($this->params['form']['search']) && $this->params['form']['search'] =="FIND" ) || $this->Session->read("FilterJob")){
             if(!isset($this->data['FilterJob'])){
                 $this->data['FilterJob'] = $this->Session->read("FilterJob");
             }else{

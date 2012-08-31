@@ -108,20 +108,7 @@
 </body>
 </html>
 <script type="text/javascript">
-  $(".box").mouseover(function() {
-	$(this).addClass('hover');
-  }).mouseout(function(){
-       $(this).removeClass('hover');
-  });
-	$("div.box").mousedown(function() {
-	$(this).addClass('click');	
-  });
-  
-  $("div.box").mouseup(function() {
-	$(this).removeClass('click');	
-  });
-  
-  $("document").ready(function(){
+   $("document").ready(function(){
 		$(".feedback").click(function(){
 			$("#fdbk_tab").click();
 		});
