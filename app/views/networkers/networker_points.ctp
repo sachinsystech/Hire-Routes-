@@ -33,6 +33,7 @@
                 <div class="job-pts-right-top-left">
                 	<h2>LEADERBOARD</h2>
                     <ul>
+                    <?php if(isset($boardData) && $boardData != null){?>
                    		<?php $i = 1; 
 							 foreach( $boardData as $key =>$data) {?>
 						<li><?php if($data['Networker']['contact_name'] != null && $data['Networker']['contact_name'] != ""){	
@@ -43,6 +44,9 @@
 							?>
 						</li>
 						<?php } ?>
+					<?php }else{
+						<div class="empty_concats_msg"> No Subscription found.</div>
+					<?php } ?>
                    </ul>
 				</div>
 			</div>

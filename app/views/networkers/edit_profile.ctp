@@ -185,7 +185,7 @@
 					dataType: "json",
 					beforeSend: function(){
 				 		$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"490px"});
-				 		$('#GraduateUniversityBreakdownUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  /></div>');
+				 		$('#GraduateUniversityBreakdownUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt=".."  /></div>');
 
 			   		},
 			   		complete: function(){

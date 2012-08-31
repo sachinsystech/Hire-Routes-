@@ -91,8 +91,10 @@
 															'controller'=>'networkers',
 															'action' => 'sendNotifyEmail',
 															'onsubmit'=>'return check_email_subs();')); ?>
-						<?php if(!empty($NetworkerData)):?>															
+												
                   		<h2>CURRENT SUBSCRIPTIONS</h2>
+                  		<?php if(empty($NetworkerData)):?>	
+                  			<div class="empty_concats_msg"> No Subscription found.</div>
                   		<?php endif;?>
                   		<?php $oldIndustry = null; ?>
                            <div class="job-subs-scroll job-current-subs" id="subscriptions">

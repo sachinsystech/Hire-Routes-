@@ -14,7 +14,9 @@
     <div class="info-js-text-rightjobs">4. YOU GET THE RIGHT JOBS</div>
     <div class="info-js-text2">Have Job opportunities sent directly to your as per your specifications</div>
     <div class="info-js-text-gethired">5. GET HIRED, GET PAID!</div>
-    <div class="info-js-text3">When you get Hired we share a portion of the reward with you</div>
+    <div class="info-js-text3">When you get Hired we share a portion of the reward with you
+		<div class="info-comp-payout_txt"><a href="#">Payout System</a></div>
+	</div>
     </div>
   
    <div class="clr"></div>
