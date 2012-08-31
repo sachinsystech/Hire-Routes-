@@ -168,7 +168,7 @@ div .checkbox{
 							</div>
 						</div>
 						<div class="jobseeker_setting_button">
-							<?php  echo $form->submit('Save',array('div'=>false,
+							<?php  echo $form->submit('SAVE',array('div'=>false,
 																	'type'=>'submit',
 																	)); ?>
 						</div>  
