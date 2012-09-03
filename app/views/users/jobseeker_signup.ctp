@@ -100,6 +100,8 @@
 
 		<div class="forgot-password networker-width"><a href="/jobseekerInformation">Don't know about Jobseekers?</a></div>
 	</div>
+		<?php
+		if(($this->Session->read('intermediateCode')!='' || $this->Session->read('intermediateCode')!=null ) || ( $this->Session->read('icc')!='' || $this->Session->read('icc')!= null) || ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null)):?>
     <div class="js_middle_center_box"><strong>OR</strong></div>
     <div class="js_middle_right_box">
         <ul>
@@ -107,7 +109,11 @@
             <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
         </ul>
     </div>
+	
+	<?php else:
+			echo "<style>.login_middle_main { width: 300px !important;}</style>" ;
+		endif;
+	?>
 	<div class="clr"></div>
-
 </div>
 

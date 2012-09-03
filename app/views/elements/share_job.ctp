@@ -426,6 +426,7 @@ $('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px au
 $.ajax({
 	type: 'POST',
 	url: '/facebook/getFaceBookFriendList',
+	data: "&source=share_job",
 	dataType: 'json',
 	success: function(response){
 		switch(response.error){
@@ -470,6 +471,7 @@ function fillLinkedinFriendShareJob(){
 	$.ajax({
 		type: 'POST',
 		url: '/linkedin/getLinkedinFriendList',
+		data: "&source=share_job",
 		dataType: 'json',
 		success: function(response){
 			switch(response.error){
@@ -515,6 +517,7 @@ function fillTwitterFriendShareJob(){
 	$.ajax({
 		type: 'POST',
 		url: '/twitter/getTwitterFriendList',
+		data: "&source=share_job",
 		dataType: 'json',
 		success: function(response){
 		switch(response.error){

@@ -82,15 +82,6 @@
 			
 			<!-----------------------  Content for layout ---------------------------->
 				<!-- ******		welcome User **** -->
-				<?php if($this->Session->read('Auth.User.id')):?>
-					<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
-						<!--<div style=" margin-left:10px">
-							Welcome <span><?php //echo ucfirst($this->Session->read('welcomeName'));?>,</span>
-						</div>
-						-->
-					<?php endif; ?>
-				<?php endif; ?>
-
 				<!-- ******		End welcome User **** -->
 				<?php echo $content_for_layout; ?>
 			<!--------------------- End content for layout -------------------------->

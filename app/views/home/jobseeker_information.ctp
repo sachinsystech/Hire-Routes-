@@ -15,8 +15,14 @@
     <div class="info-js-text2">Have Job opportunities sent directly to your as per your specifications</div>
     <div class="info-js-text-gethired">5. GET HIRED, GET PAID!</div>
     <div class="info-js-text3">When you get Hired we share a portion of the reward with you
-		<div class="info-comp-payout_txt"><a href="#">Payout System</a></div>
+		<div class="info-comp-payout_txt"><a href="JavaScript:void(0);" class=howPayoutWorks>Payout System</a></div>
 	</div>
     </div>
   
    <div class="clr"></div>
+     
+<!--------------Dialog box for how payout works ----------->
+
+<div style="display:none;" id = "about-dialog">
+	<?php echo $this->element("payout");?>
+</div>

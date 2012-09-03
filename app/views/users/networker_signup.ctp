@@ -2,7 +2,7 @@
 <div class="sub-title-ty application_top_submenu network_top_txt">You will be able to apply for jobs and share job posts with your network.<br />
 Please submit the form below and you will receive an email confirmation to complete your registration.</div>
 <!---  application form start --->
- <div class="login_middle_main"> 
+<div class="login_middle_main"> 
 	<div class="login_middle_left_box"> 
 		<?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkform()')); ?>
 		<div class="network_form_row">
@@ -130,17 +130,21 @@ Please submit the form below and you will receive an email confirmation to compl
 		</div>
 		<?php echo $form->end(); ?>        
 	</div>
+	<?php
+		if(($this->Session->read('intermediateCode')!='' || $this->Session->read('intermediateCode')!=null ) && ( $this->Session->read('icc')!='' || $this->Session->read('icc')!= null) && ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null)):?>
 	<div class="login_middle_center_box nr_signup_or_txt_box"><strong>OR</strong></div>
-		<div class="login_middle_right_box nr_signup_social_box">
-	    	<div class="signup_social_box_txt">Sign in with Your Social network</div>
-	        	<ul>
-	        	    <li><a class="job-share-fb" href="<?php echo $FBLoginUrl; ?>"></a></li>
-	        	    <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
-	        	</ul>
-			</div>
-			<div class="clr"></div>
+	<div class="login_middle_right_box nr_signup_social_box">
+	   	<div class="signup_social_box_txt">Sign in with Your Social network</div>
+	       	<ul>
+	       	    <li><a class="job-share-fb" href="<?php echo $FBLoginUrl; ?>"></a></li>
+	       	    <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
+	       	</ul>
 		</div>
-	</div>	
+		<div class="clr"></div>
+	</div>
+	<?php else:
+	echo "<style>.login_middle_main { width: 300px !important;}</style>" ;
+	endif;?>
 </div>
 <script>
 	$(document).ready(function(){

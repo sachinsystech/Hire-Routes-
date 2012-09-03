@@ -46,6 +46,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('saveFacebookUser');
 		$this->Auth->allow('userSelection');
 		$this->Auth->allow('invitations');
+		$this->Auth->allow('isLoggedIn');
 		$this->Auth->allow('linkedinUserSelection');
 		if($this->params['action']=='companyRecruiterSignup' || $this->params['action']== 'jobseekerSignup' || $this->params['action']=='networkerSignup'|| $this->params['action']== "login"){
 			$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
@@ -136,12 +137,12 @@ class UsersController extends AppController {
 			$this->loginSuccess();	
 		}
 	
-		$facebook = $this->facebookObject();
-		$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
-		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
-		$linkedin->getRequestToken();
-		$this->Session->write('requestToken',serialize($linkedin->request_token));
-		$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl() );
+		//$facebook = $this->facebookObject();
+		//$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
+		//$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+		//$linkedin->getRequestToken();
+		//$this->Session->write('requestToken',serialize($linkedin->request_token));
+		//$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl() );
 		$universities = $this->University->find('list');
 		$this->set("universities",$universities);
 
@@ -884,6 +885,7 @@ class UsersController extends AppController {
 		if(!$session->isLoggedIn()){
 			$this->redirect("/users/login");
 		}
+		
 		$facebookUser=$this->User->find('first',array('conditions'=>
 													array('id'=>$session->getUserId(),
 													'password'=>'NULL'),
@@ -995,7 +997,8 @@ class UsersController extends AppController {
 		
 		if($session->getUserRole()==ADMIN){
 			unset($this->data['User']);
-			$this->render("change_password","admin");
+			$this->layout= "admin";
+			//$this->render("change_password","admin");
 		}
 		if($session->getUserRole()==NETWORKER){
 			$jobCounts = $this->requestAction("/Networkers/jobCounts");
@@ -1252,6 +1255,20 @@ class UsersController extends AppController {
 		}
 	 }
 	 
+	 public function isLoggedIn(){
+	 	$session = $this->_getSession();
+		$this->autoRender =false;
+		if($this->RequestHandler->isAjax()){
+			if($session->isLoggedIn() ){
+				return json_encode(array("status"=>"1"));
+			}else{
+				$this->Session->setFlash('Please login to continue.', 'error');	
+				return json_encode(array("status"=>"0"));
+			}
+		}else{
+			$this->redirect("/users/login");
+		}
+	 }
 
 
 }

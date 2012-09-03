@@ -76,31 +76,13 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 		</div>
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
-			<div class="about-border" >
-				<a href="#"> <img src="/images/Castlebuilders/238x239-tim.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
-			</div>
-			<div class="clr"></div>
-			<!-- member-info -->
-			<div class="member-info">
-				<h3>TIM RODGERS</h3>
-				<span></span>
-				<ul>
-					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
-					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
-					<li class="member-linkedin"> <a href="http://www.linkedin.com/in/timnotjim" class="NewTab">linkedin</a> </li>
-				</ul>
-			</div>
-			<!-- member-info --> 
-		</div>
-		<!-- Team member --> <!-- Team member -->
-		<div class="team-member">
 			<div class="about-border">
 				<a href="#"> <img src="/images/Castlebuilders/238x239-sachin.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
 			<div class="member-info">
-				<h3>SACHIN</h3>
+				<h3>SACHIN JAT</h3>
 				<span>Code Architect</span>
 				<ul>
 					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
@@ -111,6 +93,7 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 			<!-- member-info --> 
 		</div>
 		<!-- Team member --> <!-- Team member -->
+		
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border">
@@ -125,6 +108,23 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
 					<li class="member-facebook"> <a href="#" class="NewTab">facebook</a> </li>
 					<li class="member-linkedin"> <a href="#" class="NewTab">linkedin</a> </li>
+				</ul>
+			</div>
+			<!-- member-info --> 
+		</div>
+		<div class="team-member">
+			<div class="about-border" >
+				<a href="#"> <img src="/images/Castlebuilders/238x239-tim.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+			</div>
+			<div class="clr"></div>
+			<!-- member-info -->
+			<div class="member-info">
+				<h3>TIM RODGERS</h3>
+				<span>Castlebuilders</span>
+				<ul>
+					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/in/timnotjim" class="NewTab">linkedin</a> </li>
 				</ul>
 			</div>
 			<!-- member-info --> 
