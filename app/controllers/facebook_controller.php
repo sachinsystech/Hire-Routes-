@@ -120,8 +120,7 @@
 		           	//$this->SharedJob->save($shareJobData);
                 	//return json_encode(array('error'=>0));
                 }catch(Exception $e){
-                	print_r($e);
-                    return json_encode(array('error'=>1));      
+                	return json_encode(array('error'=>1));      
                 }
             }
         }        

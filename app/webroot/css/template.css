@@ -1192,6 +1192,15 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 	/*opacity: 0;*/
 }
 
+.submitloader{
+	display:none;
+	background: url(../images/sending_loader.gif);
+    height: 25px;
+    margin-left: 256px;
+    margin-top: 12px;
+    position: absolute;
+    width: 25px;
+}
 
 /*:::::::::::::Payout - Pop-up - page css start :::::::*/
 
