@@ -415,6 +415,7 @@ $( "#shareJobDialog" ).dialog( "close" );
 /**************************** 1).Fill facebook Friends ******************************/
 
 function fillFacebookFriendShareJob(){
+
 	$('#submitLoaderImg').hide();
 	//get list of facebook friend from ajax request
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/fbloader.gif" width="50px" />'+
@@ -453,6 +454,7 @@ function fillFacebookFriendShareJob(){
 		},
 		error: function(message){
 		alert(message);
+
 		}
 	});
 }
@@ -466,6 +468,7 @@ function fillLinkedinFriendShareJob(){
 	$.ajax({
 		type: 'POST',
 		url: '/linkedin/getLinkedinFriendList',
+		data: "&source=share_job",
 		dataType: 'json',
 		success: function(response){
 			switch(response.error){
@@ -511,6 +514,7 @@ function fillTwitterFriendShareJob(){
 	$.ajax({
 		type: 'POST',
 		url: '/twitter/getTwitterFriendList',
+		data: "&source=share_job",
 		dataType: 'json',
 		success: function(response){
 		switch(response.error){

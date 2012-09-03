@@ -164,11 +164,14 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 			<?php	echo "Scenario-I"; ?>
 			<span style="margin-left:18px;">$ Paid</span>		
 		</div>
-		
+		<?php 
+			$nullSenario = 	"$0.0"
+		?>
 		<div class="required senarioPersantage">
 			<div class="senarioReward">
 				<?php 
-					echo "$".number_format($configuration['scenario'][1],2);
+					echo isset($configuration['scenario'][1])?
+										"$".number_format($configuration['scenario'][1],2):$nullSenario;
 				?>
 			</div>
 			<?php
@@ -192,7 +195,7 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 		
 		<div class="required senarioPersantage" >
 			<div class="senarioReward"><?php 
-					echo "$".number_format($configuration['scenario'][2],2);
+					echo isset($configuration['scenario'][2])?"$".number_format($configuration['scenario'][2],2):$nullSenario;
 				?>
 			</div>
 			<?php
@@ -215,8 +218,8 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 		<div class="required senarioPersantage" >
 			<div class="senarioReward">
 			<?php 
-					echo "$".number_format($configuration['scenario'][3],2);
-				?>
+				echo isset($configuration['scenario'][3])?"$".number_format($configuration['scenario'][3],2):$nullSenario;
+			?>
 			</div>
 			<?php
 				echo $form->input('js_reward_pc_for_scenario_1',array(
@@ -247,8 +250,8 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 		</div>
 		<div class="required senarioPersantage">
 			<div class="senarioReward"><?php 
-					echo "$".number_format($configuration['scenario'][4],2);
-				?></div>
+					echo isset($configuration['scenario'][4])?"$".number_format($configuration['scenario'][4],2):$nullSenario;
+					?></div>
 			<?php
 				echo $form->input('nr_reward_pc_for_scenario_2',array(
 									'label' => '',
@@ -269,8 +272,9 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 		
 		<div class="required senarioPersantage" >
 			<div class="senarioReward"><?php 
-					echo "$".number_format($configuration['scenario'][5],2);
-				?></div>
+					echo isset($configuration['scenario'][5])?"$".number_format($configuration['scenario'][5],2):$nullSenario;
+				?>
+			</div>
 			<?php
 				echo $form->input('hr_reward_pc_for_scenario_2',array(
 									'label' => '',
@@ -289,8 +293,10 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 			?>
 		</div>
 		<div class="required senarioPersantage" >
-			<div class="senarioReward"><?php 
-					echo "$".number_format($configuration['scenario'][6],2);
+			<div class="senarioReward">
+				<?php 
+					echo isset($configuration['scenario'][6])?"$".number_format($configuration['scenario'][6],2):$nullSenario;
+
 				?>
 			</div>
 			<?php
@@ -321,8 +327,10 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 			<span style="margin-left:18px;">$ Paid</span>		
 		</div>
 		<div class="required senarioPersantage" >
-			<div class="senarioReward"><?php 
-					echo "$".number_format($configuration['scenario'][7],2);
+			<div class="senarioReward">
+				<?php 
+					echo isset($configuration['scenario'][7])?"$".number_format($configuration['scenario'][7],2):$nullSenario;
+
 				?></div>
 			<?php
 				echo $form->input('nr_reward_pc_for_scenario_3',array(
@@ -343,8 +351,10 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 		</div>
 		
 		<div class="required senarioPersantage" >
-			<div class="senarioReward"><?php 
-					echo "$".number_format($configuration['scenario'][8],2);
+			<div class="senarioReward">
+				<?php 
+					echo isset($configuration['scenario'][8])?"$".number_format($configuration['scenario'][8],2):$nullSenario;
+
 				?></div>
 			<?php
 				echo $form->input('hr_reward_pc_for_scenario_3',array(
@@ -364,8 +374,10 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 			?>
 		</div>
 		<div class="required senarioPersantage" >
-			<div class="senarioReward"><?php 
-					echo "$".number_format($configuration['scenario'][9],2);
+			<div class="senarioReward">
+				<?php 
+
+					echo isset($configuration['scenario'][9])?"$".number_format($configuration['scenario'][9],2):$nullSenario;
 				?></div>
 			<?php
 				echo $form->input('js_reward_pc_for_scenario_3',array(

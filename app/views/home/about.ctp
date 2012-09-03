@@ -76,31 +76,13 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 		</div>
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
-			<div class="about-border" >
-				<a href="#"> <img src="/images/Castlebuilders/238x239-tim.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
-			</div>
-			<div class="clr"></div>
-			<!-- member-info -->
-			<div class="member-info">
-				<h3>TIM RODGERS</h3>
-				<span></span>
-				<ul>
-					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
-					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
-					<li class="member-linkedin"> <a href="http://www.linkedin.com/in/timnotjim" class="NewTab">linkedin</a> </li>
-				</ul>
-			</div>
-			<!-- member-info --> 
-		</div>
-		<!-- Team member --> <!-- Team member -->
-		<div class="team-member">
 			<div class="about-border">
 				<a href="#"> <img src="/images/Castlebuilders/238x239-sachin.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
 			<div class="member-info">
-				<h3>SACHIN</h3>
+				<h3>SACHIN JAT</h3>
 				<span>Code Architect</span>
 				<ul>
 					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
@@ -111,6 +93,7 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 			<!-- member-info --> 
 		</div>
 		<!-- Team member --> <!-- Team member -->
+		
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border">
@@ -125,6 +108,23 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
 					<li class="member-facebook"> <a href="#" class="NewTab">facebook</a> </li>
 					<li class="member-linkedin"> <a href="#" class="NewTab">linkedin</a> </li>
+				</ul>
+			</div>
+			<!-- member-info --> 
+		</div>
+		<div class="team-member">
+			<div class="about-border" >
+				<a href="#"> <img src="/images/Castlebuilders/238x239-tim.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+			</div>
+			<div class="clr"></div>
+			<!-- member-info -->
+			<div class="member-info">
+				<h3>TIM RODGERS</h3>
+				<span>Castlebuilders</span>
+				<ul>
+					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/in/timnotjim" class="NewTab">linkedin</a> </li>
 				</ul>
 			</div>
 			<!-- member-info --> 
@@ -163,7 +163,7 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
             <div class="about_popup_img_row">
             	<div class="about_popup_img"><img src="images/Castlebuilders/thumbnail/98x98-austin.jpg" alt="" border="0" /></div>
                 <h2>AUSTIN ROOT</h2>
-                <p>- Head Hire Router</p>
+                <p>Dreamer and Innovation Craftsman</p>
                 <p class="space2">We are based in New rough any of your active channels. Take the Hire routes to get where you're going. Take the Hire routes to get where. We are based in New York but we live online.</p>
                 
                 <h3>Hire Routes Role:</h3>

@@ -3,7 +3,7 @@
 <div class="button"> <a href="/networkerInformation">DON'T KNOW? </a> </div>
 <div class="content">
     <div class="box1" onclick="registrationInto(1);">
-      <div class="box-content company-up">
+      <div class="box-content company-up" style="margin:5px 0 0 70px">
 	 	<img src="/images/company_1.png" />
         <div class="clr"></div>
       </div>

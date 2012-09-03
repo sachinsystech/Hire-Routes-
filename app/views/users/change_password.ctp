@@ -30,7 +30,6 @@
       <!-- Job- Left - Sidebar -->
       <?php echo $this->element('side_menu');?>
 	 <!-- Job - left- sidebar Ends --> 
-	 <div class="job_container_top_row">
 		<div class="job_right_bar">
 		<div class="job_network_password">
 			<h2>CHANGE PASSWORD</h2>

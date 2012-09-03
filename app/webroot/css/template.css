@@ -122,7 +122,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .member-info{margin-left: 20px; width: 225px;}
 .member-info h3{ font-size:11pt; color:#382f2b;}
 .member-info span {color: #382F2B;display: block;font-size: 12pt;font-weight: normal;margin:3px 0 7px}
-.link-mouseover { background: none repeat scroll 0 0 #1D1D1D; border: 0 none; color: #FFFFFF; font-size: 14pt; height: 142px; left: 15px; opacity: 0.6;  padding-top: 97px; position: absolute; text-align: center; top: 14px; width: 237px;font-family: 'OpenSansCondensedBold';   z-index: 33;display:none;}
+.link-mouseover { background: none repeat scroll 0 0 #1D1D1D; border: 0 none; color: #FFFFFF; font-size: 14pt; height: 142px; left: 15px; opacity: 0.6;  filter: alpha(opacity=60); padding-top: 97px; position: absolute; text-align: center; top: 14px; width: 237px;font-family: 'OpenSansCondensedBold';   z-index: 33;display:none;}
 .about-border:hover .link-mouseover{ display:block}
 
 .member-info ul{margin:0; padding:0; list-style-type:none}
@@ -291,7 +291,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .list-head { width:450px;}
 .list-head ul li{width:106px; float:left; list-style:none;font-family: arial; font-size: 15px;}
 .list-margin ul li{margin-bottom:27px; *padding-bottom:27px; font-family:'OpenSansCondensedBold';color: #1D1D1D;}
-.listing {width:auto; float:left; width:450px; line-height:22px; height:23px; color:#1d1d1d; margin:2px 0;}
+.listing {width:auto; float:left; width:450px; line-height:22px; height:auto; color:#1d1d1d; margin:2px 0;}
 .center-align {text-align:center;}
 .list-head ul li:last-child {margin-left:18px;}
 .margin-last-child {margin-left:18px;/9}
@@ -452,7 +452,8 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-subs-table-right a {text-decoration:underline;}
 .job-current-subs p {padding:29px 0 0 26px; font:15px Arial, Helvetica, sans-serif;}
 .job-subs-select {margin:5px 0 0 26px;}
-.job-save-setting {margin:18px 0 0 18px !important; *margin-left:0px !important; *position:relative; *left:18px;}
+.job-save-setting { clear: both;
+    margin:30px 0 0 18px !important;*margin-left:0px !important; *position:relative; *left:18px;}
 .job-sub-subcontaint {margin-left:24px;}
 .job-sub-matter { float:left; padding-bottom:3px;width: 668px; height:21px;}
 .job-sub-p{font: 15px Arial,Helvetica,sans-serif;padding: 0 !important; width: auto; float:left;}
@@ -474,8 +475,20 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 /*:::::::::::::Jobs page - networkers - Search Listing - page css start :::::::*/
 
 .net_sl_right { float:right; width:400px;height: 33px;}
-.net_sl_textbox { margin:0 20px 0 0; width:140px; height:20px; float: left;}
-.net_sl_textbox input{ background:url("../images/textboxes_points.png") no-repeat 0 -31px; float:left;height: 20px;width: 135px;border: 0 none;color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;padding-left: 5px;}
+.net_sl_textbox {
+    float: left;
+    height: 20px;
+    margin: 0 20px 0 0;
+    position: relative;
+    width: 140px;
+}
+.net_sl_textbox label {
+	position:absolute;
+	top:2px;
+	left:5px;
+	z-index:9999;
+}
+.net_sl_textbox input{ background:url("../images/textboxes_points.png") no-repeat 0 -31px; float:left;height: 20px;width: 135px;border: 0 none;color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;padding-left: 5px;  position:absolute;}
 .h2_float { float:left;}
 .net_sl_bttn {margin-top: -13px;}
 
@@ -1124,6 +1137,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-in:active {
     background: url("../images/pop_up_buttons.png") no-repeat scroll -226px -116px transparent;
 }
+
 .job-share-twit {background:url(../images/pop_up_buttons.png) -6px -220px no-repeat; height:80px; width:84px;display:block;}
 .job-share-twit:hover {background:url(../images/pop_up_buttons.png) -114px -220px no-repeat;}
 .job-share-twit:active {
@@ -1206,7 +1220,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .payout-right-1 {position:absolute; left: 350px; top: 129px; font:20px 'OpenSansCondensedBold';}
 .payout-right-jo {position:absolute; left: 329px; top: 270px; font:20px 'OpenSansCondensedBold';}
 .payout-condition {font:13px Arial, Helvetica, sans-serif; margin-left:27px;}
-
+.payout-main-content { background:#f6f1e2; width:658px; height:580px; margin:0 auto;}
 
 
 

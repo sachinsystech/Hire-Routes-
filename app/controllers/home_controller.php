@@ -1,6 +1,6 @@
 <?php
 class HomeController extends AppController {
-    var $uses = array('Home','Job','NetworkersTitle','PointLabels');
+    var $uses = array('Home','Job','NetworkersTitle','PointLabels','Config');
 				
 
 	var $helpers = array('Form','Paginator');
@@ -53,6 +53,12 @@ class HomeController extends AppController {
 
 	function networkerPointInfo(){
 		$this->layout ="home";
+		$config = $this->Config->find('all',array('conditions'=>
+													array('Config.key'=>
+													array("company_point_number", "jobseekers_point_number")),
+
+											'fields'=>'Config.*',));
+		$this->set('config', $config);
 		$pointLables = $this->PointLabels->find('all');
 		$this->set('pointLables',$pointLables);
 	 }

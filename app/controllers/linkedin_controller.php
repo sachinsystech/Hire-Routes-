@@ -55,6 +55,7 @@
             $linkedin->getRequestToken();
             if($linkedin->request_token){
             	$this->Session->write('requestToken',serialize($linkedin->request_token));
+            	$this->Session->write('apiSource',$this->params['form']['source']);
             	echo json_encode(array('error'=>1,'message'=>'User not authenticate from linkedin.','URL'=>$linkedin->generateAuthorizeUrl()));
             }
             else{

@@ -73,7 +73,7 @@
   //expose defaults
   $.fn.placeholder.defaults = {
     //you can pass in a custom wrapper
-    inputWrapper: '<span class="placehcss" style="position:relative"></span>',
+    inputWrapper: '<span class="placehcss" ></span>',
   
     //more or less just emulating what webkit does here
     //tweak to your hearts content

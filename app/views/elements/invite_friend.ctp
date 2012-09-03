@@ -357,6 +357,7 @@ $('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: '
 $.ajax({
 type: 'POST',
 url: '/facebook/getFaceBookFriendList',
+data: "&source=invitation",
 dataType: 'json',
 success: function(response){
 switch(response.error){
@@ -401,6 +402,7 @@ $('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: '
 $.ajax({
 type: 'POST',
 url: '/linkedin/getLinkedinFriendList',
+data: "&source=invitation",
 dataType: 'json',
 success: function(response){
 switch(response.error){
@@ -446,6 +448,7 @@ $('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: '
 $.ajax({
 type: 'POST',
 url: '/twitter/getTwitterFriendList',
+data: "&source=invitation",
 dataType: 'json',
 success: function(response){
 switch(response.error){
