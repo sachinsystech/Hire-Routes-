@@ -716,3 +716,10 @@ float: left;}
     text-align: center;
 }
 
+/************* css for change password ************/
+.sub-title-forgot-password {
+    font-size: 15px;
+    height: 35px;
+    margin: 44px auto 0;
+    width: 316px;
+}

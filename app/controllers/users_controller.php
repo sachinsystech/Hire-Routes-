@@ -1030,6 +1030,7 @@ class UsersController extends AppController {
 			$userEmail = trim($this->data['User']['user_email']);
 			$user = $this->User->find('first',array('conditions'=>array('account_email'=>$userEmail)));
 			if(!$user['User'] && !isset($user['User'])){
+				unset($this->data['User']);
 				$this->Session->SetFlash('Not a valid email , Please try again .!','error');
 				return;
 			}

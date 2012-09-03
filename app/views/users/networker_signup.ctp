@@ -131,7 +131,7 @@ Please submit the form below and you will receive an email confirmation to compl
 		<?php echo $form->end(); ?>        
 	</div>
 	<?php
-		if(($this->Session->read('intermediateCode')!='' || $this->Session->read('intermediateCode')!=null ) && ( $this->Session->read('icc')!='' || $this->Session->read('icc')!= null) && ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null)):?>
+		if(($this->Session->read('intermediateCode')!='' || $this->Session->read('intermediateCode')!=null ) || ( $this->Session->read('icc')!='' || $this->Session->read('icc')!= null) || ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null)):?>
 	<div class="login_middle_center_box nr_signup_or_txt_box"><strong>OR</strong></div>
 	<div class="login_middle_right_box nr_signup_social_box">
 	   	<div class="signup_social_box_txt">Sign in with Your Social network</div>

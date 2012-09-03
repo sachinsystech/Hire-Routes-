@@ -483,10 +483,10 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
     width: 140px;
 }
 .net_sl_textbox label {
-  position:absolute;
-  top:2px;
-  left:5px;
-  z-index:9999;
+	position:absolute;
+	top:2px;
+	left:5px;
+	z-index:9999;
 }
 .net_sl_textbox input{ background:url("../images/textboxes_points.png") no-repeat 0 -31px; float:left;height: 20px;width: 135px;border: 0 none;color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;padding-left: 5px;  position:absolute;}
 .h2_float { float:left;}
@@ -1137,6 +1137,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-in:active {
     background: url("../images/pop_up_buttons.png") no-repeat scroll -226px -116px transparent;
 }
+
 .job-share-twit {background:url(../images/pop_up_buttons.png) -6px -220px no-repeat; height:80px; width:84px;display:block;}
 .job-share-twit:hover {background:url(../images/pop_up_buttons.png) -114px -220px no-repeat;}
 .job-share-twit:active {
