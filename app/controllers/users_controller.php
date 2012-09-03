@@ -27,7 +27,7 @@ class UsersController extends AppController {
 		$this->Auth->authorize = 'actions';
 		$this->Auth->allow('account');		
 		$this->Auth->allow('accountConfirmation');		
-		$this->Auth->allow('beforeLoggedIn');
+		$this->Auth->allow('beforeLoggedInMessage');
 		$this->Auth->allow('companyRecruiterSignup');		
 		$this->Auth->allow('confirmation');		
 		$this->Auth->allow('companyRecruiterSignup');
@@ -763,7 +763,7 @@ class UsersController extends AppController {
 																		'is_active'=>array(0,1),
 																		)
 															));								
-			$this->beforeLoggedIn($active_user);
+			$this->beforeLoggedInMessage($active_user);
 			/**	@user not registered account(OR for company user ==>> declined by admin)	**/			
 			
 			$this->Auth->fields = array(
@@ -1083,7 +1083,7 @@ class UsersController extends AppController {
 		}
 	}
 	
-	function beforeLoggedIn($active_user){
+	function beforeLoggedInMessage($active_user){
 		if(!$active_user ){
 			$this->Session->setFlash('Username or password not matched.', 'error');	
 			$this->redirect("/users/login");

@@ -218,6 +218,7 @@ function toggleAllChecked(status) {
                         <div class="js_clear_all"><a href="#"><input id="clear-all" type="button" value="Clear All">Clear All</a></div>
 				</div>
 				
+				<div id="submitLoaderImg" class="submitloader"></div>
 				
                 <div class="login-button pop-up-button">
 						<input type="submit" value="SHARE JOB" id='shareJob' >
@@ -236,97 +237,69 @@ function toggleAllChecked(status) {
 <?php endif;?>
 <script>
 function shareJobShowView(type){
+	$("#ShareToEmail").val("");
+	$("#ShareSubject").val("");
 	$('#e-mail').hide();
 	$('.js_invite').css("visibility", "visible");
 	$('.job-share-ppl').show();
-	
-	
 	$("#shareJob").unbind();
 	$("#autocompleteFind").unbind();
 	$("#autocompleteFind").hide();
 	$("#jobShareOpener").click();
-	//$('.ui-dialog-titlebar-close').click(closeUi);
-	//$('.ui-widget-overlay').remove();
-	$('#container').after("<div class='ui-widget-overlay' style='width: 1350px; height: 779px; z-index: 1001;'></div>");
-	$('.selectedFriends .selectedFriend').remove();
-	switch(type){
-		
+	switch(type){		
 		case 1:
-			setShareJobView('Facebook');
-			$('.s_w_e').hide();
-			$('.selectedFriends').show();
-			
-			$('.job-share-ppl').show();
-			
-			fillFacebookFriendShareJob();
-			return false;
-			//$("#shareJob").click(facebookComment);
-			//$('#autocompleteFind').val('Search Friends Here...');
-			//$('#ff_list_share_job').hide();
-			//$('#ff_list_share_job').html('');
-			//$("#autocompleteFind").keyup(filterFriendListShareJob);
-			break;
+				setShareJobView('Facebook');
+				$('.selectedFriends').show();
+				fillFacebookFriendShareJob();
+				$('.job-share-ppl').show();
+				$("#shareJob").click(facebookComment);
+				break;
 		case 2:
-			setShareJobView('LinkedIn');
-			$('.s_w_e').hide();
-			$('.selectedFriends').show();
-			
-		
-			fillLinkedinFriendShareJob();
-			$('.job-share-ppl').show();
-			$("#shareJob").click(linkedInComment);
-			//$('#autocompleteFind').val('Search Friends Here...');
-			//$('#ff_list_share_job').hide();
-			//$('#ff_list_share_job').html('');
-			//$("#autocompleteFind").keyup(filterFriendListShareJob);
-			break;
+				setShareJobView('LinkedIn');
+				$('.selectedFriends').show();
+				fillLinkedinFriendShareJob();
+				$('.job-share-ppl').show();
+				$("#shareJob").click(linkedInComment);
+				break;
 		case 3:
-			setShareJobView('Twitter');
-			$('.s_w_e').hide();
-			$('.selectedFriends').show();
-			$('.job-share-ppl').show();
-		
-			fillTwitterFriendShareJob();
-			$("#shareJob").click(TwitterComment);
-			$('#autocompleteFind').val('Search Friends Here...');
-			$('#ff_list_share_job').hide();
-			$('#ff_list_share_job').html('');
-			$("#autocompleteFind").keyup(filterFriendListShareJob);
-			break;
+				setShareJobView('Twitter');
+				$('.selectedFriends').show();
+				fillTwitterFriendShareJob();
+				$('.job-share-ppl').show();
+				$("#shareJob").click(TwitterComment);
+				break;
 		case 4:
-			$('#e-mail').show();
-			$('.js_invite').css("visibility", "hidden");
-			$('.job-share-ppl').hide();
-			setShareJobView('Email');
-			$("#shareJob").click(shareEmail);
-			break;
+				$('#e-mail').show();
+				$('.js_invite').css("visibility", "hidden");
+				$('.job-share-ppl').hide();
+				setShareJobView('Email');
+				$("#shareJob").click(shareEmail);
+				break;
 	}
 }
 
 function setShareJobView(value)
 {
-$('#message').hide();
-$('.api_menu li').removeClass('active');
-$('#li'+value+'Share').addClass('active');
-
-if(value=='Email')
-{
-$('#other_share_job').html("");
-$('#toEmail').html("<div style='padding-bottom:10px;' class='s_j_email'><strong>Email:</strong><textarea id='ShareToEmail' name='toEmail' class='email_msg_txtarear' rows='1'></textarea></div>");
-}
-else
-{
-	$('#toEmail').html("");
+	$('#message').hide();
+	$('.api_menu li').removeClass('active');
+	$('#li'+value+'Share').addClass('active');
 	
-	$('#other_share_job').html("<div style='padding-bottom:20px; padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right;margin-top:12px;' class='s_w_e'>Share with everyone<input style='float:right' type='checkbox'/></div><div id='filtered_friend'></div><div id='shareJobImageDiv'>");
-	
-	//$('#shareJobImageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="sharejob_ajax_loader"/></p>');
+	if(value=='Email')
+	{
+		$('#other_share_job').html("");
+		$('#toEmail').html("<div style='padding-bottom:10px;' class='s_j_email'><strong>Email:</strong><textarea id='ShareToEmail' name='toEmail' class='email_msg_txtarear' rows='1'></textarea></div>");
+	}
+	else
+	{
+		$('#toEmail').html("");
+		
+		//$('#other_share_job').html("<div style='padding-bottom:20px; padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right;margin-top:12px;' class='s_w_e'>Share with everyone<input style='float:right' type='checkbox'/></div><div id='filtered_friend'></div><div id='shareJobImageDiv'>");
+		
 	}
 	return false;
 }
 
 function validateForm(elementValue){
-	
 	var mail=elementValue.split(",");
 	var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 	for(var i=0;i<mail.length;i++)
@@ -363,7 +336,16 @@ function validateFormField(){
 	}
 	return true;
 }
-
+function validateEmail(elementValue){
+	var mail=elementValue.split(",");
+	var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+	for(var i=0;i<mail.length;i++)
+	if(!emailPattern.test(mail[i])){
+		alert("Invalid Email addresses.");
+		return false;
+	}
+	return true;
+}
 function createHTMLforFillingShareFriends(friends){
 
 	//$('.selectedFriends .selectedFriend').remove();
@@ -397,13 +379,13 @@ function selectFriend2(checkedFriend){
 }
 
 function deSelectFriend(unCheckedFriend){
-$("#shareJobImageDiv .contactBox").filter(function(){ var opac=parseFloat($(this).css('opacity')); opac=opac.toFixed(1); return (opac==0.3)?true:false;}).each(function(){
-if($(this).find('input:checkbox:first').val()!=undefined && $(this).find('input:checkbox:first').val()==$(unCheckedFriend).val()){
-$(this).find('input:checkbox:first').attr("checked",false).attr("disabled",false);
-$(this).css('opacity',1.0);
-}
-});
-$($($(unCheckedFriend).parent()).parent()).parent().remove();
+	$("#shareJobImageDiv .contactBox").filter(function(){ var opac=parseFloat($(this).css('opacity')); opac=opac.toFixed(1); return (opac==0.3)?true:false;}).each(function(){
+	if($(this).find('input:checkbox:first').val()!=undefined && $(this).find('input:checkbox:first').val()==$(unCheckedFriend).val()){
+	$(this).find('input:checkbox:first').attr("checked",false).attr("disabled",false);
+	$(this).css('opacity',1.0);
+	}
+	});
+	$($($(unCheckedFriend).parent()).parent()).parent().remove();
 }
 
 function checkAll(field){
@@ -433,46 +415,46 @@ $( "#shareJobDialog" ).dialog( "close" );
 /**************************** 1).Fill facebook Friends ******************************/
 
 function fillFacebookFriendShareJob(){
-//get list of facebook friend from ajax request
-$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/fbloader.gif" width="50px" />'+
-'<img src="/images/fb_loading.gif" /></p>');
-//$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
-$.ajax({
-	type: 'POST',
-	url: '/facebook/getFaceBookFriendList',
-	dataType: 'json',
-	success: function(response){
-		switch(response.error){
-			case 0: // success
-				createHTMLforFillingShareFriends(response.data);
-				//filterFriendListShareJob();
-				$("#autocompleteFind").show();
-				//$("#shareJobImageDiv").css({visibility: "hidden"});
-				break;
-			case 1: // we don't have user's facebook token
-				alert(response.message);
-				window.open(response.URL);
-				break;
-			case 2: // something went wrong when we connect with facebook.Need to login by facebook
-				if(response.message){
-					$( "#dialog-messageshare" ).html(response.message);
-				}
-				else{
-					$( "#dialog-messageshare" ).html("Something went wrong. Please try later or contact to site admin");
-				}
-				$( "#dialog-messageshare" ).dialog("open");
-				$( "#shareJobDialog" ).dialog( "close" );
-				break;
-			case 3:
-				alert(response.message);
-				location.reload();
-				break;
+	$('#submitLoaderImg').hide();
+	//get list of facebook friend from ajax request
+	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/fbloader.gif" width="50px" />'+
+	'<img src="/images/fb_loading.gif" /></p>');
+	$.ajax({
+		type: 'POST',
+		url: '/facebook/getFaceBookFriendList',
+		dataType: 'json',
+		success: function(response){
+			switch(response.error){
+				case 0: // success
+					createHTMLforFillingShareFriends(response.data);
+					//filterFriendListShareJob();
+					$("#autocompleteFind").show();
+					//$("#shareJobImageDiv").css({visibility: "hidden"});
+					break;
+				case 1: // we don't have user's facebook token
+					alert(response.message);
+					window.open(response.URL);
+					break;
+				case 2: // something went wrong when we connect with facebook.Need to login by facebook
+					if(response.message){
+						$( "#dialog-messageshare" ).html(response.message);
+					}
+					else{
+						$( "#dialog-messageshare" ).html("Something went wrong. Please try later or contact to site admin");
+					}
+					$( "#dialog-messageshare" ).dialog("open");
+					$( "#shareJobDialog" ).dialog( "close" );
+					break;
+				case 3:
+					alert(response.message);
+					location.reload();
+					break;
+			}
+		},
+		error: function(message){
+		alert(message);
 		}
-	},
-	error: function(message){
-	alert(message);
-	}
-});
+	});
 }
 
 /**************************** 2). Fill Linkedin Friends ******************************/
@@ -570,7 +552,8 @@ function shareEmail(){
 	if(!validateFormField()){
 		return false;
 	}
-	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
+
+	$('#submitLoaderImg').show();
 	$.ajax({
 		url: "/jobsharing/shareJobByEmail",
 		type: "post",
@@ -589,6 +572,8 @@ function shareEmail(){
 				case 0:
 					$( "#dialog-messageshare" ).html(" E-mail send successfully.");
 					$( "#dialog-messageshare" ).dialog("open");
+					$('#ShareToEmail').val("");
+					$('#submitLoaderImg').hide();
 					setShareJobView('Email');
 					break;
 				case 1:
@@ -608,7 +593,7 @@ function shareEmail(){
 			}
 		},
 		error:function(response){
-			$('#submitLoaderImg').html('');
+			$('#submitLoaderImg').hide();
 			$( "#dialog-messageshare" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-messageshare" ).dialog("open");
 			$( "#shareJobDialog" ).dialog( "close" );
@@ -646,14 +631,14 @@ function facebookComment(){
 	if(!validateFormField()){
 		return false;
 	}
-	usersId=$(".contactBox input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+	usersId = $("input[class=friend_checkbox]:checked").map(function () {return this.value;}).get().join(",");
 	usersNames = $(".contactBox input[class=facebookfriend]:checked").map(function () {
 					if(this.title){
 						return this.title;
 					}
 				}).get().join(",");
 
-	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
+	$('#submitLoaderImg').show();
 	$.ajax({
 		type: 'POST',
 		url: '/facebook/commentAtFacebook',
@@ -699,14 +684,14 @@ function linkedInComment(){
 	if(!validateFormField()){
 		return false;
 	}
-	usersId=$(".contactBox input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+	usersId = $("input[class=friend_checkbox]:checked").map(function () {return this.value;}).get().join(",");
 	usersNames = $(".contactBox input[class=facebookfriend]:checked").map(function () {
 					if(this.title){
 						return this.title;
 					}
 				}).get().join(",");
 
-	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
+	$('#submitLoaderImg').show();
 	$.ajax({
 		type: 'POST',
 		url: '/Linkedin/sendMessagetoLinkedinUser',
@@ -753,66 +738,66 @@ function linkedInComment(){
 /****** Twitter comment ******/
 
 function TwitterComment(){
-if(!validateCheckedUser()){
-return false;
-}
-if(!validateFormField()){
-return false;
-}
-	usersId=$(".contactBox input[class=facebookfriend]:checked").map(function () {return this.value;}).get().join(",");
+	if(!validateCheckedUser()){
+		return false;
+	}
+	if(!validateFormField()){
+		return false;
+	}
+	usersId = $("input[class=friend_checkbox]:checked").map(function () {return this.value;}).get().join(",");
 	usersNames = $(".contactBox input[class=facebookfriend]:checked").map(function () {
 					if(this.title){
-						return this.title;
-					}
-				}).get().join(",");
-
-$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
-$.ajax({
-type: 'POST',
-url: '/twitter/sendMessageToTwitterFollwer',
-dataType: 'json',
-data: "usersId="+usersId+"&message="+$("#ShareMessage").val()+"&jobId="+$("#ShareJobId").val(),
-success: function(response){
-$('#submitLoaderImg').html('');
-switch(response.error){
-case 0: // success
-$( "#dialog-messageshare" ).html("Successfully sent a message to Twitter follower.");
-$( "#dialog-messageshare" ).dialog("open");
-$('#submitLoaderImg').html('');
-fillTwitterFriendShareJob();
-break;
-case 1:
-$( "#dialog-messageshare" ).html(" something went wrong.Please try later or contact to site admin");
-$( "#dialog-messageshare" ).dialog("open");
-$( "#shareJobDialog" ).dialog( "close" );
-break;
-case 2:
-$( "#dialog-messageshare" ).html(response.message);
-$( "#dialog-messageshare" ).dialog("open");
-$( "#shareJobDialog" ).dialog( "close" );
-break;
-case 3:
-alert(response.message);
-location.reload();
-break;
-}
-},
-error: function(message){
-$('#submitLoaderImg').html('');
-$( "#dialog-messageshare" ).html("Something went wrong please try later or contact to site admin.");
-$( "#dialog-messageshare" ).dialog("open");
-$( "#shareJobDialog" ).dialog( "close" );
-}
-});
-return false;
+							return this.title;
+						}
+					}).get().join(",");
+	
+	$('#submitLoaderImg').show();
+	$.ajax({
+		type: 'POST',
+		url: '/twitter/sendMessageToTwitterFollwer',
+		dataType: 'json',
+		data: "usersId="+usersId+"&message="+$("#ShareMessage").val()+"&jobId="+$("#ShareJobId").val(),
+		success: function(response){
+			$('#submitLoaderImg').html('');
+			switch(response.error){
+				case 0: // success
+					$( "#dialog-messageshare" ).html("Successfully sent a message to Twitter follower.");
+					$( "#dialog-messageshare" ).dialog("open");
+					$('#submitLoaderImg').html('');
+					fillTwitterFriendShareJob();
+					break;
+				case 1:
+					$( "#dialog-messageshare" ).html(" something went wrong.Please try later or contact to site admin");
+					$( "#dialog-messageshare" ).dialog("open");
+					$( "#shareJobDialog" ).dialog( "close" );
+					break;
+				case 2:
+					$( "#dialog-messageshare" ).html(response.message);
+					$( "#dialog-messageshare" ).dialog("open");
+					$( "#shareJobDialog" ).dialog( "close" );
+					break;
+				case 3:
+					alert(response.message);
+					location.reload();
+					break;
+			}
+		},
+		error: function(message){
+			$('#submitLoaderImg').html('');
+			$( "#dialog-messageshare" ).html("Something went wrong please try later or contact to site admin.");
+			$( "#dialog-messageshare" ).dialog("open");
+			$( "#shareJobDialog" ).dialog( "close" );
+		}
+	});
+	return false;
 }
 
 /**********************/
 var name = jQuery.makeArray();
 var name_array = jQuery.makeArray();
 $('.contactName').each(function(index){
-name[index] = $(this).html();
-alert(name[index]);
+	name[index] = $(this).html();
+	alert(name[index]);
 });
 
 </script>
