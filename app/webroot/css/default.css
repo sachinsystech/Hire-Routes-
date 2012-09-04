@@ -308,16 +308,16 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     margin-left: 20px;
     margin-right: 15px;
 }
-.gmail-submit{
-	width:110px;
-	float:right;
-    background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
-    border: medium none;
-    color: #FFFFFF;
-    cursor: pointer;
-    font: 20px 'OpenSansCondensedBold';
-    height: 36px;
-    margin: 10px 0 0 11px;
+.gmail-submit {
+   background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
+   border: medium none;
+   color: #FFFFFF;
+   cursor: pointer;
+   float: right;
+   font: 20px 'OpenSansCondensedBold';
+   height: 36px;
+   margin: 10px 0 0 11px;
+   width: 182px;
 }
 .gmail-content {
     height: auto;

@@ -4,7 +4,7 @@
 		<h2>CONTACT</h2>
     	<p>We are based in New York but we live online and you can connect with us through any of our active social network channels.</p>
 		<br />
-		<p><a href="#">Austin Root</a></p>
+		<p><a href="https://www.twitter.com/aroot1977" class="NewTab">Austin Root</a></p>
         <p>Founder, CEO</p>
 	</div>
     <div class="sub-content-contact">
@@ -17,9 +17,9 @@
     <div class="contact-social-nw">
     	<h3>SOCIAL NETWORKS</h3>
     	<ul>
-			<li><div class="twit-contact"></div> <a href="https://twitter.com/aroot1977">twitter</a></li>
-			<li><div class="fb-contact"></div> <a href="https://facebook.com/aroot1977">facebook</a>
-			<li><div class="linked-contact"></div> <a href="https://www.linkedin.com/pub/austin-root/8/b29/163">linkedin</a>
+			<li><div class="twit-contact"></div> <a href="https://www.twitter.com/hireroutes" class="NewTab">twitter</a></li>
+			<li><div class="fb-contact"></div> <a href="http://www.facebook.com/hireroutes" class="NewTab">facebook</a>
+			<li><div class="linked-contact"></div> <a href="http://www.linkedin.com/pub/austin-root/8/b29/163" class="NewTab">linkedin</a>
 		</ul>
 	</div>
 </div>

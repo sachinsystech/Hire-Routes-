@@ -3,7 +3,10 @@
 	if($this->Session->check('UserRole'))
 	{
 		$class= " class='job_submenu_active'";
+		$plusIconClass= "class='HrMenu plus_icon'";
+		$minusIconClass = "class='HrMenu minus_icon'";
 		$menu_show = "id='menu_show'";
+		$display = 'style="display:none;"';
 		$userRoleId=$this->Session->read('UserRole');
 		$passwordLable='Change password';
 		if(isset($facebookUserData)){		
@@ -20,11 +23,12 @@
 		<div class="job_left_bar">
 			    <div class="job_left_menu">
                     <ul>
-                         <li><a <? if(in_array($this->action,$my_jobs_actions)){ echo $menu_show;}?> class="HrMenu plus_icon" href="#">My Jobs</a>
-                            <div style="display:none;" class="job_menus_submenu">
+                         <li><a <? if(!in_array($this->action,$my_jobs_actions)){ echo $menu_show; echo $plusIconClass;}else echo $minusIconClass ?> href="#">My Jobs</a>
+                            <div <? if(!in_array($this->action,$my_jobs_actions)){ echo $display;}?> class="job_menus_submenu">
                                 <ul>
                                     <li><a href="/companies/newJob" <?php if($this->action=='newJob')echo $class;?> >Jobs - <?php echo $activejobCount;?></a></li>
                                     <li><a href="/companies/showArchiveJobs" <?php if($this->action=='showArchiveJobs')echo $class;?> >Archive - <?php echo $archJobCount; ?></a></li>
+                                    <li><a href="/companies/postJob" <?php if($this->action=='postJob')echo $class;?>>Post Job</a></li> 
                                     <li><a href="/companies/companyData" <?php if($this->action=='companyData')echo $class;?>>Data</a></li> 
                                 </ul>
                             </div>
@@ -32,8 +36,8 @@
                         
                      
                         
-                        <li><a <? if(in_array($this->action,$my_accounts_actions)){ echo $menu_show;}?> class="HrMenu plus_icon" href="#">My Account</a>
-                        	<div style="display:none;" class="job_menus_submenu">
+                        <li><a <? if(!in_array($this->action,$my_accounts_actions)){ echo $menu_show; echo $plusIconClass;}else echo $minusIconClass?> href="#">My Account</a>
+                        	<div <? if(!in_array($this->action,$my_accounts_actions)){ echo $display;}?> class="job_menus_submenu">
                         		<ul>
                                     <li><a href="/companies"  <?php if($this->action=='accountProfile')echo $class;?>>Personal</a></li>
 									<li><a href="/companies/paymentInfo" <?php if($this->action=='paymentInfo')echo $class;?>>Payment Info</a></li>
@@ -43,8 +47,8 @@
                              </div>
                          </li>
                          
-                        <li><a <? if(in_array($this->action,$my_employees_actions)){ echo $menu_show;}?> class="HrMenu plus_icon" href="#">My Employees</a>
-                        	<div style="display:none;" class="job_menus_submenu job_menus_last">
+                        <li><a <? if(!in_array($this->action,$my_employees_actions)){ echo $menu_show; echo $plusIconClass;}else echo $minusIconClass?> href="#">My Employees</a>
+                        	<div <? if(!in_array($this->action,$my_employees_actions)){ echo $display;}?> class="job_menus_submenu job_menus_last">
                         		<ul>
                                     <li><a href="/companies/employees" <?php if($this->action=='employees')echo $class;?>>Employees</a></li>
                                 </ul>
@@ -55,8 +59,7 @@
                 </div>
         
 		</div>
-			
-			
+	
 			
 		<?php 
 		}
@@ -69,10 +72,9 @@
 			 <div class="job_left_bar">
                 <div class="job_left_menu">
                     <ul>
-                        <li><a <? if(in_array($this->action,$my_jobs_actions)){ echo $menu_show;}?>  class="HrMenu plus_icon" href="#">My Jobs</a>
+                        <li><a <? if(!in_array($this->action,$my_jobs_actions)){ echo $menu_show; echo $plusIconClass;}else echo $minusIconClass?>  href="#">My Jobs</a>
 
-                            <div  style="display:none;" <?php if( !($this->action=='newJob'||$this->action=='appliedJob'||$this->action=='archivedJob' ))
-                        			echo "";?> class="job_menus_submenu">
+                            <div <? if(!in_array($this->action,$my_jobs_actions)){ echo $display;}?> class="job_menus_submenu">
                                 <ul>
                                     <li><a href="/jobseekers/newJob" <?php if($this->action=='newJob')echo $class;?>>Inbox - <?php echo $NewJobs;?></a></li>
                                     <li>
@@ -85,10 +87,9 @@
                             </div>
                         </li>
                         
-                        <li><a <? if(in_array($this->action,$my_accounts_actions)){ echo $menu_show;}?>  class="HrMenu plus_icon" href="#">My Account</a>
+                        <li><a <? if(!in_array($this->action,$my_accounts_actions)){ echo $menu_show; echo $plusIconClass;}else echo $minusIconClass?> href="#">My Account</a>
 
-                        	<div   style="display:none;" <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword' || $this->action=='invitations'))
-                        			echo "";?> class="job_menus_submenu job_menus_last">
+                        	<div <? if(!in_array($this->action,$my_accounts_actions)){ echo $display;}?>class="job_menus_submenu job_menus_last">
 
                         		<ul>
 	                        		<li><a href="/jobseekers/jobProfile"" <?php if($this->action=='jobProfile')echo $class;?>>Job Profile</a></li>
@@ -112,9 +113,9 @@
 		<div class="job_left_bar">
                 <div class="job_left_menu">
                     <ul>
-                         <li><a <? if(in_array($this->action,$my_jobs_actions)){ echo $menu_show;}?>  class="HrMenu plus_icon" href="#">My Jobs</a>
+                         <li><a <? if(!in_array($this->action,$my_jobs_actions)){ echo $menu_show; echo $menu_show; echo $plusIconClass;}else echo $minusIconClass?>  class="HrMenu plus_icon" href="#">My Jobs</a>
 
-                            <div <?php if( !($this->action=='newJob'||$this->action=='sharedJob'||$this->action=='archiveJob' || $this->action=='jobData'  ) )echo "";?> class="job_menus_submenu">
+                            <div <? if(!in_array($this->action,$my_jobs_actions)){ echo $display;}?> class="job_menus_submenu">
                                 <ul>
                                     <li>
                                     	<a href="/networkers/newJob" <?php if($this->action=='newJob'|| $this->action=='#') echo $class;?>>Inbox - <?php echo $NewJobs;?></a>
@@ -126,8 +127,8 @@
                             </div>
                         </li>
  
-                        <li><a  <? if(in_array($this->action,$my_networks_actions)){ echo $menu_show;}?> class="HrMenu minus_icon" href="#">My Network</a>
-                        	<div class="job_menus_submenu">
+                        <li><a  <? if(!in_array($this->action,$my_networks_actions)){ echo $menu_show;echo $menu_show; echo $plusIconClass;}else echo $minusIconClass?> href="#">My Network</a>
+                        	<div <? if(!in_array($this->action,$my_networks_actions)){ echo $display;}?> class="job_menus_submenu">
                         		<ul>
                                     <li >
                                     	<a href="/networkers/personal" <?php if($this->action=='personal') echo $class;?>>Personal</a>
@@ -142,9 +143,8 @@
                              </div>
                          </li>
                          
-                        <li><a <? if(in_array($this->action,$my_accounts_actions)){ echo $menu_show;}?> class="HrMenu plus_icon" href="#">My Account</a>
-                        	<div <?php if( !($this->action=='index'||$this->action=='jobProfile'||$this->action=='setting'||$this->action=='editProfile'|| $this->action=='changePassword'))
-                        			echo "";?> class="job_menus_submenu job_menus_last">
+                        <li><a <? if(!in_array($this->action,$my_accounts_actions)){ echo $menu_show; echo $plusIconClass;}else echo $minusIconClass?> href="#">My Account</a>
+                        	<div <? if(!in_array($this->action,$my_accounts_actions)){ echo $display;}?> class="job_menus_submenu job_menus_last">
                         		<ul>
                                     <li><a href="/networkers/setting" <?php if($this->action=='setting') echo $class;?>>Settings/Subscription</a></li>
 									<li><a href="/networkers" <?php if($this->action=='index' || $this->action=='editProfile') echo $class;?>>Profile</a></li>

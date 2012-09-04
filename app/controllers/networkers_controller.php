@@ -1199,11 +1199,10 @@ where user_id =".$userId."");
 		 						array('joins'=>array(array('table' => 'networkers',
 												         'alias' => 'Networker',
 												         'type' => 'LEFT',
-												         'conditions' => array('Networker.user_id = UserList.id',
-													         'NOT'=>array('UserList.id'=>
-													         			array(1,2))),
+												         'conditions' => array('Networker.user_id = UserList.id'),
 											        )),
 		 								'limit'=>5 ,
+		 								'conditions'=> array('NOT'=>array('UserList.id'=>array(1,2))),
 		 								'recursive'=>'-1',
 		 								'order' => array("Networker.points" => 'desc'),
 		 								'fields' =>array('UserList.account_email, UserList.id ,Networker.contact_name,Networker.points' )));
