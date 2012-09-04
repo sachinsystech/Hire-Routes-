@@ -9,8 +9,6 @@
     background: none repeat scroll 0 0 #000000;
     opacity: 0.6;
 }
-</style>
-<style>
 .ui-dialog-titlebar{
 	display:none;
 }
@@ -95,6 +93,7 @@ $(function() {
 	});
 	
 	$( "#clear-all").click(function() {
+		$("#ShareToEmail").val("");
 		$("#ShareSubject").val("");
 		$('#ShareMessage').val("");
 		return false;
@@ -208,7 +207,7 @@ function toggleAllChecked(status) {
 				
                	<div class="job-share-bottom">
                        <div class="js_invite">
-							<div class="js_invite_all">Invite All</div>
+							<div class="js_invite_all">Share All</div>
 							<div class="js-check-box-popup">
 								<!-- span class="checkbox_selected" onclick="make_bg_change(this);"></span -->
 								<input type="checkbox" class="styled" id="gender_checkbox" onclick="toggleAllChecked(this.checked)">                                         
@@ -242,6 +241,7 @@ function shareJobShowView(type){
 	$('#e-mail').hide();
 	$('.js_invite').css("visibility", "visible");
 	$('.job-share-ppl').show();
+
 	$("#shareJob").unbind();
 	$("#autocompleteFind").unbind();
 	$("#autocompleteFind").hide();
@@ -311,7 +311,7 @@ function validateForm(elementValue){
 	return validateFormField();
 }
 
-function validateCheckedUser(){
+function validateCheckedSJUser(){
 	var flag = false;
 	$(".friend_checkbox").each( function() {
 		if($(this).attr("checked")){
@@ -464,8 +464,6 @@ function fillLinkedinFriendShareJob(){
 	$('#submitLoaderImg').hide();
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/liloader.gif" width="50px" />'+
 	'<img src="/images/li_loading.gif" /></p>');
-	//$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
-
 	$.ajax({
 		type: 'POST',
 		url: '/linkedin/getLinkedinFriendList',
@@ -573,13 +571,12 @@ function shareEmail(){
 				code:$('#code').val()
 			},
 		success: function(response){
-			$('#submitLoaderImg').html('');
+			$('#submitLoaderImg').hide();
 			switch(response.error){
 				case 0:
 					$( "#dialog-messageshare" ).html(" E-mail send successfully.");
 					$( "#dialog-messageshare" ).dialog("open");
 					$('#ShareToEmail').val("");
-					$('#submitLoaderImg').hide();
 					setShareJobView('Email');
 					break;
 				case 1:
@@ -599,7 +596,7 @@ function shareEmail(){
 			}
 		},
 		error:function(response){
-			$('#submitLoaderImg').hide();
+			
 			$( "#dialog-messageshare" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-messageshare" ).dialog("open");
 			$( "#shareJobDialog" ).dialog( "close" );
@@ -631,7 +628,7 @@ function filterFriendListShareJob(){
 }
 
 function facebookComment(){
-	if(!validateCheckedUser()){
+	if(!validateCheckedSJUser()){
 		return false;
 	}
 	if(!validateFormField()){
@@ -655,7 +652,7 @@ function facebookComment(){
 				"&jobId="+$("#ShareJobId").val()+
 				"&code="+$('#code').val(),
 		success: function(response){
-			$('#submitLoaderImg').html('');
+			$('#submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
 					// show success message
@@ -675,7 +672,6 @@ function facebookComment(){
 			}
 		},
 		error: function(message){
-			$('#submitLoaderImg').html('');
 			alert(message);
 		}
 	});
@@ -684,7 +680,7 @@ function facebookComment(){
 /****** linked in comment ******/
 
 function linkedInComment(){
-	if(!validateCheckedUser()){
+	if(!validateCheckedSJUser()){
 		return false;
 	}
 	if(!validateFormField()){
@@ -709,7 +705,7 @@ function linkedInComment(){
 				"&code="+$('#code').val(),
 				
 		success: function(response){
-			$('#submitLoaderImg').show();
+			$('#submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
 					$( "#dialog-messageshare" ).html("Successfully sent a message to Linkedin users.");
@@ -733,8 +729,8 @@ function linkedInComment(){
 			}
 		},
 		error: function(message){
-			$('#submitLoaderImg').html('');
 			alert(" something went wrong. Please try later or contact to site admin");
+			$( "#shareJobDialog" ).dialog( "close" );
 		}
 	});
 	return false;
@@ -743,7 +739,7 @@ function linkedInComment(){
 /****** Twitter comment ******/
 
 function TwitterComment(){
-	if(!validateCheckedUser()){
+	if(!validateCheckedSJUser()){
 		return false;
 	}
 	if(!validateFormField()){
@@ -763,7 +759,7 @@ function TwitterComment(){
 		dataType: 'json',
 		data: "usersId="+usersId+"&message="+$("#ShareMessage").val()+"&jobId="+$("#ShareJobId").val(),
 		success: function(response){
-			$('#submitLoaderImg').html('');
+			$('#submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
 					$( "#dialog-messageshare" ).html("Successfully sent a message to Twitter follower.");
@@ -788,7 +784,6 @@ function TwitterComment(){
 			}
 		},
 		error: function(message){
-			$('#submitLoaderImg').hide();
 			$( "#dialog-messageshare" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-messageshare" ).dialog("open");
 			$( "#shareJobDialog" ).dialog( "close" );
