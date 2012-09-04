@@ -54,8 +54,8 @@ class UsersController extends AppController {
 			$this->Session->write('requestToken',serialize($linkedin->request_token));
 			$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl());
 			$facebook = $this->facebookObject();
-			$this->set('FBLoginUrl',$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
-		}
+			$this->set('FBLoginUrl',$facebook->getLoginUrl(array('scope' =>'email,offline_access,publish_stream')));
+			}
 
 	}
 

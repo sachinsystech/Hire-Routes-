@@ -51,7 +51,7 @@
     	
     <!-- footer-block -->
     <!-- copyright -->
-    <div class="copyright"> <span style="float:left;">&copy;Hire Routes Inc. All rights Reserved. </span>
+    <div class="copyright"> <span style="float:left;">&copy;&nbsp;Hire Routes Inc. All rights Reserved. </span>
     	<a href="mailto:info@hireroutes.com" style="float:left;">info@hireroutes.com</a>
       <div class="foot-right">
         <ul>
