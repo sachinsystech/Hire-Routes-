@@ -98,7 +98,7 @@
 		<!-- footer-content --> 
 	</div>
 	<div style= "display:hidden;"> 
-		<?php //echo $this->element('invite_friend');?>
+		<?php echo $this->element('invite_friend');?>
 	</div>
 </body>
 </html>

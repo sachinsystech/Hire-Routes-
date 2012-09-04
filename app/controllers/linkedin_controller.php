@@ -106,7 +106,7 @@
 			            }
                         $this->redirect("/users/loginSuccess");
                     }else{
-    				    $this->Session->setFlash(" Please first get verification from Hire-Routes to sign up with linked-in..","error");
+    				    $this->Session->setFlash(" Please first get verification from Hire Routes to sign up with linked-in..","error");
 	               	 	$this->redirect("/Users/login");        	
                     }
             	}else{

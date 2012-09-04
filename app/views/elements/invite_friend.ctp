@@ -4,6 +4,20 @@
 */
 ?>
 <style>
+
+.ui-widget-overlay{
+    background: none repeat scroll 0 0 #000000;
+    opacity: 0.6;
+}
+.ui-dialog-titlebar{
+	display:none;
+}
+.friend_checkbox{
+	margin-left:-15px;
+	margin-top:2px;
+	float:right;
+	position:relative;
+}
 .selectedFriends{
 border: 1px solid black;
 font-size: 13px;
@@ -38,154 +52,207 @@ margin-left:1px;
 }
 </style>
 <script>
+$(document).ready(function(){
+	$(".about_popup_cancel_bttn").click(function(){
+		$("#dialog" ).dialog( "close" );
+		return false;
+	});
+});
+
 $(function() {
-$( "#dialog:ui-dialog" ).dialog( "destroy" );
-$( "#dialog" ).dialog({
-autoOpen: false,
-show: "blind",
-hide: "explode",
-width:900,
-closeOnEscape: false
-});
-$( "#opener" ).click(function() {
-$( "#dialog" ).css( "top" ,'-50');
-$( "#dialog" ).dialog( "open" );
-return false;
+	$( "#dialog:ui-dialog" ).dialog( "destroy" );
+	$( "#dialog" ).dialog({
+		autoOpen: false,
+		show: "blind",
+		hide: "explode",
+		width:900,
+		closeOnEscape: false,
+		modal:true
+	});
+	
+	$( "#dialog" ).parent("div").css({"padding":"0","margin":"0px 0px 0px 0px","height":"600px","overflow":"none","top":"0","background":"none","border":"none"});
+	$( "#opener" ).click(function() {
+		$( "#dialog" ).css( "top" ,'-50');
+		$( "#dialog" ).dialog( "open" );
+		return false;
+	});
+	
+	$( "#dialog-message" ).dialog({
+		modal: true,
+		autoOpen: false,
+		width:500,
+		buttons: {
+			Ok: function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	});
+	
+	$( "#inv-clear-all").click(function() {
+		$("#ShareToEmail").val("");
+		$("#ShareSubject").val("");
+		$('#ShareMessage').val("");
+		return false;
+	});
+	
 });
 
-$( "#dialog-message" ).dialog({
-modal: true,
-autoOpen: false,
-width:500,
-buttons: {
-Ok: function() {
-$( this ).dialog( "close" );
-$('.ui-widget-overlay').hide();
+function toggleAllChecked(status) {
+	$(".friend_checkbox").each( function() {
+		$(this).attr("checked",status);
+	})
 }
+
+function selectFriend2(checkedFriend){
+	var parentDiv = $(checkedFriend).parent("li");
+	
+	if($(checkedFriend).is(':checked')){
+		parentDiv.css('opacity', 0.3);
+	}
+	else{
+		parentDiv.css('opacity', 1.0);
+	}
+	
+	//var title =$(parentDiv).find('img:first').attr("title");
+	//var src =$(parentDiv).find('img:first').attr("src");
+	//$(parentDiv).find('input:checkbox:first').attr("disabled",true);
+	//$('.selectedFriends').append('<div class="selectedFriend"><div style="position:relative;float:left;"><div class="selectedFriendImage"><img width="30" height="30" src="' +src+'" title="'+title+ '"/></div><div class="selectedFriendCheckBox"><input class="facebookfriend" value="'+$(checkedFriend).val()+'" type="checkbox" style="margin:0px;" checked onclick="return deSelectFriend(this);"></div></div><div class="selectedFriendName">'+((title.split(" ",2)).toString()).replace(","," ")+'</div></div>');
 }
-});
-$('.ui-dialog-titlebar-close').click(closeUi);
-});
-
-
-function closeUi(){
-$('.ui-widget-overlay').hide();
-}
-
-
 
 </script>
 
 
 <div id="dialog-message"></div>
-<div class="page">
-<div id ="dialog" >
-<!-- left section start -->
-<div class="leftPanel">
-<div class="sideMenu">
-<ul class='api_menu top_mene_hover'>
-<li id='liFacebook'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='showView(1);'>Facebook</a></li>
-<li id='liLinkedIn'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='showView(2);'>LinkedIn</a></li>
-<li id='liTwitter'><a style="color: #000000;text-decoration: none;font-weight: normal;" href=# onclick='showView(3);'>Twitter</a></li>
-<li id='liEmail'class="active" ><a style="text-decoration: none;font-weight: normal;" href=# onclick='showView(4);'>Email</a></li>
-</ul>
-</div>
-<div class='selectedFriends'>
-	<div>Selected Friends</div>
-</div>
-</div>
-<!-- left section end -->
 
-<!-- middle section start -->
-<div class="share_rightBox" >
-	<!-- middle conyent list -->
-	<div class="middleBox">
-		<div id='message'></div>
-		
-		<div class="share_middle_setting">
-		
-		<?php echo $form->create('Share', array('action'=>'job', 'onsubmit'=>'return validateEmail(ShareToEmail.value);')); ?>
-		<div id='to' style="padding-bottom:0px; clear:both"></div>
-		
-		<!-- 
-		<div style="padding-bottom:0px; clear:both">
-			<div style="float:left"><strong>Subjet:</strong></div>
-			<div style="float:right">
-				<?php /*echo $form->input('subject', array('label' => '',
-				'type' => 'text',
-				'class'=> 'subject_txt required',
-				'value'=>'Job Recommendation :: '
-				)); */ ?>
-			</div>
-		</div>
-		-->
-		<div style="padding-bottom:0px; clear:both" class='s_j_email'>
-			<div style="float:left"><strong style="margin-top:10px">Message:</strong></div>
-				<?php echo $form->input('message', array('label' => '',
-				'type' => 'textarea',
-				'class'=> 'msg_txtarear required',
-				'value'=>"Learn more about this...... "
+<div id ="dialog" >	
+	<!-- :: :: :: :: :: :: :: :: :: :: :: :: :: -->
+	<div class="job-share-content">
+        	<div class="about_popup_cancel_bttn_row1">
+               	<div class="about_popup_cancel_bttn"><a href="#"></a></div>
+       		</div>
+            
+            <div class="job-share-left">
+            	<ul>
+                	<li><a class="job-share-fb" onclick='showView(1);'></a></li>
+                    <li><a class="job-share-in" onclick='showView(2);'></a></li>
+                    <li><a class="job-share-twit" onclick='showView(3);'></a></li>
+                    <li><a class="job-share-mail" onclick='showView(4);'></a></li>
+                </ul>
+            </div>
+            
+            <div class="job-share-right">
+            	<h2>SEND A JOB INVITE TO...</h2>
+				<?php echo $form->create('Share', array('action'=>'job', 'onsubmit'=>'return validateEmail(ShareToEmail.value);')); ?>
+                
+				<?php echo $form->input('code', array('label' => '',
+					'id'=>'code',
+					'type' => 'hidden',
+					'value'=>isset($intermediateCode)?$intermediateCode:"",
 				));?>
-			</div>
-			<!-- Added for filter friends -->
-			<div style="padding-bottom:0px; clear:both;float: left;">
-				<div style="float:right">
-					<?php echo $form->input('filter_friends', array('label' => '',
-					'type' => 'text',
-					'id'=>'autocomplete',
-					'class'=> 'subject_txt searchfield',
-					'value'=>'Search Friends Here...',
-					'onfocus'=>"if(this.value=='Search Friends Here...') {this.value = '';}",
-					'onblur'=>"if(this.value==''){this.value='Search Friends Here...';}"
-					));?>
-				</div>
-			</div>
-			<div id="ff_list" style="display:none"></div>
-			<!-- End -->
-			<div id='other' style="padding-bottom:0px;margin-top: 58px;"></div>
-			<div style="padding-bottom:0px; clear:both;margin-top: 16px;">
-			
-				<div style='float:left;'>
-				<?php echo $form->button('Clear', array('label' => '',
-				'type' => 'reset',
-				'value' => 'Clear'
-				));?>
-				</div>
-				<div style='float:right;'>
-					<div style='float:left;'>
-						<?php echo $form->button('Invite Now', array('label' => '',
-						'id' =>'share',
-						'type' => 'submit',
-						'value' => 'Invite Now',
-						));?>
-						<div id='submitLoaderImg' style='float:right;'></div>
-					</div>
-					<?php echo $form->input('invitationCode', array('label' => '',
+				<?php echo $form->input('invitationCode', array('label' => '',
 					'id'=>'invitationCode',
 					'type' => 'hidden',
 					'value'=>isset($invitationCode)?$invitationCode:"",
-					));?>
+				));?>
+				
+				<div class="job-share-field" id="e-mail">
+                	<div class="job-share-text">EMAIL</div>
+                    <div class="job-share-tb"><input id="ShareToEmail" type="text" placeholder="Enter a friend's email address" /></input></div>
+                    <div class="clr"></div>
+                </div>
+			
+                <div class="job-share-field">
+                	<div class="job-share-text job-share-margin">SUBJECT</div>
+                    <div class="job-share-tb-top">
+						<?php echo $form->input('subject', array('label' => '',
+														'type' => 'text',
+														//'class'=> 'required',
+														'placeholder'=>"Subject ",
+														'div' => false
+														
+						));?>
+					</div>
+                    <div class="clr"></div>
+                </div>
+                <div class="job-share-field">
+                	<div class="job-share-text">MESSAGE</div>
+                    <div class="job-share-tb1">
+						<?php echo $form->input('message', array('label' => '',
+							'type' => 'textarea',
+							'class'=> 'msg_txtarear',
+							'placeholder'=> 'Type message here ..',
+							'value'=>"I'd like to bring a job opportunity to your attention. "
+						));?>
+					</div>
+                    <div class="clr"></div>
+                </div>
+				
+				<div id='other_share_job'></div>
+				
+                <div class="job-share-ppl">
+                	<ul>
+                    	<li> <img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                        <li><img src="/images/icon_image.jpg" /></li>
+                    </ul>
+                    <div class="clr"></div>
+                </div>
+				
+               	<div class="job-share-bottom">
+                       <div class="js_invite">
+							<div class="js_invite_all">Invite All</div>
+							<div class="js-check-box-popup">
+								<!-- span class="checkbox_selected" onclick="make_bg_change(this);"></span -->
+								<input type="checkbox" class="styled" id="gender_checkbox" onclick="toggleAllChecked(this.checked)">                                         
+							</div>
+					   </div>
+					   
+                        <div class="js_clear_all"><a href="#"><input id="inv-clear-all" type="button" value="Clear All">Clear All</a></div>
 				</div>
-				<?php echo $form->end(); ?>
-			</div>
-		</div>
-	</div>
-	<!-- middle conyent list -->
+				
+				<div id="submitLoaderImg" class="submitloader"></div>
+				
+                <div class="login-button pop-up-button">
+						<input type="submit" value="SEND INVITE" id='share' >
+						<div class="clr"></div>
+				</div>
+            </div>
+        </div>
+    </div>
 
-</div>
-<!-- middle section end -->
-</div>
 </div>
 <div id="opener"></div>
 
 <script>
 function showView(type){
+	$("#ShareToEmail").val("");
+	$("#ShareSubject").val("");
+	$('#e-mail').hide();
+	$('.js_invite').css("visibility", "visible");
+	$('.job-share-ppl').show();
+	
 	$("#share").unbind();
 	$("#autocomplete").unbind();
 	$("#autocomplete").hide();
 	$("#opener").click();
-	$('.ui-dialog-titlebar-close').click(closeUi);
-	$('.ui-widget-overlay').remove();
 	$('#container').after("<div class='ui-widget-overlay' style='width: 1350px; height: 779px; z-index: 1001;'></div>");
 	$('.selectedFriends .selectedFriend').remove();
 	switch(type){
@@ -223,9 +290,9 @@ function showView(type){
 			$("#autocomplete").keyup(filterFriendList);
 			break;
 		case 4:
-			$('#ff_list').hide();
-			$('.selectedFriends').hide();
-			$('#imageDiv').hide();
+			$('#e-mail').show();
+			$('.js_invite').css("visibility", "hidden");
+			$('.job-share-ppl').hide();
 			setView('Email');
 			$("#share").click(emailInvitaion);
 			break;
@@ -267,13 +334,13 @@ function validateEmail(elementValue){
 
 function validateCheckedUser(){
 	var flag = false;
-	$(".facebookfriend").each( function() {
+	$(".friend_checkbox").each( function() {
 		if($(this).attr("checked")){
-		flag = true;
-	}
-	})
-	if(!flag){
-		alert("You did not select any friend.");
+			flag = true;
+			}
+		})
+		if(!flag){
+		alert("Please Select at lease one friend.");
 		return false;
 	}
 	return true;
@@ -290,7 +357,7 @@ function validateFormField(){
 	}
 	return true;
 }
-
+/*
 function createHTMLforFillingFriends(friends){
 
 	$('.selectedFriends .selectedFriend').remove();
@@ -302,7 +369,16 @@ function createHTMLforFillingFriends(friends){
 	}
 	$("#other").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right' class='s_w_e'>Invite All<input style='float:right'type='checkbox' onclick='return checkAll(this); ' /></div><div id='imageDiv'>"+html+"</div>");
 }
-
+*/
+function createHTMLforFillingFriends(friends){
+	$('#e-mail').hide();
+	var length = friends.length;
+	html="";
+	for(i=0;i<length;i++){
+		html += '<li> <img src="' + friends[i].url +'"  title="'+ friends[i].name + '" ><input class="friend_checkbox" value="'+friends[i].id+'" type="checkbox" title="'+friends[i].name+'" onclick="return selectFriend2(this);"></li>';
+	}
+	$(".job-share-ppl").html("<ul>"+html+"<ul/>");
+}
 
 function selectFriend(checkedFriend){
 	var parentDiv=$($(checkedFriend).parent()).parent();
@@ -350,136 +426,128 @@ window.location.href = jQuery(location).attr('href');
 /**************************** 1).Fill facebook Friends ******************************/
 
 function fillFacebookFriend(){
-//get list of facebook friend from ajax request
-$('#imageDiv').html('<p class="sharejob_ajax_loader"><img src="/images/fbloader.gif" width="50px" />'+
-'<img src="/images/fb_loading.gif" /></p>');
-$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
-$.ajax({
-type: 'POST',
-url: '/facebook/getFaceBookFriendList',
-data: "&source=invitation",
-dataType: 'json',
-success: function(response){
-switch(response.error){
-case 0: // success
-createHTMLforFillingFriends(response.data);
-filterFriendList();
-$("#autocomplete").show();
-//$("#imageDiv").css({visibility: "hidden"});
-
-break;
-case 1: // we don't have user's facebook token
-alert(response.message);
-window.open(response.URL);
-break;
-case 2: // something went wrong when we connect with facebook.Need to login by facebook
-if(response.message){
-$( "#dialog-message" ).html(response.message);
-}
-else{
-$( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin");
-}
-$( "#dialog-message" ).dialog("open");
-$( "#dialog" ).dialog( "close" );
-break;
-case 3:
-alert(response.message);
-location.reload();
-break;
-}
-},
-error: function(message){
-alert(message);
-}
-});
+	$('#submitLoaderImg').hide();
+	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/fbloader.gif" width="50px" />'+
+	'<img src="/images/fb_loading.gif" /></p>');
+	$.ajax({
+		type: 'POST',
+		url: '/facebook/getFaceBookFriendList',
+		data: "&source=invitation",
+		dataType: 'json',
+		success: function(response){
+			switch(response.error){
+				case 0: // success
+					createHTMLforFillingFriends(response.data);
+					//filterFriendList();
+					$("#autocomplete").show();
+					break;
+				case 1: // we don't have user's facebook token
+					alert(response.message);
+					window.open(response.URL);
+					break;
+				case 2: // something went wrong when we connect with facebook.Need to login by facebook
+					if(response.message){
+					$( "#dialog-message" ).html(response.message);
+					}
+					else{
+						$( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin");
+					}
+					$( "#dialog-message" ).dialog("open");
+					$( "#dialog" ).dialog( "close" );
+					break;
+				case 3:
+					alert(response.message);
+					location.reload();
+					break;
+			}
+		},
+		error: function(message){
+			alert(message);
+		}
+	});
 }
 
 /**************************** 2). Fill Linkedin Friends ******************************/
 function fillLinkedinFriend(){
-$('#imageDiv').html('<p class="sharejob_ajax_loader"><img src="/images/liloader.gif" width="50px" />'+
-'<img src="/images/li_loading.gif" /></p>');
-$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
-$.ajax({
-type: 'POST',
-url: '/linkedin/getLinkedinFriendList',
-data: "&source=invitation",
-dataType: 'json',
-success: function(response){
-switch(response.error){
-case 0: // success
-createHTMLforFillingFriends(response.data);
-filterFriendList();
-$("#autocomplete").show();
-$("#imageDiv").css({visibility: "hidden"});
-break;
-case 1: // we don't have user's linked token
-alert(response.message);
-window.open(response.URL);
-break;
-case 2: // something went wrong when we connect with facebook.Need to login by facebook
-$( "#dialog-message" ).html(" something went wrong. Please try later or contact to site admin");
-$( "#dialog-message" ).dialog("open");
-$( "#dialog" ).dialog( "close" );
-break;
-case 3:
-alert(response.message);
-location.reload();
-break;
-default :
-$( "#dialog-message" ).html(" something went wrong. Please try later or contact to site admin");
-$( "#dialog-message" ).dialog("open");
-$( "#dialog" ).dialog( "close" );
-break;
-}
-},
-error: function(message){
-$('#submitLoaderImg').html('');
-$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
-$( "#dialog-message" ).dialog("open");
-$( "#dialog" ).dialog( "close" );
-}
-});
+	$('#submitLoaderImg').hide();
+	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/liloader.gif" width="50px" />'+
+	'<img src="/images/li_loading.gif" /></p>');
+	$.ajax({
+		type: 'POST',
+		url: '/linkedin/getLinkedinFriendList',
+		data: "&source=invitation",
+		dataType: 'json',
+		success: function(response){
+			switch(response.error){
+				case 0: // success
+					createHTMLforFillingFriends(response.data);
+					break;
+				case 1: // we don't have user's linked token
+					alert(response.message);
+					window.open(response.URL);
+					break;
+				case 2: // something went wrong when we connect with facebook.Need to login by facebook
+					$( "#dialog-message" ).html(" something went wrong. Please try later or contact to site admin");
+					$( "#dialog-message" ).dialog("open");
+					$( "#dialog" ).dialog( "close" );
+					break;
+				case 3:
+					alert(response.message);
+					location.reload();
+					break;
+				default :
+					$( "#dialog-message" ).html(" something went wrong. Please try later or contact to site admin");
+					$( "#dialog-message" ).dialog("open");
+					$( "#dialog" ).dialog( "close" );
+					break;
+			}
+		},
+		error: function(message){
+			$('#submitLoaderImg').html('');
+			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+			$( "#dialog-message" ).dialog("open");
+			$( "#dialog" ).dialog( "close" );
+		}
+	});
 }
 /**************************** 3). Fill Twitter Friends ******************************/
 function fillTwitterFriend(){
-$('#imageDiv').html('<p class="sharejob_ajax_loader"><img src="/images/twitterLoader.gif" width="50px" />'+
-'<img src="/images/li_loading.gif" /></p>');
-$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
-$.ajax({
-type: 'POST',
-url: '/twitter/getTwitterFriendList',
-data: "&source=invitation",
-dataType: 'json',
-success: function(response){
-switch(response.error){
-case 0: // success
-createHTMLforFillingFriends(response.data);
-filterFriendList();
-$("#autocomplete").show();
-//$("#imageDiv").css({visibility: "hidden"});
-break;
-case 1: // we don't have user's twitter token
-alert(response.message);
-window.open(response.URL);
-break;
-case 2: // something went wrong when we connect with facebook.Need to login by facebook
-$( "#dialog-message" ).html("something went wrong.Please contact to site admin");
-$( "#dialog-message" ).dialog("open");
-$( "#dialog" ).dialog( "close" );
-break;
-case 3:
-alert(response.message);
-location.reload();
-break;
-}
-},
-error: function(message){
-$('#submitLoaderImg').html('');
-$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
-$( "#dialog-message" ).dialog("open");
-$( "#dialog" ).dialog( "close" );
-}
-});
+	$('#submitLoaderImg').hide();
+	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;" ><img src="/images/twitterLoader.gif" width="50px" />'+
+	'<img src="/images/li_loading.gif" /></p>');
+	$.ajax({
+		type: 'POST',
+		url: '/twitter/getTwitterFriendList',
+		data: "&source=invitation",
+		dataType: 'json',
+		success: function(response){
+			switch(response.error){
+				case 0: // success
+					createHTMLforFillingFriends(response.data);
+					$("#autocomplete").show();
+					break;
+				case 1: // we don't have user's twitter token
+					alert(response.message);
+					window.open(response.URL);
+					break;
+				case 2: 
+					$( "#dialog-message" ).html("something went wrong.Please contact to site admin");
+					$( "#dialog-message" ).dialog("open");
+					$( "#dialog" ).dialog( "close" );
+					break;
+				case 3:
+					alert(response.message);
+					location.reload();
+					break;
+			}
+		},
+		error: function(message){
+			$('#submitLoaderImg').html('');
+			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+			$( "#dialog-message" ).dialog("open");
+			$( "#dialog" ).dialog( "close" );
+		}
+	});
 }
 /************************* Email Sharing ***********************/
 function emailInvitaion(){
@@ -491,7 +559,7 @@ function emailInvitaion(){
 		return false;
 	}
 
-	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
+	$('#submitLoaderImg').show();
 	$.ajax({
 		url: "/jobsharing/sendEmailInvitaion",
 		type: "post",
@@ -503,11 +571,13 @@ function emailInvitaion(){
 			},
 
 		success: function(response){
-			$('#submitLoaderImg').html('');
+			$('#submitLoaderImg').hide();
 			switch(response.error){
 				case 0:
 					$( "#dialog-message" ).html(" E-mail send successfully.");
 					$( "#dialog-message" ).dialog("open");
+					$('#ShareToEmail').val("");
+					$('#submitLoaderImg').hide();
 					setView('Email');
 					break;
 				case 1:
@@ -568,15 +638,13 @@ function facebookCommentInvitation(){
 	}
 	var i=0;
 	var user = [];
-
-	$("#imageDiv input[class=facebookfriend]:checked").each(function (i){
+	$("input[class=friend_checkbox]:checked").each(function (i){
 		var o = {};
 		o.id = $(this).attr("value");
 		o.name = $(this).attr("title");
 		user.push(o);
 	});
-
-	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
+	$('#submitLoaderImg').show();
 	$.ajax({
 		type: 'POST',
 		url: '/facebook/sendInvitation',
@@ -588,11 +656,11 @@ function facebookCommentInvitation(){
 				
 
 		success: function(response){
-			$('#submitLoaderImg').html('');
+			$('#submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
 					// show success message
-					$( "#dialog-message" ).html("Successfully sent a message to facebook users.");
+					$( "#dialog-message" ).html("Your invitation has been sent successfully to facebook users.");
 					$( "#dialog-message" ).dialog("open");
 					fillFacebookFriend();
 					break;
@@ -627,14 +695,14 @@ function linkedInCommentInvitation(){
 	var i=0;
 	var user = [];
 
-	$("#imageDiv input[class=facebookfriend]:checked").each(function (i){
+	$("input[class=friend_checkbox]:checked").each(function (i){
 		var o = {};
 		o.id = $(this).attr("value");
 		o.name = $(this).attr("title");
 		user.push(o);
 	});
 
-	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
+	$('#submitLoaderImg').show();
 	$.ajax({
 		type: 'POST',
 		url: '/Linkedin/sendInvitation',
@@ -645,10 +713,10 @@ function linkedInCommentInvitation(){
 				"&invitationCode="+$('#invitationCode').val(),
 				
 		success: function(response){
-			$('#submitLoaderImg').html('');
+			$('#submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
-					$( "#dialog-message" ).html("Successfully sent a message to Linkedin users.");
+					$( "#dialog-message" ).html("SYour invitation has been sent successfully to Linkedin users.");
 					$( "#dialog-message" ).dialog("open");
 					$('#submitLoaderImg').html('');
 					fillLinkedinFriend();
@@ -689,14 +757,14 @@ function TwitterCommentInvitation(){
 	var i=0;
 	var user = [];
 
-	$("#imageDiv input[class=facebookfriend]:checked").each(function (i){
+	$("input[class=friend_checkbox]:checked").each(function (i){
 		var o = {};
 		o.id = $(this).attr("value");
 		o.name = $(this).attr("title");
 		user.push(o);
 	});
 	
-	$('#submitLoaderImg').html('<p><img src="/images/ajax-loader-tr.gif" class="submit_ajax_loader"/></p>');
+	$('#submitLoaderImg').show();
 	$.ajax({
 		type: 'POST',
 		url: '/twitter/sendInvitation',
@@ -707,10 +775,10 @@ function TwitterCommentInvitation(){
 				"&invitationCode="+$('#invitationCode').val(),
 				
 		success: function(response){
-			$('#submitLoaderImg').html('');
+			$('#submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
-					$( "#dialog-message" ).html("Successfully sent a message to Twitter follower.");
+					$( "#dialog-message" ).html("Your invitation has been sent successfully to Twitter follower.");
 					$( "#dialog-message" ).dialog("open");
 					$('#submitLoaderImg').html('');
 					fillTwitterFriend();
