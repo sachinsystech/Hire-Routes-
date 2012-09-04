@@ -461,6 +461,7 @@ function fillFacebookFriendShareJob(){
 
 /**************************** 2). Fill Linkedin Friends ******************************/
 function fillLinkedinFriendShareJob(){
+	$('#submitLoaderImg').hide();
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/liloader.gif" width="50px" />'+
 	'<img src="/images/li_loading.gif" /></p>');
 	//$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
@@ -508,6 +509,7 @@ function fillLinkedinFriendShareJob(){
 }
 /**************************** 3). Fill Twitter Friends ******************************/
 function fillTwitterFriendShareJob(){
+	$('#submitLoaderImg').hide();
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;" ><img src="/images/twitterLoader.gif" width="50px" />'+
 	'<img src="/images/li_loading.gif" /></p>');
 	$('.sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
@@ -707,12 +709,11 @@ function linkedInComment(){
 				"&code="+$('#code').val(),
 				
 		success: function(response){
-			$('#submitLoaderImg').html('');
+			$('#submitLoaderImg').show();
 			switch(response.error){
 				case 0: // success
 					$( "#dialog-messageshare" ).html("Successfully sent a message to Linkedin users.");
 					$( "#dialog-messageshare" ).dialog("open");
-					$('#submitLoaderImg').html('');
 					fillLinkedinFriendShareJob();
 					break;
 				case 1:
@@ -787,7 +788,7 @@ function TwitterComment(){
 			}
 		},
 		error: function(message){
-			$('#submitLoaderImg').html('');
+			$('#submitLoaderImg').hide();
 			$( "#dialog-messageshare" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-messageshare" ).dialog("open");
 			$( "#shareJobDialog" ).dialog( "close" );

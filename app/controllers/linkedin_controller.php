@@ -150,6 +150,7 @@
                 try{
                     $linkedin->access_token =unserialize($user['User']['linkedin_token']);
                     $subject = "Hire Routes";
+                    //echo $message;
                     $xml_response = $linkedin->sendMessage($id,$subject,$message);
                     $xml_response = simplexml_load_string($xml_response);
                     
