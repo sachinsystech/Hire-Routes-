@@ -50,12 +50,11 @@
                                                  'div'=> false,
                                                  'class' => 'required company-recruiter-radio-input',
                                                  'label'=>'',
-                                                 'options'=>array('company'=>"I'm a company </br>",'recruiter'=>"I'm a recruiter"),
+                                                 'options'=>array('company'=>"I'm a company <div class='clr'></div>",'recruiter'=>"I'm a recruiter"),
 										),
 										array('checked'=>0)
 							);
-    ?>
-    			
+			    ?>
         		</div>
         		
         		<!----------

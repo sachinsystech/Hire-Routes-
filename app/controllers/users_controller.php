@@ -167,6 +167,7 @@ class UsersController extends AppController {
 			if(!$this->User->saveAll($this->data,array('validate'=>'only'))){
 			    unset($this->data["User"]["password"]);
                 unset($this->data["User"]["repeat_password"]);
+                unset($this->data["User"]["university"]);
                 return;
 			}
 			/*	Validating Restrict_Code	*/
@@ -190,6 +191,7 @@ class UsersController extends AppController {
 			if(!$this->data['User']['agree_condition']){
 				unset($this->data["User"]["password"]);
    	            unset($this->data["User"]["repeat_password"]);
+   	            unset($this->data["User"]["university"]);
 			    $this->set('tcErrors', "You must agree to the Terms and Conditions");
 				return;
 			}			
@@ -353,6 +355,7 @@ class UsersController extends AppController {
 		if(empty($this->data['Code']['code']) ){
 			unset($this->data["User"]["password"]);
        	    unset($this->data["User"]["repeat_password"]);
+       	    unset($this->data["User"]["university"]);
        	    $this->set('codeErrors', "This field is required.");
 			return false;
 		}

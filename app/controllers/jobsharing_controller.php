@@ -30,6 +30,7 @@ class JobsharingController extends AppController {
 			}
 			$messageBody = $job;
 			$messageBody['jobUrl'] = $jobUrl; 
+			$messageBody['userName'] = $session->getWelcomeName(); 
 			$messageBody['message'] = $this->params['form']['message'];
 			isset($this->params['form']['code'])?$messageBody['code'] = $this->params['form']['code']:"";			
 
@@ -82,6 +83,7 @@ class JobsharingController extends AppController {
                 //$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
                 $messageBody['message'] = $this->params['form']['message'];
                 $messageBody['invitationUrl'] = $invitationUrl;
+                $messageBody['userName'] = $session->getWelcomeName(); 
 				if($this->sendEmail($to,$subject,$template,$messageBody)){
 					$inviteData = array();
 					$inviteData['name_email'] = $to;

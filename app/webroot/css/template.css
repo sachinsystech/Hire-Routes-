@@ -1476,7 +1476,7 @@ p.intro
 .footer-wrap .footer-content ul{margin:0; padding:0;}
 .footer-wrap .footer-content ul li{list-style-type:none; margin-bottom:3px;}
 .footer-wrap .footer-content ul li a{ color:#ded7c4; font-size:11pt; font-family:Arial, Helvetica, sans-serif; margin-bottom:9px;}
-.footer-wrap .footer-content .copyright{margin-top:63px;font-size:10pt;}
+.footer-wrap .footer-content .copyright{margin-top:63px;font-size:10pt;position:relative;top:62px;}
 .footer-wrap .footer-content .copyright .foot-right{ float:right}
 .footer-wrap .footer-content .copyright .foot-right ul{margin:0; padding:0;} 
 .footer-wrap .footer-content .copyright .foot-right ul li{ display:block; float:left; *display:inline; border-left:1px solid #a9a8a6; padding:0 13px}

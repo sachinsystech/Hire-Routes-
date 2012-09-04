@@ -108,7 +108,7 @@
 			$("#fdbk_tab").click();
 		});
 		
-		$("#menu_show").click();
+		//$("#menu_show").click();
 	});
 		$(function(){
 $(':input[placeholder]').placeholder();
