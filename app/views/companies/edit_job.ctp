@@ -81,9 +81,10 @@
 						</div>
 						<div class="clr"></div>
 				</div>
-				<div class="job_feild"> <span>Category:</span>
+				 <div class="clr"></div>
+				<div class="job_feild company_select"> <span>Category:</span>
 						<div class="category_dropdown">
-							<!-- div class="jobseeker_select_i_error" style="float:left;margin-left: -7px;clear: both;" -->						 
+							<!-- div class="jobseeker_select_i_error" style="float:left;margin-left: -7px;clear: both;" -->					<div class="copmany_select_box">			 
 							 <?php echo $form -> input('industry',array(
 												  'type'=>'select',
 												  'label'=>'',
@@ -95,7 +96,9 @@
 												  'selected' => isset($job['industry'])?$job['industry']:""
 												 )
 											);
-							  ?>								  
+							  ?>
+							  </div>								  
+							  <div class="copmany_select_box">	
 							  <?php echo $form -> input('specification',array(
 												  'type'=>'select',
 												  'label'=>'',
@@ -105,12 +108,14 @@
 												  'div'=>false
 												  )
 											);
-							  ?>								  
+							  ?>							
+							  </div>	  
 						</div>
 				</div>
-				<div class="job_feild"> <span>Location:</span>
+				 <div class="clr"></div>
+				<div class="job_feild company_select"> <span>Location:</span>
 						<div class="category_dropdown">
-						   <!-- div class="jobseeker_select_i_error" style="float:left;margin-left: -7px;clear: both;" -->	 				
+						   <!-- div class="jobseeker_select_i_error" style="float:left;margin-left: -7px;clear: both;" -->	 				<div class="copmany_select_box">	
 						   <?php echo $form -> input('state',array(
 											  'type'=>'select',
 											  'label'=>'',
@@ -123,6 +128,8 @@
 											)
 									 );
 							?>
+							</div>
+							<div class="copmany_select_box">	
 							<?php echo $form -> input('city',array(
 										'type'=>'select',
 										'label'=>'',
@@ -132,8 +139,10 @@
 										)
 									);
 							?>
+							</div>
 						</div>
 				</div>
+				 <div class="clr"></div>
 				<div class="job_feild"> <span class="annual_sal_lh">Annual salary <br />Range ($):</span>
 					<div class="annual_field"> <span>From</span> 
 							<div class="from_date textbox-date">
@@ -162,6 +171,7 @@
 							<span>a year</span>
 					 </div>     
 				</div>
+				 <div class="clr"></div>
 				<div class="job_feild"> <span class="job_float">Job Type:</span>
 						<div class="category_dropdown_job">
 							<?php
@@ -186,6 +196,7 @@
 						</div>
 						<div class="clr"></div>
 				</div>
+				 <div class="clr"></div>
 				<div class="job_feild"> <span>Description:</span>
 						<div class="post_job_textbox">
 							   <?php echo $form->input('description', array('label' => '',
@@ -249,16 +260,25 @@
 <div class="clr"></div>
 </div>
 </div>
-
-
-
-
-
 <div style="display:none;">
 	<?php echo $this->element('share_job');?>
 </div>
+<style>
+.category_dropdown {
+    float: right;
+    margin-top: 14px;
+    width: 380px;
+}
+
+</style>
 <script>
-	$("#JobEditJobForm").validate();
+	$("#JobEditJobForm").validate({
+			errorClass: 'error_input_message',
+				errorPlacement: function (error, element) {
+					error.insertAfter(element)
+					error.css({'clear':'both','width':'auto'});
+			}
+		});
 </script>
 <script>
 	

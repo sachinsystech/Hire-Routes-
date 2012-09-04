@@ -723,3 +723,16 @@ float: left;}
     margin: 44px auto 0;
     width: 316px;
 }
+.copmany_select_box{
+width:190px;
+float:left;
+
+}
+/*********** css for post job ***************/
+.company_select{
+width:509px !important;
+}
+.copmany_select_box label{
+	
+margin-left:5px;
+}
