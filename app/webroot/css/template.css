@@ -173,7 +173,10 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .text-box-below {margin-top: 13px !important;}
 .check-button { width: 289px; height:24px; margin:20px auto 0;}
 .cross-button { width:24px; height:24px; float:left;}
-.cross-button input {margin: 7px 0 0 5px;}
+.cross-button input {
+    margin: 7px 0 0 5px;
+    margin:2px 0 0 5px\9;
+}
 .remember-me { margin-left:16px; float:left; line-height:30px; font-size: 15px;}
 .forgot-password {margin:-10px auto 0; text-decoration:underline; color:#3a9031;width:114px; height:17px; font-size: 15px;}
 .forgot-password a{text-decoration:underline;color:#3a9031;}
@@ -206,7 +209,15 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .sub-title-ac {color:#382f2b; font-family:Arial, Helvetica, sans-serif; width:441px; height:35px; text-align:center;font-size: 15px; margin:8px auto 0;}
 .sub-title-ac a{color:#382f2b;}
 .app-hr-computer-image {background:url(../images/Application-sub-logo.png) no-repeat; width:520px; height:179px;margin: 28px 0 0 181px;}
-.button-return-to-search {background:url(../images/bttn_sprite.png) no-repeat 0 0 ; width:200px; height:62px; margin: 10px auto 0; padding:8px 0 0 8px;}
+.button-return-to-search {
+    background: url("../images/bttn_sprite.png") no-repeat scroll 0 0 transparent;
+    height: 62px;
+    margin: 10px auto 0;
+    padding: 8px 0 0 8px;
+    *padding-top:10px;
+    width: 200px;
+}
+
 .button-return-to-search a:hover {background:url(../images/bttn_sprite.png) no-repeat -11px -121px;}
 .button-return-to-search a:active {background:url(../images/bttn_sprite.png) no-repeat -11px -165px; width:181px; height:36px; margin: 2px 0 0 3px;}
 .button-return-to-search a { background:url(../images/bttn_sprite.png) no-repeat -11px -80px ; background:url(../images/bttn_sprite.png) no-repeat -11px -80px;cursor: pointer; margin: 2px 0 0 3px;height: 36px; width: 181px; border:none; font:20px 'OpenSansCondensedBold'; color:#fff; text-decoration:none; display:block;line-height: 38px;text-shadow: 1px 1px 1px #444343;text-align: center;}
