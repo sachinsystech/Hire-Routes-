@@ -779,5 +779,26 @@ background:#ff0000;
     /*overflow-x: scroll;*/
 }
 .title-home{
-font-size:26px !important;}
+font-size:26px !important;
 }
+.no_friend_found{
+	text-align:center;
+	display:none;
+}
+.serach_box {
+	width:289px;
+	height:auto;
+	margin:5px auto 5px;
+}
+.serach_box input {
+	width:274px;
+	height:20px;
+	background:url(../images/text_field1_240x20.png) no-repeat;
+	border:none;
+	font:13px Arial, Helvetica, sans-serif;
+	color:#847a6c;
+	padding:0 5px 0 10px;
+	line-height:30px;
+	outline:none;
+}
+

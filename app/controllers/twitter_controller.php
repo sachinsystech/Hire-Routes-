@@ -110,7 +110,7 @@ class TwitterController extends AppController {
                 	}else{
                 		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
                 	}
-                	$message = $this->params['form']['message']." Connect with us >> ".$invitationUrl;
+                	$message = $this->params['form']['message'];//." Connect with us >> ".$invitationUrl;
                 	
                     $result = $twitterObj->post_direct_messagesNew( array('user' => $fbuser->id, 'text' => $message));
                     $resp = $result->response;

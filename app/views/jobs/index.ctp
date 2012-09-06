@@ -55,7 +55,7 @@
         		<?php echo $form->input('what', array('label' => false,
 							                         'type'  => 'text',
                                                      'value' => isset($what)?$what:"",
-                                                     'id'    => 'what',
+                                                     'id'    => 'What',
                                                      'placeholder'=>"what",
                                                      'div'=>false,
                                                      'class' => ''));?>

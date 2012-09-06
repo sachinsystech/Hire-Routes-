@@ -1494,8 +1494,26 @@ p.intro
 .footer-wrap .footer-content .copyright .foot-right ul li:first-child{ border:0;}
 
 
-
-
+.searchfield {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: #F7F3EC;
+    background-origin: padding-box;
+    background-position: right center, right center;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    border: 1px solid #F8F4EE;
+    border-radius: 2em 2em 2em 2em;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) inset;
+    clear: both;
+    color: #847A6C;
+    font-size: 12px;
+    height: 12px;
+    outline: medium none;
+    padding: 6px 6px 6px 8px;
+    width: 207px;
+    margin:5px;
+}
 
 /*::::::::footer-wrap::::::::::::
 .footer-wrap{background: url(../images/footer-wrap-bg.jpg) repeat-x; height:558px; color:#ded7c4; margin-top:200px;}
