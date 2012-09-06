@@ -776,7 +776,7 @@ background:#ff0000;
 }
 .sub_netwokres_data {
     height: 410px;
-    overflow-x: scroll;
+    /*overflow-x: scroll;*/
 }
 .title-home{
 font-size:26px !important;}
