@@ -1041,7 +1041,7 @@ class UsersController extends AppController {
 				$newPassword = substr(md5(uniqid(mt_rand(), true)), 0, 6);
 				$user['User']['password'] =$this->Auth->password($newPassword);
 				$to =$userEmail;
-				$subject = 'Hire-Routes :: Account Password';
+				$subject = 'Hire Routes :: Account Password';
 				$template = 'forgot_password';
 					
 				if($this->User->save($user['User'])){

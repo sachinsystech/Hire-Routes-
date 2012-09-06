@@ -14,11 +14,12 @@
             	<div class="job-right-top-content1">
                 	<div class="job-right-top-left"> 
                     	<h2>NETWORKER STATS</h2>
-                    	<p>Total: <span>678</span></p>
-                    	<p>1st°: <span>20</span></p>
-                    	<p>2nd°: <span>105</span></p>
-                    	<p>3rd°: <span>367</span></p>
-                    	<p>4th°: <span>400</span></p>
+                    	<p>Total: <span><?php echo isset($networkerDataCount)?array_sum($networkerDataCount):"0";?></span></p>
+                    	<?php if(isset($networkerDataCount)){ ?>
+	                    	<?php foreach($networkerDataCount as $key => $value){ ?>
+    	                	<p><?php echo $key+1?>st°: <span><?php echo $value;?></span></p>
+    	                	<?php }?>
+    	                <?php } ?>
                     </div>
                     <div class="job-right-top-right" >
                     	<div id="invitationList">
@@ -29,6 +30,7 @@
                 </div>
                 <div class="job-right-bottom-right" >
                 	<h2>MY NETWORKERS</h2>
+                	<div class="sub_netwokres_data">
 	                	<?php if(isset($this->Paginator) && $this->Paginator->numbers()){?>
 			            <div class="job_right_pagination invitaion_pagination ">
 			                <div>
@@ -48,17 +50,44 @@
 						<?php } ?> 
 					
                     <div class="job-table-heading">
-                    		<ul>
-                            	<li class="job-table-name job-table-align">Name/Email</li>
-                                <li class="job-table-netw job-table-align">Networkers</li>
-                                <li class="job-table-degree job-table-align">Degree</li>
-                                <li class="job-table-points job-table-align">Points</li>
-                                <li class="job-table-reward job-table-align">Reward</li>
-                                <li class="job-table-level job-table-level-align job-table-align">Level</li>
-                            </ul>
+		        		<ul>
+		                	<li class="job-table-name job-table-align">Name/Email</li>
+		                    <li class="job-table-netw job-table-align">Networkers</li>
+		                    <li class="job-table-degree job-table-align">Degree</li>
+		                    <li class="job-table-points job-table-align">Points</li>
+		                    <li class="job-table-reward job-table-align">Reward</li>
+		                    <li class="job-table-level job-table-level-align job-table-align">Level</li>
+		                </ul>
                     </div>
+                    <?php if(isset($networkerData) && $networkerData != null){ 
+                    	$i=0;?>
+                    	<?php foreach($networkerData as $key => $value){
+                    			foreach($value as $key1=> $data){
+                    	  ?>
+                   	  <div class="job-table-data">
+						<ul >
+                            <li class="job-data-name job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['User']['account_email'] ;?></li>
+                            <li class="job-data-netw job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['networkers']; ?></li>
+                            <li class="job-data-degree job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['degree']; ?></li>
+                            <li class="job-data-points job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['Networker']['points'] ;?></li>
+                            <li class="job-data-reward job-table-align <?php if($i%2==0) echo'dark';?> "><?php echo 
+                            	$this->Number->format($data['reward'],
+													array(
+														'places' => 2,
+														'before' => '$',
+														'decimals' => '.',
+														'thousands' => ',')
+													);?></li>
+                                <li class="job-data-level job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $key+1?></li>
+                            </ul>
+						</div>
+							<?php $i++;?>
+                           <?php }} ?>
+                    <?php }else{ ?>
                     <div class="networkers-message job-empty-message">
-                    	No Networkers Found.
+                    	No Networker Found.
+                    </div>
+                    <?php } ?>
                     </div>
                 </div>
             </div>

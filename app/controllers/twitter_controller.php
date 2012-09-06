@@ -255,6 +255,7 @@ class TwitterController extends AppController {
                     return json_encode(array('error'=>2,'message'=>'Error in Twitter connection. Please try after some time.'));
                 }
             }else{
+            	$this->Session->write('apiSource',$this->params['form']['source']);
                 echo json_encode(array('error'=>1,'message'=>'User not authenticate from Twitter.','URL'=>$this->getTwitterObject()->getAuthorizationUrl()));
             }
         }

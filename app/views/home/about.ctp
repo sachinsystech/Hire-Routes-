@@ -49,9 +49,11 @@ $(document).ready(function(){
 	<!-- left -->
 		<div class="left">
 			<h2>about</h2>
-			<p class="text">Hire Routes was originally conceived on a napkin in Fanelli Cafe - a rustic landmark pub nestled in the historic Soho district of New York City - back in April of 2011.  While enjoying their fine pints of Guinness the founder of Hire Routes began discussing an idea with a friend on how to monetize social networks by helping others.  Scribbling down his idea on the napkin he described how a website could help people connect to others and how it could really harness the power of social networks via email, LinkedIn, Facebook, and Twitter by reaching people beyond that first degree of separation. 
-That idea has since then evolved into what you see today; a social recruiting website that provides companies and recruiters with a platform that allows them to really harness the power of social networks by posting jobs with cash rewards and sharing those jobs with their own personal and professional networks as well as with new, select and otherwise inaccessible networks being built here at Hire Routes. 
-Hire Routes wants to build the world's largest hub of networkers to help companies find and hire the best talent for them.  Please help us build a strong global network and let's get everyone working again and reduce unemployment!.</p>
+			<p class="">Hire Routes was originally conceived on a napkin in Fanelli Cafe - a rustic landmark pub nestled in the historic Soho district of New York City - back in April of 2011.  While enjoying their fine pints of Guinness the founder of Hire Routes began discussing an idea with a friend on how to monetize social networks by helping others.  Scribbling down his idea on the napkin he described how a website could help people connect to others and how it could really harness the power of social networks via email, LinkedIn, Facebook, and Twitter by reaching people beyond that first degree of separation.</p>
+			<p class=""> 
+That idea has since then evolved into what you see today <b>"A social recruiting website that provides companies and recruiters with a platform that allows them to really harness the power of social networks by posting jobs with cash rewards and sharing those jobs with their own personal and professional networks as well as with new, select and otherwise inaccessible networks being built here at Hire Routes".</b> 
+			</p>
+			<p class="">Hire Routes wants to build the world's largest hub of networkers to help companies find and hire the best talent for them.  Please help us build a strong global network and let's get everyone working again and reduce unemployment!.</p>
 		</div>
 	<!-- left --> 
 	<!-- right -->
@@ -104,11 +106,12 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 			<div class="member-info">
 				<h3>Talulah Machock</h3>
 				<span>Director of Fun</span>
-				<ul>
+				<!--<ul>
 					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
 					<li class="member-facebook"> <a href="#" class="NewTab">facebook</a> </li>
 					<li class="member-linkedin"> <a href="#" class="NewTab">linkedin</a> </li>
 				</ul>
+				-->
 			</div>
 			<!-- member-info --> 
 		</div>
@@ -120,7 +123,7 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 			<!-- member-info -->
 			<div class="member-info">
 				<h3>TIM RODGERS</h3>
-				<span>Castlebuilders</span>
+				<span>Castlebuilder</span>
 				<ul>
 					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
 					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
@@ -130,6 +133,44 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 			<!-- member-info --> 
 		</div>
 		<!-- Team member --> <!-- Team member -->
+		
+		<!-- Team member --> <!-- Team member -->
+		<div class="team-member">
+			<div class="about-border">
+				<a href="#"> <img src="/images/Castlebuilders/238x239-pia.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+			</div>
+			<div class="clr"></div>
+			<!-- member-info -->
+			<div class="member-info">
+				<h3>PIA SILVA</h3>
+				<span>Designer</span>
+				<!--<ul>
+					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="#" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="#" class="NewTab">linkedin</a> </li>
+				</ul>
+				-->
+			</div>
+			<!-- member-info --> 
+		</div>
+		<div class="team-member">
+			<div class="about-border" >
+				<a href="#"> <img src="/images/Castlebuilders/238x239-stevie.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+			</div>
+			<div class="clr"></div>
+			<!-- member-info -->
+			<div class="member-info">
+				<h3>STEVE WASTERVAL</h3>
+				<span>Castlebuilder</span>
+				<!--<ul>
+					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/in/timnotjim" class="NewTab">linkedin</a> </li>
+				</ul>
+				--->
+			</div>
+			<!-- member-info --> 
+		</div>
 		
       <!-- right -->
       <div class="clr"></div>
@@ -164,8 +205,8 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
             	<div class="about_popup_img"><img src="images/Castlebuilders/thumbnail/98x98-austin.jpg" alt="" border="0" /></div>
                 <h2>AUSTIN ROOT</h2>
                 <p>Dreamer and Innovation Craftsman</p>
-                <p class="space2">We are based in New rough any of your active channels. Take the Hire routes to get where you're going. Take the Hire routes to get where. We are based in New York but we live online.</p>
-                
+                <!--<p class="space2">We are based in New rough any of your active channels. Take the Hire routes to get where you're going. Take the Hire routes to get where. We are based in New York but we live online.</p>
+                -->
                 <h3>Hire Routes Role:</h3>
                 <p>Honestly, I feel it's different everyday but I generally just try to keep people going, keep them happy, help them out when I can and just keep on innovating</p>
                 
@@ -180,6 +221,9 @@ Hire Routes wants to build the world's largest hub of networkers to help compani
 
 				<h3>What you love:</h3>
                 <p>People, soccer, sweating to some form of physical activity, food & drink and exploring exciting new cultures and all the marvelous places this wonderful world of ours has to offer.</p>
+                
+                <h3>Random and Embarrassing:</h3>
+                <p>I read all the Dragonlance books, Sword of Shannara books....you name it. I'm still upset my Dungeon Master never gave me that +5 Broad Sword!</p>
                 
                 <div class="clr"></div>
             </div>

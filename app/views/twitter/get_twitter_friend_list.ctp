@@ -6,8 +6,7 @@ if($this->Session->read('apiSource') == "share_job")
    echo "window.opener.fillTwitterFriendShareJob();";
 else
 	echo "window.opener.fillTwitterFriend();";
-	$this->Session->delete('apiSource')
-	
+$this->Session->delete('apiSource')
 ?>
-  window.close();
+window.close();
 </script>

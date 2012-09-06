@@ -238,7 +238,37 @@ class NetworkersController extends AppController {
 	/*	Add contact by single entry	*/
 	function addContacts() {
 		$this->layout= "home";
-				$userId = $this->_getSession()->getUserId();
+		
+		$userId = $this->_getSession()->getUserId();
+		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
+		$paginateCondition = array(
+									'AND' => array(
+												array('NetworkerContact.user_id'=>$userId),
+												array('NetworkerContact.contact_email LIKE' => "$startWith%")
+											)
+								);
+		
+		$this->paginate = array('conditions'=>$paginateCondition,
+                                'limit' => 6,
+                                'order' => array("NetworkerContact.id" => 'asc',));             
+        $contacts = $this->paginate('NetworkerContact');
+
+        $alphabets = array();
+        foreach(range('A','Z') AS $alphabet){
+        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.user_id'=>$userId,
+        																					  'NetworkerContact.contact_email LIKE' => "$alphabet%"
+        																					  )
+        																  )
+        													);
+            $alphabets[$alphabet] = $contacts_count; 
+        }
+		
+        $this->set('alphabets',$alphabets);
+        $this->set('contacts',$contacts);
+        $this->set('contact',null);
+        $this->set('startWith',$startWith);
+		
+		/*$userId = $this->_getSession()->getUserId();
 		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
 		
 		$paginateCondition = array(
@@ -267,36 +297,7 @@ class NetworkersController extends AppController {
         $this->set('contacts',$contacts);
         $this->set('contact',null);
         $this->set('startWith',$startWith);
-				$userId = $this->_getSession()->getUserId();
-		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
-		
-		$paginateCondition = array(
-									'AND' => array(
-												array('NetworkerContact.user_id'=>$userId),
-												array('NetworkerContact.contact_email LIKE' => "$startWith%")
-											)
-								);
-		
-		$this->paginate = array('conditions'=>$paginateCondition,
-                                'limit' => 6,
-                                'order' => array("NetworkerContact.id" => 'asc',));             
-        $contacts = $this->paginate('NetworkerContact');
-
-        $alphabets = array();
-        foreach(range('A','Z') AS $alphabet){
-        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.user_id'=>$userId,
-        																					  'NetworkerContact.contact_email LIKE' => "$alphabet%"
-        																					  )
-        																  )
-        													);
-            $alphabets[$alphabet] = $contacts_count; 
-        }
-		
-        $this->set('alphabets',$alphabets);
-        $this->set('contacts',$contacts);
-        $this->set('contact',null);
-        $this->set('startWith',$startWith);
-		
+		*/
 		
 		if(isset($this->params['url']['error'])){
     		$this->Session->setFlash('You have declined the request!', 'warning');
@@ -491,35 +492,31 @@ class NetworkersController extends AppController {
 		$this->layout = "home";
 		$userId = $this->_getSession()->getUserId();
 		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
-		/*
-		$paginateCondition = array(
-									'AND' => array(
-												array('NetworkerContact.user_id'=>$userId),
-												array('NetworkerContact.contact_email LIKE' => "$startWith%")
-											)
-								);
-		
-		$this->paginate = array('conditions'=>$paginateCondition,
-                                'limit' => 10,
-                                'order' => array("NetworkerContact.id" => 'asc',));             
-        $contacts = $this->paginate('NetworkerContact');
-
-        $alphabets = array();
-        foreach(range('A','Z') AS $alphabet){
-        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.user_id'=>$userId,
-        																					  'NetworkerContact.contact_email LIKE' => "$alphabet%"
-        																					  )
-        																  )
-        													);
-            $alphabets[$alphabet] = $contacts_count; 
-        }
- 
-        $this->set('alphabets',$alphabets);
-        $this->set('contacts',$contacts);
-        $this->set('contact',null);
-        $this->set('startWith',$startWith);
-        */
-        
+		$parent_id = null;
+		$userId = $this->_getSession()->getUserId();
+		$networkerData = $this->getRecursiveData($userId);
+		$networkerDataCount = $this->getLevelInformation($userId);
+		$this->set('networkerData',$networkerData);
+		$this->set('networkerDataCount',$networkerDataCount);
+	}
+	
+	private function getLevelInformation($userId=NULL){
+		$cond=array('User.parent_user_id'=>$userId);
+		$joins=array(
+					array(
+						'table'=>'networkers',
+						'alias'=>'Networkers',
+						'fields'=>'id',
+						'type'=>'inner',
+						'conditions'=>'User.id = Networkers.user_id'
+						)
+					);
+		$Users = $this->User->find(
+			'list',array('fields'=>'User.id', 'joins'=>$joins, 'conditions'=>$cond));
+		if(count($Users)== 0){
+			return null;
+		}
+  	    return array_merge(array(count($Users)),(array)$this->getlevelInformation($Users));
 	}
 	
 	/*	show personal contact to Edit..	*/
@@ -542,50 +539,93 @@ class NetworkersController extends AppController {
 
 	/* to show network statistics*/
 	function networkerData(){
-		$parent_id = null;
-		$userId = $this->_getSession()->getUserId();
-		$networkerData = $this->getRecursiveData($userId);
-		$this->set('networkerData',$networkerData);
-		$this->paginate=array(
-			'fields'=>'User.id, Networker.contact_name, count(UserCount.id) as count',
-			'conditions'=>array('User.parent_user_id'=>$userId),
-			'recursive'=>-1,
-			'joins'=>array(
-				array(
-					'table'=>'networkers',
-					'alias'=>'Networker',
-					'type'=>'left',
-					'fields'=>'Networker.contact_name, Networker.user_id',
-					'conditions'=>'Networker.user_id = User.id',
-				),
-				array(
-					'table'=>'users',
-					'alias'=>'UserCount',
-					'type'=>'left',
-					'fields'=>'count(parent_user_id)',
-					'conditions'=>'UserCount.parent_user_id= Networker.user_id'
-				)
-				
-			),
-			'limit'=>10,
-			'group'=>'User.id'
-		);
-		$firstDegreeNetworkers=$this->paginate('User');
-		$this->set('firstDegreeNetworkers',$firstDegreeNetworkers);
+
+		//return $networkerData;
 	}
 	
 	function getRecursiveData($userId){	
-		$Users   = $this->User->find('list',array('fields'=>'id','conditions'=>array('User.parent_user_id'=>$userId)));
-		
-		if(count($Users)== 0 ){
-			return null;
-			
-		}
-  	    return array_merge(array(count($Users)),(array)$this->getRecursiveData($Users));
+		$dataArray = array();
+		do{
+			$userId   = $this->User->find('list',array('fields'=>'id',
+													'recursive'=>-1,
+													'joins'=>array(
+														array(
+															'table'=>'networkers',
+															'alias'=>'Networker',
+															'type'=>'inner',
+															'fields'=>'Networker.contact_name, Networker.user_id',
+															'conditions'=>'Networker.user_id = User.id',
+														),
+
+												),					
+										'conditions'=>array('User.parent_user_id'=>$userId)));
+			if(count($userId)== 0 ){
+				break;
+			}
+			$dataArray[] = $this->getNetworkersData($userId);
+		}while(count($userId)!= 0);
+		return $dataArray;
+		//return (array($Users, (array)$this->getRecursiveData($Users)));
+  	    //return array_merge(array(count($Users)),(array)$this->getRecursiveData($Users));
 	}
 
+	function getNetworkersData($userId){
+	
+		$dataArray =  $this->User->find('all',array('fields'=>'id,parent_user_id, account_email,Networker.*',
+													'recursive'=>-1,
+													'recursive'=>-1,
+													'joins'=>array(
+														array(
+															'table'=>'networkers',
+															'alias'=>'Networker',
+															'type'=>'left',
+															'fields'=>'Networker.contact_name, Networker.user_id',
+															'conditions'=>'Networker.user_id = User.id',
+														),
 
+													),
+													'conditions'=>array('User.id'=>$userId)));
+		if(isset($dataArray)){
+			foreach($dataArray as $key => $value){
+				if(isset($value['User']['id']))
+ 					//$dataArray[$key]['degree'] = $this->
+ 					$levelInfo = $this->getLevelInformation($value['User']['id']);
+ 					//pr($levelInfo);
+ 					//$dataArray[$key]['levelInfo'] =$levelInfo;
+ 					$dataArray[$key]['networkers'] = isset($levelInfo)?array_sum($levelInfo):0;
+ 					$dataArray[$key]['degree'] = count($levelInfo);	
+				    $dataArray[$key]['reward'] = $this->getNetworkerReward($value['User']['id']);
+			}
+		}
+		return $dataArray;
+	}
+	
+	function getNetworkerReward($userId){
+	
+		$reward = $this->User->query("select sum(reward) as reward from (
 
+                           select 
+                               payment_history.id,(networker_reward_percent*amount/(100*count(payment_history.id))) as reward
+                           from 
+                               payment_history 
+                           join 
+                               rewards_status on payment_history.id = payment_history_id  
+                           join 
+                               networkers on networkers.user_id = rewards_status.user_id  
+                           group by 
+                               payment_history.id 
+                       ) 
+       as new_table join rewards_status on new_table.id = payment_history_id  
+where user_id =".$userId."");
+			
+			if(empty($reward[0][0]['reward'])){
+				return 0;
+			}else{
+				return $reward[0][0]['reward'];
+			}
+	
+	
+	}	
 	
 	/*	Adding contacts by Importing CSV	*/
 	function importCsv($fileName) {

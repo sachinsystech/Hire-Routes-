@@ -175,7 +175,17 @@ function toggleAllChecked(status) {
 					</div>
                     <div class="clr"></div>
                 </div>
-				
+				<div style="float:left">
+					<?php echo $form->input('filter_friends', array('label' => '',
+								'type' => 'text',
+								'id'=>'autocompleteFind',
+								//'class'=> 'subject_txt searchfield',
+								'div'=> false,
+								'value'=>'Search Friends Here...',
+								'onfocus'=>"if(this.value=='Search Friends Here...') {this.value = '';}",
+								'onblur'=>"if(this.value==''){this.value='Search Friends Here...';}"
+					));?>
+					</div>
 				<div id='other_share_job'></div>
 				
                 <div class="job-share-ppl">
@@ -428,7 +438,7 @@ function fillFacebookFriendShareJob(){
 			switch(response.error){
 				case 0: // success
 					createHTMLforFillingShareFriends(response.data);
-					//filterFriendListShareJob();
+					filterFriendListShareJob();
 					$("#autocompleteFind").show();
 					//$("#shareJobImageDiv").css({visibility: "hidden"});
 					break;
@@ -473,7 +483,7 @@ function fillLinkedinFriendShareJob(){
 			switch(response.error){
 				case 0: // success
 					createHTMLforFillingShareFriends(response.data);
-					//filterFriendListShareJob();
+					filterFriendListShareJob();
 					$("#autocompleteFind").show();
 					$("#shareJobImageDiv").css({visibility: "hidden"});
 					break;
@@ -520,8 +530,8 @@ function fillTwitterFriendShareJob(){
 		switch(response.error){
 			case 0: // success
 				createHTMLforFillingShareFriends(response.data);
-				//filterFriendListShareJob();
-				//$("#autocompleteFind").show();
+				filterFriendListShareJob();
+				$("#autocompleteFind").show();
 				//$("#shareJobImageDiv").css({visibility: "hidden"});
 				break;
 			case 1: // we don't have user's twitter token

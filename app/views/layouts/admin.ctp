@@ -41,7 +41,7 @@
 </style>
 	<!-- start logo -->
 	<div id="logo">
-		Hire-Routes
+		Hire Routes
 	</div>
 	<?php if($this->Session->read('Auth.User.id')==1):?>
 	

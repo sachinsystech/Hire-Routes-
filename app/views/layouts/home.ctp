@@ -46,7 +46,6 @@
 		echo $html->script('html5placeholder.jquery.js');		
 		echo $scripts_for_layout;
 	?>
-<script src= "/js/twitter.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
  var is_ssl = ("https:" == document.location.protocol);
  var asset_host = is_ssl ? "https://d3rdqalhjaisuu.cloudfront.net/" : "http://d3rdqalhjaisuu.cloudfront.net/";
@@ -64,8 +63,8 @@
  
  var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 </script>
-	
 <script type="text/javascript" charset="utf-8">
+
 	function hideMessage(){
 		$('.message').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.message');
 		$('.success').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.success');
@@ -97,7 +96,7 @@
 		<?php include("site_footer.ctp");?>
 		<!-- footer-content --> 
 	</div>
-	<div style= "display:hidden;"> 
+	<div style= "display:none;"> 
 		<?php echo $this->element('invite_friend');?>
 	</div>
 </body>
