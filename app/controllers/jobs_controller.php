@@ -379,7 +379,10 @@ class JobsController extends AppController {
 		$this->layout= "home";
 		$session = $this->_getSession();
 		$userId = $session->getUserId();
-		
+		if($this->userRole == ADMIN){
+			$this->redirect("/users/login");
+			return;
+		}
 		if(isset($this->params['jobId'])){
 
 			$id = $this->params['jobId'];

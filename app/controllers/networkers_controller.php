@@ -496,9 +496,35 @@ class NetworkersController extends AppController {
 		$userId = $this->_getSession()->getUserId();
 		$networkerData = $this->getRecursiveData($userId);
 		$networkerDataCount = $this->getLevelInformation($userId);
+		$networkerDegree = $this->getUserDegree($userId);
 		$this->set('networkerData',$networkerData);
+		$this->set('networkerDegree',$networkerDegree);
 		$this->set('networkerDataCount',$networkerDataCount);
 	}
+	
+	function getUserDegree($userId){
+		static $count = 0;
+		$cond=array('User.id'=>$userId);
+		$joins=array(
+					array(
+						'table'=>'networkers',
+						'alias'=>'Networkers',
+						'fields'=>'id',
+						'type'=>'inner',
+						'conditions'=>'User.id = Networkers.user_id'
+					)
+				);
+		$userId = $this->User->find(
+		'list',array('fields'=>'User.parent_user_id', 'joins'=>$joins, 'conditions'=>$cond));
+	
+		if($userId == null && count($userId)== null){
+			return $count;
+		}
+		else{
+			$count = $count+1;
+		}
+		return ($this->getUserDegree($userId));
+	} 
 	
 	private function getLevelInformation($userId=NULL){
 		$cond=array('User.parent_user_id'=>$userId);
@@ -593,7 +619,7 @@ class NetworkersController extends AppController {
  					//pr($levelInfo);
  					//$dataArray[$key]['levelInfo'] =$levelInfo;
  					$dataArray[$key]['networkers'] = isset($levelInfo)?array_sum($levelInfo):0;
- 					$dataArray[$key]['degree'] = count($levelInfo);	
+ 					//$dataArray[$key]['degree'] = count($levelInfo);	
 				    $dataArray[$key]['reward'] = $this->getNetworkerReward($value['User']['id']);
 			}
 		}

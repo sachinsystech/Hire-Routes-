@@ -68,7 +68,7 @@
 						<ul >
                             <li class="job-data-name job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['User']['account_email'] ;?></li>
                             <li class="job-data-netw job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['networkers']; ?></li>
-                            <li class="job-data-degree job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['degree']; ?></li>
+                            <li class="job-data-degree job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $networkerDegree +$key+1 ?></li>
                             <li class="job-data-points job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['Networker']['points'] ;?></li>
                             <li class="job-data-reward job-table-align <?php if($i%2==0) echo'dark';?> "><?php echo 
                             	$this->Number->format($data['reward'],
