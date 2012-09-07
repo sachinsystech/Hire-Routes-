@@ -156,7 +156,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			<!-- member-info -->
 			<div class="member-info">
 				<h3>STEVE WASTERVAL</h3>
-				<span>Castlebuilder</span>
+				<span>Designer</span>
 				<!--<ul>
 					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
 					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
