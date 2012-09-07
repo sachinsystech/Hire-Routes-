@@ -37,7 +37,10 @@
         	<!-----------------------
         	<h2 style="font-size:20px; line-height: normal; text-transform: uppercase; color:#1d1d1d;  font-family: 'OpenSansCondensedBold';">STEVE WASTERVAL,</h2>
         	--------------->
-            <p style="margin:20px 0 0 10px; font:15px Arial, Helvetica, sans-serif; color:#1d1d1d; text-align:justify; line-height:20px;">I would like to send you this job posting because I think you are the right cantidate for the job, and if you are not you can forward it on to your friends and networks as well and we will all share a cut of the reward.</p>
+            <!--<p style="margin:20px 0 0 10px; font:15px Arial, Helvetica, sans-serif; color:#1d1d1d; text-align:justify; line-height:20px;">I would like to send you this job posting because I think you are the right cantidate for the job, and if you are not you can forward it on to your friends and networks as well and we will all share a cut of the reward.</p>-->
+            <p style="margin:20px 0 0 10px; font:15px Arial, Helvetica, sans-serif; color:#1d1d1d; text-align:justify; line-height:20px;"><?php echo ucfirst($message['message']) ;?></p>
+            
+            
             <?php if(isset($message['userName']) && $message['userName'] != null) { ?>
 			<p style="margin:20px 0 0 10px; font:15px Arial, Helvetica, sans-serif; color:#1d1d1d; text-align:justify; line-height:20px;">- <?php echo ucfirst($message['userName']) ;?></p> 
 			<?php } ?>

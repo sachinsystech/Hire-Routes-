@@ -84,7 +84,7 @@
                 }
             }else{
 				$this->Session->write('apiSource',$this->params['form']['source']);
-                return json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$facebook->getLoginURL(array('canvas' => 1, 'fbconnect' => 0, 'scope' => 'offline_access,publish_stream'))));
+                return json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$facebook->getLoginURL(array('canvas' => 1, 'fbconnect' => 0, 'scope' => 'email,offline_access,publish_stream'))));
             }   
         }
     }

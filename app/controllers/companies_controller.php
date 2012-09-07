@@ -285,7 +285,7 @@ list archive jobs..
 	
 	public function getCompanyActiveJobsCount(){
 		$userId = $this->_getSession()->getUserId();
-		$active_job_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>1);
+		$active_job_conditions = array('Job.user_id'=>$userId,"Job.is_active"=>array(1,3));
 		$activejobCount = $this->Job->find('count',array('conditions'=>$active_job_conditions));
 		return $activejobCount;
 	}

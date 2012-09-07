@@ -11,7 +11,7 @@
             <div class="job_right_bar">
             	<div class="job-right-content">
                 	<h2>SETTINGS/SUBSCRIPTIONS</h2>
-                    <p>This is where some text can go to explain what this section is for and can go onto a second line but I wouldnt go much farther</p>
+                    <p>Tailor your subscription to receive specific job posts that fit the industry and location of your network or you can receive all job posts by selecting “Any” and “All States”.  Let us also know how frequently you would like to receive these posts.</p>
                  </div>  
                  <!------------------------------------->
                  <div class="job-subs">

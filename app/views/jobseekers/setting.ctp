@@ -44,7 +44,7 @@ div .checkbox{
             <div class="job_right_bar">
             	<div class="job-right-content">
                 	<h2>SETTINGS/SUBSCRIPTIONS</h2>
-                    <p>This is where some text can go to explain what this section is for and can go onto a second line but I wouldnt go much farther</p>
+                    <p>Tailor your subscription to receive job posts suited for your specific job experience and location.  Let us also know how frequently you would like to receive these posts as well.</p>
                  </div>   
                     <div class="jobseeker-settings">
 						<?php echo $form->create('JobseekerSettings', array('id'=>'JobseekerSettingsForm','url' => '/jobseekers/setting','onsubmit'=>'return check_email_subs();')); ?>
@@ -123,7 +123,7 @@ div .checkbox{
 							
 						</div>
 						<div id="industry_specification_1">
-                            <div class="industries-select industries-select-right">
+                            <div class="industries-select jobseeker_settings_state">
 <?php echo $form -> input('state',array(
 											'type'=>'select',
 											'label'=>'Location',
@@ -149,18 +149,25 @@ div .checkbox{
 							</div>
 							<div id="city_loader" style="float:left;">&nbsp;</div>
 						</div>
+						<div class="clr"></div>
 						<div id="industry_specification_1">
-                    		<div class="industry-specification-1 jobseeeker_seeting_name">
+                    		<div class="jobseeker_settings_salary">
 		                        <?php echo $form->input('salary_range', 
-		                        							array('label' => 'Annual Salary Range ($)',
+		                        							array('label' => 'Minimum Salary ($)',
 																  'type'  => 'text',
+																  'div'=> false,
 																  'class' => 'jobseekers_text_salary_range required number',
 																  'min' =>1000,
 																  'value' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>   	
 
 		                    	<?php $emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
+		                    </div>
+		                    <div class="clr"></div>
+		                    <div class="jobseeker_settings_notification">
+		                    	<p>Job Notifications by Email</p>
 								<?php echo $form -> input('subscribe_email',array('type'=>'select',
 																	              'label'=>'',
+																	              'div'=> false,
 																	              //'empty'=>'Select',
 																	              'options'=>$emil_post_array,
 																	              'class'=>'networker_select_job_notify',

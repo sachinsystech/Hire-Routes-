@@ -113,7 +113,7 @@
                             </div>
                     </div>
                      <div class="clr"></div>
-                    <div class="job_feild"> <span class="annual_sal_lh">Annual salary <br />Range ($):</span>
+                    <div class="job_feild"> <span class="annual_sal_lh">Minimum Salary ($):</span>
                       	<div class="annual_field"> <span>From</span> 
                         		<div class="from_date textbox-date">
                                 	<?php	echo $form->input('salary_from', array('label' => '',
@@ -213,6 +213,7 @@
 </div>
 <style>
 .category_dropdown {
+
     float: right;
     margin-top: 14px;
     width: 380px;
@@ -243,10 +244,10 @@
 
 	function validateSalary(){
 		if(parseInt($("#JobSalaryFrom").val()) > parseInt($("#JobSalaryTo").val()) ) {	
-				$("#JobSalaryTo").after("<label class='error' for='JobSalaryTo' >Must greater than or equal to From field value</label>");
-				return false;
-	}
-	return true;
-} 
+			$(".annual_field").after("<label class='error_input_message' for='JobSalaryTo' style='margin-left:325px;' >Must greater than or equal to From field value</label>");
+			return false;
+		}
+		return true;
+	} 
 </script>
 

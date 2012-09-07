@@ -24,7 +24,7 @@
 	<div style="width:725px; height:auto; margin:0 auto; background:#f9f3e4;">
 		<?php echo $this->element("email_header"); ?>
 		<div style="width:649px; height:44px; border-bottom:1px solid #D4CCC1; border-top:1px solid #D4CCC1; margin:0 auto; font-size: 30px; line-height: normal; color: #4a4947; font-family: Lucida Sans Unicode, Sans-serif; padding:5px 0 0 0; text-align:center;">	
-			Invitaion from Hire Routes<span style="color:#329024;"><?php echo ucfirst($message['userName']) ;?></span> 
+			Invitation from Hire Routes<span style="color:#329024;"><?php echo ucfirst($message['userName']) ;?></span> 
 		</div>
         
         <div style="width:643px; height:auto; margin:0 auto;">

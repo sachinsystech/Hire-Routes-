@@ -142,6 +142,10 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 }
 .industry-specification-1{height:150px;width:600px;}
 .industries-select{float:left;height:14px;}
+.jobseeker_settings_state select {margin-left:10px;}
+.jobseeker_settings_salary {margin-top:20px;}
+.jobseeker_settings_notification{margin-top:20px;}
+.jobseeker_settings_notification p{margin-bottom:10px;}
 /* ------ End css for jobseeker settings --------*/
 
 /* ------ css for jobseeker job profile --------*/
@@ -335,6 +339,12 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     width: 575px;
 }
 /*---------------- Edit gmail contacts  ********************/
+.gmail-edit-content {
+    background: none repeat scroll 0 0 #F6F1E2;
+    height: 195px;
+    margin: 0 auto;
+    width: 575px;
+}
 #editContacts{
     height: 462px !important;
     overflow: hidden !important;
@@ -700,7 +710,7 @@ employee_contact_row{width:115px !important;}
 	height:7px;
 }
 .h2_float { float:left;}
-.company-recruiter-radio{width:158px;overflow:visible;}
+.company-recruiter-radio{width:168px;overflow:visible;}
 .company-recruiter-radio input{margin-right:15px;}
 .company-recruiter-radio-input{width: 18px !important;
 float: left;}
@@ -735,4 +745,98 @@ width:509px !important;
 .copmany_select_box label{
 	
 margin-left:5px;
+}
+/*********** css for networker personal data ***************/
+.job-table-data ul li {list-style:none; float:left; border-bottom: 1px solid #D6D2CC;}
+.job-table-data { font:15px Arial, Helvetica, sans-serif;}
+.job-data-name {
+    height: 48px;
+    padding-left: 25px;
+    width: 355px;
+}
+.job-data-netw {
+    height: 48px;
+    width: 90px;
+}
+.job-data-degree {
+    height: 48px;
+    width: 65px;
+}
+.job-data-points{
+    height: 48px;
+    width: 45px;
+}
+.job-data-reward{
+    height: 48px;
+    width: 57px;
+	text-align:right;
+}
+.job-data-level {
+    height: 48px;
+    padding-left: 28px;
+    width: 45px;
+}
+.job-right-bottom-right ul:nth-child(odd)
+{
+background:#ff0000;
+}
+.sub_netwokres_data {
+    height: 410px;
+    /*overflow-x: scroll;*/
+}
+.title-home{
+font-size:26px !important;
+}
+.no_friend_found{
+	text-align:center;
+	display:none;
+}
+.serach_box {
+	width:289px;
+	height:auto;
+	margin:5px auto 5px;
+}
+.serach_box input {
+	width:274px;
+	height:20px;
+	background:url(../images/text_field1_240x20.png) no-repeat;
+	border:none;
+	font:13px Arial, Helvetica, sans-serif;
+	color:#847a6c;
+	padding:0 5px 0 10px;
+	line-height:30px;
+	outline:none;
+}
+.post_later_jobs{
+	background-color:rgba(235, 212, 196, 0.41) !important;
+}
+/*********** Css for radio buttons. ********************/
+.ez-hide { opacity: 0; filter:alpha(opacity=0); }
+.ez-checkbox {
+	background: transparent url('../images/checkbox-button.png') 0 1px no-repeat;
+	display:-moz-grid;
+	display:inline-table;
+}
+
+.ez-radio {
+	background: transparent url('../images/radio-black.png') 0 -3px no-repeat;
+	display:inline-table;
+	display:-moz-grid;
+}
+
+.ez-checked { background:url("../images/checkbox-button.png") repeat scroll 0 149px transparent !important;
+}
+.ez-selected { background-position: 0px -25px;; }
+
+.ez-checkbox-green {
+	padding:10px;
+	background:url("../images/checkbox-button.png") repeat scroll 0 113px transparent;
+	display:-moz-grid;
+	display:inline-table;	
+	*display: inline;
+}
+.ez-radio { zoom: 1; *display:inline; _height:25px; }
+
+div.ez-radio{
+	padding:5px;
 }

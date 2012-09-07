@@ -90,8 +90,7 @@
 				</div>
 			
 			<?php if(empty($jobs)){ ?>
-				Sorry, No job found.
-			</tr>
+				<div class="job-empty-message">There is no job found for this search.</div>
 			<?php } ?>
 			
 			 <?php foreach($jobs as $job):?>

@@ -110,7 +110,7 @@ class TwitterController extends AppController {
                 	}else{
                 		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
                 	}
-                	$message = $this->params['form']['message']." Connect with us >> ".$invitationUrl;
+                	$message = $this->params['form']['message'];//." Connect with us >> ".$invitationUrl;
                 	
                     $result = $twitterObj->post_direct_messagesNew( array('user' => $fbuser->id, 'text' => $message));
                     $resp = $result->response;
@@ -255,6 +255,7 @@ class TwitterController extends AppController {
                     return json_encode(array('error'=>2,'message'=>'Error in Twitter connection. Please try after some time.'));
                 }
             }else{
+            	$this->Session->write('apiSource',$this->params['form']['source']);
                 echo json_encode(array('error'=>1,'message'=>'User not authenticate from Twitter.','URL'=>$this->getTwitterObject()->getAuthorizationUrl()));
             }
         }

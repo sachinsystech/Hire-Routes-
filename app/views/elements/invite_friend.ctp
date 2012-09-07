@@ -50,6 +50,11 @@ float:left;
 width:100px;
 margin-left:1px;
 }
+.ui-dialog {
+    overflow: visible;
+    position: absolute;
+}
+
 </style>
 <script>
 $(document).ready(function(){
@@ -66,11 +71,13 @@ $(function() {
 		show: "blind",
 		hide: "explode",
 		width:900,
+		height:700,
 		closeOnEscape: false,
 		modal:true
 	});
 	
-	$( "#dialog" ).parent("div").css({"padding":"0","margin":"0px 0px 0px 0px","height":"600px","overflow":"none","top":"0","background":"none","border":"none"});
+	$( "#dialog" ).parent("div").css({"padding":"0","margin":"0px 0px 0px 0px","height":"600px !important",
+	"overflow":"none","top":"0","background":"none","border":"none"});
 	$( "#opener" ).click(function() {
 		$( "#dialog" ).css( "top" ,'-50');
 		$( "#dialog" ).dialog( "open" );
@@ -81,26 +88,29 @@ $(function() {
 		modal: true,
 		autoOpen: false,
 		width:500,
-		buttons: {
+		resizable : false,
+		/*buttons: {
 			Ok: function() {
 				$( this ).dialog( "close" );
 			}
-		}
+		}*/
 	});
 	
-	$( "#inv-clear-all").click(function() {
-		$("#ShareToEmail").val("");
-		$("#ShareSubject").val("");
-		$('#ShareMessage').val("");
+	$( "#dialog #inv-clear-all").click(function() {
+		$("#dialog #InviteToEmail").val("");
+		$("#dialog #ShareSubject").val("");
+		$('#dialog #ShareMessage').val("");
 		return false;
 	});
 	
 });
 
 function toggleAllChecked(status) {
-	$(".friend_checkbox").each( function() {
-		$(this).attr("checked",status);
-	})
+	$("#dialog .friend_checkbox").each( function() {
+		if($(this).parent("li").css('display')== "block"){
+			$(this).attr("checked",status);
+		}
+	});
 }
 
 function selectFriend2(checkedFriend){
@@ -142,7 +152,7 @@ function selectFriend2(checkedFriend){
             
             <div class="job-share-right">
             	<h2>SEND A JOB INVITE TO...</h2>
-				<?php echo $form->create('Share', array('action'=>'job', 'onsubmit'=>'return validateEmail(ShareToEmail.value);')); ?>
+				<?php echo $form->create('Share', array('action'=>'job', 'onsubmit'=>'return validateEmail(InviteToEmail.value);')); ?>
                 
 				<?php echo $form->input('code', array('label' => '',
 					'id'=>'code',
@@ -155,9 +165,9 @@ function selectFriend2(checkedFriend){
 					'value'=>isset($invitationCode)?$invitationCode:"",
 				));?>
 				
-				<div class="job-share-field" id="e-mail">
+				<div class="job-share-field" id="invite-e-mail">
                 	<div class="job-share-text">EMAIL</div>
-                    <div class="job-share-tb"><input id="ShareToEmail" type="text" placeholder="Enter a friend's email address" /></input></div>
+                    <div class="job-share-tb"><input id="InviteToEmail" type="text" placeholder="Enter a friend's email address" /></input></div>
                     <div class="clr"></div>
                 </div>
 			
@@ -186,7 +196,17 @@ function selectFriend2(checkedFriend){
 					</div>
                     <div class="clr"></div>
                 </div>
-				
+				<div style="float:left" >
+					<?php echo $form->input('filter_friends', array('label' => '',
+								'type' => 'text',
+								'id'=>'autocomplete',
+								'class'=> 'searchfield',
+								'div'=> false,
+								'value'=>'Search Friends Here...',
+								'onfocus'=>"if(this.value=='Search Friends Here...') {this.value = '';}",
+								'onblur'=>"if(this.value==''){this.value='Search Friends Here...';}"
+					));?>
+				</div>
 				<div id='other_share_job'></div>
 				
                 <div class="job-share-ppl">
@@ -243,17 +263,18 @@ function selectFriend2(checkedFriend){
 
 <script>
 function showView(type){
-	$("#ShareToEmail").val("");
-	$("#ShareSubject").val("");
-	$('#e-mail').hide();
-	$('.js_invite').css("visibility", "visible");
-	$('.job-share-ppl').show();
+	$("#InviteToEmail").val("");
+	$("#dialog #ShareSubject").val("");
+	$('#dialog #invite-e-mail').hide();
+	$('#dialog .js_invite').css("visibility", "visible");
+	$('#dialog .job-share-ppl').show();
 	
-	$("#share").unbind();
+	$("#dialog #share").unbind();
 	$("#autocomplete").unbind();
 	$("#autocomplete").hide();
+	$("#autocomplete").hide();
 	$("#opener").click();
-	$('#container').after("<div class='ui-widget-overlay' style='width: 1350px; height: 779px; z-index: 1001;'></div>");
+	$('#dialog #container').after("<div class='ui-widget-overlay' style='width: 1350px; height: 779px; z-index: 1001;'></div>");
 	$('.selectedFriends .selectedFriend').remove();
 	switch(type){
 		case 1:
@@ -290,7 +311,7 @@ function showView(type){
 			$("#autocomplete").keyup(filterFriendList);
 			break;
 		case 4:
-			$('#e-mail').show();
+			$('#invite-e-mail').show();
 			$('.js_invite').css("visibility", "hidden");
 			$('.job-share-ppl').hide();
 			setView('Email');
@@ -301,22 +322,22 @@ function showView(type){
 
 function setView(value)
 {
-	$('#message').hide();
-	$('.api_menu li').removeClass('active');
-	$('#li'+value).addClass('active');
+	$('#dialog #message').hide();
+	$('#dialog .api_menu li').removeClass('active');
+	$('#dialog #li'+value).addClass('active');
 	
 	if(value=='Email')
 	{
-	$('#other').html("");
-	$('#to').html("<div style='padding-bottom:10px;' class='s_j_email'><strong>Email:</strong><textarea id='ShareToEmail' name='toEmail' class='email_msg_txtarear' rows='1'></textarea></div>");
+	$('#dialog #other').html("");
+	$('#dialog #to').html("<div style='padding-bottom:10px;' class='s_j_email'><strong>Email:</strong><textarea id='InviteToEmail' name='toEmail' class='email_msg_txtarear' rows='1'></textarea></div>");
 	}
 	else
 	{
-	$('#to').html("");
+	$('#dialog #to').html("");
 	
-	$('#other').html("<div style='padding-bottom:20px; padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right;margin-top:12px;' class='s_w_e'>Share with everyone<input style='float:right' type='checkbox'/></div><div id='filtered_friend'></div><div id='imageDiv'>");
+	$('#dialog #other').html("<div style='padding-bottom:20px; padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right;margin-top:12px;' class='s_w_e'>Share with everyone<input style='float:right' type='checkbox'/></div><div id='filtered_friend'></div><div id='imageDiv'>");
 	
-	$('#imageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="sharejob_ajax_loader"/></p>');
+	$('#dialog #imageDiv').html('<p><img src="/images/ajax-loader.gif" width="425" height="21" class="sharejob_ajax_loader"/></p>');
 	}
 	return false;
 }
@@ -334,7 +355,7 @@ function validateEmail(elementValue){
 
 function validateCheckedUser(){
 	var flag = false;
-	$(".friend_checkbox").each( function() {
+	$("#dialog .friend_checkbox").each( function() {
 		if($(this).attr("checked")){
 			flag = true;
 			}
@@ -346,12 +367,12 @@ function validateCheckedUser(){
 	return true;
 }
 
-function validateFormField(){
-	if($('#ShareSubject').val()==""){
+function validateInviteFormField(){
+	if($('#dialog #ShareSubject').val()==""){
 		alert('Subject cant be empty.');
 		return false;
 	}
-	if($('#ShareMessage').val()==""){
+	if($('#dialog #ShareMessage').val()==""){
 		alert('Please enter message.');
 		return false;
 	}
@@ -371,13 +392,14 @@ function createHTMLforFillingFriends(friends){
 }
 */
 function createHTMLforFillingFriends(friends){
-	$('#e-mail').hide();
+	$('#invite-e-mail').hide();
 	var length = friends.length;
 	html="";
 	for(i=0;i<length;i++){
 		html += '<li> <img src="' + friends[i].url +'"  title="'+ friends[i].name + '" ><input class="friend_checkbox" value="'+friends[i].id+'" type="checkbox" title="'+friends[i].name+'" onclick="return selectFriend2(this);"></li>';
 	}
-	$(".job-share-ppl").html("<ul>"+html+"<ul/>");
+	$(".job-share-ppl").html("<ul>"+html+"<ul/><div class='no_friend_found'>No Result Found </div>");
+	//$(".job-share-ppl").html("<ul>"+html+"<ul/>");
 }
 
 function selectFriend(checkedFriend){
@@ -426,7 +448,7 @@ window.location.href = jQuery(location).attr('href');
 /**************************** 1).Fill facebook Friends ******************************/
 
 function fillFacebookFriend(){
-	$('#submitLoaderImg').hide();
+	$('#dialog #submitLoaderImg').hide();
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/fbloader.gif" width="50px" />'+
 	'<img src="/images/fb_loading.gif" /></p>');
 	$.ajax({
@@ -440,6 +462,7 @@ function fillFacebookFriend(){
 					createHTMLforFillingFriends(response.data);
 					//filterFriendList();
 					$("#autocomplete").show();
+					filterFriendList();
 					break;
 				case 1: // we don't have user's facebook token
 					alert(response.message);
@@ -469,7 +492,7 @@ function fillFacebookFriend(){
 
 /**************************** 2). Fill Linkedin Friends ******************************/
 function fillLinkedinFriend(){
-	$('#submitLoaderImg').hide();
+	$('#dialog  #submitLoaderImg').hide();
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/liloader.gif" width="50px" />'+
 	'<img src="/images/li_loading.gif" /></p>');
 	$.ajax({
@@ -481,6 +504,8 @@ function fillLinkedinFriend(){
 			switch(response.error){
 				case 0: // success
 					createHTMLforFillingFriends(response.data);
+					$("#autocomplete").show();
+					filterFriendList();
 					break;
 				case 1: // we don't have user's linked token
 					alert(response.message);
@@ -503,7 +528,7 @@ function fillLinkedinFriend(){
 			}
 		},
 		error: function(message){
-			$('#submitLoaderImg').html('');
+			$('#dialog  #submitLoaderImg').html('');
 			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-message" ).dialog("open");
 			$( "#dialog" ).dialog( "close" );
@@ -512,7 +537,7 @@ function fillLinkedinFriend(){
 }
 /**************************** 3). Fill Twitter Friends ******************************/
 function fillTwitterFriend(){
-	$('#submitLoaderImg').hide();
+	$('#dialog  #submitLoaderImg').hide();
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;" ><img src="/images/twitterLoader.gif" width="50px" />'+
 	'<img src="/images/li_loading.gif" /></p>');
 	$.ajax({
@@ -525,6 +550,7 @@ function fillTwitterFriend(){
 				case 0: // success
 					createHTMLforFillingFriends(response.data);
 					$("#autocomplete").show();
+					filterFriendList();
 					break;
 				case 1: // we don't have user's twitter token
 					alert(response.message);
@@ -542,7 +568,7 @@ function fillTwitterFriend(){
 			}
 		},
 		error: function(message){
-			$('#submitLoaderImg').html('');
+			$('#dialog  #submitLoaderImg').html('');
 			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-message" ).dialog("open");
 			$( "#dialog" ).dialog( "close" );
@@ -551,33 +577,33 @@ function fillTwitterFriend(){
 }
 /************************* Email Sharing ***********************/
 function emailInvitaion(){
-	var to_email=$('#ShareToEmail').val();
+	var to_email=$('#InviteToEmail').val();
 	if(!validateEmail(to_email)){
 		return false;
 	}
-	if(!validateFormField()){
+	if(!validateInviteFormField()){
 		return false;
 	}
 
-	$('#submitLoaderImg').show();
+	$('#dialog #submitLoaderImg').show();
 	$.ajax({
 		url: "/jobsharing/sendEmailInvitaion",
 		type: "post",
 		dataType: 'json',
 		data: {
-				toEmail : $('#ShareToEmail').val(),
+				toEmail : $('#InviteToEmail').val(),
 				message : $('#ShareMessage').val(),
 				invitationCode:$('#invitationCode').val()
 			},
 
 		success: function(response){
-			$('#submitLoaderImg').hide();
+			$('#dialog  #submitLoaderImg').hide();
 			switch(response.error){
 				case 0:
 					$( "#dialog-message" ).html(" E-mail send successfully.");
 					$( "#dialog-message" ).dialog("open");
-					$('#ShareToEmail').val("");
-					$('#submitLoaderImg').hide();
+					$('#InviteToEmail').val("");
+					$('#dialog  #submitLoaderImg').hide();
 					setView('Email');
 					break;
 				case 1:
@@ -597,7 +623,7 @@ function emailInvitaion(){
 			}
 		},
 		error:function(response){
-			$('#submitLoaderImg').html('');
+			$('#dialog  #submitLoaderImg').html('');
 			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-message" ).dialog("open");
 			$( "#dialog" ).dialog( "close" );
@@ -608,24 +634,32 @@ function emailInvitaion(){
 function filterFriendList(){
 	var textValue = $('#autocomplete').val();
 	var user = jQuery.makeArray();
-	$('.s_w_e input:checked').attr('checked', false);
+	//$('.s_w_e input:checked').attr('checked', false);
 	var foundFrd=false;
-	$('#ff_list').css("display","none");
+	//$('#ff_list_share_job').css("display","none");
 	if(textValue=='' || textValue=='Search Friends Here...'){
-		$("#imageDiv").css("visibility","visible");
-		$('#imageDiv .contactBox').css({"display":"block","visibility":"visible"});
+		$('.job-share-ppl li').css({"display":"block"});
+		//$("#shareJobImageDiv").css("visibility","visible");
+		//$('#shareJobImageDiv .contactBox').css({"display":"block","visibility":"visible"});
+		$(".no_friend_found").css("display","none");
 		lastTextValue="";
 		return false;
 	}
-	textValue = textValue.toLowerCase();
-	$('#imageDiv .contactBox').css({"display":"none"});
 	
-	$(".contactImage img[title]").filter(function(){ if((this.title.toLowerCase()).indexOf(textValue)===0)
-	return foundFrd=true;else return false; }).parents(".contactBox").css({"display":"block"});
+	textValue = textValue.toLowerCase();
+	$('.job-share-ppl li').css({"display":"none"});
+
+	$(".job-share-ppl ul img[title]").filter(function(){ 
+		if((this.title.toLowerCase()).indexOf(textValue)===0){
+			$(".no_friend_found").css("display","none");
+			return foundFrd=true;
+		}
+		else return false; 
+	}).parent("li").css({"display":"block"});
 	
 	if(foundFrd === false)
-		$("#ff_list").css("display","block").html("<div align='center'>No result found</div>");
-	
+		$(".no_friend_found").css("display","block");
+
 	return false;
 }
 
@@ -633,7 +667,7 @@ function facebookCommentInvitation(){
 	if(!validateCheckedUser()){
 		return false;
 	}
-	if(!validateFormField()){
+	if(!validateInviteFormField()){
 		return false;
 	}
 	var i=0;
@@ -644,7 +678,7 @@ function facebookCommentInvitation(){
 		o.name = $(this).attr("title");
 		user.push(o);
 	});
-	$('#submitLoaderImg').show();
+	$('#dialog  #submitLoaderImg').show();
 	$.ajax({
 		type: 'POST',
 		url: '/facebook/sendInvitation',
@@ -656,7 +690,7 @@ function facebookCommentInvitation(){
 				
 
 		success: function(response){
-			$('#submitLoaderImg').hide();
+			$('#dialog  #submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
 					// show success message
@@ -676,7 +710,7 @@ function facebookCommentInvitation(){
 			}
 		},
 		error: function(message){
-			$('#submitLoaderImg').html('');
+			$('#dialog  #submitLoaderImg').html('');
 			alert(message);
 		}
 	});
@@ -688,7 +722,7 @@ function linkedInCommentInvitation(){
 	if(!validateCheckedUser()){
 		return false;
 	}
-	if(!validateFormField()){
+	if(!validateInviteFormField()){
 		return false;
 	}
 	
@@ -702,7 +736,7 @@ function linkedInCommentInvitation(){
 		user.push(o);
 	});
 
-	$('#submitLoaderImg').show();
+	$('#dialog  #submitLoaderImg').show();
 	$.ajax({
 		type: 'POST',
 		url: '/Linkedin/sendInvitation',
@@ -713,12 +747,12 @@ function linkedInCommentInvitation(){
 				"&invitationCode="+$('#invitationCode').val(),
 				
 		success: function(response){
-			$('#submitLoaderImg').hide();
+			$('#dialog  #submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
-					$( "#dialog-message" ).html("SYour invitation has been sent successfully to Linkedin users.");
+					$( "#dialog-message" ).html("Your invitation has been sent successfully to Linkedin users.");
 					$( "#dialog-message" ).dialog("open");
-					$('#submitLoaderImg').html('');
+					$('#dialog  #submitLoaderImg').html('');
 					fillLinkedinFriend();
 					break;
 				case 1:
@@ -738,7 +772,7 @@ function linkedInCommentInvitation(){
 			}
 		},
 		error: function(message){
-			$('#submitLoaderImg').html('');
+			$('#dialog  #submitLoaderImg').html('');
 			alert(" something went wrong. Please try later or contact to site admin");
 		}
 	});
@@ -751,7 +785,7 @@ function TwitterCommentInvitation(){
 	if(!validateCheckedUser()){
 		return false;
 	}
-	if(!validateFormField()){
+	if(!validateInviteFormField()){
 		return false;
 	}
 	var i=0;
@@ -764,23 +798,23 @@ function TwitterCommentInvitation(){
 		user.push(o);
 	});
 	
-	$('#submitLoaderImg').show();
+	$('#dialog  #submitLoaderImg').show();
 	$.ajax({
 		type: 'POST',
 		url: '/twitter/sendInvitation',
 		dataType: 'json',
 		data: 
 				"&user="+JSON.stringify(user)+
-				"&message="+$("#ShareMessage").val()+
-				"&invitationCode="+$('#invitationCode').val(),
+				"&message="+$("#dialog #ShareMessage").val()+
+				"&invitationCode="+$('#dialog #invitationCode').val(),
 				
 		success: function(response){
-			$('#submitLoaderImg').hide();
+			$('#dialog  #submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
 					$( "#dialog-message" ).html("Your invitation has been sent successfully to Twitter follower.");
 					$( "#dialog-message" ).dialog("open");
-					$('#submitLoaderImg').html('');
+					$('#dialog  #submitLoaderImg').html('');
 					fillTwitterFriend();
 					break;
 				case 1:
@@ -800,7 +834,7 @@ function TwitterCommentInvitation(){
 			}
 		},
 		error: function(message){
-			$('#submitLoaderImg').html('');
+			$('#dialog  #submitLoaderImg').html('');
 			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-message" ).dialog("open");
 			$( "#dialog" ).dialog( "close" );

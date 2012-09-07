@@ -70,7 +70,7 @@ class JobsharingController extends AppController {
 			$traceId = -1*(time()%10000000);
         	$invitationCode = $this->Utility->getCode($traceId,$userId);
 			$template = 'invitation';
-			$subject = "Hire-Routes Invitation";
+			$subject = "Hire Routes Invitation";
 			$tos = explode(",", trim($this->params['form']['toEmail']));
 			
 			foreach($tos As $to){
