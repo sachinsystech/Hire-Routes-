@@ -293,7 +293,7 @@ function importFromGmail(){
 																			 'action' => 'addContacts')));?>
 		<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
 		<div style="margin-top: 8px; border-bottom:1px solid">
-			<div style="float:left;width:178px;"> 
+			<div style="float:left;width:178px;" class= ""> 
 				<input type="checkbox" onclick="toggleChecked(this.checked)">
 			</div>
 			<div> <h2>E-Mail </h2> </div>
@@ -387,7 +387,7 @@ $(document).ready(function(){
 
 <!-------------- Pop up for edit contacts ------------->
 <div style="display:none;" id = "editContacts">
-	<div class="gmail-share-content">
+	<div class="gmail-edit-content">
     	<div class="gmail_popup_cancel_bttn">
            	<div class="payment_popup_cancel_bttn"><a href="#" id ="closeEditBox"></a></div>
    		</div>

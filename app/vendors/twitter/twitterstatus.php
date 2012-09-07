@@ -200,13 +200,13 @@ class TwitterStatus
 	private function ParseTwitterLinks($str) {
 	
 		// parse URL
-		$str = preg_replace('/(https{0,1}:\/\/[\w\-\.\/#?&=]*)/', '<a href="$1">$1</a>', $str);
+		$str = preg_replace('/(https{0,1}:\/\/[\w\-\.\/#?&=]*)/', '<a href="$1" class="NewTab">$1</a>', $str);
 	
 		// parse @id
-		$str = preg_replace('/@(\w+)/', '@<a href="http://twitter.com/$1" class="at">$1</a>', $str);
+		$str = preg_replace('/@(\w+)/', '@<a href="http://twitter.com/$1" class="at NewTab">$1</a>', $str);
 		
 		// parse #hashtag
-		$str = preg_replace('/\s#(\w+)/', ' <a href="http://twitter.com/#!/search?q=%23$1" class="hashtag">#$1</a>', $str);
+		$str = preg_replace('/\s#(\w+)/', ' <a href="http://twitter.com/#!/search?q=%23$1" class="hashtag NewTab">#$1</a>', $str);
 
 		return $str;
 	

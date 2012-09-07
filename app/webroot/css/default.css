@@ -339,6 +339,12 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     width: 575px;
 }
 /*---------------- Edit gmail contacts  ********************/
+.gmail-edit-content {
+    background: none repeat scroll 0 0 #F6F1E2;
+    height: 195px;
+    margin: 0 auto;
+    width: 575px;
+}
 #editContacts{
     height: 462px !important;
     overflow: hidden !important;
@@ -704,7 +710,7 @@ employee_contact_row{width:115px !important;}
 	height:7px;
 }
 .h2_float { float:left;}
-.company-recruiter-radio{width:158px;overflow:visible;}
+.company-recruiter-radio{width:168px;overflow:visible;}
 .company-recruiter-radio input{margin-right:15px;}
 .company-recruiter-radio-input{width: 18px !important;
 float: left;}
@@ -801,4 +807,36 @@ font-size:26px !important;
 	line-height:30px;
 	outline:none;
 }
+.post_later_jobs{
+	background-color:rgba(235, 212, 196, 0.41) !important;
+}
+/*********** Css for radio buttons. ********************/
+.ez-hide { opacity: 0; filter:alpha(opacity=0); }
+.ez-checkbox {
+	background: transparent url('../images/checkbox-button.png') 0 1px no-repeat;
+	display:-moz-grid;
+	display:inline-table;
+}
 
+.ez-radio {
+	background: transparent url('../images/radio-black.png') 0 -3px no-repeat;
+	display:inline-table;
+	display:-moz-grid;
+}
+
+.ez-checked { background:url("../images/checkbox-button.png") repeat scroll 0 149px transparent !important;
+}
+.ez-selected { background-position: 0px -25px;; }
+
+.ez-checkbox-green {
+	padding:10px;
+	background:url("../images/checkbox-button.png") repeat scroll 0 113px transparent;
+	display:-moz-grid;
+	display:inline-table;	
+	*display: inline;
+}
+.ez-radio { zoom: 1; *display:inline; _height:25px; }
+
+div.ez-radio{
+	padding:5px;
+}

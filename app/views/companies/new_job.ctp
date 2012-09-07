@@ -94,22 +94,24 @@
                 </div>
 				
                 <?php if(empty($jobs)){ ?>
-					Sorry, No job found.
-				</tr>
+					<div class="job-empty-message">There is no job found for this search.</div>
 				<?php } ?>
 				
 				 <?php foreach($jobs as $job):?>
-                <div class="job_right_section job_right_hover">
+                <div class="job_right_section job_right_hover <?php if($job['Job']['is_active']==3)echo 'post_later_jobs'?>">
                     <div class="job_right_section_left">
                         <h2><a href="/companies/editJob/<?php echo $job['Job']['id'] ?>" ><?php echo ucfirst($job['Job']['title']) ?></a></h2>
                         <p class="job-right-section-p">Posted: <?php echo $time->timeAgoInWords($job['Job']['created'],'m/d/Y');?></p>
                         <p class="job-submission-margin">Submissions: <span><?php echo $job[0]['submissions']; ?></span></p>
                     </div>
-                    <div class="job-right-rightmost">
+                    <?php if($job['Job']['is_active']==3){?>
+                    <div style="float:left;margin-left:272px;"><a href="/companies/editJob/<?php echo $job['Job']['id'] ?>">Share</a></div>
+                    <?php } ?>
+                    <div class="job-right-rightmost ">
 						
 						<?php
 							if($job['Job']['is_active']==3)
-								$url=null;
+								$url="javascript:void(0);";
 							else
 								$url="/jobs/jobDetail/".$job['Job']['id'];
 						?>
@@ -118,14 +120,14 @@
 						<a class="job-archive" href="/companies/archiveJob/<?php echo $job['Job']['id'] ?>" ></a>
 							<?php
 								if($job['Job']['is_active']==3)
-									$url=null;
+									$url="javascript:void(0);";
 								else
 									$url="/companies/showApplicant/".$job['Job']['id'];
 							?>	
 						<a class="job-person" href="<?php echo $url; ?>" ></a>
 							<?php
 								if($job['Job']['is_active']==3)
-									$url=null;
+									$url="javascript:void(0);";
 								else
 									$url="/companies/jobStats/".$job['Job']['id'];
 							?>

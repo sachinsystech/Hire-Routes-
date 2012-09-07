@@ -1,8 +1,3 @@
-<?php 
-	$tw_url = "#"; //"https://twitter.com//HireRoutes";
-	$fb_url = "#"; //"http://www.facebook.com/HireRoutes";
-	$li_url= "#";
-?>
 <style>
 .ui-dialog-titlebar { display:none; }
 .ui-dialog .ui-widget .ui-widget-content .ui-corner-all .ui-draggable .ui-resizable{

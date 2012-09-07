@@ -2,7 +2,7 @@
   function checkform() {
     var isAgreeCondition = $('input:checkbox[id=UserAgreeCondition]:checked').val();
     if(!isAgreeCondition){
-      $("#agree_condition_error").removeClass().addClass("error_input_message").html("This is required field.");
+      $("#agree_condition_error").removeClass().addClass("error_input_message").html("This field is required..");
       return false;
     }
     if(isAgreeCondition){
@@ -34,7 +34,8 @@
   });
       
 </script>
- <h1 class="title-emp">Companies/Recruiters Registration</h1>
+
+<h1 class="title-emp">Companies/Recruiters Registration</h1>
     <div class="sub-title-cs">Please fill the registration request below, we will analyze your data and get back with in next 24 hours.</div>
     
 	<?php echo $form->create('User', array('action' => 'companyRecruiterSignup','onsubmit'=>'return checkform();')); ?>

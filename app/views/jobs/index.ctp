@@ -55,8 +55,8 @@
         		<?php echo $form->input('what', array('label' => false,
 							                         'type'  => 'text',
                                                      'value' => isset($what)?$what:"",
-                                                     'id'    => 'What',
-                                                     'placeholder'=>"what",
+                                                     'id'    => 'what',
+                                                     'placeholder'=>"What",
                                                      'div'=>false,
                                                      'class' => ''));?>
 			</div>
@@ -438,7 +438,7 @@
 .job_menus_submenu label {
     color: #1D1D1D;
     float: left;
-    font: 13px Lucida Sans Unicode,Lucida Grande !important;
+    font:normal 13px Arial,Helvetica,sans-serif !important;
     height: auto;
     padding: 5px 0 0 10px;
     text-decoration: none;

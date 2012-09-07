@@ -50,6 +50,11 @@ float:left;
 width:100px;
 margin-left:1px;
 }
+.ui-dialog {
+    overflow: visible;
+    position: absolute;
+}
+
 </style>
 <script>
 $(document).ready(function(){
@@ -66,11 +71,13 @@ $(function() {
 		show: "blind",
 		hide: "explode",
 		width:900,
+		height:700,
 		closeOnEscape: false,
 		modal:true
 	});
 	
-	$( "#dialog" ).parent("div").css({"padding":"0","margin":"0px 0px 0px 0px","height":"600px","overflow":"none","top":"0","background":"none","border":"none"});
+	$( "#dialog" ).parent("div").css({"padding":"0","margin":"0px 0px 0px 0px","height":"600px !important",
+	"overflow":"none","top":"0","background":"none","border":"none"});
 	$( "#opener" ).click(function() {
 		$( "#dialog" ).css( "top" ,'-50');
 		$( "#dialog" ).dialog( "open" );
@@ -81,11 +88,12 @@ $(function() {
 		modal: true,
 		autoOpen: false,
 		width:500,
-		buttons: {
+		resizable : false,
+		/*buttons: {
 			Ok: function() {
 				$( this ).dialog( "close" );
 			}
-		}
+		}*/
 	});
 	
 	$( "#dialog #inv-clear-all").click(function() {

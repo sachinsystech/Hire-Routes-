@@ -519,7 +519,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job_menus_submenu {width:222px; background:#eee7d9; height:auto; padding:10px 0;} 
 .job_menus_submenu ul {margin:0; padding:0;}
 .job_menus_submenu ul li {width:222px; list-style:none; display:block; background:none; height:auto;}
-.job_menus_submenu ul li a {font:normal 13px "Lucida Sans Unicode", "Lucida Grande"; color:#1d1d1d; line-height:18px; text-decoration:none; padding:0 0 0 10px; height:auto;}
+.job_menus_submenu ul li a {font:normal 13px Arial,Helvetica,sans-serif; color:#1d1d1d; line-height:18px; text-decoration:none; padding:0 0 0 10px; height:auto;}
 .job_menus_submenu ul li:hover {background:none;}
 .job_menus_submenu ul li a:hover {color:#4fa149; text-decoration:underline;}
 .job_submenu_active {color:#4fa149 !important; text-decoration:underline !important;}
@@ -1166,7 +1166,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-right h2 {padding:28px 0 0 0; height:37px;border-bottom: 1px solid #D6D2CC; width:414px;}
 .job-share-field {width:414px; height:auto;}
 .job-share-text {font:15px 'OpenSansCondensedBold'; padding-top:26px; float:left;}
-.job-share-tb, .job-share-tb-top { width:288px; height:28px; float:right;margin: 20px 56px 0 0;}
+.job-share-tb, .job-share-tb-top { width:288px; height:28px; float:right;margin: 20px 55px 0 0;}
 .job-share-tb input, .job-share-tb-top input {background:url(../images/text-box.png) 0 0 no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif; font-size: 13px; height: 28px; line-height: 28px; padding: 0 0 0 11px; width: 277px;}
 .job-share-tb-top {margin-top:8px !important;}
 .job-share-tb1 {width:343px; height:98px; float:right;margin-top: 8px;}
@@ -1507,7 +1507,7 @@ p.intro
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) inset;
     clear: both;
     color: #847A6C;
-    font-size: 12px;
+    font-size: 12px !important;
     height: 12px;
     outline: medium none;
     padding: 6px 6px 6px 8px;
