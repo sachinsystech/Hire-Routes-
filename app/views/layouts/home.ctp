@@ -123,7 +123,7 @@ $(function() {
 	$('input[type=radio]').ezMark();
 	var checkboxObj = $('input[type=checkbox]');
 	if(!$(checkboxObj).parent().hasClass("job_menus_submenu") && !$(checkboxObj).parent().hasClass("gmail_contacts_checkbox") ){
-		$('input[type=checkbox]').ezMark({checkboxCls: 'ez-checkbox-green', checkedCls: 'ez-checked'})
+		//$('input[type=checkbox]').ezMark({checkboxCls: 'ez-checkbox-green', checkedCls: 'ez-checked'})
 	}
 });	
 </script>
