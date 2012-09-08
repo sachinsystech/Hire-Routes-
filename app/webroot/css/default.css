@@ -712,8 +712,11 @@ employee_contact_row{width:115px !important;}
 .h2_float { float:left;}
 .company-recruiter-radio{width:168px;overflow:visible;}
 .company-recruiter-radio input{margin-right:15px;}
-.company-recruiter-radio-input{width: 18px !important;
-float: left;}
+.company-recruiter-radio-input {
+	width: 18px !important;
+	float: left;
+	height: 14px;
+}
 .empty_concats_msg{
     background: none repeat scroll 0 0 #FAF8CC;
     border: 1px solid #446423;
@@ -811,32 +814,42 @@ font-size:26px !important;
 	background-color:rgba(235, 212, 196, 0.41) !important;
 }
 /*********** Css for radio buttons. ********************/
-.ez-hide { opacity: 0; filter:alpha(opacity=0); }
+div.ez-radio {
+padding:2px 5px 5px 5px;}
+ez-selected {padding-top:1px !important;}
+.cross-button input {
+   height: 22px;
+   width: 24px;
+}
+.ez-hide {
+   opacity: 0;
+}
 .ez-checkbox {
-	background: transparent url('../images/checkbox-button.png') 0 1px no-repeat;
-	display:-moz-grid;
-	display:inline-table;
+   background: url("../images/checkbox-button.png") no-repeat scroll 0 1px transparent;
+   display: inline-table;
 }
-
 .ez-radio {
-	background: transparent url('../images/radio-black.png') 0 -3px no-repeat;
-	display:inline-table;
-	display:-moz-grid;
+   background: url("../images/radio-black.png") no-repeat scroll 0 -3px transparent;
+   display: -moz-grid;
 }
-
-.ez-checked { background:url("../images/checkbox-button.png") repeat scroll 0 149px transparent !important;
+.ez-checked {
+   background: url("../images/checkbox-button.png") repeat scroll 0 149px transparent !important;
 }
-.ez-selected { background-position: 0px -25px;; }
-
+.ez-selected {
+   background-position: 0 -25px;
+}
 .ez-checkbox-green {
-	padding:10px;
-	background:url("../images/checkbox-button.png") repeat scroll 0 113px transparent;
-	display:-moz-grid;
-	display:inline-table;	
-	*display: inline;
+   background: url("../images/checkbox-button.png") repeat scroll 0 113px transparent;
+   display: block;
+   height: 30px;
+   padding: 0 7px 10px;
+   width: 25px;
 }
-.ez-radio { zoom: 1; *display:inline; _height:25px; }
-
-div.ez-radio{
-	padding:5px;
+.ez-radio {
+}
+div.ez-radio {
+	padding: 5px;
+	height: auto;
+	width: 15PX !important;
+	display: inline-table;
 }

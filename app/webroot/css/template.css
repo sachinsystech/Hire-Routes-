@@ -174,8 +174,6 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .check-button { width: 289px; height:24px; margin:20px auto 0;}
 .cross-button { width:24px; height:24px; float:left;}
 .cross-button input {
-    margin: 7px 0 0 5px;
-    margin:2px 0 0 5px\9;
 }
 .remember-me { margin-left:16px; float:left; line-height:30px; font-size: 15px;}
 .forgot-password {margin:-10px auto 0; text-decoration:underline; color:#3a9031;width:114px; height:17px; font-size: 15px;}
@@ -455,7 +453,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-subscribe {float:left !important;margin: 69px 0 0 !important;}
 .job-current-subs {width:710px;border-top: 1px solid #D6D2CC;}
 .job-current-subs h2 {padding:24px 0 24px 26px;border-bottom: 1px solid #D6D2CC;}
-.job-current-subs ul {list-style:none; height:315px;}
+.job-current-subs ul {list-style:none; height:305px;}
 .job-current-subs ul li {font:15px Arial, Helvetica, sans-serif;border-bottom: 1px solid #D6D2CC;height:auto;width: 710px;}
 .job-subs-table-left {padding:16px 0 16px 26px;}
 .job-current-subs ul li:hover { background:#faf8f4; cursor:pointer;}
@@ -468,7 +466,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-sub-subcontaint {margin-left:24px;}
 .job-sub-matter { float:left; padding-bottom:3px;width: 668px; height:21px;}
 .job-sub-p{font: 15px Arial,Helvetica,sans-serif;padding: 0 !important; width: auto; float:left;}
-.job-subs-scroll { overflow:auto; height:315px; width:710px; overflow-x:hidden; border-top:none !important;}
+.job-subs-scroll { overflow:auto; height:305px; width:710px; overflow-x:hidden; border-top:none !important;}
 
 
 
@@ -1007,7 +1005,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 	background:none;
 	border:none;
 	width:20px;
-	height:20px;
+	height:26px;
 	padding:0;
 }
 .network_checkbox_txt {
