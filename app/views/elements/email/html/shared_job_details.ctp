@@ -83,13 +83,13 @@
         </div>
         
 <div style="width:643px; height:auto; margin:0 auto; padding-top:30px;">
-        	<h1 style="font-size:24px; padding:0 0 0 25px; line-height: normal; color: #4a4947; font-family: Lucida Sans Unicode, Sans-serif;">5 Reasons to use Hire Routes</h1>
+        	<h1 style="font-size:24px; padding:0 0 0 25px; line-height: normal; color: #4a4947; font-family: Lucida Sans Unicode, Sans-serif;">5 Reasons to Use/Join Hire Routes</h1>
             <ul style="margin:15px 0 0 0; padding:10px 0 0 0; border-top:solid 1px #d3cdc1; padding-left:25px;">
            	  <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">1. Help a Friend Find a Job</li>
               <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">2. Find a Job for Yourself</li>
               <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">3. Charity (2%of Revenue goes to various charitable organizations.)</li>
               <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">4. Help Hire Routes grow so we can help more people!</li>
-              <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:10px 0 0 0; display:block;">1. Help a Friend Find a Job</li>
+              <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:10px 0 0 0; display:block;">5. Help a Friend Find a Job</li>
 </ul>
       </div>
       <?php echo $this->element("email_footer"); ?>

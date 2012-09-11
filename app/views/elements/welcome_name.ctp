@@ -7,10 +7,10 @@
 			
     		if($userName== null || $userName ==""){
     			if( $this->Session->read('UserRole') == NETWORKER){
-		    		echo "<span>Please fill your<a href='/Networkers/editProfile'>Profile</a></span>";
+		    		echo "<span>Please fill your&nbsp<a href='/Networkers/editProfile'>Profile</a></span>";
     			}
     			if( $this->Session->read('UserRole') == JOBSEEKER){
-		    		echo "<span>Please fill your <a href='/jobseekers/editProfile'>Profile</a></span>";
+		    		echo "<span>Please fill your&nbsp<a href='/jobseekers/editProfile'>Profile</a></span>";
     			}
 
     		}

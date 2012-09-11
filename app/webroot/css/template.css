@@ -168,14 +168,13 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 /*:::::Middle-Block - Form - Login - page css start :::::::*/
 
 
-.text-box { height: 29px; margin: 36px auto 0; width: 289px;}
+.text-box { height: 29px; margin: 36px auto 0; width: 289px; position:relative;}
 .text-box input { background: url("../images/text-box.png") no-repeat; border: 0 none; color: #847A6C; height: 28px; padding: 0 0 0 11px; width: 277px; font-size: 13px; font-family:Arial, Helvetica, sans-serif; line-height:28px;}
 .text-box-below {margin-top: 13px !important;}
 .check-button { width: 289px; height:24px; margin:20px auto 0;}
 .cross-button { width:24px; height:24px; float:left;}
 .cross-button input {
 }
-.remember-me { margin-left:16px; float:left; line-height:30px; font-size: 15px;}
 .forgot-password {margin:-10px auto 0; text-decoration:underline; color:#3a9031;width:114px; height:17px; font-size: 15px;}
 .forgot-password a{text-decoration:underline;color:#3a9031;}
 
@@ -254,7 +253,13 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .cross-button a {width:24px; height:24px; display:block;}
 .cross-button:hover {background:url(../images/checkbox-button.png) -7px -51px no-repeat;}
 .cross-button:active {background:url(../images/checkbox-button.png) -7px -94px no-repeat;  width:24px; height:24px;}*/
-.remember-me { margin-left:16px; float:left; line-height:26px; font-size: 15px;}
+.remember-me {
+    float: left;
+    font-size: 15px;
+    line-height: 35px;
+    margin-left: 16px;
+}
+
 .forgot-password {margin:-10px auto 0; text-decoration:underline; color:#3a9031;width:114px; height:17px; font-size: 15px;}
 .forgot-password a{text-decoration:underline;color:#3a9031;}
 .login-button {margin:20px auto 0 !important;}
@@ -1012,8 +1017,8 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 	width:auto;
 	height:20px;
 	float:left;
-	margin:3px 0 0 20px;
-	font:15px Arial, Helvetica, sans-serif;
+	margin:8px 0 0 20px;
+	font-size:15px;
 	color:#1d1d1d;
 }
 .network_checkbox_txt a {
@@ -1039,6 +1044,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 	text-shadow: 1px 1px 1px #444343; 
 	text-decoration:none; 
 	font-family: "OpenSansCondensedBold";font-size: 20px;
+	cursor:pointer;
 }
 .network_register_bttn input:hover {
 	background:url(../images/bttn_sprite.png) no-repeat -11px -121px;
@@ -1165,10 +1171,10 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-field {width:414px; height:auto;}
 .job-share-text {font:15px 'OpenSansCondensedBold'; padding-top:26px; float:left;}
 .job-share-tb, .job-share-tb-top { width:288px; height:28px; float:right;margin: 20px 55px 0 0;}
-.job-share-tb input, .job-share-tb-top input {background:url(../images/text-box.png) 0 0 no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif; font-size: 13px; height: 28px; line-height: 28px; padding: 0 0 0 11px; width: 277px;}
+.job-share-tb input, .job-share-tb-top input {background:url(../images/text-box.png) 0 0 no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif !important; font-size: 13px !important; height: 28px; line-height: 28px; padding: 0 0 0 11px; width: 277px;}
 .job-share-tb-top {margin-top:8px !important;}
 .job-share-tb1 {width:343px; height:98px; float:right;margin-top: 8px;}
-.job-share-tb1 textarea {background:url(../images/sj-text-box.png) -2px -40px no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif; font-size: 13px; height: 93px; line-height: 20px; padding: 6px 0 0 11px; width: 332px;resize: none;overflow: auto;}
+.job-share-tb1 textarea {background:url(../images/sj-text-box.png) -2px -40px no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif !important; font-size: 13px !important; height: 93px; line-height: 20px; padding: 6px 0 0 11px; width: 332px;resize: none;overflow: auto;}
 .job-share-margin {padding-top:13px !important;}
 .job-share-ppl { width:414px; height:172px; margin-top:27px; overflow:auto;}
 .job-share-ppl ul {margin:0; padding:0;}
@@ -1387,7 +1393,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 
 .login-button { background:url(../images/bttn_sprite.png) no-repeat 0 0; margin:20px auto 0; height:62px; width:207px;}
-.login-button input {background:url(../images/bttn_sprite.png) no-repeat -11px -80px;cursor: pointer; margin: 10px 0 0 11px;height: 36px; width: 181px; border:none; font:20px 'OpenSansCondensedBold'; color:#fff;}
+.login-button input {background:url(../images/bttn_sprite.png) no-repeat -11px -80px;cursor: pointer; margin: 10px 0 0 11px;height: 36px; width: 181px; border:none; font:20px 'OpenSansCondensedBold' !important; color:#fff;}
 .login-button input:hover {background:url(../images/bttn_sprite.png) no-repeat -11px -121px;}
 .login-button input:active {background:url(../images/bttn_sprite.png) no-repeat -11px -165px;}
 .button-orange1 { background:url(../images/bttn_sprite.png) no-repeat 0 0; margin:20px auto 0; height:62px; width:207px;}

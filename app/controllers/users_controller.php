@@ -516,7 +516,7 @@ class UsersController extends AppController {
 			$this->set('confirmCode', $confirmCode);
 		}else{
 			$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');	
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	}
 /**
@@ -587,7 +587,7 @@ class UsersController extends AppController {
 		$this->layout ="home";
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 		$session->start();
 		$id = $session->getUserId();
@@ -644,7 +644,7 @@ class UsersController extends AppController {
 		if($FBUserId){
 			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$FBUserId)));
 			if(!$FBUser){
-				if($this->Session->check('intermediateCode') || ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null )){
+				if($this->Session->check('intermediateCode') || ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null ) || $this->Session->check('icc') != null){
 					$fbUserMail = isset($fbUserProfile['email'])?$fbUserProfile['email']:'';// Retrieve mail from FB
 					$getUser = $this->User->find('first',array(	
 												'conditions'=>array('User.account_email'=>$fbUserMail), 
@@ -805,7 +805,7 @@ class UsersController extends AppController {
 		$this->Session->delete('welcomeUserName');
 		$this->Session->delete('userRole');
 		$this->Session->delete('Twitter');
-		$this->redirect("/users/login");		
+		$this->redirect("/login");		
 	}	
 /**
  * Ask facebook user to become Jobseeker OR Networker
@@ -858,7 +858,7 @@ class UsersController extends AppController {
  	{
  		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 		switch($session->getUserRole()){
 			case COMPANY:
@@ -886,7 +886,7 @@ class UsersController extends AppController {
 		$this->layout = "home";
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 		
 		$facebookUser=$this->User->find('first',array('conditions'=>
@@ -1048,7 +1048,7 @@ class UsersController extends AppController {
 					$user['User']['password'] = $newPassword;
 					if($this->sendEmail($to,$subject,$template,$user['User'])){
 						$this->Session->setFlash('Your password is send to your email address','success');
-						$this->redirect('/users/login');		
+						$this->redirect('/login');		
 					}
 				}else{
 					$this->Session->SetFlash('Internal Error!','error');
@@ -1066,7 +1066,7 @@ class UsersController extends AppController {
 	function loginSuccess(){
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 		$data['User']['id']= $session->getUserId();
 		$data['User']['last_login']=date('Y-m-d H:i:s'); 
@@ -1093,26 +1093,26 @@ class UsersController extends AppController {
 	function beforeLoggedInMessage($active_user){
 		if(!$active_user ){
 			$this->Session->setFlash('Username or password not matched.', 'error');	
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 				
 		/**	@user not acitvated (AND deactivated by Admin)	**/			
 		if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']=="" ){
 			$this->Session->setFlash('You are not activated, Please contact your system administrator', 'error');
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	
 		/**	@user not acitvated (AND not confirmed account by clicking on link in email)	**/
 		if($active_user['User']['is_active']==0 && $active_user['User']['confirm_code']!="" ){
 			$this->sendConfirmationEmail($active_user['User']['id']);
 			$this->Session->setFlash('Your account is not activated/confirmed, we have sent an email, please check your email for confirmation link!', 'warning');
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	
 		/**	@user not acitvated	**/			
 		if($active_user['User']['is_active']==0){
 			$this->Session->setFlash('Username or password not matched.', 'error');	
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	
 	}
@@ -1226,7 +1226,7 @@ class UsersController extends AppController {
 			}
 		}else{
 			$this->Session->setFlash('Some thing is going wrong .Please try again later.', 'error');	
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	 }
 	 
@@ -1255,7 +1255,7 @@ class UsersController extends AppController {
 			}
 		}else{
 			$this->Session->setFlash('Some thing is going wrong .Please try again later.', 'error');	
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	 }
 	 
@@ -1270,7 +1270,7 @@ class UsersController extends AppController {
 				return json_encode(array("status"=>"0"));
 			}
 		}else{
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	 }
 

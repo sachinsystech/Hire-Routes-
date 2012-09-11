@@ -1,11 +1,6 @@
 <div class="middle">
 	<div class="job_top-heading">
-	<?php if($this->Session->read('Auth.User.id')):
-		if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
-			<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
-		<?php endif;
-		endif;
-	?>
+		<?php echo $this->element("welcome_name"); ?>
 	</div>
     <div class="job_container">
     	<div class="job_container_top_row">
@@ -108,7 +103,7 @@
 function loadPiece(href,divName) {    
     $(divName).load(href, {}, function(){
         var divPaginationLinks = divName+" #pagination a";
-        $(".invitaionHeading div a").click(function(){
+        $(".invitaionHeading ul li a").click(function(){
            var thisHref = $(this).attr("href");
             loadPiece(thisHref,divName);
             return false;

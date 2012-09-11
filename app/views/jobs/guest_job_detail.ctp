@@ -35,7 +35,7 @@
 <div class="job_container1">
 	<div class="job_container_top_row job_guest_container">
 		<div class="job_left_bar job_detail_guest_left">
-			<h2>5 REASONS TO USE HIRE ROUTES</h2>
+			<h2>5 REASONS TO USE/JOIN HIRE ROUTES</h2>
             <ul>
             	<li>Help a Friend Find a Job</li>
                 <li>Find a Job for Yourself</li>

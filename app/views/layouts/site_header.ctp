@@ -25,7 +25,7 @@
 					return;
 				}
 				if(response['status'] == 0){
-					window.location.href= "/users/login" ;
+					window.location.href= "/login" ;
 				}
 				if(response['status'] == 3){
 					showView(4);
@@ -78,7 +78,7 @@ $class= "class='selected_menu'";
 	<!-- main-nav -->
 	<div class="login_signup">
 		<?php  if($current_user['id']==2 || !isset($current_user)):?>
-			<div class="login"> <a href="/users/login">Login</a></div>
+			<div class="login"> <a href="/login">Login</a></div>
 			<div class="signup"><a href="/users">Sign up</a></div>
 		<?php endif; ?>
 		<?php  if($current_user['id']==1):?>

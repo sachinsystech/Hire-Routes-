@@ -14,7 +14,7 @@ class CompaniesController extends AppController {
 		
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect('/users/login');
+			$this->redirect('/login');
 		}
 		if($session->getUserRole()!=COMPANY){
 			$this->redirect("/users/loginSuccess");
@@ -1418,7 +1418,7 @@ list archive jobs..
 	function invitations() {
  	 	$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	
 		$userId = $session->getUserId();		$traceId = -1;

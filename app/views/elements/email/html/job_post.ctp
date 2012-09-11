@@ -35,7 +35,14 @@
             	<li style="width:593px; height:49px; list-style:none; display:block; padding:28px 25px 0 25px; background:#eae6d6; margin:30px 0 0 0;">
                 	<a style="text-decoration:underline; color:#3a9031; float:left; font:bold 20px 'OpenSansCondensedBold';width: 400px;word-wrap: break-word;" href="<?php echo $config_url.'jobs/jobDetail/'.$job['Job']['id'];?>"><?php echo $job['Job']['title']; ?></a>
                     <div style="width:auto; height:20px; float:right; font-size:20px; line-height: normal; text-transform: uppercase; color:#1d1d1d;  font-family: 'OpenSansCondensedBold';">
-						Reward: <span style="color:#3a9031;">$12,500</span>
+						Reward: <span style="color:#3a9031;"><?php echo $this->Number->format(
+										$job['Job']['reward'],
+										array(
+											'places' => 0,
+											'before' => '$',
+											'decimals' => '.',
+											'thousands' => ',')
+										);?> </span>
                     </div>
                 </li>
                 <?php endforeach; ?>

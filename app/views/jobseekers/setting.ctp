@@ -32,11 +32,7 @@ div .checkbox{
 	}	
 </script>
 	<div class="job_top-heading">
-	<?php if($this->Session->read('Auth.User.id')):?>
-		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
-				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
-		<?php endif; ?>
-	<?php endif; ?>
+		<?php echo $this->element("welcome_name"); ?>
 	</div>
     <div class="job_container">
     	<div class="job_container_top_row">
@@ -151,7 +147,7 @@ div .checkbox{
 						</div>
 						<div class="clr"></div>
 						<div id="industry_specification_1">
-                    		<div class="jobseeker_settings_salary">
+                    		<div class="jobseeker_settings_salary textbox-name">
 		                        <?php echo $form->input('salary_range', 
 		                        							array('label' => 'Minimum Salary ($)',
 																  'type'  => 'text',

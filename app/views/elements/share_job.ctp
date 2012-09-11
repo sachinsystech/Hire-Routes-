@@ -590,7 +590,7 @@ function shareEmail(){
 			$('#shareJobDialog #submitLoaderImg').hide();
 			switch(response.error){
 				case 0:
-					$( "#dialog-messageshare" ).html(" E-mail send successfully.");
+					$( "#dialog-messageshare" ).html(" E-mail sent successfully.");
 					$( "#dialog-messageshare" ).dialog("open");
 					$('#shareJobDialog #ShareToEmail').val("");
 					setShareJobView('Email');

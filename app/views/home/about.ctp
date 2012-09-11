@@ -138,7 +138,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			<!-- member-info -->
 			<div class="member-info">
 				<h3>PIA SILVA</h3>
-				<span>Designer</span>
+				<span>Design Guru</span>
 				<!--<ul>
 					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
 					<li class="member-facebook"> <a href="#" class="NewTab">facebook</a> </li>
@@ -156,7 +156,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			<!-- member-info -->
 			<div class="member-info">
 				<h3>STEVE WASTERVAL</h3>
-				<span>Designer</span>
+				<span>Design Guru</span>
 				<!--<ul>
 					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
 					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
@@ -218,7 +218,8 @@ That idea has since then evolved into what you see today <b>"A social recruiting
                 <p>People, soccer, sweating to some form of physical activity, food & drink and exploring exciting new cultures and all the marvelous places this wonderful world of ours has to offer.</p>
                 
                 <h3>Random and Embarrassing:</h3>
-                <p>I read all the Dragonlance books, Sword of Shannara books....you name it. I'm still upset my Dungeon Master never gave me that +5 Broad Sword!</p>
+                <p>I read all the Dragonlance books, Sword of Shannara books....you name it. I'm still upset my Dungeon Master never gave me that +5 Broad Sword!. I played Dungeons & Dragons when I was younger.  I 
+also read all the Dragonlance books...</p>
                 
                 <div class="clr"></div>
             </div>

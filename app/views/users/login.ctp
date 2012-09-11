@@ -84,6 +84,7 @@ $(document).ready(function(){
 		if(data!=undefined){
 			$("#UserUsername").val(data[0]);
 			$("#UserPassword").val(data[1]);
+			$("#UserRememberMe").click();
 			$("#UserRememberMe").attr('checked',true);		
 		}
 	}

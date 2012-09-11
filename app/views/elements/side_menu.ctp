@@ -48,7 +48,7 @@
                          </li>
                          
                         <li><a <? if(!in_array($this->action,$my_employees_actions)){ echo $menu_show; echo $plusIconClass;}else echo $minusIconClass?> href="#">My Employees</a>
-                        	<div <? if(!in_array($this->action,$my_employees_actions)){ echo $display;}?> class="job_menus_submenu job_menus_last">
+                        	<div <? if(!in_array($this->action,$my_employees_actions)){ echo $display;}?> class="job_menus_submenu">
                         		<ul>
                                     <li><a href="/companies/employees" <?php if($this->action=='employees')echo $class;?>>Employees</a></li>
                                 </ul>
@@ -56,6 +56,11 @@
                         </li>
                         
                     </ul>
+                    <div class="post_and_share_left_search_row">
+               			<div class="post_and_share">
+               				<a href="/companies/postJob">Post & Share Job</a>
+						</div>
+	               </div>
                 </div>
         
 		</div>

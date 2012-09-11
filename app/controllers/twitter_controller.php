@@ -27,7 +27,7 @@ class TwitterController extends AppController {
 
         $session = $this->_getSession();
         if(!$session->isLoggedIn()){       
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
         
@@ -84,7 +84,7 @@ class TwitterController extends AppController {
 
         $session = $this->_getSession();
         if(!$session->isLoggedIn()){       
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
 		$fbUsers = json_decode($this->params['form']['user']);
@@ -190,7 +190,7 @@ class TwitterController extends AppController {
         $session = $this->_getSession();
         if(!$session->isLoggedIn()){  
         	$this->autoRender = false;     
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
 
@@ -265,7 +265,7 @@ class TwitterController extends AppController {
 		require_once(APP_DIR.'/vendors/twitter/twitterstatus.php');
 		$t = new TwitterStatus('HireRoutes', 3);
 		$t->__render();
-		echo "===============>  cron run sussessfully . ".time()." <================ \n";
+		echo "===============>  cron run sussessfully . ".date("Y-m-D H:i:s")." <================ \n";
 		$this->autoRender =false;
     }
     

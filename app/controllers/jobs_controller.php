@@ -189,7 +189,7 @@ class JobsController extends AppController {
 		$this->layout= "home";	
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 		$userId = $session->getUserId();
         $this->set('userRole',$this->userRole);
@@ -380,7 +380,7 @@ class JobsController extends AppController {
 		$session = $this->_getSession();
 		$userId = $session->getUserId();
 		if($this->userRole == ADMIN){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 			return;
 		}
 		if(isset($this->params['jobId'])){
@@ -544,7 +544,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 		if(!$session->isLoggedIn()){
 			$this->Session->setFlash("please login to share jobs.","warning");
 			//echo "her login"; exit;
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}else{
 
 			$this->redirect("/jobs/jobDetail/$this->params['jobId']");

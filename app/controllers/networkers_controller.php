@@ -24,7 +24,7 @@ class NetworkersController extends AppController {
 		parent::beforeFilter();
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 		if($this->userRole!=NETWORKER){
 			$this->redirect("/users/loginSuccess");
@@ -1168,7 +1168,7 @@ where user_id =".$userId."");
 	 function invites(){
 	 	$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	
 		$userId = $session->getUserId();
@@ -1191,7 +1191,7 @@ where user_id =".$userId."");
  	 	$this->layout = false;
  	 	$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 		$userId = $session->getUserId();
 		$this->paginate = array('conditions'=>array('Invitation.user_id'=>$userId),
@@ -1252,7 +1252,7 @@ where user_id =".$userId."");
 	 	$this->layout ="home";
  	 	$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	
 		$userId = $session->getUserId();

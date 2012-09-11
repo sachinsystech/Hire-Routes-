@@ -75,6 +75,7 @@
 
 	Router::connect('/users/saveLinkedinUser/:userType', array('controller' => 'users', 'action' => 'saveLinkedinUser'));
 
+	Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
 
 	
 /**
