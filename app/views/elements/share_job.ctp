@@ -638,6 +638,7 @@ function shareEmail(){
 					$( "#dialog-messageshare" ).html(" E-mail sent successfully.");
 					$( "#dialog-messageshare" ).dialog("open");
 					$('#shareJobDialog #ShareToEmail').val("");
+					$("#autocompleteEmail").val("");
 					setShareJobView('Email');
 					break;
 				case 1:
@@ -879,6 +880,9 @@ $(document).ready(function(){
 	$("#ShareJobForm").validate();
 	$("#autocompleteEmail").blur(function(){
 		$('#ShareToEmail').val($(this).val());
+	});
+	$("#autocompleteEmail").submit(function(){
+	    $('#InviteToEmail').val($(this).val());
 	});
 	$("#autocompleteEmail").autocomplete({
 			minLength:1,

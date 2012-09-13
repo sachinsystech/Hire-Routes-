@@ -59,7 +59,19 @@ margin-left:1px;
 }
 .ui-autocomplete {
     font-size: 12px;
+    max-height: 154px;
+    max-width: 350px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
+/* IE 6 doesn't support max-height
+* we use height instead, but this forces the menu to always be this tall
+*/
+* html .ui-autocomplete {
+    height: 100px;
+}
+</style>
+
 </style>
 <script>
 $(document).ready(function(){
@@ -645,7 +657,7 @@ function emailInvitaion(){
 		dataType: 'json',
 		data: {
 				toEmail : $('#InviteToEmail').val(),
-				message : $('#ShareMessage').val(),
+				message : $('#dialog #ShareMessage').val(),
 				invitationCode:$('#invitationCode').val()
 			},
 
@@ -656,6 +668,7 @@ function emailInvitaion(){
 					$( "#dialog-message .data" ).html(" E-mail sent successfully.");
 					$( "#dialog-message" ).dialog("open");
 					$('#InviteToEmail').val("");
+					$("#autocompleteInviteEmail").val("");
 					$('#dialog  #submitLoaderImg').hide();
 					setView('Email');
 					break;
@@ -738,7 +751,7 @@ function facebookCommentInvitation(){
 		dataType: 'json',
 		data: 
 				"&user="+JSON.stringify(user)+
-				"&message="+$("#ShareMessage").val()+
+				"&message="+$("#dialog #ShareMessage").val()+
 				"&invitationCode="+$('#invitationCode').val(),
 				
 
@@ -801,7 +814,7 @@ function linkedInCommentInvitation(){
 		dataType: 'json',
 		data: 
 				"&user="+JSON.stringify(user)+
-				"&message="+$("#ShareMessage").val()+
+				"&message="+$("#dialog #ShareMessage").val()+
 				"&invitationCode="+$('#invitationCode').val(),
 				
 		success: function(response){
@@ -915,7 +928,10 @@ alert(name[index]);
 $(document).ready(function(){
 	$("#ShareJobForm").validate();
 	$("#autocompleteInviteEmail").blur(function(){
-		$('#InviteToEmail').val($(this).val());
+	    $('#InviteToEmail').val($(this).val());
+	});
+	$("#autocompleteInviteEmail").submit(function(){
+	    $('#InviteToEmail').val($(this).val());
 	});
 	$("#autocompleteInviteEmail").autocomplete({
 			minLength:1,
