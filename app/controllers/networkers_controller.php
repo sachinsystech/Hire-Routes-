@@ -235,10 +235,8 @@ class NetworkersController extends AppController {
         }
 	}
 	
-	/*	Add contact by single entry	*/
-	function addContacts() {
-		$this->layout= "home";
-		
+	function getNetworkerContacts(){
+	
 		$userId = $this->_getSession()->getUserId();
 		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
 		$paginateCondition = array(
@@ -267,38 +265,13 @@ class NetworkersController extends AppController {
         $this->set('contacts',$contacts);
         $this->set('contact',null);
         $this->set('startWith',$startWith);
-		
-		/*$userId = $this->_getSession()->getUserId();
-		$startWith = isset($this->params['named']['alpha'])?$this->params['named']['alpha']:"";
-		
-		$paginateCondition = array(
-									'AND' => array(
-												array('NetworkerContact.user_id'=>$userId),
-												array('NetworkerContact.contact_email LIKE' => "$startWith%")
-											)
-								);
-		
-		$this->paginate = array('conditions'=>$paginateCondition,
-                                'limit' => 6,
-                                'order' => array("NetworkerContact.id" => 'asc',));             
-        $contacts = $this->paginate('NetworkerContact');
 
-        $alphabets = array();
-        foreach(range('A','Z') AS $alphabet){
-        	$contacts_count = $this->NetworkerContact->find('count',array('conditions'=>array('NetworkerContact.user_id'=>$userId,
-        																					  'NetworkerContact.contact_email LIKE' => "$alphabet%"
-        																					  )
-        																  )
-        													);
-            $alphabets[$alphabet] = $contacts_count; 
-        }
-		
-        $this->set('alphabets',$alphabets);
-        $this->set('contacts',$contacts);
-        $this->set('contact',null);
-        $this->set('startWith',$startWith);
-		*/
-		
+	}
+	
+	/*	Add contact by single entry	*/
+	function addContacts() {
+		$this->layout= "home";
+			
 		if(isset($this->params['url']['error'])){
     		$this->Session->setFlash('You have declined the request!', 'warning');
     		$this->redirect('/networkers/addContacts');
@@ -361,16 +334,23 @@ class NetworkersController extends AppController {
 				$duplicate_count_msg = "$duplicate_count duplicate contacts found.";
 			}
 			if(!empty($dataArray) && $this->NetworkerContact->saveAll($dataArray)){
-				$this->Session->setFlash("You contacts has been added successfully ".$added_count_msg." ".$duplicate_count_msg, 'success');	
+				$this->Session->setFlash("Your contacts has been added successfully ".$added_count_msg." ".$duplicate_count_msg, 'success');	
 			}else if($duplicate_count == count($this->data['gmailContact'])){
-				$this->Session->setFlash("You contacts has been added successfully ".$added_count_msg." ".$duplicate_count_msg, 'success');	
+				$this->Session->setFlash("Your contacts has been added successfully ".$added_count_msg." ".$duplicate_count_msg, 'success');	
 			}else{
 				$this->Session->setFlash("you may be click on old link and enter manually.", 'error');	
 			}
 			$this->redirect('/networkers/addContacts');			
 		}
+		
 		if(isset($this->data['Contact']['CSVFILE']['tmp_name']) && $this->data['Contact']['CSVFILE']['tmp_name']!= null ){
 			$this->importCsv($this->data['Contact']['CSVFILE']['tmp_name']);
+			if(isset($this->data['Contact'])){
+				if($this->data['Contact']['contact_name']==="Enter Name" && $this->data['Contact']['contact_email']=='Enter E-mail'){
+					$this->getNetworkerContacts();
+					return;
+				}
+			}
 		}
 		
 		if(isset($this->data['Contact'])){
@@ -395,17 +375,23 @@ class NetworkersController extends AppController {
 					$this->NetworkerContact->validationErrors['contact_email'] = "You have already added contact for this email.";
 					$this->set('validationErrors',$this->NetworkerContact->validationErrors);
 					$this->set('NetworkerContact',$this->NetworkerContact->data['NetworkerContact']);
+					$this->getNetworkerContacts();
 					return;
 				}									
 		        if($this->NetworkerContact->save($this->data['Contact'])){
-					$this->Session->setFlash('Contact has been added successfully.', 'success');	
+		        	if(isset($this->data['Contact']['CSVFILE']['tmp_name'])){
+						$this->Session->setFlash('Csv and Contact has been added successfully.', 'success');
+		        	}else{
+			        	$this->Session->setFlash('Contact has been added successfully.', 'success');	
+		        	}
+					
 				}	
 			}
 			$this->set('validationErrors',$this->NetworkerContact->validationErrors);
 			$this->set('NetworkerContact',$this->NetworkerContact->data['NetworkerContact']);
 		}
 		
-
+		$this->getNetworkerContacts();
 	}
 	
 	private function getGmailContacts($authcode){
@@ -683,7 +669,7 @@ where user_id =".$userId."");
 				}
 			
 				foreach($values as $key=>$val){
-					if(isset($val[3])){
+					if(isset($val[3]) && $val[3] != null){
 						$contacts[$key]['user_id'] = $userId;
 						$contacts[$key]['networker_id'] = $user['Networkers'][0]['id'];
 						$contacts[$key]['contact_name'] = ucfirst($val[0]).ucfirst($val[1]).ucfirst($val[2]);

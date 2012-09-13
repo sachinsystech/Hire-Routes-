@@ -294,9 +294,9 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .content1 {margin:72px auto 0; width:950px;}
 .box-heading { color:#1d1d1d; font-family:'OpenSansCondensedBold'; font-size:20px;}
 .box-content-text {margin:0 0 0 20px; width: 245px;}
-.space {margin-bottom:30px;}
+.space {margin-bottom:25px;}
 .box-text { font-size:15px; font-family:Arial, Helvetica, sans-serif; line-height: 22px;margin-top: 20px;}
-.box-text ul li {list-style: decimal inside none; margin-bottom:30px;}
+.box-text ul li {list-style: decimal inside none; margin-bottom:25px;}
 .box-text a{color:#50a947; text-decoration:underline;}
 .list-point-level { margin-top:23px; width:935px; padding:0 0 0 20px;}
 .content1 .box1 { width:316px; height:auto; float:left; border-bottom:0; border-right:0;}
@@ -421,7 +421,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-apply-button input { margin:10px 0 0 -3px !important;}
 .job_apply_color a{color:#50a64e; text-decoration:underline; text-align:center;}
 .job_detail_guest_left h2 {color:#1d1d1d; font:24px 'OpenSansCondensedBold';margin-bottom: 28px;}
-.job_detail_guest_left ul li {list-style:decimal outside; font:15px/20px Arial, Helvetica, sans-serif; margin:16px 0 0 19px;}
+.job_detail_guest_left ul li {list-style:decimal outside; font:15px/20px Arial, Helvetica, sans-serif; margin:16px 0 0 19px;padding-right:4px;}
 .job_backtosearch {color: #4FA34B; font:20px 'OpenSansCondensedBold'; margin-bottom:25px;}
 .job_backtosearch a {text-decoration:underline;}
 .job_right_rightmost { background:#eae6d7; height: 97px; position: absolute; right: 0; width: auto;padding-right: 20px;}
@@ -520,6 +520,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .plus_icon { background:url(../images/plus_icon.png) no-repeat 200px 11px;}
 .minus_icon { background:url(../images/minus_icon.png) no-repeat 200px 14px;}
 .job_menus_submenu {width:222px; background:#eee7d9; height:auto; padding:10px 0;} 
+
 .job_menus_submenu ul {margin:0; padding:0;}
 .job_menus_submenu ul li {width:222px; list-style:none; display:block; background:none; height:auto;}
 .job_menus_submenu ul li a {font:normal 13px Arial,Helvetica,sans-serif; color:#1d1d1d; line-height:18px; text-decoration:none; padding:0 0 0 10px; height:auto;}
@@ -1151,6 +1152,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-in:hover {background:url(../images/pop_up_buttons.png) -114px -114px no-repeat;}
 .job-share-in:active {
     background: url("../images/pop_up_buttons.png") no-repeat scroll -226px -116px transparent;
+
 }
 
 .job-share-twit {background:url(../images/pop_up_buttons.png) -6px -220px no-repeat; height:80px; width:84px;display:block;}

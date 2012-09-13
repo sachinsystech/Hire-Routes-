@@ -123,8 +123,8 @@ $(function() {
 	$('input[type=radio]').ezMark();
 	var checkboxObj = $('input[type=checkbox]');
 	$(checkboxObj).each(function(){
-	if(!$(this).parent().hasClass("job_menus_submenu") && !$(this).parent().hasClass("gmail_contacts_checkbox") && !$(this).parent().hasClass("js-check-box-popup") ){
-		$('input[type=checkbox]').ezMark({checkboxCls: 'ez-checkbox-green', checkedCls: 'ez-checked'})
+	if(!$(this).parent().hasClass("job_menus_submenu") && !$(this).parent().hasClass("gmail_contacts_checkbox") && !$(this).parent().hasClass("js-check-box-popup") && !$(this).parent().hasClass("contact_checkbox")){
+			$('input[type=checkbox]').ezMark({checkboxCls: 'ez-checkbox-green', checkedCls: 'ez-checked'})
 		}
 	});
 });	

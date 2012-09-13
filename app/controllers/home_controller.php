@@ -1,7 +1,7 @@
 <?php
 class HomeController extends AppController {
     var $uses = array('Home','Job','NetworkersTitle','PointLabels','Config');
-				
+	var $components = array('Session');			
 
 	var $helpers = array('Form','Paginator');
 	
@@ -23,7 +23,10 @@ class HomeController extends AppController {
 	}
 
 	function index(){
-		$this->layout ="home";
+	    if($this->_getSession()->isLoggedIn()){
+		$this->redirect('/users/loginSuccess');	
+	    }	    
+	    $this->layout ="home";
 	}
 
 	function companyInformation(){

@@ -45,7 +45,7 @@
 		</p>
 	<? } ?>
 	<?php if($jobs == null ):?>
-		<p>No job found.</p>
+		<p>No New Job Found.</p>
 	<?php endif; ?>
     </div>
     	

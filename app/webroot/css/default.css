@@ -98,7 +98,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .job-right-heading a:hover,.job-right-heading a:active{text-decoration:underline;}
 .job_right_pagination ul li.current{color: #9D9DA0;font-size: 14px;font-weight: normal;}
 .networkers-message{padding-top: 30px;text-align: center;}
-.inviation-message{text-align: center;margin-top:8px;}
+.inviation-message{text-align: center;margin-top:40px; font-size:16px;}
 /*-------- css for edit profile */
 .edit-profile-text-box { height: auto; width: 460px;margin-top:4px;}
 .edit-profile-text-box select{float:right;width:290px;}
@@ -243,7 +243,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 	resize:none;
 }
 /************************************** ************************/
-.job-empty-message{ text-align:center;margin-top:10px;}
+.job-empty-message{ text-align:center;margin-top:25px;}
 /*********************Css for payments detail popup dialog ***********************/
 .payment_popup_cancel_bttn {
 	width:72px;
@@ -336,9 +336,10 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 }
 .gmail-share-content {
     background: none repeat scroll 0 0 #F6F1E2;
-    height: 450px;
     margin: 0 auto;
     width: 575px;
+    max-height:450px;
+    min-height:80px;
 }
 /*---------------- Edit gmail contacts  ********************/
 .gmail-edit-content {
@@ -802,6 +803,7 @@ font-size:26px !important;
 .no_friend_found{
 	text-align:center;
 	display:none;
+	margin-top:30px;
 }
 .serach_box {
 	width:289px;
@@ -866,7 +868,7 @@ div.ez-radio {
 	width:22px !important; 
 	height:25px !important;
 	padding:0 !important;
-	margin:0 !important;
+	margin-left:8px;
 }
 /************ Css for post and share button ******************************/
 .post_and_share_left_search_row {

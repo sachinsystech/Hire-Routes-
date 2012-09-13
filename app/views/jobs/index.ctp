@@ -477,6 +477,7 @@
 	margin:2px 0 0 11px;
 	background:url("/images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
 	border:none;
+	cursor:pointer;
 }
 .job_left_search_row .search_bttn a:hover {
 	background:url(/images/left_bar_menu_bg.png) no-repeat -14px -159px;
@@ -536,7 +537,7 @@
 .job_right_pagination ul li:first-child {border:none;}
 .arrow_margin {margin:2px 10px 0;}
 .job_preview_bttn {width:28px; height:28px; background:url(/images/job_prev_next_bttn.png) no-repeat -6px -6px; float:left;  margin:3px 8px 0 10px;}
-.job_preview_bttn a {width:25px; height:25px; display:block;}
+.job_preview_bttn a {width:25px; height:25px; display:block; }
 .job_preview_bttn a:hover {background:url(/images/job_prev_next_bttn.png) no-repeat -6px -45px;}
 .job_preview_bttn a:active {background:url(/images/job_prev_next_bttn.png) no-repeat -6px -86px;}
 .job_next_bttn {width:28px; height:28px; background:url(/images/job_prev_next_bttn.png) no-repeat -41px -6px; float:left; margin-top:3px;}

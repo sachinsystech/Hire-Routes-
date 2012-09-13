@@ -113,6 +113,7 @@
 							?>
 						</ul>
 					</div>
+					<div class="clr"></div>
 					<?php if( isset($contacts) && $contacts!= null){ ?>       	
                     <div class="job-table-heading job-table-heading-border">
                     		<ul>
@@ -221,7 +222,12 @@ function edit(id, contact_name, email){
 		$("#editContactId").val(id);
 		$("#editContactContactName").val(contact_name);
 		$("#editContactContactEmail").val(email);		
-		$("#editContactAddContactsForm").validate();
+		$("#editContactAddContactsForm").validate({
+			errorPlacement: function (error, element) {
+				error.insertAfter(element)
+				error.css({'margin-left':'172px','width':'236px'});
+			}
+		});
 //		$("#editContactAddContactsForm").submit(function(){
 	//		$("#editContactAddContactsForm").validate();
 		//});
@@ -314,8 +320,8 @@ function importFromGmail(){
 			<input type="submit" value="ADD CONTACTS" onclick="return checkGmailCheckbox()" class="gmail-submit">
 			<?php }
 			else{ ?>
-				<div style="text-align:center;">
-					<span >No contacts Found</sapn> 
+				<div style="text-align:center;margin-top:18px;">
+					<span >No Contacts Found.</sapn> 
 				</div>
 			<?php } ?>
 			<?php echo $form->end(); ?>
@@ -350,7 +356,7 @@ function importFromGmail(){
     opacity: 0.6;
 }
 .payment_popup_cancel_bttn {
-    background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    background: url("/images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
     height: 72px;
     position: absolute;
     right: -31px;

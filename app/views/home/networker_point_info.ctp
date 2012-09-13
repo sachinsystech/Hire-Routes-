@@ -19,8 +19,12 @@
 <div class="content1">
 	<div class="box1 box-cursor">
 		<div class="box-content-text"><h2>WHAT ARE POINTS?</h2>
-        	<div class="box-text">The more points you score the higher your experience level, title and thus most important your bonus %. Your bonus % is what Hire Routes pays you on top of what your Networkers make.<br /><br />
-        	<b> Example:</b> Your Networkers make $100,000 in rewards in January. Your Experience Level is 5. We will pay you $5,000. <br /> <br />All your point information can be found under the Points tab in My Network when logged in.
+        	<div class="box-text">
+        	<p class="space">The more points you score the higher your experience level, title and thus most important your bonus %. Your bonus % is what Hire Routes pays you on top of what your Networkers make.
+        	</p>
+        	<p class="space">
+        	<b> Example:</b> Your Networkers make $100,000 in rewards in January. Your Experience Level is 5. We will pay you $5,000. </p>
+        	<p class="space">All your point information can be found under the Points tab in My Network when logged in.</p>
     		</div>
         </div>
 	</div>

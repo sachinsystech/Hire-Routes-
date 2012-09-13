@@ -145,7 +145,7 @@
 					   	<?php endforeach;?>
 						<div class="clr"></div>
 						<?php else:?>
-							<div class='job-empty-message'>There is no invited friends.</div>
+							<div class='job-empty-message'>You have not invited any of your friends yet.</div>
 						<?php endif;?>
 	
                     <div class="clr"></div>

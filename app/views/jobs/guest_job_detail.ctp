@@ -35,13 +35,13 @@
 <div class="job_container1">
 	<div class="job_container_top_row job_guest_container">
 		<div class="job_left_bar job_detail_guest_left">
-			<h2>5 REASONS TO USE/JOIN HIRE ROUTES</h2>
+			<h2>5 REASONS TO JOIN HIRE ROUTES</h2>
             <ul>
-            	<li>Help a Friend Find a Job</li>
-                <li>Find a Job for Yourself</li>
-                <li>Charity (2% of Revenue goes to charitable organizations.)</li>
-                <li>Help Hire Routes grow so we can help more people!</li>
-                <li>Help a Friend Find a Job</li>
+            	<li>Networkers can help friends and others finds jobs and get paid for doing so!</li>
+                <li>Employers can access new, select social networks to find talent!</li>
+                <li>Job Seekers can find jobs and get paid for getting hired!</li>
+                <li>Everyone can help the less fortunate.  A % of the reward goes to charity!</li>
+                <li>Everyone can help Hire Routes grow so we can help more people!</li>
             </ul>
 		</div>
 		<div class="job_right_bar job_detail_guest_right job_right_bar_position">

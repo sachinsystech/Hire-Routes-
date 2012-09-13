@@ -26,7 +26,7 @@
 		  },
 		  errorPlacement: function (error, element) {
 		  	if($(element).attr("type")== "radio"){
-		  		error.insertAfter(element.parent("div"));
+		  		error.insertAfter(element.parent("div").parent());
 		  	}else{
 			  	if($(".placehcss").length){
 					error.insertAfter(element.parent());

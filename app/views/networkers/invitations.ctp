@@ -44,7 +44,7 @@
 <?php	if($invitations == null){?>
 <div class="job-list-subhead">
     <div class="inviation-message job-empty-message">
-    	No Invitaion Found.
+    	You have not invited any of your friends yet. 
     </div>
 </div>
 <?php	} ?>

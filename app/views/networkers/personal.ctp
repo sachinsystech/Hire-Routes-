@@ -12,7 +12,23 @@
                     	<p>Total: <span><?php echo isset($networkerDataCount)?array_sum($networkerDataCount):"0";?></span></p>
                     	<?php if(isset($networkerDataCount)){ ?>
 	                    	<?php foreach($networkerDataCount as $key => $value){ ?>
-    	                	<p><?php echo $key+1?>st°: <span><?php echo $value;?></span></p>
+    	                	<p><?php
+    	                		$num =$key+1; 
+   	                			    if (!in_array(($num % 100),array(11,12,13))){
+   	                			    
+									  switch ($num % 10) {
+										case 1:
+										  $i = $num.'st°:';break;
+										case 2:
+										  $i = $num.'nd°:';break;
+										case 3:
+										  $i = $num.'rd°:';break;
+										default:
+										 $i = $num.'th°:';
+									  }
+									}
+									echo $i;
+    	                		?>&nbsp;<span><?php echo $value;?></span></p>
     	                	<?php }?>
     	                <?php } ?>
                     </div>
@@ -43,7 +59,7 @@
 			            <div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
 			            <div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?></div>
 						<?php } ?> 
-					
+					 <div class="clr"></div>
                     <div class="job-table-heading">
 		        		<ul>
 		                	<li class="job-table-name job-table-align">Name/Email</li>
@@ -54,6 +70,7 @@
 		                    <li class="job-table-level job-table-level-align job-table-align">Level</li>
 		                </ul>
                     </div>
+                     <div class="clr"></div>
                     <?php if(isset($networkerData) && $networkerData != null){ 
                     	$i=0;?>
                     	<?php foreach($networkerData as $key => $value){
@@ -79,7 +96,7 @@
 							<?php $i++;?>
                            <?php }} ?>
                     <?php }else{ ?>
-                    <div class="networkers-message job-empty-message">
+                    <div class="networkers-message">
                     	No Networker Found.
                     </div>
                     <?php } ?>
