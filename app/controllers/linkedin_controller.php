@@ -210,7 +210,7 @@
                 	if($session->getUserRole()==JOBSEEKER){
  	               		$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
                 	}else{
-                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
+                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."%26icc=".$icc;	
                 	}
                 	$message = $this->params['form']['message']." Connect with us >>".$invitationUrl;
                 	$xml_response = $linkedin->sendMessage($fbuser->id,$subject,$message);

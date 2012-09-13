@@ -27,7 +27,7 @@
 						?>						
 					</div>
                     </div>
-                    
+                    <div class="clr"></div>
                     <div class="job_feild"> <span>Reward$:</span>
                         <div class="job-share-tb-top job_feild_margin">
 							<?php	echo $form->input('reward', array('label' => '',
@@ -41,7 +41,7 @@
 						     ?>					
                         </div>
                     </div>
-                    
+                    <div class="clr"></div>
                     <div class="job_feild"> <span>Short Description:</span>
                             <div class="post_job_textbox">
 								   <?php echo $form->input('short_description', array('label' => '',
@@ -55,6 +55,7 @@
                             </div>
                             <div class="clr"></div>
                     </div>
+		    <div class="clr"></div>
                     <div class="job_feild company_select"> <span>Category:</span>
 						<div class="category_dropdown">
                              	<!-- div class="jobseeker_select_i_error" style="float:left;margin-left: -7px;clear: both;" -->					<div class="copmany_select_box">		 
@@ -119,7 +120,7 @@
                                 	<?php	echo $form->input('salary_from', array('label' => '',
 													'type'  => 'text',
 													'class' => 'required number',
-													'title'=> 'Enter aount in $',
+													'title'=> 'Enter amount in $',
 													'div'=>false
 												)
 								          );
@@ -130,7 +131,7 @@
                                 	<?php	echo $form->input('salary_to', array('label' => '',
 											'type'  => 'text',
 											'class' => 'required number',
-											'title'=> 'Enter aount in $',
+											'title'=> 'Enter amount in $',
 											'div'=>false
 											)
 								        );
@@ -226,16 +227,23 @@
 	$(document).ready(function(){
    		$("#JobPostJobForm").validate({
 			errorClass: 'error_input_message',
-				errorPlacement: function (error, element) {
+			errorPlacement: function (error, element) {
+				if($(element).attr("id")== "JobSalaryFrom"){
+					error.insertAfter(element.parents(".annual_field").parent());
+					error.css({'float':'left','width':'192px' });
+				}else if($(element).attr("id")== "JobSalaryTo"){
+					error.insertAfter(element.parents(".annual_field").parent());
+					error.css({'float':'left','margin-left':'132px','width':'192px' });
+				}else{
 					error.insertAfter(element)
 					error.css({'clear':'both','width':'auto'});
+				}
+				
 			}
 		});
-		
 		$("#JobPostJobForm").submit(function(){ 
 			if(!validateSalary()) return false;
 		});
-
 		$("#JobSalaryTo").blur(function(){ 
 			validateSalary();
 		});
