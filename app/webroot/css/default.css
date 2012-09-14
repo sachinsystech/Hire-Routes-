@@ -834,6 +834,7 @@ ez-selected {padding-top:1px !important;}
 }
 .ez-hide {
     opacity: 0;
+    -moz-appearance: none;
     filter:alpha(opacity=0);
 }
 .ez-checkbox {
