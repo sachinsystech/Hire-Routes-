@@ -294,7 +294,8 @@ class UtilityComponent extends Object
 								? $university['University']['points'] :0;
 					$graduateUniversity = $this->GraduateUniversityBreakdown->find('first',
 							array( 'conditions'=>
-							array('degree_type'=>$user['Networkers'][0]['graduate_degree_id'])));
+							array('degree_type'=>$user['Networkers'][0]['graduate_degree_id'],
+								'id'=>$user['Networkers'][0]['graduate_university_id'])));
 
 					$point +=  isset( $graduateUniversity['GraduateUniversityBreakdown']['points'] )
 								?$graduateUniversity['GraduateUniversityBreakdown']['points']: 0;
