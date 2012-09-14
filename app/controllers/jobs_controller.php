@@ -329,12 +329,13 @@ class JobsController extends AppController {
 	}
 
 	function viewResume(){
+		$session = $this->_getSession();
 		$userId = $session->getUserId();
         		
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
 
-		
+		pr($this->params); exit;
 		if(isset($this->params['id'])){
 
 			$job_id = $this->params['jobId'];
@@ -372,7 +373,7 @@ class JobsController extends AppController {
 				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/applyJob/'.$job_id); 
 			}
-		}		
+		}echo "here"; exit;		
 	} 
 
 	function jobDetail(){

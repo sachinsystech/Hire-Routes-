@@ -918,3 +918,10 @@ div.ez-radio {
 	margin-top:40px;    
     width: 77px; float:right;
 }
+.date_expire{
+	margin-left: 169px;
+    width: 290px !important;
+}
+.application_cover_letter{
+	margin-top:25px !important;
+}

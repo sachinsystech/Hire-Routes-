@@ -158,30 +158,36 @@
 	            <?php if(isset($is_resume) && $is_resume!=''){?>
 				<div>
 					<?php echo $form->input('resume', array('label' => false,
-															 'type'  => 'file',
-															 'div'	=> false,
-				                                             'id'    => 'resume',));?>
+									 'type'  => 'file',
+									'div'	=> false,
+									'class'=>'required',
+       			                                             'id'    => 'resume',));?>
 				</div>
 				<?php }else{ ?>
 				<div>
 					<?php echo $form->input('resume', array('label' => false,
-															 'type'  => 'file',
-															 'div'=> false,
+									'type'  => 'file',
+									 'div'=> false,
 				                                             'id'    => 'resume',
 															 'class' => 'required',));?>
 				</div>
+				<?php }?>
+				<?php if(isset($is_resume) && $is_resume!=''){?>
+				    <div class="upload_resume">
+					    <?php echo $html->link('Your Resume',array('controller'=>'jobseekers','action' => '/viewResume/resume/'.$jobprofile['id']));?>							        
+				    </div>
 				<?php }?>
         	</div>
             <div class="clr"></div>
         </div>
         
-        
-        <div class="application_form_row">
+         <div class="clr"></div>
+        <div class="application_form_row application_cover_letter">
         	<div class="application_form_text">Cover Letter</div>
             <div class="application_browse_field">
 				<?php echo $form->input('cover_letter', array('label' => false,
-														   'type'  => 'file',
-														   'div'	=> false,
+								'type'  => 'file',
+								'div'	=> false,
                                                            'id'    => 'cover_letter'));?>
         	</div>
             <div class="clr"></div>
