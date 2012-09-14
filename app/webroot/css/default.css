@@ -243,7 +243,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 	resize:none;
 }
 /************************************** ************************/
-.job-empty-message{ text-align:center;margin-top:25px;}
+.job-empty-message{ text-align:center;margin-top:40px;}
 /*********************Css for payments detail popup dialog ***********************/
 .payment_popup_cancel_bttn {
 	width:72px;

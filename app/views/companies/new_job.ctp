@@ -71,10 +71,10 @@
 							
                         </div>
                     </div>
-                    					
+                    	<?php if($this->Paginator->numbers()){?>				
 					<div class="job_right_pagination">
                 	<div>
-		            	<?php if($this->Paginator->numbers()){?>
+		            	
 						<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
 		                <ul>
 						<?php echo $this->Paginator->numbers(array('modulus'=>8,
@@ -82,7 +82,7 @@
 																	'separator'=>false,)); ?>
 						</ul>
 		                <?php echo $paginator->last(">>", array("class"=>"arrow_margin",
-		                    											)); }?>
+		                    											)); ?>
 		                 <!---<a class="arrow_margin" href="#">&gt;&gt;</a>-->
                      </div>
 					
@@ -90,7 +90,7 @@
                     <div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
                     <div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?>
                     </div>
-                    
+                    <?php } ?>
                 </div>
 				
                 <?php if(empty($jobs)){ ?>
@@ -105,7 +105,7 @@
                         <p class="job-submission-margin">Submissions: <span><?php echo $job[0]['submissions']; ?></span></p>
                     </div>
                     <?php if($job['Job']['is_active']==3){?>
-                    <div style="float:left;margin-left:272px;"><a href="/companies/editJob/<?php echo $job['Job']['id'] ?>">Share</a></div>
+                    <div style="float:left;margin-left:272px;" ><a href="/companies/editJob/<?php echo $job['Job']['id'] ?>" >Share</a></div>
                     <?php } ?>
                     <div class="job-right-rightmost ">
 						

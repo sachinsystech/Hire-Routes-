@@ -13,21 +13,21 @@
                 	<div class="job-right-top-left job-profile">
                     	<h2>PROFILE</h2>
                     	<p><span>Company:</span>
-							<?php echo ucfirst($company['company_name']);?>
-							<a href="/companies/editProfile">edit</a>
-						</p>
+			    <?php echo ucfirst($company['company_name']);?>
+			    <a href="/companies/editProfile">edit</a>
+			</p>
 												
                     	<p><span>Company Name:</span> 
-                    		<?php echo $company['contact_name'];?>
-							<a href="/companies/editProfile">edit</a>
-						</p>
+			    <?php echo $company['contact_name'];?>
+			    <a href="/companies/editProfile">edit</a>
+			</p>
                     	<p><span>Contact Phone:</span> 
-                    		<?php echo $company['contact_phone'];?>
-							<a href="/companies/editProfile">edit</a>
-						</p>
+			    <?php echo $company['contact_phone'];?>
+			    <a href="/companies/editProfile">edit</a>
+			</p>
                         <p><span>Email:</span> 
-                        	<?php echo $user['account_email'];?>
-							<a href="/companies/editProfile">edit</a>
+                            <?php echo $user['account_email'];?>
+				<!--<a href="/companies/editProfile">edit</a>-->
                         </p>
                     </div>
                </div>

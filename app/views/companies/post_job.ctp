@@ -258,4 +258,16 @@
 		return true;
 	} 
 </script>
-
+<script>
+	
+$(document).ready(function(){
+	<?php
+	    if($this->Session->check('openShare')):
+	?>
+	    shareJobShowView(4);
+	<?php
+	    $this->Session->delete('openShare');
+	    endif;
+	?>
+});
+</script>
