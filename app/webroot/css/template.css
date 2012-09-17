@@ -467,7 +467,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-current-subs p {padding:29px 0 0 26px; font:15px Arial, Helvetica, sans-serif;}
 .job-subs-select {margin:5px 0 0 26px;}
 .job-save-setting { clear: both;
-    margin:30px 0 0 18px !important;*margin-left:0px !important; *position:relative; *left:18px;}
+    margin:30px 0 0 15px !important;*margin-left:0px !important; *position:relative; *left:18px;}
 .job-sub-subcontaint {margin-left:24px;}
 .job-sub-matter { float:left; padding-bottom:3px;width: 668px; height:21px;}
 .job-sub-p{font: 15px Arial,Helvetica,sans-serif;padding: 0 !important; width: auto; float:left;}
