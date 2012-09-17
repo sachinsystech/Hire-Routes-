@@ -98,7 +98,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .job-right-heading a:hover,.job-right-heading a:active{text-decoration:underline;}
 .job_right_pagination ul li.current{color: #9D9DA0;font-size: 14px;font-weight: normal;}
 .networkers-message{padding-top: 30px;text-align: center;}
-.inviation-message{text-align: center;margin-top:40px; font-size:16px;}
+.inviation-message{text-align: center;margin-top:40px; font-size:16px;width:680px;}
 /*-------- css for edit profile */
 .edit-profile-text-box { height: auto; width: 460px;margin-top:4px;}
 .edit-profile-text-box select{float:right;width:290px;}
@@ -142,7 +142,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 }
 .industry-specification-1{height:150px;width:600px;}
 .industries-select{float:left;height:14px;}
-.jobseeker_settings_state select {margin-left:10px;}
+.jobseeker_settings_state select {margin-left:35px;}
 .jobseeker_settings_salary {margin-top:20px !important;}
 .jobseeker_settings_salary input {margin-left:5px;}
 .jobseeker_settings_notification{margin-top:20px;}
@@ -758,6 +758,14 @@ width:509px !important;
 .copmany_select_box label{
 	
 margin-left:5px;
+}
+.job_salary{
+overflow:hidden;
+}
+.upload_cover_letter{
+	margin-left:484px;
+	margin-top:5px;
+
 }
 /*********** css for networker personal data ***************/
 .job-table-data ul li {list-style:none; float:left; border-bottom: 1px solid #D6D2CC;}

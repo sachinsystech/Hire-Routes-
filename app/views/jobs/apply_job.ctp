@@ -93,7 +93,7 @@
                                                          'class' => 'required',
                                                          'div'	=> false,
 														 'options'=>$universities,
-														 'empty'=>"select",
+														 'empty'=>"Select",
 														 'value' => isset($jobprofile['answer6'])?$jobprofile['answer6']:""));?>
             </div>
             <div class="clr"></div>
@@ -160,16 +160,15 @@
 					<?php echo $form->input('resume', array('label' => false,
 									 'type'  => 'file',
 									'div'	=> false,
-									'class'=>'required',
-       			                                             'id'    => 'resume',));?>
+                                    'id'    => 'resume',));?>
 				</div>
 				<?php }else{ ?>
 				<div>
 					<?php echo $form->input('resume', array('label' => false,
 									'type'  => 'file',
 									 'div'=> false,
-				                                             'id'    => 'resume',
-															 'class' => 'required',));?>
+									 'id'    => 'resume',
+									 'class' => 'required',));?>
 				</div>
 				<?php }?>
 				<?php if(isset($is_resume) && $is_resume!=''){?>
@@ -190,7 +189,13 @@
 								'div'	=> false,
                                                            'id'    => 'cover_letter'));?>
         	</div>
-            <div class="clr"></div>
+           <div class="clr"></div>
+            <?php if($is_cover_letter!=''){?>
+			<div class="upload_resume upload_cover_letter">
+				<?php echo $html->link('Your Cover Letter',array('controller'=>'jobseekers','action' => '/viewResume/cover_letter/'.$jobprofile['id']));?>	
+			</div>
+				<?php }?>
+		<div class="clr"></div>
         </div>
         
         <div style="display:none;">

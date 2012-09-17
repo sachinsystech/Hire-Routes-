@@ -7,7 +7,7 @@
 
 			var displaySelected = $("#switch_display option:selected");
 			var shortSelected = $("#short_by option:selected"); 
-			window.location.href="/jobseekers/appliedJob/display:"+displaySelected.text()+"/shortby:"+shortSelected.val();
+			window.location.href="/jobseekers/appliedJob/shortby:"+shortSelected.val();
 		}
 	</script>
 	<div class="job_top-heading">

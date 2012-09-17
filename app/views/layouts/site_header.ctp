@@ -96,9 +96,9 @@ $class= "class='selected_menu'";
 		<div class="Hire-Routes"> </div>
 		<div class="icons">
 			<ul>
-				<li> <a href="http://www.twitter.com/hireroutes" class="twit NewTab"> </a> </li>
-				<li> <a href="http://www.facebook.com/hireroutes" class="fb NewTab" > </a></li>
-				<li> <a href="http://www.linkedin.com/pub/austin-root/8/b29/163" class="in NewTab"> </a> </li>
+				<li> <a href="http://www.twitter.com/hireroutes" class="twit NewTab" title="Twitter"> </a> </li>
+				<li> <a href="http://www.facebook.com/hireroutes" class="fb NewTab" title="Facebook"> </a></li>
+				<li> <a href="http://www.linkedin.com/pub/austin-root/8/b29/163" class="in NewTab" title="Linkedin"> </a> </li>
 			</ul>
 		</div>
 	</div>

@@ -169,7 +169,9 @@
 
 <script>
 $(".HrMenu").click(function(){
-	$(".HrMenu").removeClass("minus_icon").addClass("plus_icon").next().slideUp();
-	$(this).removeClass("plus_icon").addClass("minus_icon").next().slideDown();
+	if( !$(this).hasClass("minus_icon") ){
+		$(".HrMenu").removeClass("minus_icon").addClass("plus_icon").next().slideUp();
+		$(this).removeClass("plus_icon").addClass("minus_icon").next().slideDown();
+	}
 });
 </script>

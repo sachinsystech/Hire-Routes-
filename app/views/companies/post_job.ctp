@@ -114,7 +114,7 @@
                             </div>
                     </div>
                      <div class="clr"></div>
-                    <div class="job_feild"> <span class="annual_sal_lh">Minimum Salary ($):</span>
+                    <div class="job_feild job_salary"> <span class="annual_sal_lh">Minimum Salary ($):</span>
                       	<div class="annual_field"> <span>From</span> 
                         		<div class="from_date textbox-date">
                                 	<?php	echo $form->input('salary_from', array('label' => '',
@@ -229,11 +229,18 @@
 			errorClass: 'error_input_message',
 			errorPlacement: function (error, element) {
 				if($(element).attr("id")== "JobSalaryFrom"){
+					$(".salery_error").remove();
 					error.insertAfter(element.parents(".annual_field").parent());
-					error.css({'float':'left','width':'192px' });
+					error.css({'float':'left','width':'192px','margin-left':'132px' });
 				}else if($(element).attr("id")== "JobSalaryTo"){
-					error.insertAfter(element.parents(".annual_field").parent());
-					error.css({'float':'left','margin-left':'132px','width':'192px' });
+					$(".salery_error").remove();
+					if(!element.parents(".job_salary").next().hasClass("error_input_message")){
+						error.insertAfter(element.parents(".annual_field").parent());
+						error.css({'float':'left','margin-left':'132px','width':'192px' });
+					}else{
+						error.insertAfter(element.parents(".job_salary").next(".error_input_message"));
+						error.css({'float':'left','width':'192px' });
+					}
 				}else{
 					error.insertAfter(element)
 					error.css({'clear':'both','width':'auto'});
@@ -251,8 +258,10 @@
 	});
 
 	function validateSalary(){
-		if(parseInt($("#JobSalaryFrom").val()) > parseInt($("#JobSalaryTo").val()) ) {	
-			$(".annual_field").after("<label class='error_input_message' for='JobSalaryTo' style='margin-left:325px;' >Must greater than or equal to From field value</label>");
+		var salaryFrom = $("#JobSalaryFrom").val() , salaryTo = $("#JobSalaryTo").val();
+		
+		if( !isNaN(salaryFrom) && !isNaN(salaryTo) && parseInt(salaryFrom) > parseInt(salaryTo) ) {	
+			$(".annual_field").after("<label class='error_input_message salery_error' for='JobSalaryTo' style='margin-left:325px;clear:both;width:auto;' >Must greater than or equal to From field value</label>");
 			return false;
 		}
 		return true;

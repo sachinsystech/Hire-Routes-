@@ -105,7 +105,7 @@
 								                                         'class' => 'required',
 								                                         'div'	=> false,
 																		 'options'=>$universities,
-																		 'empty'=>"select",
+																		 'empty'=>"Select",
 																		 'style'=>"width:250px;",
 																		 'value' => isset($jobprofile['answer6'])?$jobprofile['answer6']:""));?>
 							</div>

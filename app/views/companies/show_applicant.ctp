@@ -1,12 +1,13 @@
 
 <?php echo $this->Session->flash();?>
 <style>
-	.js_terms-condition-error{
-		color: #FF0000;
-		font-size: 10px;
-		margin: auto;
-		width: 274px;
-	}
+.js_terms-condition-error {
+    color: #FF0000;
+    float: left;
+    font-size: 10px;
+    margin: 17px auto auto 170px;
+    width: 274px;
+}
 .ui-dialog-titlebar { display:none; }
 .ui-widget-overlay{
     background: none repeat scroll 0 0 #000000;
@@ -260,7 +261,7 @@ function clear_div(val){
 															 'type'    => 'select',
                                                              'class'   => 'show_appl_filter_select',
 															 'options' =>$universities,
-															 'empty'   =>"select",
+															 'empty'   =>"Select",
 															 'div'		=>false,
 															 'value'   => isset($filterOpt['answer6'])?$filterOpt['answer6']:"",
 															 'onChange'=>"return clear_div(this.value);"
@@ -294,7 +295,7 @@ function clear_div(val){
                             </div>
                         </div>    
                     </div>
-					
+					<div class="clr"></div>
                     <div class="app_search">
 						<div id="error_div" style="color:#FF0000"></div> 
                     	<div class="find_clr_button">
@@ -382,7 +383,7 @@ function clear_div(val){
 							</li>
                             <li class="app_topmargin">
                             	<div class="app_action">
-                                	<div class="app_action_check">
+                                	<div class="app_action_check" title="Accept">
 										<?php									
 											echo $this->Html->image("images/check_cross_button.png", array(
 												"alt" => "","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
@@ -392,7 +393,7 @@ function clear_div(val){
 										?>
 										
 									</div>
-                                    <div class="app_action_cross" onclick="return deleteItem(<?php echo $applicant['JobseekerApply']['id']; ?>,<?php echo $applicant['JobseekerApply']['job_id']; ?>);">
+                                    <div class="app_action_cross" title="Reject" onclick="return deleteItem(<?php echo $applicant['JobseekerApply']['id']; ?>,<?php echo $applicant['JobseekerApply']['job_id']; ?>);">
 										<?php
 											echo $this->Html->image("images/check_cross_button.png", array(
 											"alt" => "","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
