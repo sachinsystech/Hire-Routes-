@@ -397,7 +397,7 @@ class NetworkersController extends AppController {
 	private function getGmailContacts($authcode){
 		$clientid='79643144563-rck00gk919jbv7enntdj5edin5tdjjbm.apps.googleusercontent.com';
 		$clientsecret='djH0P5Zu4CO8YHCgH7KeANsF';
-		$redirecturi='http://www.hireroutes.com/networkers/addContacts';
+		$redirecturi='http://qa.hireroutes.com/networkers/addContacts';
 		$fields=array(
 			'code'=>  urlencode($authcode),
 			'client_id'=>  urlencode($clientid),
