@@ -17,19 +17,19 @@ class JobsController extends AppController {
 		$this->Auth->allow('viewResume');
 		$this->Auth->allow('shareJob');
 		$session = $this->_getSession();
-		if($session->getUserRole()==NETWORKER){
+		if($this->params['action']!= "index" && $session->getUserRole()==NETWORKER){
 			$jobCounts = $this->requestAction("/Networkers/jobCounts");
 			$this->set('SharedJobs',$jobCounts['sharedJobs']);
 			$this->set('ArchiveJobs',$jobCounts['archivejobs']);
 			$this->set('NewJobs',$jobCounts['newJobs']);	
 		}
-		if($session->getUserRole()==JOBSEEKER){
+		if($this->params['action']!= "index" && $session->getUserRole()==JOBSEEKER){
 			$jobCounts = $this->requestAction("/Jobseekers/jobCounts");
 			$this->set('AppliedJobs',$jobCounts['appliedJob']);
 			$this->set('NewJobs',$jobCounts['newJob']);
 			$this->set('Archivedjobs',$jobCounts['archiveJob']);
 		}
-		if($session->getUserRole()==COMPANY){
+		if($this->params['action']!= "index" && $session->getUserRole()==COMPANY){
 			$this->set('activejobCount', $this->requestAction("/Companies/getCompanyActiveJobsCount"));
 			$this->set('archJobCount',   $this->requestAction("/Companies/getCompanyArchiveJobsCount"));
 		}
@@ -71,18 +71,18 @@ class JobsController extends AppController {
                                     );       
 
             }
-        }//echo "========";pr($this->Session->read("NarrowJob")); 
+        }
         if((isset($this->params['form']['save']) && $this->params['form']['save'] =="Reset Settings")){
         	unset($this->data['NarrowJob']);
-        	if($this->Session->check('NarrowJob'))
-				$this->Session->delete('NarrowJob');
+        	if($this->Session->check('NarrowJob')){
+        		$this->Session->delete('NarrowJob');
+        	}
+			
         }elseif((isset($this->params['form']['save']) && $this->params['form']['save'] =="SEARCH" ) || $this->Session->read("NarrowJob")){
             if(!isset($this->data['NarrowJob'])){
                 $this->data['NarrowJob'] = $this->Session->read("NarrowJob");
-                //echo "not set data";exit;//pr($this->Session->read("NarrowJob"));exit;
             }else{
                 $this->Session->write("NarrowJob",$this->data['NarrowJob']);
-                //echo "set data";//pr($this->Session->read("NarrowJob"));exit;
             }
             if(!empty($this->data['NarrowJob']['industry']) && $this->data['NarrowJob']['industry'] && !in_array(1,$this->data['NarrowJob']['industry'])){
                 $industry = $this->data['NarrowJob']['industry'];

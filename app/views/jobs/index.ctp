@@ -41,6 +41,7 @@
 </script>
 <link type="text/css" href="/css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
 <script type="text/javascript" src="/js/jquery.jscrollpane.js"></script>
+<script type="text/javascript" src="/js/jquery.mousewheel.js"></script>
 <?php $job_array = array('1'=>'Full Time','2'=>'Part Time','3'=>'Contract','4'=>'Internship','5'=>'Temporary'); ?>
 <div class="middle">
 	<div class="job_top-heading">
