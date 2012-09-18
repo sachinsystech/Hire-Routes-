@@ -334,6 +334,7 @@ function importFromGmail(){
 <script>
 	function toggleCheckedBox(status) {
 		$("input:checkbox").attr("checked",status);
+		$("input:checkbox").click();
 	}
 	
 	function checkGmailCheckbox(){
@@ -354,7 +355,7 @@ float:left;
 .contact_checkbox label{
 	float: left;
     margin-left: 20px;
-    margin-top: 5px;
+    margin-top: 8px;
 }
 .ui-dialog-titlebar { display:none; }
 .ui-widget-overlay{
