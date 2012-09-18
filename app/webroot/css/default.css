@@ -311,8 +311,6 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     padding-top: 43px;
 }
 #gmailContacts input {
-    margin-left: 20px;
-    margin-right: 15px;
 }
 .gmail-submit {
    background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
@@ -938,4 +936,7 @@ div.ez-radio {
 }
 .application_cover_letter{
 	margin-top:25px !important;
+}
+.contact_checkbox{
+	clear:both;
 }

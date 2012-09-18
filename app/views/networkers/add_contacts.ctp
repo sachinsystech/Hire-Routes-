@@ -296,7 +296,7 @@ function importFromGmail(){
 		<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
 		<div style="margin-top: 8px; border-bottom:1px solid">
 			<div style="float:left;width:178px;" class= ""> 
-				<input type="checkbox" onclick="toggleChecked(this.checked)">
+				<input type="checkbox" onclick="toggleCheckedBox(this.checked)">
 			</div>
 			<div> <h2>E-Mail </h2> </div>
 		</div>
@@ -332,7 +332,7 @@ function importFromGmail(){
 </div>
 <?php }?>  
 <script>
-	function toggleChecked(status) {
+	function toggleCheckedBox(status) {
 		$("input:checkbox").each( function() {
 			$(this).attr("checked",status);
 		})
@@ -350,6 +350,14 @@ function importFromGmail(){
 	}
 </script>
 <style>
+.ez-checkbox-green{
+float:left;
+}
+.contact_checkbox label{
+	float: left;
+    margin-left: 20px;
+    margin-top: 5px;
+}
 .ui-dialog-titlebar { display:none; }
 .ui-widget-overlay{
     background: none repeat scroll 0 0 #000000;
