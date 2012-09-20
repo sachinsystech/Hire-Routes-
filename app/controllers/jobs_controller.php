@@ -17,19 +17,19 @@ class JobsController extends AppController {
 		$this->Auth->allow('viewResume');
 		$this->Auth->allow('shareJob');
 		$session = $this->_getSession();
-		if($session->getUserRole()==NETWORKER){
+		if($this->params['action']!= "index" && $session->getUserRole()==NETWORKER){
 			$jobCounts = $this->requestAction("/Networkers/jobCounts");
 			$this->set('SharedJobs',$jobCounts['sharedJobs']);
 			$this->set('ArchiveJobs',$jobCounts['archivejobs']);
 			$this->set('NewJobs',$jobCounts['newJobs']);	
 		}
-		if($session->getUserRole()==JOBSEEKER){
+		if($this->params['action']!= "index" && $session->getUserRole()==JOBSEEKER){
 			$jobCounts = $this->requestAction("/Jobseekers/jobCounts");
 			$this->set('AppliedJobs',$jobCounts['appliedJob']);
 			$this->set('NewJobs',$jobCounts['newJob']);
 			$this->set('Archivedjobs',$jobCounts['archiveJob']);
 		}
-		if($session->getUserRole()==COMPANY){
+		if($this->params['action']!= "index" && $session->getUserRole()==COMPANY){
 			$this->set('activejobCount', $this->requestAction("/Companies/getCompanyActiveJobsCount"));
 			$this->set('archJobCount',   $this->requestAction("/Companies/getCompanyArchiveJobsCount"));
 		}
@@ -71,18 +71,18 @@ class JobsController extends AppController {
                                     );       
 
             }
-        }//echo "========";pr($this->Session->read("NarrowJob")); 
+        }
         if((isset($this->params['form']['save']) && $this->params['form']['save'] =="Reset Settings")){
         	unset($this->data['NarrowJob']);
-        	if($this->Session->check('NarrowJob'))
-				$this->Session->delete('NarrowJob');
+        	if($this->Session->check('NarrowJob')){
+        		$this->Session->delete('NarrowJob');
+        	}
+			
         }elseif((isset($this->params['form']['save']) && $this->params['form']['save'] =="SEARCH" ) || $this->Session->read("NarrowJob")){
             if(!isset($this->data['NarrowJob'])){
                 $this->data['NarrowJob'] = $this->Session->read("NarrowJob");
-                //echo "not set data";exit;//pr($this->Session->read("NarrowJob"));exit;
             }else{
                 $this->Session->write("NarrowJob",$this->data['NarrowJob']);
-                //echo "set data";//pr($this->Session->read("NarrowJob"));exit;
             }
             if(!empty($this->data['NarrowJob']['industry']) && $this->data['NarrowJob']['industry'] && !in_array(1,$this->data['NarrowJob']['industry'])){
                 $industry = $this->data['NarrowJob']['industry'];
@@ -189,7 +189,7 @@ class JobsController extends AppController {
 		$this->layout= "home";	
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 		$userId = $session->getUserId();
         $this->set('userRole',$this->userRole);
@@ -329,12 +329,13 @@ class JobsController extends AppController {
 	}
 
 	function viewResume(){
+		$session = $this->_getSession();
 		$userId = $session->getUserId();
         		
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
 
-		
+		pr($this->params); exit;
 		if(isset($this->params['id'])){
 
 			$job_id = $this->params['jobId'];
@@ -372,7 +373,7 @@ class JobsController extends AppController {
 				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
 				$this->redirect('/jobs/applyJob/'.$job_id); 
 			}
-		}		
+		}echo "here"; exit;		
 	} 
 
 	function jobDetail(){
@@ -380,7 +381,7 @@ class JobsController extends AppController {
 		$session = $this->_getSession();
 		$userId = $session->getUserId();
 		if($this->userRole == ADMIN){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 			return;
 		}
 		if(isset($this->params['jobId'])){
@@ -544,7 +545,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 		if(!$session->isLoggedIn()){
 			$this->Session->setFlash("please login to share jobs.","warning");
 			//echo "her login"; exit;
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}else{
 
 			$this->redirect("/jobs/jobDetail/$this->params['jobId']");

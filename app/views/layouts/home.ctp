@@ -119,13 +119,20 @@
 
 </script>
 <script type="text/javascript">
-$(function() {
-	$('input[type=radio]').ezMark();
-	var checkboxObj = $('input[type=checkbox]');
-	if(!$(checkboxObj).parent().hasClass("job_menus_submenu") && !$(checkboxObj).parent().hasClass("gmail_contacts_checkbox") ){
-		$('input[type=checkbox]').ezMark({checkboxCls: 'ez-checkbox-green', checkedCls: 'ez-checked'})
-	}
-});	
+$(document).ready(function(){
+	$(function() {
+		$('input[type=radio]').ezMark();
+		var checkboxObj = $('input[type=checkbox]');
+		$(checkboxObj).each(function(){
+		if(!$(this).parent().hasClass("job_menus_submenu") && !$(this).parent().hasClass("js-check-box-popup") && 
+		!$(this).parents("div").hasClass("contact_checkbox")){
+			$('input[type=checkbox]').ezMark({checkboxCls: 'ez-checkbox-green', checkedCls: 'ez-checked'})
+			}
+		});
+	});	
+
+
+})
 </script>
 
 </head>

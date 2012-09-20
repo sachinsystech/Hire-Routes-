@@ -1,9 +1,5 @@
 <div class="job_top-heading">
-	<?php if($this->Session->read('Auth.User.id')):?>
-		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
-				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
-		<?php endif; ?>
-	<?php endif; ?>
+	<?php echo $this->element("welcome_name"); ?>
 </div>
     <div class="job_container">
     	<div class="job_container_top_row">
@@ -117,6 +113,7 @@
 							?>
 						</ul>
 					</div>
+					<div class="clr"></div>
 					<?php if( isset($contacts) && $contacts!= null){ ?>       	
                     <div class="job-table-heading job-table-heading-border">
                     		<ul>
@@ -225,7 +222,12 @@ function edit(id, contact_name, email){
 		$("#editContactId").val(id);
 		$("#editContactContactName").val(contact_name);
 		$("#editContactContactEmail").val(email);		
-		$("#editContactAddContactsForm").validate();
+		$("#editContactAddContactsForm").validate({
+			errorPlacement: function (error, element) {
+				error.insertAfter(element)
+				error.css({'margin-left':'172px','width':'236px'});
+			}
+		});
 //		$("#editContactAddContactsForm").submit(function(){
 	//		$("#editContactAddContactsForm").validate();
 		//});
@@ -293,8 +295,8 @@ function importFromGmail(){
 																			 'action' => 'addContacts')));?>
 		<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
 		<div style="margin-top: 8px; border-bottom:1px solid">
-			<div style="float:left;width:178px;" class= ""> 
-				<input type="checkbox" onclick="toggleChecked(this.checked)">
+			<div style="float:left;width:178px;margin-top:-5px;" class= ""> 
+				<input type="checkbox" onclick="toggleCheckedBox(this.checked)">
 			</div>
 			<div> <h2>E-Mail </h2> </div>
 		</div>
@@ -318,8 +320,8 @@ function importFromGmail(){
 			<input type="submit" value="ADD CONTACTS" onclick="return checkGmailCheckbox()" class="gmail-submit">
 			<?php }
 			else{ ?>
-				<div style="text-align:center;">
-					<span >No contacts Found</sapn> 
+				<div style="text-align:center;margin-top:18px;">
+					<span >No Contacts Found.</sapn> 
 				</div>
 			<?php } ?>
 			<?php echo $form->end(); ?>
@@ -330,10 +332,9 @@ function importFromGmail(){
 </div>
 <?php }?>  
 <script>
-	function toggleChecked(status) {
-		$("input:checkbox").each( function() {
-			$(this).attr("checked",status);
-		})
+	function toggleCheckedBox(status) {
+		$("input:checkbox").attr("checked",status);
+		$("input:checkbox").click();
 	}
 	
 	function checkGmailCheckbox(){
@@ -348,13 +349,21 @@ function importFromGmail(){
 	}
 </script>
 <style>
+.ez-checkbox-green{
+float:left;
+}
+.contact_checkbox label{
+	float: left;
+    margin-left: 20px;
+    margin-top: 8px;
+}
 .ui-dialog-titlebar { display:none; }
 .ui-widget-overlay{
     background: none repeat scroll 0 0 #000000;
     opacity: 0.6;
 }
 .payment_popup_cancel_bttn {
-    background: url("../images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    background: url("/images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
     height: 72px;
     position: absolute;
     right: -31px;

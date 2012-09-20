@@ -19,19 +19,23 @@
 <div class="content1">
 	<div class="box1 box-cursor">
 		<div class="box-content-text"><h2>WHAT ARE POINTS?</h2>
-        	<div class="box-text">The more points you score the higher your experience level, title and thus most important your bonus %. Your bonus % is what Hire Routes pays you on top of what your Networkers make.<br /><br />
-        	<b> Example:</b> Your Networkers make $100,000 in rewards in January. Your Experience Level is 5. We will pay you $5,000. <br /> <br />All your point information can be found under the Points tab in My Network when logged in.
+        	<div class="box-text">
+        	<p class="space">The more points you score the higher your experience level, title and thus most important your bonus %. Your bonus % is what Hire Routes pays you on top of what your Networkers make.
+        	</p>
+        	<p class="space">
+        	<b> Example:</b> Your Networkers make $100,000 in rewards in January. Your Experience Level is 5. We will pay you $5,000. </p>
+        	<p class="space">All your point information can be found under the Points tab in My Network when logged in.</p>
     		</div>
         </div>
 	</div>
 	<div class="box1 box-cursor">
 		<div class="box-content-text">
 			<h2>HOW DO YOU GET POINTS?</h2> 
-			<div class="box-text"><p> <div class="space">You get Hire Routes points for <a href="#">building your network</a> of:</div></p>
+			<div class="box-text"><p> <div class="space">You get Hire Routes points for building your network of:</div></p>
         		<ul>
-					<li>Networkers who sign up through your <a href="/networkers/personal" rel="1" >HR invitations</a> HR invitations</a> or <a href="/networkers/sharedJob">Job Sharing</a> </li>
-					<li>Job Seekers who sign up through your <a href="#"> HR invitations</a> or <a href="#">Job Sharing</a> </li>
-					<li>Companies and/or Recruiters who sign up from your <a href="#"> HR invitations</a>  (companies and recruiters need to send in a request first).</li>
+					<li>Networkers who sign up through your HR invitations or Job Sharing </li>
+					<li>Job Seekers who sign up through your HR invitations or Job Sharing </li>
+					<li>Companies and/or Recruiters who sign up from your HR invitations  (companies and recruiters need to send in a request first).</li>
 				</ul>
 			</div>
 		</div> 

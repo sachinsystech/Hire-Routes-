@@ -39,7 +39,7 @@
 		$session = $this->_getSession();
         if(!$session->isLoggedIn()){       
         	$this->autoRender = false;
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
 
@@ -95,7 +95,7 @@
         $session = $this->_getSession();
         if(!$session->isLoggedIn()){       
         	$this->autoRender = false;
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
         $jobId = $this->params['form']['jobId'];
@@ -133,7 +133,7 @@
         $session = $this->_getSession();
         if(!$session->isLoggedIn()){       
         	$this->autoRender = false;
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
 

@@ -27,7 +27,7 @@
 						?>						
 					</div>
                     </div>
-                    
+                    <div class="clr"></div>
                     <div class="job_feild"> <span>Reward$:</span>
                         <div class="job-share-tb-top job_feild_margin">
 							<?php	echo $form->input('reward', array('label' => '',
@@ -41,7 +41,7 @@
 						     ?>					
                         </div>
                     </div>
-                    
+                    <div class="clr"></div>
                     <div class="job_feild"> <span>Short Description:</span>
                             <div class="post_job_textbox">
 								   <?php echo $form->input('short_description', array('label' => '',
@@ -55,6 +55,7 @@
                             </div>
                             <div class="clr"></div>
                     </div>
+		    <div class="clr"></div>
                     <div class="job_feild company_select"> <span>Category:</span>
 						<div class="category_dropdown">
                              	<!-- div class="jobseeker_select_i_error" style="float:left;margin-left: -7px;clear: both;" -->					<div class="copmany_select_box">		 
@@ -113,13 +114,13 @@
                             </div>
                     </div>
                      <div class="clr"></div>
-                    <div class="job_feild"> <span class="annual_sal_lh">Minimum Salary ($):</span>
+                    <div class="job_feild job_salary"> <span class="annual_sal_lh">Minimum Salary ($):</span>
                       	<div class="annual_field"> <span>From</span> 
                         		<div class="from_date textbox-date">
                                 	<?php	echo $form->input('salary_from', array('label' => '',
 													'type'  => 'text',
 													'class' => 'required number',
-													'title'=> 'Enter aount in $',
+													'title'=> 'Enter amount in $',
 													'div'=>false
 												)
 								          );
@@ -130,7 +131,7 @@
                                 	<?php	echo $form->input('salary_to', array('label' => '',
 											'type'  => 'text',
 											'class' => 'required number',
-											'title'=> 'Enter aount in $',
+											'title'=> 'Enter amount in $',
 											'div'=>false
 											)
 								        );
@@ -226,16 +227,30 @@
 	$(document).ready(function(){
    		$("#JobPostJobForm").validate({
 			errorClass: 'error_input_message',
-				errorPlacement: function (error, element) {
+			errorPlacement: function (error, element) {
+				if($(element).attr("id")== "JobSalaryFrom"){
+					$(".salery_error").remove();
+					error.insertAfter(element.parents(".annual_field").parent());
+					error.css({'float':'left','width':'192px','margin-left':'132px' });
+				}else if($(element).attr("id")== "JobSalaryTo"){
+					$(".salery_error").remove();
+					if(!element.parents(".job_salary").next().hasClass("error_input_message")){
+						error.insertAfter(element.parents(".annual_field").parent());
+						error.css({'float':'left','margin-left':'132px','width':'192px' });
+					}else{
+						error.insertAfter(element.parents(".job_salary").next(".error_input_message"));
+						error.css({'float':'left','width':'192px' });
+					}
+				}else{
 					error.insertAfter(element)
 					error.css({'clear':'both','width':'auto'});
+				}
+				
 			}
 		});
-		
 		$("#JobPostJobForm").submit(function(){ 
 			if(!validateSalary()) return false;
 		});
-
 		$("#JobSalaryTo").blur(function(){ 
 			validateSalary();
 		});
@@ -243,11 +258,25 @@
 	});
 
 	function validateSalary(){
-		if(parseInt($("#JobSalaryFrom").val()) > parseInt($("#JobSalaryTo").val()) ) {	
-			$(".annual_field").after("<label class='error_input_message' for='JobSalaryTo' style='margin-left:325px;' >Must greater than or equal to From field value</label>");
+		var salaryFrom = $("#JobSalaryFrom").val() , salaryTo = $("#JobSalaryTo").val();
+		
+		if( !isNaN(salaryFrom) && !isNaN(salaryTo) && parseInt(salaryFrom) > parseInt(salaryTo) ) {	
+			$(".annual_field").after("<label class='error_input_message salery_error' for='JobSalaryTo' style='margin-left:325px;clear:both;width:auto;' >Must greater than or equal to From field value</label>");
 			return false;
 		}
 		return true;
 	} 
 </script>
-
+<script>
+	
+$(document).ready(function(){
+	<?php
+	    if($this->Session->check('openShare')):
+	?>
+	    shareJobShowView(4);
+	<?php
+	    $this->Session->delete('openShare');
+	    endif;
+	?>
+});
+</script>

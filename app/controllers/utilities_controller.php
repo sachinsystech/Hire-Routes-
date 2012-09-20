@@ -3,7 +3,7 @@
  * UtilityController
  */
 class UtilitiesController extends AppController {
-    var $uses = array('IndustrySpecification','Specification','State','City','Industry','University','GraduateDegree');
+    var $uses = array('IndustrySpecification','Specification','State','City','Industry','University','GraduateDegree','NetworkerContacts');
 
 	public function beforeFilter(){
 		parent::beforeFilter();
@@ -13,6 +13,7 @@ class UtilitiesController extends AppController {
 		$this->Auth->allow('getUniversities');
 		$this->Auth->allow('getGraduateDegrees');
 		$this->Auth->allow('getGraduateUniversities');
+		$this->Auth->allow('networkerContacts');
 	}
 
 /**
@@ -105,23 +106,39 @@ class UtilitiesController extends AppController {
 	}
 	
 	function getGraduateUniversities(){
-		$this->autoRender= false ;
-		$degreeId = $this->params['named']['degree_id'];
-		
-		$universities=$this->GraduateUniversityBreakdown->find('list',array('conditions'=>array("degree_type"=>$degreeId, "graduate_college like "=>$this->params['named']['startWith']."%"),
-																			'fields'=>'id, graduate_college',
-																			'order'=>'id'));
-		if( $universities != null){ 
-			foreach($universities as $id=>$name){
-				$universitiesdata[]=array('id'=>$id,'name'=>$name);
-			}
-			$graduateUniversities=json_encode($universitiesdata);
-		}else
-			$graduateUniversities=json_encode(array());
-		return $graduateUniversities;
+	    $this->autoRender= false ;
+	    $degreeId = $this->params['named']['degree_id'];
+	    
+	    $universities=$this->GraduateUniversityBreakdown->find('list',array('conditions'=>array("degree_type"=>$degreeId, "graduate_college like "=>$this->params['named']['startWith']."%"),
+																		    'fields'=>'id, graduate_college',
+																		    'order'=>'id'));
+	    if( $universities != null){ 
+		    foreach($universities as $id=>$name){
+			    $universitiesdata[]=array('id'=>$id,'name'=>$name);
+		    }
+		    $graduateUniversities=json_encode($universitiesdata);
+	    }else
+		    $graduateUniversities=json_encode(array());
+	    return $graduateUniversities;
 	
 	}
 	
+	function networkerContacts(){
+	    $this->autoRender= false ;
+	    $userId = $this->Session->read("UserId");
+	    $emails = $this->NetworkerContacts->find('list',array('conditions'=>array("user_id"=>$userId, "contact_email like "=>$this->params['named']['startWith']."%"),
+								'fields'=>'id, contact_email',
+		    						'order'=>'id'));
+	    if( $emails != null){ 
+		foreach($emails as $id=>$name){
+			$emailData[]=array('id'=>$id,'name'=>$name);
+		}
+		$emails=json_encode($emailData);
+	    }else
+		$emails=json_encode(array());
+	    return $emails;
+	    
+	}
 	
 }
 ?>

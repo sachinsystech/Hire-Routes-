@@ -25,7 +25,7 @@
         $linkedin = $this->getLinkedinObject();
         $session = $this->_getSession();
         if(!$session->isLoggedIn()){       
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
         
@@ -107,7 +107,7 @@
                         $this->redirect("/users/loginSuccess");
                     }else{
     				    $this->Session->setFlash(" Please first get verification from Hire Routes to sign up with linked-in..","error");
-	               	 	$this->redirect("/Users/login");        	
+	               	 	$this->redirect("/login");        	
                     }
             	}else{
                      $this->redirect("/Users/linkedinUserSelection");
@@ -133,7 +133,7 @@
         $this->autoRender = false;
         $session = $this->_getSession();
         if(!$session->isLoggedIn()){       
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
         $userIds = $this->params['form']['usersId'];
@@ -191,7 +191,7 @@
         $this->autoRender = false;
         $session = $this->_getSession();
         if(!$session->isLoggedIn()){       
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $linkedin = $this->getLinkedinObject();
         $userId = $session->getUserId();
@@ -210,9 +210,9 @@
                 	if($session->getUserRole()==JOBSEEKER){
  	               		$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
                 	}else{
-                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
+                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."%26icc=".$icc;	
                 	}
-                	$message = $this->params['form']['message']." Connect with us >> ";//.$invitationUrl;
+                	$message = $this->params['form']['message']." Connect with us >>".$invitationUrl;
                 	$xml_response = $linkedin->sendMessage($fbuser->id,$subject,$message);
                     $xml_response = simplexml_load_string($xml_response);
                     

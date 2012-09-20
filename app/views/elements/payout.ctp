@@ -4,6 +4,15 @@ $(document).ready(function(){
 		$("#about-dialog" ).dialog( "close" );
 		return false;
 	});
+	function getPosition(who){
+		var T= 0,L= 0;
+		while(who){
+		    L+= who.offsetLeft;
+		    T+= who.offsetTop;
+		    who= who.offsetParent;
+		}
+		return [L,T];    
+	}
 	$(".howPayoutWorks" ).click(function(){
 		$.ajax({
 			type: 'POST',
@@ -19,9 +28,13 @@ $(document).ready(function(){
 						height:610,
 						closeOnEscape: false,
 						modal:true,
-					});			
-					$( "#about-dialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"600px","top":"0","background":"none","border":"none"});
+					});
 					
+		
+					$( "#about-dialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"600px","background":"none","border":"none"});
+					//var xpositions =getPosition(this) ;
+					//alert(xpositions[0]);
+					//$( "#about-dialog" ).parent("div").css({"top":});
 				}
 				if(response['status'] == 0){
 					window.location.href= "/users/login" ;

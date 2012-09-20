@@ -107,7 +107,7 @@
 					<a class="job-person" href="#" ></a>
 					<a class="job-stats" href="#" ></a>
 					<a class="job-edit" href="#" ></a -->
-					<a class="job-cancel" href="javascript:void(0);"  style="float:right" onclick="return onDelete(<?php echo $job['Job']['id']; ?>)"></a>
+					<a class="job-cancel" href="javascript:void(0);"  style="float:right" onclick="return onDelete(<?php echo $job['Job']['id']; ?>)" title='Delete'></a>
 				</div>                   
 			</div>
 			<?php endforeach; ?>

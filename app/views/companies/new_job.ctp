@@ -71,10 +71,10 @@
 							
                         </div>
                     </div>
-                    					
+                    	<?php if($this->Paginator->numbers()){?>				
 					<div class="job_right_pagination">
                 	<div>
-		            	<?php if($this->Paginator->numbers()){?>
+		            	
 						<?php echo $paginator->first("<<",array("class"=>"arrow_margin" )); ?>	
 		                <ul>
 						<?php echo $this->Paginator->numbers(array('modulus'=>8,
@@ -82,7 +82,7 @@
 																	'separator'=>false,)); ?>
 						</ul>
 		                <?php echo $paginator->last(">>", array("class"=>"arrow_margin",
-		                    											)); }?>
+		                    											)); ?>
 		                 <!---<a class="arrow_margin" href="#">&gt;&gt;</a>-->
                      </div>
 					
@@ -90,7 +90,7 @@
                     <div class="job_preview_bttn"><?php echo $paginator->prev('  '.__('', true), array(), null, array('class'=>'disabled'));?></div>
                     <div class="job_next_bttn"><?php echo $paginator->next(__('', true).' ', array(), null, array('class'=>'disabled'));?>
                     </div>
-                    
+                    <?php } ?>
                 </div>
 				
                 <?php if(empty($jobs)){ ?>
@@ -105,7 +105,7 @@
                         <p class="job-submission-margin">Submissions: <span><?php echo $job[0]['submissions']; ?></span></p>
                     </div>
                     <?php if($job['Job']['is_active']==3){?>
-                    <div style="float:left;margin-left:272px;"><a href="/companies/editJob/<?php echo $job['Job']['id'] ?>">Share</a></div>
+                    <div style="float:left;margin-left:272px;" ><a href="/companies/editJob/<?php echo $job['Job']['id'] ?>" title= 'Share' >Share</a></div>
                     <?php } ?>
                     <div class="job-right-rightmost ">
 						
@@ -116,25 +116,25 @@
 								$url="/jobs/jobDetail/".$job['Job']['id'];
 						?>
 						
-						<a class="job-details" href="<?php echo $url; ?>" ></a>
-						<a class="job-archive" href="/companies/archiveJob/<?php echo $job['Job']['id'] ?>" ></a>
+						<a class="job-details" href="<?php echo $url; ?>" title="Detail"></a>
+						<a class="job-archive" href="/companies/archiveJob/<?php echo $job['Job']['id'] ?>" title='Archive'></a>
 							<?php
 								if($job['Job']['is_active']==3)
 									$url="javascript:void(0);";
 								else
 									$url="/companies/showApplicant/".$job['Job']['id'];
 							?>	
-						<a class="job-person" href="<?php echo $url; ?>" ></a>
+						<a class="job-person" href="<?php echo $url; ?>" title='Applicant'></a>
 							<?php
 								if($job['Job']['is_active']==3)
 									$url="javascript:void(0);";
 								else
 									$url="/companies/jobStats/".$job['Job']['id'];
 							?>
-						<a class="job-stats" href="<?php echo $url; ?>" ></a>
+						<a class="job-stats" href="<?php echo $url; ?>"  title='Statistics'></a>
 						
-						<a class="job-edit" href="/companies/editJob/<?php echo $job['Job']['id'] ?>" ></a>
-						<a class="job-cancel" href="javascript:void(0);" onclick="return onDelete(<?php echo $job['Job']['id']; ?>)"></a>
+						<a class="job-edit" href="/companies/editJob/<?php echo $job['Job']['id'] ?>" title='Edit'></a>
+						<a class="job-cancel" href="javascript:void(0);" onclick="return onDelete(<?php echo $job['Job']['id']; ?>)" title='Delete'></a>
                     </div>                   
                 </div>
                 <?php endforeach; ?>

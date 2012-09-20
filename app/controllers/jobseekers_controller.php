@@ -9,7 +9,7 @@ class JobseekersController extends AppController {
 		parent::beforeFilter();
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 		if($this->userRole!=JOBSEEKER){
 			$this->redirect("/users/loginSuccess");
@@ -806,7 +806,7 @@ class JobseekersController extends AppController {
 	 	$this->layout ="home";
  	 	$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	
 		$userId = $session->getUserId();

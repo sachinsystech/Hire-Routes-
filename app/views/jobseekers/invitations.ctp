@@ -70,11 +70,7 @@
 
 
 <div class="job_top-heading">
-<?php if($this->Session->read('Auth.User.id')):?>
-	<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
-			<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
-	<?php endif; ?>
-<?php endif; ?>
+	<?php echo $this->element("welcome_name"); ?>
 </div>
 
 <div class="job_container">
@@ -149,7 +145,7 @@
 					   	<?php endforeach;?>
 						<div class="clr"></div>
 						<?php else:?>
-							<div class='job-empty-message'>There is no invited friends.</div>
+							<div class='job-empty-message'>You have not invited any of your friends yet.</div>
 						<?php endif;?>
 	
                     <div class="clr"></div>

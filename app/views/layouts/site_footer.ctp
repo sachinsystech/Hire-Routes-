@@ -45,7 +45,7 @@
 		</p>
 	<? } ?>
 	<?php if($jobs == null ):?>
-		<p>No job found.</p>
+		<p>No New Job Found.</p>
 	<?php endif; ?>
     </div>
     	
@@ -56,7 +56,7 @@
       <div class="foot-right">
         <ul>
 	       	<?php  if($current_user['id']==2 || !isset($current_user)):?>
-				<li><a href="/users/login">Login</a></li>
+				<li><a href="/login">Login</a></li>
 				<li><a href="/users">Sign up</a></li>
 			<?php endif; ?>
         </ul>

@@ -51,7 +51,14 @@
             	<li class="job_title" style="width:593px; height:49px; border-top:solid 1px #d3cdc1; border-bottom:solid 1px #d3cdc1; list-style:none; display:block; padding:28px 25px 0 25px; background:#eae6d6; margin:30px 0 0 0;">
                 	<a style="text-decoration:underline; color:#3a9031; float:left; font:bold 20px 'OpenSansCondensedBold';width: 400px;word-wrap: break-word;" href="<?php echo $message['jobUrl']; ?>" > <?php echo strtoupper($message['Job']['title']); ?> </a>
                     <div style="width:auto; height:20px; float:right; font-size:20px; line-height: normal; text-transform: uppercase; color:#1d1d1d;  font-family: 'OpenSansCondensedBold';">
-						Reward: <span style="color:#3a9031;">$30,500</span>
+			Reward: <span style="color:#3a9031;"><?php echo $this->Number->format(
+							$message['Job']['reward'],
+							array(
+								'places' => 0,
+								'before' => '$',
+								'decimals' => '.',
+								'thousands' => ',')
+							);?> </span>
                     </div>
                 </li>
             </ul>
@@ -83,13 +90,13 @@
         </div>
         
 <div style="width:643px; height:auto; margin:0 auto; padding-top:30px;">
-        	<h1 style="font-size:24px; padding:0 0 0 25px; line-height: normal; color: #4a4947; font-family: Lucida Sans Unicode, Sans-serif;">5 Reasons to use Hire Routes</h1>
+        	<h1 style="font-size:24px; padding:0 0 0 25px; line-height: normal; color: #4a4947; font-family: Lucida Sans Unicode, Sans-serif;">5 Reasons to Join Hire Routes</h1>
             <ul style="margin:15px 0 0 0; padding:10px 0 0 0; border-top:solid 1px #d3cdc1; padding-left:25px;">
-           	  <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">1. Help a Friend Find a Job</li>
-              <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">2. Find a Job for Yourself</li>
-              <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">3. Charity (2%of Revenue goes to various charitable organizations.)</li>
-              <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">4. Help Hire Routes grow so we can help more people!</li>
-              <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:10px 0 0 0; display:block;">1. Help a Friend Find a Job</li>
+           	  <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">1. Networkers can help friends and others finds jobs and get paid for doing so!</li>
+              <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">2. Employers can access new, select social networks to find talent!</li>
+              <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">3. Job Seekers can find jobs and get paid for getting hired!</li>
+              <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:12px 0; display:block;">4. Everyone can help the less fortunate.  A % of the reward goes to charity!</li>
+              <li style="list-style:decimal inside; font:15px Arial, Helvetica, sans-serif; padding:10px 0 0 0; display:block;">5. Everyone can help Hire Routes grow so we can help more people!</li>
 </ul>
       </div>
       <?php echo $this->element("email_footer"); ?>

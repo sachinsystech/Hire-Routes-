@@ -81,6 +81,9 @@ function paymentHistoryInfo(user_id,transaction_id){
 				'</div>'+
 			'</div>');
 			$( "#paymentHistoryInfo" ).parent("div").css({"padding":"0","opacity":"0.9","height":"500px","top":"100px","left":"222px","width":"574px", "background":"none","border":"none"});
+			$(".pi_popup_cancel_bttn").click(function(){
+			    $("#paymentHistoryInfo" ).dialog("close");
+			});
 		
 		}
 	});
@@ -94,9 +97,9 @@ function paymentHistoryInfo(user_id,transaction_id){
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#paymentHistoryInfo").click(function(){
-		$("#paymentHistoryInfo" ).dialog("close");
-	});	
+    $("#close").click(function(){
+	$("#paymentHistoryInfo" ).dialog("close");
+    });	
 });
 </script>
 <!--	Payment History  -->

@@ -274,10 +274,19 @@
 <script>
 	$(document).ready(function(){
 		$("#JobEditJobForm").validate({
-				errorClass: 'error_input_message',
-					errorPlacement: function (error, element) {
-						error.insertAfter(element)
-						error.css({'clear':'both','width':'auto'});
+			errorClass: 'error_input_message',
+			errorPlacement: function (error, element) {
+				if($(element).attr("id")== "JobSalaryFrom"){
+					error.insertAfter(element.parents(".annual_field").parent());
+					error.css({'float':'left','width':'192px' });
+				}else if($(element).attr("id")== "JobSalaryTo"){
+					error.insertAfter(element.parents(".annual_field").parent());
+					error.css({'float':'left','margin-left':'132px','width':'192px' });
+				}else{
+					error.insertAfter(element)
+					error.css({'clear':'both','width':'auto'});
+				}
+				
 			}
 		});
 		
@@ -314,12 +323,12 @@ $(document).ready(function(){
 	}
 	?>
 	<?php
-		if($this->Session->check('openShare')):
+	    if($this->Session->check('openShare')):
 	?>
-	showView(4);
+	    shareJobShowView(4);
 	<?php
-		$this->Session->delete('openShare');
-		endif;
+	    $this->Session->delete('openShare');
+	    endif;
 	?>
 });
 </script>

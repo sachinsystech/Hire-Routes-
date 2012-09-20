@@ -25,7 +25,7 @@
 					return;
 				}
 				if(response['status'] == 0){
-					window.location.href= "/users/login" ;
+					window.location.href= "/login" ;
 				}
 				if(response['status'] == 3){
 					showView(4);
@@ -78,7 +78,7 @@ $class= "class='selected_menu'";
 	<!-- main-nav -->
 	<div class="login_signup">
 		<?php  if($current_user['id']==2 || !isset($current_user)):?>
-			<div class="login"> <a href="/users/login">Login</a></div>
+			<div class="login"> <a href="/login">Login</a></div>
 			<div class="signup"><a href="/users">Sign up</a></div>
 		<?php endif; ?>
 		<?php  if($current_user['id']==1):?>
@@ -96,9 +96,9 @@ $class= "class='selected_menu'";
 		<div class="Hire-Routes"> </div>
 		<div class="icons">
 			<ul>
-				<li> <a href="http://www.twitter.com/hireroutes" class="twit NewTab"> </a> </li>
-				<li> <a href="http://www.facebook.com/hireroutes" class="fb NewTab" > </a></li>
-				<li> <a href="http://www.linkedin.com/pub/austin-root/8/b29/163" class="in NewTab"> </a> </li>
+				<li> <a href="http://www.twitter.com/hireroutes" class="twit NewTab" title="Twitter"> </a> </li>
+				<li> <a href="http://www.facebook.com/hireroutes" class="fb NewTab" title="Facebook"> </a></li>
+				<li> <a href="http://www.linkedin.com/pub/austin-root/8/b29/163" class="in NewTab" title="Linkedin"> </a> </li>
 			</ul>
 		</div>
 	</div>

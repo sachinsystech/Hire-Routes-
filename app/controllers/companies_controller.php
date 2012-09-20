@@ -14,7 +14,7 @@ class CompaniesController extends AppController {
 		
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect('/users/login');
+			$this->redirect('/login');
 		}
 		if($session->getUserRole()!=COMPANY){
 			$this->redirect("/users/loginSuccess");
@@ -71,12 +71,12 @@ class CompaniesController extends AppController {
 				if($this->Job->validates()){
 					if($this->Job->save()){
     		    	    switch($this->params['form']['save']){
-    		    	        case 'Post and Share':
+    		    	        case 'POST AND SHARE':
 								$this->Session->write('openShare','open');
     		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');
     		    	            $this->redirect('/companies/editJob/'.$this->Job->id);
     		    	            break;
-    		    	        case 'Save for Later':
+    		    	        case 'SAVE FOR LATER':
 								$this->Session->setFlash('Job has been saved successfuly. Post it later',
 									'success');	
 								$this->redirect('/companies/newJob');
@@ -567,8 +567,9 @@ list archive jobs..
 			$jobInfo = $this->getJob($PaymentDetail['job']['id']);
 			$pd =array();
 			$pd['transaction_id']=$PaymentDetail['PaymentHistory']['transaction_id'];
-			$pd['paid_date']=$PaymentDetail['PaymentHistory']['paid_date'];	
-			$pd['amount']=$PaymentDetail['PaymentHistory']['amount'];
+			$pd['paid_date']=date("m/d/yy" , strtotime($PaymentDetail['PaymentHistory']['paid_date']));	
+			setlocale(LC_MONETARY, 'en_US.UTF-8');
+			$pd['amount']=money_format('%2n', $PaymentDetail['PaymentHistory']['amount']);
 			if(isset($PaymentDetail['js']['contact_name']) && !empty($PaymentDetail['js']['contact_name'])){
 				$pd['contact_name']= ucfirst($PaymentDetail['js']['contact_name']);
 			}
@@ -1418,7 +1419,7 @@ list archive jobs..
 	function invitations() {
  	 	$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/login");
+			$this->redirect("/login");
 		}
 	
 		$userId = $session->getUserId();		$traceId = -1;

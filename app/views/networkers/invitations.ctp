@@ -19,11 +19,11 @@
 </div>
 <?php } ?> 
 <div class="clr"></div>
-<div class="job-list-head">
+<div class="job-list-head invitaionHeading">
 <ul class="job-list-heading job-list-head-margin">
-	<li class="job-list-name">NAME/EMAIL</li>
-    <li class="job-list-status">STATUS</li>
-    <li class="job-list-origin">ORIGIN</li>
+	<li class="job-list-name"><?php echo $paginator->sort('NAME/EMAIL','name_email')?></li>
+    <li class="job-list-status"><?php echo $paginator->sort('STATUS','from');?></li>
+    <li class="job-list-origin"><?php echo $paginator->sort('ORIGIN','created');?></li>
 </ul>
 </div>
 <?php $i=0;
@@ -44,7 +44,7 @@
 <?php	if($invitations == null){?>
 <div class="job-list-subhead">
     <div class="inviation-message job-empty-message">
-    	No Invitaion Found.
+    	You have not invited any of your friends yet. 
     </div>
 </div>
 <?php	} ?>

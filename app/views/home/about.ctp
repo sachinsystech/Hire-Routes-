@@ -138,13 +138,12 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			<!-- member-info -->
 			<div class="member-info">
 				<h3>PIA SILVA</h3>
-				<span>Designer</span>
-				<!--<ul>
-					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
-					<li class="member-facebook"> <a href="#" class="NewTab">facebook</a> </li>
-					<li class="member-linkedin"> <a href="#" class="NewTab">linkedin</a> </li>
+				<span>Design Guru</span>
+				<ul>
+					<li class="member-twitter"> <a href="https://twitter.com/WorstAllDesign" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/pages/Worstofall-Design/180256818692810" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/pub/pia-silva/3/272/86b" class="NewTab">linkedin</a> </li>
 				</ul>
-				-->
 			</div>
 			<!-- member-info --> 
 		</div>
@@ -156,13 +155,12 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			<!-- member-info -->
 			<div class="member-info">
 				<h3>STEVE WASTERVAL</h3>
-				<span>Castlebuilder</span>
-				<!--<ul>
-					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
-					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
-					<li class="member-linkedin"> <a href="http://www.linkedin.com/in/timnotjim" class="NewTab">linkedin</a> </li>
+				<span>Design Guru</span>
+				<ul>
+					<li class="member-twitter"> <a href="https://twitter.com/WorstAllDesign" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/pages/Worstofall-Design/180256818692810" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/pub/pia-silva/3/272/86b" class="NewTab">linkedin</a> </li>
 				</ul>
-				--->
 			</div>
 			<!-- member-info --> 
 		</div>
@@ -214,11 +212,11 @@ That idea has since then evolved into what you see today <b>"A social recruiting
                 <h3>Favorite Books:</h3>
                 <p>"The Count of Monte Cristo","The Fountain Head" and "The Catcher in the Rye"</p>
 
-				<h3>What you love:</h3>
+		<h3>What you love:</h3>
                 <p>People, soccer, sweating to some form of physical activity, food & drink and exploring exciting new cultures and all the marvelous places this wonderful world of ours has to offer.</p>
                 
                 <h3>Random and Embarrassing:</h3>
-                <p>I read all the Dragonlance books, Sword of Shannara books....you name it. I'm still upset my Dungeon Master never gave me that +5 Broad Sword!</p>
+                <p>I used to love to play Dungeon & Dragons....I read all the Dragonlance books, Sword of Shannara books....you name it.  I?m still upset my Dungeon Master never gave me that +5 Broad Sword!</p>
                 
                 <div class="clr"></div>
             </div>

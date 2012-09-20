@@ -1,9 +1,5 @@
 	<div class="job_top-heading">
-	<?php if($this->Session->read('Auth.User.id')):?>
-		<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
-				<h2>WELCOME <?php echo strtoupper($this->Session->read('welcomeName'));?>!</h2>
-		<?php endif; ?>
-	<?php endif; ?>
+	    <?php echo $this->element("welcome_name"); ?>
 	</div>
     <div class="job_container">
     	<div class="job_container_top_row">
@@ -115,7 +111,7 @@
 									$oldIndustry = $indtemp;
 									?>
 										<div class="job-sub-matter">
-											<div class="job-sub-p"><?php echo isset($NSI['spec']['name'])?$NSI['spec']['name']:"All Specifications"?><?php echo isset($NSI['state']['name'])? ", ".$NSI['state']['name']:"All Location"?> <?php echo isset($NSI['city']['name'])?", ".$NSI['city']['name']:""; ?></div>
+											<div class="job-sub-p"><?php echo isset($NSI['spec']['name'])?$NSI['spec']['name']:"All Specifications"?><?php echo isset($NSI['state']['name'])? ", ".$NSI['state']['name']:" , All Location"?> <?php echo isset($NSI['city']['name'])?", ".$NSI['city']['name']:""; ?></div>
 											 <div class="job-subs-table-right"><a href="#" onclick="return deleteItem(<?php echo $NSI['NetworkerSettings']['id']?>);">delete</a></div>
 										</div>
 

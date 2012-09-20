@@ -54,6 +54,23 @@ margin-left:1px;
     overflow: visible;
     position: absolute;
 }
+.dialog-content{
+	background:#F6F1E2;
+}
+.ui-autocomplete {
+    font-size: 12px;
+    max-height: 154px;
+    max-width: 350px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+/* IE 6 doesn't support max-height
+* we use height instead, but this forces the menu to always be this tall
+*/
+* html .ui-autocomplete {
+    height: 100px;
+}
+</style>
 
 </style>
 <script>
@@ -86,31 +103,49 @@ $(function() {
 	
 	$( "#dialog-message" ).dialog({
 		modal: true,
+		height:100,
 		autoOpen: false,
 		width:500,
-		resizable : false,
+		resizable : false
 		/*buttons: {
 			Ok: function() {
 				$( this ).dialog( "close" );
 			}
 		}*/
 	});
-	
+	$("#close_message_dialog").click(function(){
+		$("#dialog-message").dialog( "close" );
+	});
+	$("#dialog-message").removeClass("ui-widget-content").addClass("dialog-content").parent("div").removeClass("ui-widget-content").addClass("dialog-content");
 	$( "#dialog #inv-clear-all").click(function() {
 		$("#dialog #InviteToEmail").val("");
 		$("#dialog #ShareSubject").val("");
 		$('#dialog #ShareMessage').val("");
+		$('#autocompleteInviteEmail').val("");
 		return false;
 	});
 	
 });
 
 function toggleAllChecked(status) {
-	$("#dialog .friend_checkbox").each( function() {
+	/*$("#dialog .friend_checkbox").each( function() {
 		if($(this).parent("li").css('display')== "block"){
 			$(this).attr("checked",status);
+			var parentDiv = $(this).parent("li");
+			if(status){
+				parentDiv.css('opacity', 0.3);
+			}
+			else{
+				parentDiv.css('opacity', 1.0);
+			}
 		}
 	});
+	*/
+	if(status){
+		$("#dialog .friend_checkbox").parent("li:visible").css('opacity', 0.3).children(".friend_checkbox").attr("checked",status);
+	}else{
+		$("#dialog .friend_checkbox").parent("li:visible").css('opacity', 1.0).children(".friend_checkbox").attr("checked",status);
+	}
 }
 
 function selectFriend2(checkedFriend){
@@ -132,7 +167,13 @@ function selectFriend2(checkedFriend){
 </script>
 
 
-<div id="dialog-message"></div>
+<div id="dialog-message"> 
+	<div class="data"> 
+	</div>
+	<div class="mesaage-dialog-div">
+		<button id="close_message_dialog" >OK </button> 
+	</div>
+</div>
 
 <div id ="dialog" >	
 	<!-- :: :: :: :: :: :: :: :: :: :: :: :: :: -->
@@ -151,7 +192,8 @@ function selectFriend2(checkedFriend){
             </div>
             
             <div class="job-share-right">
-            	<h2>SEND A JOB INVITE TO...</h2>
+            	<!--<h2>SEND A JOB INVITE TO...</h2>-->
+            	<h2>SEND A HIRE ROUTES INVITATION TO...</h2>
 				<?php echo $form->create('Share', array('action'=>'job', 'onsubmit'=>'return validateEmail(InviteToEmail.value);')); ?>
                 
 				<?php echo $form->input('code', array('label' => '',
@@ -167,7 +209,18 @@ function selectFriend2(checkedFriend){
 				
 				<div class="job-share-field" id="invite-e-mail">
                 	<div class="job-share-text">EMAIL</div>
-                    <div class="job-share-tb"><input id="InviteToEmail" type="text" placeholder="Enter a friend's email address" /></input></div>
+                	<?php if($this->Session->read("UserRole") == NETWORKER ){ ?>                	
+                    <div style="display:none;">
+                    	<input id="InviteToEmail" type="text" placeholder="Enter a friend's email address" />
+                   	</div>
+			       	<div class="job-share-tb">
+                    	<input id="autocompleteInviteEmail" type="text" placeholder="Enter a friend's email address" />
+                   	</div>
+			       	<?php }else{ ?>
+                    <div class="job-share-tb">
+                    	<input id="InviteToEmail" type="text" placeholder="Enter a friend's email address" />
+                   	</div>
+                   	<?php } ?>
                     <div class="clr"></div>
                 </div>
 			
@@ -191,7 +244,7 @@ function selectFriend2(checkedFriend){
 							'type' => 'textarea',
 							'class'=> 'msg_txtarear',
 							'placeholder'=> 'Type message here ..',
-							'value'=>"I'd like to bring a job opportunity to your attention. "
+							'value'=>"I'd like to invite you to join Hire Routes!",
 						));?>
 					</div>
                     <div class="clr"></div>
@@ -398,7 +451,7 @@ function createHTMLforFillingFriends(friends){
 	for(i=0;i<length;i++){
 		html += '<li> <img src="' + friends[i].url +'"  title="'+ friends[i].name + '" ><input class="friend_checkbox" value="'+friends[i].id+'" type="checkbox" title="'+friends[i].name+'" onclick="return selectFriend2(this);"></li>';
 	}
-	$(".job-share-ppl").html("<ul>"+html+"<ul/><div class='no_friend_found'>No Result Found </div>");
+	$(".job-share-ppl").html("<ul>"+html+"<ul/><div class='no_friend_found'>No Friend Found </div>");
 	//$(".job-share-ppl").html("<ul>"+html+"<ul/>");
 }
 
@@ -449,6 +502,7 @@ window.location.href = jQuery(location).attr('href');
 
 function fillFacebookFriend(){
 	$('#dialog #submitLoaderImg').hide();
+	$("#gender_checkbox").attr("checked",false);
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/fbloader.gif" width="50px" />'+
 	'<img src="/images/fb_loading.gif" /></p>');
 	$.ajax({
@@ -460,9 +514,11 @@ function fillFacebookFriend(){
 			switch(response.error){
 				case 0: // success
 					createHTMLforFillingFriends(response.data);
-					//filterFriendList();
 					$("#autocomplete").show();
 					filterFriendList();
+					if(jQuery.isEmptyObject(response.data)){
+						$(".no_friend_found").css("display","block");
+					}
 					break;
 				case 1: // we don't have user's facebook token
 					alert(response.message);
@@ -470,10 +526,10 @@ function fillFacebookFriend(){
 					break;
 				case 2: // something went wrong when we connect with facebook.Need to login by facebook
 					if(response.message){
-					$( "#dialog-message" ).html(response.message);
+					$( "#dialog-message .data" ).html(response.message);
 					}
 					else{
-						$( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin");
+						$( "#dialog-message .data" ).html("Something went wrong. Please try later or contact to site admin");
 					}
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
@@ -493,6 +549,7 @@ function fillFacebookFriend(){
 /**************************** 2). Fill Linkedin Friends ******************************/
 function fillLinkedinFriend(){
 	$('#dialog  #submitLoaderImg').hide();
+	$("#gender_checkbox").attr("checked",false);
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/liloader.gif" width="50px" />'+
 	'<img src="/images/li_loading.gif" /></p>');
 	$.ajax({
@@ -506,13 +563,16 @@ function fillLinkedinFriend(){
 					createHTMLforFillingFriends(response.data);
 					$("#autocomplete").show();
 					filterFriendList();
+					if(jQuery.isEmptyObject(response.data)){
+						$(".no_friend_found").css("display","block");
+					}
 					break;
 				case 1: // we don't have user's linked token
 					alert(response.message);
 					window.open(response.URL);
 					break;
 				case 2: // something went wrong when we connect with facebook.Need to login by facebook
-					$( "#dialog-message" ).html(" something went wrong. Please try later or contact to site admin");
+					$( "#dialog-message .data" ).html(" something went wrong. Please try later or contact to site admin");
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
 					break;
@@ -521,7 +581,7 @@ function fillLinkedinFriend(){
 					location.reload();
 					break;
 				default :
-					$( "#dialog-message" ).html(" something went wrong. Please try later or contact to site admin");
+					$( "#dialog-message .data" ).html(" something went wrong. Please try later or contact to site admin");
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
 					break;
@@ -529,7 +589,7 @@ function fillLinkedinFriend(){
 		},
 		error: function(message){
 			$('#dialog  #submitLoaderImg').html('');
-			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+			$( "#dialog-message .data" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-message" ).dialog("open");
 			$( "#dialog" ).dialog( "close" );
 		}
@@ -538,6 +598,7 @@ function fillLinkedinFriend(){
 /**************************** 3). Fill Twitter Friends ******************************/
 function fillTwitterFriend(){
 	$('#dialog  #submitLoaderImg').hide();
+	$("#gender_checkbox").attr("checked",false);
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;" ><img src="/images/twitterLoader.gif" width="50px" />'+
 	'<img src="/images/li_loading.gif" /></p>');
 	$.ajax({
@@ -551,13 +612,17 @@ function fillTwitterFriend(){
 					createHTMLforFillingFriends(response.data);
 					$("#autocomplete").show();
 					filterFriendList();
+					if(jQuery.isEmptyObject(response.data)){
+						//$("#autocomplete").click();
+						$(".no_friend_found").css("display","block");
+					}
 					break;
 				case 1: // we don't have user's twitter token
 					alert(response.message);
 					window.open(response.URL);
 					break;
 				case 2: 
-					$( "#dialog-message" ).html("something went wrong.Please contact to site admin");
+					$( "#dialog-message .data" ).html("something went wrong.Please contact to site admin");
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
 					break;
@@ -569,7 +634,7 @@ function fillTwitterFriend(){
 		},
 		error: function(message){
 			$('#dialog  #submitLoaderImg').html('');
-			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+			$( "#dialog-message .data" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-message" ).dialog("open");
 			$( "#dialog" ).dialog( "close" );
 		}
@@ -592,7 +657,7 @@ function emailInvitaion(){
 		dataType: 'json',
 		data: {
 				toEmail : $('#InviteToEmail').val(),
-				message : $('#ShareMessage').val(),
+				message : $('#dialog #ShareMessage').val(),
 				invitationCode:$('#invitationCode').val()
 			},
 
@@ -600,19 +665,20 @@ function emailInvitaion(){
 			$('#dialog  #submitLoaderImg').hide();
 			switch(response.error){
 				case 0:
-					$( "#dialog-message" ).html(" E-mail send successfully.");
+					$( "#dialog-message .data" ).html(" E-mail sent successfully.");
 					$( "#dialog-message" ).dialog("open");
 					$('#InviteToEmail').val("");
+					$("#autocompleteInviteEmail").val("");
 					$('#dialog  #submitLoaderImg').hide();
 					setView('Email');
 					break;
 				case 1:
-					$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+					$( "#dialog-message .data" ).html("Something went wrong please try later or contact to site admin.");
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
 					break;
 				case 2:
-					$( "#dialog-message" ).html(response.message);
+					$( "#dialog-message .data" ).html(response.message);
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
 					break;
@@ -624,7 +690,7 @@ function emailInvitaion(){
 		},
 		error:function(response){
 			$('#dialog  #submitLoaderImg').html('');
-			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+			$( "#dialog-message .data" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-message" ).dialog("open");
 			$( "#dialog" ).dialog( "close" );
 		}
@@ -685,7 +751,7 @@ function facebookCommentInvitation(){
 		dataType: 'json',
 		data: 
 				"&user="+JSON.stringify(user)+
-				"&message="+$("#ShareMessage").val()+
+				"&message="+$("#dialog #ShareMessage").val()+
 				"&invitationCode="+$('#invitationCode').val(),
 				
 
@@ -694,12 +760,17 @@ function facebookCommentInvitation(){
 			switch(response.error){
 				case 0: // success
 					// show success message
-					$( "#dialog-message" ).html("Your invitation has been sent successfully to facebook users.");
+					$( "#dialog-message .data" ).html("Your invitation has been sent successfully to facebook users.");
 					$( "#dialog-message" ).dialog("open");
 					fillFacebookFriend();
 					break;
 				case 1:
-					$( "#dialog-message" ).html("Something went wrong. Please try later or contact to site admin.");
+					$( "#dialog-message .data" ).html("Something went wrong. Please try later or contact to site admin.");
+					$( "#dialog-message" ).dialog("open");
+					$( "#dialog" ).dialog( "close" );
+					break;
+				case 2:
+					$( "#dialog-message .data" ).html(response.message);
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
 					break;
@@ -743,25 +814,25 @@ function linkedInCommentInvitation(){
 		dataType: 'json',
 		data: 
 				"&user="+JSON.stringify(user)+
-				"&message="+$("#ShareMessage").val()+
+				"&message="+$("#dialog #ShareMessage").val()+
 				"&invitationCode="+$('#invitationCode').val(),
 				
 		success: function(response){
 			$('#dialog  #submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
-					$( "#dialog-message" ).html("Your invitation has been sent successfully to Linkedin users.");
+					$( "#dialog-message .data" ).html("Your invitation has been sent successfully to Linkedin users.");
 					$( "#dialog-message" ).dialog("open");
 					$('#dialog  #submitLoaderImg').html('');
 					fillLinkedinFriend();
 					break;
 				case 1:
-					$( "#dialog-message" ).html(" something went wrong.Please try later or contact to site admin");
+					$( "#dialog-message .data" ).html(" something went wrong.Please try later or contact to site admin");
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
 					break;
 				case 2:
-					$( "#dialog-message" ).html(response.message);
+					$( "#dialog-message .data" ).html(response.message);
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
 					break;
@@ -812,18 +883,18 @@ function TwitterCommentInvitation(){
 			$('#dialog  #submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
-					$( "#dialog-message" ).html("Your invitation has been sent successfully to Twitter follower.");
+					$( "#dialog-message .data" ).html("Your invitation has been sent successfully to Twitter follower.");
 					$( "#dialog-message" ).dialog("open");
 					$('#dialog  #submitLoaderImg').html('');
 					fillTwitterFriend();
 					break;
 				case 1:
-					$( "#dialog-message" ).html(" something went wrong.Please try later or contact to site admin");
+					$( "#dialog-message .data" ).html(" something went wrong.Please try later or contact to site admin");
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
 					break;
 				case 2:
-					$( "#dialog-message" ).html(response.message);
+					$( "#dialog-message .data" ).html(response.message);
 					$( "#dialog-message" ).dialog("open");
 					$( "#dialog" ).dialog( "close" );
 					break;
@@ -835,7 +906,7 @@ function TwitterCommentInvitation(){
 		},
 		error: function(message){
 			$('#dialog  #submitLoaderImg').html('');
-			$( "#dialog-message" ).html("Something went wrong please try later or contact to site admin.");
+			$( "#dialog-message .data" ).html("Something went wrong please try later or contact to site admin.");
 			$( "#dialog-message" ).dialog("open");
 			$( "#dialog" ).dialog( "close" );
 		}
@@ -856,5 +927,46 @@ alert(name[index]);
 <script>
 $(document).ready(function(){
 	$("#ShareJobForm").validate();
+	$("#autocompleteInviteEmail").blur(function(){
+	    $('#InviteToEmail').val($(this).val());
+	});
+	$("#autocompleteInviteEmail").submit(function(){
+	    $('#InviteToEmail').val($(this).val());
+	});
+	$("#autocompleteInviteEmail").autocomplete({
+			minLength:1,
+			source: function( request, response ) {
+				$.ajax({
+					url: "/Utilities/networkerContacts/startWith:"+request.term,
+					dataType: "json",
+					beforeSend: function(){
+				 		/*$('#UserUniversity').parent("div").parent("div").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  / ></div>');*/
+
+			   		},
+			   		complete: function(){
+			   	    	$('.loader').remove();
+			   		},
+					success: function( data ) {
+						if(data == null) return;
+						response( $.map( data, function(item) {
+							if(data == null) return;
+							return {
+								value: item.name,
+								key: item.id
+							}
+						}));
+					}
+				});
+			},
+			select: function( event, ui ) {
+				$('#InviteToEmail').val(ui.item.value);
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-all" );
+			}
+		});
 });
 </script>

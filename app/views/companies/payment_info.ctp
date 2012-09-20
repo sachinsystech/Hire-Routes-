@@ -26,8 +26,8 @@ function check_expdate() {
 	var selmonth = $("#PaymentInfoExpirationMonth").val();
 	var selyear  = $("#PaymentInfoExpirationYear").val();
 	
-    if ( selyear==year && selmonth <= month){     
-      $("#exp_date_error").removeClass().addClass("expry_date_error").html("Expiry Date should be greater than current date.*");
+    if ( selyear==year && selmonth <= month){
+          $("#exp_date_error").addClass("error_input_message").html("Expiry Date should be greater than current date.*");
       return false;
     }
   }
@@ -135,6 +135,8 @@ function check_expdate() {
 								);
 						?>
 					</div>
+					<div class="clr"></div>
+					<div class="date_expire" id="exp_date_error"></div>
 					<div class="clr"></div>
 					<div class="edit-profile-text-box">
 						<?php	

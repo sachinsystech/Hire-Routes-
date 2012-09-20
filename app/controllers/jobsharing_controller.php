@@ -14,7 +14,7 @@ class JobsharingController extends AppController {
 		$this->autoRender= false;
 		$session = $this->_getSession();
         if(!$session->isLoggedIn()){       
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
 
@@ -60,7 +60,7 @@ class JobsharingController extends AppController {
 		$this->autoRender= false;
 		$session = $this->_getSession();
         if(!$session->isLoggedIn()){       
-        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/users/login'));
+        	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
 
@@ -79,7 +79,9 @@ class JobsharingController extends AppController {
  	            	$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
                 }else{
                 	$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
+                	$messageBody['code'] = $invitationCode;
                 } 
+                $messageBody['ic_code'] = $icc;
                 //$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
                 $messageBody['message'] = $this->params['form']['message'];
                 $messageBody['invitationUrl'] = $invitationUrl;

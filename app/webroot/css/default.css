@@ -98,7 +98,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .job-right-heading a:hover,.job-right-heading a:active{text-decoration:underline;}
 .job_right_pagination ul li.current{color: #9D9DA0;font-size: 14px;font-weight: normal;}
 .networkers-message{padding-top: 30px;text-align: center;}
-.inviation-message{text-align: center;}
+.inviation-message{text-align: center;margin-top:40px; font-size:16px;width:680px;}
 /*-------- css for edit profile */
 .edit-profile-text-box { height: auto; width: 460px;margin-top:4px;}
 .edit-profile-text-box select{float:right;width:290px;}
@@ -142,8 +142,9 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 }
 .industry-specification-1{height:150px;width:600px;}
 .industries-select{float:left;height:14px;}
-.jobseeker_settings_state select {margin-left:10px;}
-.jobseeker_settings_salary {margin-top:20px;}
+.jobseeker_settings_state select {margin-left:35px;}
+.jobseeker_settings_salary {margin-top:20px !important;}
+.jobseeker_settings_salary input {margin-left:5px;}
 .jobseeker_settings_notification{margin-top:20px;}
 .jobseeker_settings_notification p{margin-bottom:10px;}
 /* ------ End css for jobseeker settings --------*/
@@ -173,6 +174,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 	text-shadow: 1px 1px 1px #444343; 
 	text-decoration:none; 
 	font-family: "OpenSansCondensedBold";font-size: 20px;
+	cursor:pointer;
 }
 .job_profile_form_buttn_row .uploadresume_bttn input:hover {background:url(../images/bttn_sprite.png) no-repeat -11px -121px;}
 .job_profile_form_buttn_row .uploadresume_bttn input:active { background:url(../images/bttn_sprite.png) no-repeat -11px -165px;}
@@ -241,7 +243,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 	resize:none;
 }
 /************************************** ************************/
-.job-empty-message{ text-align:center;margin-top:10px;}
+.job-empty-message{ text-align:center;margin-top:40px;}
 /*********************Css for payments detail popup dialog ***********************/
 .payment_popup_cancel_bttn {
 	width:72px;
@@ -309,8 +311,6 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     padding-top: 43px;
 }
 #gmailContacts input {
-    margin-left: 20px;
-    margin-right: 15px;
 }
 .gmail-submit {
    background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
@@ -334,9 +334,10 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 }
 .gmail-share-content {
     background: none repeat scroll 0 0 #F6F1E2;
-    height: 450px;
     margin: 0 auto;
     width: 575px;
+    max-height:450px;
+    min-height:80px;
 }
 /*---------------- Edit gmail contacts  ********************/
 .gmail-edit-content {
@@ -498,11 +499,15 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .invitation-table-subheading ul li {
     line-height: 30px !important;
 }
-.jobseeker_setting_button{
+.jobseeker_setting_button {
     background: url("../images/bttn_sprite.png") no-repeat scroll 0 0 transparent;
     height: 62px;
+    margin-left: -10px;
+    margin-top: 35px;
+    padding: 0;
     width: 207px;
 }
+
 .jobseeker_setting_button input{
 	background: url("../images/bttn_sprite.png") no-repeat scroll -11px -80px transparent;
     border: medium none;
@@ -514,6 +519,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     text-decoration: none;
     text-shadow: 1px 1px 1px #444343;
     width: 181px;
+    cursor:pointer;
 }
 .jobseeeker_seeting_name input {
     background: url("../images/text-box-small.png") no-repeat scroll 0 0 transparent;
@@ -711,9 +717,18 @@ employee_contact_row{width:115px !important;}
 }
 .h2_float { float:left;}
 .company-recruiter-radio{width:168px;overflow:visible;}
-.company-recruiter-radio input{margin-right:15px;}
-.company-recruiter-radio-input{width: 18px !important;
-float: left;}
+.company-recruiter-radio input {
+	margin-right: 15px !important;
+	width: 4px;
+	height: 16px;
+	padding: 0;
+	margin: 0 !important;
+}
+.company-recruiter-radio-input {
+	width: 18px !important;
+	float: left;
+	height: 14px;
+}
 .empty_concats_msg{
     background: none repeat scroll 0 0 #FAF8CC;
     border: 1px solid #446423;
@@ -745,6 +760,14 @@ width:509px !important;
 .copmany_select_box label{
 	
 margin-left:5px;
+}
+.job_salary{
+overflow:hidden;
+}
+.upload_cover_letter{
+	margin-left:484px;
+	margin-top:5px;
+
 }
 /*********** css for networker personal data ***************/
 .job-table-data ul li {list-style:none; float:left; border-bottom: 1px solid #D6D2CC;}
@@ -790,6 +813,7 @@ font-size:26px !important;
 .no_friend_found{
 	text-align:center;
 	display:none;
+	margin-top:30px;
 }
 .serach_box {
 	width:289px;
@@ -811,32 +835,108 @@ font-size:26px !important;
 	background-color:rgba(235, 212, 196, 0.41) !important;
 }
 /*********** Css for radio buttons. ********************/
-.ez-hide { opacity: 0; filter:alpha(opacity=0); }
+div.ez-radio {
+padding:2px 5px 5px 5px;}
+ez-selected {padding-top:1px !important;}
+.cross-button input {
+   height: 22px;
+   width: 24px;
+}
+.ez-hide {
+    opacity: 0;
+    -moz-appearance: none;
+    filter:alpha(opacity=0);
+}
 .ez-checkbox {
-	background: transparent url('../images/checkbox-button.png') 0 1px no-repeat;
-	display:-moz-grid;
-	display:inline-table;
+   background: url("../images/checkbox-button-edited.png") no-repeat scroll 0 1px transparent;
+   display: inline-table;
 }
-
 .ez-radio {
-	background: transparent url('../images/radio-black.png') 0 -3px no-repeat;
-	display:inline-table;
-	display:-moz-grid;
+   background: url("../images/radio-black.png") no-repeat scroll 0 -3px transparent;
+   display: -moz-grid;
 }
-
-.ez-checked { background:url("../images/checkbox-button.png") repeat scroll 0 149px transparent !important;
+.ez-checked {
+    background: url("../images/checkbox-button-edited.png") repeat scroll 0 147px transparent !important;
 }
-.ez-selected { background-position: 0px -25px;; }
-
+.ez-selected {
+   background-position: 0 -25px;
+}
 .ez-checkbox-green {
-	padding:10px;
-	background:url("../images/checkbox-button.png") repeat scroll 0 113px transparent;
-	display:-moz-grid;
-	display:inline-table;	
-	*display: inline;
+    background: url("../images/checkbox-button-edited.png") repeat scroll -1px -3px transparent;
+    display: block;
+    height: 34px;
+    width: 34px;
+} 
+.ez-radio {
 }
-.ez-radio { zoom: 1; *display:inline; _height:25px; }
+div.ez-radio {
+	padding: 5px;
+	height: auto;
+	width: 25px !important;
+	display: inline-table;
+}
+.ez-checkbox-green input {
+	width:22px !important; 
+	height:25px !important;
+	padding:0 !important;
+	margin-left:8px;
+}
+/************ Css for post and share button ******************************/
+.post_and_share_left_search_row {
+    height: auto;
+    width: 222px;
+}
+.post_and_share {
+	width:210px;
+	background:url(../images/left_bar_menu_bg.png) no-repeat 0 -90px;
+	height:53px;
+	margin:10px auto 0;
+	padding:9px 0 0 0;
+}
+.post_and_share a {
+	width:184px;
+	height:39px;
+	display:block;
+	font:bold 20px "OpenSansCondensedBold";
+	text-align:center;
+	text-shadow: 1px 1px 1px #444343;
+	color:#fff;
+	text-decoration:none;
+	line-height:40px;
+	margin:0 0 0 15px;
+}
+.post_and_share a:hover {
+	background:url(../images/left_bar_menu_bg.png) no-repeat -14px -159px;
+}
+.post_and_share a:active {
+	background:url(../images/left_bar_menu_bg.png) no-repeat -14px -205px;
+}
 
-div.ez-radio{
-	padding:5px;
+/************** css for invite pop up ************************/
+
+#close_message_dialog {
+    background: url("../images/Buttons_find_clear.png") no-repeat scroll -12px -56px transparent;
+    border: medium none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font: 15px 'OpenSansCondensedBold';
+    height: 22px;
+    margin: 11px 0 0 11px;
+    padding: 0;
+    width: 52px;
+}
+.mesaage-dialog-div{ background:url(../images/Buttons_find_clear.png) 0 0 no-repeat;
+    height: 50px;
+	margin-top:40px;    
+    width: 77px; float:right;
+}
+.date_expire{
+	margin-left: 169px;
+    width: 290px !important;
+}
+.application_cover_letter{
+	margin-top:25px !important;
+}
+.contact_checkbox{
+	clear:both;
 }

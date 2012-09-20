@@ -54,6 +54,12 @@ float:left;
 width:100px;
 margin-left:1px;
 }
+#shareJobDialog{
+	font-family: Arial regular,Sans-serif !important;
+}
+.ui-autocomplete {
+    font-size: 12px;
+}
 </style>
 <script>
 $(document).ready(function(){
@@ -96,17 +102,32 @@ $(function() {
 		$("#shareJobDialog #ShareToEmail").val("");
 		$("#shareJobDialog #ShareSubject").val("");
 		$('#shareJobDialog #ShareMessage').val("");
+		$("#autocompleteEmail").val("");
 		return false;
 	});
 	
 });
 
-function toggleAllChecked(status) {
-	$("#shareJobDialog .friend_checkbox").each( function() {
+function toggleShareChecked(status) {
+	/*$("#shareJobDialog .friend_checkbox").each( function() {
 		if($(this).parent("li").css('display')== "block"){
 			$(this).attr("checked",status);
+			var parentDiv = $(this).parent("li");
+			if(status){
+				parentDiv.css('opacity', 0.3);
+			}
+			else{
+				parentDiv.css('opacity', 1.0);
+			}
 		}
 	});
+	*/
+	if(status){
+		$("#shareJobDialog .friend_checkbox").parent("li:visible").css('opacity', 0.3).children(".friend_checkbox").attr("checked",status);
+	}else{
+		$("#shareJobDialog .friend_checkbox").parent("li:visible").css('opacity', 1.0).children(".friend_checkbox").attr("checked",status);
+	}
+	
 }
 </script>
 
@@ -148,12 +169,24 @@ function toggleAllChecked(status) {
 
 				<div class="job-share-field" id="e-mail">
                 	<div class="job-share-text">EMAIL</div>
-                    <div class="job-share-tb"><input id="ShareToEmail" type="text" placeholder="Enter a friend's email address" /></input></div>
+			       	<?php if($this->Session->read("UserRole") == NETWORKER ){ ?>                	
+                    <div style="display:none;">
+                    	<input id="ShareToEmail" type="text" placeholder="Enter a friend's email address" />
+                   	</div>
+			       	<div class="job-share-tb">
+                    	<input id="autocompleteEmail" type="text" placeholder="Enter a friend's email address" />
+                   	</div>
+			       	<?php }else{ ?>
+                    <div class="job-share-tb">
+                    	<input id="ShareToEmail" type="text" placeholder="Enter a friend's email address" />
+                   	</div>
+                   	<?php } ?>
                     <div class="clr"></div>
                 </div>
 			
                 <div class="job-share-field">
                 	<div class="job-share-text job-share-margin">SUBJECT</div>
+                	
                     <div class="job-share-tb-top">
 						<?php echo $form->input('subject', array('label' => '',
 														'type' => 'text',
@@ -222,7 +255,7 @@ function toggleAllChecked(status) {
 							<div class="js_invite_all">Share All</div>
 							<div class="js-check-box-popup">
 								<!-- span class="checkbox_selected" onclick="make_bg_change(this);"></span -->
-								<input type="checkbox" class="styled" id="gender_checkbox" onclick="toggleAllChecked(this.checked)">                                         
+								<input type="checkbox" class="styled" id="gender_checkbox" onclick="toggleShareChecked(this.checked)">                                         
 							</div>
 					   </div>
 					   
@@ -363,7 +396,6 @@ function validateEmail(elementValue){
 }
 function createHTMLforFillingShareFriends(friends){
 
-	//$('.selectedFriends .selectedFriend').remove();
 	var length = friends.length;
 	
 	html="";
@@ -432,6 +464,8 @@ $( "#shareJobDialog" ).dialog( "close" );
 function fillFacebookFriendShareJob(){
 
 	$('#shareJobDialog #submitLoaderImg').hide();
+	$("#gender_checkbox").attr("checked",false);
+	$("#autocompleteFind").val("").blur();
 	//get list of facebook friend from ajax request
 	$('#shareJobDialog .job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/fbloader.gif" width="50px" />'+
 	'<img src="/images/fb_loading.gif" /></p>');
@@ -446,7 +480,9 @@ function fillFacebookFriendShareJob(){
 					createHTMLforFillingShareFriends(response.data);
 					$("#autocompleteFind").show();
 					filterFriendListShareJob();
-					//$("#shareJobImageDiv").css({visibility: "hidden"});
+					if(jQuery.isEmptyObject(response.data)){
+						$(".no_friend_found").css("display","block");
+					}
 					break;
 				case 1: // we don't have user's facebook token
 					alert(response.message);
@@ -478,6 +514,8 @@ function fillFacebookFriendShareJob(){
 /**************************** 2). Fill Linkedin Friends ******************************/
 function fillLinkedinFriendShareJob(){
 	$('#shareJobDialog #submitLoaderImg').hide();
+	$("#gender_checkbox").attr("checked",false);
+	$("#autocompleteFind").val("").blur();
 	$('#shareJobDialog .job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;"><img src="/images/liloader.gif" width="50px" />'+
 	'<img src="/images/li_loading.gif" /></p>');
 	$.ajax({
@@ -492,6 +530,9 @@ function fillLinkedinFriendShareJob(){
 					$("#autocompleteFind").show();
 					filterFriendListShareJob();
 					$("#shareJobImageDiv").css({visibility: "hidden"});
+					if(jQuery.isEmptyObject(response.data)){
+						$(".no_friend_found").css("display","block");
+					}
 					break;
 				case 1: // we don't have user's linked token
 					alert(response.message);
@@ -524,6 +565,8 @@ function fillLinkedinFriendShareJob(){
 /**************************** 3). Fill Twitter Friends ******************************/
 function fillTwitterFriendShareJob(){
 	$('#shareJobDialog #submitLoaderImg').hide();
+	$("#gender_checkbox").attr("checked",false);
+	$("#autocompleteFind").val("").blur();	
 	$('.job-share-ppl').html('<p class="sharejob_ajax_loader" style="margin: 52px auto auto; width: 80px;" ><img src="/images/twitterLoader.gif" width="50px" />'+
 	'<img src="/images/li_loading.gif" /></p>');
 	$('#shareJobDialog .sharejob_ajax_loader').delay('30000').animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.sharejob_ajax_loader');
@@ -538,7 +581,9 @@ function fillTwitterFriendShareJob(){
 				createHTMLforFillingShareFriends(response.data);
 				$("#autocompleteFind").show();
 				filterFriendListShareJob();
-				//$("#shareJobImageDiv").css({visibility: "hidden"});
+				if(jQuery.isEmptyObject(response.data)){
+					$(".no_friend_found").css("display","block");
+				}
 				break;
 			case 1: // we don't have user's twitter token
 				alert(response.message);
@@ -590,9 +635,10 @@ function shareEmail(){
 			$('#shareJobDialog #submitLoaderImg').hide();
 			switch(response.error){
 				case 0:
-					$( "#dialog-messageshare" ).html(" E-mail send successfully.");
+					$( "#dialog-messageshare" ).html(" E-mail sent successfully.");
 					$( "#dialog-messageshare" ).dialog("open");
 					$('#shareJobDialog #ShareToEmail').val("");
+					$("#autocompleteEmail").val("");
 					setShareJobView('Email');
 					break;
 				case 1:
@@ -832,5 +878,46 @@ $('#shareJobDialog .contactName').each(function(index){
 <script>
 $(document).ready(function(){
 	$("#ShareJobForm").validate();
-});
+	$("#autocompleteEmail").blur(function(){
+		$('#ShareToEmail').val($(this).val());
+	});
+	$("#autocompleteEmail").submit(function(){
+	    $('#InviteToEmail').val($(this).val());
+	});
+	$("#autocompleteEmail").autocomplete({
+			minLength:1,
+			source: function( request, response ) {
+				$.ajax({
+					url: "/Utilities/networkerContacts/startWith:"+request.term,
+					dataType: "json",
+					beforeSend: function(){
+				 		/*$('#UserUniversity').parent("div").parent("div").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  / ></div>');*/
+
+			   		},
+			   		complete: function(){
+			   	    	$('.loader').remove();
+			   		},
+					success: function( data ) {
+						if(data == null) return;
+						response( $.map( data, function(item) {
+							if(data == null) return;
+							return {
+								value: item.name,
+								key: item.id
+							}
+						}));
+					}
+				});
+			},
+			select: function( event, ui ) {
+				$('#ShareToEmail').val(ui.item.value);
+			},
+			open: function() {
+				$( this ).removeClass( "ui-corner-all" );
+			},
+			close: function() {
+				$( this ).removeClass( "ui-corner-all" );
+			}
+		});
+	});
 </script>
