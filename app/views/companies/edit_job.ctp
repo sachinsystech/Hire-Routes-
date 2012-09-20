@@ -1,4 +1,15 @@
 
+<?php
+    function unhtmlspecialchars( $string ){
+        $string = str_replace ( '&#039;', '\'', $string );
+        $string = str_replace ( '&quot;', '\"', $string );
+        $string = str_replace ( '&lt;', '<', $string );
+        $string = str_replace ( '&gt;', '>', $string );
+       
+        return $string;
+    }
+?>
+
 <div class="job_top-heading">
 <?php if($this->Session->read('Auth.User.id')):?>
 	<?php if($this->Session->read('welcomeName') && ($this->Session->read('UserRole'))):?>
@@ -45,7 +56,7 @@
 												'class' => 'required',
 												'placeholder'=>'Title',
 												'div'=>false,
-												'value' => isset($job['title'])?$job['title']:"",
+												'value' => isset($job['title'])?unhtmlspecialchars($job['title']):"",
 												)
 							 );
 					?>						
@@ -74,7 +85,7 @@
 														'class' => 'required',
 														'placeholder'=>'Short Description',
 														'div'=>false,
-														'value' => isset($job['short_description'])?$job['short_description']:""
+														'value' => isset($job['short_description'])?unhtmlspecialchars($job['short_description']):""
 													)
 											);
 							   ?>
@@ -204,7 +215,7 @@
 												'class' => 'required',
 												'placeholder'=>'Description',
 												'div'=>false,
-												'value' => isset($job['description'])?$job['description']:""
+												'value' => isset($job['description'])?unhtmlspecialchars($job['description']):""
 											)
 								  );
 							   ?>

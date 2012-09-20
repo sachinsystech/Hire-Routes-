@@ -32,7 +32,7 @@
 		<?php	echo $form->input('account_email', array('label' => false,
 														'div'	=> false,
 		                                       			'type'  => 'text',
-		                                       			'placeholder' => 'Account Email',
+		                                       			'placeholder' => 'Email',
 														'class' => 'required email',
 		                                       			)
 		                             );

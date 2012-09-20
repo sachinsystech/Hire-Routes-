@@ -485,7 +485,7 @@ function fillFacebookFriendShareJob(){
 					}
 					break;
 				case 1: // we don't have user's facebook token
-					alert(response.message);
+					//alert(response.message);
 					window.open(response.URL);
 					break;
 				case 2: // something went wrong when we connect with facebook.Need to login by facebook
@@ -535,7 +535,7 @@ function fillLinkedinFriendShareJob(){
 					}
 					break;
 				case 1: // we don't have user's linked token
-					alert(response.message);
+					//alert(response.message);
 					window.open(response.URL);
 					break;
 				case 2: // something went wrong when we connect with facebook.Need to login by facebook
@@ -586,7 +586,7 @@ function fillTwitterFriendShareJob(){
 				}
 				break;
 			case 1: // we don't have user's twitter token
-				alert(response.message);
+				//alert(response.message);
 				window.open(response.URL);
 				break;
 			case 2: // something went wrong when we connect with facebook.Need to login by facebook

@@ -10,7 +10,7 @@ Please submit the form below and you will receive an email confirmation to compl
                                            			'type'  => 'text',
 													'class' => 'required email',
 													'div'=> false,
-													'placeholder' => "Account Email",
+													'placeholder' => "Email",
                                            			)
                                  );
 	    	?>

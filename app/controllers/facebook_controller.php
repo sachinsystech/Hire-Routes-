@@ -106,7 +106,12 @@
         if(!empty($userIds) && $message &&  $User){
             foreach($userIds as $id){
                 try{
-                    $result = $this->facebookObject()->api("/".$id."/feed",'post',array('message'=>$message,'access_token' =>$User['User']['facebook_token']));
+                    $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
+											'message'=>$message,
+											'method'=>'apprequests',
+											'access_token' =>$User['User']['facebook_token'])
+										);
+										
                     $shareJobData['job_id'] = $jobId;
                     $sharedJobExits=$this->SharedJob->find('first',array('conditions'=>array(
     									'job_id'=>$jobId,	

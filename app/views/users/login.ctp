@@ -24,7 +24,7 @@
 																'class'=>'required',
 																'div'=>false,
 																'label' => false,
-																'placeholder' =>'Username'));
+																'placeholder' =>'Email'));
 									?>
             </div>
             <div class="text-box text-box-below"> 

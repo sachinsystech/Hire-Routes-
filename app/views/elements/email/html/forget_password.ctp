@@ -12,7 +12,7 @@
 	</div>
 	<p>
 		Please <a href="<?php echo $contact_url; ?>"><span style="color: #1E7EC8;">contact-us </span></a> at
-		<a target="_blank" href="mailto:support@hireroutes.com;?>">support@hireroutes.com</a>, for details information.
+		<a target="_blank" href="mailto:info@hireroutes.com;?>">info@hireroutes.com</a>, for details information.
 	<p>
 	Thank you again,<br> Hire Routes
 </div>

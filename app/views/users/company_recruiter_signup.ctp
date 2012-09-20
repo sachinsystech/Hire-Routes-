@@ -83,7 +83,7 @@
                                            			'div' 	=>false,
 													'class' => 'required alphabets',
 													'minlength' => '3',
-													'placeholder'=>'Company/Recruiter Name',
+													'placeholder'=>'Company Name',
                                            			)
                                  );
 			    ?>
@@ -118,7 +118,7 @@
 						                               			'type'  => 'text',
 						                               			'div'=> false,
 																'class' => 'url',
-																'minlength' => '8',
+																//'minlength' => '8',
 																'placeholder'=> 'Company Website',
 																'value' =>"",
 						                               			)
@@ -131,7 +131,7 @@
 						                               			'type'  => 'text',
 						                               			'div' 	=>false,
 																'class' => 'required email',
-																'placeholder'=> 'Account Email',
+																'placeholder'=> 'Email',
 																'value' =>"",
 						                               			)
 						                     );
