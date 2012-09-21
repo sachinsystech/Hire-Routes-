@@ -93,7 +93,7 @@ $class= "class='selected_menu'";
   
 	<div class="top">
 		<?php echo $this->Session->flash(); ?>
-		<div style="position: absolute; color: red; margin-left: 222px; font-size: 10px; font-weight: bold; margin-top: 155px;">
+		<div style="position: absolute; color: red; margin-left: 222px; font-size: 10px; font-weight: bold; margin-top: 144px;">
 			Private Beta
 		</div>
 		<div class="Hire-Routes"> </div>
