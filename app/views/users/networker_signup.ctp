@@ -1,3 +1,5 @@
+
+
 <h1 class="title-emp">Networker Registration</h1>
 <div class="sub-title-ty application_top_submenu network_top_txt">You will be able to apply for jobs and share job posts with your network.<br />
 Please submit the form below and you will receive an email confirmation to complete your registration.</div>
@@ -146,16 +148,22 @@ Please submit the form below and you will receive an email confirmation to compl
 	echo "<style>.login_middle_main { width: 300px !important;}</style>" ;
 	endif;?>
 </div>
+
+
+
 <script>
 	$(document).ready(function(){
 		$("#UserNetworkerSignupForm").validate({
-			  errorClass: 'error_input_message',
-			  rules: {
-				'data[User][password]': "required",
-				'data[User][repeat_password]': {
-				  equalTo: "#UserPassword"
+				errorClass: 'error_input_message',
+				rules: {
+					'data[User][password]': "required",
+					'data[User][repeat_password]': {
+					  equalTo: "#UserPassword"
+					}
+				},
+				errorPlacement: function (error, element) {
+					error.insertAfter(element)
 				}
-			  }
 			});
 	});
 	function checkform() {
