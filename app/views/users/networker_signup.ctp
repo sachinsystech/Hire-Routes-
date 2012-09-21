@@ -249,18 +249,17 @@ Please submit the form below and you will receive an email confirmation to compl
 </script>
 <style>
 	.ui-autocomplete {
-	font-size: 12px;
-	max-height: 154px;
-	max-width: 350px;
-	overflow-x: hidden;
-	overflow-y: auto;
-
+		font-size: 12px;
+		max-height: 154px;
+		max-width: 350px;
+		overflow-x: hidden;
+		overflow-y: auto;
 	}
 	/* IE 6 doesn't support max-height
 	* we use height instead, but this forces the menu to always be this tall
 	*/
 	* html .ui-autocomplete {
-	height: 100px;
+		height: 100px;
 	}
 </style>
 
