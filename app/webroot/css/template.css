@@ -1297,7 +1297,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .new_job {margin-top: 23px; padding: 0 0 0 36px; width: 674px; position:relative;}
 .job_feild{ clear:both;height:auto; width:500px;}
 .job_feild span {font: 15px/42px Arial,Helvetica,sans-serif; *float:left;float:left}
-.post_job_textbox{margin: 8px 78px 0 0;float: right;height:56px;width: 289px;}
+.post_job_textbox{margin: 8px 78px 0 0;float: right;height:56px;width: 289px;position:relative;}
 .post_job_textbox textarea{background: url("../images/textarea.png") no-repeat scroll 0 0 transparent; border: 0 none; color: #847A6C; font-family: Arial,Helvetica,sans-serif;font-size: 13px;height: 56px;line-height: 16px;padding: 0 0 0 11px; width: 277px; resize:none;}
 .job_feild_margin{ margin-right:78px !important;}
 .category_dropdown { float:right; width:370px;margin-top: 14px;}

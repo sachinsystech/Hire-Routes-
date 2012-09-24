@@ -19,7 +19,7 @@
 				echo $this->Form->create('User');
 			?>	
 
-            <div class="text-box">
+            <div class="text-box" style="position:relative !important">
              <?php echo $this->Form->input('username',array('type'=>'text',
 																'class'=>'required',
 																'div'=>false,
@@ -27,7 +27,7 @@
 																'placeholder' =>'Email'));
 									?>
             </div>
-            <div class="text-box text-box-below"> 
+            <div class="text-box text-box-below" style="position:relative !important"> 
              <?php echo $this->Form->input('password',
 																		array('class'=>'required',
 																			'type'=>'password',
