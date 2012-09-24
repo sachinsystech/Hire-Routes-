@@ -106,9 +106,9 @@
         if(!empty($userIds) && $message &&  $User){
             foreach($userIds as $id){
                 try{
-                    $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
+                    $result = $this->facebookObject()->ui("/".$id."/feed",'post',array(
 											'message'=>$message,
-											'method'=>'apprequests',
+											'method'=>'send',
 											'access_token' =>$User['User']['facebook_token'])
 										);
 										
@@ -125,6 +125,8 @@
 		           	//$this->SharedJob->save($shareJobData);
                 	//return json_encode(array('error'=>0));
                 }catch(Exception $e){
+                print_r($e);
+					exit;
                 	return json_encode(array('error'=>1));      
                 }
             }
