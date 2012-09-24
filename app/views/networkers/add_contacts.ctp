@@ -34,8 +34,8 @@
 											'type'  => 'text',
 											'div'	=>false,
 											'value' =>$contact_name_value,
-											'onblur' => "if(this.value==''){this.value='Enter Name'; this.style.color='#999999';this.style.fontStyle='italic';}" ,
-											'onfocus' => "if(this.value=='Enter Name'){this.value='';this.style.color='#000000';this.style.fontStyle='normal';}" 
+											'onblur' => "if(this.value==''){this.value='Enter Name'; this.style.color='#999999';}" ,
+											'onfocus' => "if(this.value=='Enter Name'){this.value='';this.style.color='#000000';}" 
 											));
 								?>	
                         	</div>
@@ -45,8 +45,8 @@
 											'type'  => 'text',
 											'div'	=> false,
 											'value' => $contact_email_value,
-											'onblur' => "if(this.value==''){this.value='Enter E-mail'; this.style.color='#999999';this.style.fontStyle='italic'}",
-											'onfocus' => "if(this.value=='Enter E-mail'){this.value='';this.style.color='#000000';this.style.fontStyle='normal'}",
+											'onblur' => "if(this.value==''){this.value='Enter E-mail'; this.style.color='#999999';}",
+											'onfocus' => "if(this.value=='Enter E-mail'){this.value='';this.style.color='#000000';}",
 											));
 								?>		
                         	</div>

@@ -106,7 +106,7 @@
         if(!empty($userIds) && $message &&  $User){
             foreach($userIds as $id){
                 try{
-                    $result = $this->facebookObject()->ui("/".$id."/feed",'post',array(
+                    $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
 											'message'=>$message,
 											'method'=>'send',
 											'access_token' =>$User['User']['facebook_token'])
