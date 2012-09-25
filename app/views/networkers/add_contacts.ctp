@@ -273,9 +273,9 @@ function checkMultipleDelete(){
 }
 
 function toggleChecked(status) {
-	$(".contact_checkbox").each( function() {
-		$(this).attr("checked",status);
-	})
+	//$(".contact_checkbox").each( function() {
+		//$(this).attr("checked",status);
+	//})
 }
 </script>
 
@@ -333,7 +333,7 @@ function importFromGmail(){
 <?php }?>  
 <script>
 	function toggleCheckedBox(status) {
-		$(".contact_checkbox input:checkbox").attr("checked",status);
+		$(".contact_checkbox div div input[type=checkbox]").attr("checked",status);
 	}
 	
 	function checkGmailCheckbox(){
