@@ -333,12 +333,9 @@ function importFromGmail(){
 <?php }?>  
 <script>
 	function toggleCheckedBox(status) {
-		$('#checkAllBtn').click(function(e) {
-			$('input[name^="data"]').each(function() {
-				$(this).attr({"checked":status});
-				$(this).trigger('change');
-			});
-			return false;
+		$('input[name^="data"]').each(function() {
+			$(this).attr({"checked":status});
+			$(this).trigger('change');
 		});
 	}
 	
