@@ -296,7 +296,7 @@ function importFromGmail(){
 		<?php if(isset($GmailContacts) && !empty($GmailContacts)) {?>								 
 		<div style="margin-top: 8px; border-bottom:1px solid">
 			<div style="float:left;width:178px;margin-top:-5px;" class= ""> 
-				<input type="checkbox" onclick="toggleCheckedBox(this.checked)">
+				<input type="checkbox" onclick="toggleCheckedBox(this.checked)" id="checkAllBtn">
 			</div>
 			<div> <h2>E-Mail </h2> </div>
 		</div>
@@ -335,14 +335,11 @@ function importFromGmail(){
 	function toggleCheckedBox(status) {
 		$('#checkAllBtn').click(function(e) {
 			$('input[name^="data"]').each(function() {
-			$(this).attr({"checked":status});
-			$(this).trigger('change');
+				$(this).attr({"checked":status});
+				$(this).trigger('change');
+			});
+			return false;
 		});
-		return false;
-	});
-
-	
-		$(".contact_checkbox div div input[type=checkbox]").attr("checked",status);
 	}
 	
 	function checkGmailCheckbox(){
