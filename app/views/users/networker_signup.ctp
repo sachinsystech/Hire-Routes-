@@ -1,16 +1,19 @@
+
+
 <h1 class="title-emp">Networker Registration</h1>
 <div class="sub-title-ty application_top_submenu network_top_txt">You will be able to apply for jobs and share job posts with your network.<br />
 Please submit the form below and you will receive an email confirmation to complete your registration.</div>
 <!---  application form start --->
 <div class="login_middle_main"> 
-	<div class="login_middle_left_box"> 
+	<div class="login_middle_left_box">
+		<span style="position: absolute; color:#847A6C; margin-top: -7px; font-size: 13px;">* Required</span>
 		<?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkform()')); ?>
 		<div class="network_form_row">
 			<?php	echo $form->input('account_email', array('label' => false,
                                            			'type'  => 'text',
 													'class' => 'required email',
 													'div'=> false,
-													'placeholder' => "Account Email",
+													'placeholder' => "Email*",
                                            			)
                                  );
 	    	?>
@@ -22,7 +25,7 @@ Please submit the form below and you will receive an email confirmation to compl
 															'name'  => "data[User][password]",
 															'class' => 'password',
 															'minlength' => '6',
-															'placeholder'=>'Password',
+															'placeholder'=>'Password*',
 															'div'=>false,
 				                                   			)
 				                         );
@@ -37,7 +40,7 @@ Please submit the form below and you will receive an email confirmation to compl
 		                                       			'div'=> false,
 														'name'  => "data[User][repeat_password]",
 														'class' => 'required',
-														'placeholder' => 'Repeat Password',
+														'placeholder' => 'Repeat Password*',
 		                                       			)
 		                             );
 			?>
@@ -51,7 +54,7 @@ Please submit the form below and you will receive an email confirmation to compl
 														'name'  => "data[Code][code]",
 														'class' => 'required',
 														'div'	=> false,
-														'placeholder'=>'Code',
+														'placeholder'=>'Code*',
 		                                       			)
 		                             );
 				if(isset($codeErrors)):?><div class="error-message"><?php echo $codeErrors;?></div><?php endif; ?>
@@ -63,7 +66,7 @@ Please submit the form below and you will receive an email confirmation to compl
 			<?php echo $form->input('university',array('label'=>false,
 														'type'=>'text',
 														'class' => 'required',
-														'placeholder'=>'University',
+														'placeholder'=>'University*',
 														'div'=>false,
 									));
 				if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
@@ -146,16 +149,22 @@ Please submit the form below and you will receive an email confirmation to compl
 	echo "<style>.login_middle_main { width: 300px !important;}</style>" ;
 	endif;?>
 </div>
+
+
+
 <script>
 	$(document).ready(function(){
 		$("#UserNetworkerSignupForm").validate({
-			  errorClass: 'error_input_message',
-			  rules: {
-				'data[User][password]': "required",
-				'data[User][repeat_password]': {
-				  equalTo: "#UserPassword"
+				errorClass: 'error_input_message',
+				rules: {
+					'data[User][password]': "required",
+					'data[User][repeat_password]': {
+					  equalTo: "#UserPassword"
+					}
+				},
+				errorPlacement: function (error, element) {
+					error.insertAfter(element)
 				}
-			  }
 			});
 	});
 	function checkform() {
@@ -261,18 +270,17 @@ Please submit the form below and you will receive an email confirmation to compl
 </script>
 <style>
 	.ui-autocomplete {
-	font-size: 12px;
-	max-height: 154px;
-	max-width: 350px;
-	overflow-x: hidden;
-	overflow-y: auto;
-
+		font-size: 12px;
+		max-height: 154px;
+		max-width: 350px;
+		overflow-x: hidden;
+		overflow-y: auto;
 	}
 	/* IE 6 doesn't support max-height
 	* we use height instead, but this forces the menu to always be this tall
 	*/
 	* html .ui-autocomplete {
-	height: 100px;
+		height: 100px;
 	}
 </style>
 

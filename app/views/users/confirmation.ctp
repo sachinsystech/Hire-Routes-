@@ -1,7 +1,7 @@
 <!------ Content for User confirmation ------>
 <?php if(isset($roleId)){?>
 <h1 class="title-emp">Welcome to Hire Routes</h1>
-<div class="sub-title-ce">Thank you for signing up with us, we will analyze your data and get back with in next 24 hours.
+<div class="sub-title-ce">Thank you for signing up with us, we will analyze your data and get back within next 24 hours.
 </div>
 <div class="hr-computer-image"></div>
 <?php	

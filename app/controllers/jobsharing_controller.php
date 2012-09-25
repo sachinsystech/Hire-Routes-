@@ -21,6 +21,9 @@ class JobsharingController extends AppController {
 		if(isset($this->params['form']['toEmail'])){
 			$jobId=trim($this->params['form']['jobId']);
 			$to=trim($this->params['form']['toEmail']);
+			
+			$replyTo = null;
+			$from = ucfirst($session->getWelcomeName()) ." at Hire Routes";
 			$subject=$this->params['form']['subject'];
 			$jobUrl=$this->params['form']['jobUrl'];
 			$template = 'shared_job_details';
@@ -70,7 +73,9 @@ class JobsharingController extends AppController {
 			$traceId = -1*(time()%10000000);
         	$invitationCode = $this->Utility->getCode($traceId,$userId);
 			$template = 'invitation';
-			$subject = "Hire Routes Invitation";
+			$replyTo = null;
+			$from = ucfirst($session->getWelcomeName()) ." at Hire Routes";
+			$subject = ucfirst($this->params['form']['subject']);
 			$tos = explode(",", trim($this->params['form']['toEmail']));
 			
 			foreach($tos As $to){
@@ -86,7 +91,7 @@ class JobsharingController extends AppController {
                 $messageBody['message'] = $this->params['form']['message'];
                 $messageBody['invitationUrl'] = $invitationUrl;
                 $messageBody['userName'] = $session->getWelcomeName(); 
-				if($this->sendEmail($to,$subject,$template,$messageBody)){
+				if($this->sendEmail($to,$subject,$template,$messageBody,$replyTo,$from)){
 					$inviteData = array();
 					$inviteData['name_email'] = $to;
 					$inviteData['user_id'] = $userId;

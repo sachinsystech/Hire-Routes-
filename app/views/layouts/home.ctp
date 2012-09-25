@@ -162,9 +162,8 @@ $(document).ready(function(){
 	<div style= "display:none;"> 
 		<?php echo $this->element('invite_friend');?>
 	</div>
-</body>
-</html>
-<script type="text/javascript">
+	
+	<script type="text/javascript">
    $("document").ready(function(){
 		$(".feedback").click(function(){
 			$("#fdbk_tab").click();
@@ -176,4 +175,7 @@ $(document).ready(function(){
 		$(':input[placeholder]').placeholder();
 	}); 
 </script>
+</body>
+</html>
+
 

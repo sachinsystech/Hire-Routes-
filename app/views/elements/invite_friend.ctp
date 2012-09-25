@@ -521,7 +521,6 @@ function fillFacebookFriend(){
 					}
 					break;
 				case 1: // we don't have user's facebook token
-					alert(response.message);
 					window.open(response.URL);
 					break;
 				case 2: // something went wrong when we connect with facebook.Need to login by facebook
@@ -568,7 +567,6 @@ function fillLinkedinFriend(){
 					}
 					break;
 				case 1: // we don't have user's linked token
-					alert(response.message);
 					window.open(response.URL);
 					break;
 				case 2: // something went wrong when we connect with facebook.Need to login by facebook
@@ -618,7 +616,6 @@ function fillTwitterFriend(){
 					}
 					break;
 				case 1: // we don't have user's twitter token
-					alert(response.message);
 					window.open(response.URL);
 					break;
 				case 2: 
@@ -658,6 +655,7 @@ function emailInvitaion(){
 		data: {
 				toEmail : $('#InviteToEmail').val(),
 				message : $('#dialog #ShareMessage').val(),
+				subject : $('#dialog #ShareSubject').val(),
 				invitationCode:$('#invitationCode').val()
 			},
 

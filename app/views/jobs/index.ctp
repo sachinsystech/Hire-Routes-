@@ -1,4 +1,15 @@
 
+<?php
+    function unhtmlspecialchars( $string ){
+        $string = str_replace ( '&#039;', '\'', $string );
+        $string = str_replace ( '&quot;', '\"', $string );
+        $string = str_replace ( '&lt;', '<', $string );
+        $string = str_replace ( '&gt;', '>', $string );
+       
+        return $string;
+    }
+?>
+
 <script>
 	$(document).ready(function(){
 		//$("#slider").slider();
@@ -269,7 +280,7 @@
 
                 <div class="job_right_section">
                     <div class="job_right_section_left">
-                        <h2><?php	echo $this->Html->link(strtoupper($job['Job']['title']), '/jobs/jobDetail/'.$job['Job']['id']); ?></h1>
+                        <h2><?php	echo $this->Html->link(strtoupper(unhtmlspecialchars($job['Job']['title'])), '/jobs/jobDetail/'.$job['Job']['id']); ?></h1>
                         <p><?php
 	                        	echo $job['ind']['industry'].", ".$job['spec']['specification'] ;
 	                        	?>

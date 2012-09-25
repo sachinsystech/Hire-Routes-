@@ -156,7 +156,7 @@ div .checkbox{
 																  'min' =>1000,
 																  'value' => isset($jobseekerData['salary_range'])?$jobseekerData['salary_range']:""));?>   	
 
-		                    	<?php $emil_post_array =array('10'=>'Every 10 Post','1'=>'Every Day','3'=>'Every 3 Days','7'=>'Every Week'); ?>
+		                    	<?php $emil_post_array =array('3'=>'Every 3 Days','10'=>'Every 10 Post','1'=>'Every Day','7'=>'Every Week'); ?>
 		                    </div>
 		                    <div class="clr"></div>
 		                    <div class="jobseeker_settings_notification">

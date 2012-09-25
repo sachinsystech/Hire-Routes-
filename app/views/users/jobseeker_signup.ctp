@@ -27,12 +27,13 @@
 
 <?php echo $form->create('User', array('action' => 'jobseekerSignup','onsubmit'=>'return checkform()')); ?>
 <div class="login_middle_main"> 
-	<div class="login_middle_left_box"> 
+	<div class="login_middle_left_box">
+		<span style="position: absolute; color:#847A6C; margin-top: 13px; font-size: 13px;">* Required</span>
 		<div class="text-box">
 		<?php	echo $form->input('account_email', array('label' => false,
 														'div'	=> false,
 		                                       			'type'  => 'text',
-		                                       			'placeholder' => 'Account Email',
+		                                       			'placeholder' => 'Email*',
 														'class' => 'required email',
 		                                       			)
 		                             );
@@ -40,7 +41,7 @@
 		</div>
 		<div class="text-box text-box-below">
 		<?php	echo $form->input('password', array('label' => false,
-		                                       			'placeholder' => 'Password',
+		                                       			'placeholder' => 'Password*',
 														'div'	=> false,	
 		                                       			'type'  => 'password',
 														'name'  => "data[User][password]",
@@ -52,7 +53,7 @@
 		</div>
 		<div class="text-box text-box-below">
 		<?php	echo $form->input('repeat_password', array('label' => false,
-		                                       			'placeholder' => 'Confirm Password',	
+		                                       			'placeholder' => 'Confirm Password*',	
 		                                       			'div' => false,                                           														'type'  => 'password',
 														'name'  => "data[User][repeat_password]",
 														'class' => 'required'
@@ -65,7 +66,7 @@
 			if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null)){
 				echo $form->input('Code.code', array('label' => false,
 														'div' => false,
-		                                       			'placeholder' => 'Code',
+		                                       			'placeholder' => 'Code*',
 		                                       			'type'  => 'text',
 														'name'  => "data[Code][code]",
 														'class' => 'required'

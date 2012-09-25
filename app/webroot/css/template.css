@@ -245,7 +245,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 /*:::::Middle-Block - Form - Login - page css start :::::::*/
 
-.text-box { height: 29px; margin: 36px auto 0; width: 289px;}
+.text-box { height: 29px; margin: 36px auto 0; width: 289px;position: relative;}
 .text-box input { background: url("../images/text-box.png") no-repeat; border: 0 none; color: #847A6C; height: 28px; padding: 0 0 0 11px; width: 277px; font-size: 13px; font-family:Arial, Helvetica, sans-serif; line-height:28px;}
 .text-box-below {margin-top: 13px !important;}
 .check-button { width: 289px; height:24px; margin:20px auto 0;}
@@ -796,7 +796,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 .job_network_password { margin:35px 0 0 25px;}
 .job_network_password h2 {font:20px 'OpenSansCondensedBold';}
-.job-text-box{margin:32px 0 0 0;}
+.job-text-box{margin:32px 0 0 0;position: relative;}
 .job-text-box input { background: url("../images/text-box.png") no-repeat;border: 0 none;color: #847A6C;font-family: Arial,Helvetica,sans-serif;font-size: 13px;height: 28px;line-height: 28px; padding: 0 0 0 11px; width: 277px;}
 .job-clear-all {font:15px Arial, Helvetica, sans-serif; margin:34px 0 0 66px;}
 .job-clear-all a {text-decoration:underline;}
@@ -984,6 +984,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 	width:289px;
 	height:auto;
 	margin:15px auto 0;
+	position: relative;
 }
 .network_form_row input {
 	width:274px;
@@ -1172,9 +1173,9 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-right h2 {padding:28px 0 0 0; height:37px;border-bottom: 1px solid #D6D2CC; width:414px;}
 .job-share-field {width:414px; height:auto;}
 .job-share-text {font:15px 'OpenSansCondensedBold'; padding-top:26px; float:left;}
-.job-share-tb, .job-share-tb-top { width:288px; height:28px; float:right;margin: 20px 55px 0 0;}
+.job-share-tb, .job-share-tb-top { width:288px; height:28px; float:right;margin: 20px 55px 0 0;position: relative;}
 .job-share-tb input, .job-share-tb-top input {background:url(../images/text-box.png) 0 0 no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif !important; font-size: 13px !important; height: 28px; line-height: 28px; padding: 0 0 0 11px; width: 277px;}
-.job-share-tb-top {margin-top:8px !important;}
+.job-share-tb-top {margin-top:8px !important;position: relative;}
 .job-share-tb1 {width:343px; height:98px; float:right;margin-top: 8px;}
 .job-share-tb1 textarea {background:url(../images/sj-text-box.png) -2px -40px no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif !important; font-size: 13px !important; height: 93px; line-height: 20px; padding: 6px 0 0 11px; width: 332px;resize: none;overflow: auto;}
 .job-share-margin {padding-top:13px !important;}
@@ -1294,9 +1295,9 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 
 /*:::::::::::::Post New Job - page css start :::::::*/
 .new_job {margin-top: 23px; padding: 0 0 0 36px; width: 674px; position:relative;}
-.job_feild{ height:auto; width:500px;}
+.job_feild{ clear:both;height:auto; width:500px;}
 .job_feild span {font: 15px/42px Arial,Helvetica,sans-serif; *float:left;float:left}
-.post_job_textbox{margin: 8px 78px 0 0;float: right;height:56px;width: 289px;}
+.post_job_textbox{margin: 8px 78px 0 0;float: right;height:56px;width: 289px;position:relative;}
 .post_job_textbox textarea{background: url("../images/textarea.png") no-repeat scroll 0 0 transparent; border: 0 none; color: #847A6C; font-family: Arial,Helvetica,sans-serif;font-size: 13px;height: 56px;line-height: 16px;padding: 0 0 0 11px; width: 277px; resize:none;}
 .job_feild_margin{ margin-right:78px !important;}
 .category_dropdown { float:right; width:370px;margin-top: 14px;}

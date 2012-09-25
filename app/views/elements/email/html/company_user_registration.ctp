@@ -29,7 +29,7 @@
         
         <div style="width:643px; height:auto; margin:0 auto;">
         	 <p style="margin:20px 0 0 10px; font:15px Arial, Helvetica, sans-serif; color:#1d1d1d; text-align:justify; line-height:20px;">Your account for e-mail <?php echo $message['account_email'];?> must be accepted from Hire Routes before using it.<br>
-        	 	We will response back with in next 24 hours.
+        	 	We will respond within the next 24 hours.
 	      	</p>
 			<p style="margin:20px 0 0 10px; font:15px Arial, Helvetica, sans-serif; color:#1d1d1d; text-align:justify; line-height:20px;">
 				Thank you again, <br/>

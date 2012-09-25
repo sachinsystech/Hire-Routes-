@@ -24,7 +24,7 @@
 	<div style="width:725px; height:auto; margin:0 auto; background:#f9f3e4;">
 		<?php echo $this->element("email_header"); ?>
 		<div style="width:649px; height:44px; border-bottom:1px solid #D4CCC1; border-top:1px solid #D4CCC1; margin:0 auto; font-size: 30px; line-height: normal; color: #4a4947; font-family: Lucida Sans Unicode, Sans-serif; padding:5px 0 0 0; text-align:center;">	
-			Invitation from Hire Routes <span style="color:#329024;"><?php echo ucfirst($message['userName']) ;?></span> 
+			Invitation from <span style="color:#329024;"><?php echo ucfirst($message['userName']) ;?>  </span> at Hire Routes
 		</div>
         
         <div style="width:643px; height:auto; margin:0 auto;">
@@ -32,9 +32,9 @@
         	<p style = "clear:both;">
         		<a style="text-decoration:underline; color:#3a9031; float:left; font:20px 'OpenSansCondensedBold';width: 600px;word-wrap: break-word;text-align:center;" href= "<?php echo $message['invitationUrl']?>"> Connect With Us </a>
         	</p>
-			<?php if(isset($message['userName']) && $message['userName'] != null) { ?>
-			<p style="margin:20px 0 0 10px; font:15px Arial, Helvetica, sans-serif; color:#1d1d1d; text-align:justify; line-height:20px;clear:both"><?php echo ucfirst($message['userName']) ;?></p> 
-			<?php } ?>
+			<?php /* if(isset($message['userName']) && $message['userName'] != null) { ?>
+				<p style="margin:20px 0 0 10px; font:15px Arial, Helvetica, sans-serif; color:#1d1d1d; text-align:justify; line-height:20px;clear:both"><?php echo ucfirst($message['userName']) ;?></p> 
+			<?php }	*/ ?>
         </div>
         <div style="width:643px; height:auto; margin:0 auto; padding-top:30px;">
         	<h1 style="font-size:24px; padding:0 0 0 25px; line-height: normal; color: #4a4947; font-family: Lucida Sans Unicode, Sans-serif;">5 Reasons to Join Hire Routes</h1>

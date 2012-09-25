@@ -77,13 +77,14 @@
                 
                 --->
 			</div>
+			<span style="position: absolute; color:#847A6C; margin-top: 13px; font-size: 13px;">* Required</span>
 			<div class="text-box signup_middle_allign">
 				<?php	echo $form->input('Companies.company_name', array('label' => false,
                                            			'type'  => 'text',
                                            			'div' 	=>false,
 													'class' => 'required alphabets',
 													'minlength' => '3',
-													'placeholder'=>'Company/Recruiter Name',
+													'placeholder'=>'Company Name*',
                                            			)
                                  );
 			    ?>
@@ -94,7 +95,7 @@
 				                                   			'div'	=> false,
 															'class' => 'required alphabets',
 															'minlength' => '3',
-															'placeholder'=>'Contact Name',
+															'placeholder'=>'Contact Name*',
 															'value'	=>"",
 				                                   			)
 				                         );
@@ -107,7 +108,7 @@
 								                       			'div'	=>false,
 																'class' => 'required phoneUS',
 																'minlength' => '10',
-																'placeholder'=>'Contact Phone',
+																'placeholder'=>'Contact Phone*',
 																'value' =>"",
 								                       			)
 								             );
@@ -118,7 +119,7 @@
 						                               			'type'  => 'text',
 						                               			'div'=> false,
 																'class' => 'url',
-																'minlength' => '8',
+																//'minlength' => '8',
 																'placeholder'=> 'Company Website',
 																'value' =>"",
 						                               			)
@@ -131,7 +132,7 @@
 						                               			'type'  => 'text',
 						                               			'div' 	=>false,
 																'class' => 'required email',
-																'placeholder'=> 'Account Email',
+																'placeholder'=> 'Email*',
 																'value' =>"",
 						                               			)
 						                     );
@@ -145,7 +146,7 @@
 													'name'  => "data[User][password]",
 													'class' => 'password',
 													'minlength' => '6',
-													'placeholder'=> 'Password',
+													'placeholder'=> 'Password*',
                                            			)
                                  );
 		    ?>
@@ -156,7 +157,7 @@
 													'name'  => "data[User][repeat_password]",
 													'class' => 'required',
 													'div' => false,
-													'placeholder'=> 'Repeat Password',
+													'placeholder'=> 'Repeat Password*',
                                            			)
                                  );
 			    ?>
