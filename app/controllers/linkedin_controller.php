@@ -212,7 +212,7 @@
                 	}else{
                 		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."%26icc=".$icc;	
                 	}
-                	$message = $this->params['form']['message']." Connect with us >>".$invitationUrl;
+                	$message = $this->params['form']['subject']."\n".$this->params['form']['message']." Connect with us >>".$invitationUrl;
                 	$xml_response = $linkedin->sendMessage($fbuser->id,$subject,$message);
                     $xml_response = simplexml_load_string($xml_response);
                     

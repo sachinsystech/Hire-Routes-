@@ -749,6 +749,7 @@ function facebookCommentInvitation(){
 		dataType: 'json',
 		data: 
 				"&user="+JSON.stringify(user)+
+				"&subject="+$("#ShareSubject").val()+
 				"&message="+$("#dialog #ShareMessage").val()+
 				"&invitationCode="+$('#invitationCode').val(),
 				
@@ -812,6 +813,7 @@ function linkedInCommentInvitation(){
 		dataType: 'json',
 		data: 
 				"&user="+JSON.stringify(user)+
+				"&subject="+$("#ShareSubject").val()+
 				"&message="+$("#dialog #ShareMessage").val()+
 				"&invitationCode="+$('#invitationCode').val(),
 				
@@ -874,6 +876,7 @@ function TwitterCommentInvitation(){
 		dataType: 'json',
 		data: 
 				"&user="+JSON.stringify(user)+
+				"&subject="+$("#ShareSubject").val()+
 				"&message="+$("#dialog #ShareMessage").val()+
 				"&invitationCode="+$('#dialog #invitationCode').val(),
 				

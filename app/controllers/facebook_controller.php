@@ -160,7 +160,7 @@
                 	}else{
                 		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
                 	}
-                	$message = $this->params['form']['message']." Connect with us >> ".$invitationUrl;
+                	$message =  $this->params['form']['subject']."\n".$this->params['form']['message']." Connect with us >> ".$invitationUrl;
                 	$result = $this->facebookObject()->api("/".$fbuser->id."/feed",'post',array('message'=>$message,'access_token' =>$User['User']['facebook_token']));
 					$inviteData = array();                	
 					$inviteData['name_email'] = $fbuser->name;
