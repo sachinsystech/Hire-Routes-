@@ -87,7 +87,17 @@ class UtilitiesController extends AppController {
 			}
 			$universities=json_encode($univs);
 		}else{
-			$graduateUniversities=json_encode(array());
+			$universities = $this->University->find('list',array('fields'=>'id, name', 'order'=>'id','conditions'=>array('name like '=>"other%")));
+		$univs=null;
+			if( $universities != null ){
+				foreach($universities as $id=>$name){
+					$univs[]=array('id'=>$id,'name'=>$name);
+				}	
+				$univs[]=array('id'=>0,'name'=>"Can't find your University!  Please select Other for now. Thank you!");
+				$universities=json_encode($univs);
+			}else{
+				$universities=json_encode(array());
+			}
 		}
 		return $universities;
 	}
@@ -117,8 +127,22 @@ class UtilitiesController extends AppController {
 			    $universitiesdata[]=array('id'=>$id,'name'=>$name);
 		    }
 		    $graduateUniversities=json_encode($universitiesdata);
-	    }else
-		    $graduateUniversities=json_encode(array());
+	    }else{
+		    $universities=$this->GraduateUniversityBreakdown->find('list',array('conditions'=>
+		    																array("degree_type"=>$degreeId, 																				"graduate_college like "=>"other%"),
+																		'fields'=>'id, graduate_college',
+																		'order'=>'id'));
+		    if( $universities != null){ 
+			    foreach($universities as $id=>$name){
+				    $universitiesdata[]=array('id'=>$id,'name'=>$name);
+			    }
+			    $universitiesdata[]=array('id'=>0,'name'=>"Can't find your University!  Please select Other for now. Thank you!");
+			    $graduateUniversities=json_encode($universitiesdata);
+		    }else{
+		       $graduateUniversities=json_encode(array());
+		    }
+	    }
+		 
 	    return $graduateUniversities;
 	
 	}

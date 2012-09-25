@@ -90,7 +90,10 @@
 								?>
 						</div>
                     	<div class="clr"></div>
-                    	<div class="edit-profile-text-box">	
+                    	<div class="edit-profile-text-box" style="width:490px;">	
+                    		<div class="universityLoader loader" style="visibility:hidden;">
+								<img border="0" alt=".." src="/images/loading_transparent2.gif">
+							</div>
                     		<?php echo $form->input('university',array('label'=> "<span>University</span> ",
 																		'type'=>'text',
 																		'div'=> false,
@@ -99,6 +102,7 @@
 																	));
 								if(isset($uniErrors)):?><div class="error-message"><?php echo $uniErrors;?></div><?php endif; 
 							?>
+							
                     	</div>					
                     	<div class="clr"></div>
                     	<div class="edit-profile-text-box">
@@ -115,7 +119,10 @@
 							?>
                     	</div> 
                     	<div class="clr"></div>                  		
-                    	<div class="edit-profile-text-box">
+                    	<div class="edit-profile-text-box" style="width:490px;">
+                    		<div class="graduateUniversityLoader loader" style="visibility:hidden;">
+								<img border="0" alt=".." src="/images/loading_transparent2.gif">
+							</div>
 							<?php if(isset($networker) && isset( $graduateUniversity) ){ 
 								$university[$graduateUniversity['id']] = $graduateUniversity['graduate_college'];						
 								}else{ 
@@ -140,6 +147,7 @@
 											array('type'=>'text',
 											'value'=>isset($networker["university"])?$networker["university"]:"",
 											));		
+											
 							echo $form->input('Networkers.graduate_university_id',
 											array('type'=>'text', 
 											'value'=>isset($networker["graduate_university_id"])?$networker["graduate_university_id"]:"",
@@ -184,22 +192,29 @@
 					url: "/Utilities/getUniversities/startWith:"+request.term,
 					dataType: "json",
 					beforeSend: function(){
-				 		$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"490px"});
-				 		$('#GraduateUniversityBreakdownUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt=".."  /></div>');
+				 		//$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"490px"});
+				 		$('.universityLoader').css('visibility','visible');
+				 		//$('#GraduateUniversityBreakdownUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt='..'/ ></div>');
 
 			   		},
 			   		complete: function(){
-			   	    	$('.loader').remove();
-				 		$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"460px"});
+				 		$('.universityLoader').css('visibility','hidden');
+			   	    	//$('.loader').remove();
+				 		//$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"460px"});
 			   		},
 					success: function( data ) {
 						if(data == null) return;	
 						response( $.map( data, function(item) {
-							if(data == null) return;
-							return {
-								value: item.name,
-								key: item.id
-							}
+							if(item.id === 0) {
+								alert(item.name);
+								$("#GraduateUniversityBreakdownUniversity").autocomplete('search', 'other');
+							}else{
+							
+								return {
+									value: item.name,
+									key: item.id
+								}
+							}	
 						}));
 					}
 				});
@@ -219,7 +234,7 @@
 	
 	$(document).ready(function() {
 		$("#NetworkersGraduateDegreeId").change( function(){ 
-			$("#GraduateUniversityBreakdownGraduateUniversity").trigger('keydown');
+			$("#GraduateUniversityBreakdownGraduateUniversity").autocomplete('search', '');
 		});	
 		$( "#GraduateUniversityBreakdownGraduateUniversity" ).autocomplete({
 			minLength:0,
@@ -228,20 +243,26 @@
 					url: "/Utilities/getGraduateUniversities/startWith:"+request.term+"/degree_id:"+$("#NetworkersGraduateDegreeId").val(),
 					dataType: "json",
 					beforeSend: function(){
-				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").css({"float":"left","width":"490px"});
-				 		$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt=".."  /></div>');
+				 		$('.graduateUniversityLoader').css('visibility','visible');
+				 		//$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").css({"float":"left","width":"490px"});
+				 		//$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt=".."  /></div>');
 			   		},
 			   		complete: function(){
-			   	    	$('.loader').hide();
-			   	    	$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").css({"float":"left","width":"460px"});
+			   	    	$('.graduateUniversityLoader').css('visibility','hidden');
+			   	    	//$('#GraduateUniversityBreakdownGraduateUniversity').parent("div").css({"float":"left","width":"460px"});
 			   		},
 					
 					success: function( data ) {
 						if(data == null) return;
 						response( $.map( data, function(item) {
-							return {
-								value: item.name,
-								key: item.id
+							if(item.id === 0) {
+								alert(item.name);
+								$("#GraduateUniversityBreakdownGraduateUniversity").autocomplete('search', 'other');
+							}else{
+								return {
+									value: item.name,
+									key: item.id
+								}
 							}
 						}));
 					},

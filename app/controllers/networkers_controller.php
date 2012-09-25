@@ -90,6 +90,8 @@ class NetworkersController extends AppController {
 			$networkers['university'] = $user['Universities']['name'];
 			if(isset($user['GUB']['graduate_college'])){
 				$this->set('graduateUniversity', $user['GUB']['graduate_college']);
+			}else{
+				$this->set('graduateUniversity', "");
 			}
 			if(!isset($user['Networkers']['contact_name']) || empty($user['Networkers']['contact_name'])){
 				$this->redirect("/Networkers/editProfile");						

@@ -192,9 +192,15 @@ Please submit the form below and you will receive an email confirmation to compl
 						if(data == null) return;
 						response( $.map( data, function(item) {
 							if(data == null) return;
-							return {
-								value: item.name,
-								key: item.id
+							if(item.id === 0) {
+								alert(item.name);
+								$("#UserUniversity").autocomplete('search', 'other');
+							}else{
+							
+								return {
+									value: item.name,
+									key: item.id
+								}
 							}
 						}));
 					}
@@ -214,7 +220,7 @@ Please submit the form below and you will receive an email confirmation to compl
 	
 	$(document).ready(function() {
 		$("#NetworkerGraduateDegreeId").change( function(){ 	
-			$("#UserGraduateUniversity").trigger('keydown');
+			$("#UserGraduateUniversity").autocomplete('search', '');
 		});	
 		$( "#UserGraduateUniversity" ).autocomplete({
 			minLength:0,
@@ -224,10 +230,16 @@ Please submit the form below and you will receive an email confirmation to compl
 					dataType: "json",
 					success: function( data ) {
 						if(data == null) return;
+						
 						response( $.map( data, function(item) {
-							return {
-								value: item.name,
-								key: item.id
+							if(item.id === 0) {
+								alert(item.name);
+								$("#UserGraduateUniversity").autocomplete('search', 'other');
+							}else{
+								return {
+									value: item.name,
+									key: item.id
+								}
 							}
 						}));
 					},

@@ -107,7 +107,10 @@
 							?>
 						</div>
                     	<div class="clr"></div>
-                    	<div class="edit-profile-text-box">	
+                    	<div class="edit-profile-text-box" style="width:490px;">
+	                    	<div class="universityLoader loader" style="visibility:hidden;">
+								<img border="0" alt=".." src="/images/loading_transparent2.gif">
+							</div>	
                     		<?php echo $form->input('university',array('label'=>"<span>University</span> ",
 																		'type'=>'text',
 																		'class' => 'text_field_bg required',
@@ -133,7 +136,10 @@
 
                     	</div> 
                     	<div class="clr"></div>                  		
-                    	<div class="edit-profile-text-box">
+                    	<div class="edit-profile-text-box" style="width:490px;">
+	                    	<div class="graduateUniversityLoader loader" style="visibility:hidden;">
+								<img border="0" alt=".." src="/images/loading_transparent2.gif">
+							</div>
 							<?php if(isset($jobseekers) && isset( $graduateUniversity) ){ 
 									$university[$graduateUniversity['id']] = $graduateUniversity['graduate_college'];						
 								}else{ 
@@ -199,21 +205,23 @@
 					url: "/Utilities/getUniversities/startWith:"+request.term,
 					dataType: "json",
 					beforeSend: function(){
-				 		$('#JobseekerSettingsUniversity').parent("div").css({"float":"left","width":"490px"});
-				 		$('#JobseekerSettingsUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt=".."  /></div>');
-
+				 		$('.universityLoader').css('visibility','visible');
 			   		},
 			   		complete: function(){
-			   	    	$('.loader').remove();
-				 		$('#JobseekerSettingsUniversity').parent("div").css({"float":"left","width":"460px"});
+			   	    	$('.universityLoader').css('visibility','hidden');
 			   		},
 					success: function( data ) {
 						if(data == null) return;	
 						response( $.map( data, function(item) {
 							if(data == null) return;
-							return {
-								value: item.name,
-								key: item.id
+							if(item.id === 0) {
+								alert(item.name);
+								$("#JobseekerSettingsUniversity").autocomplete('search', 'other');
+							}else{
+								return {
+									value: item.name,
+									key: item.id
+								}
 							}
 						}));
 					}
@@ -238,7 +246,7 @@
 		});
 	
 		$("#JobseekersGraduateDegreeId").change( function(){ 
-			$("#JobseekerSettingsGraduateUniversity").trigger('keydown');
+			$("#JobseekerSettingsGraduateUniversity").autocomplete('search', '');
 		});	
 		$( "#JobseekerSettingsGraduateUniversity" ).autocomplete({
 			minLength:0,
@@ -247,21 +255,23 @@
 					url: "/Utilities/getGraduateUniversities/startWith:"+request.term+"/degree_id:"+$("#JobseekersGraduateDegreeId").val(),
 					dataType: "json",
 					beforeSend: function(){
-				 		$('#JobseekerSettingsGraduateUniversity').parent("div").css({"float":"left","width":"490px"});
-				 		$('#JobseekerSettingsGraduateUniversity').parent("div").children("label").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="."  /></div>');
-
+				 		$('.graduateUniversityLoader').css('visibility','visible');			 		
 			   		},
 			   		complete: function(){
-			   	    	$('.loader').remove();
-			   	    	$('#JobseekerSettingsGraduateUniversity').parent("div").css({"float":"left","width":"460px"});
+			   	    	$('.graduateUniversityLoader').css('visibility','hidden');
 			   		},
 					
 					success: function( data ) {
 						if(data == null) return;
 						response( $.map( data, function(item) {
-							return {
-								value: item.name,
-								key: item.id
+							if(item.id === 0) {
+								alert(item.name);
+								$("#JobseekerSettingsGraduateUniversity").autocomplete('search', 'other');
+							}else{
+								return {
+									value: item.name,
+									key: item.id
+								}
 							}
 						}));
 					},

@@ -93,8 +93,8 @@ function registrationInto(redirect){
 				
 			</div>
 		</fieldset>
-	</div>
 	<?php echo $form->end(); ?>
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -152,9 +152,14 @@ function registrationInto(redirect){
 						if(data == null) return;
 						response( $.map( data, function(item) {
 							if(data == null) return;
-							return {
-								value: item.name,
-								key: item.id
+							if(item.id === 0) {
+								alert(item.name);
+								$("#UsersUniversity").autocomplete('search', 'other');
+							}else{
+								return {
+									value: item.name,
+									key: item.id
+								}
 							}
 						}));
 					}
@@ -171,7 +176,7 @@ function registrationInto(redirect){
 	
 	$(document).ready(function() {
 		$("#NetworkersGraduateDegreeId").change( function(){ 	
-			$("#UsersGraduateUniversity").trigger('keydown');
+			$("#UsersGraduateUniversity").autocomplete('search', '');
 		});	
 		$( "#UsersGraduateUniversity" ).autocomplete({
 			minLength:0,
@@ -191,9 +196,14 @@ function registrationInto(redirect){
 					success: function( data ) {
 						if(data == null) return;
 						response( $.map( data, function(item) {
-							return {
-								value: item.name,
-								key: item.id
+							if(item.id === 0) {
+								alert(item.name);
+								$("#UsersGraduateUniversity").autocomplete('search', 'other');
+							}else{
+								return {
+									value: item.name,
+									key: item.id
+								}
 							}
 						}));
 					},
