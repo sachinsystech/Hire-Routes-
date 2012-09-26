@@ -189,7 +189,7 @@ class JobsController extends AppController {
 		$this->layout= "home";	
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/login");
+			$this->redirect("/users/jobseekerSignup");
 		}
 		$userId = $session->getUserId();
         $this->set('userRole',$this->userRole);
@@ -543,11 +543,9 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 	function shareJob(){
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->Session->setFlash("please login to share jobs.","warning");
-			//echo "her login"; exit;
-			$this->redirect("/login");
+			//$this->Session->setFlash("please Sign up to share jobs.","warning");
+			$this->redirect("/users/jobseekerSignup");
 		}else{
-
 			$this->redirect("/jobs/jobDetail/$this->params['jobId']");
 		}
 	}

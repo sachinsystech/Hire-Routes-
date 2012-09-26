@@ -14,6 +14,10 @@ class JobseekersController extends AppController {
 		if($this->userRole!=JOBSEEKER){
 			$this->redirect("/users/loginSuccess");
 		}
+		
+	}
+
+	function beforeRender(){
 		$jobCounts=$this->jobCounts();
 		$this->set('AppliedJobs',$jobCounts['appliedJob']);
 		$this->set('NewJobs',$jobCounts['newJob']);

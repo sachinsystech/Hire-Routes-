@@ -34,6 +34,11 @@ class NetworkersController extends AppController {
 		$this->Auth->allow("getNetworkerSettings");
 		$this->Auth->allow("editContact");
 		$this->Auth->allow("invitations");
+		$this->Auth->allow('setting');
+	
+	}
+	
+	public function beforeRender(){
 		$jobCounts=$this->jobCounts();
 		$this->set('SharedJobs',$jobCounts['sharedJobs']);
 		$this->set('ArchiveJobs',$jobCounts['archivejobs']);
@@ -1309,6 +1314,12 @@ where user_id =".$userId."");
 															'alias'=>'RewardsStatus',
 															'type'=>'left',
 															'conditions'=>'RewardsStatus.user_id = Networkers.user_id '
+														),
+														array(
+															'table'=>'users',
+															'alias'=>'Users',
+															'type'=>'inner',
+															'conditions'=>'Networkers.user_id=Users.id'
 														),
 														array(
 															'table'=>'payment_history',

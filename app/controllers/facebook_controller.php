@@ -79,8 +79,8 @@
                     }
                     return json_encode(array('error'=>0,'data'=>$users));
                 }catch(Exception $e){
-                	
-                    return json_encode(array('error'=>2,'message'=>$e));
+                	$this->Session->write('apiSource',$this->params['form']['source']);
+                	return json_encode(array('error'=>1,'message'=>'User not authenticate from facebook.','URL'=>$facebook->getLoginURL(array('canvas' => 1, 'fbconnect' => 0, 'scope' => 'email,offline_access,publish_stream'))));	
                 }
             }else{
 				$this->Session->write('apiSource',$this->params['form']['source']);

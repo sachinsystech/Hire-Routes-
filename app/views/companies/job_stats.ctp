@@ -13,7 +13,7 @@
 
 		<div class="job_right_bar">
             	<div class="new_job data_h2_margin">
-            		<h2>DATA</h2>
+            		<h2>DATA FOR STATISTICS</h2>
                    
                         <div class="job_right_section_left">
                         <h2>

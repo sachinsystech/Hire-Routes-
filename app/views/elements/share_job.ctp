@@ -216,6 +216,7 @@ function toggleShareChecked(status) {
 								'id'=>'autocompleteFind',
 								'class'=> 'searchfield',
 								'div'=> false,
+								'autocomplete'=> 'off',
 								'value'=>'Search Friends Here...',
 								'onfocus'=>"if(this.value=='Search Friends Here...') {this.value = '';}",
 								'onblur'=>"if(this.value==''){this.value='Search Friends Here...';}"

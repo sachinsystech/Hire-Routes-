@@ -144,7 +144,7 @@ class LinkedIn {
      }else{
         $recipients .= "<recipient><person path='/people/".$ids."' /></recipient>" ;
      }
-     $body .="<subject>test".$subject."</subject>";
+     $body .="<subject>".$subject."</subject>";
      $body .="<recipients>".$recipients."</recipients><body>".$message."</body></mailbox-item>";
 
      $request = OAuthRequest::from_consumer_and_token($this->consumer, $this->access_token, "POST", "http://api.linkedin.com/v1/people/~/mailbox");
