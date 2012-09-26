@@ -80,7 +80,7 @@
                     return json_encode(array('error'=>0,'data'=>$users));
                 }catch(Exception $e){
                 	
-                    return json_encode(array('error'=>2,'message'=>'Error in facebook connection. Please try after some time.'));
+                    return json_encode(array('error'=>2,'message'=>$e));
                 }
             }else{
 				$this->Session->write('apiSource',$this->params['form']['source']);
