@@ -720,6 +720,7 @@ class UsersController extends AppController {
 								if($this->Jobseekers->save($user,false) ){
 									$this->confirmAccount($userId,$userData['confirm_code']);
 									$this->Utility->deleteInvitationCode();
+									$this->Utility->setIccCode();
 									$fbData['userRole']='Jobseeker';
 									$this->fbNewAccountEmail($fbData);
 									$this->redirect("/users/firstTime");
@@ -729,6 +730,7 @@ class UsersController extends AppController {
 								if($this->Networkers->save($user,false) ){	
 									$this->confirmAccount($userId,$userData['confirm_code']);
 									$this->Utility->deleteInvitationCode();
+									$this->Utility->setIccCode();
 									$fbData['userRole']='Networker';									
 									$this->fbNewAccountEmail($fbData);									
 									$this->redirect("/users/firstTime");
@@ -1207,6 +1209,7 @@ class UsersController extends AppController {
 					case JOBSEEKER:
 						if($this->Jobseekers->save($user,false) ){
 							$this->Utility->deleteInvitationCode();
+							$this->Utility->setIccCode();
 							$this->confirmAccount($userId,$userData['confirm_code']);
 							$this->Session->delete('requestToken');
 							$this->Session->delete("accessToken");
@@ -1216,6 +1219,7 @@ class UsersController extends AppController {
 					case NETWORKER:
 						if($this->Networkers->save($user,false) ){	
 							$this->Utility->deleteInvitationCode();
+							$this->Utility->setIccCode();
 							$this->confirmAccount($userId,$userData['confirm_code']);
 							$this->Session->delete('requestToken');										
 							$this->Session->delete("accessToken");										

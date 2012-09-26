@@ -6,7 +6,7 @@ class UtilityComponent extends Object
 	var $components = array('Session','Auth','Email');
 	var $uses = array('Industry','State','City','Specification','FacebookUsers','UserList','Config','Networkers',
 					'University','Companies','UserRoles','Job','GraduateDegree','GraduateUniversityBreakdown',
-					'InvitaionCode');
+					'InvitaionCode','Invitations');
 	
 	function initialize(&$controller) {
 		if ($this->uses !== false) {
@@ -353,5 +353,15 @@ class UtilityComponent extends Object
 		$this->Session->delete('invitationCode');
  	}
 	
+	function setIccCode(){
+		$iv1 = array('ic_code'=> null,'status'=>'1');
+		$iv2 = array('ic_code =' => $this->Session->read('icc'));
+		if($this->Session->read('icc') != null){
+			if(! $this->Invitations->updateAll($iv1,$iv2)) {
+				$this->Session->setFlash('Internal Error!', 'error');
+				return;
+			}
+		}
+	}
 }
 ?>
