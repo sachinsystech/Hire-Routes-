@@ -265,7 +265,7 @@ class TwitterController extends AppController {
 		require_once(APP_DIR.'/vendors/twitter/twitterstatus.php');
 		$t = new TwitterStatus('HireRoutes', 3);
 		$t->__render();
-		echo "===============>  cron run sussessfully . ".date("Y-m-D H:i:s")." <================ \n";
+		echo "===============>  cron run sussessfully . ".date("Y-m-d H:i:s")." <================ \n";
 		$this->autoRender =false;
     }
     
