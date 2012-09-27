@@ -775,7 +775,7 @@ overflow:hidden;
 .job-data-name {
     height: 48px;
     padding-left: 25px;
-    width: 355px;
+    width: 370px;
 }
 .job-data-netw {
     height: 48px;
@@ -791,12 +791,12 @@ overflow:hidden;
 }
 .job-data-reward{
     height: 48px;
-    width: 57px;
+    width: 77px;
 	text-align:right;
 }
 .job-data-level {
     height: 48px;
-    padding-left: 28px;
+    padding-left: 58px;
     width: 45px;
 }
 .job-right-bottom-right ul:nth-child(odd)

@@ -1294,35 +1294,29 @@ where user_id =".$networkersData[$key]['User']['id']."");
 	}
 	
 	function jobseeker(){
+	
 		$this->paginate = array(
 			'limit'=>10,
-			'conditions'=>array('UserList.id=Jobseekers.user_id'),
+			'recursive'=>-1,
 			'joins'=>array( 
 						array(
-							'table' => 'networkers',
-							'alias' => 'Netwrk',
-							'type' => 'left',
-							'conditions'=> 'Netwrk.user_id=UserList.parent_user_id', 
+							'table' => 'jobseekers',
+							'alias' => 'Jobseekers',
+							'type' => 'inner',
+							'conditions'=> 'Jobseekers.user_id = User.id', 
 						),
 						array(
 							'table' => 'users',
-							'alias' => 'UsrNetwrkr',
+							'alias' => 'Parent_User',
 							'type' => 'left',
-							'conditions'=> 'Netwrk.user_id=UsrNetwrkr.id', 
+							'conditions'=> 'Parent_User.id = User.parent_user_id', 
 						),
-					),
-					
-			'fields'=>array('UsrNetwrkr.id, UsrNetwrkr.account_email, 
-							Netwrk.id, Netwrk.user_id, Netwrk.contact_name, 
-							UserList.*',  'Jobseekers.*'),
-			'order'=>array('UserList.created'=>'desc')
+			),		
+			'fields'=>array('Parent_User.account_email, Parent_User.id,
+							User.*',  'Jobseekers.*'),
+			'order'=>array('User.created'=>'desc')
 		);
-		$jobseekers=$this->paginate("UserList");	
-		
-		//echo "<pre>";
-		//print_r($jobseekers);
-		//exit;
-		
+		$jobseekers=$this->paginate("User");	
 		$this->set('jobseekers',$jobseekers);
 	}
 	

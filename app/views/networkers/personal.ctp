@@ -64,7 +64,7 @@
 		        		<ul>
 		                	<li class="job-table-name job-table-align">Name/Email</li>
 		                    <li class="job-table-netw job-table-align">Networkers</li>
-		                    <li class="job-table-degree job-table-align">Degree</li>
+		                    <!--<li class="job-table-degree job-table-align">Degree</li>-->
 		                    <li class="job-table-points job-table-align">Points</li>
 		                    <li class="job-table-reward job-table-align">Reward</li>
 		                    <li class="job-table-level job-table-level-align job-table-align">Level</li>
@@ -80,7 +80,7 @@
 						<ul >
                             <li class="job-data-name job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['User']['account_email'] ;?></li>
                             <li class="job-data-netw job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['networkers']; ?></li>
-                            <li class="job-data-degree job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $networkerDegree +$key+1 ?></li>
+                            <!--<li class="job-data-degree job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $networkerDegree +$key+1 ?></li>-->
                             <li class="job-data-points job-table-align <?php if($i%2==0) echo'dark';?>"><?php echo $data['Networker']['points'] ;?></li>
                             <li class="job-data-reward job-table-align <?php if($i%2==0) echo'dark';?> "><?php echo 
                             	$this->Number->format($data['reward'],
