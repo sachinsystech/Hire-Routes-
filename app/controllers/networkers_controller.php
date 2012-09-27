@@ -392,7 +392,7 @@ class NetworkersController extends AppController {
 					return;
 				}									
 		        if($this->NetworkerContact->save($this->data['Contact'])){
-		        	if(isset($this->data['Contact']['CSVFILE']['tmp_name'])){
+		        	if(isset($this->data['Contact']['CSVFILE']['tmp_name']) && $this->data['Contact']['CSVFILE']['tmp_name']!= null){
 						$this->Session->setFlash('Csv and Contact has been added successfully.', 'success');
 		        	}else{
 			        	$this->Session->setFlash('Contact has been added successfully.', 'success');	
@@ -1082,7 +1082,7 @@ where user_id =".$userId."");
 		$receivedJobs=$this->ReceivedJob->find('list',array('conditions'=>array('user_id'=>$userId),'fields'=>'job_id'));
 		        
     	$networker_settings = $this->getNetworkerSettings($userId);
-    	if(!(count($networker_settings)>0))
+    	if($this->action != "index" && $this->action !="addContacts" && $this->action !="changePassword" && !(count($networker_settings)>0))
     		$this->Session->setFlash('Please fill your settings in order to get jobs matching your profile.', 'warning');
     	
     	$shared_job = $this->SharedJob->find('all',array('conditions'=>array('user_id'=>$userId),

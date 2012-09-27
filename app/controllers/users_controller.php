@@ -894,12 +894,15 @@ class UsersController extends AppController {
 		$facebookUser=$this->User->find('first',array('conditions'=>
 													array('id'=>$session->getUserId(),
 													'password'=>'NULL'),
-													'fields'=>'password,id,fb_user_id,',
+													'fields'=>'password,id,fb_user_id,linkedin_token',
 													)
 										);
 		$facebookUserData=null;
 		if(isset($facebookUser) && $facebookUser['User']['fb_user_id']!=0){
 			$facebookUserData = $facebookUser['User']['fb_user_id'];
+		}
+		if( $facebookUser['User']['linkedin_token']!= null){
+			$facebookUserData = $facebookUser['User']['linkedin_token'];
 		}		
 		$this->set('facebookUserData',$facebookUserData);
 		if(isset($this->data['User'])){
@@ -1173,6 +1176,10 @@ class UsersController extends AppController {
 	 }
 	 
 	 function saveLinkedinUser(){
+		$session = $this->_getSession();
+		if($session->isLoggedIn()){
+			$this->redirect('loginSuccess');
+		}
 		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
         $linkedin->request_token    =   unserialize($this->Session->read('requestToken'));
         $linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
@@ -1182,7 +1189,11 @@ class UsersController extends AppController {
     	$firstName = "first-name";
     	if( isset($response->id) ){
 			$userData = array();
-			$userData['account_email'] =  $response->$firstName.rand(10,100)."@linkedin.com";
+			do{
+				$userData['account_email'] =  $response->$firstName.rand(10,1000)."@linkedin.com";
+				$uniqeEmail = $this->User->field('id',array('account_email'=>$userData['account_email']));
+			}while($uniqeEmail!=null && !empty($uniqeEmail));
+					
 			$userData['linkedin_token'] = serialize($linkedin->access_token);
 			$userData['password'] = 'NULL';
 			if($this->params['userType'] ==3 ){
@@ -1192,10 +1203,11 @@ class UsersController extends AppController {
 					$user['university'] = $this->data['Networkers']['university'];
 				}else{
 					$this->Session->setFlash("Please fill correct information.","error");
-					$this->redirect("/users/facebookUserSelection");
+					$this->redirect("/users/linkedinUserSelection");
 				}
 			}
-			if($userId = $this->saveUser($userData)){
+			$liUser = $this->User->find('first',array('conditions'=>array('User.linkedin_token'=>$this->Session->read('oauth_access_token'))));
+			if( $liUser== null && $userId = $this->saveUser($userData)){
 				$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
 				$this->saveUserRoles($userId,$userRole);
 				$userCCode = $this->User->find('first',array(	
@@ -1227,6 +1239,19 @@ class UsersController extends AppController {
 						}
 						break;					
 				}	
+			}else{
+				$data = array('User' => array('account_email' => $liUser['User']['account_email'],
+										  'password' => $liUser['User']['password']
+										  ));
+	            $this->Auth->fields = array(
+		            'username' => 'account_email',
+		            'password' => 'password'
+	            );
+	
+	            if($this->Auth->login($data,false)){
+		            $this->_getSession()->start();
+	            }
+                $this->redirect("/users/loginSuccess");
 			}
 		}else{
 			$this->Session->setFlash('Some thing is going wrong .Please try again later.', 'error');	

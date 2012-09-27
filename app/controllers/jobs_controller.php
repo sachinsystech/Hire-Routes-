@@ -189,7 +189,13 @@ class JobsController extends AppController {
 		$this->layout= "home";	
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
-			$this->redirect("/users/jobseekerSignup");
+			if( ( $this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null ) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null )){
+				$this->redirect("/login");
+			}else{
+				$this->redirect("/users/jobseekerSignup");
+			}
+			
+			
 		}
 		$userId = $session->getUserId();
         $this->set('userRole',$this->userRole);
@@ -544,7 +550,12 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 		$session = $this->_getSession();
 		if(!$session->isLoggedIn()){
 			//$this->Session->setFlash("please Sign up to share jobs.","warning");
-			$this->redirect("/users/jobseekerSignup");
+			if( ( $this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null ) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null )){
+				$this->redirect("/login");
+			}else{
+				$this->redirect("/users/networkerSignup");
+			}
+			
 		}else{
 			$this->redirect("/jobs/jobDetail/$this->params['jobId']");
 		}

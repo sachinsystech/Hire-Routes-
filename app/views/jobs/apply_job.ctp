@@ -190,7 +190,7 @@
                                                            'id'    => 'cover_letter'));?>
         	</div>
            <div class="clr"></div>
-            <?php if($is_cover_letter!=''){?>
+            <?php if(isset($is_cover_letter) && $is_cover_letter!=''){?>
 			<div class="upload_resume upload_cover_letter">
 				<?php echo $html->link('Your Cover Letter',array('controller'=>'jobseekers','action' => '/viewResume/cover_letter/'.$jobprofile['id']));?>	
 			</div>
