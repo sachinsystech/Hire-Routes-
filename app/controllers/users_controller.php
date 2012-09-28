@@ -48,6 +48,7 @@ class UsersController extends AppController {
 		$this->Auth->allow('invitations');
 		$this->Auth->allow('isLoggedIn');
 		$this->Auth->allow('linkedinUserSelection');
+		$this->Auth->allow('changePassword');
 		if($this->params['action']=='companyRecruiterSignup' || $this->params['action']== 'jobseekerSignup' || $this->params['action']=='networkerSignup'|| $this->params['action']== "login"){
 			$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
 			$linkedin->getRequestToken();
