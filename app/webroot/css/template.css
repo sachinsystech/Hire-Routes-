@@ -751,7 +751,8 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .margin-last-child-job {padding-left:25px !important;}
 .job-table-heading { font:bold 15px Arial, Helvetica, sans-serif;}
 .job-table-heading ul li {list-style:none; float:left; text-align:center;border-bottom: 1px solid #D6D2CC;}
-.job-table-name {width:325px; height:48px;}
+.job-table-name {width:308px; height:48px;}
+.job-table-email{width:325px; height:48px;}
 .job-table-netw {width:109px; height:48px;}
 .job-table-degree {width:65px; height:48px;}
 .job-table-points {width:65px; height:48px;}

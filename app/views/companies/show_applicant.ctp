@@ -385,9 +385,8 @@ function clear_div(val){
                             	<div class="app_action">
                                 	<div class="app_action_check" title="Accept">
 										<?php									
-											echo $this->Html->image("images/check_cross_button.png", array(
-												"alt" => "","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
-												'url' => "/companies/checkout/".$applicant['JobseekerApply']['id'],
+											echo $this->Html->link("" ,"/companies/checkout/".$applicant['JobseekerApply']['id'],array(
+												"width"=>"24","height"=>"24",
 												'title'=>'Accept'
 											));
 										?>
@@ -395,9 +394,8 @@ function clear_div(val){
 									</div>
                                     <div class="app_action_cross" title="Reject" onclick="return deleteItem(<?php echo $applicant['JobseekerApply']['id']; ?>,<?php echo $applicant['JobseekerApply']['job_id']; ?>);">
 										<?php
-											echo $this->Html->image("images/check_cross_button.png", array(
-											"alt" => "","width"=>"24","height"=>"24","style"=>"margin-left:10px;",
-											'url' => "javascript:void();",
+											echo $this->Html->link("","javascript:void();", array(
+											"alt" => "","width"=>"24","height"=>"24",
 											'title'=>'Reject'
 											));
 										?>

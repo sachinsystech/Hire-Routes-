@@ -6,7 +6,7 @@
 
 </script>
 <h1 class="title-emp"><span><?php echo ucfirst($job['title']); ?></span> Application</h1>
-<div class="sub-title-ty application_top_submenu">Company Posted By: <a href="<?php echo $jobCompany['company_url'] ?>"><?php echo ucfirst($jobCompany['company_name']);?></a></div>
+<div class="sub-title-ty application_top_submenu">Company Posted By: <a href="<?php echo $jobCompany['company_url'] ?>" class="NewTab"><?php echo ucfirst($jobCompany['company_name']);?></a></div>
  <!---  application form start --->
 <div class="application_form_main">
 	

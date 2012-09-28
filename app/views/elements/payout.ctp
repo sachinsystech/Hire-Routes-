@@ -27,7 +27,7 @@ $(document).ready(function(){
 						width:800,
 						height:610,
 						closeOnEscape: false,
-						modal:true,
+						modal:true
 					});
 					
 		

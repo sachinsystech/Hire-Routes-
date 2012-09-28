@@ -911,7 +911,8 @@ class UsersController extends AppController {
 			if(empty($this->data['User']['oldPassword']) && $facebookUserData==null){
 				$this->set("old_password_error","Old Password Required");
 				if($session->getUserRole() == ADMIN){
-					$this->render("change_password","admin");
+					//$this->render("change_password","admin");
+					$this->layout ="admin";
 				}
 				return;
 			}
@@ -939,7 +940,8 @@ class UsersController extends AppController {
 					unset($this->data['User']);
 					$this->Session->setFlash("Old password not matched!.","error");
 					if($session->getUserRole() == ADMIN){
-						$this->render("change_password","admin");
+						//$this->render("change_password","admin");
+						$this->layout ="admin";
 					}
 					return;
 				}			
@@ -948,7 +950,8 @@ class UsersController extends AppController {
 				$this->Session->setFlash("Old password and new password are same. Please try with different password","error");
 				unset($this->data['User']);
 				if($session->getUserRole() == ADMIN){
-					$this->render("change_password","admin");
+					//$this->render("change_password","admin");
+					$this->layout ="admin";
 				}
 				return;			
 				}
@@ -983,21 +986,24 @@ class UsersController extends AppController {
 					unset($this->data['User']);
 					$this->Session->setFlash("Change password process failed, Try again!.","error");
 					if($session->getUserRole()==ADMIN){
-						$this->render("change_password","admin");
+						//$this->render("change_password","admin");
+						$this->layout ="admin";
 					}
 					return;
 				}elseif(mysql_affected_rows()<0){	//check for server problem
 					unset($this->data['User']);
 					$this->Session->setFlash("Server problem!","error");
 					if($session->getUserRole()==ADMIN){
-						$this->render("change_password","admin");
+						//$this->render("change_password","admin");
+						$this->layout ="admin";
 					}
 					return;
 				}
 			}else{
 				unset($this->data['User']);
 				if($session->getUserRole()==ADMIN){
-					$this->render("change_password","admin");
+					//$this->render("change_password","admin");
+					$this->layout ="admin";
 				return;
 				}
 			}

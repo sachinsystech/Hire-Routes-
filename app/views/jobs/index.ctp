@@ -183,7 +183,7 @@
 												'4'=>'Internship',
 												'5'=>'Temporary'); ?>
                         <li><a class="HrMenu <?php echo isset($job_type)?'minus_icon':'plus_icon';?>" id="Job_type" href="javascript:void(0);">Job Type</a>
-                        	<div style="height:110px;<?php echo isset($job_type)?'':'display:none;' ?>" id="Job_type_submenu" style="" class="job_menus_submenu_main">
+                        	<div style="height:115px;<?php echo isset($job_type)?'':'display:none;' ?>" id="Job_type_submenu" style="" class="job_menus_submenu_main">
                             <div class="">
                               <p>
                         		<?php	echo $form->input("job_type", array('label' => false,

@@ -62,7 +62,7 @@
 					 <div class="clr"></div>
                     <div class="job-table-heading">
 		        		<ul>
-		                	<li class="job-table-name job-table-align">Name/Email</li>
+		                	<li class="job-table-email job-table-align">Name/Email</li>
 		                    <li class="job-table-netw job-table-align">Networkers</li>
 		                    <!--<li class="job-table-degree job-table-align">Degree</li>-->
 		                    <li class="job-table-points job-table-align">Points</li>

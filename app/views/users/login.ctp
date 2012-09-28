@@ -98,14 +98,14 @@ function getCookie(){
 	var cookieName = new Array();
 	for (i=0;i<cookieLength ;i++){
 		equalPos = cookieArray[i].indexOf("=");	
-		cookieName[i]=cookieArray[i].substr(0,equalPos).trim();
-		if(cookieName[i] === "username"){
+		cookieName[i]=cookieArray[i].substr(0,equalPos);
+		if(cookieName[i] === " username"){
 			j= i;
 		}
 		data[i]=cookieArray[i].substr(equalPos+1);
 		data[i]=unescape(data[i]);
 	}
-	if(cookieName[j]==="username"){
+	if(cookieName[j]===" username"){
 		username=data[j];
 		password=data[j+1];
 		return [username,password];

@@ -52,7 +52,11 @@
 		    <div class="job-right-text">
 		    	<div class="job-right-text-heading"><a href="#"><?php echo strtoupper($job['Job']['title']); ?></a></div>
 		        <p><span>Company:</span><?php echo ucwords($job['comp']['company_name']);?></p>
-		        <p><span>Website:</span> <?php	echo $this->Html->link($job['comp']['company_url'], 'http://'.$job['comp']['company_url']); ?></p>
+		        <p><span>Website:</span> <?php	echo $this->Html->link($job['comp']['company_url'],
+		        											$job['comp']['company_url'],array(
+		        												'class'=>'NewTab',
+		        												)
+		        											); ?></p>
 		        <p><span>Published:</span> <?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name']." Aid on ".date('d/m/Y', strtotime($job['Job']['created']) ); ?></p>
 		        <p><span>Salary:</span>  <?php echo $this->Number->format(
 										$job['Job']['salary_from'],

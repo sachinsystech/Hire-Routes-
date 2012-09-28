@@ -105,7 +105,7 @@
 			<tr>
 				<td><b>Company Url:</b></td>
 				<td>
-					<a href= "<?php echo $companyDetail['Companies']['company_url'] ;?>">
+					<a href= "<?php echo $companyDetail['Companies']['company_url'] ;?>" class="NewTab">
 						<?php echo $companyDetail['Companies']['company_url'] ;?>
 					</a> 
 				</td> 

@@ -24,6 +24,14 @@
 		$('.success').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.success');
 		$('.warning').delay(5000).animate({ height: 'toggle', opacity: 'toggle' }, 'slow').hide('.warning');
 	}
+	$(document).ready(function(){
+			$('.NewTab').click(function() {
+    	    $(this).target = "_blank";
+    	    window.open($(this).prop('href'));
+    	    return false;
+	   });
+	
+	});
 </script>
 
 </head>
