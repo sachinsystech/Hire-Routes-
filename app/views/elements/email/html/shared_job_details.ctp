@@ -69,10 +69,10 @@
             	<p style="font:15px Arial, Helvetica, sans-serif;">Share this post with your network</p>
                 <div style="width:207px; height:62px; margin:0 auto;"><img src="<?php echo $base_link;?>images/email_share_bttn.png" alt="" border="0" usemap="#Map2" />
                   <map name="Map2" id="Map2">
-                    <area shape="rect" coords="9,9,194,49" href="<?php echo $message['jobUrl'] ; ?>" />
+                    <area shape="rect" coords="9,9,194,49" href="<?php echo $base_link.'jobs/shareJob/'.$message['Job']['id'].$intermediateCode;?>" />
                   </map>
                 </div>
-                <a style="color:#2d9d97; text-decoration:underline; font:15px Arial,Helvetica,sans-serif;" href="<?php echo $base_link.'howItWorks/'.$message['Job']['id'].$intermediateCode;?>">How it works</a>
+                <a style="color:#2d9d97; text-decoration:underline; font:15px Arial,Helvetica,sans-serif;" href="<?php echo $base_link.'networkerInformation/'.$message['Job']['id'].$intermediateCode;?>">How it works</a>
             </div>
             
             <div style="font:24px 'OpenSansCondensedBold'; text-align: center; width: 100px; float:left;margin-top: 22px;">OR</div>
@@ -84,7 +84,7 @@
                     <area shape="rect" coords="9,8,195,49" href="<?php echo $base_link.'jobs/applyJob/'.$message['Job']['id'].$intermediateCode;?>" />
                   </map>
                 </div>
-                <a style="color:#50a64e; text-decoration:underline; font:15px Arial,Helvetica,sans-serif;" href="<?php echo $base_link.'howItWorks/'.$message['Job']['id'].$intermediateCode;?>" >How it works</a>
+                <a style="color:#50a64e; text-decoration:underline; font:15px Arial,Helvetica,sans-serif;" href="<?php echo $base_link.'jobseekerInformation/'.$message['Job']['id'].$intermediateCode;?>" >How it works</a>
             </div>
             <div style="clear:both;"></div>
         </div>

@@ -891,6 +891,7 @@ div.message{
 
 
 
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -1999,7 +2000,8 @@ div .networkerData{
 	overflow:auto;
 	margin:auto;
 	padding:10px;
-	width:1007px;
+	width:1117px;
+	
 }
 
 div .levelInfo{
@@ -2061,6 +2063,7 @@ div .networkerInfo {
     overflow: scroll;
     text-align: center;
     width: 951px;
+    
 }
 
 
@@ -2158,7 +2161,7 @@ div .NSData{
 	overflow:auto;
 	margin:auto;
 	padding:10px;
-	width:1057px;
+	width:1157px;
 }
 
 div .NSInfo{
@@ -2176,12 +2179,13 @@ div .NSInfo{
 	font-size:12px;
 	font-weight:normal;
 	text-align:right;
-	width:870px;
+	width:850px;
 }
 
 div .specificData{
 	width:600px;
 	height:auto;
+
 	overflow:auto;
 	margin:auto;
 }

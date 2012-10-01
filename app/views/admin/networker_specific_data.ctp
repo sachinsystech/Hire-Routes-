@@ -106,8 +106,9 @@
 					</div>
 				<?php else:?>
 					<div style="height:auto;float:left;width:inherit;">
-						<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;text-align:left;">
+						<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;text-align:left;width:100px;float:left;">
 							<?php echo "Level $selectedLevel"?>
+						</div>	
 							<?php $this->Paginator->options(array('url' =>array($networkerData['User']['id'])));?>
 							<?php if($this->Paginator->numbers()): ?>
 								<?php $this->Paginator->options(array('url' =>array($networkerData['User']['id'],'level'=>$selectedLevel)));?>
@@ -119,7 +120,6 @@
 									<?php echo $paginator->last(' |  Last'); ?>
 								</div>
 							<?php endif; ?>
-						</div>
 						<div Class="headingBar">
 							<div class="networkersDataEmail" style="text-align:center">
 								<?php echo $this->Paginator->sort('User','User.account_email')?>

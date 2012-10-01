@@ -55,8 +55,9 @@
 	
 	Router::connect('/', array('controller' => 'home', 'action' => 'index', 'home'));
 	Router::connect('/companyInformation', array('controller' => 'home', 'action' => 'companyInformation'));	
-	Router::connect('/networkerInformation', array('controller' => 'home', 'action' => 'networkerInformation'));		
-	Router::connect('/jobseekerInformation', array('controller' => 'home', 'action' => 'jobseekerInformation'));		
+	Router::connect('/networkerInformation/*', array('controller' => 'home', 'action' => 'networkerInformation'));		
+	Router::connect('/jobseekerInformation', array('controller' => 'home', 'action' => 'jobseekerInformation'));
+	Router::connect('/jobseekerInformation/*', array('controller' => 'home', 'action' => 'jobseekerInformation'));
 	Router::connect('/howItWorks', array('controller' => 'home', 'action' => 'howItWorks'));	
 	Router::connect('/termsOfUse', array('controller' => 'home', 'action' => 'termsOfUse'));		
 	Router::connect('/privacyPolicy', array('controller' => 'home', 'action' => 'privacyPolicy'));
@@ -119,7 +120,7 @@
 	Router::connect('/jobs/applyJob/:jobId/*', array('controller' => 'jobs','action' => 'applyJob'),
 												array('jobId' => '[0-9]+'));
 	Router::connect('/jobs/viewResume/:filetype/:id/:jobId/*', array('controller' => 'jobs','action' => 'viewResume'));
-	
+	Router::connect('/jobs/shareJob/:jobId/*', array('controller' => 'jobs','action' => 'shareJob'));
 
 	//UTILITY
 	Router::connect('/utilities/getCitiesOfState/:state_id', array('controller'=>'utilities', 'action'=>'getCitiesOfState'));
