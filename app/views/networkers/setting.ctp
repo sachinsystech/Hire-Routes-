@@ -23,7 +23,7 @@
 																	'style'=>'margin-left:0px;',
 																	'class'=>'required',
 																	'div'	=> false,
-																	'onchange'=>'return fillSpecification(this.value,"NetworkerSettingsSpecification","specification_loader");'
+
 															)
 												);
 								?>
@@ -159,7 +159,7 @@
 $(document).ready(function(){
 	$("#NetworkerSettingsForm").validate();
 	$("#accordion").accordion();
-	fillSpecification(1,"NetworkerSettingsSpecification","specification_loader")
+	//fillSpecification(1,"NetworkerSettingsSpecification","specification_loader")
 }); 
 
  
@@ -220,3 +220,4 @@ $(".HrSettingMenu").click(function(){
 	$(this).next().slideDown();
 });
 </script>
+

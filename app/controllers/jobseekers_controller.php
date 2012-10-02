@@ -122,6 +122,7 @@ class JobseekersController extends AppController {
 		$jobseekerData['jobseeker_settings']['contact_name'] =$jobseekerData['Jobseekers']['contact_name'];
 		$this->set('jobseekerData',$jobseekerData['jobseeker_settings']);	
 		$this->set('industries',$this->Utility->getIndustry());
+		$this->set('specifications',$this->Utility->getSpecification());
 		$this->set('states',$this->Utility->getState());
 	}
 

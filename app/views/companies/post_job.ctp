@@ -64,7 +64,6 @@
 												  'label'=>'',
 												  'options'=>$industries,
 												  'empty' =>'Select Industry',
-												  'onchange'=>'return fillSpecification(this.value,"JobSpecification","specification_loader");',
 												  'class'=>'required',
 												  'div'=>false
 												 )
@@ -76,7 +75,7 @@
 												  'type'=>'select',
 												  'label'=>'',
 												  'empty' =>'Select Specifications',
-												  // 'options'=>$specifications,
+												  'options'=>$specifications,
 												  'class'=>'required',
 												  'div'=>false
 												  )

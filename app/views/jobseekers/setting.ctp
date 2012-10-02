@@ -71,7 +71,6 @@ div .checkbox{
 																	     'label'=>'Industry 1',
 																	     'options'=>$industries,
 																	     'empty' =>'Select Industry',
-																	     'onchange'=>'return fillSpecification(this.value,"JobseekerSettingsIndustrySpecification1","specification_1_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:""));?>
 								</div>
@@ -86,7 +85,7 @@ div .checkbox{
 																	   'label'=>'',
 																	   'multiple'=>'multiple',
 																	   'size' => '4',
-																	   //'options'=>$specifications,
+																	   'options'=>$specifications,
 																	    'class'=>'jobseeker_select__i_s required multiple_select',
 											                            'selected'=>isset($jobseekerData['specification_1'])?explode(",",$jobseekerData['specification_1']):""));?>
 								</div>
@@ -101,7 +100,6 @@ div .checkbox{
 																	     'label'=>'Industry 2',
 																	     'options'=>$industries,
 																	     'empty' =>'Select Industry',
-																	     'onchange'=>'return fillSpecification(this.value,"JobseekerSettingsIndustrySpecification2","specification_2_loader");',
 																	     'class'=>'jobseeker_select required',
 																	     'selected' => isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:""));?>
 								</div>
@@ -110,8 +108,8 @@ div .checkbox{
 																	                   'label'=>'',
 																	                   'multiple'=>'multiple',
 																	                   'size' => '4',
-																	                   //'options'=>$specifications,
-																	                   'class'=>'jobseeker_select__i_s required multiple_select',
+																	                   'options'=>$specifications,
+																                   'class'=>'jobseeker_select__i_s required multiple_select',
 											                                           'selected'=>isset($jobseekerData['specification_2'])?explode(",",$jobseekerData['specification_2']):""));?>
     	                       	</div>
     	                       	<div id="specification_2_loader" style="float:left;"></div>
@@ -231,7 +229,7 @@ $("#JobseekerSettingsForm").validate();
 <script>
 $(document).ready(function(){
 	<?php if(isset($jobseekerData['industry_1'])){?>
-		fillSpecification(<?php echo $industry_1;?>, 'JobseekerSettingsIndustrySpecification1', 'specification_1_loader');
+		//fillSpecification(<?php echo $industry_1;?>, 'JobseekerSettingsIndustrySpecification1', 'specification_1_loader');
 	<?php $specification_1=explode(",",$jobseekerData['specification_1']);
 		foreach($specification_1 as $key=>$specification_id)
 		{
@@ -242,7 +240,7 @@ $(document).ready(function(){
 	}
 	?>
 	<?php if(isset($jobseekerData['industry_2'])){?>
-	fillSpecification(<?php echo $industry_2;?>, 'JobseekerSettingsIndustrySpecification2', 'specification_2_loader');
+	//fillSpecification(<?php echo $industry_2;?>, 'JobseekerSettingsIndustrySpecification2', 'specification_2_loader');
 	<?php $specification_2=explode(",",$jobseekerData['specification_2']);
 		foreach($specification_2 as $key=>$specification_id)
 		{?>

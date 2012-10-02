@@ -22,7 +22,7 @@ class UtilityComponent extends Object
 	}
 	
 	function getIndustry(){
-		return $this->Industry->find('list', array('fields' => array('Industry.name')));
+		return $this->Industry->find('list', array('fields' => array('Industry.name'),'order'=>array('id')));
 	}
 	
 	function getState(){

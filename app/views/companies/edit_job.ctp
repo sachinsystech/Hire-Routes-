@@ -101,7 +101,6 @@
 												  'label'=>'',
 												  'options'=>$industries,
 												  'empty' =>'Select Industry',
-												  'onchange'=>'return fillSpecification(this.value,"JobSpecification","specification_loader");',
 												  'class'=>'required',
 												  'div'=>false,
 												  'selected' => isset($job['industry'])?$job['industry']:""
@@ -114,6 +113,7 @@
 												  'type'=>'select',
 												  'label'=>'',
 												  'empty' =>'Select Specifications',
+												   'options'=>$specifications,
 												  'selected'=>isset($job['specification'])?$job['specification']:"",
 												  'class'=>'required',
 												  'div'=>false
@@ -322,7 +322,7 @@
 	
 $(document).ready(function(){
 	<?php if(isset($job['industry'])){?>
-	fillSpecification(<?php echo $job['industry'];?>,"JobSpecification","specification_loader");
+	//fillSpecification(<?php echo $job['industry'];?>,"JobSpecification","specification_loader");
 	$("select#JobSpecification option[value=<?php echo $job['specification'];?>]").attr('selected', 'selected');
 	<?php 
 	}

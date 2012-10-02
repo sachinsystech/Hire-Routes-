@@ -55,6 +55,7 @@ class CompaniesController extends AppController {
 		$userId = $this->_getSession()->getUserId();
 		if($userId){
 			$this->set('states',$this->Utility->getState());
+			$this->set('specifications',$this->Utility->getSpecification());
 			$this->set('industries',$this->Utility->getIndustry());
 			if(isset($this->data['Job'])){
 				if(!(strtoupper(trim($this->params['form']['save']))=='POST AND SHARE')){
@@ -93,6 +94,7 @@ class CompaniesController extends AppController {
 				}
 			}
 		}
+		
 		$this->set('activejobCount',$this->getCompanyActiveJobsCount());
 		$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 	}
@@ -328,6 +330,7 @@ list archive jobs..
                 $this->set('jobUrl',$jobUrl);
 				$this->set('states',$this->Utility->getState());
 				$this->set('industries',$this->Utility->getIndustry());
+				$this->set('specifications',$this->Utility->getSpecification());
 				$NoOfApplicants = $this->JobseekerApply->find('count',array('conditions'=>array('job_id'=>$jobId,'is_active'=>0)));
 				$this->set('NoOfApplicants',$NoOfApplicants);
 			}	
