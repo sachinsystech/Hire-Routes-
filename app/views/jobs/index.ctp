@@ -21,6 +21,13 @@
 		$("#short_by2").change(function(){
 			onSelectChange( $("#short_by2 option:selected").val() );
 		});
+		$("input[type=checkbox]").click(function(){
+			if ($(this).attr("checked")) {
+				$(this).next("label").css("color","#50A64E");
+			}else{
+				$(this).next("label").css("color","#1D1D1D");
+			}
+		});
 			
 	});
 	function onSelectChange(shortSelected){
