@@ -1260,18 +1260,20 @@ where user_id =".$userId."");
 		 
 		$pointLables = $this->PointLabels->find('first' ,array('conditions'=>array("point_from <=".$user['Networkers']['points']." and point_to >=".$user['Networkers']['points'])));
 		
-		$boardData = $this->UserList->find('all', 
-		 						array('joins'=>array(array('table' => 'networkers',
-												         'alias' => 'Networker',
-												         'type' => 'inner',
-												         'conditions' => array('Networker.user_id = UserList.id'),
-											        )),
-		 								'limit'=>5 ,
-		 								'conditions'=> array('NOT'=>array('UserList.id'=>array(1,2)),
-		 													'UserList.is_active'=>array(1)),
-		 								'recursive'=>'-1',
-		 								'order' => array("Networker.points" => 'desc'),
-		 								'fields' =>array('UserList.account_email, UserList.id ,Networker.contact_name,Networker.points' )));
+		$boardData = $this->User->query("select Users.id, Users.account_email ,rewarded_users.user_id,points,contact_name,rewarded_users.reward from (select sum(reward)as reward , user_id from (
+
+                           select 
+                               payment_history.id,(networker_reward_percent*amount/(100*count(payment_history.id))) as reward
+                           from 
+                               payment_history 
+                           join 
+                               rewards_status on payment_history.id = payment_history_id  
+                           join 
+                               networkers on networkers.user_id = rewards_status.user_id  
+                           group by 
+                               payment_history.id 
+                       ) 
+       as new_table join rewards_status on new_table.id = payment_history_id group by user_id) as rewarded_users right join users as Users on Users.id = rewarded_users.user_id inner join networkers as Networker on Networker.user_id = Users.id WHERE NOT (Users.id IN (1, 2)) AND Users.is_active = 1 ORDER BY Networker.points desc , rewarded_users.reward desc, Users.id");
 			 
 		$networkerBonus =	$this->Networkers->find('first',array(
 			'fields'=>'sum(((PaymentHistory.amount*PaymentHistory.networker_reward_percent )/100)*PointLabels.bonus/100) as nr_bonus',
@@ -1298,7 +1300,7 @@ where user_id =".$userId."");
 				array(
 					'table'=>'networkers',
 					'alias'=>'Networker',
-					'type'=>'left',
+					'type'=>'inner',
 					'conditions'=>'Networker.user_id = RewardsStatus.user_id '
 				)
 				
@@ -1306,38 +1308,11 @@ where user_id =".$userId."");
 			'conditions'=>array('Networker.user_id'=>$userId),
 			'group'=> 'RewardsStatus.user_id',
 		));
-		
-		$userRank = $this->Networkers->find('all',array(
-														'joins' =>array(
-														array(
-															'table'=>'rewards_status',
-															'alias'=>'RewardsStatus',
-															'type'=>'left',
-															'conditions'=>'RewardsStatus.user_id = Networkers.user_id '
-														),
-														array(
-															'table'=>'users',
-															'alias'=>'Users',
-															'type'=>'inner',
-															'conditions'=>'Networkers.user_id=Users.id'
-														),
-														array(
-															'table'=>'payment_history',
-															'alias'=>'PaymentHistory',
-															'type'=>'left',
-															'conditions'=>'PaymentHistory.id = RewardsStatus.payment_history_id'
-														)),
-														'order' => array("points" => 'desc',
-																		"amount" =>'desc',
-																		"Networkers.user_id" ),
-														'fields' => array('Networkers.user_id ')));
-											
+		$userRank =$boardData;				
 		$totalNr = count( $userRank);
 		$rank = $totalNr;
-
-		//echo array_search($userId ,$userRank);exit;
 		foreach($userRank as $key =>$data ){
-			if($data['Networkers']['user_id'] == $userId){
+			if($data['Users']['id'] == $userId){
 				$rank = $key+1;
 				break;
 			}

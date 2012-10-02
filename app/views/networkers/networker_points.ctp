@@ -31,11 +31,15 @@
                     <ul>
                     <?php if(isset($boardData) && $boardData != null){?>
                    		<?php $i = 1; 
-							 foreach( $boardData as $key =>$data) {?>
-						<li><?php if($data['Networker']['contact_name'] != null && $data['Networker']['contact_name'] != ""){	
-									 echo $data['Networker']['contact_name']." , ".$data['UserList']['account_email'];
+							 foreach( $boardData as $key =>$data) {
+							 if($key>4 ){break;}
+						?>
+						<li><?php 
+								
+								if($data['Networker']['contact_name'] != null && $data['Networker']['contact_name'] != ""){	
+									 echo $data['Networker']['contact_name']." , ".$data['Users']['account_email'];
 								 }else{
-								 	 echo $data['UserList']['account_email'];
+								 	 echo $data['Users']['account_email'];
 								 }
 							?>
 						</li>
