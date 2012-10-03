@@ -17,9 +17,14 @@
 																	    'type'  => 'hidden',
 																	    'value' => isset($jobprofile['id'])?$jobprofile['id']:""));?>
 				    	<div class="job_profile_form_row">
-							<div class="job_profile_form_text">Qualification</div>
+							<div class="job_profile_form_text">Degree</div>
 							<div class="application_form_field">
-								<?php $answer1_array = array('High School'=>'High School','Diploma'=>'Diploma','Graduation'=>'Graduation','Post Graduation'=>'Post Graduation'); ?>
+								<?php $answer1_array = array('Not Specified'=>'Not Specified',
+															'None'=>'None',
+															'High School'=>'High School',
+															'Diploma'=>'Diploma',
+															'Graduation'=>'Graduation',
+															'Post Graduation'=>'Post Graduation'); ?>
                       				<?php echo $form->input('answer1', array('label' => false,
 																			 'type'  => 'select',
 																			 'class' => '',
@@ -34,7 +39,7 @@
 						<div class="job_profile_form_row">
 							<div class="job_profile_form_text">Work Experience</div>
 							<div class="application_form_field">
-								<?php $answer2_array = array('0 to 2 year'=>'0 to 2 year','2 to 5 year'=>'2 to 5 year','More than 5 year'=>'More than 5 year'); ?>
+								<?php $answer2_array = array('0 to 2 years'=>'0 to 2 years','2 to 5 years'=>'2 to 5 years','More than 5 years'=>'More than 5 years'); ?>
                       				<?php echo $form->input('answer2', array('label' => false,
 																			 'type'  => 'select',
 																			 'class' => '',
@@ -48,9 +53,12 @@
 				
 				
 						<div class="job_profile_form_row">
-							<div class="job_profile_form_text">Current CTC</div>
+							<div class="job_profile_form_text">Current Salary</div>
 							<div class="application_form_field">
-								<?php $answer3_array = array('Less than 1,20,000'=>'Less than 1,20,000','1,20,000 to 3,60,000'=>'1,20,000 to 3,60,000','More than 3,60,000'=>'More than 3,60,000'); ?>
+								<?php $answer3_array = array('Less than $50K'=>'Less than $50K',
+															'$50 - 75K'=>'$50 - 75K',
+															'$100 - 150K'=>'$100 - 150K',
+															'More than $150K'=>'More than $150K'); ?>
                       				<?php echo $form->input('answer3', array('label' => false,
 																			 'type'  => 'select',
                                                                              'class' => '',
@@ -63,7 +71,7 @@
         
         
 						<div class="job_profile_form_row">
-							<div class="job_profile_form_text">Expected CTC</div>
+							<div class="job_profile_form_text">Expected Salary</div>
 							<div class="application_form_field">
 				  				<?php echo $form->input('answer4', array('label' =>false,
 																			 'type'  => 'select',

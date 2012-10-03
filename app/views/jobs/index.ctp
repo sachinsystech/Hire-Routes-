@@ -303,7 +303,7 @@
                         <p>Posted: <?php echo date('d/m/Y',strtotime($job['Job']['created'])) ;?></p>
                     </div>
                     <div class="job_right_section_right body1">
-                        Reward: <span><?php echo $this->Number->format(
+                        <div>Reward: <span><?php echo $this->Number->format(
 										$job['Job']['reward'],
 										array(
 											'places' => 0,
@@ -311,6 +311,11 @@
 											'decimals' => '.',
 											'thousands' => ',')
 										);?></span>
+						</div>
+						<?php if($this->Session->read('Auth.User.id')>2 ||$this->Session->read('Auth.User.id')==1){?>
+							<div style="font-weight:normal;"><a href="JavaScript:void(0);" class="howPayoutWorks" >How payouts work</a></div>	
+						<?php } ?>
+									
                     </div>
                 </div>
                 <?php endforeach; ?>
@@ -357,6 +362,9 @@
     </div>
  	<div class="clr"></div>
 </div>
+</div>
+<div style="display:none;" id = "about-dialog">
+	<?php echo $this->element("payout");?>
 </div>
 <script type="text/javascript" id="sourcecode">
 
@@ -414,9 +422,7 @@
 		}else{
 			$(this).removeClass("minus_icon").addClass("plus_icon");
 		}
-		//
 	});
-
 </script>
 
 <style type="text/css" id="page-css">

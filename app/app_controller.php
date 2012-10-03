@@ -106,7 +106,7 @@ class AppController extends Controller {
  			$replyTo = USER_ACCOUNT_REPLY_EMAIL;
  		}
  		if($from==null || empty($from)){
-	  		$from = 'Hire-Routes :: '.USER_ACCOUNT_SENDER_EMAIL;
+	  		$from = 'Hire Routes :: '.USER_ACCOUNT_SENDER_EMAIL;
  		}
  		try{
 		 	$this->Email->to = $to;

@@ -24,17 +24,17 @@ $(document).ready(function(){
 					$( "#about-dialog").show();
 					$( "#about-dialog").dialog({
 						hide: "explode",
-						width:800,
+						width:700,
 						height:610,
 						closeOnEscape: false,
-						modal:true
+						modal:true,
+						resizable:false
 					});
 					
 		
 					$( "#about-dialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"600px","background":"none","border":"none"});
-					//var xpositions =getPosition(this) ;
-					//alert(xpositions[0]);
-					//$( "#about-dialog" ).parent("div").css({"top":});
+					$( "#about-dialog" ).dialog({ position: "top" });
+
 				}
 				if(response['status'] == 0){
 					window.location.href= "/users/login" ;
@@ -74,7 +74,7 @@ $(document).ready(function(){
         </div>
         	<div class="clr"></div>
       </div>
-        <div class="payout-condition">The 50% payout to the Networker(s) is only true if the Job Seeker gets hired for the specific job the Networker(s) shared with him or her.  If the Job Seeker signs up through a shared job but gets hired for a different job or signs up via an invite the last Networker - who shared the job or invited the Job Seeker - will receive 15% of the reward.  Remember you also get <a href="/networkerPointInfo">15 points!</a></div>
+        <div class="payout-condition">The 50% payout to the Networker(s) is only true if the Job Seeker gets hired for the specific job the Networker(s) shared with him or her.  If the Job Seeker signs up through a shared job but gets hired for a different job or signs up via an invite the last Networker - who shared the job or invited the Job Seeker - will receive 15% of the reward.  Remember you also get <a href="/networkerPointInfo" style="color:#50A947;">15 points!</a></div>
     </div>
     
     <style>

@@ -48,7 +48,7 @@ $(document).ready(function(){
 			<p class=""> 
 That idea has since then evolved into what you see today <b>"A social recruiting website that provides companies and recruiters with a platform that allows them to really harness the power of social networks by posting jobs with cash rewards and sharing those jobs with their own personal and professional networks as well as with new, select and otherwise inaccessible networks being built here at Hire Routes".</b> 
 			</p>
-			<p class="">Hire Routes wants to build the world's largest hub of networkers to help companies find and hire the best talent for them.  Please help us build a strong global network and let's get everyone working again and reduce unemployment!.</p>
+			<p class="">Hire Routes wants to build the world's largest hub of networkers to help companies find and hire the best talent for them.  Please help us build a strong global network and let's get everyone working again and reduce unemployment!</p>
 		</div>
 	<!-- left --> 
 	<!-- right -->
@@ -74,6 +74,26 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border">
+				<a href="#"> <img src="/images/Castlebuilders/238x239-Jaxon.png" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+			</div>
+			<div class="clr"></div>
+			<!-- member-info -->
+			<div class="member-info">
+				<h3>JAXON</h3>
+				<span style="height:40px;">Recruiting Sage</span>
+				<ul>
+					<!--li class="member-twitter"> <a href="https://twitter.com/WorstAllDesign" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/pages/Worstofall-Design/180256818692810" class="NewTab">facebook</a> </li-->
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/pub/jaxon-reilly/8/554/123" class="NewTab">linkedin</a> </li>
+				</ul>
+			</div>
+			<!-- member-info --> 
+		</div>
+		<!-- Team member --> <!-- Team member -->
+		
+		<!-- Team member --> <!-- Team member -->
+		<div class="team-member">
+			<div class="about-border">
 				<a href="#"> <img src="/images/Castlebuilders/238x239-sachin.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
 			</div>
 			<div class="clr"></div>
@@ -89,40 +109,19 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			</div>
 			<!-- member-info --> 
 		</div>
-		<!-- Team member --> <!-- Team member -->
-		
-		<!-- Team member --> <!-- Team member -->
-		<div class="team-member">
-			<div class="about-border">
-				<a href="#"> <img src="/images/about/Talulah.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
-			</div>
-			<div class="clr"></div>
-			<!-- member-info -->
-			<div class="member-info">
-				<h3>Talulah Machock</h3>
-				<span>Director of Fun</span>
-				<!--<ul>
-					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
-					<li class="member-facebook"> <a href="#" class="NewTab">facebook</a> </li>
-					<li class="member-linkedin"> <a href="#" class="NewTab">linkedin</a> </li>
-				</ul>
-				-->
-			</div>
-			<!-- member-info --> 
-		</div>
 		<div class="team-member">
 			<div class="about-border" >
-				<a href="#"> <img src="/images/Castlebuilders/238x239-tim.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+				<a href="#"> <!--<img src="/images/Castlebuilders/238x239-steasvie.jpg" /--><!--<span class="link-mouseover">READ MORE</span> --></a> 
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
 			<div class="member-info">
-				<h3>TIM RODGERS</h3>
-				<span>Castlebuilder</span>
+				<h3>TINA</h3>
+				<span>Recruiting Sage</span>
 				<ul>
-					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
-					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
-					<li class="member-linkedin"> <a href="http://www.linkedin.com/in/timnotjim" class="NewTab">linkedin</a> </li>
+					<!--<li class="member-twitter"> <a href="https://twitter.com/WorstAllDesign" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/pages/Worstofall-Design/180256818692810" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/pub/pia-silva/3/272/86b" class="NewTab">linkedin</a> </li>-->
 				</ul>
 			</div>
 			<!-- member-info --> 
@@ -165,6 +164,44 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			<!-- member-info --> 
 		</div>
 		
+		<!-- Team member --> <!-- Team member -->		
+		<div class="team-member">
+			<div class="about-border">
+				<a href="#"> <img src="/images/about/Talulah.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+			</div>
+			<div class="clr"></div>
+			<!-- member-info -->
+			<div class="member-info">
+				<h3>Talulah Machock</h3>
+				<span>Director of Fun</span>
+				<!--<ul>
+					<li class="member-twitter"> <a href="#" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="#" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="#" class="NewTab">linkedin</a> </li>
+				</ul>
+				-->
+			</div>
+			<!-- member-info --> 
+		</div>
+		<!-- Team member --> <!-- Team member -->
+		<div class="team-member">
+			<div class="about-border" >
+				<a href="#"> <img src="/images/Castlebuilders/238x239-tim.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+			</div>
+			<div class="clr"></div>
+			<!-- member-info -->
+			<div class="member-info">
+				<h3>TIM RODGERS</h3>
+				<span>Castlebuilder</span>
+				<ul>
+					<li class="member-twitter"> <a href="http://www.twitter.com/timnotjim" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/timnotjim" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/in/timnotjim" class="NewTab">linkedin</a> </li>
+				</ul>
+			</div>
+			<!-- member-info --> 
+		</div>
+
       <!-- right -->
       <div class="clr"></div>
     </div>
