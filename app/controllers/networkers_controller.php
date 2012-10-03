@@ -1195,7 +1195,7 @@ where user_id =".$userId."");
 		$userId = $session->getUserId();
 		$this->paginate = array('conditions'=>array('Invitation.user_id'=>$userId),
                                 'limit' => 8,
-                                'order' => array("Invitation.id" => 'asc',));  
+                                'order' => array("Invitation.created"=>"desc"));  
 		 	 	
         $Invitations = $this->paginate('Invitation');
 		$this->set("invitations", $Invitations);  

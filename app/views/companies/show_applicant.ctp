@@ -140,10 +140,14 @@ function clear_div(val){
 						<?php echo $form->create('', array('url' => array('controller' => 'companies', 'action' => 'showApplicant/'.$jobId),'name'=>'webform','onsubmit'=>'return valid_form();'));?>
                     
                     	<div class="app_feild">
-                        	<span>Qualification</span>
+                        	<span>Degree</span>
                         	<div class="app_selectbox">
-                            	
-								<?php $answer1_array = array(''=>'Select','High School'=>'High School','Diploma'=>'Diploma','Graduation'=>'Graduation','Post Graduation'=>'Post Graduation'); 
+								<?php $answer1_array = array('Not Specified'=>'Not Specified',
+															'None'=>'None',
+															'High School'=>'High School',
+															'2 Year Degree'=>'2 Year Degree',
+															'4 Year Degree'=>'4 Year Degree',
+															'Graduate Degree'=>'Graduate Degree');
 									echo $form->input('answer1', array(
 															'label'   => '',
 															'type'    => 'select',
@@ -161,9 +165,13 @@ function clear_div(val){
                             </div>
                         </div>
                         <div class="app_feild">
-                        	<span>Current CTC</span>
+                        	<span>Current Salary</span>
                         	<div class="app_selectbox">
-                            	<?php	$answer3_array = array(''=>'Select','Less than 1,20,000'=>'Less than 1,20,000','1,20,000 to 3,60,000'=>'1,20,000 to 3,60,000','More than 3,60,000'=>'More than 3,60,000'); 
+                            	<?php	$answer3_array = array('Less than $50K'=>'Less than $50K',
+											'$50 - 75K'=>'$50 - 75K',
+											'$75 - 100K'=>'$75 - 100K',
+											'$100 - 150K'=>'$100 - 150K',
+											'More than $150K'=>'More than $150K');
 							echo $form->input('answer3', array('label'   => '',
 															   'type'    => 'select',
                                                                'class'   => 'show_appl_filter_select',
@@ -230,18 +238,21 @@ function clear_div(val){
                     <div class="app_feild">
                         	<span>Work Experience</span>
                         	<div class="app_selectbox">
-                            	<?php $answer2_array = array(''=>'Select','0 to 2 year'=>'0 to 2 year','2 to 5 year'=>'2 to 5 year','More than 5 year'=>'More than 5 year'); 
-                          echo $form->input('answer2', array('label'   => '',
-															 'type'    => 'select',
-															 'class'   => 'show_appl_filter_select',
-															 'options' =>$answer2_array,
-															 'div'	   =>false,
-															 'value'   => isset($filterOpt['answer2'])?$filterOpt['answer2']:"",
-															 'onChange'=>"return clear_div(this.value);"));?>
+                            	<?php $answer2_array = array('0 to 2 years'=>'0 to 2 years',
+											'2 to 5 years'=>'2 to 5 years',
+											'5 to 10 Years'=>'5 to 10 Years',
+											'More than 10 Years'=>'More than 10 Years');
+									echo $form->input('answer2', array('label'   => '',
+																 'type'    => 'select',
+																 'class'   => 'show_appl_filter_select',
+																 'options' =>$answer2_array,
+																 'div'	   =>false,
+																 'value'   => isset($filterOpt['answer2'])?$filterOpt['answer2']:"",
+																 'onChange'=>"return clear_div(this.value);"));?>
                             </div>
                         </div>
                         <div class="app_feild">
-                        	<span>Expected CTC</span>
+                        	<span>Expected Salary</span>
                         	<div class="app_selectbox">
                             	<?php echo $form->input('answer4', array('label'   => '',
 															 'type'    => 'select',

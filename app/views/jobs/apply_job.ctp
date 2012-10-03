@@ -18,9 +18,9 @@
 	            <?php $answer1_array = array('Not Specified'=>'Not Specified',
 															'None'=>'None',
 															'High School'=>'High School',
-															'Diploma'=>'Diploma',
-															'Graduation'=>'Graduation',
-															'Post Graduation'=>'Post Graduation');?>
+															'2 Year Degree'=>'2 Year Degree',
+															'4 Year Degree'=>'4 Year Degree',
+															'Graduate Degree'=>'Graduate Degree');?>
                       				<?php echo $form->input('answer1', array('label' => false,
 																			 'type'  => 'select',
                                                                              'div' => false,
@@ -34,7 +34,10 @@
         <div class="application_form_row">
         	<div class="application_form_text">Work Experience</div>
             <div class="application_form_field">
-				<?php $answer2_array = array('0 to 2 years'=>'0 to 2 years','2 to 5 years'=>'2 to 5 years','More than 5 years'=>'More than 5 years'); ?>
+					<?php $answer2_array = array('0 to 2 years'=>'0 to 2 years',
+											'2 to 5 years'=>'2 to 5 years',
+											'5 to 10 Years'=>'5 to 10 Years',
+											'More than 10 Years'=>'More than 10 Years'); ?>
       				<?php echo $form->input('answer2', array('label' => false,
 															 'type'  => 'select',
                                                              'div' => false,
@@ -49,9 +52,10 @@
         	<div class="application_form_text">Current Salary</div>
             <div class="application_form_field">
 				<?php $answer3_array = array('Less than $50K'=>'Less than $50K',
-														'$50 - 75K'=>'$50 - 75K',
-														'$100 - 150K'=>'$100 - 150K',
-														'More than $150K'=>'More than $150K'); ?>
+											'$50 - 75K'=>'$50 - 75K',
+											'$75 - 100K'=>'$75 - 100K',
+											'$100 - 150K'=>'$100 - 150K',
+											'More than $150K'=>'More than $150K'); ?>
       				<?php echo $form->input('answer3', array('label' => false,
 															 'type'  => 'select',
                                                              'div' => false,

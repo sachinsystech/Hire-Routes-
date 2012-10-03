@@ -74,16 +74,16 @@ class CompaniesController extends AppController {
     		    	    switch($this->params['form']['save']){
     		    	        case 'POST AND SHARE':
 								$this->Session->write('openShare','open');
-    		    	            $this->Session->setFlash('Job has been saved successfuly.', 'success');
+    		    	            $this->Session->setFlash('Job has been saved successfully.', 'success');
     		    	            $this->redirect('/companies/editJob/'.$this->Job->id);
     		    	            break;
     		    	        case 'SAVE FOR LATER':
-								$this->Session->setFlash('Job has been saved successfuly. Post it later',
+								$this->Session->setFlash('Job has been saved successfully. Post it later',
 									'success');	
 								$this->redirect('/companies/newJob');
 								break;
     		    	        default:
-								$this->Session->setFlash('Job has been saved successfuly.', 'success');	
+								$this->Session->setFlash('Job has been saved successfully.', 'success');	
 								$this->redirect('/companies/editJob/'.$this->Job->id);
 								break;
 	    		        }
@@ -348,10 +348,10 @@ list archive jobs..
 				$this->Job->save();
 				if($shareJob) {
 					$this->Session->write('openShare','open');
-					$this->Session->setFlash('Job has been posted successfuly.', 'success');
+					$this->Session->setFlash('Job has been posted successfully.', 'success');
 					$this->redirect('/companies/editJob/'.$this->Job->id);
 				}
-				$this->Session->setFlash('Job has been updated successfuly.', 'success');
+				$this->Session->setFlash('Job has been updated successfully.', 'success');
 				$this->redirect('/companies/newJob');
 			}else{
 				$this->Session->setFlash('Job data Invalid.', 'error');
@@ -387,7 +387,7 @@ list archive jobs..
 				$this->User->save($this->data['User']);
 				if($this->Companies->save($this->data['Companies'])){
 					$session->start();
-					$this->Session->setFlash('Profile has been updated successfuly.', 'success');
+					$this->Session->setFlash('Profile has been updated successfully.', 'success');
 					$this->redirect('/companies');
 				}
 			}else{
@@ -484,7 +484,7 @@ list archive jobs..
 			        	&& $this->data['PaymentInfo']['applied_job_id']!=""){
 				        $this->redirect('/companies/checkout/'.$this->data['PaymentInfo']['applied_job_id']);
 				    }
-				    $this->Session->setFlash('Payment Infomation has been updated successfuly.', 'success');
+				    $this->Session->setFlash('Payment Infomation has been updated successfully.', 'success');
 				    $this->redirect('/companies/paymentInfo');
 				}		
             }else{

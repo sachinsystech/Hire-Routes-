@@ -40,7 +40,7 @@ div .checkbox{
             <div class="job_right_bar">
             	<div class="job-right-content">
                 	<h2>SETTINGS/SUBSCRIPTIONS</h2>
-                    <p>Tailor your subscription to receive job posts suited for your specific job experience and location.  Let us also know how frequently you would like to receive these posts as well.</p>
+                    <p>Tailor your subscription to receive job posts suited for your specific job experience and location.  Let us also know how frequently you would like to receive these posts.</p>
                  </div>   
                     <div class="jobseeker-settings">
 						<?php echo $form->create('JobseekerSettings', array('id'=>'JobseekerSettingsForm','url' => '/jobseekers/setting','onsubmit'=>'return check_email_subs();')); ?>

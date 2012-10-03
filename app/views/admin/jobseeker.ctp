@@ -48,13 +48,16 @@
 						    	<?php echo $this->Paginator->sort('Activated','User.is_active')?>
 						    </th>
    						</tr>
-	    		            <?php 
+	    		            <?php $page=0;
+	    		            	if(isset($this->params['named']['page'])){
+	    		            		$page = $this->params['named']['page']-1;
+	    		            	}
 								if(count($jobseekers)>0){
 	    		            		foreach($jobseekers as $jobseeker):
 	    		                	$class = $sno%2?"odd":"even";
 	    			        ?>
 						<tr class="<?php echo $class; ?>" > 
-							<td style="padding:7px;text-align:center;" ><?php echo $sno++; ?></td> 
+							<td style="padding:7px;text-align:center;" ><?php echo $page*10+$sno++; ?></td> 
 							<td>
 								<div class="employerLoginStatusBar" style="float:left;margin-top:2px" id="<?php echo "user_".$jobseeker['Jobseekers']['user_id'];?>" idfield="<?php echo $jobseeker['Jobseekers']['user_id']; ?>">	
 								</div>

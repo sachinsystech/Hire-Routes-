@@ -135,13 +135,17 @@
 				    <th>Action</th>
 			    </tr>
                 <?php 
+                 	$page=0;
+					if(isset($this->params['named']['page'])){
+						$page = $this->params['named']['page']-1;
+					}
                 	if(count($codes)>0){
 						$sno = 0;
                 		foreach($codes as $code):
                     	$class = $sno++%2?"odd":"even";
                 ?>
 				<tr class="<?php echo $class; ?>"> 
-					<td align="center" width="5%"><?php echo $sno;?></td>
+					<td align="center" width="5%"><?php echo $page*10+$sno;?></td>
 					<td align="center" width="20%"><?php echo $code["Code"]["user_type"]; ?></td> 
 					<td align="center" width="20%"><?php echo $code["Code"]["signups"]; ?></td> 
 					<td align="center" width="20%"><?php echo $code["Code"]["remianing_signups"]; ?></td> 

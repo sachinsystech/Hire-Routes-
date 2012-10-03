@@ -39,13 +39,16 @@
 			    <th width="15%"><?php echo $this->Paginator->sort('Date','Users.created')?></th>
 			    <th width="9%"> Action </th>
 		    </tr>
-            <?php 
+            <?php $page=0;
+            	if(isset($this->params['named']['page'])){
+            		$page = $this->params['named']['page']-1;
+            	}
                	if(count($Companies)>0){
               		foreach($Companies as $company):
             	       	$class = $sno%2?"odd":"even";
             ?>
 			<tr class="<?php echo $class; ?>"> 
-				<td align="center"><?php echo $sno;?></td>
+				<td align="center"><?php echo $page*10+$sno;?></td>
 				<td style="padding:3px;"><?php echo $company["Companies"]["company_name"]; ?></td> 
 				<td style="padding:3px;"><?php echo ucfirst($company["Companies"]["contact_name"]); ?></td>
 				<td >
