@@ -317,6 +317,8 @@ class AdminController extends AppController {
 		 		}
 		 		$this->set('isActivated',$data['isActivated']);
 		 	}
+		 }else{
+	 		$conditions[]=array("UserList.is_active"=>array(1,0));					 
 		 }
 		$filterRoleCond = null;
 		$filter=null;
