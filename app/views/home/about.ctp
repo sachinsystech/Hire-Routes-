@@ -117,7 +117,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			<!-- member-info -->
 			<div class="member-info">
 				<h3>TINA HUI</h3>
-				<span>Recruiting Sage</span>
+				<span>Marketing Master</span>
 				<ul>
 					<!--<li class="member-twitter"> <a href="https://twitter.com/WorstAllDesign" class="NewTab">twitter</a> </li>
 					<li class="member-facebook"> <a href="http://www.facebook.com/pages/Worstofall-Design/180256818692810" class="NewTab">facebook</a> </li>
