@@ -272,9 +272,9 @@ class AdminController extends AppController {
 		if(isset($data)){
 			if(isset($data['contact_name']) && !empty($data['contact_name'])){
 				$contact_name=addslashes(trim($data['contact_name']));
-				$conditions[]=array('OR'=>array("Jobseekers.contact_name LIKE\"".$contact_name."%\"",
-	   								 		    "Networkers.contact_name LIKE\"".$contact_name."%\"",
-    						   					"Companies.contact_name LIKE\"".$contact_name."%\"",
+				$conditions[]=array('OR'=>array("Jobseekers.contact_name LIKE\"%".$contact_name."%\"",
+	   								 		    "Networkers.contact_name LIKE\"%".$contact_name."%\"",
+    						   					"Companies.contact_name LIKE\"%".$contact_name."%\"",
 	   								));
 				$this->set('contact_name',$data['contact_name']);	
 			}
@@ -288,7 +288,7 @@ class AdminController extends AppController {
 			}
 			if(isset($data['account_email']) && !empty($data['account_email'])){			
 				$contact_email=addslashes(trim($data['account_email']));			
-				$conditions[]= "UserList.account_email LIKE \"".$contact_email."%\"";
+				$conditions[]= "UserList.account_email LIKE \"%".$contact_email."%\"";
 				$this->set('account_email',$data['account_email']);	
 			}
 			if(isset($data['from_date']) && !empty($data['from_date'])){
@@ -316,6 +316,8 @@ class AdminController extends AppController {
 	 		
 		 		}
 		 		$this->set('isActivated',$data['isActivated']);
+		 	}else{
+			 	$conditions[]=array("UserList.is_active"=>array(1,0));					 
 		 	}
 		 }else{
 	 		$conditions[]=array("UserList.is_active"=>array(1,0));					 
@@ -843,7 +845,8 @@ class AdminController extends AppController {
 			$cond=array('OR'=>array(
 								'User.parent_user_id IS NULL',
 								'User.parent_user_id = Company.user_id'
-							)
+							),
+							'User.is_active'=>array(1),
 						);
 			$joins=array(
 						array(
@@ -862,7 +865,7 @@ class AdminController extends AppController {
 						)
 					);
 		}else{
-			$cond=array('User.parent_user_id'=>$userId);
+			$cond=array('User.parent_user_id'=>$userId,'User.is_active'=>array(1),);
 			$joins=array(
 						array(
 							'table'=>'networkers',
@@ -940,7 +943,7 @@ class AdminController extends AppController {
 				
 			),
 			'conditions'=>array(
-				'User.id'=>$userIds
+				'User.id'=>$userIds,'User.is_active'=>array(1),
 			),
 			'group'=>'User.id',
 			'limit'=>10,
@@ -1020,7 +1023,8 @@ where user_id =".$networkersData[$key]['User']['id']."");
 				'OR'=>array(
 					'User.parent_user_id IS NULL',
 					'User.parent_user_id = Company.user_id'
-				)
+				),
+				'User.is_active'=>array(1),
 			);
 			$joins=array(
 				array(
@@ -1300,6 +1304,7 @@ where user_id =".$networkersData[$key]['User']['id']."");
 		$this->paginate = array(
 			'limit'=>10,
 			'recursive'=>-1,
+			'conditions'=>'User.confirm_code=""',
 			'joins'=>array( 
 						array(
 							'table' => 'jobseekers',

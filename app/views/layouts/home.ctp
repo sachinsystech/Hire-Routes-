@@ -25,13 +25,14 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
+		
 		<?php __('Hire Routes'); ?>
 		<?php echo $title_for_layout; ?>
-
+		 
 	</title>
-
+<link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	<?php
-		echo $this->Html->meta('icon');
+
 		echo $this->Html->css('cake.generic');
 		$time = time();
 		echo $this->Html->css('default.css?'.$time);

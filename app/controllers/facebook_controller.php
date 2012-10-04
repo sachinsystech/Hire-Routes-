@@ -103,12 +103,14 @@
         
         $message = $this->params['form']['message'];
         $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+        $config_url = Configure::read('httpRootURL');
         if(!empty($userIds) && $message &&  $User){
             foreach($userIds as $id){
                 try{
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
 											'message'=>$message,
 											'method'=>'send',
+											'picture'=>$config_url."/images/hire_route_logo.png",
 											'access_token' =>$User['User']['facebook_token'])
 										);
 										

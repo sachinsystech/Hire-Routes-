@@ -353,8 +353,15 @@ class UtilityComponent extends Object
 		$this->Session->delete('invitationCode');
  	}
 	
-	function setIccCode(){
+	function setIccCode($userId= null){
 		$iv1 = array('ic_code'=> null,'status'=>'1');
+		$iv2 = array('invited_user_id =' => $userId);
+		if(! $userId == null){
+			if(! $this->Invitations->updateAll($iv1,$iv2)) {
+				$this->Session->setFlash('Internal Error!', 'error');
+				return;
+			}
+		}
 		$iv2 = array('ic_code =' => $this->Session->read('icc'));
 		if($this->Session->read('icc') != null){
 			if(! $this->Invitations->updateAll($iv1,$iv2)) {

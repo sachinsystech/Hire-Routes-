@@ -90,7 +90,12 @@
                 // do signup stuff here
             	if( !$this->Session->check('intermediateCode') && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null )){
                    // echo $this->Session->read('oauth_access_token');exit;
-                    $liUser = $this->User->find('first',array('conditions'=>array('User.linkedin_token'=>$this->Session->read('oauth_access_token'))));
+					$response= $this->linkedinUserProfile();
+					$emailAddress = "email-address";
+                    $liUser = $this->User->find('first',array('conditions'=>
+                    										array('or'=>
+                    											array('User.account_email'=>$response->$emailAddress,
+                    												'User.linkedin_token'=>$this->Session->read('oauth_access_token')))));
 
                     if($liUser){
                      	$data = array('User' => array('account_email' => $liUser['User']['account_email'],
@@ -100,7 +105,7 @@
 				            'username' => 'account_email',
 				            'password' => 'password'
 			            );
-			
+						$this->saveLinkedinToken($liUser['User']['id']);
 			            if($this->Auth->login($data,false)){
 				            $this->_getSession()->start();
 			            }
@@ -110,7 +115,29 @@
 	               	 	$this->redirect("/login");        	
                     }
             	}else{
-                     $this->redirect("/Users/linkedinUserSelection");
+    				$response= $this->linkedinUserProfile();
+    				$emailAddress = "email-address";
+    				$liUser = $this->User->find('first',array('conditions'=>array('User.account_email'=>$response->$emailAddress)));
+            		if($liUser){
+                     	$data = array('User' => array('account_email' => $liUser['User']['account_email'],
+										  'password' => $liUser['User']['password']
+										  ));
+			            $this->Auth->fields = array(
+				            'username' => 'account_email',
+				            'password' => 'password'
+			            );
+						$linkedin->request_token    =   unserialize($this->Session->read('requestToken'));
+				        $linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
+				        $linkedin->access_token     =   unserialize($this->Session->read('oauth_access_token'));
+				        $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+				        $saveUser['User']['linkedin_token'] = serialize($linkedin->access_token);
+				        $this->User->save($saveUser);
+			            if($this->Auth->login($data,false)){
+				            $this->_getSession()->start();
+			            }
+                        $this->redirect("/users/loginSuccess");
+                    }
+                    $this->redirect("/Users/linkedinUserSelection");
                 }
 
             }else{
@@ -127,7 +154,26 @@
 
         }
     }
-
+	
+	function linkedinUserProfile(){
+		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+		$linkedin->request_token    =   unserialize($this->Session->read('requestToken'));
+		$linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
+		$linkedin->access_token     =   unserialize($this->Session->read('oauth_access_token'));
+		$xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url,email-address)");
+		return(simplexml_load_string($xml_response));
+	}
+	
+	function saveLinkedinToken($userId){
+		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+		$linkedin->request_token    =   unserialize($this->Session->read('requestToken'));
+        $linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
+        $linkedin->access_token     =   unserialize($this->Session->read('oauth_access_token'));
+        $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+        $saveUser['User']['linkedin_token'] = serialize($linkedin->access_token);
+        $this->User->save($saveUser);
+	}
+	
 //sendMessage($ids,$subject,$message)
     function sendMessagetoLinkedinUser(){
         $this->autoRender = false;

@@ -137,13 +137,6 @@ class UsersController extends AppController {
 		if($this->_getSession()->isLoggedIn()){
 			$this->loginSuccess();	
 		}
-	
-		//$facebook = $this->facebookObject();
-		//$this->set("FBLoginUrl",$facebook->getLoginUrl(array('scope' => 'email,read_stream')));
-		//$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
-		//$linkedin->getRequestToken();
-		//$this->Session->write('requestToken',serialize($linkedin->request_token));
-		//$this->set("LILoginUrl",$linkedin->generateAuthorizeUrl() );
 		$universities = $this->University->find('list');
 		$this->set("universities",$universities);
 
@@ -207,13 +200,13 @@ class UsersController extends AppController {
 				$this->data["Networker"]['user_id'] = $userId;
 				if($this->Networkers->save($this->data["Networker"],false) ){
 					
-					$iv1 = array('ic_code'=> null,'status'=>'1');
-					$iv2 = array('ic_code =' => $this->Session->read('icc'));
-						
-					if(! $this->Invitations->updateAll($iv1,$iv2)) {
+					if(! $this->Invitations->updateAll(
+								   array('invited_user_id'=>$userId),
+									array('ic_code =' => $this->Session->read('icc') )
+								)) {
 						$this->Session->setFlash('Internal Error!', 'error');
 						return;
-					}			
+					}
 					$this->Session->delete('icc');
 					$this->Utility->deleteInvitationCode();
 					$this->sendConfirmationEmail($userId);
@@ -307,7 +300,7 @@ class UsersController extends AppController {
 					return;
 				}
 				if(! $this->Invitations->updateAll(
-								   array('ic_code'=> null,'status'=>'1'),
+								   array('invited_user_id'=>$userId),
 									array('ic_code =' => $this->Session->read('icc') )
 								)) {
 					$this->Session->setFlash('Internal Error!', 'error');
@@ -543,6 +536,7 @@ class UsersController extends AppController {
 				$arosAcosData['_delete'] = 1;	
 				if($this->ArosAcos->save($arosAcosData)){
 					if($this->User->save($user['User'])){
+						$this->Utility->setIccCode($userId);	
 						$this->setUserAsLoggedIn($user['User']);
 					}
 				}
@@ -1191,16 +1185,21 @@ class UsersController extends AppController {
         $linkedin->request_token    =   unserialize($this->Session->read('requestToken'));
         $linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
         $linkedin->access_token     =   unserialize($this->Session->read('oauth_access_token'));
-    	$xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url)");
+    	$xml_response = $linkedin->getProfile("~:(id,first-name,last-name,headline,picture-url,email-address)");
     	$response=simplexml_load_string($xml_response);
     	$firstName = "first-name";
+    	$emailAddress = "email-address";
     	if( isset($response->id) ){
 			$userData = array();
-			do{
-				$userData['account_email'] =  $response->$firstName.rand(10,1000)."@linkedin.com";
-				$uniqeEmail = $this->User->field('id',array('account_email'=>$userData['account_email']));
-			}while($uniqeEmail!=null && !empty($uniqeEmail));
-					
+			if(isset($response->$emailAddress)){
+				$userData['account_email'] = $response->$emailAddress;
+				$this->User->field('id',array('account_email'=>$userData['account_email']));
+			}else{
+				do{
+					$userData['account_email'] =  $response->$firstName.rand(10,1000)."@linkedin.com";
+					$uniqeEmail = $this->User->field('id',array('account_email'=>$userData['account_email']));
+				}while($uniqeEmail!=null && !empty($uniqeEmail));
+			}		
 			$userData['linkedin_token'] = serialize($linkedin->access_token);
 			$userData['password'] = 'NULL';
 			if($this->params['userType'] ==3 ){

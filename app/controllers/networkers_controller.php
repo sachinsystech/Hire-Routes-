@@ -35,7 +35,7 @@ class NetworkersController extends AppController {
 		$this->Auth->allow("editContact");
 		$this->Auth->allow("invitations");
 		$this->Auth->allow('setting');
-	
+		
 	}
 	
 	public function beforeRender(){
@@ -526,7 +526,7 @@ class NetworkersController extends AppController {
 	} 
 	
 	private function getLevelInformation($userId=NULL){
-		$cond=array('User.parent_user_id'=>$userId);
+		$cond=array('User.parent_user_id'=>$userId,'User.is_Active'=>array(1));
 		$joins=array(
 					array(
 						'table'=>'networkers',
@@ -583,7 +583,7 @@ class NetworkersController extends AppController {
 														),
 
 												),					
-										'conditions'=>array('User.parent_user_id'=>$userId)));
+										'conditions'=>array('User.parent_user_id'=>$userId,'User.is_Active'=>array(1))));
 			if(count($userId)== 0 ){
 				break;
 			}
@@ -609,7 +609,7 @@ class NetworkersController extends AppController {
 														),
 
 													),
-													'conditions'=>array('User.id'=>$userId)));
+													'conditions'=>array('User.id'=>$userId ,'User.is_Active'=>array(1))));
 		if(isset($dataArray)){
 			foreach($dataArray as $key => $value){
 				if(isset($value['User']['id']))

@@ -79,7 +79,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			<div class="clr"></div>
 			<!-- member-info -->
 			<div class="member-info">
-				<h3>JAXON</h3>
+				<h3>JAXON REILLY</h3>
 				<span style="height:40px;">Recruiting Sage</span>
 				<ul>
 					<!--li class="member-twitter"> <a href="https://twitter.com/WorstAllDesign" class="NewTab">twitter</a> </li>
@@ -111,12 +111,12 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		</div>
 		<div class="team-member">
 			<div class="about-border" >
-				<a href="#"> <!--<img src="/images/Castlebuilders/238x239-steasvie.jpg" /--><!--<span class="link-mouseover">READ MORE</span> --></a> 
+				<a href="#"> <img src="/images/Castlebuilders/238*239-tinahui.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
 			<div class="member-info">
-				<h3>TINA</h3>
+				<h3>TINA HUI</h3>
 				<span>Recruiting Sage</span>
 				<ul>
 					<!--<li class="member-twitter"> <a href="https://twitter.com/WorstAllDesign" class="NewTab">twitter</a> </li>
