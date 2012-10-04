@@ -750,7 +750,7 @@ function facebookCommentInvitation(){
 		dataType: 'json',
 		data: 
 				"&user="+JSON.stringify(user)+
-				"&subject="+$("#ShareSubject").val()+
+				"&subject="+$("#dialog #ShareSubject").val()+
 				"&message="+$("#dialog #ShareMessage").val()+
 				"&invitationCode="+$('#invitationCode').val(),
 				

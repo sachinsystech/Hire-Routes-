@@ -722,6 +722,7 @@ function facebookComment(){
 		dataType: 'json',
 		data: "usersNames="+usersNames+
 				"&usersId="+usersId+
+				"&subject="+$("#ShareSubject").val()+
 				"&message="+$("#shareJobDialog #ShareMessage").val()+
 				"&jobId="+$("#shareJobDialog #ShareJobId").val()+
 				"&code="+$('#shareJobDialog #code').val(),

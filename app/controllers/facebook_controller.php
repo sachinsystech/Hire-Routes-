@@ -101,7 +101,7 @@
         $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $this->params['form']['usersId']);
         
-        $message = $this->params['form']['message'];
+        $message = $this->params['form']['subject']."\n".$this->params['form']['message'];
         $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
         $config_url = Configure::read('httpRootURL');
         if(!empty($userIds) && $message &&  $User){
