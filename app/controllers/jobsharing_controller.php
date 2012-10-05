@@ -35,12 +35,13 @@ class JobsharingController extends AppController {
 			foreach($tos As $to){        	
 				$icc = md5(uniqid(rand()));
 				$messageBody = $job;
+			
 				if($session->getUserRole()==JOBSEEKER){
-					$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+			   		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."/?icc=".$icc;
 					$jobUrl =$jobUrl."/?icc=".$icc;
 					$messageBody['ic_code'] = $icc;
 				}else{
-					$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode;//."&icc=".$icc;	
+               		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?intermediateCode=".$invitationCode;
 					$messageBody['code'] = $invitationCode;
 					//$jobUrl =$jobUrl."&icc=".$icc;	
 					//$messageBody['ic_code'] = $icc;

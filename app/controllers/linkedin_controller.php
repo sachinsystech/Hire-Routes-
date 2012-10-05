@@ -202,12 +202,13 @@
                     $linkedin->access_token =unserialize($user['User']['linkedin_token']);
                     $subject = "Hire Routes";
                     //echo $message;
-                    $icc = md5(uniqid(rand())); 
-                	if($session->getUserRole()==JOBSEEKER){
- 	               		$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+                    $icc = md5(uniqid(rand()));
+                    if($session->getUserRole()==JOBSEEKER){
+ 	               		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."/?icc=".$icc;
                 	}else{
-                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode;
-                	}
+                		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?intermediateCode=".$invitationCode;
+                	} 
+                
                 	$message =  $this->params['form']['subject']."\n".$message;
                     $xml_response = $linkedin->sendMessage($id,$subject,$message.$invitationUrl);
                     $xml_response = simplexml_load_string($xml_response);

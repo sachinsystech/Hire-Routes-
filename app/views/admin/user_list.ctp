@@ -273,12 +273,16 @@
 	   						</th>
 						</tr>
 	    		            <?php 
+		    		            $page=0;
+	    		            	if(isset($this->params['named']['page'])){
+	    		            		$page = $this->params['named']['page']-1;
+	    		            	}
 								if(count($userArray)>0){
 	    		            		foreach($userArray as $user):
 	    		                	$class = $sno%2?"odd":"even";
 	    			        ?>
 						<tr class="<?php echo $class; ?>" > 
-							<td style="padding:7px;text-align:center;" ><?php echo $sno++;?>
+							<td style="padding:7px;text-align:center;" ><?php echo $page*10+$sno++;?>
 							
 							</td>
 							<?php

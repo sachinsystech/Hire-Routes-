@@ -47,9 +47,10 @@ class TwitterController extends AppController {
             foreach($userIds as $useId){
                 try{
                 	if($session->getUserRole()==JOBSEEKER){
-						$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+                  		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?icc=".$icc;
 					}else{
-						$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode;
+                  		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?intermediateCode=".$invitationCode;
+
 					}
                     $result = $twitterObj->post_direct_messagesNew( array('user' => $useId, 'text' => $message.$invitationUrl));
                     $resp = $result->response;

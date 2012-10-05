@@ -109,24 +109,24 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			</div>
 			<!-- member-info --> 
 		</div>
+		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
-			<div class="about-border" >
-				<a href="#"> <img src="/images/Castlebuilders/238*239-tinahui.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+			<div class="about-border">
+				<a href="#"> <img src="/images/Castlebuilders/238*239-Scott.Paules.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
 			<div class="member-info">
-				<h3>TINA HUI</h3>
-				<span>Marketing Master</span>
+				<h3>SCOTT PAULES</h3>
+				<span>Recruiting Sage</span>
 				<ul>
-					<!--<li class="member-twitter"> <a href="https://twitter.com/WorstAllDesign" class="NewTab">twitter</a> </li>
-					<li class="member-facebook"> <a href="http://www.facebook.com/pages/Worstofall-Design/180256818692810" class="NewTab">facebook</a> </li>
-					<li class="member-linkedin"> <a href="http://www.linkedin.com/pub/pia-silva/3/272/86b" class="NewTab">linkedin</a> </li>-->
+					<li class="member-twitter"> <a href="https://twitter.com/RecruiterScott1" class="NewTab">twitter</a> </li>
+					<!--li class="member-facebook"> <a href="http://www.facebook.com/er.sachin.jat" class="NewTab">facebook</a> </li-->
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/in/scottpaules" class="NewTab">linkedin</a> </li>
 				</ul>
 			</div>
 			<!-- member-info --> 
 		</div>
-		<!-- Team member --> <!-- Team member -->
 		
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
@@ -183,6 +183,25 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 			</div>
 			<!-- member-info --> 
 		</div>
+		<!-- Team member --> <!-- Team member -->
+		<div class="team-member">
+			<div class="about-border" >
+				<a href="#"> <img src="/images/Castlebuilders/238*239-tinahui.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+			</div>
+			<div class="clr"></div>
+			<!-- member-info -->
+			<div class="member-info">
+				<h3>TINA HUI</h3>
+				<span>Marketing Master</span>
+				<ul>
+					<!--<li class="member-twitter"> <a href="https://twitter.com/WorstAllDesign" class="NewTab">twitter</a> </li>
+					<li class="member-facebook"> <a href="http://www.facebook.com/pages/Worstofall-Design/180256818692810" class="NewTab">facebook</a> </li>
+					<li class="member-linkedin"> <a href="http://www.linkedin.com/pub/pia-silva/3/272/86b" class="NewTab">linkedin</a> </li>-->
+				</ul>
+			</div>
+			<!-- member-info --> 
+		</div>
+		
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border" >
