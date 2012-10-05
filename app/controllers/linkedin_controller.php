@@ -80,6 +80,7 @@
         $linkedin->oauth_verifier   =   $this->params['url']['oauth_verifier'];
         $linkedin->getAccessToken($this->params['url']['oauth_verifier']);
         $this->Session->write('oauth_access_token',serialize($linkedin->access_token));
+        pr($this->params['url']['oauth_verifier']);exit;
             header("Location: " .LINKEDIN_CALLBACK_URL);
             exit;
         }
