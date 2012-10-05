@@ -111,9 +111,9 @@
                 try{
                 	$icc = md5(uniqid(rand())); 
                 	if($session->getUserRole()==JOBSEEKER){
- 	               		$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+ 	               		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."/?icc=".$icc;
                 	}else{
-                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode;
+                		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?intermediateCode=".$invitationCode;
                 	}
                 	
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array(

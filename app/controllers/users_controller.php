@@ -1191,14 +1191,14 @@ class UsersController extends AppController {
     	$emailAddress = "email-address";
     	if( isset($response->id) ){
 			$userData = array();
-			if(isset($response->$emailAddress)){
-				$userData['account_email'] = $response->$emailAddress;
+			$emailAddress = "email-address";
+            $userEmail = (String)$response->$emailAddress;
+			if(isset($userEmail)){
+				$userData['account_email'] = $userEmail;
 				$this->User->field('id',array('account_email'=>$userData['account_email']));
 			}else{
-				do{
-					$userData['account_email'] =  $response->$firstName.rand(10,1000)."@linkedin.com";
-					$uniqeEmail = $this->User->field('id',array('account_email'=>$userData['account_email']));
-				}while($uniqeEmail!=null && !empty($uniqeEmail));
+				$this->Session->setFlash('Some thing is going wrong .Please try again later.', 'error');	
+				$this->redirect("/login");
 			}		
 			$userData['linkedin_token'] = serialize($linkedin->access_token);
 			$userData['password'] = 'NULL';

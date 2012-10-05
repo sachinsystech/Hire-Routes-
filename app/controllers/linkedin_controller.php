@@ -80,7 +80,6 @@
         $linkedin->oauth_verifier   =   $this->params['url']['oauth_verifier'];
         $linkedin->getAccessToken($this->params['url']['oauth_verifier']);
         $this->Session->write('oauth_access_token',serialize($linkedin->access_token));
-        pr($this->params['url']['oauth_verifier']);exit;
             header("Location: " .LINKEDIN_CALLBACK_URL);
             exit;
         }
@@ -95,9 +94,10 @@
                    // echo $this->Session->read('oauth_access_token');exit;
 					$response= $this->linkedinUserProfile();
 					$emailAddress = "email-address";
+                    $userEmail = (String)$response->$emailAddress;
                     $liUser = $this->User->find('first',array('conditions'=>
                     										array('or'=>
-                    											array('User.account_email'=>$response->$emailAddress,
+                    											array('User.account_email'=>$userEmail,
                     												'User.linkedin_token'=>$this->Session->read('oauth_access_token')))));
 
                     if($liUser){
@@ -119,8 +119,9 @@
                     }
             	}else{
     				$response= $this->linkedinUserProfile();
-    				$emailAddress = "email-address";
-    				$liUser = $this->User->find('first',array('conditions'=>array('User.account_email'=>$response->$emailAddress)));
+					$emailAddress = "email-address";
+                    $userEmail = (String)$response->$emailAddress;
+    				$liUser = $this->User->find('first',array('conditions'=>array('User.account_email'=>$userEmail)));
             		if($liUser){
                      	$data = array('User' => array('account_email' => $liUser['User']['account_email'],
 										  'password' => $liUser['User']['password']
