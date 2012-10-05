@@ -20,8 +20,7 @@ class JobsharingController extends AppController {
 
 		if(isset($this->params['form']['toEmail'])){
 			$jobId=trim($this->params['form']['jobId']);
-			$to=trim($this->params['form']['toEmail']);
-			
+			$tos = explode(",", trim($this->params['form']['toEmail']));
 			$replyTo = null;
 			$from = ucfirst($session->getWelcomeName()) ." at Hire Routes";
 			$subject=$this->params['form']['subject'];
@@ -31,28 +30,42 @@ class JobsharingController extends AppController {
 			if(!$job || empty($job)){
 				return json_encode(array('error'=>1,'message'=>'Job not specified.'));
 			}
-			$messageBody = $job;
-			$messageBody['jobUrl'] = $jobUrl; 
-			$messageBody['userName'] = $session->getWelcomeName(); 
-			$messageBody['message'] = $this->params['form']['message'];
-			isset($this->params['form']['code'])?$messageBody['code'] = $this->params['form']['code']:"";			
-
-			if($this->sendEmail($to,$subject,$template,$messageBody)){
-				$shareJobData['job_id'] = $jobId;
-               	$shareJobData['user_id'] = $userId;
-               	$sharedJobExits=$this->SharedJob->find('first',array('conditions'=>array(
-    									'job_id'=>$jobId,	
-				    					'user_id'=>$userId,	
-				    					)
-						));	
-				
-				if(empty($sharedJobExits)){
-					$this->SharedJob->save($shareJobData);	
+			$traceId = -1*(time()%10000000);
+        	$invitationCode = $this->Utility->getCode($jobId,$userId);
+			foreach($tos As $to){        	
+				$icc = md5(uniqid(rand()));
+				$messageBody = $job;
+				if($session->getUserRole()==JOBSEEKER){
+					$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+					$jobUrl =$jobUrl."/?icc=".$icc;
+					$messageBody['ic_code'] = $icc;
+				}else{
+					$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode;//."&icc=".$icc;	
+					$messageBody['code'] = $invitationCode;
+					//$jobUrl =$jobUrl."&icc=".$icc;	
+					//$messageBody['ic_code'] = $icc;
 				}
-               	return json_encode(array('error'=>0));
-			}else{
-				return json_encode(array('error'=>2,'message'=>'Something went wrong. Please try after some time OR conntact to site admin.'));
+				$messageBody['jobUrl'] = $jobUrl; 
+				$messageBody['userName'] = $session->getWelcomeName(); 
+				$messageBody['message'] = $this->params['form']['message'].$invitationUrl;
+				//isset($this->params['form']['code'])?$messageBody['code'] = $this->params['form']['code']:"";			
+				if($this->sendEmail($to,$subject,$template,$messageBody)){
+					$shareJobData['job_id'] = $jobId;
+				   	$shareJobData['user_id'] = $userId;
+				   	$sharedJobExits=$this->SharedJob->find('first',array('conditions'=>array(
+											'job_id'=>$jobId,	
+											'user_id'=>$userId,	
+											)
+							));	
+			
+					if(empty($sharedJobExits)){
+						$this->SharedJob->save($shareJobData);	
+					}
+				}else{
+					return json_encode(array('error'=>2,'message'=>'Something went wrong. Please try after some time OR conntact to site admin.'));
+				}
 			}
+			return json_encode(array('error'=>0));	
 		}
 		else{
 			return json_encode(array('error'=>2,'message'=>'Email address not specified!'));
@@ -87,7 +100,7 @@ class JobsharingController extends AppController {
                 	$messageBody['code'] = $invitationCode;
                 } 
                 $messageBody['ic_code'] = $icc;
-                //$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;
+
                 $messageBody['message'] = $this->params['form']['message'];
                 $messageBody['invitationUrl'] = $invitationUrl;
                 $messageBody['userName'] = $session->getWelcomeName(); 

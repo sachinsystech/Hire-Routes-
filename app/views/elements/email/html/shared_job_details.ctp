@@ -5,6 +5,16 @@
 		$intermediateCode="";
 	}
 ?>
+<?php 
+	if(isset($message['ic_code'])&&!empty($message['ic_code']) && isset($message['code'])&&!empty($message['code'])){
+		$ic_code= "&icc=".$message['ic_code'];
+	}else if(isset($message['ic_code'])&&!empty($message['ic_code'])){
+		$ic_code= "?icc=".$message['ic_code'];
+		}else{
+			$ic_code="";
+	}
+	
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -69,10 +79,10 @@
             	<p style="font:15px Arial, Helvetica, sans-serif;">Share this post with your network</p>
                 <div style="width:207px; height:62px; margin:0 auto;"><img src="<?php echo $base_link;?>images/email_share_bttn.png" alt="" border="0" usemap="#Map2" />
                   <map name="Map2" id="Map2">
-                    <area shape="rect" coords="9,9,194,49" href="<?php echo $base_link.'jobs/shareJob/'.$message['Job']['id'].$intermediateCode;?>" />
+                    <area shape="rect" coords="9,9,194,49" href="<?php echo $base_link.'jobs/shareJob/'.$message['Job']['id'].$intermediateCode.$ic_code;?>" />
                   </map>
                 </div>
-                <a style="color:#2d9d97; text-decoration:underline; font:15px Arial,Helvetica,sans-serif;" href="<?php echo $base_link.'networkerInformation/'.$message['Job']['id'].$intermediateCode;?>">How it works</a>
+                <a style="color:#2d9d97; text-decoration:underline; font:15px Arial,Helvetica,sans-serif;" href="<?php echo $base_link.'networkerInformation/'.$message['Job']['id'].$intermediateCode.$ic_code;?>">How it works</a>
             </div>
             
             <div style="font:24px 'OpenSansCondensedBold'; text-align: center; width: 100px; float:left;margin-top: 22px;">OR</div>
@@ -81,10 +91,10 @@
             	<p style="font:15px Arial, Helvetica, sans-serif;">Apply for the job yourself</p>
                 <div style="width:207px; height:62px;   margin:0 auto;"><img src="<?php echo $base_link;?>images/email_apply_bttn.png" alt="" border="0" usemap="#Map3" />
                   <map name="Map3" id="Map3">
-                    <area shape="rect" coords="9,8,195,49" href="<?php echo $base_link.'jobs/applyJob/'.$message['Job']['id'].$intermediateCode;?>" />
+                    <area shape="rect" coords="9,8,195,49" href="<?php echo $base_link.'jobs/applyJob/'.$message['Job']['id'].$intermediateCode.$ic_code;?>" />
                   </map>
                 </div>
-                <a style="color:#50a64e; text-decoration:underline; font:15px Arial,Helvetica,sans-serif;" href="<?php echo $base_link.'jobseekerInformation/'.$message['Job']['id'].$intermediateCode;?>" >How it works</a>
+                <a style="color:#50a64e; text-decoration:underline; font:15px Arial,Helvetica,sans-serif;" href="<?php echo $base_link.'jobseekerInformation/'.$message['Job']['id'].$intermediateCode.$ic_code;?>" >How it works</a>
             </div>
             <div style="clear:both;"></div>
         </div>

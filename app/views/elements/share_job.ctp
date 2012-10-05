@@ -205,7 +205,7 @@ function toggleShareChecked(status) {
 							'type' => 'textarea',
 							'class'=> 'msg_txtarear',
 							'placeholder'=> 'Type message here ..',
-							'value'=>"I'd like to bring a job opportunity to your attention. - (".$jobUrl.")"
+							'value'=>"I'd like to bring a job opportunity to your attention. "
 						));?>
 					</div>
                     <div class="clr"></div>
@@ -775,6 +775,7 @@ function linkedInComment(){
 		dataType: 'json',
 		data: "usersNames="+usersNames+
 				"&usersId="+usersId+
+				"&subject="+$("#ShareSubject").val()+
 				"&message="+$("#ShareMessage").val()+
 				"&jobId="+$("#ShareJobId").val()+
 				"&code="+$('#code').val(),
@@ -832,7 +833,7 @@ function TwitterComment(){
 		type: 'POST',
 		url: '/twitter/sendMessageToTwitterFollwer',
 		dataType: 'json',
-		data: "usersId="+usersId+"&message="+$("#ShareMessage").val()+"&jobId="+$("#ShareJobId").val(),
+		data: "usersId="+usersId+"&subject="+$("#ShareSubject").val()+"&message="+$("#ShareMessage").val()+"&jobId="+$("#ShareJobId").val(),
 		success: function(response){
 			$('#shareJobDialog #submitLoaderImg').hide();
 			switch(response.error){

@@ -23,7 +23,7 @@ class LinkedIn {
     
     $this->consumer = new OAuthConsumer($consumer_key, $consumer_secret, $this->oauth_callback);
     $this->signature_method = new OAuthSignatureMethod_HMAC_SHA1();
-    $this->request_token_path = $this->secure_base_url . "/uas/oauth/requestToken?scope=r_emailaddress";
+    $this->request_token_path = $this->secure_base_url . "/uas/oauth/requestToken?scope=r_basicprofile+r_emailaddress+r_network+w_messages";
     $this->access_token_path = $this->secure_base_url . "/uas/oauth/accessToken";
     $this->authorize_path = $this->secure_base_url . "/uas/oauth/authorize";
     

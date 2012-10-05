@@ -100,6 +100,8 @@
         $userId = $session->getUserId();
         $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $this->params['form']['usersId']);
+        $traceId = -1*(time()%10000000);
+        $invitationCode = $this->Utility->getCode($jobId,$userId);
         
         $message = $this->params['form']['subject']."\n".$this->params['form']['message'];
         $User = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
@@ -107,8 +109,15 @@
         if(!empty($userIds) && $message &&  $User){
             foreach($userIds as $id){
                 try{
+                	$icc = md5(uniqid(rand())); 
+                	if($session->getUserRole()==JOBSEEKER){
+ 	               		$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+                	}else{
+                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode;
+                	}
+                	
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
-											'message'=>$message,
+											'message'=>$message.$invitationUrl,
 											'method'=>'send',
 											'picture'=>$config_url."/images/hire_route_logo.png",
 											'access_token' =>$User['User']['facebook_token'])

@@ -37,7 +37,9 @@
             $xml_response = $linkedin->getProfile("~/connections:(headline,first-name,last-name,picture-url,id)");
             $response=simplexml_load_string($xml_response);
             $users = array();
-            
+            if($response->status == '403') 
+               return json_encode(array('error'=>2));
+               
             if(count($response->person)){
                 $firstName = 'first-name';
                 $lastName = 'last-name';
@@ -187,7 +189,8 @@
         $message = $this->params['form']['message'];
         $jobId = $this->params['form']['jobId'];
         $linkedin = $this->getLinkedinObject();
-       
+       	$traceId = -1*(time()%10000000);
+        $invitationCode = $this->Utility->getCode($jobId,$userId);
         $user = $this->User->find('first',array('fields'=>'linkedin_token','conditions'=>array('id'=>$userId,'linkedin_token !='=>'NULL')));
 
 
@@ -197,7 +200,14 @@
                     $linkedin->access_token =unserialize($user['User']['linkedin_token']);
                     $subject = "Hire Routes";
                     //echo $message;
-                    $xml_response = $linkedin->sendMessage($id,$subject,$message);
+                    $icc = md5(uniqid(rand())); 
+                	if($session->getUserRole()==JOBSEEKER){
+ 	               		$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+                	}else{
+                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode;
+                	}
+                	$message =  $this->params['form']['subject']."\n".$message;
+                    $xml_response = $linkedin->sendMessage($id,$subject,$message.$invitationUrl);
                     $xml_response = simplexml_load_string($xml_response);
                     
                     if($xml_response){
@@ -261,7 +271,6 @@
                 	$message = $this->params['form']['subject']."\n".$this->params['form']['message']." Connect with us >>".$invitationUrl;
                 	$xml_response = $linkedin->sendMessage($fbuser->id,$subject,$message);
                     $xml_response = simplexml_load_string($xml_response);
-                    
                     if($xml_response){
                     	$errorMessage = $xml_response->message;
                     	$errorMessage = convert_uudecode(convert_uuencode($errorMessage));

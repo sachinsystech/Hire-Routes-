@@ -463,7 +463,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
                 if(isset($code)&&!empty($code))
                 	$jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/?intermediateCode='.$code;
                 else
-	                $jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'].'/';
+	                $jobUrl=Configure::read('httpRootURL').'jobs/jobDetail/'.$job['Job']['id'];//.'/';
 	  
                 $this->set('jobUrl',$jobUrl);
             }

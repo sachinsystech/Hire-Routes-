@@ -30,11 +30,12 @@ class TwitterController extends AppController {
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
-        
+        $traceId = -1*(time()%10000000);
+        $invitationCode = $this->Utility->getCode($traceId,$userId);
         $userIds = $this->params['form']['usersId'];
         $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $userIds);
-        $message = $this->params['form']['message'];
+	    $message = $this->params['form']['subject']."\n".$this->params['form']['message'];
         $user = $this->User->find('first',array('fields'=>array('twitter_token','twitter_token_secret'),'conditions'=>array('id'=>$userId,
 																								'twitter_token !='=>'',
 																								'twitter_token_secret !='=>'')));
@@ -45,7 +46,12 @@ class TwitterController extends AppController {
         if(!empty($userIds) && $message &&  $user){
             foreach($userIds as $useId){
                 try{
-                    $result = $twitterObj->post_direct_messagesNew( array('user' => $useId, 'text' => $message));
+                	if($session->getUserRole()==JOBSEEKER){
+						$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
+					}else{
+						$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode;
+					}
+                    $result = $twitterObj->post_direct_messagesNew( array('user' => $useId, 'text' => $message.$invitationUrl));
                     $resp = $result->response;
                     if(isset($resp['recipient'])){
                     	//save here job sharing details..
