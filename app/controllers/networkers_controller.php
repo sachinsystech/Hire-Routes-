@@ -49,7 +49,7 @@ class NetworkersController extends AppController {
 	function delete(){
 		$id = $this->params['id'];
 		$this->NetworkerSettings->delete($id);
-		$this->Session->setFlash('Your Subscription has been deleted successfuly.', 'success');				
+		$this->Session->setFlash('Your Subscription has been deleted successfully.', 'success');				
 		$this->redirect('/networkers/setting');
 	}
 		
@@ -116,7 +116,7 @@ class NetworkersController extends AppController {
 		$userId = $this->_getSession()->getUserId();
 		if(isset($this->data['Networkers'])){
 			if($this->Networkers->updateAll($this->data['Networkers'],array('user_id'=>$userId))){
-				$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');				
+				$this->Session->setFlash('Your Subscription has been added successfully.', 'success');				
 			}
 		}else{
 			$this->Session->setFlash('Internal error has been occured...', 'error');
@@ -134,7 +134,7 @@ class NetworkersController extends AppController {
 			$this->NetworkerSettings->set($this->data['NetworkerSettings']);
 			if($this->NetworkerSettings->validates()){
 				if($this->NetworkerSettings->save($this->data['NetworkerSettings'])){
-					$this->Session->setFlash('Your Subscription has been added successfuly.', 'success');
+					$this->Session->setFlash('Your Subscription has been added successfully.', 'success');
 				}else{
 					$this->Session->setFlash('Internal Error! try again.', 'error');
 				}
@@ -199,7 +199,7 @@ class NetworkersController extends AppController {
 			if($this->User->save($this->data['User'])){
 				if($this->Networkers->save($this->data['Networkers'])){
 					$session->start();
-					$this->Session->setFlash('Profile has been updated successfuly.', 'success');
+					$this->Session->setFlash('Profile has been updated successfully.', 'success');
 					$this->redirect('/networkers');
 				}	
 			}
@@ -747,7 +747,7 @@ where user_id =".$userId."");
 			}	
 		}
 		if($this->NetworkerContact->delete($ids)){
-			$this->Session->setFlash('contact(s) have been deleted successfuly.', 'success');				
+			$this->Session->setFlash('contact(s) have been deleted successfully.', 'success');				
 		}	
 		$this->redirect('/networkers/addContacts');
 	}

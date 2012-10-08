@@ -137,7 +137,7 @@ class JobseekersController extends AppController {
 			$this->User->save($this->data['User']);
 			if($this->Jobseekers->save($this->data['Jobseekers'])){
 				$session->start();
-				$this->Session->setFlash('Profile has been updated successfuly.', 'success');	
+				$this->Session->setFlash('Profile has been updated successfully.', 'success');	
 				if($this->_getSession()->getBeforeApplyUrl()){
 					$refrer = $this->_getSession()->getBeforeApplyUrl();
 					$this->_getSession()->setBeforeApplyUrl('');
@@ -653,7 +653,7 @@ class JobseekersController extends AppController {
 			}            
 			
 			if($this->JobseekerProfile->save($this->data['JobseekerProfile'])){
-				$this->Session->setFlash('Profile Infomation has been updated successfuly.', 'success');	
+				$this->Session->setFlash('Profile Infomation has been updated successfully.', 'success');	
 				$this->redirect('jobProfile');	
 			}			
 		}

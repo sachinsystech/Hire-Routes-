@@ -831,7 +831,7 @@ class AdminController extends AppController {
 		if(isset($this->params['id'])){
 			$this->paginate=array(
 				'limit'=>10,
-				'conditions'=>array('user_id'=>$this->params['id'], 'status'=>1,),
+				'conditions'=>array('user_id'=>$this->params['id'],),
 				'order'=>'created desc'
 			);
 			$invitations=$this->paginate('Invitation');

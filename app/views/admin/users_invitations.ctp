@@ -33,8 +33,12 @@
 				<div class="inviteCreated">
 					<?php echo $paginator->sort('Invited','created');?>
 				</div>
+				<div class="">
+					<?php echo $paginator->sort('Status','status');?>
+				</div>
 			</div>
 			<?php $count=1;?>
+			<?php $status = array("1"=>"Accepted","0"=>"Pending"); ?>
 			<?php  foreach($invitations as $key => $data){
 			?>
 			<div class="dataBar <?php if($count%2==0) echo 'even'; else echo 'odd'; ?>" >
@@ -46,6 +50,9 @@
 				</div>
 				<div class="inviteCreated ">
 					<?php echo $data['Invitation']['created']?>
+				</div>
+				<div class="" style="width: 102px;float: left;text-align: center;">
+					<?php echo $status[$data['Invitation']['status']] ;?>
 				</div>
 			</div>
 			<?php $count++;?>

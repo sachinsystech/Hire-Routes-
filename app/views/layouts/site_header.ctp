@@ -93,10 +93,12 @@ $class= "class='selected_menu'";
   
 	<div class="top">
 		<?php echo $this->Session->flash(); ?>
-		<div style="position: absolute; color: red; margin-left: 222px; font-size: 10px; font-weight: bold; margin-top: 144px;">
+		
+		<div class="Hire-Routes">
+			<div style="position: absolute; color: red; font-size: 10px; font-weight: bold; top: 104px;left:145px;">
 			Private Beta
+			</div>
 		</div>
-		<div class="Hire-Routes"> </div>
 		<div class="icons">
 			<ul>
 				<li> <a href="http://www.twitter.com/hireroutes" class="twit NewTab" title="Twitter"> </a> </li>

@@ -56,7 +56,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .signup a {text-decoration:none; color:#FFF;}
 #wrapper-middle{width:935px; margin:0 auto; height:auto;}
 .top {height:230px; width:935px; border-bottom:1px solid #D4CCC1;}
-.Hire-Routes { background:url(../images/header.png) -82px -12px no-repeat; width:478px; height:176px; float:left;margin: 8px 0 0 80px;}
+.Hire-Routes { background:url(../images/header.png) -82px -12px no-repeat; width:478px; height:176px; float:left;margin: 8px 0 0 80px; position: relative;}
 .icons {margin: 76px 15px 0 80px; padding:0; float:left; width:auto;}
 .icons ul { margin:0; padding:0;}
 .icons ul li{display:block; float:left; list-style:none;margin: 2px 50px 0 0;}
@@ -1170,7 +1170,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
     background: url("../images/pop_up_buttons.png") no-repeat scroll -226px -330px transparent;
 }
 
-.job-share-right {width:496; height:548px; float:left;}
+.job-share-right {width:496; height:548px; float:left;  width: 495px\0/;}
 .job-share-right h2 {padding:28px 0 0 0; height:37px;border-bottom: 1px solid #D6D2CC; width:414px;}
 .job-share-field {width:414px; height:auto;}
 .job-share-text {font:15px 'OpenSansCondensedBold'; padding-top:26px; float:left;}
@@ -1180,10 +1180,10 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-tb1 {width:343px; height:98px; float:right;margin-top: 8px;}
 .job-share-tb1 textarea {background:url(../images/sj-text-box.png) -2px -40px no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif !important; font-size: 13px !important; height: 93px; line-height: 20px; padding: 6px 0 0 11px; width: 332px;resize: none;overflow: auto;}
 .job-share-margin {padding-top:13px !important;}
-.job-share-ppl { width:414px; height:172px; margin-top:27px; overflow:auto;}
+.job-share-ppl { width:414px; height:172px; margin-top:27px; overflow:auto; position: relative;}
 .job-share-ppl ul {margin:0; padding:0;}
-.job-share-ppl ul li {float:left; margin:0 7px 7px 0; list-style:none;}
-.job-share-ppl ul li img { width:47px; height:50px;}
+.job-share-ppl ul li {float:left;  margin: 4px; list-style:none;width: 48px; height: 50px; position: relative;}
+.job-share-ppl ul li img { width:47px; height:50px;  display: block; position: absolute;}
 .pop-up-button {bottom:25px; left:176px; position: relative;*left:140px;}
 
 .js_invite { width:auto;float: left;font: 15px Arial,Helvetica,sans-serif;}

@@ -242,7 +242,7 @@
 					}
 				}else{
 					error.insertAfter(element)
-					error.css({'clear':'both','width':'auto'});
+					error.css({'clear':'both','width':'295px'});
 				}
 				
 			}

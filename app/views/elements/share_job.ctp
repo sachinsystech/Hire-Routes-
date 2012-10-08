@@ -16,7 +16,10 @@
 	margin-left:-15px;
 	margin-top:2px;
 	float:right;
-	position:relative;
+	position: absolute;
+	*right: 5px;
+	right: 0px;
+
 }
 
 .selectedFriends{

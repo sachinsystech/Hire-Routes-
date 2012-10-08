@@ -880,6 +880,7 @@ div.ez-radio {
 	height:25px !important;
 	padding:0 !important;
 	margin-left:8px;
+	margin-top:2px;
 }
 /************ Css for post and share button ******************************/
 .post_and_share_left_search_row {
@@ -939,4 +940,11 @@ div.ez-radio {
 }
 .contact_checkbox{
 	clear:both;
+}
+/************************** Changes for flash message ****************************/
+.flash-message{
+	left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 555;
 }

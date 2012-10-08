@@ -337,7 +337,7 @@
 	    			}else{
 					?>	
 					<tr class="odd">			
-					    <td colspan="8" align="center" style="line-height: 40px;">Sorry , No result found.</td>
+					    <td colspan="10" align="center" style="line-height: 40px;">Sorry , No result found.</td>
 					</tr>
 					<?php
 				    }

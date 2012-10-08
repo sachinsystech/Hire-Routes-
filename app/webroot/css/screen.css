@@ -892,6 +892,7 @@ div.message{
 
 
 
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -2704,7 +2705,7 @@ fieldset{
 }
 /**********************/
 .invitationData{
-	width:500px;
+	width:600px;
 	margin:auto;
 }
 .invitaionHeading{

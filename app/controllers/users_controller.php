@@ -1205,7 +1205,7 @@ class UsersController extends AppController {
 			}		
 			$userData['linkedin_token'] = serialize($linkedin->access_token);
 			$userData['password'] = 'NULL';
-			$userData['sinup_source'] = "Linked In";			
+			$userData['sinup_source'] = "nked In";			
 			if($this->params['userType'] ==3 ){
 				if(isset($this->data['Networkers']) && $this->data['Networkers']['university']!= null ){
 					$user['graduate_degree_id'] = $this->data['Networkers']['graduate_degree_id'];
