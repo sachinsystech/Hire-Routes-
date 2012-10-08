@@ -351,7 +351,7 @@ class AdminController extends AppController {
 	   						   						"AND"=>array($conditions),	
 	   						   					    'NOT'=>array('UserList.id'=>array(1,2),'UserRoles.role_id'=>5),	
 	   						   						),
-							   'fields' => array("UserList.account_email,UserList.id,
+							   'fields' => array("UserList.account_email,UserList.id,UserList.sinup_source,
 							   					UserList.created,UserList.last_login,
 							   					UserList.last_logout,UserList.fb_user_id,UserList.is_active,
 							   					UserRoles.*,$userFilter"),
@@ -390,6 +390,7 @@ class AdminController extends AppController {
 				}
 				$userArray[$key]['role_id'] = $role_id;
 				$userArray[$key]['role'] = $role;
+				$userArray[$key]['sinup_source'] = $value['UserList']['sinup_source'];
 				$userArray[$key]['account_email'] = $value['UserList']['account_email'];
 				$userArray[$key]['created'] = date("m/d/Y h:m:s", strtotime($value['UserList']['created']));
 				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
@@ -1063,6 +1064,16 @@ where user_id =".$networkersData[$key]['User']['id']."");
 		if(isset($this->params['named']['sort'])&&!empty($this->params['named']['sort'])){
 			$sortBy=$this->params['named']['sort'];
 		}
+		$employerCount = $this->Companies->find('count',array('joins'=>array(
+			array(
+					'table'=>'users',
+					'alias'=>'User',
+					'type'=>'inner',
+					'conditions'=>'Companies.user_id = User.id AND User.is_active = 1'
+				),
+			),
+			));
+		$this->set('employerCount',$employerCount);
 		$this->paginate=array(
 			'recursive'=>'-1',
 			'joins'=>array(
@@ -1300,7 +1311,24 @@ where user_id =".$networkersData[$key]['User']['id']."");
 	}
 	
 	function jobseeker(){
-	
+		$jobseekerCount = $this->User->find('count',array(
+			'conditions'=>'User.confirm_code=""',
+				'joins'=>array( 
+							array(
+								'table' => 'jobseekers',
+								'alias' => 'Jobseekers',
+								'type' => 'inner',
+								'conditions'=> 'Jobseekers.user_id = User.id', 
+							),
+							array(
+								'table' => 'users',
+								'alias' => 'Parent_User',
+								'type' => 'left',
+								'conditions'=> 'Parent_User.id = User.parent_user_id', 
+							),
+				),		
+		));
+		$this->set('jobseekerCount',$jobseekerCount);
 		$this->paginate = array(
 			'limit'=>10,
 			'recursive'=>-1,

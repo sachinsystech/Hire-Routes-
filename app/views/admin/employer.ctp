@@ -29,7 +29,7 @@ function login_status($l1,$l2){
 ?>
 
 
-<div id="page-heading"><h1>Employer data</h1></div>
+<div id="page-heading"><h1><?php echo $employerCount;?> Employer's</h1></div>
 <div class="dataBorder">
 	<?php if($this->Paginator->numbers()):?>
 		<div style="overflow: auto; margin: auto; width: 660px; padding: 5px;margin-top:15px;">

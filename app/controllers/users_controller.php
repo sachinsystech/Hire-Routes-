@@ -105,6 +105,7 @@ class UsersController extends AppController {
 				$this->render("company_recruiter_signup");
 				return;
 			}
+			$this->data['User']['sinup_source'] = "E-Mail";
 			if( $userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = COMPANY;
 				$this->saveUserRoles($userId,$userRoleId);				
@@ -189,7 +190,7 @@ class UsersController extends AppController {
 			    $this->set('tcErrors', "You must agree to the Terms and Conditions");
 				return;
 			}			
-	
+			$this->data['User']['sinup_source'] = "E-Mail";
 			if($userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = NETWORKER;
 				$this->saveUserRoles($userId,$userRoleId);
@@ -292,6 +293,7 @@ class UsersController extends AppController {
 				$this->render("jobseeker_signup");
 				return;
 			}
+			$this->data['User']['sinup_source'] = "E-Mail";
 			if($userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = JOBSEEKER;
 				if(!$this->saveUserRoles($userId,$userRoleId))
@@ -685,7 +687,8 @@ class UsersController extends AppController {
 		$userData['facebook_token'] = $facebook->getAccessToken();
 	
 		$userData['account_email'] = isset($fb_user_profile['email'])?$fb_user_profile['email']:$fb_user_profile['id']."_fbuser@dummy.mail";
-		$userData['password'] = 'NULL';			
+		$userData['password'] = 'NULL';
+		$userData['sinup_source'] = "Facebook";			
 		if($this->params['userType'] ==3 ){
 			if(isset($this->data['Networkers']) && $this->data['Networkers']['university']!= null ){
 				$user['graduate_degree_id'] = $this->data['Networkers']['graduate_degree_id'];
@@ -1202,6 +1205,7 @@ class UsersController extends AppController {
 			}		
 			$userData['linkedin_token'] = serialize($linkedin->access_token);
 			$userData['password'] = 'NULL';
+			$userData['sinup_source'] = "Linked In";			
 			if($this->params['userType'] ==3 ){
 				if(isset($this->data['Networkers']) && $this->data['Networkers']['university']!= null ){
 					$user['graduate_degree_id'] = $this->data['Networkers']['graduate_degree_id'];

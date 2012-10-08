@@ -154,6 +154,7 @@
 						    	<div><?php echo $this->Paginator->sort('E-Mail','UserList.account_email')?></div>
 						    </th>
    						    <th width="12%">Group</th>
+   						    <th width="12%">Signup</th>
    						    <th width="15%">Telephone</th>
    						    <th width="10%">Network</th>
 						    <th width="20%">
@@ -202,6 +203,7 @@
 									  'selected'=>isset($filter)?$filter:'All',));
 								?>
 						    </th>
+						    <th></th>
 						    <th width="15%">
 						    <?php
 								echo $form->input("",array("name"=>"contact_phone",
@@ -312,6 +314,7 @@
 								</a>	
 							</td>
 							<td style="text-align:center;"> <?php echo $user['role'];?> </td> 
+							<td style="text-align:center;"> <?php echo $user['sinup_source'];?> </td> 
 							<td style="text-align:center;"> <?php echo $user['contact_phone'];?> </td>
 							<td style="text-align:center;"> <?php echo $user['networkCount'];?> </td>
 							<td style="text-align:center;"> <?php echo $user['created'];?> </td>
