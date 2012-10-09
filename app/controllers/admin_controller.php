@@ -402,7 +402,7 @@ class AdminController extends AppController {
 							$userArray[$key]['sinup_source'] ="Linked In";
 							break;
 				}
-				$userArray[$key]['sinup_source'] = $value['UserList']['sinup_source'];
+				//$userArray[$key]['sinup_source'] = $value['UserList']['sinup_source'];
 				$userArray[$key]['account_email'] = $value['UserList']['account_email'];
 				$userArray[$key]['created'] = date("m/d/Y h:m:s", strtotime($value['UserList']['created']));
 				$userArray[$key]['is_active'] = $value['UserList']['is_active'];
