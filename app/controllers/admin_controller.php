@@ -391,6 +391,17 @@ class AdminController extends AppController {
 				}
 				$userArray[$key]['role_id'] = $role_id;
 				$userArray[$key]['role'] = $role;
+				switch($value['UserList']['sinup_source']){
+					case EMAIL:
+							$userArray[$key]['sinup_source'] ="E-Mail";
+							break;
+					case FACEBOOK:
+							$userArray[$key]['sinup_source'] ="Facebook";
+							break;
+					case LINKEDIN:
+							$userArray[$key]['sinup_source'] ="Linked In";
+							break;
+				}
 				$userArray[$key]['sinup_source'] = $value['UserList']['sinup_source'];
 				$userArray[$key]['account_email'] = $value['UserList']['account_email'];
 				$userArray[$key]['created'] = date("m/d/Y h:m:s", strtotime($value['UserList']['created']));
