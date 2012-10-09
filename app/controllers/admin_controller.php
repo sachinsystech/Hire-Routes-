@@ -859,6 +859,7 @@ class AdminController extends AppController {
 		if(empty($userId)){
 			$cond=array('OR'=>array(
 								'User.parent_user_id IS NULL',
+								'User.parent_user_id = 0',
 								'User.parent_user_id = Company.user_id'
 							),
 							'User.is_active'=>array(1,0),'User.confirm_code'=>"",
