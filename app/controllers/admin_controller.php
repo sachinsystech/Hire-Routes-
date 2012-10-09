@@ -1665,7 +1665,7 @@ where user_id =".$networkersData[$key]['User']['id']."");
 					   						   					    'NOT'=>array('UserList.id'=>array(1,2),'UserRoles.role_id'=>5),	
    						   						),
    						   						));
-		echo $pandingRequestCount; exit;
+		//echo $pandingRequestCount; exit;
 		$this->set("deactiveUsers",$deactiveUsers);
 	}
 }
