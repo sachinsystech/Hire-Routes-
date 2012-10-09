@@ -63,7 +63,22 @@ class UtilityComponent extends Object
 		}		
 		return $object_to_key_value_array;
 	}
-
+	
+	function validateIntermediateCode($intermediateCode){
+		if($intermediateCode){
+	        $str = base64_decode($intermediateCode);
+	        $newData = explode("^",$str);
+	        if(count($newData)==3){
+				$userIds = $newData[1];
+		        $oldCode = base64_encode($newData[0]."^".$userIds );
+		        $data = explode("^",$str);
+		        if($oldCode == $newData[2]){
+					return true;
+				}
+			}
+		}
+		return false;		
+	}			
     /** it will return job code for current user **/
     function getCode($passJobId,$userId){
     	$userRole=$this->Session->read('userRole');
@@ -71,27 +86,38 @@ class UtilityComponent extends Object
 	        $saveCode = $this->Session->read('intermediateCode');
     	    if($saveCode){
     	        $str = base64_decode($saveCode);
-    	        $code="";
-    	        $data = explode("^",$str);
-    	        $jobId = $data[0];
-    	        $ids = split(":",$data[1]);
-    	        if($jobId == $passJobId && $ids!=false && count($ids)>0){
-    	            if(in_array($userId,$ids)){
-    	                $code = $saveCode;                    
-    	            }else{
-		                $ids[] = $userId;
-		                $str = implode(":",$ids);
-    	                $str = $jobId."^".$str;
-		                $code = base64_encode($str);
-    	            }
-    	            return $code;
+    	        $newData = explode("^",$str);
+    	        if(count($newData)==3){
+					$userIds = $newData[1];
+			        $oldCode = base64_encode( $newData[0]."^".$userIds );
+			        $code="";
+			        $data = explode("^",$str);
+			        if($oldCode == $newData[2]){
+					    $jobId = $data[0];
+					    $ids = split(":",$data[1]);
+					    if($jobId == $passJobId && $ids!=false && count($ids)>0){
+					        if(in_array($userId,$ids)){
+					            $code = $saveCode;                    
+					        }else{
+						        $ids[] = $userId;
+						        $str = implode(":",$ids);
+					            $str = $jobId."^".$str;
+						        $code = base64_encode($str);
+					        }
+					        $newCode = $str."^".$code;
+					        $newCode = base64_encode($newCode);
+					        return $newCode;
+				    	}
+		        	}
             	}
         	}
         }
         if($userRole==JOBSEEKER){
         	return null;
         }
-        return base64_encode($passJobId."^".$userId);
+        $str = $passJobId."^".$userId;
+        $newCode=  base64_encode($str."^".base64_encode($str));
+        return $newCode;
     }
     /*** end ****/
     

@@ -1,5 +1,5 @@
 <?php echo $this->Session->flash();?>
-<div id="page-heading"><h1><?php //echo $jobseekerCount;?> Declined User's</h1></div>
+<div id="page-heading"><h1><?php //echo $jobseekerCount;?> Pending User's</h1></div>
 <?php 
      $sno = 1;
 ?>
@@ -87,7 +87,21 @@
 								<?php echo $userType[$deactiveUser['UserRoles']['role_id']];?>
 							</td>
 							<td>
-								<?php echo $deactiveUser['UserList']['sinup_source']?>
+								<?php 
+									switch($deactiveUser['UserList']['sinup_source']){
+										case EMAIL:
+												echo "E-Mail";
+												break;
+										case FACEBOOK:
+												echo "Facebook";
+												break;
+										case LINKEDIN:
+												echo "Linked In";
+												break;
+										default :
+												echo "";
+									}
+								?>
 							</td>
 							<td style="text-align:center;"> <?php echo 
 							date("m/d/Y h:m:s", strtotime($deactiveUser['UserList']['created']));?> </td>

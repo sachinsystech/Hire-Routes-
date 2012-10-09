@@ -101,7 +101,7 @@
 		    <table width ="100%" cellspacing='0' class="userTable">
 				
 			    <tr class="tableHeading">
-			    	<th>SN</th> 
+			    	<th>#</th> 
 				    <th>Invitation Url</th>
 				    <th>Action</th>
 			    </tr>

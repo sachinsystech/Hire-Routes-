@@ -1649,9 +1649,23 @@ where user_id =".$networkersData[$key]['User']['id']."");
 							   					UserList.created,UserList.is_active,UserRoles.role_id"),
 							   'order' => array('UserList.created' => 'desc'),
 							  );	
-
+		
 		$deactiveUsers = $this->paginate("UserList");
-		//pr($deactiveUsers); exit;
+		$pandingRequestCount = $this->UserList->find("count",array('joins'=>array(array("table"=>"users",
+											   						"alias"=>"ParentUser",
+											   						"join"=>"left",
+											   						"conditions"=>"UserList.parent_user_id = ParentUser.id"),
+											   				  array("table"=>"user_rules",
+											   						"alias"=>"ParentUserRules",
+											   						"join"=>"left",
+											   						"conditions"=>"UserList.parent_user_id = ParentUserRules.user_id"),
+													   				),
+										   						   'conditions' => array(
+					   						   						"AND"=>array("UserList.confirm_code !="=>""),	
+					   						   					    'NOT'=>array('UserList.id'=>array(1,2),'UserRoles.role_id'=>5),	
+   						   						),
+   						   						));
+		echo $pandingRequestCount; exit;
 		$this->set("deactiveUsers",$deactiveUsers);
 	}
 }

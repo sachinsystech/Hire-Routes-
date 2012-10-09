@@ -143,7 +143,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .industry-specification-1{height:150px;width:600px;}
 .industries-select{float:left;height:14px;}
 .jobseeker_settings_state select {margin-left:35px;}
-.jobseeker_settings_salary {margin-top:20px !important;}
+.jobseeker_settings_salary {margin-top:20px !important;padding-top:20px\0/;}
 .jobseeker_settings_salary input {margin-left:5px;}
 .jobseeker_settings_notification{margin-top:20px;}
 .jobseeker_settings_notification p{margin-bottom:10px;}
@@ -506,6 +506,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
     margin-top: 35px;
     padding: 0;
     width: 207px;
+	*margin-left: 0px;
 }
 
 .jobseeker_setting_button input{

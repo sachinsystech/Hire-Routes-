@@ -116,6 +116,7 @@
 					<li><a href="/admin/employer/"><b>Employer</b></a></li>
 					<li><a href="/admin/networkerData/"><b>Networker</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 					<li><a href="/admin/jobseeker/"><b>Jobseeker</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+					<li><a href="/admin/deactiveUsers/"><b>Pending Request</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
 				</ul>
 			</li>
 		</ul>

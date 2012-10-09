@@ -127,7 +127,7 @@
 		    <table width ="100%" cellspacing='0' class="userTable">
 				
 			    <tr class="tableHeading">
-			    	<th>SN</th> 
+			    	<th>#</th> 
 				    <th>User Type</th>
 				    <th>No of Sign-Ups</th>
 					<th>Remaining Sign-Ups</th>

@@ -59,7 +59,7 @@
 				<td align="center" ><?php echo $company["Companies"]["contact_phone"]; ?></td> 
 				<td ><?php echo $company["User"]["account_email"]; ?></td> 
 				<td align="center" ><?php echo $company["Companies"]["act_as"]; ?></td>
-				<td align="center" ><?php echo $company["User"]["created"]; ?></td>
+				<td align="center" ><?php echo date("m/d/Y h:m:s", strtotime($company["User"]["created"]));; ?></td>
 				<td>
 					<?php echo $html->link($html->image("active.jpg",array('alt'=>'Accept','url')), array('action' => 'processCompanyRequest',$company['Companies']['user_id'],"accept"),
 													 array('escape' => false, 

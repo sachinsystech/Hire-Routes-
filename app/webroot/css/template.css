@@ -55,7 +55,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .signup {color:#FFF;font-size:13px; font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif; float:right; width:74px; height:22px;margin: 7px 0 0; text-align:center;}
 .signup a {text-decoration:none; color:#FFF;}
 #wrapper-middle{width:935px; margin:0 auto; height:auto;}
-.top {height:230px; width:935px; border-bottom:1px solid #D4CCC1;}
+.top {height:230px; width:935px; border-bottom:1px solid #D4CCC1;position: relative;z-index: -1;}
 .Hire-Routes { background:url(../images/header.png) -82px -12px no-repeat; width:478px; height:176px; float:left;margin: 8px 0 0 80px; position: relative;}
 .icons {margin: 76px 15px 0 80px; padding:0; float:left; width:auto;}
 .icons ul { margin:0; padding:0;}
@@ -840,6 +840,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 /*:::::::::::::Jobs page - Jobs - Network Settings - Points - page css start :::::::*/
 
 
+
 .job-pts-right-top-left {float: right; height: auto; margin-right: 50px;}
 .job-pts-right-top-left ul {list-style:decimal inside;}
 .job-pts-right-top-left ul li {font:15px/35px Arial, Helvetica, sans-serif;}
@@ -1184,8 +1185,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-ppl ul {margin:0; padding:0;}
 .job-share-ppl ul li {float:left;  margin: 4px; list-style:none;width: 48px; height: 50px; position: relative;}
 .job-share-ppl ul li img { width:47px; height:50px;  display: block; position: absolute;}
-.pop-up-button {bottom:25px; left:176px; position: relative;*left:140px;}
-
+.pop-up-button {bottom:25px; left:176px; position: relative; left: 140px\0/;*left: 100px\0/;}
 .js_invite { width:auto;float: left;font: 15px Arial,Helvetica,sans-serif;}
 .js_invite_all{
 	float:left;
@@ -1198,15 +1198,15 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .js_clear_all { width:auto; float:left;}
 .js_clear_all a {text-decoration:underline; padding-left:20px;}
 .js_clear_all a input {cursor: pointer; height: 19px; opacity: 0; position: absolute; width: 57px; filter:alpha(opacity=0);}
+
 .js-check-box-popup {
-    float: right;
+    float: left;
     height: 24px;
     position: relative;
     right: -5px;
     top: -2px;
     width: 24px;
 }
-
 .js-check-box-popup input{
 	/*opacity: 0;*/
 }
