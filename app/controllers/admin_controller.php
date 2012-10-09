@@ -867,7 +867,7 @@ class AdminController extends AppController {
 						)
 					);
 		}else{
-			$cond=array('User.parent_user_id'=>$userId,'User.is_active'=>array(1),);
+			$cond=array('User.parent_user_id'=>$userId,'User.is_active'=>array(1,0),'User.confirm_code'=>"",);
 			$joins=array(
 						array(
 							'table'=>'networkers',
