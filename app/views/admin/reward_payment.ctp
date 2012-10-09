@@ -522,7 +522,7 @@ height:20px;float:right;'));?>
 								<?php echo ucfirst($paymentHistory['Job']['title']);?>
 							</td>
 							<td align="center" width="12%">
-								<?php echo date('m/d/Y',strtotime($paymentHistory['Job']['created']))."&nbsp;";?>
+								<?php echo date("m/d/Y h:m:s", strtotime($paymentHistory['Job']['created']))."&nbsp;";?>
 							</td>
 							<td align="right" width="10%" style="padding-right:5px;">
 								<?php
@@ -536,7 +536,7 @@ height:20px;float:right;'));?>
 										);?>
 							</td>
 							<td align="center" width="12%">
-								<?php echo date('m/d/Y',strtotime($paymentHistory['PaymentHistory']['paid_date']))."&nbsp;";?>
+								<?php echo date("m/d/Y h:m:s", strtotime( $paymentHistory['PaymentHistory']['paid_date']))."&nbsp;";?>
 							</td>
 							<td align="center" width="15%">
 								<?php echo $paymentHistory['PaymentHistory']['transaction_id'];?>

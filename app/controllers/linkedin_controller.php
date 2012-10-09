@@ -98,7 +98,8 @@
                     $liUser = $this->User->find('first',array('conditions'=>
                     										array('or'=>
                     											array('User.account_email'=>$userEmail,
-                    												'User.linkedin_token'=>$this->Session->read('oauth_access_token')))));
+                    												'User.linkedin_token'=>$this->Session->read('oauth_access_token')),
+                    											'User.is_active'=>array(1))));
 
                     if($liUser){
                      	$data = array('User' => array('account_email' => $liUser['User']['account_email'],

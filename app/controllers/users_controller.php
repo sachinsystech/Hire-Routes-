@@ -639,7 +639,7 @@ class UsersController extends AppController {
 		$fbUserProfile = $facebook->api('/me');
 		$FBUserId = $facebook->getUser();
 		if($FBUserId){
-			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$FBUserId)));
+			$FBUser = $this->User->find('first',array('conditions'=>array('User.fb_user_id'=>$FBUserId,'User.is_active'=>array(1))));
 			if(!$FBUser){
 				if($this->Session->check('intermediateCode') || ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null ) || $this->Session->check('icc') != null){
 					$fbUserMail = isset($fbUserProfile['email'])?$fbUserProfile['email']:'';// Retrieve mail from FB

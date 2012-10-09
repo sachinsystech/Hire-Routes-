@@ -76,7 +76,7 @@
 								</a>
 							</td>
 							<td style="text-align:center;"> <?php echo $jobseeker['Jobseekers']['contact_phone'];?> </td>
-							<td style="text-align:center;"> <?php echo $jobseeker['User']['created'];?> </td>
+							<td style="text-align:center;"> <?php echo date("m/d/Y h:m:s", strtotime( $jobseeker['User']['created']));?> </td>
 							<?php if($jobseeker['User']['is_active']==1):?>
 								<td style="text-align:center;">Yes</td>
 							<?php else:?>

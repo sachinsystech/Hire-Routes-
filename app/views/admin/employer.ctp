@@ -118,7 +118,7 @@ function login_status($l1,$l2){
 				&nbsp;
 			</div>
 			<div class="networkersData" style="width:100px;text-align:center">
-				<?php echo $employer['User']['created'];?>
+				<?php echo date("m/d/Y h:m:s", strtotime($employer['User']['created']));?>
 			</div>
 		</div>
 		<?php

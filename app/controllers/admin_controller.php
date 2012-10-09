@@ -44,6 +44,7 @@ class AdminController extends AppController {
 		$this->Auth->allow('usersInvitations');	
 		$this->Auth->allow('invitationCode');
 		$this->Auth->allow('invitationCodeDelete');
+		$this->Auth->allow("deactiveUsers");
 		$this->layout = "admin";
 	}
 	
@@ -847,7 +848,7 @@ class AdminController extends AppController {
 								'User.parent_user_id IS NULL',
 								'User.parent_user_id = Company.user_id'
 							),
-							'User.is_active'=>array(1),
+							'User.is_active'=>array(1,0),'User.confirm_code'=>"",
 						);
 			$joins=array(
 						array(
@@ -944,7 +945,7 @@ class AdminController extends AppController {
 				
 			),
 			'conditions'=>array(
-				'User.id'=>$userIds,'User.is_active'=>array(1),
+				'User.id'=>$userIds,'User.is_active'=>array(1,0),'User.confirm_code'=>"",
 			),
 			'group'=>'User.id',
 			'limit'=>10,
@@ -1025,7 +1026,7 @@ where user_id =".$networkersData[$key]['User']['id']."");
 					'User.parent_user_id IS NULL',
 					'User.parent_user_id = Company.user_id'
 				),
-				'User.is_active'=>array(1),
+				'User.is_active'=>array(1,0),'User.confirm_code'=>"",
 			);
 			$joins=array(
 				array(
@@ -1612,7 +1613,32 @@ where user_id =".$networkersData[$key]['User']['id']."");
 		}
 		$this->redirect("/admin/invitationCode");
 	}
+	
+	function deactiveUsers(){
+		$this->paginate =array('limit' =>10,
+							   'joins'=>array(array("table"=>"users",
+							   						"alias"=>"ParentUser",
+							   						"join"=>"left",
+							   						"conditions"=>"UserList.parent_user_id = ParentUser.id"),
+							   				  array("table"=>"user_rules",
+							   						"alias"=>"ParentUserRules",
+							   						"join"=>"left",
+							   						"conditions"=>"UserList.parent_user_id = ParentUserRules.user_id"),
+							   				),
+	   						   'conditions' => array(
+	   						   						"AND"=>array("UserList.confirm_code !="=>""),	
+	   						   					    'NOT'=>array('UserList.id'=>array(1,2),'UserRoles.role_id'=>5),	
+	   						   						),
+							   'fields' => array("UserList.account_email,UserList.id,UserList.sinup_source,
+							   					ParentUser.account_email,ParentUser.id,ParentUserRules.*,
+							   					UserList.created,UserList.is_active,UserRoles.role_id"),
+							   'order' => array('UserList.created' => 'desc'),
+							  );	
 
+		$deactiveUsers = $this->paginate("UserList");
+		//pr($deactiveUsers); exit;
+		$this->set("deactiveUsers",$deactiveUsers);
+	}
 }
 
 ?>

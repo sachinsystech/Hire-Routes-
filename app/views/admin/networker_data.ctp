@@ -115,7 +115,7 @@
 					?>
 				</div>
 				<div class="networkersData">
-						<?php echo $networkerInfo['User']['created'];?>
+					<?php echo date("m/d/Y h:m:s", strtotime($networkerInfo['User']['created']));?>
 				</div>
 			</div>
 			<?php $count++;?>
