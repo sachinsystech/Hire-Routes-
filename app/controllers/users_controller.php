@@ -105,7 +105,7 @@ class UsersController extends AppController {
 				$this->render("company_recruiter_signup");
 				return;
 			}
-			$this->data['User']['sinup_source'] = 0;
+			$this->data['User']['sinup_source'] = 1;
 			if( $userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = COMPANY;
 				$this->saveUserRoles($userId,$userRoleId);				
@@ -190,7 +190,7 @@ class UsersController extends AppController {
 			    $this->set('tcErrors', "You must agree to the Terms and Conditions");
 				return;
 			}			
-			$this->data['User']['sinup_source'] = 0;
+			$this->data['User']['sinup_source'] = 1;
 			if($userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = NETWORKER;
 				$this->saveUserRoles($userId,$userRoleId);
@@ -293,7 +293,7 @@ class UsersController extends AppController {
 				$this->render("jobseeker_signup");
 				return;
 			}
-			$this->data['User']['sinup_source'] = 0;
+			$this->data['User']['sinup_source'] = 1;
 			if($userId = $this->saveUser($this->data['User']) ){
 				$userRoleId = JOBSEEKER;
 				if(!$this->saveUserRoles($userId,$userRoleId))
