@@ -401,6 +401,8 @@ class AdminController extends AppController {
 					case LINKEDIN:
 							$userArray[$key]['sinup_source'] ="Linked In";
 							break;
+					default :
+							$userArray[$key]['sinup_source'] ="";
 				}
 				//$userArray[$key]['sinup_source'] = $value['UserList']['sinup_source'];
 				$userArray[$key]['account_email'] = $value['UserList']['account_email'];
