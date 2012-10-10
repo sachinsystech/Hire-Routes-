@@ -66,7 +66,7 @@
                 <p><span>Website:</span> <?php	echo $this->Html->link($job['comp']['company_url'],
                 											 	$job['comp']['company_url'],
                 											 	array('class'=>'NewTab')); ?></p>
-                <p><span>Published:</span> <?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name']." Aid on ".date('d/m/Y', strtotime($job['Job']['created']) ); ?>
+                <p><span>Published:</span> <?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name']." added on ".date('d/m/Y', strtotime($job['Job']['created']) ); ?>
                 <p><span>Salary:</span> 
                  <?php echo $this->Number->format(
 										$job['Job']['salary_from'],
