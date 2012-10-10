@@ -664,7 +664,7 @@ class UsersController extends AppController {
 						$this->redirect("/users/facebookUserSelection");
 					}
 				}else{
-					$this->Session->setFlash("Please make vreification from HR user to sign up with face book.","error");
+					$this->Session->setFlash("Please make verification from HR user to sign up with facebook.","error");
 					$this->redirect("/");
 				}
 					

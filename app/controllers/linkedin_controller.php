@@ -135,8 +135,8 @@
 				        $linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
 				        $linkedin->access_token     =   unserialize($this->Session->read('oauth_access_token'));
 				        $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
-				        $saveUser['User']['linkedin_token'] = serialize($linkedin->access_token);
-				        $this->User->save($saveUser);
+				        $liUser['User']['linkedin_token'] = serialize($linkedin->access_token);
+				        $this->User->save($liUser);
 			            if($this->Auth->login($data,false)){
 				            $this->_getSession()->start();
 			            }

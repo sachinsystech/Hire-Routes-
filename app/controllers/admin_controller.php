@@ -1060,7 +1060,7 @@ where user_id =".$networkersData[$key]['User']['id']."");
 				)
 			);
 		}else{
-			$cond=array('User.parent_user_id'=>$userIds);
+			$cond=array('User.parent_user_id'=>$userIds,'User.is_active'=>array(1,0),'User.confirm_code'=>"",);
 			$joins=array(
 				array(
 					'table'=>'networkers',
