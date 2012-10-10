@@ -1667,6 +1667,7 @@ where user_id =".$networkersData[$key]['User']['id']."");
    						   						));
 		//echo $pandingRequestCount; exit;
 		$this->set("deactiveUsers",$deactiveUsers);
+		$this->set("pandingRequestCount",$pandingRequestCount);
 	}
 }
 

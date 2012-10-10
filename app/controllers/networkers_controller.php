@@ -1273,7 +1273,7 @@ where user_id =".$userId."");
                            group by 
                                payment_history.id 
                        ) 
-       as new_table join rewards_status on new_table.id = payment_history_id group by user_id) as rewarded_users right join users as Users on Users.id = rewarded_users.user_id inner join networkers as Networker on Networker.user_id = Users.id WHERE NOT (Users.id IN (1, 2)) AND Users.is_active = 1 ORDER BY Networker.points desc , rewarded_users.reward desc, Users.id");
+       as new_table join rewards_status on new_table.id = payment_history_id group by user_id) as rewarded_users right join users as Users on Users.id = rewarded_users.user_id inner join networkers as Networker on Networker.user_id = Users.id WHERE NOT (Users.id IN (1, 2)) AND Users.is_active in (0,1) AND Users.confirm_code="" ORDER BY Networker.points desc , rewarded_users.reward desc, Users.id");
 			 
 		$networkerBonus =	$this->Networkers->find('first',array(
 			'fields'=>'sum(((PaymentHistory.amount*PaymentHistory.networker_reward_percent )/100)*PointLabels.bonus/100) as nr_bonus',

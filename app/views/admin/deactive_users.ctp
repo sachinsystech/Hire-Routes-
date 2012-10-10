@@ -1,5 +1,5 @@
 <?php echo $this->Session->flash();?>
-<div id="page-heading"><h1><?php //echo $jobseekerCount;?> Pending User's</h1></div>
+<div id="page-heading"><h1><?php echo $pandingRequestCount;?> Pending User's</h1></div>
 <?php 
      $sno = 1;
 ?>
