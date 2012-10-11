@@ -35,7 +35,7 @@
 						    </th>
 							<th width="24%">
 						    	<div>
-						    		<?php echo $this->Paginator->sort('Ancestor','Parent_User.account_email')?>
+						    		<?php echo $this->Paginator->sort('Ancestor','ParentUser.account_email')?>
 						    	</div>
 						    </th>
 						    <th width="10%">
