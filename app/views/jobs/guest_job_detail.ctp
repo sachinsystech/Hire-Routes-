@@ -37,7 +37,7 @@
 		<div class="job_left_bar job_detail_guest_left">
 			<h2>5 REASONS TO JOIN HIRE ROUTES</h2>
             <ul>
-            	<li>Networkers can help friends and others finds jobs and get paid for doing so!</li>
+            	<li>Networkers can help friends and others find jobs and get paid for doing so!</li>
                 <li>Employers can access new, select social networks to find talent!</li>
                 <li>Job Seekers can find jobs and get paid for getting hired!</li>
                 <li>Everyone can help the less fortunate.  A % of the reward goes to charity!</li>
@@ -66,7 +66,7 @@
                 <p><span>Website:</span> <?php	echo $this->Html->link($job['comp']['company_url'],
                 											 	$job['comp']['company_url'],
                 											 	array('class'=>'NewTab')); ?></p>
-                <p><span>Published:</span> <?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name']." added on ".date('d/m/Y', strtotime($job['Job']['created']) ); ?>
+                <p><span>Published:</span> <?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name']."</br> added on ".date('m/d/Y', strtotime($job['Job']['created']) ); ?>
                 <p><span>Salary:</span> 
                  <?php echo $this->Number->format(
 										$job['Job']['salary_from'],

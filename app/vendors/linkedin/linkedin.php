@@ -58,6 +58,9 @@ class LinkedIn {
     if($this->debug) { //if($debug){
       echo $response . "\n";
     }
+    if(!isset($response_params['oauth_token'])){
+    	return ;
+    }
     $this->access_token = new OAuthConsumer($response_params['oauth_token'], $response_params['oauth_token_secret'], 1);
   }
   

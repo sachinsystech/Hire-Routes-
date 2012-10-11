@@ -1,5 +1,3 @@
-
-<?php echo $this->Session->flash();?>
 <style>
 .js_terms-condition-error {
     color: #FF0000;

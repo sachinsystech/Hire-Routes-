@@ -409,7 +409,7 @@ function createHTMLforFillingShareFriends(friends){
 	}
 	//$("#other_share_job").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right' class='s_w_e'>Share with everyone<input style='float:right'type='checkbox' onclick='return checkAll(this); ' /></div><div id='shareJobImageDiv'>"+html+"</div>");
 	
-	$(".job-share-ppl").html("<ul>"+html+"<ul/><div class='no_friend_found'>No Result Found </div>");
+	$(".job-share-ppl").html("<ul>"+html+"<ul/><div class='no_friend_found'> No friends available at this time, Please try again later.</div>");
 }
 
 

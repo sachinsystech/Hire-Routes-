@@ -57,7 +57,7 @@
 		        												'class'=>'NewTab',
 		        												)
 		        											); ?></p>
-		        <p><span>Published:</span> <?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name']." added on ".date('d/m/Y', strtotime($job['Job']['created']) ); ?></p>
+		        <p><span>Published:</span> <?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name']."</br> added on ".date('m/d/Y', strtotime($job['Job']['created']) ); ?></p>
 		        <p><span>Salary:</span>  <?php echo $this->Number->format(
 										$job['Job']['salary_from'],
 										array(

@@ -35,11 +35,21 @@
            // $linkedin = new LinkedIn($config['linkedin_access'], $config['linkedin_secret'], $config['callback_url'] );
             $linkedin->access_token =unserialize($user['User']['linkedin_token']);
             $xml_response = $linkedin->getProfile("~/connections:(headline,first-name,last-name,picture-url,id)");
+            //print($xml_response);exit;
             $response=simplexml_load_string($xml_response);
             $users = array();
             if($response->status == '403') 
                return json_encode(array('error'=>2));
-               
+            
+            if($response->status == '401'){
+            
+				$linkedin->getRequestToken();
+		        if($linkedin->request_token){
+		        	$this->Session->write('requestToken',serialize($linkedin->request_token));
+		        	$this->Session->write('apiSource',$this->params['form']['source']);
+		        	echo json_encode(array('error'=>1,'message'=>'User not authenticate from linkedin.','URL'=>$linkedin->generateAuthorizeUrl()));return;
+            }
+            }
             if(count($response->person)){
                 $firstName = 'first-name';
                 $lastName = 'last-name';
@@ -79,6 +89,11 @@
         $linkedin->request_token    =   unserialize($this->Session->read("requestToken"));
         $linkedin->oauth_verifier   =   $this->params['url']['oauth_verifier'];
         $linkedin->getAccessToken($this->params['url']['oauth_verifier']);
+        if( !isset($linkedin->access_token) && $linkedin->access_token == null)
+        {
+	    	$this->Session->setFlash('Something is going wrong. Please try again later.', 'error');	
+		    $this->redirect("/login");
+        }
         $this->Session->write('oauth_access_token',serialize($linkedin->access_token));
             header("Location: " .LINKEDIN_CALLBACK_URL);
             exit;
@@ -90,13 +105,13 @@
             if(!$userId){
                 
                 // do signup stuff here
-            	if( !$this->Session->check('intermediateCode') && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null )){
+            	if(( $this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')== null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null ) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null )){
                    // echo $this->Session->read('oauth_access_token');exit;
 					$response= $this->linkedinUserProfile();
 					$emailAddress = "email-address";
                     $userEmail = (String)$response->$emailAddress;
                     $liUser = $this->User->find('first',array('conditions'=>
-                    										array('or'=>
+                    										array('AND'=>
                     											array('User.account_email'=>$userEmail,
                     												'User.linkedin_token'=>$this->Session->read('oauth_access_token')),
                     											'User.is_active'=>array(1))));
@@ -109,13 +124,13 @@
 				            'username' => 'account_email',
 				            'password' => 'password'
 			            );
-						$this->saveLinkedinToken($liUser['User']['id']);
+						//$this->saveLinkedinToken($liUser['User']['id']);
 			            if($this->Auth->login($data,false)){
 				            $this->_getSession()->start();
 			            }
                         $this->redirect("/users/loginSuccess");
                     }else{
-    				    $this->Session->setFlash(" Please first get verification from Hire Routes to sign up with linked-in..","error");
+    				    $this->Session->setFlash("You are not authorised user for Hire routes . Please contact to side administrator for better convenience","error");
 	               	 	$this->redirect("/login");        	
                     }
             	}else{
@@ -134,7 +149,7 @@
 						$linkedin->request_token    =   unserialize($this->Session->read('requestToken'));
 				        $linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
 				        $linkedin->access_token     =   unserialize($this->Session->read('oauth_access_token'));
-				        $saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
+				        //$saveUser = $this->User->find('first',array('conditions'=>array('id'=>$userId)));
 				        $liUser['User']['linkedin_token'] = serialize($linkedin->access_token);
 				        $this->User->save($liUser);
 			            if($this->Auth->login($data,false)){

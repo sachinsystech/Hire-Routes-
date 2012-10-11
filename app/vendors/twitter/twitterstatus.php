@@ -46,7 +46,7 @@ class TwitterStatus
 			
 		// default tweet template
 		$this->TweetTemplate = 
-			'<p style="width:260px">{text} <em><br><strong>-  tweeted at {created_at}</strong></em></p>';
+			'<p style="width:260px">{text} <em><br><strong>-  tweeted {created_at}</strong></em></p>';
 	
 	}
 	// ______________________________________________

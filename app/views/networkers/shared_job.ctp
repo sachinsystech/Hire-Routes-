@@ -99,7 +99,7 @@
 								?>
 						</p>
                         <p><?php echo $job_array[$job['Job']['job_type']];?></p>
-                        <p>Posted: <?php echo date("d/m/Y" ,strtotime($job['Job']['created']) ) ;?></p>
+                        <p>Posted: <?php echo date("m/d/Y" ,strtotime($job['Job']['created']) ) ;?></p>
                     </div>
                     <div class="job_right_section_right body1">
                         Reward: <span><?php echo $this->Number->format(

@@ -452,7 +452,7 @@ function createHTMLforFillingFriends(friends){
 	for(i=0;i<length;i++){
 		html += '<li> <img src="' + friends[i].url +'"  title="'+ friends[i].name + '" ><input class="friend_checkbox" value="'+friends[i].id+'" type="checkbox" title="'+friends[i].name+'" onclick="return selectFriend2(this);"></li>';
 	}
-	$(".job-share-ppl").html("<ul>"+html+"<ul/><div class='no_friend_found'>No Friend Found </div>");
+	$(".job-share-ppl").html("<ul>"+html+"<ul/><div class='no_friend_found'> No friends available at this time, Please try again later.</div>");
 	//$(".job-share-ppl").html("<ul>"+html+"<ul/>");
 }
 

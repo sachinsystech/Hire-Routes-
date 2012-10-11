@@ -664,7 +664,7 @@ class UsersController extends AppController {
 						$this->redirect("/users/facebookUserSelection");
 					}
 				}else{
-					$this->Session->setFlash("Please make verification from HR user to sign up with facebook.","error");
+					$this->Session->setFlash("You are not authorised user for Hire routes . Please contact to side administrator for better convenience.","error");
 					$this->redirect("/");
 				}
 					
@@ -1198,7 +1198,7 @@ class UsersController extends AppController {
             $userEmail = (String)$response->$emailAddress;
 			if(isset($userEmail)){
 				$userData['account_email'] = $userEmail;
-				$this->User->field('id',array('account_email'=>$userData['account_email']));
+				//$this->User->field('id',array('account_email'=>$userData['account_email']));
 			}else{
 				$this->Session->setFlash('Some thing is going wrong .Please try again later.', 'error');	
 				$this->redirect("/login");
@@ -1216,7 +1216,8 @@ class UsersController extends AppController {
 					$this->redirect("/users/linkedinUserSelection");
 				}
 			}
-			$liUser = $this->User->find('first',array('conditions'=>array('User.linkedin_token'=>$this->Session->read('oauth_access_token'))));
+			$liUser = $this->User->find('first',array('conditions'=>array('User.linkedin_token'=>$this->Session->read('oauth_access_token'),
+																		'User.account_email'=>$userEmail)));
 			if( $liUser== null && $userId = $this->saveUser($userData)){
 				$userRole = $this->params['userType']; // 2=>JOBSEEKER,3=>NETWORKER
 				$this->saveUserRoles($userId,$userRole);
@@ -1277,7 +1278,7 @@ class UsersController extends AppController {
 		}
  		$graduateDegrees = $this->GraduateDegree->find('list',array('fields'=>'id, degree'));	
 		$this->set("graduateDegrees",$graduateDegrees);
-		$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
+		/*$linkedin = $this->requestAction('/Linkedin/getLinkedinObject');
         $linkedin->request_token    =   unserialize($this->Session->read('requestToken'));
         $linkedin->oauth_verifier   =   $this->Session->read('oauth_verifier');
         $linkedin->access_token     =   unserialize($this->Session->read('oauth_access_token'));
@@ -1295,7 +1296,7 @@ class UsersController extends AppController {
 		}else{
 			$this->Session->setFlash('Some thing is going wrong .Please try again later.', 'error');	
 			$this->redirect("/login");
-		}
+		}*/
 	 }
 	 
 	 public function isLoggedIn(){
