@@ -115,6 +115,7 @@ class NetworkersController extends AppController {
 	function sendNotifyEmail(){
 		$userId = $this->_getSession()->getUserId();
 		if(isset($this->data['Networkers'])){
+			$this->data['Networkers']['notification']=1;
 			if($this->Networkers->updateAll($this->data['Networkers'],array('user_id'=>$userId))){
 				$this->Session->setFlash('Your Subscription has been added successfully.', 'success');				
 			}
@@ -143,6 +144,7 @@ class NetworkersController extends AppController {
 		$subscribeData['subscribe_email'] = $this->Networkers->field('subscribe_email',array('user_id'=>$userId));
 		if(isset($subscribeData['subscribe_email']) && $subscribeData['subscribe_email'] == null){
 			$subscribeData['subscribe_email']=3;
+			$subscribeData['notification']=1;
 			$this->Networkers->updateAll($subscribeData,array('user_id'=>$userId));
 		}
 		$networkerData = $this->NetworkerSettings->find('all',array('conditions'=>array('NetworkerSettings.user_id'=>$userId),
