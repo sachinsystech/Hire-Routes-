@@ -96,6 +96,7 @@ class JobseekersController extends AppController {
 		{
 			$this->data['JobseekerSettings']['jobseeker_id'] = $jobseekerId;
 			$this->data['JobseekerSettings']['user_id'] = $userId;
+			$this->data['JobseekerSettings']['notification'] =1; 
 			$this->data['JobseekerSettings']['specification_1'] = implode(',',!empty($this->data['JobseekerSettings']['industry_specification_1'])?$this->data['JobseekerSettings']['industry_specification_1']:array());
 			$this->data['JobseekerSettings']['specification_2'] = implode(',',!empty($this->data['JobseekerSettings']['industry_specification_2'])?$this->data['JobseekerSettings']['industry_specification_2']:array());
 			$this->JobseekerSettings->set($this->data['JobseekerSettings']);
