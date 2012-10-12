@@ -28,7 +28,7 @@ class NotificationsController extends AppController {
 	}
 	
 	function JobseekerEvery10Post(){		
-		echo "\n\t ******* Email Notification for Every 10 Post for Jobseekers start at :".date("Y-m-D H:i:s")." ***********\n";
+		echo "\n\t ******* Email Notification for Every 10 Post for Jobseekers start at :".date("m/d/yy H:i:s")." ***********\n";
 
 		$send_job = 10;
 		$subscription_cond = 10;
@@ -71,11 +71,11 @@ class NotificationsController extends AppController {
 			echo "\n\t\t\t\t  No Jobseeker found to send Notification Email \n";
 		}
 		
-		echo "\n\t ******* Email Notification for Every 10 Post for Jobseekers End at : ".date("Y-m-D H:i:s")." ***************\n\n\n";
+		echo "\n\t ******* Email Notification for Every 10 Post for Jobseekers End at : ".date("m/d/yy H:i:s")." ***************\n\n\n";
 	}
 	
 	function JobseekerEveryday(){
-		echo "\n\t ******* Everyday email notifications for jobseeker start at :".date("Y-m-D H:i:s")." ***********\n";
+		echo "\n\t ******* Every day email notifications for jobseeker start at :".date("m/d/yy H:i:s")." ***********\n";
 
 		$subscription_cond = 1;
 		$jobseeker_settings = $this->getJobseekerSettings($subscription_cond);	
@@ -109,11 +109,11 @@ class NotificationsController extends AppController {
 		}else{
 			echo "\n\t\t\t\t No Jobseeker found to send Notification Email ***********\n";
 		}
-		echo "\n\t ******* Everyday email notifications for jobseeker end at :".date("Y-m-D H:i:s")." ***********\n\n\n";		
+		echo "\n\t ******* Every day email notifications for jobseeker end at :".date("m/d/yy H:i:s")." ***********\n\n\n";		
 	}
 
 	function JobseekerEvery3day(){
-		echo "\n\t ******* Every 3 day email notifications for jobseeker start at :".date("Y-m-D H:i:s")." ***********\n";
+		echo "\n\t ******* Every 3 day email notifications for jobseeker start at :".date("m/d/yy H:i:s")." ***********\n";
 
 		$subscription_cond = 3;
 		$jobseeker_settings = $this->getJobseekerSettings($subscription_cond);
@@ -148,11 +148,11 @@ class NotificationsController extends AppController {
 			echo "\n\t\t\t\t No Jobseeker found to send Notification Email \n";
 		}
 		
-		echo "\n\t ******* Every 3 day email notifications for jobseekers end at :".date("Y-m-D H:i:s")." ***********\n\n\n";		
+		echo "\n\t ******* Every 3 day email notifications for jobseekers end at :".date("m/d/yy H:i:s")." ***********\n\n\n";		
 	}
 
 	function JobseekerEveryWeek(){		
-		echo "\n\t ******* Every week email notifications for jobseeker start at :".date("Y-m-D H:i:s")." ***********\n";
+		echo "\n\t ******* Every week email notifications for jobseeker start at :".date("m/d/yy H:i:s")." ***********\n";
 
 		$subscription_cond = 7;
 		$jobseeker_settings = $this->getJobseekerSettings($subscription_cond);
@@ -185,11 +185,11 @@ class NotificationsController extends AppController {
 		}else{
 			echo "\n\t\t\t\t No Jobseeker found to send Notification Email \n";
 		}		
-		echo "\n\t ******* Every week email notifications for jobseekers end at :".date("Y-m-D H:i:s")." ***********\n\n\n";
+		echo "\n\t ******* Every week email notifications for jobseekers end at :".date("m/d/yy H:i:s")." ***********\n\n\n";
 	}
 
 	function NetworkerEvery10Post(){
-		echo "\n\t ******* Every 10 Post email notifications for networkers start at :".date("Y-m-D H:i:s")." ***********\n";
+		echo "\n\t ******* Every 10 Post email notifications for networkers start at :".date("m/d/yy H:i:s")." ***********\n";
 
 		$send_job = 10;
 		$subscription_cond = 10;
@@ -226,12 +226,12 @@ class NotificationsController extends AppController {
 		}else{
 			echo "\n\t\t\t\t No networker found to send notification email \n";
 		}
-		echo "\n\t ******* Every 10 Post email notifications for networkers end at :".date("Y-m-D H:i:s")." ***********\n\n\n";
+		echo "\n\t ******* Every 10 Post email notifications for networkers end at :".date("m/d/yy H:i:s")." ***********\n\n\n";
 	}
 
 	function NetworkerEveryday(){
 
-		echo "\n\t ******* Everyday email notifications for networkers start at :".date("Y-m-D H:i:s")." ***********\n";
+		echo "\n\t ******* Every day email notifications for networkers start at :".date("m/d/yy H:i:s")." ***********\n";
 
 		$subscription_cond  = 1;		
 		$networker_settings = $this->getNetworkSettings($subscription_cond);
@@ -270,12 +270,12 @@ class NotificationsController extends AppController {
 		}else{
 			echo "\n\t\t\t\t No networker found to send notification email \n";
 		}
-		echo "\n\t******* Everyday email notifications for networkers end at :".date("Y-m-D H:i:s")." ***********\n\n\n";
+		echo "\n\t******* Everyday email notifications for networkers end at :".date("m/d/yy H:i:s")." ***********\n\n\n";
 	}
 
 	function NetworkerEvery3day(){
 
-		echo "\n\t ******* Everyday email notifications for networkers start at :".date("Y-m-D H:i:s")." ***********\n";
+		echo "\n\t ******* Every 3 day email notifications for networkers start at :".date("m/d/yy H:i:s")." ***********\n";
 
 		$subscription_cond  = 3;			
 		$networker_settings = $this->getNetworkSettings($subscription_cond);
@@ -314,12 +314,12 @@ class NotificationsController extends AppController {
 		}else{
 			echo "\n\t\t\t\t No networker found to send notification email \n";
 		}
-		echo "\n\t ******* Every week email notifications for networkers end at :".date("Y-m-D H:i:s")." ***********\n\n\n";
+		echo "\n\t ******* Every 3 day email notifications for networkers end at :".date("m/d/yy H:i:s")." ***********\n\n\n";
 	}
 
 	function NetworkerEveryWeek(){
 
-		echo "\n\t ******* Every week email notifications for networkers start at :".date("Y-m-D H:i:s")." ***********\n";
+		echo "\n\t ******* Every week email notifications for networkers start at :".date("m/d/yy H:i:s")." ***********\n";
 
 		$subscription_cond  = 7;		
 		$networker_settings = $this->getNetworkSettings($subscription_cond);
@@ -358,7 +358,7 @@ class NotificationsController extends AppController {
 		}else{
 			echo "\n\t\t\t\t No networker found to send notification email \n";
 		}
-		echo "\n\t ******* Every week email notifications for networkers end at :".date("Y-m-D H:i:s")." ***********\n\n\n";
+		echo "\n\t ******* Every week email notifications for networkers end at :".date("m/d/yy H:i:s")." ***********\n\n\n";
 	}
 
 	private function getNetworkSettings($subscription_cond){
