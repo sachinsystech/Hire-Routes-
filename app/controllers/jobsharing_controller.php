@@ -40,6 +40,15 @@ class JobsharingController extends AppController {
 			   		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."/?icc=".$icc;
 					$jobUrl =$jobUrl."/?icc=".$icc;
 					$messageBody['ic_code'] = $icc;
+					$inviteData = array();
+					$inviteData['name_email'] = $to;
+					$inviteData['user_id'] = $userId;
+					$inviteData['from'] = "E-Mail";
+					$inviteData['ic_code'] = $icc;
+					$inviteData['created'] = date('Y-m-d H:i:s');
+					$inviteData['status '] = 0;
+					$this->Invitation->create();
+					$this->Invitation->save($inviteData);
 				}else{
                		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?intermediateCode=".$invitationCode;
 					$messageBody['code'] = $invitationCode;

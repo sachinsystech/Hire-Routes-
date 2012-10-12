@@ -112,6 +112,15 @@
                 	$icc = md5(uniqid(rand())); 
                 	if($session->getUserRole()==JOBSEEKER){
  	               		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."/?icc=".$icc;
+ 	               		$inviteData = array();
+						$inviteData['name_email'] =  "";//$fbuser->name;
+						$inviteData['user_id'] = $userId;
+						$inviteData['from'] = "Facebook";
+						$inviteData['ic_code'] = $icc;
+						$inviteData['created'] = date('Y-m-d H:i:s');
+						$inviteData['status '] = 0;
+						$this->Invitation->create();
+						$this->Invitation->save($inviteData);
                 	}else{
                 		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?intermediateCode=".$invitationCode;
                 	}
