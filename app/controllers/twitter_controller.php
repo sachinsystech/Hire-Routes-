@@ -9,6 +9,7 @@ class TwitterController extends AppController {
     	$this->Auth->allow('getTwitterFriendList');
     	$this->Auth->allow('twitterWidget');
     	$this->Auth->allow('sendInvitation');
+		require_once(APP_DIR.'/vendors/twitter/twitteroauth/twitteroauth.php');
 	}
 	
 /**		*****	Twitter :: Handling	*****	**/
@@ -18,6 +19,7 @@ class TwitterController extends AppController {
 		require_once(APP_DIR.'/vendors/twitter/EpiOAuth.php'); 
 		require_once(APP_DIR.'/vendors/twitter/EpiTwitter.php'); 
 		require_once(APP_DIR.'/vendors/twitter/secret.php');
+		require_once(APP_DIR.'/vendors/twitter/twitteroauth/twitteroauth.php');
 		$twitterObj = new EpiTwitter(CONSUMER_KEY, CONSUMER_SECRET);
 		return $twitterObj;
 	}
@@ -229,11 +231,16 @@ class TwitterController extends AppController {
             //get token from table other wise send for login.
             if($user){
                 try{
-                    $twitterObj = $this->getTwitterObject();
+                    /*$twitterObj = $this->getTwitterObject();
 					$twitterObj->setToken($user['User']['twitter_token'],$user['User']['twitter_token_secret']);
 					$twitterInfo= $twitterObj->get_accountVerify_credentials();
 					$twitterInfo->response;
+					*/
+					$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $user['User']['twitter_token'], $user['User']['twitter_token_secret']);
 
+					/* If method is set change API call made. Test is called by default. */
+					$twitterInfo = $connection->get('account/verify_credentials');
+					//pr($twitterInfo); exit;
 					$username = $twitterInfo->screen_name;
 					$profilepic = $twitterInfo->profile_image_url;
 		
@@ -244,7 +251,8 @@ class TwitterController extends AppController {
 					$curlout = curl_exec($ch);
 					curl_close($ch);
 					$response = json_decode($curlout, true);			
-					$this->set('url',$twitterObj->getAuthorizationUrl());
+					$this->set('url',$connection->getAuthorizeURL($user['User']['twitter_token']));
+					//$this->set('url',$twitterObj->getAuthorizationUrl());
 					$this->set('username',$username);
 					$this->set('profilepic',$profilepic);
 					$users = array();
