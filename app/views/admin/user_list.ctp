@@ -197,7 +197,7 @@
 									  				   'company'=>'Company',
 									  				   'networker'=> 'Networker',
 									  				   'jobseeker' => 'Jobseeker'),
-									  'empty'=>'select',
+									  'empty'=>'Select',
 									  'style'=>"width:94px",
 									  'class'=>'job_select_shortby',
 									  'selected'=>isset($filter)?$filter:'All',));
@@ -258,7 +258,7 @@
 												  'options'=>array('activated'=>'Activated',
 												  				   'deactivated'=> 'Deactivated',
 												  				   ),
-												  'empty'=>'select',
+												  'empty'=>'Select',
 												  'style'=>"width:105px",
 												  'class'=>'job_select_shortby',
 												  'selected'=>isset($isActivated)?$isActivated:'All',));

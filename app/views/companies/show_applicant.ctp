@@ -236,8 +236,8 @@ function clear_div(val){
                     <div class="app_feild">
                         	<span>Work Experience</span>
                         	<div class="app_selectbox">
-                            	<?php $answer2_array = array('0 to 2 years'=>'0 to 2 years',
-											'2 to 5 years'=>'2 to 5 years',
+                            	<?php $answer2_array = array('0 to 2 Years'=>'0 to 2 Years',
+											'2 to 5 Years'=>'2 to 5 Years',
 											'5 to 10 Years'=>'5 to 10 Years',
 											'More than 10 Years'=>'More than 10 Years');
 									echo $form->input('answer2', array('label'   => '',

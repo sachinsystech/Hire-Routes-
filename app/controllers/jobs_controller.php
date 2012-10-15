@@ -76,6 +76,7 @@ class JobsController extends AppController {
         	unset($this->data['NarrowJob']);
         	if($this->Session->check('NarrowJob')){
         		$this->Session->delete('NarrowJob');
+        		$this->Session->delete("FilterJob");
         	}
 			
         }elseif((isset($this->params['form']['save']) && $this->params['form']['save'] =="SEARCH" ) || $this->Session->read("NarrowJob")){

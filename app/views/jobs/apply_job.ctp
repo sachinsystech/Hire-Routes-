@@ -34,8 +34,8 @@
         <div class="application_form_row">
         	<div class="application_form_text">Work Experience</div>
             <div class="application_form_field">
-					<?php $answer2_array = array('0 to 2 years'=>'0 to 2 years',
-											'2 to 5 years'=>'2 to 5 years',
+					<?php $answer2_array = array('0 to 2 Years'=>'0 to 2 Years',
+											'2 to 5 Years'=>'2 to 5 Years',
 											'5 to 10 Years'=>'5 to 10 Years',
 											'More than 10 Years'=>'More than 10 Years'); ?>
       				<?php echo $form->input('answer2', array('label' => false,

@@ -21,12 +21,21 @@ class AppController extends Controller {
 	function beforeFilter(){
 		if($this->params['controller']!='Jobs' && $this->params['action'] != "index"){
 			if($this->Session->check('NarrowJob') ){
-				$this->Session->delete('NarrowJob');
+				//$this->Session->delete('NarrowJob');
 			}
 				
 		}
-		if($this->Session->check('SearchJob') && strtoupper($this->params['action'])!='SEARCHJOB'){
+		if($this->params['controller']=='jobs' && $this->params['action'] == "index" && !isset($this->params['named']['page']) && !isset($this->params['data'] )){
+			//if($this->Session->check('NarrowJob') ){
+				$this->Session->delete('NarrowJob');
 				$this->Session->delete('SearchJob');
+				$this->Session->delete("FilterJob");
+			//}
+				
+		}
+		
+		if($this->Session->check('SearchJob') && strtoupper($this->params['action'])!='SEARCHJOB'){
+				//$this->Session->delete('SearchJob');
 		}
 		$session = $this->_getSession();
 		
