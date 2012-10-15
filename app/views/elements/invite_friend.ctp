@@ -401,7 +401,7 @@ function validateEmail(elementValue){
 	var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 	for(var i=0;i<mail.length;i++)
 	if(!emailPattern.test(mail[i])){
-		alert("Invalid Email addresses!");
+		alert("Either email is invalid or its not separated by comma.");
 		return false;
 	}
 	return true;
@@ -452,7 +452,7 @@ function createHTMLforFillingFriends(friends){
 	for(i=0;i<length;i++){
 		html += '<li> <img src="' + friends[i].url +'"  title="'+ friends[i].name + '" ><input class="friend_checkbox" value="'+friends[i].id+'" type="checkbox" title="'+friends[i].name+'" onclick="return selectFriend2(this);"></li>';
 	}
-	$(".job-share-ppl").html("<ul>"+html+"<ul/><div class='no_friend_found'> No friends available at this time, Please try again later.</div>");
+	$(".job-share-ppl").html("<ul>"+html+"<ul/><div class='no_friend_found'></div>");
 	//$(".job-share-ppl").html("<ul>"+html+"<ul/>");
 }
 
@@ -519,6 +519,7 @@ function fillFacebookFriend(){
 					filterFriendList();
 					if(jQuery.isEmptyObject(response.data)){
 						$(".no_friend_found").css("display","block");
+						$(".no_friend_found").text("No friends available at this time, Please try again later.")
 					}
 					break;
 				case 1: // we don't have user's facebook token
@@ -565,6 +566,7 @@ function fillLinkedinFriend(){
 					filterFriendList();
 					if(jQuery.isEmptyObject(response.data)){
 						$(".no_friend_found").css("display","block");
+						$(".no_friend_found").text("No friends available at this time, Please try again later.")
 					}
 					break;
 				case 1: // we don't have user's linked token
@@ -614,6 +616,7 @@ function fillTwitterFriend(){
 					if(jQuery.isEmptyObject(response.data)){
 						//$("#autocomplete").click();
 						$(".no_friend_found").css("display","block");
+						$(".no_friend_found").text("No friends available at this time, Please try again later.")
 					}
 					break;
 				case 1: // we don't have user's twitter token
@@ -724,6 +727,7 @@ function filterFriendList(){
 	
 	if(foundFrd === false)
 		$(".no_friend_found").css("display","block");
+		$(".no_friend_found").text(" Sorry, you don't have a friend whose name started with this letter or word.")
 
 	return false;
 }

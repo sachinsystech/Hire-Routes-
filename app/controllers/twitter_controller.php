@@ -237,10 +237,14 @@ class TwitterController extends AppController {
 					$twitterInfo->response;
 					*/
 					$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $user['User']['twitter_token'], $user['User']['twitter_token_secret']);
-
+					
 					/* If method is set change API call made. Test is called by default. */
 					$twitterInfo = $connection->get('account/verify_credentials');
-					//pr($twitterInfo); exit;
+
+					if(isset($twitterInfo->error) && $twitterInfo->error == "Could not authenticate with OAuth."){
+						$this->Session->write('apiSource',$this->params['form']['source']);
+               			return json_encode(array('error'=>1,'message'=>'User not authenticate from Twitter.','URL'=>$this->getTwitterObject()->getAuthorizationUrl()));
+					}
 					$username = $twitterInfo->screen_name;
 					$profilepic = $twitterInfo->profile_image_url;
 		

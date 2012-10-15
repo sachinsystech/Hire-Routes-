@@ -393,7 +393,8 @@ function validateEmail(elementValue){
 	var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 	for(var i=0;i<mail.length;i++)
 	if(!emailPattern.test(mail[i])){
-		alert("Invalid Email addresses.");
+		//alert("Invalid Email addresses.");
+		alert("Either email is invalid or its not separated by comma.");
 		return false;
 	}
 	return true;
@@ -486,6 +487,7 @@ function fillFacebookFriendShareJob(){
 					filterFriendListShareJob();
 					if(jQuery.isEmptyObject(response.data)){
 						$(".no_friend_found").css("display","block");
+						$(".no_friend_found").text("No friends available at this time, Please try again later.")
 					}
 					break;
 				case 1: // we don't have user's facebook token
@@ -536,6 +538,7 @@ function fillLinkedinFriendShareJob(){
 					$("#shareJobImageDiv").css({visibility: "hidden"});
 					if(jQuery.isEmptyObject(response.data)){
 						$(".no_friend_found").css("display","block");
+						$(".no_friend_found").text("No friends available at this time, Please try again later.")
 					}
 					break;
 				case 1: // we don't have user's linked token
@@ -587,6 +590,7 @@ function fillTwitterFriendShareJob(){
 				filterFriendListShareJob();
 				if(jQuery.isEmptyObject(response.data)){
 					$(".no_friend_found").css("display","block");
+					$(".no_friend_found").text("No friends available at this time, Please try again later.")
 				}
 				break;
 			case 1: // we don't have user's twitter token
@@ -699,6 +703,7 @@ function filterFriendListShareJob(){
 	
 	if(foundFrd === false)
 		$("#shareJobDialog .no_friend_found").css("display","block");
+		$("#shareJobDialog .no_friend_found").text(" Sorry, you don't have a friend whose name started with this letter or word.")
 	
 
 	return false;
