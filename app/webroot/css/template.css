@@ -1176,10 +1176,10 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-field {width:414px; height:auto;}
 .job-share-text {font:15px 'OpenSansCondensedBold'; padding-top:26px; float:left;}
 .job-share-tb, .job-share-tb-top { width:288px; height:28px; float:right;margin: 20px 55px 0 0;position: relative;}
-.job-share-tb input, .job-share-tb-top input {background:url(../images/text-box.png) 0 0 no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif !important; font-size: 13px !important; height: 28px; line-height: 28px; padding: 0 0 0 11px; width: 277px;}
+.job-share-tb input, .job-share-tb-top input {background:url(../images/text-box.png) 0 0 no-repeat; border: 0 none;color: #58524A; font-family: Arial,Helvetica,sans-serif !important; font-size: 13px !important; height: 28px; line-height: 28px; padding: 0 0 0 11px; width: 277px;}
 .job-share-tb-top {margin-top:8px !important;position: relative;}
 .job-share-tb1 {width:343px; height:98px; float:right;margin-top: 8px;}
-.job-share-tb1 textarea {background:url(../images/sj-text-box.png) -2px -40px no-repeat; border: 0 none;color: #847A6C; font-family: Arial,Helvetica,sans-serif !important; font-size: 13px !important; height: 93px; line-height: 20px; padding: 6px 0 0 11px; width: 332px;resize: none;overflow: auto;}
+.job-share-tb1 textarea {background:url(../images/sj-text-box.png) -2px -40px no-repeat; border: 0 none;color: #58524A; font-family: Arial,Helvetica,sans-serif !important; font-size: 13px !important; height: 93px; line-height: 20px; padding: 6px 0 0 11px; width: 332px;resize: none;overflow: auto;}
 .job-share-margin {padding-top:13px !important;}
 .job-share-ppl { width:414px; height:172px; margin-top:27px; overflow:auto; position: relative;}
 .job-share-ppl ul {margin:0; padding:0;}

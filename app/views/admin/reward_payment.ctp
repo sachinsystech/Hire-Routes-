@@ -448,6 +448,7 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 							echo $this->Form->input('from_date',array(
 								'label'=>'',
 								'type'=>'text',
+								'placeholder'=>'From Date',
 								'class'=>'date_field_employee',
 								'readonly'=>'true',
 								'style'=>'width:75px;',
@@ -465,6 +466,7 @@ function blockNonNumbers(obj, e, allowDecimal, allowNegative)
 							'label'=>'',
 							'type'=>'text',
 							'readonly'=>'true',
+							'placeholder'=>"To Date",
 							'class'=>'date_field_employee',
 							'style'=>'width:75px;',
 							'value'=>isset($to_date)?date("m/d/Y",strtotime($to_date)):"",

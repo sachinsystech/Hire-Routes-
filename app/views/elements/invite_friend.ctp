@@ -667,6 +667,7 @@ function emailInvitaion(){
 			$('#dialog  #submitLoaderImg').hide();
 			switch(response.error){
 				case 0:
+					$("#ShareSubject").val("");				
 					$( "#dialog-message .data" ).html(" E-mail sent successfully.");
 					$( "#dialog-message" ).dialog("open");
 					$('#InviteToEmail').val("");
@@ -764,6 +765,7 @@ function facebookCommentInvitation(){
 			switch(response.error){
 				case 0: // success
 					// show success message
+					$("#ShareSubject").val("");					
 					$( "#dialog-message .data" ).html("Your invitation has been sent successfully to facebook users.");
 					$( "#dialog-message" ).dialog("open");
 					fillFacebookFriend();
@@ -826,6 +828,7 @@ function linkedInCommentInvitation(){
 			$('#dialog  #submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
+					$("#ShareSubject").val("");				
 					$( "#dialog-message .data" ).html("Your invitation has been sent successfully to Linkedin users.");
 					$( "#dialog-message" ).dialog("open");
 					$('#dialog  #submitLoaderImg').html('');
@@ -889,6 +892,7 @@ function TwitterCommentInvitation(){
 			$('#dialog  #submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
+					$("#ShareSubject").val("");				
 					$( "#dialog-message .data" ).html("Your invitation has been sent successfully to Twitter follower.");
 					$( "#dialog-message" ).dialog("open");
 					$('#dialog  #submitLoaderImg').html('');

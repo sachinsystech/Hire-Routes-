@@ -643,6 +643,7 @@ function shareEmail(){
 			$('#shareJobDialog #submitLoaderImg').hide();
 			switch(response.error){
 				case 0:
+					$("#ShareSubject").val("");				
 					$( "#dialog-messageshare" ).html(" E-mail sent successfully.");
 					$( "#dialog-messageshare" ).dialog("open");
 					$('#shareJobDialog #ShareToEmail').val("");
@@ -739,6 +740,7 @@ function facebookComment(){
 			switch(response.error){
 				case 0: // success
 					// show success message
+					$("#ShareSubject").val("");
 					$( "#dialog-messageshare" ).html("Successfully sent a message to facebook users.");
 					$( "#dialog-messageshare" ).dialog("open");
 					fillFacebookFriendShareJob();
@@ -792,6 +794,7 @@ function linkedInComment(){
 			$('#submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
+					$("#ShareSubject").val("");
 					$( "#dialog-messageshare" ).html("Successfully sent a message to Linkedin users.");
 					$( "#dialog-messageshare" ).dialog("open");
 					fillLinkedinFriendShareJob();
@@ -846,6 +849,7 @@ function TwitterComment(){
 			$('#shareJobDialog #submitLoaderImg').hide();
 			switch(response.error){
 				case 0: // success
+					$("#ShareSubject").val("");
 					$( "#dialog-messageshare" ).html("Successfully sent a message to Twitter follower.");
 					$( "#dialog-messageshare" ).dialog("open");
 					$('#submitLoaderImg').html('');
