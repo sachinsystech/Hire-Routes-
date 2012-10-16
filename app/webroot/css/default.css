@@ -5,12 +5,12 @@
     clear: both;
     color: #FF0000;
     font-size: 14px;
-    margin: auto;
+    margin: 38px auto auto;
     padding: 5px;
     position: absolute;
     text-align: center;
-    width:inherit;
-    margin-top:38px;
+    width: inherit;
+    *width:935px;
 }
 #fdbk_tab{
 	display:none;

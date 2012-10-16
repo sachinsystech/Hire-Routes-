@@ -35,27 +35,51 @@ h2{font-size:20px; line-height: normal; text-transform: uppercase; color:#1d1d1d
 h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f2b;  font-family: 'OpenSansCondensedBold';}
 
 /*:::::Main-nav:::::::*/
-.nav{border:0px solid red; width:320px; float:left; padding-left:20px;}
+.nav {
+    border: 0 solid red;
+    float: left;
+    padding-left: 20px;
+    position: relative;
+    width: 320px;
+    z-index: 999;
+}
 .nav ul{ margin:5px 0 0; padding:0; height:29px}
 .nav ul li{display:block; float:left; *display:inline; list-style-type:none; line-height:22px;}
 .nav ul li a{color: #382F2B;font-size: 9pt;font-weight: bold;margin: 0 9px; text-decoration: none; text-transform: uppercase;}
 .nav ul li:first-child a{ margin-left:0}
 
 .nav ul li a:hover{ color:#50a947; text-decoration:underline}
-#services.nav { margin-left:93px; width: 331px;}
+
 #services.nav ul li:first-child a{ margin-left:9px}
 #services.nav li{background: url("../images/nav-icons.png") no-repeat scroll -16px 0 transparent; padding-left: 12px; height:25px; margin-right:10px;}
 #services.nav li.how-works {background-position:-16px -30px;}
 #services.nav li.news{background-position: -16px -60px}
-
-
-.login_signup{background:#382f2b; width:142px; height:34px;float:right;}
+#services.nav {
+    margin-left: 93px;
+    position: relative;
+    width: 331px;
+    z-index: 999;
+}
+.login_signup {
+    background: none repeat scroll 0 0 #382F2B;
+    float: right;
+    height: 34px;
+    position: relative;
+    width: 142px;
+    z-index: 999;
+}
 .login {color:#FFF; border-right:1px solid #FFF; width:66px; height:22px; font-size:13px; font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif; float:left;margin: 7px 0 0; text-align:center;}
 .login a {text-decoration:none; color:#FFF;}
 .signup {color:#FFF;font-size:13px; font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif; float:right; width:74px; height:22px;margin: 7px 0 0; text-align:center;}
 .signup a {text-decoration:none; color:#FFF;}
 #wrapper-middle{width:935px; margin:0 auto; height:auto;}
-.top {height:230px; width:935px; border-bottom:1px solid #D4CCC1;position: relative;z-index: -1;}
+
+.top {
+    border-bottom: 1px solid #D4CCC1;
+    height: 230px;
+    position: relative;
+    width: 935px;
+}
 .Hire-Routes { background:url(../images/header.png) -82px -12px no-repeat; width:478px; height:176px; float:left;margin: 8px 0 0 80px; position: relative;}
 .icons {margin: 76px 15px 0 80px; padding:0; float:left; width:auto;}
 .icons ul { margin:0; padding:0;}
