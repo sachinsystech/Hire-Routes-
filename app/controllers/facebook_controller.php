@@ -126,9 +126,10 @@
                 	}
                 	
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
-											'message'=>$message.$invitationUrl,
+											'message'=>'',//$message.$invitationUrl,
 											'method'=>'send',
-											'picture'=>$config_url."/images/hire_route_logo.png",
+											'link'=>"http://qa.hireroutes.com/facebook/facebook_post",
+											//'picture'=>$config_url."/images/hire_route_logo.png",
 											'access_token' =>$User['User']['facebook_token'])
 										);
 										
@@ -205,6 +206,9 @@
         	return json_encode(array('error'=>1));   
         }        
                 
+    }
+    function facebookPost(){
+    	$this->layout = false; 
     }
 
 
