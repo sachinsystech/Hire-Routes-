@@ -127,7 +127,7 @@
                 	}
                 	
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
-											'message'=>'',//$message.$invitationUrl,
+											'message'=>$message.$invitationUrl,
 											'method'=>'send',
 											'link'=>"http://qa.hireroutes.com/facebook/facebookPost",
 											//'picture'=>$config_url."/images/hire_route_logo.png",
