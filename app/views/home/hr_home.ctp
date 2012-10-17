@@ -7,12 +7,12 @@
 		</div>
 	</div>
 	<div class="right"> 
-		<a href="#"> <img src="/images/hire_route_logo.png" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+		<a href="#"> <img src="/images/hire_route_logo.png" /></a>
 	</div>
 	<!-- Team member --> <!-- Team member -->
 	<div class="team-member">
 		<div class="about-border">
-			<a href="#"> <img src="/images/hire_route_logo.png" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+			<a href="#"> <img src="/images/238*239-Scott.Paules.jpg" /></a>
 		</div>
 	</div>
 </div>
