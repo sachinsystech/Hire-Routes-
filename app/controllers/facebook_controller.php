@@ -11,6 +11,7 @@
     	$this->Auth->allow('commentAtFacebook');
     	$this->Auth->allow('facebookObject');
     	$this->Auth->allow('sendInvitation');
+    	$this->Auth->allow("facebookPost");
 	}
 	/******	Facebook Handling	******/
 	
