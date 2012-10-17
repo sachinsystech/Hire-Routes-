@@ -151,7 +151,7 @@
 	}
 </script>
 <!--------------Dialog box for how payout works ----------->
-<?php echo $this->element("sql_dump");?>
+
 <div style="display:none;" id = "about-dialog">
 	<?php echo $this->element("payout");?>
 </div>
