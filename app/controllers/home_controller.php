@@ -20,6 +20,7 @@ class HomeController extends AppController {
 		$this->Auth->allow('about');
 		$this->Auth->allow('termsOfUse');
 		$this->Auth->allow('privacyPolicy');
+		$this->Auth->allow("hrHome");
 	}
 
 	function index(){
@@ -75,6 +76,10 @@ class HomeController extends AppController {
 	 }
 
 	function privacyPolicy(){
+		$this->layout ="home";	
+	}
+	
+	function hrHome(){
 		$this->layout ="home";	
 	}
 }
