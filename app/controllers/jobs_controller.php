@@ -418,7 +418,7 @@ class JobsController extends AppController {
 																),
 												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,comp.company_name,city.city,state.state,Job.job_type,
 Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description,Job.requirements,Job.benefits,Job.keywords, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
-
+			pr($job);
 			if($job){
 	
 				if($this->userRole!=COMPANY){
