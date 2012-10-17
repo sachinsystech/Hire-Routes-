@@ -97,7 +97,7 @@
                            <?php }} ?>
                     <?php }else{ ?>
                     <div class="networkers-message">
-                    	No Networker Found.
+                    	No networker connected with your Network yet.
                     </div>
                     <?php } ?>
                     </div>

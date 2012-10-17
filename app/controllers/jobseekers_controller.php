@@ -80,7 +80,7 @@ class JobseekersController extends AppController {
 			$this->set('jobseeker',$jobseeker);
 		}
 		else{		
-			$this->Session->setFlash('Internal error has been occured...', 'error');	
+			$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');	
 			$this->redirect('/');								
 		}
 	}	
@@ -104,10 +104,11 @@ class JobseekersController extends AppController {
 				$this->Jobseekers->id =$jobseekerId;
 				if(isset($this->data['Jobseekers']['contact_name']) && $this->Jobseekers->saveField('contact_name', $this->data['Jobseekers']['contact_name'],true)){
 					$session->start();
-					$this->Session->setFlash('Your Setting has been saved successfully.', 'success');
 				}
+				$this->Session->setFlash('Your Subscription has been added successfully.', 'success');
+			}else{
+				$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 			}
-		
 		}
 		$jobseekerData = $this->Jobseekers->find('first',array('conditions'=>
 																	array('Jobseekers.user_id'=>$userId),
@@ -566,10 +567,10 @@ class JobseekersController extends AppController {
 				}
 			    $this->Session->setFlash('Job successfully deleted.', 'success'); 
 			}else
-                $this->Session->setFlash('May be you click on old link or manually enter URL.', 'error'); 
+                $this->Session->setFlash('This job no longer available, please choose another one.', 'error'); 
 			
         }else{
-        	$this->Session->setFlash('May be you click on old link or manually enter URL.', 'error'); 
+        	$this->Session->setFlash('This job no longer available, please choose another one.', 'error'); 
         }	
         $this->redirect('/jobseekers/appliedJob');	  
    }

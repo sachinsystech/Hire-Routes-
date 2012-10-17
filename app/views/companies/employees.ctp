@@ -226,7 +226,7 @@
 						<?php endforeach; ?>
 						<?php if(empty($employees)){ ?>
 						 <div class="list-head-i">
-								<div class='job-empty-message'>No Result Found.</div>
+								<div class='job-empty-message'>You have not selected any Employees yet</div>
 						 </div>
 						<?php } ?>
 						<?php echo $form->end();?>

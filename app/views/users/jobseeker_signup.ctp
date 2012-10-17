@@ -27,7 +27,22 @@
 
 <?php echo $form->create('User', array('action' => 'jobseekerSignup','onsubmit'=>'return checkform()')); ?>
 <div class="login_middle_main"> 
-	<div class="login_middle_left_box">
+	
+	<?php
+		if(($this->Session->read('intermediateCode')!='' || $this->Session->read('intermediateCode')!=null ) || ( $this->Session->read('icc')!='' || $this->Session->read('icc')!= null) || ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null)):?>
+    <div class="js_middle_right_box">
+        <ul>
+            <li><a class="job-share-fb" href="<?php echo $FBLoginUrl; ?>"></a></li>
+            <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
+        </ul>
+    </div>
+    <div class="login_middle_center_box nr_signup_or_txt_box"><strong>OR</strong></div>
+    <!--div class="js_middle_center_box"><strong>OR</strong></div-->	
+	<?php else:
+			echo "<style>.login_middle_main { width: 300px !important;}</style>" ;
+		endif;
+	?>
+	<div class="login_middle_left_box" style="margin-top:20px;">
 		<span style="position: absolute; color:#847A6C; margin-top: 13px; font-size: 13px;">* Required</span>
 		<div class="text-box">
 		<?php	echo $form->input('account_email', array('label' => false,
@@ -61,9 +76,11 @@
 		                          );
 		?>
 		</div>
-		<div class="text-box text-box-below">
 		<?php	
 			if(($this->Session->read('intermediateCode')=='' || $this->Session->read('intermediateCode')==null ) && ( $this->Session->read('icc')=='' || $this->Session->read('icc')== null) && ( $this->Session->read('invitationCode')=='' || $this->Session->read('invitationCode')== null)){
+		?>
+		<div class="text-box text-box-below">
+		<?php
 				echo $form->input('Code.code', array('label' => false,
 														'div' => false,
 		                                       			'placeholder' => 'Code*',
@@ -75,7 +92,8 @@
 			}
 		?>
 		
-		<?php if(isset($codeErrors)): ?><div class="error_input_message"><?php echo $codeErrors;?></div><?php endif; ?>
+		<?php if(isset($codeErrors)): ?><div class="error_input_message"><?php echo $codeErrors;?></div>
+		<?php endif; ?>
 		</div>
 	
 		<div class="check-button">
@@ -86,7 +104,7 @@
 																'div' =>false,
 														)
 		                          );
-		?>
+				?>
 			</div>
 			<div class="remember-me agree-with">Agree with <a href="/termsOfUse">Terms & Conditions</a></div>
 			<div id="agree_condition_error"  class="error_input_message">
@@ -99,22 +117,10 @@
 		</div>
 		<?php echo $form->end(); ?>
 
-		<div class="forgot-password networker-width"><a href="/jobseekerInformation">Don't know about Jobseekers?</a></div>
+		<div class="forgot-password networker-width">
+			<a href="/jobseekerInformation">Don't know about Jobseekers?</a>
+		</div>
 	</div>
-		<?php
-		if(($this->Session->read('intermediateCode')!='' || $this->Session->read('intermediateCode')!=null ) || ( $this->Session->read('icc')!='' || $this->Session->read('icc')!= null) || ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null)):?>
-    <div class="js_middle_center_box"><strong>OR</strong></div>
-    <div class="js_middle_right_box">
-        <ul>
-            <li><a class="job-share-fb" href="<?php echo $FBLoginUrl; ?>"></a></li>
-            <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
-        </ul>
-    </div>
-	
-	<?php else:
-			echo "<style>.login_middle_main { width: 300px !important;}</style>" ;
-		endif;
-	?>
 	<div class="clr"></div>
 </div>
 

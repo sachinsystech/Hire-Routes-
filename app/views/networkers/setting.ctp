@@ -159,6 +159,9 @@
 $(document).ready(function(){
 	$("#NetworkerSettingsForm").validate();
 	$("#accordion").accordion();
+	$("input[type=submit]").submit(function(){
+		$(this).attr("disabled", "true");
+	});
 	//fillSpecification(1,"NetworkerSettingsSpecification","specification_loader")
 }); 
 

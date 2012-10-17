@@ -203,10 +203,14 @@
 				 		//$('#GraduateUniversityBreakdownUniversity').parent("div").css({"float":"left","width":"460px"});
 			   		},
 					success: function( data ) {
-						if(data == null) return;	
+						if(data == null) return;
+						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+							$("#GraduateUniversityBreakdownUniversity").parent("div").next('label').remove();
+						}	
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
-								alert(item.name);
+								$("#GraduateUniversityBreakdownUniversity").parent("div").next('label').remove();
+								$("#GraduateUniversityBreakdownUniversity").parent("div").after('<label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
 								$("#GraduateUniversityBreakdownUniversity").autocomplete('search', 'other');
 							}else{
 							
@@ -221,6 +225,7 @@
 			},
 			select: function( event, ui ) {
 				$('#NetworkersUniversity').val(ui.item.key);
+				$("#GraduateUniversityBreakdownUniversity").parent("div").next('label').remove();
 				$( this ).removeClass( "ui-corner-all" );
 			},
 			open: function() {
@@ -254,9 +259,13 @@
 					
 					success: function( data ) {
 						if(data == null) return;
+						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+							$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label').remove();
+						}
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
-								alert(item.name);
+								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label').remove();
+								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").after('<label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
 								$("#GraduateUniversityBreakdownGraduateUniversity").autocomplete('search', 'other');
 							}else{
 								return {
@@ -270,6 +279,7 @@
 			},
 			select: function( event, ui ) {
 				$('#NetworkersGraduateUniversityId').val(ui.item.key);
+				$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label').remove();
 			},
 			open: function() {
 				$( this ).removeClass( "ui-corner-all" );

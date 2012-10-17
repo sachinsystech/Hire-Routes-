@@ -49,7 +49,7 @@
 									 );
 				?>
 				
-				<div class="job_feild"> <span>Title:</span>
+				<div class="job_feild"> <span>Job Title:</span>
 				<div class="job-share-tb-top job_feild_margin">
 					<?php	echo $form->input('title', array('label' => '',
 												'type'  => 'text',
@@ -63,13 +63,13 @@
 				</div>
 				</div>
 				
-				<div class="job_feild"> <span>Reward$:</span>
+				<div class="job_feild"> <span>Reward ($):</span>
 					<div class="job-share-tb-top job_feild_margin">
 						<?php	echo $form->input('reward', array('label' => '',
 												'type'  => 'text',
 												'class' => 'required number',
 												'min' =>1000,
-												'placeholder'=>'Rewards',
+												'placeholder'=>'Reward',
 												'value' => isset($job['reward'])?$job['reward']:"",
 												'div'=>false
 											)
@@ -78,7 +78,7 @@
 					</div>
 				</div>
 				
-				<div class="job_feild"> <span>Short Description:</span>
+				<div class="job_feild"> <span>Job Description:</span>
 						<div class="post_job_textbox">
 							   <?php echo $form->input('short_description', array('label' => '',
 														'type'  => 'textarea',
@@ -154,7 +154,7 @@
 						</div>
 				</div>
 				 <div class="clr"></div>
-				<div class="job_feild"> <span class="annual_sal_lh">Minimum Salary ($):</span>
+				<div class="job_feild"> <span class="annual_sal_lh">Salary Range ($):</span>
 					<div class="annual_field"> <span>From</span> 
 							<div class="from_date textbox-date">
 								<?php	echo $form->input('salary_from', array('label' => '',
@@ -208,12 +208,12 @@
 						<div class="clr"></div>
 				</div>
 				 <div class="clr"></div>
-				<div class="job_feild"> <span>Description:</span>
+				<div class="job_feild"> <span>Responsibilities:</span>
 						<div class="post_job_textbox">
 							   <?php echo $form->input('description', array('label' => '',
 												'type'  => 'textarea',
 												'class' => 'required',
-												'placeholder'=>'Description',
+												'placeholder'=>'Responsibilities',
 												'div'=>false,
 												'value' => isset($job['description'])?unhtmlspecialchars($job['description']):""
 											)
@@ -222,6 +222,48 @@
 						</div>
 						<div class="clr"></div>
 				</div>
+				<div class="clr"></div>
+                    <div class="job_feild" style="margin-top:5px;"> <span>Requirements:</span>
+                        <div class="job-share-tb-top job_feild_margin">
+							<?php	echo $form->input('requirements', array('label' => '',
+													'type'  => 'text',
+													'class' => 'required',
+													'placeholder'=>'Requirements',
+													'div'=>false,
+													'value' => isset($job['benefits'])?unhtmlspecialchars($job['benefits']):""
+												)
+									      );
+						     ?>					
+                        </div>
+                    </div>
+                    <div class="clr"></div>
+                    <div class="job_feild"> <span>Benefits:</span>
+                        <div class="job-share-tb-top job_feild_margin">
+							<?php	echo $form->input('benefits', array('label' => '',
+													'type'  => 'text',
+													//'class' => 'required number',
+													'placeholder'=>'Benefits',
+													'value' => isset($job['benefits'])?unhtmlspecialchars($job['benefits']):"",
+													'div'=>false
+												)
+									      );
+						     ?>					
+                        </div>
+                    </div>
+                    <div class="clr"></div>
+                    <div class="job_feild"> <span>Keywords:</span>
+                        <div class="job-share-tb-top job_feild_margin">
+							<?php	echo $form->input('keywords', array('label' => '',
+													'type'  => 'text',
+													//'class' => 'required number',
+													'placeholder'=>'Keywords',
+													'value' => isset($job['keywords'])?unhtmlspecialchars($job['keywords']):"",
+													'div'=>false
+												)
+									      );
+						     ?>					
+                        </div>
+                    </div>
 				<div class="post_job_button">
 					<div class="network_register_bttn post_job_left">
 						<?php echo $form->submit('SAVE',array(

@@ -90,7 +90,7 @@
 				</div>
 			
 			<?php if(empty($jobs)){ ?>
-				<div class="job-empty-message">There is no job found for this search.</div>
+				<div class="job-empty-message">There is no archived by you.</div>
 			<?php } ?>
 			
 			 <?php foreach($jobs as $job):?>

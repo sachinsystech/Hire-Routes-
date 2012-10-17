@@ -15,12 +15,12 @@
             	<div class="new_job">
             		<h2>POST NEW JOB</h2>
 					<?php echo $this->Form->create('Job', array('url' => array('controller' => 'companies', 'action' => 'postJob') )); ?>
-                	<div class="job_feild"> <span>Title:</span>
+                	<div class="job_feild"> <span>Job Title:</span>
                     <div class="job-share-tb-top job_feild_margin">
 						<?php	echo $form->input('title', array('label' => '',
 													'type'  => 'text',
 													'class' => 'required',
-													'placeholder'=>'Title',
+													'placeholder'=>'Job Title',
 													'div'=>false
 													)
 								 );
@@ -28,13 +28,13 @@
 					</div>
                     </div>
                     <div class="clr"></div>
-                    <div class="job_feild"> <span>Reward$:</span>
+                    <div class="job_feild"> <span>Reward ($):</span>
                         <div class="job-share-tb-top job_feild_margin">
 							<?php	echo $form->input('reward', array('label' => '',
 													'type'  => 'text',
 													'class' => 'required number',
 													'min' =>1000,
-													'placeholder'=>'Rewards',
+													'placeholder'=>'Reward',
 													'div'=>false
 												)
 									      );
@@ -42,12 +42,12 @@
                         </div>
                     </div>
                     <div class="clr"></div>
-                    <div class="job_feild"> <span>Short Description:</span>
+                    <div class="job_feild"> <span>Job Description:</span>
                             <div class="post_job_textbox">
 								   <?php echo $form->input('short_description', array('label' => '',
 															'type'  => 'textarea',
 															'class' => 'required',
-															'placeholder'=>'Short Description',
+															'placeholder'=>'Job Description',
 												            'div'=>false
 														)
 											    );
@@ -113,7 +113,7 @@
                             </div>
                     </div>
                      <div class="clr"></div>
-                    <div class="job_feild job_salary"> <span class="annual_sal_lh">Minimum Salary ($):</span>
+                    <div class="job_feild job_salary"> <span class="annual_sal_lh">Salary Range ($):</span>
                       	<div class="annual_field"> <span>From</span> 
                         		<div class="from_date textbox-date">
                                 	<?php	echo $form->input('salary_from', array('label' => '',
@@ -163,7 +163,8 @@
                             </div>
                             <div class="clr"></div>
                     </div>
-                    <div class="job_feild"> <span>Description:</span>
+                    <div class="clr"></div>
+                    <div class="job_feild"> <span>Responsibilities:</span>
                             <div class="post_job_textbox">
                                    <?php echo $form->input('description', array('label' => '',
 													'type'  => 'textarea',
@@ -175,6 +176,45 @@
                                    ?>
                             </div>
                             <div class="clr"></div>
+                    </div>
+                    <div class="clr"></div>
+                    <div class="job_feild" style="margin-top:5px;"> <span>Requirements:</span>
+                        <div class="job-share-tb-top job_feild_margin">
+							<?php	echo $form->input('requirements', array('label' => '',
+													'type'  => 'text',
+													'class' => 'required',
+													'placeholder'=>'Requirements',
+													'div'=>false
+												)
+									      );
+						     ?>					
+                        </div>
+                    </div>
+                    <div class="clr"></div>
+                    <div class="job_feild"> <span>Benefits:</span>
+                        <div class="job-share-tb-top job_feild_margin">
+							<?php	echo $form->input('benefits', array('label' => '',
+													'type'  => 'text',
+													//'class' => 'required number',
+													'placeholder'=>'Benefits',
+													'div'=>false
+												)
+									      );
+						     ?>					
+                        </div>
+                    </div>
+                    <div class="clr"></div>
+                    <div class="job_feild"> <span>Keywords:</span>
+                        <div class="job-share-tb-top job_feild_margin">
+							<?php	echo $form->input('keywords', array('label' => '',
+													'type'  => 'text',
+													//'class' => 'required number',
+													'placeholder'=>'Keywords',
+													'div'=>false
+												)
+									      );
+						     ?>					
+                        </div>
                     </div>
                     <div class="post_job_button">
                         <div class="network_register_bttn post_job_left">

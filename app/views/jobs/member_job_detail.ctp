@@ -78,7 +78,16 @@
 											?>
 											<?php echo $job['state']['state']; ?></p>
 		        <p><span>Type:</span> <?php echo $job_array[$job['Job']['job_type']]; ?></p>
-		        <br />
+                 <?php if(isset($job['Job']['requirements']) && $job['Job']['requirements'] != ""){ ?>
+					<p><span>Requirements:</span> <?php echo $job['Job']['requirements']; ?></p>				
+				<?php }?>
+				<?php if(isset($job['Job']['benefits']) && $job['Job']['benefits']!= ""){ ?>
+					<p><span>Benefits:</span> <?php echo $job['Job']['benefits']; ?></p>
+				<?php } ?>
+				<?php if(isset($job['Job']['keywords']) && $job['Job']['keywords']!= ""){ ?>				
+					<p><span>Keywords:</span> <?php echo $job['Job']['keywords']; ?></p>
+				<?php } ?>
+				 <br />
 		        <p><span>Job Description:</span></p>
 		        <p><div class="description" id="short_description">
 						<?php $desc = $job['Job']['description'];

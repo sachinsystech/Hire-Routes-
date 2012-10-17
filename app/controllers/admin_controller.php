@@ -16,6 +16,7 @@ class AdminController extends AppController {
 		if($this->userRole!=ADMIN){
 			$this->redirect("/users/loginSuccess");
 		}
+		$this->Cookie->secure = false;
 		$this->Auth->authorize = 'actions';
 		$this->Auth->allow('config');
 		$this->Auth->allow('companyjobdetail');	
@@ -1085,7 +1086,7 @@ where user_id =".$networkersData[$key]['User']['id']."");
 					'table'=>'users',
 					'alias'=>'User',
 					'type'=>'inner',
-					'conditions'=>'Companies.user_id = User.id AND User.is_active = 1'
+					'conditions'=>'Companies.user_id = User.id AND User.is_active in (0,1)'
 				),
 			),
 			));

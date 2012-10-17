@@ -13,6 +13,13 @@
 	<h1 class="title-emp">Login to Hire Routes</h1>
     
     <div class="login_middle_main">
+        <div class="login_middle_right_box">
+            <ul>
+                <li><a class="job-share-fb" href="<?php echo $FBLoginUrl; ?>"></a></li>
+                <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
+            </ul>
+        </div>
+        <div class="login_middle_center_box"><strong>OR</strong></div>        
         <div class="login_middle_left_box">
         	<?php
 				echo $this->Session->flash('auth');
@@ -56,13 +63,6 @@
 			<?php
 				echo $this->Form->end();
 			?>
-        </div>
-        <div class="login_middle_center_box"><strong>OR</strong></div>
-        <div class="login_middle_right_box">
-            <ul>
-                <li><a class="job-share-fb" href="<?php echo $FBLoginUrl; ?>"></a></li>
-                <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
-            </ul>
         </div>
 		<div class="clr"></div>
 	</div>

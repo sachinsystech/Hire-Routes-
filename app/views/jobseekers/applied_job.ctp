@@ -101,7 +101,7 @@
                 </div>
                 <?php endforeach; ?>
                 <?php else:?>
-					<div class='job-empty-message'>There is no job found for this search.</div>
+					<div class='job-empty-message'>There is no job applied by you.</div>
 				<?php endif;?>
 			</div>
 		</div>

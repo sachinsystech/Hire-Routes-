@@ -5,7 +5,22 @@
 Please submit the form below and you will receive an email confirmation to complete your registration.</div>
 <!---  application form start --->
 <div class="login_middle_main"> 
-	<div class="login_middle_left_box">
+	
+	<?php
+		if(($this->Session->read('intermediateCode')!='' || $this->Session->read('intermediateCode')!=null ) || ( $this->Session->read('icc')!='' || $this->Session->read('icc')!= null) || ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null)):?>
+	<div class="login_middle_right_box nr_signup_social_box">
+	   	<div class="signup_social_box_txt">Sign in with Your Social network</div>
+	       	<ul>
+	       	    <li><a class="job-share-fb" href="<?php echo $FBLoginUrl; ?>"></a></li>
+	       	    <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
+	       	</ul>
+		</div>
+	</div>
+	<div class="login_middle_center_box nr_signup_or_txt_box" style="margin:120px 60px 0 !important;"><strong>OR</strong></div>
+	<?php else:
+	echo "<style>.login_middle_main { width: 300px !important;}</style>" ;
+	endif;?>
+	<div class="login_middle_left_box" style="float:left;">
 		<span style="position: absolute; color:#847A6C; margin-top: -7px; font-size: 13px;">* Required</span>
 		<?php echo $form->create('User', array('action' => 'networkerSignup','onsubmit'=>'return checkform()')); ?>
 		<div class="network_form_row">
@@ -133,21 +148,6 @@ Please submit the form below and you will receive an email confirmation to compl
 		</div>
 		<?php echo $form->end(); ?>        
 	</div>
-	<?php
-		if(($this->Session->read('intermediateCode')!='' || $this->Session->read('intermediateCode')!=null ) || ( $this->Session->read('icc')!='' || $this->Session->read('icc')!= null) || ( $this->Session->read('invitationCode')!='' || $this->Session->read('invitationCode')!= null)):?>
-	<div class="login_middle_center_box nr_signup_or_txt_box"><strong>OR</strong></div>
-	<div class="login_middle_right_box nr_signup_social_box">
-	   	<div class="signup_social_box_txt">Sign in with Your Social network</div>
-	       	<ul>
-	       	    <li><a class="job-share-fb" href="<?php echo $FBLoginUrl; ?>"></a></li>
-	       	    <li><a class="job-share-in" href="<?php echo $LILoginUrl; ?>"></a></li>
-	       	</ul>
-		</div>
-		<div class="clr"></div>
-	</div>
-	<?php else:
-	echo "<style>.login_middle_main { width: 300px !important;}</style>" ;
-	endif;?>
 </div>
 
 
@@ -199,13 +199,15 @@ Please submit the form below and you will receive an email confirmation to compl
 			   		},
 					success: function( data ) {
 						if(data == null) return;
+						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+							$("#UserUniversity").parent("div").next('label').remove();
+						}
 						response( $.map( data, function(item) {
-							if(data == null) return;
 							if(item.id === 0) {
-								alert(item.name);
+								$("#UserUniversity").parent("div").next('label').remove();
+								$("#UserUniversity").parent("div").after('<label for="name" generated="true" class="error tooltip_university">'+item.name+'</label>');
 								$("#UserUniversity").autocomplete('search', 'other');
 							}else{
-							
 								return {
 									value: item.name,
 									key: item.id
@@ -217,6 +219,7 @@ Please submit the form below and you will receive an email confirmation to compl
 			},
 			select: function( event, ui ) {
 				$('#NetworkerUniversity').val(ui.item.key);
+				$("#UserUniversity").parent("div").next('label').remove();
 			},
 			open: function() {
 				$( this ).removeClass( "ui-corner-all" );
@@ -239,10 +242,13 @@ Please submit the form below and you will receive an email confirmation to compl
 					dataType: "json",
 					success: function( data ) {
 						if(data == null) return;
-						
+						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+							$("#UserGraduateUniversity").parent("div").next('label').remove();
+						}
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
-								alert(item.name);
+								$("#UserGraduateUniversity").parent("div").next('label').remove();
+								$("#UserGraduateUniversity").parent("div").after('<label for="name" generated="true" class="error tooltip_graduate_university" >'+item.name+'</label>');
 								$("#UserGraduateUniversity").autocomplete('search', 'other');
 							}else{
 								return {
@@ -250,6 +256,7 @@ Please submit the form below and you will receive an email confirmation to compl
 									key: item.id
 								}
 							}
+							
 						}));
 					},
 				});
@@ -257,6 +264,7 @@ Please submit the form below and you will receive an email confirmation to compl
 			select: function( event, ui ) {
 				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 				$('#NetworkerGraduateUniversityId').val(ui.item.key);
+				$("#UserGraduateUniversity").parent("div").next('label').remove();
 			},
 			open: function() {
 				$( this ).removeClass( "ui-corner-all" );

@@ -122,7 +122,7 @@ class UsersController extends AppController {
 				else{
 					$this->User->rollback();
 					$this->UserRoles->rollback();
-					$this->Session->setFlash('Internal Error!', 'error');
+					$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -205,7 +205,7 @@ class UsersController extends AppController {
 								   array('invited_user_id'=>$userId),
 									array('ic_code =' => $this->Session->read('icc') )
 								)) {
-						$this->Session->setFlash('Internal Error!', 'error');
+						$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 						return;
 					}
 					$this->Session->delete('icc');
@@ -215,12 +215,12 @@ class UsersController extends AppController {
 						$code = $this->findCodeFor('Networker');
 						$code['remianing_signups']--;
 						if(!$this->Code->save($code)){
-							$this->Session->setFlash('Internal Error!', 'error');
+							$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 							$this->redirect("/");return;
 						}
 						if($code['remianing_signups']<1){
 							if(!$this->Code->delete($code)){
-								$this->Session->setFlash('Internal Error!', 'error');
+								$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 								$this->redirect("/");return;
 							}
 						}
@@ -228,7 +228,7 @@ class UsersController extends AppController {
 					$this->redirect("confirmation/".$userId);return;
 				}
 				else{
-					$this->Session->setFlash('Internal Error!', 'error');
+					$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -298,14 +298,14 @@ class UsersController extends AppController {
 				$userRoleId = JOBSEEKER;
 				if(!$this->saveUserRoles($userId,$userRoleId))
 				{
-					$this->Session->setFlash('Internal Error!', 'error');
+					$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 					return;
 				}
 				if(! $this->Invitations->updateAll(
 								   array('invited_user_id'=>$userId),
 									array('ic_code =' => $this->Session->read('icc') )
 								)) {
-					$this->Session->setFlash('Internal Error!', 'error');
+					$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 					return;
 				}
 				if(!is_null($jobId))
@@ -321,12 +321,12 @@ class UsersController extends AppController {
 						$code = $this->findCodeFor('Jobseeker');
 						$code['remianing_signups']--;
 						if(!$this->Code->save($code)){
-							$this->Session->setFlash('Internal Error!', 'error');
+							$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 							return;
 						}
 						if($code['remianing_signups']<1){
 							if(!$this->Code->delete($code)){
-								$this->Session->setFlash('Internal Error!', 'error');
+								$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 								return;
 							}
 						}	
@@ -334,7 +334,7 @@ class UsersController extends AppController {
 					$this->redirect("confirmation/".$userId);
 				}
 				else{
-					$this->Session->setFlash('Internal Error!', 'error');
+					$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -400,7 +400,7 @@ class UsersController extends AppController {
 		}
 		
 		if(!$this->User->save($userData)){
-			$this->Session->setFlash('Internal Error1!', 'error');
+			$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 			$this->redirect("/");
 			return;
 		}
@@ -418,7 +418,7 @@ class UsersController extends AppController {
 		$roles['role_id'] = $userRoleId;
 		$roles['permission'] = "allow";
 		if(!$this->UserRoles->save($roles)){
-			$this->Session->setFlash('Internal Error!', 'error');
+			$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 			$this->redirect("/");
 			return false;
 		}
@@ -543,7 +543,7 @@ class UsersController extends AppController {
 					}
 				}
 				else{
-					$this->Session->setFlash('Internal Error!', 'error');
+					$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 					$this->redirect("/");
 					return;
 				}
@@ -961,7 +961,7 @@ class UsersController extends AppController {
 				//check row update or not
 				if(mysql_affected_rows()>0){
 					unset($this->data['User']);
-					$this->Session->setFlash("Password changed successfully.","success");
+					$this->Session->setFlash("Password has been updated successfully.","success");
 					switch($session->getUserRole()){
 						case COMPANY:
 								$this->redirect(array('controller'=>'Companies','action'=>'accountProfile'));
@@ -976,7 +976,7 @@ class UsersController extends AppController {
 								$this->redirect(array('controller'=>'admin'));
 								break;
 						default:
-								$this->Session->SetFlash('Internal Error!','error');
+								$this->Session->SetFlash("We are apologies, we couldn't process your request at the moment due to internal error",'error');
 								$this->redirect('/');
 					}
 				}
@@ -1060,7 +1060,7 @@ class UsersController extends AppController {
 						$this->redirect('/login');		
 					}
 				}else{
-					$this->Session->SetFlash('Internal Error!','error');
+					$this->Session->SetFlash("We are apologies, we couldn't process your request at the moment due to internal error",'error');
 				}
 			}
 			if($user['User']['is_active']==0 && $user['User']['confirm_code']=="" ){
@@ -1200,7 +1200,7 @@ class UsersController extends AppController {
 				$userData['account_email'] = $userEmail;
 				//$this->User->field('id',array('account_email'=>$userData['account_email']));
 			}else{
-				$this->Session->setFlash('Some thing is going wrong .Please try again later.', 'error');	
+				$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');	
 				$this->redirect("/login");
 			}		
 			$userData['linkedin_token'] = serialize($linkedin->access_token);
@@ -1265,7 +1265,7 @@ class UsersController extends AppController {
                 $this->redirect("/users/loginSuccess");
 			}
 		}else{
-			$this->Session->setFlash('Some thing is going wrong .Please try again later.', 'error');	
+			$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error.", 'error');	
 			$this->redirect("/login");
 		}
 	 }

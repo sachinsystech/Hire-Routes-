@@ -104,7 +104,7 @@ class NetworkersController extends AppController {
 			$this->set('user',$user);
 		}
 		else{		
-			$this->Session->setFlash('Internal error has been occured...', 'error');	
+			$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');	
 			$this->redirect('/');								
 		}
 
@@ -120,7 +120,7 @@ class NetworkersController extends AppController {
 				$this->Session->setFlash('Your Subscription has been added successfully.', 'success');				
 			}
 		}else{
-			$this->Session->setFlash('Internal error has been occured...', 'error');
+			$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 		}
 		$this->redirect('/networkers/setting');		
 	}
@@ -136,8 +136,9 @@ class NetworkersController extends AppController {
 			if($this->NetworkerSettings->validates()){
 				if($this->NetworkerSettings->save($this->data['NetworkerSettings'])){
 					$this->Session->setFlash('Your Subscription has been added successfully.', 'success');
+					unset($this->data['NetworkerSettings']);
 				}else{
-					$this->Session->setFlash('Internal Error! try again.', 'error');
+					$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');
 				}
 			}
 		}
@@ -308,7 +309,7 @@ class NetworkersController extends AppController {
 		}
 		
 		if(isset($this->data['gmailContact']['addGmailContact']) && empty($this->data['gmailContact']['addGmailContact'])){
-			$this->Session->setFlash('Please select contects.', 'error');	
+			$this->Session->setFlash('Please select contacts.', 'error');	
 			$this->redirect('/networkers/addContacts');	
 		}	
 		if(isset($this->data['gmailContact']['addGmailContact']) && !empty($this->data['gmailContact']['addGmailContact'])){
@@ -397,7 +398,7 @@ class NetworkersController extends AppController {
 		        	if(isset($this->data['Contact']['CSVFILE']['tmp_name']) && $this->data['Contact']['CSVFILE']['tmp_name']!= null){
 						$this->Session->setFlash('Csv and Contact has been added successfully.', 'success');
 		        	}else{
-			        	$this->Session->setFlash('Contact has been added successfully.', 'success');	
+			        	$this->Session->setFlash('Contact(s) have been deleted successfully.', 'success');	
 		        	}
 					
 				}	
@@ -479,7 +480,7 @@ class NetworkersController extends AppController {
 				return;
 			}									
 		    if($this->NetworkerContact->save($this->data['editContact'])){
-				$this->Session->setFlash('Contact has been updated successfully.', 'success');	
+				$this->Session->setFlash('Contact(s) have been deleted successfullyy.', 'success');	
 			}
 			$this->redirect('/networkers/addContacts');
 		}else{
@@ -679,7 +680,7 @@ where user_id =".$userId."");
 			if(isset($values[1][3])){
 				
 				if(!eregi("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $values[1][3])){
-					$this->Session->setFlash('Your CSV is not in proper format.', 'error');	
+					$this->Session->setFlash('Sorry, your CSV file is not in the proper format.', 'error');	
 					$this->redirect('/networkers/addContacts');
 				}
 			
@@ -708,7 +709,7 @@ where user_id =".$userId."");
 							continue;
 						}
 						if(!$this->NetworkerCsvcontact->save($contact)){
-							$this->Session->setFlash('Your CSV is not in proper format.', 'error');	
+							$this->Session->setFlash('Sorry, your CSV file is not in the proper format.', 'error');	
 							$this->redirect('/networkers/addContacts');
 							return;
 						}
@@ -717,11 +718,11 @@ where user_id =".$userId."");
 				}
 			}
 			else{
-				$this->Session->setFlash('Your CSV is not in proper format.', 'error');	
+				$this->Session->setFlash('Sorry, your CSV file is not in the proper format.', 'error');	
 				$this->redirect('/networkers/addContacts');
 			}
 		}catch(Exception $e){
-			$this->Session->setFlash('Your CSV is not in proper format.', 'error');	
+			$this->Session->setFlash('Sorry, your CSV file is not in the proper format.', 'error');	
 			$this->redirect('/networkers/addContacts');
 		}
 		$added_count_msg = "";
@@ -749,7 +750,7 @@ where user_id =".$userId."");
 			}	
 		}
 		if($this->NetworkerContact->delete($ids)){
-			$this->Session->setFlash('contact(s) have been deleted successfully.', 'success');				
+			$this->Session->setFlash('Contact(s) have been deleted successfully.', 'success');				
 		}	
 		$this->redirect('/networkers/addContacts');
 	}

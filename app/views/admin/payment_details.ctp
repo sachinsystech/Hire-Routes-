@@ -53,7 +53,7 @@
 						</div>
 						<div class='info_block'>
 							<div style="margin:5px 0 5px 0;clear:both">
-								<div class='sub_heading' style="font-size:24px;margin:5px 5px 5px 0px;">
+								<div class='sub_heading' style="font-size:20px;margin:5px 5px 5px 0px;">
 									Scenario <?php switch($payment_detail['PaymentHistory']['scenario']){
 														case 1:
 															echo "I";
@@ -70,7 +70,7 @@
 							</div>
 							
 							<div style="margin:5px 0 5px 0;clear:both">
-								<div class='sub_heading' style="font-size:20px;">
+								<div class='sub_heading' 	>
 									Networker(s) :
 								</div>
 								<div style="float:left;">
@@ -94,7 +94,7 @@
 							</div>
 							<div style="clear:both"></div>
 							<div style="margin:5px 0 5px 0;clear:both">
-								<div class='sub_heading' style="font-size:20px;">
+								<div class='sub_heading' >
 									Jobseeker :
 								</div>
 								<div style="float:left;">
@@ -118,7 +118,7 @@
 							</div>	
 							<div style="clear:both"></div>
 							<div style="margin:5px 0 5px 0;clear:both">
-								<div class='sub_heading' style="font-size:20px;">
+								<div class='sub_heading' >
 									Hire Routes :
 								</div>
 								<div style="float:left;">
@@ -349,7 +349,7 @@
 						else:
 					?>
 					<div class="networkerDataBarOdd" style='text-align:center;width:350px;'>			
-				    	There is no networker for this Reword!
+				    	There is no networker for this Reward!
 					</div>
 					<?php
 						endif;	

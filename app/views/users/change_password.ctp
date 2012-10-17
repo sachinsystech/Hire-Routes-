@@ -1,3 +1,9 @@
+<style>
+.error_input_message{
+	overflow:visible;
+	width:auto;
+}
+</style>
 <script>
 	$(document).ready(function(){
 		$("#UserChangePasswordForm").validate({
@@ -27,7 +33,7 @@
       <?php echo $this->element('side_menu');?>
 	 <!-- Job - left- sidebar Ends --> 
 		<div class="job_right_bar">
-		<div class="job_network_password">
+		<div class="job_network_password change_password_middle_box">
 			<h2>CHANGE PASSWORD</h2>
 			<?php echo $form->create('User',array('action'=>'changePassword'))?>
 			<div class="job-text-box"> 

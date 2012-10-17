@@ -195,8 +195,7 @@ class JobsController extends AppController {
 			}else{
 				$this->redirect("/users/jobseekerSignup");
 			}
-			
-			
+
 		}
 		$userId = $session->getUserId();
         $this->set('userRole',$this->userRole);
@@ -207,7 +206,7 @@ class JobsController extends AppController {
 			$jobSeekerApplyCount= $this->JobseekerApply->find('count',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
 				
 			if($jobSeekerApplyCount>0){
-				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');
+				$this->Session->setFlash('You had already applied for this job. Please select another one.', 'error');
 				$this->redirect('/jobseekers/newJob');
 			}
 			$job = $this->Job->find('first',	array('limit'=>3,
@@ -217,7 +216,7 @@ class JobsController extends AppController {
 										            		  'type' => 'LEFT',
 										            		  'conditions' => array('Job.company_id = comp.id',)),	  
 											),
-										 'conditions'=>array('Job.id'=>$id),
+										 'conditions'=>array('Job.id'=>$id, 'Job.is_active'=>array(1)),
 										'fields'=>array('Job.*, comp.company_name,comp.company_url'),));
 			if($job['Job']){
 				
@@ -326,11 +325,11 @@ class JobsController extends AppController {
 				$this->set('job',$job['Job']);
 				$this->set('jobCompany',$job['comp']);
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
+				$this->Session->setFlash('This job no longer available, please choose another one.', 'error');
 				$this->redirect('/jobs/');
 			}
 		}else{
-			$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
+			$this->Session->setFlash('This job no longer available, please choose another one.', 'error');
 			$this->redirect('/jobs/');
 		}		
 	}
@@ -342,7 +341,7 @@ class JobsController extends AppController {
 		$jobprofile = $this->JobseekerProfile->find('first',array('conditions'=>array('user_id'=>$userId)));
 		$this->set('jobprofile',$jobprofile['JobseekerProfile']);
 
-		pr($this->params); exit;
+		//pr($this->params); exit;
 		if(isset($this->params['id'])){
 
 			$job_id = $this->params['jobId'];
@@ -377,10 +376,10 @@ class JobsController extends AppController {
 					$this->redirect('/jobs/applyJob/'.$job_id); 
 				}				
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
+				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');
 				$this->redirect('/jobs/applyJob/'.$job_id); 
 			}
-		}echo "here"; exit;		
+		}		
 	} 
 
 	function jobDetail(){
@@ -417,7 +416,7 @@ class JobsController extends AppController {
 										                               'conditions' => array('Job.state = state.id',))
 																),
 												 'fields'=>array('Job.id ,Job.user_id,Job.title,Job.company_id,comp.company_name,city.city,state.state,Job.job_type,
-Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
+Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, Job.description,Job.requirements,Job.benefits,Job.keywords, ind.name as industry_name, spec.name as specification_name, comp.company_url'),));
 
 			if($job){
 	
@@ -444,7 +443,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 				$this->set('jobId',$job['Job']['id']);
 				$this->set('jobTitle',$job['Job']['title']);
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
+				$this->Session->setFlash('This job no longer available, please choose another one.', 'error');
 				$this->redirect('/jobs/');
 			}	
 
@@ -470,7 +469,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
             }
             /**** end code ***/			
 		}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
+				$this->Session->setFlash('This job no longer available, please choose another one.', 'error');
 				$this->redirect('/jobs/');
 		}
 		if($session->isLoggedIn()){

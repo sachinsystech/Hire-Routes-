@@ -44,7 +44,7 @@
 <?php	if($invitations == null){?>
 <div class="job-list-subhead">
     <div class="inviation-message job-empty-message" style="width:400px;">
-    	You have not invited any of your friends yet. 
+    	Please invite your friends!
     </div>
 </div>
 <?php	} ?>

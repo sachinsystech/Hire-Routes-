@@ -893,6 +893,7 @@ div.message{
 
 
 
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -2859,7 +2860,7 @@ fieldset{
     width: 550px;
 }
 .job_container_top_row{
-	width:200px;
+	width:240px;
 	margin:auto;
 }
 .job-text-box{
@@ -2867,10 +2868,18 @@ fieldset{
 
 }
 .job-clear-all{
-margin: 20px auto auto;
+margin: 20px 70px auto;
     width: 70px;
 }
 .job-login{
-margin: 10px auto auto;
+margin: 10px 56px auto;
 width: 100px;
+
+}
+.job-login input{
+	position:absolute;
+}
+.change_password_middle_box{
+	width:170px;
+	margin:auto;
 }

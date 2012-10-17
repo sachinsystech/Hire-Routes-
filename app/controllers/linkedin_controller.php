@@ -80,7 +80,7 @@
         $linkedin = $this->getLinkedinObject();
         $userId = $this->_getSession()->getUserId();
         if( isset( $_REQUEST['oauth_problem'] ) &&  $_REQUEST['oauth_problem'] == "user_refused" && $userId ==null ){
-        	$this->Session->setFlash('you have declined the request from Linkedin!', 'warning');
+        	$this->Session->setFlash('You have declined the request from Linkedin!', 'warning');
 			$this->redirect('/users');
         }
         if (isset($this->params['url']['oauth_verifier'])){
@@ -91,7 +91,7 @@
         $linkedin->getAccessToken($this->params['url']['oauth_verifier']);
         if( !isset($linkedin->access_token) && $linkedin->access_token == null)
         {
-	    	$this->Session->setFlash('Something is going wrong. Please try again later.', 'error');	
+	    	$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'error');	
 		    $this->redirect("/login");
         }
         $this->Session->write('oauth_access_token',serialize($linkedin->access_token));

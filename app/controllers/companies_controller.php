@@ -74,16 +74,15 @@ class CompaniesController extends AppController {
     		    	    switch($this->params['form']['save']){
     		    	        case 'POST AND SHARE':
 								$this->Session->write('openShare','open');
-    		    	            $this->Session->setFlash('Job has been saved successfully.', 'success');
+    		    	            $this->Session->setFlash('Your job has been saved and posted successfully.', 'success');
     		    	            $this->redirect('/companies/editJob/'.$this->Job->id);
     		    	            break;
     		    	        case 'SAVE FOR LATER':
-								$this->Session->setFlash('Job has been saved successfully. Post it later',
-									'success');	
+								$this->Session->setFlash('Job has been saved successfully but not posted.','success');
 								$this->redirect('/companies/newJob');
 								break;
     		    	        default:
-								$this->Session->setFlash('Job has been saved successfully.', 'success');	
+								$this->Session->setFlash('Your job has been saved and posted successfully.', 'success');	
 								$this->redirect('/companies/editJob/'.$this->Job->id);
 								break;
 	    		        }
@@ -348,10 +347,10 @@ list archive jobs..
 				$this->Job->save();
 				if($shareJob) {
 					$this->Session->write('openShare','open');
-					$this->Session->setFlash('Job has been posted successfully.', 'success');
+					$this->Session->setFlash('Your job has been saved and posted successfully.', 'success');
 					$this->redirect('/companies/editJob/'.$this->Job->id);
 				}
-				$this->Session->setFlash('Job has been updated successfully.', 'success');
+				$this->Session->setFlash('Your job has been updated successfully..', 'success');
 				$this->redirect('/companies/newJob');
 			}else{
 				$this->Session->setFlash('Job data Invalid.', 'error');
@@ -650,7 +649,7 @@ list archive jobs..
 			if($jobs['Job']){
 				$jobs['Job']["is_active"] = 0 ;
 				$this->Job->save($jobs);
-				$this->Session->setFlash('Successfully, Job has been archived.', 'success');	
+				$this->Session->setFlash('Selected Job archived successfully.', 'success');	
 				$this->redirect("/companies/newJob");
 			}
 		}
@@ -883,11 +882,11 @@ list archive jobs..
 				$this->set('activejobCount',$this->getCompanyActiveJobsCount());
 				$this->set('archJobCount',$this->getCompanyArchiveJobsCount());
 			}else{
-				$this->Session->setFlash('May be clicked on old link or not authorize to do it.', 'error');	
+				$this->Session->setFlash('This job no longer available, please choose another one.', 'error');	
 				$this->redirect("/companies/newJob");
 			}
 		}else{
-			$this->Session->setFlash('May be you click on old link or you are you are not authorize to do it.', 'error');	
+			$this->Session->setFlash('This job no longer available, please choose another one.', 'error');	
 			$this->redirect("/companies/newJob");
 		}
 	}
@@ -943,7 +942,7 @@ list archive jobs..
 				}
 			}
 			else{
-				$this->Session->setFlash('First fill your Payment Informatoin.', 'error');
+				$this->Session->setFlash('Please fill in your Payment Information first.', 'error');
 				$this->redirect("/companies/paymentInfo/$appliedJobId");
 			}			
 		}else{
@@ -977,7 +976,7 @@ list archive jobs..
 			}
 
 		    if(!isset($cardInfo['PaymentInfo'])){
-				$this->Session->setFlash('First fill your Payment Informatoin.', 'error');	
+				$this->Session->setFlash('Please fill in your Payment Information first.', 'error');	
 				$this->redirect("/companies/PaymentInfo/$appliedJob");
 				return;
 			}
@@ -1112,7 +1111,7 @@ list archive jobs..
 					}	        	
 		            $this->redirect("/companies/newJob/".$resArray['TRANSACTIONID']);
 		        }else {
-		            $this->Session->setFlash("Due To Unknown Paypal Response, We Cannot Procced.", 'error');
+		            $this->Session->setFlash("Due To Unknown Paypal Response, We couldn't process your request at the moment please try again later.", 'error');
 		            $this->redirect("/companies/checkout");
 		        }
 		        
@@ -1251,7 +1250,7 @@ list archive jobs..
 				if($jobs['Job']){
 				$jobs['Job']["is_active"] = 2 ;
 				$this->Job->save($jobs);
-				$this->Session->setFlash('Successfully, Job has been deleted.', 'success');	
+				$this->Session->setFlash('Job has been deleted successfully.', 'success');	
 				$success=array('success'=>true);
 				return json_encode($success);
 			}

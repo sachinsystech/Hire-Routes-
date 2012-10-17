@@ -1328,7 +1328,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .category_dropdown { float:right; width:370px;margin-top: 14px;}
 .category_dropdown select{ width:180px;float: left; margin-left: 5px; height:auto;color:black;}
 .annual_sal_lh{ line-height:normal !important;}
-.annual_field { float:left; widows:370px; margin-left:2px; *padding-top:10px;}
+.annual_field { float:left; widows:370px; margin-left:20px; *padding-top:10px;}
 .annual_field span {font: 15px Arial,Helvetica,sans-serif; float:left;}
 .from_date {float:left; margin:0 10px;}
 .from_date select { width:80px; height:auto;}
