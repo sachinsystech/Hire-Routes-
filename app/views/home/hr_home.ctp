@@ -56,7 +56,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		<!-- Team member -->
 		<div class="team-member">
 			<div class="about-border" id="read-more-austin"> 
-				<a href="#"> <img src="/images/hire_route_logo.png" /> <span class="link-mouseover">READ MORE</span> </a> 
+				<a href="#"> <img src="/images/Castlebuilders/238x239-austin.jpg" /> <span class="link-mouseover">READ MORE</span> </a> 
 			</div>
 			<div class="clr"></div>
   			<!-- member-info -->
@@ -74,7 +74,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border">
-				<a href="#"> <img src="/images/hire_route_logo.png" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+				<a href="#"> <img src="/images/Castlebuilders/238x239-Jaxon.png" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
@@ -94,7 +94,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border">
-				<a href="#"> <img src="/images/hire_route_logo.png" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+				<a href="#"> <img src="/images/Castlebuilders/238x239-sachin.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
@@ -112,7 +112,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border">
-				<a href="#"> <img src="/images/hire_route_logo.png" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+				<a href="#"> <img src="/images/Castlebuilders/238*239-Scott.Paules.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
@@ -131,7 +131,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border">
-				<a href="#"> <img src="/images/hire_route_logo.png" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+				<a href="#"> <img src="/images/Castlebuilders/238x239-pia.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
@@ -148,7 +148,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		</div>
 		<div class="team-member">
 			<div class="about-border" >
-				<a href="#"> <img src="/images/hire_route_logo.png" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+				<a href="#"> <img src="/images/Castlebuilders/238x239-stevie.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
@@ -167,7 +167,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		<!-- Team member --> <!-- Team member -->		
 		<div class="team-member">
 			<div class="about-border">
-				<a href="#"> <img src="/images/hire_route_logo.png" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
+				<a href="#"> <img src="/images/about/Talulah.jpg" /><!-- <span class="link-mouseover">READ MORE</span>--></a>
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
@@ -186,7 +186,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border" >
-				<a href="#"> <img src="/images/hire_route_logo.png" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+				<a href="#"> <img src="/images/Castlebuilders/238*239-tinahui.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
@@ -205,7 +205,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
 		<!-- Team member --> <!-- Team member -->
 		<div class="team-member">
 			<div class="about-border" >
-				<a href="#"> <img src="/images/hire_route_logo.png" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
+				<a href="#"> <img src="/images/Castlebuilders/238x239-tim.jpg" /><!--<span class="link-mouseover">READ MORE</span> --></a> 
 			</div>
 			<div class="clr"></div>
 			<!-- member-info -->
@@ -251,7 +251,7 @@ That idea has since then evolved into what you see today <b>"A social recruiting
         	<div class="about_popup_cancel_bttn"><a href="#" id="close"></a></div>
         </div>
             <div class="about_popup_img_row">
-            	<div class="about_popup_img"><img src="images/hire_route_logo.png" alt="" border="0" /></div>
+            	<div class="about_popup_img"><img src="images/Castlebuilders/thumbnail/98x98-austin.jpg" alt="" border="0" /></div>
                 <h2>AUSTIN ROOT</h2>
                 <p>Dreamer and Innovation Craftsman</p>
                 <!--<p class="space2">We are based in New rough any of your active channels. Take the Hire routes to get where you're going. Take the Hire routes to get where. We are based in New York but we live online.</p>
