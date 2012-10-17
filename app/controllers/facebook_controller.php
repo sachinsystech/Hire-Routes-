@@ -128,7 +128,7 @@
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
 											'message'=>'',//$message.$invitationUrl,
 											'method'=>'send',
-											'link'=>"http://qa.hireroutes.com/facebook/facebook_post",
+											'link'=>"http://qa.hireroutes.com/facebook/facebookPost",
 											//'picture'=>$config_url."/images/hire_route_logo.png",
 											'access_token' =>$User['User']['facebook_token'])
 										);
@@ -182,17 +182,9 @@
                 		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
                 	}
                 	$message =  $this->params['form']['subject']."\n".$this->params['form']['message']." Connect with us >> ".$invitationUrl;
-                	/*$result = $this->facebookObject()->api("/".$fbuser->id."/feed",'post',array('message'=>$message,
+                	$result = $this->facebookObject()->api("/".$fbuser->id."/feed",'post',array('message'=>$message,
                 											'picture'=>$config_url."/images/hire_route_logo.png",
                 											'access_token' =>$User['User']['facebook_token']));
-                	*/
-                	 $result = $this->facebookObject()->api("/".$fbuser->id."/feed",'post',array(
-											'message'=>'',//$message.$invitationUrl,
-											'method'=>'send',
-											'link'=>"http://qa.hireroutes.com/facebook/facebook_post",
-											//'picture'=>$config_url."/images/hire_route_logo.png",
-											'access_token' =>$User['User']['facebook_token'])
-										);
 					$inviteData = array();                	
 					$inviteData['name_email'] = $fbuser->name;
 					$inviteData['user_id'] = $userId;
@@ -216,7 +208,7 @@
                 
     }
     function facebookPost(){
-    	$this->layout = false; 
+    	//$this->layout = false; 
     }
 
 
