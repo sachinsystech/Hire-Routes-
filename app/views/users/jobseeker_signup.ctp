@@ -89,12 +89,16 @@
 														'class' => 'required'
 		                                       			)
 		                          );	
+		?>
+		</div>
+		<?php	
 			}
 		?>
 		
 		<?php if(isset($codeErrors)): ?><div class="error_input_message"><?php echo $codeErrors;?></div>
+		
 		<?php endif; ?>
-		</div>
+		
 	
 		<div class="check-button">
 			<div class="cross-button">	

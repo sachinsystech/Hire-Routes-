@@ -222,6 +222,10 @@ div .checkbox{
 
 <script>
 $("#JobseekerSettingsForm").validate();
+$("input[type=submit]").submit(function(){
+	$("#JobseekerSettingsForm").validate();
+	$(this).attr("disabled", "true");
+});
 </script>
 <?php $industry_1 = isset($jobseekerData['industry_1'])?$jobseekerData['industry_1']:1;?>
 <?php $industry_2 = isset($jobseekerData['industry_2'])?$jobseekerData['industry_2']:1;?>
