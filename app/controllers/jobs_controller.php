@@ -207,7 +207,7 @@ class JobsController extends AppController {
 			$jobSeekerApplyCount= $this->JobseekerApply->find('count',array('conditions'=>array('user_id'=>$userId,'job_id'=>$id)));
 				
 			if($jobSeekerApplyCount>0){
-				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');
+				$this->Session->setFlash('You have already applied for this job, Please select another one.', 'error');
 				$this->redirect('/jobseekers/newJob');
 			}
 			$job = $this->Job->find('first',	array('limit'=>3,
@@ -444,7 +444,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
 				$this->set('jobId',$job['Job']['id']);
 				$this->set('jobTitle',$job['Job']['title']);
 			}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
+				$this->Session->setFlash('This job no longer available, please choose another one.', 'error');				
 				$this->redirect('/jobs/');
 			}	
 
@@ -470,7 +470,7 @@ Job.short_description, Job.reward, Job.created, Job.salary_from, Job.salary_to, 
             }
             /**** end code ***/			
 		}else{
-				$this->Session->setFlash('You may be clicked on old link or entered menually.', 'error');				
+				$this->Session->setFlash('This job no longer available, please choose another one.', 'error');				
 				$this->redirect('/jobs/');
 		}
 		if($session->isLoggedIn()){

@@ -11,7 +11,6 @@
     	$this->Auth->allow('commentAtFacebook');
     	$this->Auth->allow('facebookObject');
     	$this->Auth->allow('sendInvitation');
-    	$this->Auth->allow("facebookPost");
 	}
 	/******	Facebook Handling	******/
 	
@@ -129,8 +128,7 @@
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
 											'message'=>$message.$invitationUrl,
 											'method'=>'send',
-											'link'=>"http://qa.hireroutes.com/home/hrHome",
-											//'picture'=>$config_url."/images/hire_route_logo.png",
+											'picture'=>$config_url."/images/hire_route_logo.png",
 											'access_token' =>$User['User']['facebook_token'])
 										);
 										
@@ -207,9 +205,6 @@
         	return json_encode(array('error'=>1));   
         }        
                 
-    }
-    function facebookPost(){
-    	//$this->layout = false; 
     }
 
 

@@ -135,7 +135,7 @@
                     </div>
                 	<?php endforeach;?>
                 	<?php }else{ ?>
-                	<div class="job-empty-message">No contacts added.</div>
+                	<div class="job-empty-message">You don't have any contacts yet.</div>
                 	<?php } ?>
                 </div>
     

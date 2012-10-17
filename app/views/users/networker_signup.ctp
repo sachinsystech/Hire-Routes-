@@ -16,7 +16,7 @@ Please submit the form below and you will receive an email confirmation to compl
 	       	</ul>
 		</div>
 	</div>
-	<div class="login_middle_center_box nr_signup_or_txt_box" style="margin:120px 60px 0 !important;"><strong>OR</strong></div>
+	<div class="login_middle_center_box nr_signup_or_txt_box" style="margin:120px 40px 0 !important;"><strong>OR</strong></div>
 	<?php else:
 	echo "<style>.login_middle_main { width: 300px !important;}</style>" ;
 	endif;?>
@@ -200,12 +200,14 @@ Please submit the form below and you will receive an email confirmation to compl
 					success: function( data ) {
 						if(data == null) return;
 						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
-							$("#UserUniversity").parent("div").next('label').remove();
+							$("#UserUniversity").next('div').remove();
+							$("#UserUniversity").next('label').remove();
 						}
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
-								$("#UserUniversity").parent("div").next('label').remove();
-								$("#UserUniversity").parent("div").after('<label for="name" generated="true" class="error tooltip_university">'+item.name+'</label>');
+								$("#UserUniversity").next('div').remove();
+								$("#UserUniversity").next('label').remove();
+								$("#UserUniversity").after('<div class="tooltip_backround"></div><label for="name" generated="true" class="error tooltip_university">'+item.name+'</label>');
 								$("#UserUniversity").autocomplete('search', 'other');
 							}else{
 								return {
@@ -219,7 +221,8 @@ Please submit the form below and you will receive an email confirmation to compl
 			},
 			select: function( event, ui ) {
 				$('#NetworkerUniversity').val(ui.item.key);
-				$("#UserUniversity").parent("div").next('label').remove();
+				$("#UserUniversity").next('div').remove();
+				$("#UserUniversity").next('label').remove();
 			},
 			open: function() {
 				$( this ).removeClass( "ui-corner-all" );
@@ -243,12 +246,14 @@ Please submit the form below and you will receive an email confirmation to compl
 					success: function( data ) {
 						if(data == null) return;
 						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
-							$("#UserGraduateUniversity").parent("div").next('label').remove();
+							$("#UserGraduateUniversity").next('div').remove();								
+							$("#UserGraduateUniversity").next('label').remove();
 						}
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
-								$("#UserGraduateUniversity").parent("div").next('label').remove();
-								$("#UserGraduateUniversity").parent("div").after('<label for="name" generated="true" class="error tooltip_graduate_university" >'+item.name+'</label>');
+								$("#UserGraduateUniversity").next('div').remove();								
+								$("#UserGraduateUniversity").next('label').remove();
+								$("#UserGraduateUniversity").after('<div class="tooltip_backround"></div><label for="name" generated="true" class="error tooltip_graduate_university" >'+item.name+'</label>');
 								$("#UserGraduateUniversity").autocomplete('search', 'other');
 							}else{
 								return {
@@ -264,7 +269,8 @@ Please submit the form below and you will receive an email confirmation to compl
 			select: function( event, ui ) {
 				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 				$('#NetworkerGraduateUniversityId').val(ui.item.key);
-				$("#UserGraduateUniversity").parent("div").next('label').remove();
+				$("#UserGraduateUniversity").next('div').remove();								
+				$("#UserGraduateUniversity").next('label').remove();
 			},
 			open: function() {
 				$( this ).removeClass( "ui-corner-all" );
