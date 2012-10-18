@@ -776,7 +776,7 @@ class UsersController extends AppController {
 			);
 			
 			if(!$this->Auth->login($data)){
-				$this->Session->setFlash('Username or password not matched.', 'error');				
+				$this->Session->setFlash('Either username or password is wrong.', 'error');				
 			}else{
 				$session->start();
 				$referer = $session->getBeforeAuthUrl(); 
@@ -945,7 +945,7 @@ class UsersController extends AppController {
 				}			
 			
 				if(isset($userData['User']['password']) && $userData['User']['password']==$this->data['User']['password']){
-				$this->Session->setFlash("Old password and new password are same. Please try with different password","error");
+				$this->Session->setFlash("Your password is same as earlier one, please try with different password","error");
 				unset($this->data['User']);
 				if($session->getUserRole() == ADMIN){
 					//$this->render("change_password","admin");
@@ -1056,7 +1056,7 @@ class UsersController extends AppController {
 				if($this->User->save($user['User'])){
 					$user['User']['password'] = $newPassword;
 					if($this->sendEmail($to,$subject,$template,$user['User'])){
-						$this->Session->setFlash('Your password is send to your email address','success');
+						$this->Session->setFlash('We have updated your password, please check your email.','success');
 						$this->redirect('/login');		
 					}
 				}else{
@@ -1101,7 +1101,7 @@ class UsersController extends AppController {
 	
 	function beforeLoggedInMessage($active_user){
 		if(!$active_user ){
-			$this->Session->setFlash('Username or password not matched.', 'error');	
+			$this->Session->setFlash('Either username or password is wrong.', 'error');	
 			$this->redirect("/login");
 		}
 				
@@ -1120,7 +1120,7 @@ class UsersController extends AppController {
 	
 		/**	@user not acitvated	**/			
 		if($active_user['User']['is_active']==0){
-			$this->Session->setFlash('Username or password not matched.', 'error');	
+			$this->Session->setFlash('Either username or password is wrong.', 'error');	
 			$this->redirect("/login");
 		}
 	

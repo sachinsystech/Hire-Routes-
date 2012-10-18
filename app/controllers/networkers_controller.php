@@ -202,7 +202,7 @@ class NetworkersController extends AppController {
 			if($this->User->save($this->data['User'])){
 				if($this->Networkers->save($this->data['Networkers'])){
 					$session->start();
-					$this->Session->setFlash('Profile has been updated successfully.', 'success');
+					$this->Session->setFlash('Your profile has been updated successfully.', 'success');
 					$this->redirect('/networkers');
 				}	
 			}
@@ -443,7 +443,7 @@ class NetworkersController extends AppController {
 		$response=  json_decode($result);
 		$accesstoken= $response->access_token;
 		if(!isset($accesstoken)){
-			$this->Session->setFlash('Token expired from Gmail, please try again!', 'warning');
+			$this->Session->setFlash('Sorry, may be your token expired. Please try again after sometime!', 'warning');
     		$this->redirect('/networkers/addContacts');
 		}
 		//passing accesstoken to obtain contact details

@@ -249,7 +249,7 @@ class JobsController extends AppController {
 					if(is_uploaded_file($this->data['JobseekerApply']['resume']['tmp_name'])){
         				$resume = $this->data['JobseekerApply']['resume'];  
         				if($resume['error']!=0 ){
-                			$this->Session->setFlash('Uploaded File is corrupted.', 'error');
+                			$this->Session->setFlash('May be you are trying to upload corrupted or invalid file, please try again with the correct file.', 'error');
 							$this->data['JobseekerApply']['resume'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']); 
 							$this->set('job',$job['Job']);
@@ -282,7 +282,7 @@ class JobsController extends AppController {
 					if(is_uploaded_file($this->data['JobseekerApply']['cover_letter']['tmp_name'])){
 						$cover_letter = $this->data['JobseekerApply']['cover_letter'];                 
             			if($cover_letter['error']!=0 ){
-							$this->Session->setFlash('Uploaded File is corrupted.', 'error');   
+							$this->Session->setFlash('May be you are trying to upload corrupted or invalid file, please try again with the correct file.', 'error');   
                 			$this->data['JobseekerApply']['cover_letter'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
 							$this->set('job',$job['Job']);
@@ -294,7 +294,7 @@ class JobsController extends AppController {
                 		$type_arr1 = explode(".",$cover_letter['name']);
                 		$type1 = $type_arr1[1];
                 		if($type1!= 'pdf' && $type1!= 'txt' && $type1!= 'doc' && $type1!='docx' && $type1!='odt' ||$cover_letter['size']>307251){
-							$this->Session->setFlash('Please ensure that you are uploading a supported file format of max size 300 Kb', 'error'); 
+							$this->Session->setFlash('Please ensure that you are uploading a supported file format of max size 300 Kb.', 'error'); 
                 			$this->data['JobseekerApply']['cover_letter'] = ""; 
 							$this->set('jobprofile',$this->data['JobseekerApply']);  
 							$this->set('job',$job['Job']);
@@ -320,7 +320,7 @@ class JobsController extends AppController {
 					if(!$jobprofile){
 						$this->JobseekerProfile->save($this->data['JobseekerApply']);
 					}           
-        			$this->Session->setFlash('You have applied for this job successfully.', 'success');   
+        			$this->Session->setFlash('Your application sent to "'.$job['Job']['title'].'" successfully.', 'success');   
         			$this->redirect('/jobseekers/appliedJob');     
         		}
 				$this->set('job',$job['Job']);
@@ -373,7 +373,7 @@ class JobsController extends AppController {
 					readfile($fl);
 					exit;
 				}else{
-					$this->Session->setFlash('File does not exist.', 'error');				
+					$this->Session->setFlash('File is no more available or deleted by someone.', 'error');				
 					$this->redirect('/jobs/applyJob/'.$job_id); 
 				}				
 			}else{

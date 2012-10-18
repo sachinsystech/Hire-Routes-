@@ -139,7 +139,7 @@ class JobseekersController extends AppController {
 			$this->User->save($this->data['User']);
 			if($this->Jobseekers->save($this->data['Jobseekers'])){
 				$session->start();
-				$this->Session->setFlash('Profile has been updated successfully.', 'success');	
+				$this->Session->setFlash('Your profile has been updated successfully.', 'success');	
 				if($this->_getSession()->getBeforeApplyUrl()){
 					$refrer = $this->_getSession()->getBeforeApplyUrl();
 					$this->_getSession()->setBeforeApplyUrl('');
@@ -600,7 +600,7 @@ class JobseekersController extends AppController {
 			if(is_uploaded_file($this->data['JobseekerProfile']['resume']['tmp_name'])){
 				$resume = $this->data['JobseekerProfile']['resume'];                 
             	if($resume['error']!=0 ){
-                	$this->Session->setFlash('Uploaded File is corrupted.', 'error');    
+                	$this->Session->setFlash('May be you are trying to upload corrupted or invalid file, please try again with the correct file.', 'error');    
                     $this->data['JobseekerProfile']['resume'] = ""; 
 					$this->set('jobprofile',$this->data['JobseekerProfile']);  
 					$this->render("job_profile"); 
@@ -628,7 +628,7 @@ class JobseekersController extends AppController {
 			if(is_uploaded_file($this->data['JobseekerProfile']['cover_letter']['tmp_name'])){
 				$cover_letter = $this->data['JobseekerProfile']['cover_letter'];                 
             	if($cover_letter['error']!=0 ){
-                	$this->Session->setFlash('Uploaded File is corrupted.', 'error');    
+                	$this->Session->setFlash('May be you are trying to upload corrupted or invalid file, please try again with the correct file.', 'error');    
                     $this->data['JobseekerProfile']['cover_letter'] = ""; 
 					$this->set('jobprofile',$this->data['JobseekerProfile']);  
 					$this->render("job_profile"); 
@@ -696,7 +696,7 @@ class JobseekersController extends AppController {
 					readfile($fl);
 					exit;
 				}else{
-					$this->Session->setFlash('File does not exist.', 'error');				
+					$this->Session->setFlash('File is no more available or deleted by someone.', 'error');				
 					$this->redirect('/jobs/jobProfile');
 				}				
 			}else{

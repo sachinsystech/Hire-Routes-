@@ -173,14 +173,14 @@ function checkContact(){
 		return false;	
 	}
 	
-	if($("#ContactContactEmail").val()!="Enter E-mail" && $("#ContactContactEmail").val()!="" && !validateEmail($("#ContactContactEmail").val())){
+	if($("#ContactContactEmail").val()!="Enter E-mail" && $("#ContactContactEmail").val()!="" && !validateContactEmail($("#ContactContactEmail").val())){
 		$("#name_error").html("<label class='error' style='margin-left:293px'>Please enter valid E-mail</label>");
 		$("#ContactContactEmail").focus();
 		return false;			
 	}
 	
 }
-function validateEmail(elementValue){  
+function validateContactEmail(elementValue){  
    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;  
    return emailPattern.test(elementValue);  
 } 
@@ -208,6 +208,7 @@ $(document).ready(function(){
 function edit(id, contact_name, email){
 	$(document).ready(function(){
 		$("a#closeEditBox").click(function(){
+			$("#editContacts label.error").remove();
 			$("#editContacts" ).dialog( "close" );
 			return false;
 		});
@@ -218,7 +219,7 @@ function edit(id, contact_name, email){
 			resizable: false ,
 			draggable: true,
 		});
-		$( "#editContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 	0px","opacity":"0.9","height":"230px","top":"100","left":"222px","width":"630px", "background":"none","border":"none"});
+		$( "#editContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 	0px","opacity":"0.9","height":"230px","top":"100","left":"222px","width":"630px","display":"block", "background":"none","border":"none"});
 		$("#editContactId").val(id);
 		$("#editContactContactName").val(contact_name);
 		$("#editContactContactEmail").val(email);		
@@ -433,7 +434,7 @@ $(document).ready(function(){
 							 );
 						?>
 					</div>
-					<div><?php echo isset($validationErrors)?$validationErrors:""; ?> </div>
+					<div><?php echo isset($validationErrors['contact_email'])?$validationErrors['contact_email']:""; ?> </div>
 				</div>
 			</div>		
 			<div class="edit_conact_button">

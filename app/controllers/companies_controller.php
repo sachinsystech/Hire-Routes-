@@ -386,7 +386,7 @@ list archive jobs..
 				$this->User->save($this->data['User']);
 				if($this->Companies->save($this->data['Companies'])){
 					$session->start();
-					$this->Session->setFlash('Profile has been updated successfully.', 'success');
+					$this->Session->setFlash('Your profile has been updated successfully.', 'success');
 					$this->redirect('/companies');
 				}
 			}else{
@@ -782,7 +782,7 @@ list archive jobs..
 					readfile($fl);
 					exit;
 				}else{
-					$this->Session->setFlash('File does not exist.', 'error');				
+					$this->Session->setFlash('File is no more available or deleted by someone.', 'error');				
 				}				
 			}else{
 				$this->Session->setFlash('You may be clicked on old link or entered manually.', 'error');

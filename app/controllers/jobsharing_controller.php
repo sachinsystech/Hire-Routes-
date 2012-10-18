@@ -72,7 +72,7 @@ class JobsharingController extends AppController {
 						$this->SharedJob->save($shareJobData);	
 					}
 				}else{
-					return json_encode(array('error'=>2,'message'=>'Something went wrong. Please try after some time OR contact to site admin.'));
+					return json_encode(array('error'=>2,'message'=>'Something went wrong. Please try after sometime OR contact with site admin for better convenience.'));
 				}
 			}
 			return json_encode(array('error'=>0));	
@@ -125,7 +125,7 @@ class JobsharingController extends AppController {
 					$this->Invitation->create();
 					$this->Invitation->save($inviteData);						
 				}else{
-					return json_encode(array('error'=>2,'message'=>'Something went wrong. Please try after some time OR contact to site admin.'));
+					return json_encode(array('error'=>2,'message'=>'Something went wrong. Please try after sometime OR contact with site admin for better convenience.'));
 				}
 			}
 			return json_encode(array('error'=>0));

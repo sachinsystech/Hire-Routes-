@@ -328,7 +328,7 @@ function clear_div(val){
 						
 						<?php if(empty($applicants)): ?>
 							<div style="font-size: 14px; margin: auto; width: 216px;">
-								<span>Sorry, No applicant found.</span>
+								<span>Sorry, no applicant applied for this job.</span>
 							</div>
 						<?php endif; ?>
 					
