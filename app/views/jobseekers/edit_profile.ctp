@@ -215,9 +215,11 @@
 						response( $.map( data, function(item) {
 							if(data == null) return;
 							if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+								$("#JobseekerSettingsUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 								$("#JobseekerSettingsUniversity").parent("div").next('label').remove();
 							}
 							if(item.id === 0) {
+								$("#JobseekerSettingsUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 								$("#JobseekerSettingsUniversity").parent("div").next('label').remove();
 								$("#JobseekerSettingsUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
 								$("#JobseekerSettingsUniversity").autocomplete('search', 'other');
@@ -233,6 +235,7 @@
 			},
 			select: function( event, ui ) {
 				$('#JobseekersUniversityId').val(ui.item.key);
+				$("#JobseekerSettingsUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();				
 				$("#JobseekerSettingsUniversity").parent("div").next('label').remove();
 				$( this ).removeClass( "ui-corner-all" );
 			},
@@ -269,12 +272,12 @@
 					success: function( data ) {
 						if(data == null) return;
 						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
-								$("#JobseekerSettingsGraduateUniversity").parent("div").next('div').remove();
+								$("#JobseekerSettingsGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 								$("#JobseekerSettingsGraduateUniversity").parent("div").next('label').remove();
 							}
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
-								$("#JobseekerSettingsGraduateUniversity").parent("div").next('div').remove();
+								$("#JobseekerSettingsGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 								$("#JobseekerSettingsGraduateUniversity").parent("div").next('label').remove();
 								$("#JobseekerSettingsGraduateUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
 								$("#JobseekerSettingsGraduateUniversity").autocomplete('search', 'other');
@@ -290,7 +293,7 @@
 			},
 			select: function( event, ui ) {
 				$('#JobseekersGraduateUniversityId').val(ui.item.key);
-				$("#JobseekerSettingsGraduateUniversity").parent("div").next('div').remove();				
+				$("#JobseekerSettingsGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();				
 				$("#JobseekerSettingsGraduateUniversity").parent("div").next('label').remove();
 			},
 			open: function() {

@@ -205,13 +205,13 @@
 					success: function( data ) {
 						if(data == null) return;
 						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
-							$("#GraduateUniversityBreakdownUniversity").parent("div").next('div').remove();
-							$("#GraduateUniversityBreakdownUniversity").parent("div").next('label').remove();
+							$("#GraduateUniversityBreakdownUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
+							$("#GraduateUniversityBreakdownUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
 						}	
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
-								$("#GraduateUniversityBreakdownUniversity").parent("div").next('div').remove();
-								$("#GraduateUniversityBreakdownUniversity").parent("div").next('label').remove();
+								$("#GraduateUniversityBreakdownUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
+								$("#GraduateUniversityBreakdownUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
 								$("#GraduateUniversityBreakdownUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
 								$("#GraduateUniversityBreakdownUniversity").autocomplete('search', 'other');
 							}else{
@@ -227,8 +227,8 @@
 			},
 			select: function( event, ui ) {
 				$('#NetworkersUniversity').val(ui.item.key);
-				$("#GraduateUniversityBreakdownUniversity").parent("div").next('div').remove();
-				$("#GraduateUniversityBreakdownUniversity").parent("div").next('label').remove();
+				$("#GraduateUniversityBreakdownUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
+				$("#GraduateUniversityBreakdownUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
 				$( this ).removeClass( "ui-corner-all" );
 			},
 			open: function() {
@@ -263,11 +263,13 @@
 					success: function( data ) {
 						if(data == null) return;
 						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
-							$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label').remove();
+							$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
+							$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
 						}
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
-								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label').remove();
+								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
+								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
 								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
 								$("#GraduateUniversityBreakdownGraduateUniversity").autocomplete('search', 'other');
 							}else{
@@ -282,7 +284,8 @@
 			},
 			select: function( event, ui ) {
 				$('#NetworkersGraduateUniversityId').val(ui.item.key);
-				$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label').remove();
+				$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
+				$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
 			},
 			open: function() {
 				$( this ).removeClass( "ui-corner-all" );
