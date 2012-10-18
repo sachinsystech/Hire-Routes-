@@ -205,12 +205,14 @@
 					success: function( data ) {
 						if(data == null) return;
 						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+							$("#GraduateUniversityBreakdownUniversity").parent("div").next('div').remove();
 							$("#GraduateUniversityBreakdownUniversity").parent("div").next('label').remove();
 						}	
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
+								$("#GraduateUniversityBreakdownUniversity").parent("div").next('div').remove();
 								$("#GraduateUniversityBreakdownUniversity").parent("div").next('label').remove();
-								$("#GraduateUniversityBreakdownUniversity").parent("div").after('<label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
+								$("#GraduateUniversityBreakdownUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
 								$("#GraduateUniversityBreakdownUniversity").autocomplete('search', 'other');
 							}else{
 							
@@ -225,6 +227,7 @@
 			},
 			select: function( event, ui ) {
 				$('#NetworkersUniversity').val(ui.item.key);
+				$("#GraduateUniversityBreakdownUniversity").parent("div").next('div').remove();
 				$("#GraduateUniversityBreakdownUniversity").parent("div").next('label').remove();
 				$( this ).removeClass( "ui-corner-all" );
 			},
@@ -265,7 +268,7 @@
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
 								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label').remove();
-								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").after('<label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
+								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
 								$("#GraduateUniversityBreakdownGraduateUniversity").autocomplete('search', 'other');
 							}else{
 								return {

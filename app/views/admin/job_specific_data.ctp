@@ -99,6 +99,36 @@
 				<?php echo ucfirst($jobData['Job']['short_description']); ?>
 			</div>
 		</div>
+		<?php if(isset($jobData['Job']['requirements'])){?>
+		<div style='clear:both;height:auto;overflow:auto;'>
+			<div class='jobRowHeading'>
+				Requirements
+			</div>
+			<div class='jobRowData'>
+				<?php echo $jobData['Job']['requirements'];?>
+			</div>
+		</div>
+		<?php } ?>
+		<?php if(isset($jobData['Job']['benefits'])){?>
+		<div style='clear:both;height:auto;overflow:auto;'>
+			<div class='jobRowHeading'>
+				Benefits
+			</div>
+			<div class='jobRowData'>
+				<?php echo $jobData['Job']['benefits'];?>
+			</div>
+		</div>
+		<?php } ?>
+		<?php if(isset($jobData['Job']['keywords'])){?>
+		<div style='clear:both;height:auto;overflow:auto;'>
+			<div class='jobRowHeading'>
+				Keywords
+			</div>
+			<div class='jobRowData'>
+				<?php echo $jobData['Job']['keywords'];?>
+			</div>
+		</div>
+		<?php } ?>
 	</div>
 	<div class='jobViewData'>
 		<div style='width:250px;margin:auto;'>

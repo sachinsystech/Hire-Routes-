@@ -1018,15 +1018,35 @@ div.ez-radio {
     visibility: visible;
     width: 255px;
 }
-.editprofile_tooltip_university {
-    background: none repeat scroll 0 0 #E0E380;
-    clear: none !important;
-    font-size: 9px !important;
-    margin-left: 463px;
-    margin-top: -19px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 2px;
+.editprofile_tooltip_backround{
+    background: url("../images/tooltip_corner.png") no-repeat scroll 0 5px transparent;
+    display: block;
+    height: 20px;
     position: absolute;
-    width: 207px !important;
+    margin-left: 458px;
+    margin-top: -17px;
+    width: 16px;
+    z-index: 9997;
+
+}
+.editprofile_tooltip_university {
+	visibility: visible;
+	position: absolute;
+    background: none repeat scroll 0 5px #FFFFFF;
+    border: 1px solid grey;
+    border-radius: 10px 10px 10px 10px;
+    clear: both;
+    color: #847A6C;
+    display: block;
+    float: none;
+    font-family: Arial regular,Sans-serif;
+    font-size: 9px !important;
+    font-weight: normal !important;
+    line-height: 15px;
+    padding: 6px;
+    vertical-align: top;
+    clear: none !important;
+    margin-left: 468px;
+    margin-top: -19px;
+    width: 210px !important;
 }
