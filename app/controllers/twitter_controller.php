@@ -72,7 +72,7 @@ class TwitterController extends AppController {
                     	//$this->SharedJob->save($shareJobData);
                     	
                     }else{
-				        if($resp['error'] || !empty($resp['error'])){
+				        if(isset($resp['error'] ) && $resp['error'] || !empty($resp['error'])){
 				        		$errorMessage = $resp['error'];
 					        	return json_encode(array('error'=>2,'message'=>$errorMessage));      
 					    }
