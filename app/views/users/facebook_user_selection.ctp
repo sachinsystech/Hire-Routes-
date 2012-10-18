@@ -148,13 +148,15 @@ function registrationInto(redirect){
 					success: function( data ) {
 						if(data == null) return;
 						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+							$("#UsersUniversity").parent("div").next('div').remove();
 							$("#UsersUniversity").parent("div").next('label').remove();
 						}
 						response( $.map( data, function(item) {
 							if(data == null) return;
 							if(item.id === 0) {
+								$("#UsersUniversity").parent("div").next('div').remove();							
 								$("#UsersUniversity").parent("div").next('label').remove();
-								$("#UsersUniversity").parent("div").after('<label for="name" generated="true" class="popup_tooltip_university">'+item.name+'</label>');
+								$("#UsersUniversity").parent("div").after('<div class="popup_tooltip_backround"></div><label for="name" generated="true" class="popup_tooltip_university">'+item.name+'</label>');
 								$("#UsersUniversity").autocomplete('search', 'other');
 							}else{
 								return {
@@ -168,7 +170,8 @@ function registrationInto(redirect){
 			},
 			select: function( event, ui ) {
 				$('#NetworkersUniversity').val(ui.item.key);
-				$("#UsersUniversity").parent("div").next('label').remove();
+					$("#UsersUniversity").parent("div").next('div').remove();							
+					$("#UsersUniversity").parent("div").next('label').remove();
 			},
 			open: function() {
 				$( this ).removeClass( "ui-corner-all" );
@@ -198,12 +201,14 @@ function registrationInto(redirect){
 					success: function( data ) {
 						if(data == null) return;
 						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+							$("#UsersGraduateUniversity").parent("div").next('div').remove();
 							$("#UsersGraduateUniversity").parent("div").next('label').remove();
 						}
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
+								$("#UsersGraduateUniversity").parent("div").next('div').remove();
 								$("#UsersGraduateUniversity").parent("div").next('label').remove();
-								$("#UsersGraduateUniversity").parent("div").after('<label for="name" generated="true" class="popup_tooltip_university" >'+item.name+'</label>');
+								$("#UsersGraduateUniversity").parent("div").after('<div class="popup_tooltip_backround"></div><label for="name" generated="true" class="popup_tooltip_university" >'+item.name+'</label>');
 								$("#UsersGraduateUniversity").autocomplete('search', 'other');
 							}else{
 								return {
@@ -218,6 +223,7 @@ function registrationInto(redirect){
 			select: function( event, ui ) {
 				$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 				$('#NetworkersGraduateUniversityId').val(ui.item.key);
+				$("#UsersGraduateUniversity").parent("div").next('div').remove();
 				$("#UsersGraduateUniversity").parent("div").next('label').remove();
 			},
 			open: function() {
