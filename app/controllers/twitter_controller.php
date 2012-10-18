@@ -129,7 +129,7 @@ class TwitterController extends AppController {
                     if($session->getUserRole()==JOBSEEKER){
  	               		$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
                 	}else{
-                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
+                		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$intermediateCode."&icc=".$icc;	
                 	}
                 	$message = $this->params['form']['message']." Connect with us >> ".$invitationUrl;
                 	/*
