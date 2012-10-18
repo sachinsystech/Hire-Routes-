@@ -100,7 +100,7 @@
         $userId = $session->getUserId();
         $jobId = $this->params['form']['jobId'];
         $userIds = explode(",", $this->params['form']['usersId']);
-        $traceId = -1*(time()%10000000);
+        //$traceId = -1*(time()%10000000);
         $invitationCode = $this->Utility->getCode($jobId,$userId);
         
         $message = $this->params['form']['subject']."\n".$this->params['form']['message'];
@@ -109,8 +109,9 @@
         if(!empty($userIds) && $message &&  $User){
             foreach($userIds as $id){
                 try{
-                	$icc = md5(uniqid(rand())); 
+
                 	if($session->getUserRole()==JOBSEEKER){
+	                	$icc = md5(uniqid(rand())); 
  	               		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."/?icc=".$icc;
  	               		$inviteData = array();
 						$inviteData['name_email'] =  "";//$fbuser->name;

@@ -32,10 +32,10 @@ class TwitterController extends AppController {
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
-        $traceId = -1*(time()%10000000);
-        $invitationCode = $this->Utility->getCode($traceId,$userId);
-        $userIds = $this->params['form']['usersId'];
+        //$traceId = -1*(time()%10000000);
         $jobId = $this->params['form']['jobId'];
+        $intermediateCode = $this->Utility->getCode($jobId,$userId);
+        $userIds = $this->params['form']['usersId'];
         $userIds = explode(",", $userIds);
 	    $message = $this->params['form']['subject']."\n".$this->params['form']['message'];
         $user = $this->User->find('first',array('fields'=>array('twitter_token','twitter_token_secret'),'conditions'=>array('id'=>$userId,
@@ -50,9 +50,10 @@ class TwitterController extends AppController {
             foreach($userIds as $useId){
                 try{
                 	if($session->getUserRole()==JOBSEEKER){
+						$icc = md5(uniqid(rand())); 
                   		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?icc=".$icc;
                   		$inviteData = array();
-						//$inviteData['name_email'] = $twUser->name;
+						//$inviteData['name_email'] = "";
 						$inviteData['user_id'] = $userId;
 						$inviteData['from'] = "Twitter";
 						$inviteData['ic_code'] = $icc;
@@ -61,7 +62,7 @@ class TwitterController extends AppController {
 						$this->Invitation->create();
 						$this->Invitation->save($inviteData);	
 					}else{
-                  		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?intermediateCode=".$invitationCode;
+                  		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?intermediateCode=".$intermediateCode;
 
 					}
 					$parameters = array('user' => $useId, 'text' => $message." ".$invitationUrl);
@@ -107,9 +108,9 @@ class TwitterController extends AppController {
         }
         $userId = $session->getUserId();
 		$twUsers = json_decode($this->params['form']['user']);
-        //$invitationCode = $this->params['form']['invitationCode'];
+        //$intermediateCode = $this->params['form']['intermediateCode'];
         $traceId = -1*(time()%10000000);
-        $invitationCode = $this->Utility->getCode($traceId,$userId);
+        $intermediateCode = $this->Utility->getCode($traceId,$userId);
         
         $user = $this->User->find('first', array('fields'=> array('twitter_token','twitter_token_secret'),
         														'conditions'=> array('id'=>$userId,
@@ -125,7 +126,7 @@ class TwitterController extends AppController {
                 try{
                 	$subject = "Hire Routes Invitation ";
                     $icc = md5(uniqid(rand())); 
-                	if($session->getUserRole()==JOBSEEKER){
+                    if($session->getUserRole()==JOBSEEKER){
  	               		$invitationUrl = Configure::read('httpRootURL')."?icc=".$icc;
                 	}else{
                 		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
