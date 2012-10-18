@@ -46,17 +46,27 @@ class TwitterController extends AppController {
 		$twitterObj->setToken($user['User']['twitter_token'],$user['User']['twitter_token_secret']);
 
         if(!empty($userIds) && $message &&  $user){
+	        $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $user['User']['twitter_token'], $user['User']['twitter_token_secret']);
             foreach($userIds as $useId){
                 try{
                 	if($session->getUserRole()==JOBSEEKER){
                   		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?icc=".$icc;
+                  		$inviteData = array();
+						//$inviteData['name_email'] = $twUser->name;
+						$inviteData['user_id'] = $userId;
+						$inviteData['from'] = "Twitter";
+						$inviteData['ic_code'] = $icc;
+						$inviteData['status '] = 0;
+						$inviteData['created'] = date('Y-m-d H:i:s');
+						$this->Invitation->create();
+						$this->Invitation->save($inviteData);	
 					}else{
                   		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?intermediateCode=".$invitationCode;
 
 					}
-                    $result = $twitterObj->post_direct_messagesNew( array('user' => $useId, 'text' => $message.$invitationUrl));
-                    $resp = $result->response;
-                    if(isset($resp['recipient'])){
+					$parameters = array('user' => $useId, 'text' => $message." ".$invitationUrl);
+					$resp = $connection->post('direct_messages/new', $parameters);
+                    if($connection->http_code == 200){ //if(isset($resp['recipient'])){
                     	//save here job sharing details..
                     	$shareJobData['job_id'] = $jobId;
                        	$sharedJobExits=$this->SharedJob->find('first',array('conditions'=>array(
@@ -71,10 +81,10 @@ class TwitterController extends AppController {
                     	//$shareJobData['user_id'] = $userId;
                     	//$this->SharedJob->save($shareJobData);
                     	
-                    }else{
-				        if(isset($resp['error'] ) && $resp['error'] || !empty($resp['error'])){
-				        		$errorMessage = $resp['error'];
-					        	return json_encode(array('error'=>2,'message'=>$errorMessage));      
+                    }else{//pr($resp); exit;
+				        if(isset($resp->error) && $resp->error || !empty($resp->error)){
+				        	$errorMessage = $resp->error;
+					        return json_encode(array('error'=>2,'message'=>$errorMessage));      
 					    }
 					}
                 }catch(Exception $e){
@@ -96,7 +106,7 @@ class TwitterController extends AppController {
         	return json_encode(array('error'=>3,'message'=>'You are not logged-in','URL'=>'/login'));
         }
         $userId = $session->getUserId();
-		$fbUsers = json_decode($this->params['form']['user']);
+		$twUsers = json_decode($this->params['form']['user']);
         //$invitationCode = $this->params['form']['invitationCode'];
         $traceId = -1*(time()%10000000);
         $invitationCode = $this->Utility->getCode($traceId,$userId);
@@ -109,8 +119,9 @@ class TwitterController extends AppController {
 		$twitterObj = $this->getTwitterObject();
 		$twitterObj->setToken($user['User']['twitter_token'],$user['User']['twitter_token_secret']);
 
-       if(!empty($fbUsers) &&  $user){
-            foreach($fbUsers as $fbuser){
+       if(!empty($twUsers) &&  $user){
+	        $connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $user['User']['twitter_token'], $user['User']['twitter_token_secret']);
+            foreach($twUsers as $twUser){
                 try{
                 	$subject = "Hire Routes Invitation ";
                     $icc = md5(uniqid(rand())); 
@@ -120,23 +131,28 @@ class TwitterController extends AppController {
                 		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
                 	}
                 	$message = $this->params['form']['message']." Connect with us >> ".$invitationUrl;
-                	
+                	/*
                     $result = $twitterObj->post_direct_messagesNew( array('user' => $fbuser->id, 'text' => $message));
-                    $resp = $result->response;
-                    if(isset($resp['error'])){
-		        		$errorMessage = $resp['error'];
-			        	return json_encode(array('error'=>2,'message'=>$errorMessage));      
-					}
-					/* save invitaion details here*/
-                	$inviteData = array();
-					$inviteData['name_email'] = $fbuser->name;
-					$inviteData['user_id'] = $userId;
-					$inviteData['from'] = "Twitter";
-					$inviteData['ic_code'] = $icc;
-					$inviteData['status '] = 0;
-					$inviteData['created'] = date('Y-m-d H:i:s');
-					$this->Invitation->create();
-					$this->Invitation->save($inviteData);					
+                    $resp = $result->response;*/
+                    $parameters = array('user' => $twUser->id, 'text' => $message);
+					$resp = $connection->post('direct_messages/new', $parameters);
+                    if($connection->http_code == 200){ 
+						/* save invitaion details here*/
+		            	$inviteData = array();
+						$inviteData['name_email'] = $twUser->name;
+						$inviteData['user_id'] = $userId;
+						$inviteData['from'] = "Twitter";
+						$inviteData['ic_code'] = $icc;
+						$inviteData['status '] = 0;
+						$inviteData['created'] = date('Y-m-d H:i:s');
+						$this->Invitation->create();
+						$this->Invitation->save($inviteData);	
+					}else{
+						if(isset($resp->error)){
+			        		$errorMessage = $resp->error;
+				        	return json_encode(array('error'=>2,'message'=>$errorMessage));      
+						}
+					}				
 					/* End*/
                 }catch(Exception $e){
                     return json_encode(array('error'=>1));      
