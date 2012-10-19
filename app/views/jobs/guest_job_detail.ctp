@@ -63,8 +63,15 @@
                 <div class="job-right-text-heading"><a href="#"><?php echo strtoupper($job['Job']['title']); ?></a>
                 </div>
                 <p><span>Company:</span> <?php echo ucwords($job['comp']['company_name']);?></p>
+                <?php 
+               		if(strpos($job['comp']['company_url'],"http") === false){
+						$jobUrl = "http://".$job['comp']['company_url']; 
+					}else{
+						$jobUrl = $job['comp']['company_url']; 
+					}
+				?>
                 <p><span>Website:</span> <?php	echo $this->Html->link($job['comp']['company_url'],
-                											 	$job['comp']['company_url'],
+                											 	$jobUrl,
                 											 	array('class'=>'NewTab')); ?></p>
                 <p><span>Published:</span> <?php echo $job['ind']['industry_name']." - ".$job['spec']['specification_name']."</br> added on ".date('m/d/Y', strtotime($job['Job']['created']) ); ?>
                 <p><span>Salary:</span> 
@@ -104,7 +111,7 @@
                 <br />
                 <p><span>Job Description:</span></p>
                 <p>											
-		            <div class="description" id="short_description">
+		            <div class="description" id="short_description" style="width:681px;">
 						<?php $desc = $job['Job']['description'];
 									if($desc!=''){
 		                            	$explode = explode(' ',$desc);
@@ -123,7 +130,7 @@
 										echo $string.$dots;
 									}?>
 					</div>
-					<div class="description" id="full_description" style="display:none;">
+					<div class="description full_description" id="full_description" style="display:none;">
 						<?php echo $job['Job']['description'];?>
 					</div>
 					<?php if(str_word_count($desc)>130){?>

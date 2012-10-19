@@ -151,7 +151,7 @@ class AppController extends Controller {
     	   	//check if it is not presented
     	   	$icCode = $this->params['url']['icc'];
     	   	$invitationDetail = $this->Invitations->find('first', array('conditions'=>array('ic_code'=>$icCode)));
-			if(!isset($invitationDetail ) || $invitationDetail == null){
+			if(empty($invitationDetail ) || $invitationDetail == null){
 				$this->Session->delete('intermediateCode');
 				$this->Session->setFlash('You maybe clicked on old link or entered menualy.', 'error');
 				$this->redirect("/");

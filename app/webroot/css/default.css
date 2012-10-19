@@ -1063,3 +1063,11 @@ div.ez-radio {
     width: 16px;
     z-index: 9997;
 }
+.full_description{
+	max-height: 487px;
+	overflow-y: scroll;
+	width: 681px;
+}
+#more_info a{
+	cursor:pointer;
+}

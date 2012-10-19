@@ -52,8 +52,15 @@
 		    <div class="job-right-text">
 		    	<div class="job-right-text-heading"><a href="#"><?php echo strtoupper($job['Job']['title']); ?></a></div>
 		        <p><span>Company:</span><?php echo ucwords($job['comp']['company_name']);?></p>
+	            <?php 
+               		if(strpos($job['comp']['company_url'],"http") === false){
+						$jobUrl = "http://".$job['comp']['company_url']; 
+					}else{
+						$jobUrl = $job['comp']['company_url']; 
+					}
+				?>
 		        <p><span>Website:</span> <?php	echo $this->Html->link($job['comp']['company_url'],
-		        											$job['comp']['company_url'],array(
+		        												$jobUrl,array(
 		        												'class'=>'NewTab',
 		        												)
 		        											); ?></p>
@@ -89,8 +96,47 @@
 				<?php } ?>
 				 <br />
 		        <p><span>Job Description:</span></p>
-		        <p><div class="description" id="short_description">
-						<?php $desc = $job['Job']['description'];
+		        <p><div class="description" id="short_description" style="width:681px;">
+						<?php $desc = "Description Our Client is seeking a Java Developer. 
+ 
+                              
+ 
+Position Purpose
+We are looking for a Java Front-End Developer who can put pretty faces on our internal and customer facing web applications.  The ideal candidate is a developer with strong graphical aptitudes, has a passion for good UI design, and is able to implement a feature all the way from front to back
+ 
+Key Responsibilities
+Work closely with product managers, developers and quality assurance engineers to build exciting new features and applications
+Solicit feedback early and often to make sure we are building the &acirc;��right stuff&acirc;��
+Proactively obtain and clarify requirements as necessary
+Contribute to the automated testing of our web applications
+Estimate and plan with the development team to help ensure delivery schedules are met
+ 
+Qualifications
+Education/Certification:
+4 year degree (preferred)
+ 
+Required Knowledge:     
+Strong understanding of Java SE and related web technologies
+Excellent knowledge of CSS, HTML, JavaScript and one or more Java presentation technologies (e.g. JSP, Velocity, etc.)
+Effective knowledge of SQL and databases
+Strong understanding of performance and scalability considerations when building applications
+Works well as an individual and as part of a team
+Experience with Unix/Linux
+Experience with agile software development  methodologies/Scrum (preferred)
+Experience with Groovy or other Java platform languages (preferred)
+Experience with automating web application testing (preferred)
+Experience with XML and JSON (preferred)
+ 
+Experience Required:
+3 or more years developing the front ends of Java based web applications          
+ 
+Skills/Abilities:                                   
+Experience working with one or more Java web application frameworks and application servers
+Passion for UI design and usability
+ 
+Physical Requirements and Working Conditions
+&acirc;�&cent;Physical Requirements:         Those required in a typical office environment including sitting most of the time, finger dexterity for computer and paper work, talking to convey detailed or important instructions, average hearing for normal conversations, and average visual acuity.  
+&acirc;�&cent;Working Conditions:               No hazardous or significantly unpleasant conditions";//$job['Job']['description'];
 									if($desc!=''){
 		                            	$explode = explode(' ',$desc);
 										$string  = '';
@@ -105,10 +151,10 @@
 										if($dots){
 											$string = substr($string, 0, strlen($string));
 										}
-										echo $string.$dots;
+										echo html_entity_decode($string.$dots,ENT_QUOTES);
 									}?>
 					</div>
-					<div class="description" id="full_description" style="display:none;">
+					<div class="description full_description" id="full_description" style="display:none;">
 						<?php echo $job['Job']['description'];?>
 					</div>
 					<?php if(str_word_count($desc)>130){?>
