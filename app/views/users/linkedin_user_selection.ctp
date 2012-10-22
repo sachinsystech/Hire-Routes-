@@ -32,7 +32,7 @@ function registrationInto(redirect){
 	body { font-size: 70%; }
 	#ui-dialog-title-dialog-form { padding:5px; }
 	fieldset { padding:0; border:0; margin-top:25px; }
-	#dialog-form { background: none repeat scroll 0 0 transparent;overflow: hidden;}
+	#dialog-form { background: none repeat scroll 0 0 transparent;overflow: visible;}
 </style>
 	
 <div id="dialog-form" style="display:none;">
