@@ -178,7 +178,7 @@
                             <div class="clr"></div>
                     </div>
                     <div class="clr"></div>
-                    <div class="job_feild" style="margin-top:5px;"> <span>Requirements:</span>
+                    <div class="job_feild" style="margin-top:8px;"> <span>Requirements:</span>
                         <div class="job-share-tb-top job_feild_margin">
 							<?php	echo $form->input('requirements', array('label' => '',
 													'type'  => 'text',

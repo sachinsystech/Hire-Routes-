@@ -94,7 +94,7 @@ class UtilitiesController extends AppController {
 					$univs[]=array('id'=>$id,'name'=>$name);
 				}
 			*/		
-			$univs[]=array('id'=>0,'name'=>"Our humble apologies that your university is not on the list.  Well be updating our database soon!  Please select Other for now.");
+			$univs[]=array('id'=>0,'name'=>"Our humble apologies that your university is not on the list.  We'll be updating our database soon!  Please select Other for now.");
 			$universities=json_encode($univs);
 		}
 		return $universities;
@@ -136,7 +136,7 @@ class UtilitiesController extends AppController {
 				    $universitiesdata[]=array('id'=>$id,'name'=>$name);
 			    }
 			*/
-			$universitiesdata[]=array('id'=>0,'name'=>"Our humble apologies that your university is not on the list.  Well be updating our database soon!  Please select Other for now.");
+			$universitiesdata[]=array('id'=>0,'name'=>"Our humble apologies that your university is not on the list.  We'll be updating our database soon!  Please select Other for now.");
 			$graduateUniversities=json_encode($universitiesdata);
 		}
 	    return $graduateUniversities;
