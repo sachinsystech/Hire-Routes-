@@ -159,7 +159,7 @@ function registrationInto(redirect){
 							if(item.id === 0) {
 								$("#UsersUniversity").parent("div").next('div').remove();							
 								$("#UsersUniversity").parent("div").next('label').remove();
-								$("#UsersUniversity").parent("div").after('<div class="popup_tooltip_backround"><label for="name" generated="true" class="popup_tooltip_university" >'+item.name+'</label>');
+								$("#UsersUniversity").parent("div").after('<div class="popup_tooltip_backround"></div><label for="name" generated="true" class="popup_tooltip_university" >'+item.name+'</label>');
 								$("#UsersUniversity").autocomplete('search', 'other');
 							}else{
 								return {
@@ -211,7 +211,7 @@ function registrationInto(redirect){
 							if(item.id === 0) {
 								$("#UsersGraduateUniversity").parent("div").next('div').remove();	
 								$("#UsersGraduateUniversity").parent("div").next('label').remove();
-								$("#UsersGraduateUniversity").parent("div").after('<div class="popup_tooltip_backround"><label for="name" generated="true" class="popup_tooltip_university" >'+item.name+'</label>');
+								$("#UsersGraduateUniversity").parent("div").after('<div class="popup_tooltip_backround"></div><label for="name" generated="true" class="popup_tooltip_university" >'+item.name+'</label>');
 								$("#UsersGraduateUniversity").autocomplete('search', 'other');
 							}else{
 								return {
