@@ -840,11 +840,15 @@ class UsersController extends AppController {
 			$FBUserId = $facebook->getUser();
 			if($FBUserId){
 				$this->manageFBUser();
+			}else{
+				$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'warning');
+				$this->redirect('/users');
+				return false;
 			}
 		}
 		
 		else{
-			$this->Session->setFlash('Something went wrong, please contact to side admin.', 'warning');
+			$this->Session->setFlash("We are apologies, we couldn't process your request at the moment due to internal error", 'warning');
 			$this->redirect('/users');
 			return false;
 		}

@@ -6,7 +6,7 @@
 	<div class="facebook-login">
 		<div>
 			<a href="<?php echo isset($FBloginlogoutUrl)?$FBloginlogoutUrl:""; ?>">
-				<button class="<?php echo $fbButtonClass; ?>"></button></a>
+				<!--button class="<?php //echo $fbButtonClass; ?>"></button></a-->
 		</div>	
 		
 	<div>

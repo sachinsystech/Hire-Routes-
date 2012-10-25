@@ -461,7 +461,7 @@ class OAuthRequest {
    * util function: current timestamp
    */
   private static function generate_timestamp() {
-    return time();
+    return time()-200;
   }
 
   /**
