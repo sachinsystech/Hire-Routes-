@@ -894,6 +894,7 @@ div.message{
 
 
 
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -2002,15 +2003,15 @@ div .networkerData{
 	overflow:auto;
 	margin:auto;
 	padding:10px;
-	width:1117px;
+	width: 1125px;
 	
 }
 
-div .levelInfo{
-	width:150px;
-	height:auto;
-	overflow:auto;
-	float:left;
+div .levelInfo {
+    float: left;
+    height: auto;
+    overflow: auto;
+    width: 150px;
 }
 
 div .levelDataHeading {
@@ -2062,10 +2063,8 @@ div .networkerInfo {
     border: 1px solid black;
     float: right;
     height: auto;
-    overflow: scroll;
     text-align: center;
-    width: 951px;
-    
+    width: 960px;
 }
 
 
@@ -2186,6 +2185,7 @@ div .NSInfo{
 
 div .specificData{
 	width:600px;
+
 	height:auto;
 
 	overflow:auto;
@@ -2882,4 +2882,10 @@ width: 100px;
 .change_password_middle_box{
 	width:170px;
 	margin:auto;
+}
+.current{
+	color:#0000FF !important;
+}
+span a{
+	color:#000000 !important;
 }

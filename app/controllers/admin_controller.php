@@ -211,7 +211,7 @@ class AdminController extends AppController {
 		));
 		if(empty($payment_detail)){
 			$this->Session->setFlash('You click on old link or entered manually.','error');
-			$this->redirect('/admin/rewardPayment/');
+			$this->redirect('/admin/rewardPayment');
 		}
 		
 		$networker_ids=explode(',',$payment_detail['JobseekerApply']['intermediate_users']);

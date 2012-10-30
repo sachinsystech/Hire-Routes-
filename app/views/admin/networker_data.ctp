@@ -35,7 +35,7 @@
 		<?php endforeach; ?>
 		</div>
 		<div class="networkerInfo">
-			<div style="min-height:79px;float:left;width:936px;">
+			<div style="min-height:79px;float:left;width:960px;">
 				<div style="height:30px;font-weight:bold;font-size:20px;padding:5px;text-align:left;">
 					<?php echo "Level $selectedLevel"?>
 					<?php if($this->Paginator->numbers()): ?>
