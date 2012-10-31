@@ -230,7 +230,7 @@
 													'class' => 'required',
 													'placeholder'=>'Requirements',
 													'div'=>false,
-													'value' => isset($job['benefits'])?unhtmlspecialchars($job['benefits']):""
+													'value' => isset($job['requirements'])?unhtmlspecialchars($job['requirements']):""
 												)
 									      );
 						     ?>					
