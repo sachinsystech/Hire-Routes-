@@ -2884,8 +2884,12 @@ width: 100px;
 	margin:auto;
 }
 .current{
-	color:#0000FF !important;
+	color:#3230F1 !important;
+	font-size: 13px;
 }
 span a{
+	color:#605B5B !important;
+}
+span a:hover{
 	color:#000000 !important;
 }

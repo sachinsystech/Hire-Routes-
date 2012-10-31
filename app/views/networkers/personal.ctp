@@ -32,6 +32,8 @@
     	                	<?php }?>
     	                <?php } ?>
                     </div>
+					<div style="float: left; height: 200px; margin-left: 20px; border-left: 1px solid rgb(162, 150, 150); margin-top: 4px;">
+					</div>
                     <div class="job-right-top-right" >
                     	<div id="invitationList">
 							<?php //echo $this->element("networker_invitations");?>
