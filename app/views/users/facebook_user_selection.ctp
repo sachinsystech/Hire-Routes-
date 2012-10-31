@@ -180,7 +180,24 @@ function registrationInto(redirect){
 	});
 	
 	$(document).ready(function() {
+		$("#UsersGraduateUniversity").attr('readonly', true).keypress(function(){
+			if($(this).attr("readonly")){
+				$("#NetworkersGraduateDegreeId").next('div').remove();								
+				$("#NetworkersGraduateDegreeId").next('label').remove();
+				$("#NetworkersGraduateDegreeId").after('<div style="margin-top:-12px;" class="popup_tooltip_backround"></div><label for="name" generated="true" class="popup_tooltip_university" style="margin-top:-15px;">Please select Graduate Degree first</label>');	
+			}});
+			
 		$("#NetworkersGraduateDegreeId").change( function(){ 	
+			if($(this).val() == "" || $(this).val() == null){
+				$("#UsersGraduateUniversity").attr('readonly', true).val("").next('div').remove();
+				$('#NetworkersGraduateUniversityId').val("");
+				$("#UsersGraduateUniversity").next('label').remove();
+				return;
+			}else{
+				$("#UsersGraduateUniversity").attr('readonly', false);
+				$("#NetworkersGraduateDegreeId").next('div').remove();
+				$("#NetworkersGraduateDegreeId").next('label').remove();
+			} 
 			$("#UsersGraduateUniversity").autocomplete('search', '');
 		});	
 		$( "#UsersGraduateUniversity" ).autocomplete({
