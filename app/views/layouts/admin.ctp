@@ -140,7 +140,11 @@
 		<div class="nav-divider">&nbsp;</div>
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
-			<li><a href="/users/changePassword/"><b>Change password</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+			<li>
+				<a href="/users/changePassword/">
+					<b>Change password</b>
+				</a>
+			</li>
 		</ul>
 		
 		

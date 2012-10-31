@@ -895,6 +895,7 @@ div.message{
 
 
 
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -1883,6 +1884,7 @@ input[type=submit],
 button{
 	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
 	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
+	background: #ccc;
     border: 1px solid #7E7E7E;
  	color: #FFFFFF;
     font-weight: normal;
