@@ -234,7 +234,20 @@ Please submit the form below and you will receive an email confirmation to compl
 	});
 	
 	$(document).ready(function() {
-		$("#NetworkerGraduateDegreeId").change( function(){ 	
+		$("#UserGraduateUniversity").attr('readonly', true).keypress(function(){
+			if($(this).attr("readonly")){
+				$("#NetworkerGraduateDegreeId").next('div').remove();								
+				$("#NetworkerGraduateDegreeId").next('label').remove();
+				$("#NetworkerGraduateDegreeId").after('<div class="tooltip_graduate_degree_backround"></div><label for="name" generated="true" class="error tooltip_graduate_degree" >Please select Graduate Degree First</label>');	
+			}});
+		$("#NetworkerGraduateDegreeId").change( function(){
+			if($(this).val() == "" || $(this).val() == null){
+				$("#UserGraduateUniversity").attr('readonly', true);
+			}else{
+				$("#UserGraduateUniversity").attr('readonly', false);
+				$("#NetworkerGraduateDegreeId").next('div').remove();
+				$("#NetworkerGraduateDegreeId").next('label').remove();
+			} 	
 			$("#UserGraduateUniversity").autocomplete('search', '');
 		});	
 		$( "#UserGraduateUniversity" ).autocomplete({

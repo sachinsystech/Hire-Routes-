@@ -53,7 +53,14 @@
 				<td style="padding:3px;"><?php echo ucfirst($company["Companies"]["contact_name"]); ?></td>
 				<td >
 					<a href='<?php echo $company["Companies"]["company_url"]; ?>'>
-						<?php echo $company["Companies"]["company_url"];?>
+					<?php 
+		           		if(strpos($company["Companies"]["company_url"],"http") === false){
+							$companyUrl = "http://".$company["Companies"]["company_url"]; 
+						}else{
+							$companyUrl = $company["Companies"]["company_url"]; 
+						}
+					?>
+					<?php echo $companyUrl ;?>
 					</a>
 				</td>
 				<td align="center" ><?php echo $company["Companies"]["contact_phone"]; ?></td> 

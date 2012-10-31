@@ -350,7 +350,7 @@ list archive jobs..
 					$this->Session->setFlash('Your job has been saved and posted successfully.', 'success');
 					$this->redirect('/companies/editJob/'.$this->Job->id);
 				}
-				$this->Session->setFlash('Your job has been updated successfully..', 'success');
+				$this->Session->setFlash('Your job has been updated successfully.', 'success');
 				$this->redirect('/companies/newJob');
 			}else{
 				$this->Session->setFlash('Job data Invalid.', 'error');
