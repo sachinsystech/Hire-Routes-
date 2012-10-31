@@ -80,6 +80,19 @@
 					</div>
 					<div class="clr"></div>
 					
+					<div class="edit-profile-text-box">
+						<?php	
+								echo $form->input('Companies.company_url', array('label' => "<span>Contact Url</span> ",
+												'type'  => 'text',
+												'value' => isset($company['company_url'])? $company['company_url'] :"",
+												'div'=> false,												
+											)
+							 );
+						?>					
+					
+					</div>
+					<div class="clr"></div>
+					
 					<div class="edit-profile-clear-all">
 						<label id="clearAll" onclick=" clear_fields();">Clear All</label>
 					</div>

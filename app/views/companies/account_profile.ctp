@@ -22,10 +22,13 @@
 			    <a href="/companies/editProfile">edit</a>
 			</p>
                     	<p><span>Contact Phone:</span> 
-			    <?php echo $company['contact_phone'];?>
+			   <?php echo $company['contact_phone'];?>
 			    <a href="/companies/editProfile">edit</a>
 			</p>
-                        <p><span>Email:</span> 
+            <p><span>Contact Url:</span> 
+			     <?php if(isset($company['company_url']))echo $company['company_url'];?>
+			    <a href="/companies/editProfile">edit</a>
+			</p>            <p><span>Email:</span> 
                             <?php echo $user['account_email'];?>
 				<!--<a href="/companies/editProfile">edit</a>-->
                         </p>
