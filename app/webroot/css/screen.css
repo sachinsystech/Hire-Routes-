@@ -1779,6 +1779,7 @@ label.error {
 }
 .flip{
     -moz-border-radius: 10px 10px 10px 10px;
+    background:#7e7e7e;
     background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
 	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
     border: -1px solid;
@@ -1882,9 +1883,9 @@ label.error {
 
 input[type=submit],
 button{
+	background: #7E7E7E;
 	background: -moz-linear-gradient(center top, #7E7E7E,#ccc);	
 	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#ccc));
-	background: #ccc;
     border: 1px solid #7E7E7E;
  	color: #FFFFFF;
     font-weight: normal;
@@ -1897,6 +1898,7 @@ button{
 }
 input[type=submit]:hover ,button:hover{
 	cursor:pointer;
+	background: #7E7E7E
 	background: -moz-linear-gradient(center top, #7E7E7E,#7E7E7E);	
 	background: -webkit-gradient(linear, left top, left bottom, from(#7E7E7E), to(#7E7E7E));
 	
