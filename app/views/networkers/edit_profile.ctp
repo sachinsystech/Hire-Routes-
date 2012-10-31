@@ -210,6 +210,8 @@
 						}	
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
+								$("#NetworkersGraduateDegreeId").next('div').remove();								
+								$("#NetworkersGraduateDegreeId").next('label').remove();
 								$("#GraduateUniversityBreakdownUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 								$("#GraduateUniversityBreakdownUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
 								$("#GraduateUniversityBreakdownUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
@@ -241,7 +243,33 @@
 	});
 	
 	$(document).ready(function() {
-		$("#NetworkersGraduateDegreeId").change( function(){ 
+		if($("#NetworkersGraduateDegreeId option:selected").val() === ""){
+			$("#GraduateUniversityBreakdownGraduateUniversity").attr('readonly', true).keypress(function(){
+				if($(this).attr("readonly") ){
+					$("#NetworkersGraduateDegreeId").next('div').remove();								
+					$("#NetworkersGraduateDegreeId").next('label').remove();
+					$("#NetworkersGraduateDegreeId").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university" >Please select Graduate Degree first</label>');	
+			}});
+		}
+		
+		$("#NetworkersGraduateDegreeId").change( function(){
+			if($("#NetworkersGraduateDegreeId option:selected").val() === "" || $("#NetworkersGraduateDegreeId option:selected").val() === null){
+				$("#GraduateUniversityBreakdownGraduateUniversity").attr('readonly', true).keypress(function(){
+				if($(this).attr("readonly") ){
+					$("#NetworkersGraduateDegreeId").next('div').remove();								
+					$("#NetworkersGraduateDegreeId").next('label').remove();
+					$("#NetworkersGraduateDegreeId").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university" >Please select Graduate Degree First</label>');	
+				}});
+				$("#GraduateUniversityBreakdownGraduateUniversity").attr('readonly', true).val("");
+				$('#NetworkersGraduateUniversityId').val("");
+				$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
+				$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
+				return;
+			}else{
+				$("#GraduateUniversityBreakdownGraduateUniversity").attr('readonly', false);
+				$("#NetworkersGraduateDegreeId").next('div').remove();
+				$("#NetworkersGraduateDegreeId").next('label').remove();
+			}  
 			$("#GraduateUniversityBreakdownGraduateUniversity").autocomplete('search', '');
 		});	
 		$( "#GraduateUniversityBreakdownGraduateUniversity" ).autocomplete({

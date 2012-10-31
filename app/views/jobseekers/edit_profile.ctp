@@ -252,8 +252,33 @@
 		$("#clearAll").click(function(){
 			$("input[type=text]").val("");
 		});
-	
-		$("#JobseekersGraduateDegreeId").change( function(){ 
+		
+		if($("#JobseekersGraduateDegreeId option:selected").val() === ""){
+			$("#JobseekerSettingsGraduateUniversity").attr('readonly', true).keypress(function(){
+				if($(this).attr("readonly") ){
+					$("#JobseekersGraduateDegreeId").next('div').remove();								
+					$("#JobseekersGraduateDegreeId").next('label').remove();
+					$("#JobseekersGraduateDegreeId").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university" >Please select Graduate Degree first</label>');	
+			}});
+		}
+		$("#JobseekersGraduateDegreeId").change( function(){
+		if($("#JobseekersGraduateDegreeId option:selected").val() === "" || $("#JobseekersGraduateDegreeId option:selected").val() === null){
+				$("#JobseekerSettingsGraduateUniversity").attr('readonly', true).keypress(function(){
+				if($(this).attr("readonly") ){
+					$("#JobseekersGraduateDegreeId").next('div').remove();								
+					$("#JobseekersGraduateDegreeId").next('label').remove();
+					$("#JobseekersGraduateDegreeId").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university" >Please select Graduate Degree First</label>');	
+				}});
+				$("#JobseekerSettingsGraduateUniversity").attr('readonly', true).val("");
+				$('#JobseekersGraduateUniversityId').val("");
+				$("#JobseekerSettingsGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
+				$("#JobseekerSettingsGraduateUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
+				return;
+			}else{
+				$("#JobseekerSettingsGraduateUniversity").attr('readonly', false);
+				$("#JobseekersGraduateDegreeId").next('div').remove();
+				$("#JobseekersGraduateDegreeId").next('label').remove();
+			}  
 			$("#JobseekerSettingsGraduateUniversity").autocomplete('search', '');
 		});	
 		$( "#JobseekerSettingsGraduateUniversity" ).autocomplete({

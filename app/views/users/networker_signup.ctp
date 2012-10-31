@@ -205,6 +205,8 @@ Please submit the form below and you will receive an email confirmation to compl
 						}
 						response( $.map( data, function(item) {
 							if(item.id === 0) {
+								$("#NetworkerGraduateDegreeId").next('div').remove();								
+								$("#NetworkerGraduateDegreeId").next('label').remove();
 								$("#UserUniversity").next('div').remove();
 								$("#UserUniversity").next('label').remove();
 								$("#UserUniversity").after('<div class="tooltip_backround"></div><label for="name" generated="true" class="error tooltip_university">'+item.name+'</label>');
@@ -238,11 +240,15 @@ Please submit the form below and you will receive an email confirmation to compl
 			if($(this).attr("readonly")){
 				$("#NetworkerGraduateDegreeId").next('div').remove();								
 				$("#NetworkerGraduateDegreeId").next('label').remove();
-				$("#NetworkerGraduateDegreeId").after('<div class="tooltip_graduate_degree_backround"></div><label for="name" generated="true" class="error tooltip_graduate_degree" >Please select Graduate Degree First</label>');	
+				$("#NetworkerGraduateDegreeId").after('<div class="tooltip_graduate_degree_backround"></div><label for="name" generated="true" class="error tooltip_graduate_degree" >Please select Graduate Degree first</label>');	
 			}});
 		$("#NetworkerGraduateDegreeId").change( function(){
 			if($(this).val() == "" || $(this).val() == null){
-				$("#UserGraduateUniversity").attr('readonly', true);
+				$("#UserGraduateUniversity").attr('readonly', true).val("");
+				$('#NetworkerGraduateUniversityId').val("");
+				$("#UserGraduateUniversity").next('div').remove();								
+				$("#UserGraduateUniversity").next('label').remove();
+				return;
 			}else{
 				$("#UserGraduateUniversity").attr('readonly', false);
 				$("#NetworkerGraduateDegreeId").next('div').remove();
