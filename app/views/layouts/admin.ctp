@@ -53,10 +53,10 @@
 	</div>
 	<?php if($this->Session->read('Auth.User.id')==1):?>
 	
-	<div class="logoutClass">admin&nbsp;| <a href="/users/logout">Logout</a></div>
 	<?php endif;?>
 	<!--<div class="logoutClass"><?php echo $databaseMenus->auth_links(); ?></div>-->
 	<!-- end logo -->
+	<div class="logoutClass">admin&nbsp;| <a href="/users/logout">Logout</a></div>
 	
 	<!--  start top-search -->
 	
