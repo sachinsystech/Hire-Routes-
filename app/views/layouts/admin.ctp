@@ -113,21 +113,25 @@
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a href="/admin/userList/"><b>Users</b></a>
 				<ul >
-					<li><a href="/admin/employer/"><b>Employer</b></a></li>
+					<li>
+						<a href="/admin/employer/">
+							<b>Employer</b>
+						<!--[if IE 7]><!--></a><!--<![endif]-->
+					</li>
 					<li>
 						<a href="/admin/networkerData/">
 							<b>Networker</b>
-						</a>
+						<!--[if IE 7]><!--></a><!--<![endif]-->
 					</li>
 					<li>
 						<a href="/admin/jobseeker/">
 							<b>Jobseeker</b>
-						</a>
+						<!--[if IE 7]><!--></a><!--<![endif]-->
 					</li>
 					<li>
 						<a href="/admin/deactiveUsers/">
 							<b>Pending Request</b>
-						</a>
+						<!--[if IE 7]><!--></a><!--<![endif]-->
 					</li>
 				</ul>
 			</li>
