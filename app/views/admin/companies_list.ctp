@@ -52,7 +52,7 @@
 				<td style="padding:3px;"><?php echo $company["Companies"]["company_name"]; ?></td> 
 				<td style="padding:3px;"><?php echo ucfirst($company["Companies"]["contact_name"]); ?></td>
 				<td >
-					<a href='<?php echo $company["Companies"]["company_url"]; ?>'>
+					<a class='NewTab' href='<?php echo $company["Companies"]["company_url"]; ?>' >
 					<?php 
 		           		if(strpos($company["Companies"]["company_url"],"http") === false){
 							$companyUrl = "http://".$company["Companies"]["company_url"]; 
