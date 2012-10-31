@@ -106,10 +106,10 @@
 				<td><b>Company Url:</b></td>
 				<td>
 					<?php 
-			       		if(strpos($company["Companies"]["company_url"],"http") === false){
-							$companyUrl = "http://".$company["Companies"]["company_url"]; 
+			       		if(strpos($companyDetail['Companies']['company_url'],"http") === false){
+							$companyUrl = "http://".$companyDetail['Companies']['company_url']; 
 						}else{
-							$companyUrl = $company["Companies"]["company_url"]; 
+							$companyUrl = $companyDetail['Companies']['company_url']; 
 						}
 					?>
 					<a href= "<?php echo $companyUrl ;?>" class="NewTab">

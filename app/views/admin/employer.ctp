@@ -88,11 +88,11 @@ function login_status($l1,$l2){
 
 				<div><?php echo $employer['User']['account_email']; ?></div>
 				<?php 
-	           		if(strpos($company["Companies"]["company_url"],"http") === false){
-						$companyUrl = "http://".$company["Companies"]["company_url"]; 
-					}else{
-						$companyUrl = $company["Companies"]["company_url"]; 
-					}
+		           		if(strpos($employer['Companies']['company_url'],"http") === false){
+							$companyUrl = "http://".$employer['Companies']['company_url']; 
+						}else{
+							$companyUrl = $employer['Companies']['company_url']; 
+						}
 				?>
 				<span style="margin-left:17px"><?php echo "<a href='".$companyUrl."'class='NewTab' >".$employer['Companies']['company_url']."</a>";?></span>
 			</div>
