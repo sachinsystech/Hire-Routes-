@@ -114,9 +114,21 @@
 			<li><a href="/admin/userList/"><b>Users</b></a>
 				<ul >
 					<li><a href="/admin/employer/"><b>Employer</b></a></li>
-					<li><a href="/admin/networkerData/"><b>Networker</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
-					<li><a href="/admin/jobseeker/"><b>Jobseeker</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
-					<li><a href="/admin/deactiveUsers/"><b>Pending Request</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+					<li>
+						<a href="/admin/networkerData/">
+							<b>Networker</b>
+						</a>
+					</li>
+					<li>
+						<a href="/admin/jobseeker/">
+							<b>Jobseeker</b>
+						</a>
+					</li>
+					<li>
+						<a href="/admin/deactiveUsers/">
+							<b>Pending Request</b>
+						</a>
+					</li>
 				</ul>
 			</li>
 		</ul>
