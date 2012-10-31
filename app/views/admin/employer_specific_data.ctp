@@ -105,7 +105,14 @@
 			<tr>
 				<td><b>Company Url:</b></td>
 				<td>
-					<a href= "<?php echo $companyDetail['Companies']['company_url'] ;?>" class="NewTab">
+					<?php 
+			       		if(strpos($company["Companies"]["company_url"],"http") === false){
+							$companyUrl = "http://".$company["Companies"]["company_url"]; 
+						}else{
+							$companyUrl = $company["Companies"]["company_url"]; 
+						}
+					?>
+					<a href= "<?php echo $companyUrl ;?>" class="NewTab">
 						<?php echo $companyDetail['Companies']['company_url'] ;?>
 					</a> 
 				</td> 

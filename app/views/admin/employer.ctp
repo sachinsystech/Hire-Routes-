@@ -87,7 +87,14 @@ function login_status($l1,$l2){
 				</div>
 
 				<div><?php echo $employer['User']['account_email']; ?></div>
-				<span style="margin-left:17px"><?php echo "<a href='".$employer['Companies']['company_url']."'class='NewTab' >".$employer['Companies']['company_url']."</a>";?></span>
+				<?php 
+	           		if(strpos($company["Companies"]["company_url"],"http") === false){
+						$companyUrl = "http://".$company["Companies"]["company_url"]; 
+					}else{
+						$companyUrl = $company["Companies"]["company_url"]; 
+					}
+				?>
+				<span style="margin-left:17px"><?php echo "<a href='".$companyUrl."'class='NewTab' >".$employer['Companies']['company_url']."</a>";?></span>
 			</div>
 			<div class="networkersData" style="width:50px;text-align:center">
 				<?php echo $employer['0']['jobPosted']; ?>&nbsp;
