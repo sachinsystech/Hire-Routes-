@@ -129,6 +129,7 @@
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
 											'message'=>$message.$invitationUrl,
 											'method'=>'send',
+											'link'=>$config_url,
 											'picture'=>$config_url."/images/hire_route_logo.png",
 											'access_token' =>$User['User']['facebook_token'])
 										);
