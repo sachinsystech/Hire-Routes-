@@ -52,7 +52,6 @@
 				<td style="padding:3px;"><?php echo $company["Companies"]["company_name"]; ?></td> 
 				<td style="padding:3px;"><?php echo ucfirst($company["Companies"]["contact_name"]); ?></td>
 				<td style="word-wrap: break-word;">
-					<a class='NewTab' href='<?php echo $company["Companies"]["company_url"]; ?>' >
 					<?php 
 		           		if(strpos($company["Companies"]["company_url"],"http") === false){
 							$companyUrl = "http://".$company["Companies"]["company_url"]; 
@@ -60,7 +59,8 @@
 							$companyUrl = $company["Companies"]["company_url"]; 
 						}
 					?>
-					<?php echo $companyUrl ;?>
+					<a class='NewTab' href='<?php echo $companyUrl ;?>' >
+						<?php echo $company["Companies"]["company_url"]; ?>
 					</a>
 				</td>
 				<td align="center" ><?php echo $company["Companies"]["contact_phone"]; ?></td> 
