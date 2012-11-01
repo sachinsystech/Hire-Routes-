@@ -1,17 +1,17 @@
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
+<!--script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script-->
 
 <script type="text/javascript">
-    var windowSizeArray = [ "width=400,height=400,scrollbars=yes" ];
+ 	//var windowSizeArray = [ "width=400,height=400,scrollbars=yes" ];
 
     $(document).ready(function(){
-        $('.newWindow').click(function (event){
+        /*$('.newWindow').click(function (event){
             var url = "/home/hrInvitationsDetail";
             var windowName = "popUp";
             var windowSize = windowSizeArray[0];
             window.open(url, windowName, windowSize);
             event.preventDefault();
 
-        });
+        });*/
     });
 </script>
         <!----------Netwroker points information------------->		
