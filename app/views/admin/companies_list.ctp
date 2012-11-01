@@ -51,7 +51,7 @@
 				<td align="center"><?php echo $page*10+$sno;?></td>
 				<td style="padding:3px;"><?php echo $company["Companies"]["company_name"]; ?></td> 
 				<td style="padding:3px;"><?php echo ucfirst($company["Companies"]["contact_name"]); ?></td>
-				<td >
+				<td style="word-wrap: break-word;">
 					<a class='NewTab' href='<?php echo $company["Companies"]["company_url"]; ?>' >
 					<?php 
 		           		if(strpos($company["Companies"]["company_url"],"http") === false){

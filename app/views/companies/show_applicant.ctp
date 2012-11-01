@@ -327,7 +327,7 @@ function clear_div(val){
                         </ul>
 						
 						<?php if(empty($applicants)): ?>
-							<div style="font-size: 14px; margin: auto; width: 216px;">
+							<div style="font-size: 14px; margin: auto; width: 226px;">
 								<span>Sorry, no applicant applied for this job.</span>
 							</div>
 						<?php endif; ?>

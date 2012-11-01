@@ -31,17 +31,13 @@
 						<tr>			
 							<td>
 								<div>
-									<div style="float:left">
+									<div style="float:left;width:440px;*width:480px;">
 										<?php echo $form->create('', array('action' => 'invitationCode')); ?>
-										<div style="float:left;width:300px;margin: 2px;">
-								
-										</div>
-										<div style="clear:both"></div>
 										<div style="float:left;width:320px;margin: 2px;">
 											<?php 
 													echo $form->input( 'InvitaionCode.signups', array
 																					(
-																					'label'=>"<span style='float:left;margin-right: 8px;'> No. of Code ",
+																					'label'=>"<span style='float:left;margin-right: 8px;'> No. of Code</span>",
 																					'type' => 'text',
 																					'class' => 'code_signups_txt required number',
 																					'error' => array('wrap' => 'label', 'class' => 'error'),
@@ -49,13 +45,11 @@
 														   );
 											?>
 										</div>
-										<div style="clear:both"></div>									
-										
+										<div style="float:right;">
+											<?php  echo $form->submit('Genrate Code',array('div'=>false));   ?>
+										</div>
+										<?php echo $form->end(); ?>	
 									</div>
-									<div style="float:left">
-										<?php  echo $form->submit('Genrate Code',array('div'=>false));   ?>
-										<?php echo $form->end(); ?>
-									</div>	
 								</div>
 								
 							</td>

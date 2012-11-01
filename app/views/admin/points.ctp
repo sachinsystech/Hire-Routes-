@@ -226,7 +226,7 @@
 			<div class="gubData"><a href="#" >Points </a></div>						
 		</div>
 <?php $count=1;?>
-		<div style="height:300px;overflow:scroll;">
+		<div style="height:300px;overflow-y:scroll;overflow-x:hidden;">
 			<?php
 				foreach($universities as $key=>$data){
 			?>
@@ -252,7 +252,7 @@
 			?>
 		</div>
 	</div>
-	<div class="pointscontent" style="margin-top:10px;">
+	<div class="pointscontent" style="margin-top:10px;height:400px;">
 		<div class="pointsInfo">Graduate University Breakdown:</div>
 		<div class="invitaionHeading">
 			<div class="gubData"><a href="#" >Rank </a></div>
@@ -261,7 +261,7 @@
 			<div class="gubData"><a href="#" >Points </a></div>						
 		</div>
 		<?php $count=1;?>
-		<div style="height:300px;overflow:scroll;">
+		<div style="height:300px;overflow-y:scroll;overflow-x:hidden;">
 			<?php
 				foreach( $graduateUniversity as $key=>$data){
 			?>

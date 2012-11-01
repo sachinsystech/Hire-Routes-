@@ -38,7 +38,7 @@
 													$userType = array('Jobseeker'=>"Jobseeker",'Networker'=>"Networker");
 													echo $form->input( 'user_type', array
 																						(
-																						'label'=>"<span style='float:left;margin-right: 5px;'> User Type ",	
+																						'label'=>"<span style='float:left;margin-right: 5px;'> User Type</span> ",	
 																						'type' => 'select',
 																						'options' => $userType,
 																						'empty' => 'Select',
@@ -53,7 +53,7 @@
 											<?php 
 													echo $form->input( 'signups', array
 																					(
-																					'label'=>"<span style='float:left;margin-right: 8px;'> Signups ",
+																					'label'=>"<span style='float:left;margin-right: 8px;'> Signups </span>",
 																					'type' => 'text',
 																					'class' => 'code_signups_txt',
 																					'error' => array('wrap' => 'span', 'class' => 'code_page_error'),
@@ -67,7 +67,7 @@
 											<?php 
 													echo $form->input( 'code', array
 																					(
-																					'label'=>"<span style='float:left;margin-right: 8px;'> Code ",	
+																					'label'=>"<span style='float:left;margin-right: 8px;'> Code </span>",	
 																					'type' => 'text',
 																					'class' => 'code_restrict',
 																					'error' => array('wrap' => 'span', 'class' => 'code_page_error')

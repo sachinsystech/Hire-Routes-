@@ -643,7 +643,11 @@ function drawGraph(data,year){
 	myChart.setAxisNameY('$ Reward');
 	myChart.setAxisNameColor('#655D5D');
 	myChart.setAxisNameFontSize(9);
-	myChart.setAxisPaddingLeft(66);
+	if(navigator.appName ==="Microsoft Internet Explorer"){
+		myChart.setAxisPaddingLeft(76);
+	}else{
+		myChart.setAxisPaddingLeft(66);
+	}
 	myChart.setAxisPaddingBottom(30);
 	myChart.setAxisValuesDecimals(1);
 	myChart.set3D(true);

@@ -896,6 +896,7 @@ div.message{
 
 
 
+
 	}
 .showhide-account	{
 	cursor: pointer;
@@ -1745,10 +1746,14 @@ label.error {
 	float: left;
     margin: 5px 1px;
     color: red;
+    font-size:12px;
+    clear:both;
+    width:150px;
 }
 
 #ConfigConfigForm label.error{
 	margin-left:-18px;
+
 }
 .code_user_select_box{
     background: none repeat scroll 0 0 #FFFFFF;
@@ -2790,6 +2795,9 @@ fieldset{
 	height:50px;
 	font-weight:bold;
 }
+.pointsInputBox label{
+	float:left;
+}
 .pointsInputBox input{
 	float:right;
 	width:25px;
@@ -2797,6 +2805,7 @@ fieldset{
 .pointscontent{
 	clear:both;
 	float:left;
+	*width:360px;
 }
 .pointsInfo{
 	font-weight:bold;
