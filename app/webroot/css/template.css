@@ -852,7 +852,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .login-button input {background:url(../images/bttn_sprite.png) no-repeat -11px -80px;cursor: pointer; margin: 10px 0 0 11px;height: 36px; width: 181px; border:none; font:20px 'OpenSansCondensedBold'; color:#fff;}
 .login-button input:hover {background:url(../images/bttn_sprite.png) no-repeat -11px -121px;}
 .login-button input:active {background:url(../images/bttn_sprite.png) no-repeat -11px -165px;}
-.job-add-to {margin:0 0 105px 0 !important;}
+.job-add-to {margin:0 0 90px 0 !important;}
 .job-table-status {width:164px;}
 .job-table-source {width:160px;}
 .job-table-align2 {height:23px !important; padding-top:6px;}
@@ -1209,7 +1209,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-ppl ul {margin:0; padding:0;}
 .job-share-ppl ul li {float:left;  margin: 4px; list-style:none;width: 48px; height: 50px; position: relative;}
 .job-share-ppl ul li img { width:47px; height:50px;  display: block; position: absolute;}
-.pop-up-button {bottom:25px; left:176px; position: relative; left: 140px\0/;*left: 100px\0/;}
+.pop-up-button {bottom:25px; left:176px; position: relative; left: 140px\0/;*left: 100px;}
 .js_invite { width:auto;float: left;font: 15px Arial,Helvetica,sans-serif;}
 .js_invite_all{
 	float:left;

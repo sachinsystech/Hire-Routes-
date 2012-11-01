@@ -19,36 +19,36 @@
 	position:relative;
 }
 .selectedFriends{
-border: 1px solid black;
-font-size: 13px;
-font-weight: bold;
-height: 260px;
-overflow: auto;
-padding: 10px;
-text-decoration: underline;
-width: 150px;
+	border: 1px solid black;
+	font-size: 13px;
+	font-weight: bold;
+	height: 260px;
+	overflow: auto;
+	padding: 10px;
+	text-decoration: underline;
+	width: 150px;
 }
 .selectedFriend{
-margin: 1px;
-margin-bottom: 3px;
-height: 30px;
+	margin: 1px;
+	margin-bottom: 3px;
+	height: 30px;
 }
 .selectedFriendImage{
-height: 30px;
-width: 30px;
-margin: auto;
+	height: 30px;
+	width: 30px;
+	margin: auto;
 }
 .selectedFriendCheckBox{
-position: absolute;
-top: 0px;
-left: 12px;
+	position: absolute;
+	top: 0px;
+	left: 12px;
 }
 .selectedFriendName{
-font-size:.75em;
-text-align: left;
-float:left;
-width:100px;
-margin-left:1px;
+	font-size:.75em;
+	text-align: left;
+	float:left;
+	width:100px;
+	margin-left:1px;
 }
 .ui-dialog {
     overflow: visible;
@@ -63,6 +63,10 @@ margin-left:1px;
     max-width: 350px;
     overflow-x: hidden;
     overflow-y: auto;
+}
+#dialog{
+	*height:600px;
+	*position:absolute;
 }
 /* IE 6 doesn't support max-height
 * we use height instead, but this forces the menu to always be this tall
@@ -90,13 +94,13 @@ $(function() {
 		width:900,
 		height:700,
 		closeOnEscape: false,
+		resizable : false,
 		modal:true
 	});
 	
 	$( "#dialog" ).parent("div").css({"padding":"0","margin":"0px 0px 0px 0px","height":"600px !important",
-	"overflow":"none","top":"0","background":"none","border":"none"});
+	"overflow":"none","background":"none","border":"none","*position":"relative"});
 	$( "#opener" ).click(function() {
-		$( "#dialog" ).css( "top" ,'-50');
 		$( "#dialog" ).dialog( "open" );
 		return false;
 	});

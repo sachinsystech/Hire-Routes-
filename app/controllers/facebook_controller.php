@@ -113,7 +113,6 @@
                 	if($session->getUserRole()==JOBSEEKER){
 	                	$icc = md5(uniqid(rand())); 
  	               		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."/?icc=".$icc;
- 	               		$homeUrl = Configure::read('httpRootURL')."?icc=".$icc;
  	               		$inviteData = array();
 						$inviteData['name_email'] =  "";//$fbuser->name;
 						$inviteData['user_id'] = $userId;
@@ -125,13 +124,12 @@
 						$this->Invitation->save($inviteData);
                 	}else{
                 		$invitationUrl = Configure::read('httpRootURL')."jobs/jobDetail/".$jobId."?intermediateCode=".$invitationCode;
-                		$homeUrl = Configure::read('httpRootURL')."?intermediateCode=".$invitationCode;
                 	}
                 	
                     $result = $this->facebookObject()->api("/".$id."/feed",'post',array(
 											'message'=>$message.$invitationUrl,
 											'method'=>'send',
-											'link'=>$homeUrl,
+											'link'=>$invitationUrl,
 											'picture'=>$config_url."/images/hire_route_logo.png",
 											'name'=>'Hire Routes',
 											'description'=>'A social recruiting website that provides companies and recruiters with a platform that allows them to really harness the power of social networks by posting jobs with cash rewards and sharing those jobs with their own personal and professional networks as well as with new, select and otherwise inaccessible networks being built here at Hire Routes.',

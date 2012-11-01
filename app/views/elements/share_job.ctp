@@ -23,14 +23,14 @@
 }
 
 .selectedFriends{
-border: 1px solid black;
-font-size: 13px;
-font-weight: bold;
-height: 260px;
-overflow: auto;
-padding: 10px;
-text-decoration: underline;
-width: 150px;
+	border: 1px solid black;
+	font-size: 13px;
+	font-weight: bold;
+	height: 260px;
+	overflow: auto;
+	padding: 10px;
+	text-decoration: underline;
+	width: 150px;
 }
 #ui-dialog{
 	top:20px;
@@ -59,6 +59,8 @@ margin-left:1px;
 }
 #shareJobDialog{
 	font-family: Arial regular,Sans-serif !important;
+	*height:600px;
+	*position:absolute;
 }
 .ui-autocomplete {
     font-size: 12px;
@@ -80,10 +82,11 @@ $(function() {
 		hide: "explode",
 		width:900,
 		closeOnEscape: false,
+		resizable : false,
 		modal:true
 	});
 	
-	$( "#shareJobDialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","height":"600px","top":"0","background":"none","border":"none"});
+	$( "#shareJobDialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","height":"600px","top":"0","background":"none","border":"none","*position":"relative"});
 	
 	$( "#jobShareOpener" ).click(function() {
 		$( "#shareJobDialog" ).dialog( "open" );

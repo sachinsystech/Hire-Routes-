@@ -1102,3 +1102,7 @@ div.ez-radio {
     width: 16px;
     z-index: 9997;
 }
+.contacts_pagination{
+	clear:both;
+	margin-top:5px;
+}
