@@ -131,6 +131,10 @@
 											'method'=>'send',
 											'link'=>$invitationUrl,
 											'picture'=>$config_url."/images/hire_route_logo.png",
+											'name'=>'Hire Routes',
+											'description'=>'A social recruiting website that provides companies and recruiters with a platform that allows them to really harness the power of social networks by posting jobs with cash rewards and sharing those jobs with their own personal and professional networks as well as with new, select and otherwise inaccessible networks being built here at Hire Routes.',
+											//'caption'=>'Reference Documentation',
+											'picture'=>$config_url."/images/hire_route_logo.png",
 											'access_token' =>$User['User']['facebook_token'])
 										);
 										
@@ -183,9 +187,15 @@
                 		$invitationUrl = Configure::read('httpRootURL').'?intermediateCode='.$invitationCode."&icc=".$icc;	
                 	}
                 	$message =  $this->params['form']['subject']."\n".$this->params['form']['message']." Connect with us >> ".$invitationUrl;
-                	$result = $this->facebookObject()->api("/".$fbuser->id."/feed",'post',array('message'=>$message,
-                											'picture'=>$config_url."/images/hire_route_logo.png",
-                											'access_token' =>$User['User']['facebook_token']));
+                	$result = $this->facebookObject()->api("/".$fbuser->id."/feed",'post',
+                											array('message'=>$message,
+                												'picture'=>$config_url."/images/hire_route_logo.png",
+																'name'=>'Hire Routes',
+																'link'=>$invitationUrl,
+																'description'=>'A social recruiting website that provides companies and recruiters with a platform that allows them to really harness the power of social networks by posting jobs with cash rewards and sharing those jobs with their own personal and professional networks as well as with new, select and otherwise inaccessible networks being built here at Hire Routes.',
+																//'caption'=>'Reference Documentation',
+                												'picture'=>$config_url."/images/hire_route_logo.png",
+                												'access_token' =>$User['User']['facebook_token']));
 					$inviteData = array();                	
 					$inviteData['name_email'] = $fbuser->name;
 					$inviteData['user_id'] = $userId;
