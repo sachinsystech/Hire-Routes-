@@ -169,7 +169,7 @@ function checkContact(){
 	}
 	
 	if($("#ContactContactEmail").val()!="Enter E-mail" && $("#ContactContactEmail").val()!="" && ($("#ContactContactName").val()=="Enter Name" || $("#ContactContactName").val()=="")  ){
-		$("#name_error").html("<label class='error' style='margin-left:100px'>Please enter Contact Name</label>");
+		$("#name_error").html("<label class='error' style='margin-left:100px;*margin-left:110px;'>Please enter Contact Name</label>");
 		$("#ContactContactName").focus();
 //		$("#name_error").html("<label class='error' style='margin-left:293px'>Please enter Contact E-mail</label>");
 //		$("#ContactContactEmail").focus();
@@ -177,7 +177,7 @@ function checkContact(){
 	}
 	
 	if($("#ContactContactEmail").val()!="Enter E-mail" && $("#ContactContactEmail").val()!="" && !validateContactEmail($("#ContactContactEmail").val())){
-		$("#name_error").html("<label class='error' style='margin-left:293px'>Please enter valid E-mail</label>");
+		$("#name_error").html("<label class='error' style='margin-left:293px ;*margin-left:305px'>Please enter valid E-mail</label>");
 		$("#ContactContactEmail").focus();
 		return false;			
 	}
