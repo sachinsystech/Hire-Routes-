@@ -198,6 +198,7 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 .job-data div {
     font: 14px Arial,Helvetica,sans-serif;
     width: 260px;
+    line-height:22px;
 }
 .job-data div div{
 	width:150px;
