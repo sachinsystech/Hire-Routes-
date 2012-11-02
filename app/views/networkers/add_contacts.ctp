@@ -222,7 +222,7 @@ function edit(id, contact_name, email){
 			resizable: false ,
 			draggable: true
 		});
-		$( "#editContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 	0px","opacity":"0.9","height":"230px","left":"222px","width":"630px","display":"block", "background":"none","border":"none"});
+		$( "#editContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 	0px","opacity":"0.9","height":"230px","width":"630px","display":"block", "background":"none","border":"none"});
 		$("#editContactId").val(id);
 		$("#editContactContactName").val(contact_name);
 		$("#editContactContactEmail").val(email);		
@@ -369,7 +369,6 @@ float:left;
     opacity: 0.6;
 }
 .payment_popup_cancel_bttn {
-
     background: url("/images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
     height: 72px;
     position: absolute;
@@ -392,7 +391,7 @@ $(document).ready(function(){
 		resizable: false ,
 		draggable: true
 	});
-	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","top":"100","left":"222px","width":"630px", "background":"none","border":"none"});
+	$( "#gmailContacts" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"500px","width":"630px", "background":"none","border":"none"});
 
 	<?php if(isset($GmailContacts)){?>
 		$( "#about-dialog").show();
