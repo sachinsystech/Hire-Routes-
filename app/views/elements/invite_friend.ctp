@@ -65,8 +65,8 @@
     overflow-y: auto;
 }
 #dialog{
-	*height:600px;
-	*position:absolute;
+	/* *height:600px;
+	*position:absolute; */
 }
 /* IE 6 doesn't support max-height
 * we use height instead, but this forces the menu to always be this tall
@@ -99,7 +99,7 @@ $(function() {
 	});
 	
 	$( "#dialog" ).parent("div").css({"padding":"0","margin":"0px 0px 0px 0px","height":"600px !important",
-	"overflow":"none","background":"none","border":"none","*position":"relative"});
+	"overflow":"none","background":"none","border":"none"});
 	$( "#opener" ).click(function() {
 		$( "#dialog" ).dialog( "open" );
 		return false;

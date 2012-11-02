@@ -59,8 +59,8 @@ margin-left:1px;
 }
 #shareJobDialog{
 	font-family: Arial regular,Sans-serif !important;
-	*height:600px;
-	*position:absolute;
+	/* *height:600px;
+	*position:absolute;*/
 }
 .ui-autocomplete {
     font-size: 12px;
@@ -86,7 +86,7 @@ $(function() {
 		modal:true
 	});
 	
-	$( "#shareJobDialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","height":"600px","top":"0","background":"none","border":"none","*position":"relative"});
+	$( "#shareJobDialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","height":"600px","top":"0","background":"none","border":"none"});
 	
 	$( "#jobShareOpener" ).click(function() {
 		$( "#shareJobDialog" ).dialog( "open" );
