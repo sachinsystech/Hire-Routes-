@@ -102,6 +102,9 @@ font-weight: normal !important; vertical-align: top; width: 206px;}
 /*-------- css for edit profile */
 .edit-profile-text-box { height: auto; width: 460px;margin-top:4px;}
 .edit-profile-text-box select{float:right;width:290px;}
+.edit-profile-text-box label{
+	float:left;
+}
 .edit-profile-text-box input {
     background: url("../images/text-box.png") no-repeat scroll 0 0 transparent;
     border: medium none;
@@ -950,6 +953,8 @@ div.ez-radio {
     position: absolute;
     top: 0;
     z-index: 555;
+    width:935px;
+    *top:-30px;
 }
 .tooltip_university{
 	visibility: visible;
