@@ -76,7 +76,7 @@
                     <div class="clr"></div>
                 </div>
                 
-                <div class="job-right-bottom-right" style="position:absolute;">
+                <div class="job-right-bottom-right" style="position:absolute/8;">
                 	<div class="job_right_pagination job-sort-by contacts-sort-by">
                     	<div class="job_sort">Sort By:</div>
 						<ul>
