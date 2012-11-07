@@ -282,7 +282,7 @@ Please submit the form below and you will receive an email confirmation to compl
 							}
 							
 						}));
-					},
+					}
 				});
 			},
 			select: function( event, ui ) {
