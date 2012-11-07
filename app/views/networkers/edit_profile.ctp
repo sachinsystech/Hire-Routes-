@@ -214,12 +214,12 @@
 								$("#NetworkersGraduateDegreeId").next('label').remove();
 								$("#GraduateUniversityBreakdownUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 								$("#GraduateUniversityBreakdownUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
-								$("#GraduateUniversityBreakdownUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
+								$("#GraduateUniversityBreakdownUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.university_name+'</label>');
 								$("#GraduateUniversityBreakdownUniversity").autocomplete('search', 'other');
 							}else{
 							
 								return {
-									value: item.name,
+									value: item.university_name,
 									key: item.id
 								}
 							}	
@@ -298,16 +298,16 @@
 							if(item.id === 0) {
 								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
-								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.name+'</label>');
+								$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").after('<div class="editprofile_tooltip_backround"></div><label for="name" generated="true" class="error editprofile_tooltip_university">'+item.university_name+'</label>');
 								$("#GraduateUniversityBreakdownGraduateUniversity").autocomplete('search', 'other');
 							}else{
 								return {
-									value: item.name,
+									value: item.university_name,
 									key: item.id
 								}
 							}
 						}));
-					},
+					}
 				});
 			},
 			select: function( event, ui ) {

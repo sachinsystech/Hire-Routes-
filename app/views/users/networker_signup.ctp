@@ -209,11 +209,11 @@ Please submit the form below and you will receive an email confirmation to compl
 								$("#NetworkerGraduateDegreeId").next('label').remove();
 								$("#UserUniversity").next('div').remove();
 								$("#UserUniversity").next('label').remove();
-								$("#UserUniversity").after('<div class="tooltip_backround"></div><label for="name" generated="true" class="error tooltip_university">'+item.name+'</label>');
+								$("#UserUniversity").after('<div class="tooltip_backround"></div><label for="name" generated="true" class="error tooltip_university">'+item.university_name+'</label>');
 								$("#UserUniversity").autocomplete('search', 'other');
 							}else{
 								return {
-									value: item.name,
+									value: item.university_name,
 									key: item.id
 								}
 							}
@@ -272,11 +272,11 @@ Please submit the form below and you will receive an email confirmation to compl
 							if(item.id === 0) {
 								$("#UserGraduateUniversity").next('div').remove();								
 								$("#UserGraduateUniversity").next('label').remove();
-								$("#UserGraduateUniversity").after('<div class="tooltip_backround"></div><label for="name" generated="true" class="error tooltip_graduate_university" >'+item.name+'</label>');
+								$("#UserGraduateUniversity").after('<div class="tooltip_backround"></div><label for="name" generated="true" class="error tooltip_graduate_university" >'+item.university_name+'</label>');
 								$("#UserGraduateUniversity").autocomplete('search', 'other');
 							}else{
 								return {
-									value: item.name,
+									value: item.university_name,
 									key: item.id
 								}
 							}

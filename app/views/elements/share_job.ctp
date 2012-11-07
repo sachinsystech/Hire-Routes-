@@ -920,7 +920,7 @@ $(document).ready(function(){
 						response( $.map( data, function(item) {
 							if(data == null) return;
 							return {
-								value: item.name,
+								value: item.user_name,
 								key: item.id
 							}
 						}));
