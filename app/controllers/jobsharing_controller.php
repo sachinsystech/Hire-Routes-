@@ -20,7 +20,11 @@ class JobsharingController extends AppController {
 
 		if(isset($this->params['form']['toEmail'])){
 			$jobId=trim($this->params['form']['jobId']);
-			$tos = explode(",", trim($this->params['form']['toEmail']));
+			$emails = trim($this->params['form']['toEmail']);
+			if(substr($emails, -1, 1) == ","){
+				$emails = substr($emails, 0, -1);
+			}
+			$tos = explode(",", $emails);
 			$replyTo = null;
 			$from = ucfirst($session->getWelcomeName()) ." at Hire Routes";
 			$subject=$this->params['form']['subject'];
@@ -32,6 +36,7 @@ class JobsharingController extends AppController {
 			}
 			$traceId = -1*(time()%10000000);
         	$invitationCode = $this->Utility->getCode($jobId,$userId);
+        	
 			foreach($tos As $to){        	
 				$icc = md5(uniqid(rand()));
 				$messageBody = $job;
@@ -99,8 +104,11 @@ class JobsharingController extends AppController {
 			$replyTo = null;
 			$from = ucfirst($session->getWelcomeName()) ." at Hire Routes";
 			$subject = ucfirst($this->params['form']['subject']);
-			$tos = explode(",", trim($this->params['form']['toEmail']));
-			
+			$emails = trim($this->params['form']['toEmail']);
+			if(substr($emails, -1, 1) == ","){
+				$emails = substr($emails, 0, -1);
+			} 
+			$tos = explode(",", $emails);
 			foreach($tos As $to){
 				$icc = md5(uniqid(rand()));
 				if($session->getUserRole()==JOBSEEKER){
