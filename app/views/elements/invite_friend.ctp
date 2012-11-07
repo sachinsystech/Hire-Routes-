@@ -665,7 +665,7 @@ function emailInvitaion(){
 				toEmail : $('#InviteToEmail').val(),
 				message : $('#dialog #ShareMessage').val(),
 				subject : $('#dialog #ShareSubject').val(),
-				invitationCode:$('#invitationCode').val()
+				invitationCode:$('#invitationCode').val()+" "
 			},
 
 		success: function(response){
