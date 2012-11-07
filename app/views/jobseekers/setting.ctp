@@ -54,7 +54,7 @@ div .checkbox{
 														 array('label' => false,
 														  'type'  => 'text',
 														  'placeholder'=>'Contact Name',
-														  'class' => 'jobseekers_text required',
+														  'class' => 'jobseekers_text required alphabets',
 														  'name' => 'data[Jobseekers][contact_name]',
 													));		
 						}?>

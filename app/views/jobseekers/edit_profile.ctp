@@ -46,7 +46,7 @@
                                     if(isset($jobseeker) && $jobseeker['contact_name']!=""){ $name = $jobseeker['contact_name']; } 
                                     echo $form->input('Jobseekers.contact_name', array('label' => "<span>Name</span>",
 												'type'  => 'text',
-												'class' => 'text_field_bg required',
+												'class' => 'text_field_bg required alphabets',
 												'value' => $name,
 												'div'=> false,
 												)
@@ -313,7 +313,7 @@
 								}
 							}
 						}));
-					},
+					}
 				});
 			},
 			select: function( event, ui ) {
