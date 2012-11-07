@@ -976,6 +976,8 @@ div.ez-radio {
     padding: 10px;
     vertical-align: top;
     width: 250px;
+    *margin-top: 0px;
+    *left:0px;
 }
 .tooltip_backround{
     background: url("../images/tooltip_corner.png") no-repeat scroll 0 5px transparent;
@@ -1006,6 +1008,8 @@ div.ez-radio {
     padding: 10px;
     vertical-align: top;
     width: 250px;
+    *left:0px;
+    *margin-top: 0px;
 }
 .popup_tooltip_university {
 	visibility: visible;
@@ -1096,6 +1100,8 @@ div.ez-radio {
     vertical-align: top;
     visibility: visible;
     width: 188px !important;
+    *margin-top: 0px;
+    *left:0px;
 }
 
 .tooltip_graduate_degree_backround {
