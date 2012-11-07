@@ -204,7 +204,7 @@
 			   		},
 					success: function( data ) {
 						if(data == null) return;
-						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+						if(data[0]['id'] != 0 && data[0]['university_name'] != "Other"){
 							$("#GraduateUniversityBreakdownUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 							$("#GraduateUniversityBreakdownUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
 						}	
@@ -290,7 +290,7 @@
 					
 					success: function( data ) {
 						if(data == null) return;
-						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+						if(data[0]['id'] != 0 && data[0]['university_name'] != "Other"){
 							$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 							$("#GraduateUniversityBreakdownGraduateUniversity").parent("div").next('label.editprofile_tooltip_university').remove();
 						}

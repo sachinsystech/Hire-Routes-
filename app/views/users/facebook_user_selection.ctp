@@ -147,7 +147,7 @@ function registrationInto(redirect){
 			   		},
 					success: function( data ) {
 						if(data == null) return;
-						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+						if(data[0]['id'] != 0 && data[0]['university_name'] != "Other"){
 							$("#UsersUniversity").parent("div").next('div').remove();
 							$("#UsersUniversity").parent("div").next('label').remove();
 						}
@@ -217,7 +217,7 @@ function registrationInto(redirect){
 					
 					success: function( data ) {
 						if(data == null) return;
-						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+						if(data[0]['id'] != 0 && data[0]['university_name'] != "Other"){
 							$("#UsersGraduateUniversity").parent("div").next('div').remove();
 							$("#UsersGraduateUniversity").parent("div").next('label').remove();
 						}

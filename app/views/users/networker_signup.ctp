@@ -199,7 +199,7 @@ Please submit the form below and you will receive an email confirmation to compl
 			   		},
 					success: function( data ) {
 						if(data == null) return;
-						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+						if(data[0]['id'] != 0 && data[0]['university_name'] != "Other"){
 							$("#UserUniversity").next('div').remove();
 							$("#UserUniversity").next('label').remove();
 						}
@@ -264,7 +264,7 @@ Please submit the form below and you will receive an email confirmation to compl
 					dataType: "json",
 					success: function( data ) {
 						if(data == null) return;
-						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+						if(data[0]['id'] != 0 && data[0]['university_name'] != "Other"){
 							$("#UserGraduateUniversity").next('div').remove();								
 							$("#UserGraduateUniversity").next('label').remove();
 						}

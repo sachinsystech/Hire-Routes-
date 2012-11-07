@@ -83,7 +83,7 @@ class UtilitiesController extends AppController {
 		$univs=null;
 		if( $universities != null ){
 			foreach($universities as $id=>$name){
-				$univs[]=array('id'=>$id,'name'=>$name);
+				$univs[]=array('id'=>$id,'university_name'=>$name);
 			}
 			$universities=json_encode($univs);
 		}else{
@@ -122,7 +122,7 @@ class UtilitiesController extends AppController {
 																		    'order'=>'id'));
 	    if( $universities != null){ 
 		    foreach($universities as $id=>$name){
-			    $universitiesdata[]=array('id'=>$id,'name'=>$name);
+			    $universitiesdata[]=array('id'=>$id,'university_name'=>$name);
 		    }
 		    $graduateUniversities=json_encode($universitiesdata);
 	    }else{

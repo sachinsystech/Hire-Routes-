@@ -214,7 +214,7 @@
 						if(data == null) return;	
 						response( $.map( data, function(item) {
 							if(data == null) return;
-							if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+							if(data[0]['id'] != 0 && data[0]['university_name'] != "Other"){
 								$("#JobseekerSettingsUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 								$("#JobseekerSettingsUniversity").parent("div").next('label').remove();
 							}
@@ -296,7 +296,7 @@
 					
 					success: function( data ) {
 						if(data == null) return;
-						if(data[0]['id'] != 0 && data[0]['name'] != "Other"){
+						if(data[0]['id'] != 0 && data[0]['university_name'] != "Other"){
 								$("#JobseekerSettingsGraduateUniversity").parent("div").next('div.editprofile_tooltip_backround').remove();
 								$("#JobseekerSettingsGraduateUniversity").parent("div").next('label').remove();
 							}
