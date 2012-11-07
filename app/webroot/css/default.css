@@ -1119,5 +1119,5 @@ div.ez-radio {
 	margin-top:5px;
 }
 #cover_letter{
-	margin-left:-15px;
+	*margin-left:-15px;
 }
