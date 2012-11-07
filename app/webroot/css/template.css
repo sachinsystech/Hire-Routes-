@@ -329,7 +329,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .list-head { width:450px;*margin-top:10px;}
 .list-head ul li{width:106px; float:left; list-style:none;font-family: arial; font-size: 15px;}
 .list-margin ul li{margin-bottom:27px; *padding-bottom:27px; font-family:'OpenSansCondensedBold';color: #1D1D1D;}
-.listing {width:auto; float:left; width:450px; line-height:22px; height:auto; color:#1d1d1d; margin:2px 0;}
+.listing {width:auto; float:left; width:517px; line-height:22px; height:auto; color:#1d1d1d; margin:2px 0;}
 .center-align {text-align:center;}
 .list-head ul li:last-child {margin-left:18px;}
 .margin-last-child {margin-left:18px;/9}
@@ -1243,6 +1243,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
     margin-top: 12px;
     position: absolute;
     width: 25px;
+    *margin-left: 60px;
 }
 
 /*:::::::::::::Payout - Pop-up - page css start :::::::*/

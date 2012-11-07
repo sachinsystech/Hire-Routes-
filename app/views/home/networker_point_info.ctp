@@ -88,7 +88,7 @@
 		<li class="center-align">
 			<span>+ <?php echo $data['PointLabels']['bonus']; ?> %</span>
 		</li>
-		<li class="margin-last-child">
+		<li class="margin-last-child" style="width:175px;">
 			<?php echo $data['PointLabels']['networker_title']; ?>
 		</li>
 	</div>

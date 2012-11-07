@@ -398,7 +398,7 @@ class NetworkersController extends AppController {
 		        	if(isset($this->data['Contact']['CSVFILE']['tmp_name']) && $this->data['Contact']['CSVFILE']['tmp_name']!= null){
 						$this->Session->setFlash('Csv and Contact has been added successfully.', 'success');
 		        	}else{
-			        	$this->Session->setFlash('Contact(s) have been deleted successfully.', 'success');	
+			        	$this->Session->setFlash('Contact(s) have been added successfully.', 'success');	
 		        	}
 					
 				}	
@@ -480,7 +480,7 @@ class NetworkersController extends AppController {
 				return;
 			}									
 		    if($this->NetworkerContact->save($this->data['editContact'])){
-				$this->Session->setFlash('Contact(s) have been deleted successfullyy.', 'success');	
+				$this->Session->setFlash('Contact(s) have been updated successfully.', 'success');	
 			}
 			$this->redirect('/networkers/addContacts');
 		}else{

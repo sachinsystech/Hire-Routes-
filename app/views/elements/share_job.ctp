@@ -355,6 +355,10 @@ function setShareJobView(value)
 }
 
 function validateForm(elementValue){
+	elementValue = elementValue.trim();
+	if( elementValue.charAt(elementValue.length-1) == ","){
+		elementValue = elementValue.substr(0,elementValue.length - 1);
+	}
 	var mail=elementValue.split(",");
 	var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 	for(var i=0;i<mail.length;i++)
@@ -905,8 +909,14 @@ $(document).ready(function(){
 	$("#autocompleteEmail").autocomplete({
 			minLength:1,
 			source: function( request, response ) {
+				var key_term;
+				if(request.term.lastIndexOf(",") != -1){
+					key_term =  request.term.substring(request.term.lastIndexOf(",") + 1);
+				}else{
+					key_term = request.term;
+				}
 				$.ajax({
-					url: "/Utilities/networkerContacts/startWith:"+request.term,
+					url: "/Utilities/networkerContacts/startWith:"+key_term,
 					dataType: "json",
 					beforeSend: function(){
 				 		/*$('#UserUniversity').parent("div").parent("div").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  / ></div>');*/
@@ -928,7 +938,13 @@ $(document).ready(function(){
 				});
 			},
 			select: function( event, ui ) {
+				//$('#ShareToEmail').val(ui.item.value);
 				$('#ShareToEmail').val(ui.item.value);
+				var terms = $("#autocompleteEmail").val()+ui.item.value;
+				terms = terms.split(",");
+				this.value = terms.join( "," );
+				$("#autocompleteEmail").val(this.value+",");
+                return false;
 			},
 			open: function() {
 				$( this ).removeClass( "ui-corner-all" );

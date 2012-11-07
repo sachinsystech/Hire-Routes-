@@ -402,7 +402,12 @@ function setView(value)
 }
 
 function validateEmail(elementValue){
+	elementValue = elementValue.trim();
+	if( elementValue.charAt(elementValue.length-1) == ","){
+		elementValue = elementValue.substr(0,elementValue.length - 1);
+	}
 	var mail=elementValue.split(",");
+	
 	var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 	for(var i=0;i<mail.length;i++)
 	if(!emailPattern.test(mail[i])){
@@ -665,7 +670,7 @@ function emailInvitaion(){
 				toEmail : $('#InviteToEmail').val(),
 				message : $('#dialog #ShareMessage').val(),
 				subject : $('#dialog #ShareSubject').val(),
-				invitationCode:$('#invitationCode').val()+" "
+				invitationCode:$('#invitationCode').val()
 			},
 
 		success: function(response){
@@ -951,12 +956,17 @@ $(document).ready(function(){
 	$("#autocompleteInviteEmail").autocomplete({
 			minLength:1,
 			source: function( request, response ) {
+				var key_term;
+				if(request.term.lastIndexOf(",") != -1){
+					key_term =  request.term.substring(request.term.lastIndexOf(",") + 1);
+				}else{
+					key_term = request.term;
+				}
 				$.ajax({
-					url: "/Utilities/networkerContacts/startWith:"+request.term,
+					url: "/Utilities/networkerContacts/startWith:"+key_term,
 					dataType: "json",
 					beforeSend: function(){
 				 		/*$('#UserUniversity').parent("div").parent("div").append('<div class="loader"><img src="/images/loading_transparent2.gif" border="0" alt="Loading, please wait..."  / ></div>');*/
-
 			   		},
 			   		complete: function(){
 			   	    	$('.loader').remove();
@@ -974,7 +984,13 @@ $(document).ready(function(){
 				});
 			},
 			select: function( event, ui ) {
+				//alert($('#InviteToEmail').val());
 				$('#InviteToEmail').val(ui.item.value);
+				var terms = $("#autocompleteInviteEmail").val()+ui.item.value;
+				terms = terms.split(",");
+				this.value = terms.join(",");
+				$("#autocompleteInviteEmail").val(this.value+",");
+                return false;
 			},
 			open: function() {
 				$( this ).removeClass( "ui-corner-all" );
