@@ -17,6 +17,7 @@
 	margin-top:2px;
 	float:right;
 	position:relative;
+	*top:-5px;
 }
 .selectedFriends{
 	border: 1px solid black;

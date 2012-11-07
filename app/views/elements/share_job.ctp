@@ -19,7 +19,7 @@
 	position: absolute;
 	*right: 5px;
 	right: 0px;
-
+	*top:0px;
 }
 
 .selectedFriends{
@@ -409,7 +409,7 @@ function createHTMLforFillingShareFriends(friends){
 	html="";
 	for(i=0;i<length;i++){
 		//html += '<div class="contactBox"><div style="position:relative"><div class="contactImageShare"><img width="50" height="50" src="' + friends[i].url +'" title="'+ friends[i].name + '"/></div><div class="contactCheckBox"><input class="facebookfriend" value="'+friends[i].id+'" type="checkbox" title="'+friends[i].name+'" onclick="return selectFriend(this);"></div></div><div class="contactName">'+((friends[i].name.split(" ",2)).toString()).replace(","," ")+'</div></div>';
-		html += '<li style="*width:50px;*height:50px;"> <img src="' + friends[i].url +'"  title="'+ friends[i].name + '" ><input class="friend_checkbox" value="'+friends[i].id+'" type="checkbox" title="'+friends[i].name+'" onclick="return selectFriend2(this);" style="*top:-20px;"></li>';
+		html += '<li style="*width:50px;*height:50px;"> <img src="' + friends[i].url +'"  title="'+ friends[i].name + '" ><input class="friend_checkbox" value="'+friends[i].id+'" type="checkbox" title="'+friends[i].name+'" onclick="return selectFriend2(this);" style="*top:-3px;"></li>';
 	}
 	//$("#other_share_job").html("<div style='padding-bottom:20px padding-left:20px; display:inline; '><strong> </strong></div><div style='float:right' class='s_w_e'>Share with everyone<input style='float:right'type='checkbox' onclick='return checkAll(this); ' /></div><div id='shareJobImageDiv'>"+html+"</div>");
 	
