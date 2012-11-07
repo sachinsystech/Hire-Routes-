@@ -488,7 +488,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-current-subs ul li:hover { background:#faf8f4; cursor:pointer;}
 .job-subs-table-right {float:right; padding: 0 9px 0 0;}
 .job-subs-table-right a {text-decoration:underline;}
-.job-current-subs p {padding:29px 0 0 26px; font:15px Arial, Helvetica, sans-serif;}
+.job-current-subs p {padding:29px 0 0 26px; font:15px Arial, Helvetica, sans-serif;*padding-top:10px;}
 .job-subs-select {margin:5px 0 0 26px;}
 .job-save-setting { clear: both;
     margin:30px 0 0 15px !important;*margin-left:0px !important; *position:relative; *left:18px;}
