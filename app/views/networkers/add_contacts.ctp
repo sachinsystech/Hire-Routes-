@@ -292,7 +292,7 @@ function importFromGmail(){
 <div style="display:none;" id = "gmailContacts">
 	<div class="gmail-share-content">
     	<div class="gmail_popup_cancel_bttn">
-           	<div class="payment_popup_cancel_bttn"><a href="#" id ="close" style="*filter:none !important;"></a></div>
+           	<div class="payment_popup_cancel_bttn"><a href="#" id ="close" style="filter:none !important;"></a></div>
    		</div>
 		 <div class="gmail-content">
 			<?php  echo $this->Form->create('gmailContact', array('url' => array('controller' => 'networkers', 
@@ -404,7 +404,7 @@ $(document).ready(function(){
 <div style="display:none;" id = "editContacts">
 	<div class="gmail-edit-content">
     	<div class="gmail_popup_cancel_bttn">
-           	<div class="payment_popup_cancel_bttn"><a href="#" id ="closeEditBox"></a></div>
+           	<div class="payment_popup_cancel_bttn"><a href="#" id ="closeEditBox" style="filter:none !important;"></a></div>
    		</div>
 		<div class="edit_contact_popup_box">
 			<?php echo $this->Form->create('editContact', array('url' => array('controller' => 'networkers', 'action' => 'editContact'))); ?>
