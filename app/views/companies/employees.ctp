@@ -225,9 +225,15 @@
 						 <?php $i++; ?>
 						<?php endforeach; ?>
 						<?php if(empty($employees)){ ?>
-						 <div class="list-head-i">
-								<div class='job-empty-message'>You have not selected any Employees yet</div>
-						 </div>
+							<?php if(isset($contact_name) || isset($account_email ) || isset($contact_phone) || isset($from_date) || isset($to_date) ){ ?>
+							 <div class="list-head-i">
+									<div class='job-empty-message'>Sorry, don't have employee for this filter</div>
+							 </div>
+							<?php }else{?>
+							 <div class="list-head-i">
+									<div class='job-empty-message'>You have not selected any Employees yet</div>
+							 </div>
+							 <?php } ?>
 						<?php } ?>
 						<?php echo $form->end();?>
                     <div class="clr"></div>
