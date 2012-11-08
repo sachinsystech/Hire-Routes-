@@ -1209,7 +1209,12 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .job-share-ppl ul {margin:0; padding:0;}
 .job-share-ppl ul li {float:left;  margin: 4px; list-style:none;width: 48px; height: 50px; position: relative;}
 .job-share-ppl ul li img { width:47px; height:50px;  display: block; position: absolute;}
-.pop-up-button {bottom:25px; left:176px; position: relative; left: 140px\0/;*left: 100px;}
+.pop-up-button {
+	top:270px; 
+	position: absolute;
+	right: 135px\0/;
+	*right: 100px;
+}
 .js_invite { width:auto;float: left;font: 15px Arial,Helvetica,sans-serif;}
 .js_invite_all{
 	float:left;
@@ -1243,7 +1248,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
     margin-top: 12px;
     position: absolute;
     width: 25px;
-    *margin-left: 60px;
+    *margin-left: 90px;
 }
 
 /*:::::::::::::Payout - Pop-up - page css start :::::::*/
