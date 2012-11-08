@@ -370,6 +370,7 @@ float:left;
 }
 .payment_popup_cancel_bttn {
     background: url("/images/popup_cancel_bttn.png") no-repeat scroll 0 0 transparent;
+    background: url("/images/close_bttn.jpg") no-repeat scroll 0 0 transparent/9;
     height: 72px;
     position: absolute;
     right: -31px;
