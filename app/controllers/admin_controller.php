@@ -88,7 +88,7 @@ class AdminController extends AppController {
 		$process = $this->params['process'];
 		$user = $this->User->find('first',array('conditions'=>array('User.id'=>$id,
 																	'User.is_active'=>'0',
-																	'User.confirm_code !='=>'')));
+																	'User.confirm_code !='=>"")));
 		
 		if($user){
 			if($process=='accept'){
