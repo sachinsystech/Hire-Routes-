@@ -112,7 +112,7 @@
 		
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a href="/admin/userList/"><b>Users</b></a>
-				<ul >
+				<ul>
 					<li>
 						<a href="/admin/employer/">
 							<b>Employer</b>
@@ -126,12 +126,12 @@
 					<li>
 						<a href="/admin/jobseeker/">
 							<b>Jobseeker</b>
-						<!--[if IE 7]><!--></a><!--<![endif]-->
+						</a>
 					</li>
 					<li>
 						<a href="/admin/deactiveUsers/">
 							<b>Pending Request</b>
-						<!--[if IE 7]><!--></a><!--<![endif]-->
+						</a>
 					</li>
 				</ul>
 			</li>
