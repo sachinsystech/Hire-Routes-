@@ -29,7 +29,7 @@ $(document).ready(function(){
 			width:548,
 			height:1000,
 			closeOnEscape: false,
-			modal:true,
+			modal:true
 		});
 		$( "#about-dialog" ).parent("div").css({"padding":"0","margin":"50px 0px 0px 0px","opacity":"0.9","height":"1000px","top":"0","width":"581px", "background":"none","border":"none"});
 		return false;
