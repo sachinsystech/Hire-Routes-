@@ -72,7 +72,9 @@ class AdminController extends AppController {
 					'alias' => 'User',
 					'type' => 'inner',
 					'foreignKey' => false,
-					'conditions'=> array('User.id = Companies.user_id',"User.is_active=0")
+					'conditions'=> array('User.id = Companies.user_id',
+										"User.is_active=0",
+										'User.confirm_code !='=>"")
 					),
 			),
 			'limit'=>10,
