@@ -116,12 +116,12 @@
 					<li>
 						<a href="/admin/employer/">
 							<b>Employer</b>
-						<!--[if IE 7]><!--></a><!--<![endif]-->
+						</a>
 					</li>
 					<li>
 						<a href="/admin/networkerData/">
 							<b>Networker</b>
-						<!--[if IE 7]><!--></a><!--<![endif]-->
+						</a>
 					</li>
 					<li>
 						<a href="/admin/jobseeker/">
