@@ -1243,8 +1243,8 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 	display:none;
 	background: url(../images/sending_loader.gif);
     height: 25px;
-    margin-left: 256px;
-    margin-top: 12px;
+    margin-left: 246px;
+    margin-top: 18px;
     position: absolute;
     width: 25px;
     *margin-left: 90px;
