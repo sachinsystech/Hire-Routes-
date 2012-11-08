@@ -376,6 +376,11 @@ float:left;
     top: -28px;
     width: 72px;
 }
+.payment_popup_cancel_bttn_ie{
+    background: url("/images/cancel_bttn.jpg") no-repeat scroll 0 0 transparent/9;
+    height: 50px/9;
+    width: 50px/9;
+}
 
 </style>
 <script type="text/javascript">
@@ -404,7 +409,7 @@ $(document).ready(function(){
 <div style="display:none;" id = "editContacts">
 	<div class="gmail-edit-content">
     	<div class="gmail_popup_cancel_bttn">
-           	<div class="payment_popup_cancel_bttn"><a href="#" id ="closeEditBox" style="filter:none !important;"></a></div>
+           	<div class="payment_popup_cancel_bttn payment_popup_cancel_bttn_ie"><a href="#" id ="closeEditBox" style="filter:none !important;"></a></div>
    		</div>
 		<div class="edit_contact_popup_box">
 			<?php echo $this->Form->create('editContact', array('url' => array('controller' => 'networkers', 'action' => 'editContact'))); ?>
