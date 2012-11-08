@@ -101,8 +101,16 @@
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a ><b>Code</b></a>
 				<ul>
-					<li><a href="/admin/codes/"><b>Registration Code</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
-					<li><a href="/admin/invitationCode/"><b>Invite's Code</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+					<li>
+						<a href="/admin/codes/">
+							<b>Registration Code</b>
+						</a>
+					</li>
+					<li>
+						<a href="/admin/invitationCode/">
+							<b>Invite's Code</b>
+						</a>
+					</li>
 				</ul>
 			</li>
 		</ul>
@@ -147,8 +155,16 @@
 		<ul class="<?php echo $this->params['controller']=='howto' ?'current':'select'; ?>">
 			<li><a ><b>Rewards</b></a>
 				<ul>
-					<li><a href="/admin/rewardPayment/"><b>Payments</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
-					<li><a href="/admin/points/"><b>Points</b><!--[if IE 7]><!--></a><!--<![endif]--></li>
+					<li>
+						<a href="/admin/rewardPayment/">
+							<b>Payments</b>
+						</a>
+					</li>
+					<li>
+						<a href="/admin/points/">
+							<b>Points</b>
+						</a>
+					</li>
 				</ul>
 			</li>
 		</ul>
