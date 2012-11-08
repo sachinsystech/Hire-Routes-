@@ -1212,8 +1212,7 @@ h3{font-size: 14px; line-height: normal; text-transform: uppercase; color: #382f
 .pop-up-button {
 	top:270px; 
 	position: absolute;
-	right: 135px\0/;
-	*right: 100px;
+	right: 135px;
 }
 .js_invite { width:auto;float: left;font: 15px Arial,Helvetica,sans-serif;}
 .js_invite_all{
