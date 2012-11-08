@@ -355,7 +355,7 @@ function setShareJobView(value)
 }
 
 function validateForm(elementValue){
-	elementValue = elementValue.trim();
+	elementValue = $.trim(elementValue);
 	if( elementValue.charAt(elementValue.length-1) == ","){
 		elementValue = elementValue.substr(0,elementValue.length - 1);
 	}
