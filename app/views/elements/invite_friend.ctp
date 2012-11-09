@@ -985,10 +985,18 @@ $(document).ready(function(){
 			},
 			select: function( event, ui ) {
 				//alert($('#InviteToEmail').val());
+				var terms = split( this.value );
+                terms.pop();
+                // add the selected item
+                terms.push( ui.item.value );
+                // add placeholder to get the comma-and-space at the end
+                terms.push( "" );
+                this.value = terms.join( ", " );
+
 				$('#InviteToEmail').val(ui.item.value);
-				var terms = $("#autocompleteInviteEmail").val()+ui.item.value;
-				terms = terms.split(",");
-				this.value = terms.join(",");
+				//var terms = $("#autocompleteInviteEmail").val()+ui.item.value;
+				//terms = terms.split(",");
+				//this.value = terms.join(",");
 				$("#autocompleteInviteEmail").val(this.value+",");
                 return false;
 			},
