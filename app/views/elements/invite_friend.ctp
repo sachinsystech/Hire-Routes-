@@ -997,7 +997,7 @@ $(document).ready(function(){
 				//var terms = $("#autocompleteInviteEmail").val()+ui.item.value;
 				//terms = terms.split(",");
 				//this.value = terms.join(",");
-				$("#autocompleteInviteEmail").val(this.value+",");
+				$("#autocompleteInviteEmail").val(this.value);
                 return false;
 			},
 			open: function() {
