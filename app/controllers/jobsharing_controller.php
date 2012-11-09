@@ -124,7 +124,7 @@ class JobsharingController extends AppController {
                 $messageBody['userName'] = $session->getWelcomeName(); 
 				if($this->sendEmail($to,$subject,$template,$messageBody,$replyTo,$from)){
 					$inviteData = array();
-					$inviteData['name_email'] = $to;
+					$inviteData['name_email'] = trim($to);
 					$inviteData['user_id'] = $userId;
 					$inviteData['from'] = "E-Mail";
 					$inviteData['ic_code'] = $icc;
