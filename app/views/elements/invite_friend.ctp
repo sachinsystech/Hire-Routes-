@@ -992,7 +992,7 @@ $(document).ready(function(){
                 // add placeholder to get the comma-and-space at the end
                 terms.push( "" );
                 this.value = terms.join( ", " );
-
+				$('#InviteToEmail').val(this.value);
 				$('#InviteToEmail').val(ui.item.value);
 				//var terms = $("#autocompleteInviteEmail").val()+ui.item.value;
 				//terms = terms.split(",");
