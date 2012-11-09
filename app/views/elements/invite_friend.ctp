@@ -953,15 +953,29 @@ $(document).ready(function(){
 	$("#autocompleteInviteEmail").submit(function(){
 	    $('#InviteToEmail').val($(this).val());
 	});
-	$("#autocompleteInviteEmail").autocomplete({
+	function split( val ) {
+        return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+        return split( term ).pop();
+    }
+	$("#autocompleteInviteEmail").
+		.bind( "keydown", function( event ) {
+			if ( event.keyCode === $.ui.keyCode.TAB &&
+				    $( this ).data( "autocomplete" ).menu.active ) {
+				event.preventDefault();
+			}
+		}).autocomplete({
 			minLength:1,
 			source: function( request, response ) {
-				var key_term;
-				if(request.term.lastIndexOf(",") != -1){
+				 /**/
+				var key_term = extractLast(request.term);
+				/*if(request.term.lastIndexOf(",") != -1){
 					key_term =  request.term.substring(request.term.lastIndexOf(",") + 1);
 				}else{
 					key_term = request.term;
 				}
+				*/
 				$.ajax({
 					url: "/Utilities/networkerContacts/startWith:"+key_term,
 					dataType: "json",
@@ -983,6 +997,10 @@ $(document).ready(function(){
 					}
 				});
 			},
+			focus: function() {
+                // prevent value inserted on focus
+				return false;
+            },
 			select: function( event, ui ) {
 				//alert($('#InviteToEmail').val());
 				var terms = split( this.value );
@@ -992,12 +1010,12 @@ $(document).ready(function(){
                 // add placeholder to get the comma-and-space at the end
                 terms.push( "" );
                 this.value = terms.join( ", " );
-				$('#InviteToEmail').val(this.value);
-				$('#InviteToEmail').val(ui.item.value);
+				//$('#InviteToEmail').val(this.value);
+				//$('#InviteToEmail').val(ui.item.value);
 				//var terms = $("#autocompleteInviteEmail").val()+ui.item.value;
 				//terms = terms.split(",");
 				//this.value = terms.join(",");
-				$("#autocompleteInviteEmail").val(this.value);
+				//$("#autocompleteInviteEmail").val(this.value);
                 return false;
 			},
 			open: function() {
