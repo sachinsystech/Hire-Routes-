@@ -959,7 +959,7 @@ $(document).ready(function(){
     function extractLast( term ) {
         return split( term ).pop();
     }
-	$("#autocompleteInviteEmail").
+	$("#autocompleteInviteEmail")
 		.bind( "keydown", function( event ) {
 			if ( event.keyCode === $.ui.keyCode.TAB &&
 				    $( this ).data( "autocomplete" ).menu.active ) {
