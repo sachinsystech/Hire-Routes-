@@ -906,15 +906,27 @@ $(document).ready(function(){
 	$("#autocompleteEmail").submit(function(){
 	    $('#InviteToEmail').val($(this).val());
 	});
-	$("#autocompleteEmail").autocomplete({
+	function split( val ) {
+        return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+        return split( term ).pop();
+    }
+	$("#autocompleteEmail")
+		.bind( "keydown", function( event ) {
+			if ( event.keyCode === $.ui.keyCode.TAB &&
+				    $( this ).data( "autocomplete" ).menu.active ) {
+				event.preventDefault();
+			}
+		}).autocomplete({
 			minLength:1,
 			source: function( request, response ) {
-				var key_term;
-				if(request.term.lastIndexOf(",") != -1){
+				var key_term = extractLast(request.term);
+				/*if(request.term.lastIndexOf(",") != -1){
 					key_term =  request.term.substring(request.term.lastIndexOf(",") + 1);
 				}else{
 					key_term = request.term;
-				}
+				}*/
 				$.ajax({
 					url: "/Utilities/networkerContacts/startWith:"+key_term,
 					dataType: "json",
@@ -938,12 +950,19 @@ $(document).ready(function(){
 				});
 			},
 			select: function( event, ui ) {
-				//$('#ShareToEmail').val(ui.item.value);
+				var terms = split( this.value );
+                terms.pop();
+                // add the selected item
+                terms.push( ui.item.value );
+                // add placeholder to get the comma-and-space at the end
+                terms.push( "" );
+                this.value = terms.join( ", " );
+				/*$('#ShareToEmail').val(ui.item.value);
 				$('#ShareToEmail').val(ui.item.value);
 				var terms = $("#autocompleteEmail").val()+ui.item.value;
 				terms = terms.split(",");
 				this.value = terms.join( "," );
-				$("#autocompleteEmail").val(this.value+",");
+				$("#autocompleteEmail").val(this.value+",");*/
                 return false;
 			},
 			open: function() {
